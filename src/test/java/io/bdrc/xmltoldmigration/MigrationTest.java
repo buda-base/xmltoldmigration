@@ -7,15 +7,17 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class MigrationTest 
     extends TestCase
 {
+	final String TESTDIR = "src/test/xml/";
+	
     /**
      * Create the test case
      *
      * @param testName name of the test case
      */
-    public AppTest( String testName )
+    public MigrationTest( String testName )
     {
         super( testName );
     }
@@ -25,13 +27,10 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite( AppTest.class );
+        return new TestSuite( MigrationTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
+    public void testP1331()
     {
         assertTrue( true );
     }

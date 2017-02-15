@@ -50,6 +50,11 @@
       <type>pom</type>
       <version>3.2.0</version>
     </dependency>
+    <dependency>
+    	<groupId>com.sun.xsom</groupId>
+    	<artifactId>xsom</artifactId>
+    	<version>20140925</version>
+    </dependency>
   </dependencies>
 </project>
 
