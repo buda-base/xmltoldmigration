@@ -32,14 +32,14 @@ public class MigrationHelpers {
 	public static void modelToOutputStream (Model m, OutputStream out) {
 		CommonMigration.setPrefixes(m);
 		//RDFDataMgr.write(System.out, m, RDFFormat.JSONLD_PRETTY);
-		WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
+		WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_PRETTY);
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
         JsonLdOptions opts = new JsonLdOptions();
         ctx.setOptions(opts);
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
         PrefixMap pm = RiotLib.prefixMap(g);
         String base = null;
-        w.write(out, g, pm, base, ctx) ;
+        w.write(System.out, g, pm, base, ctx) ;
 	}
 	
 	public static boolean isSimilarTo(Model src, Model dst) {
@@ -50,6 +50,7 @@ public class MigrationHelpers {
 		if (documentFactory == null) {
 			documentFactory = DocumentBuilderFactory.newInstance();
 		}
+		documentFactory.setNamespaceAware(true);
 		Document document = null;
 		try {
 		    final DocumentBuilder builder = documentFactory.newDocumentBuilder();       

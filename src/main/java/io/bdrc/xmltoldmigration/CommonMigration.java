@@ -2,14 +2,25 @@ package io.bdrc.xmltoldmigration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 public class CommonMigration  {
@@ -44,17 +55,116 @@ public class CommonMigration  {
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
 		m.setNsPrefix("xsd", XSD_PREFIX);
 	}
-
+	
+//	private static Map<String, Property>  generatedProperties = new HashMap<String, Property>(); 
+//	
+//	public static Property getProperty(String prefix, String name) {
+//		Property res = generatedProperties.get(prefix+name);
+//		if (res == null) {
+//			res = ResourceFactory.createProperty(prefix, name);
+//			generatedProperties.put(prefix+name, res);
+//		}
+//		return res;
+//	}
+	
+	public static String normalizePropName(String toNormalize, String targetType) {
+		String res = toNormalize.replace("'", "");
+		if (targetType == "Class") {
+			res = res.substring(0,1).toUpperCase() + res.substring(1);
+		}
+		return res;
+	}
+	
+	public static String getBCP47Suffix(String encoding) {
+		switch(encoding) {
+		case "extendedWylie":
+			return "-x-ewts";
+		case "wadeGiles":
+			return "-x-wade";
+		case "pinyin":
+			return "-x-pinyin";
+		case "libraryOfCongress":
+			return "-x-loc";
+		case "native":
+			return "";
+		case "rma":
+			return "-x-rma";
+		case "sansDiacritics":
+			return "-x-sans";
+		case "withDiacritics":
+			return "-x-with";
+		case "transliteration":
+			return "-x-trans";
+		case "acip":
+			return "-x-acip";
+		case "tbrcPhonetic":
+			return "-x-tbrc";
+		case "alternatePhonetic":
+			return "-x-alt";
+		case "syllables":
+			return "-x-syx";
+		case "":
+			return "";
+		default:
+			System.out.println("unknown encoding: "+encoding);
+			return "";
+		}
+	}
+	
+	public static String getIso639(String language) {
+		switch(language) {
+		case "tibetan":
+			return "bo";
+		case "english":
+			return "en";
+		case "chinese":
+			return "zh";
+		case "sanskrit":
+			return "sa";
+		case "mongolian":
+			return "mn";
+		case "french":
+			return "fr";
+		case "russian":
+			return "ru";
+		case "zhangZhung":
+			return "xzh";// iso 639-3
+		case "dzongkha":
+			return "dz";
+		case "miNyag":
+			return "mvm"; // not really sure...
+		case "german":
+			return "de";
+		case "japanese":
+			return "ja";
+		case "unspecified":
+			// https://www.w3.org/International/questions/qa-no-language#undetermined
+			return "und";
+		default:
+			System.out.println("unknown language: "+language);
+			return "";
+		}
+	}
 	
 	public static String getBCP47(String language, String encoding) {
-		//TODO
-		return "bo-x-ewts";
+		if (language == "" || language == null) {
+			if (encoding != "" && encoding != null) {
+				System.out.println("encoding with no language!");
+			}
+			return null;
+		}
+		return getIso639(language)+getBCP47Suffix(encoding);
+	}
+	
+	public static String getBCP47(Element e) {
+		return getBCP47(e.getAttribute("lang"), e.getAttribute("encoding"));
 	}
 	
 	public static boolean documentValidAgainstXSD(Document document, String xsdName) {
 		String xsdFullName = "src/main/resources/xsd/"+xsdName+".xsd";
+		Source xmlSource = new DOMSource(document);
 		SchemaFactory factory = 
-	            SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+	            SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema;
 		try {
 			schema = factory.newSchema(new File(xsdFullName));
@@ -65,16 +175,16 @@ public class CommonMigration  {
 		}
 		Validator validator = schema.newValidator();
 		try {
-            validator.validate(new DOMSource(document));
+            validator.validate(xmlSource);
         }
         catch (SAXException ex) {
-            System.out.println("xxx is not valid because ");
+            System.out.println("Document is not valid because:");
             System.out.println(ex.getMessage());
+            ex.printStackTrace();
             return false;
         } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
 		}
 		return true;
 	}

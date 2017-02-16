@@ -1,4 +1,4 @@
-<p:person xmlns:p="http://www.tbrc.org/models/person#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="P1331" status="released" xsi:schemaLocation="http://www.tbrc.org/models/person# http://www.tbrc-dlms.org/tbrc-defs/1/0/person.xsd">
+<p:person xmlns:p="http://www.tbrc.org/models/person#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="P1331" status="released" xsi:schemaLocation="http://www.tbrc.org/models/person# person.xsd">
     <p:name lang="tibetan" encoding="extendedWylie" type="primaryName">blo gros rnam dag</p:name>
     <p:name lang="tibetan" encoding="extendedWylie" type="primaryTitle">bya yul blo bzang rnam dag</p:name>
     <p:info gender="male"/>
