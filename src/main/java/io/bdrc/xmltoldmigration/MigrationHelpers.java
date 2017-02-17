@@ -30,9 +30,8 @@ public class MigrationHelpers {
 	protected static DocumentBuilderFactory documentFactory = null;
 	
 	public static void modelToOutputStream (Model m, OutputStream out) {
-		CommonMigration.setPrefixes(m);
 		//RDFDataMgr.write(System.out, m, RDFFormat.JSONLD_PRETTY);
-		WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_PRETTY);
+		WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
         JsonLdOptions opts = new JsonLdOptions();
         ctx.setOptions(opts);
@@ -83,17 +82,23 @@ public class MigrationHelpers {
 		}
 	}
 	
-	public static void convertOneFile(String src, String dst, String type) {
-		Document d = documentFromFileName(src);
+	public static Model xmlToRdf(Document d, String type) {
 		Model m = null;
 		switch (type) {
-		case "Person":
+		case "person":
 			m = PersonMigration.MigratePerson(d);
 			break;
 		default:
 			// arg
-			return;
+			return m;
 		}
+		return m;
+	}
+	
+	public static void convertOneFile(String src, String dst, String type) {
+		Document d = documentFromFileName(src);
+		Model m = xmlToRdf(d, type);
 		modelToFileName(m, dst);
 	}
+	
 }

@@ -16,27 +16,30 @@ import org.w3c.dom.NodeList;
 public class PersonMigration {
 	
 	private static final String CP = CommonMigration.COMMON_PREFIX;
+	private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
 	public static Model MigratePerson(Document xmlDocument) {
-		//if (!CommonMigration.documentValidAgainstXSD(xmlDocument, "person")) {
-		//	return null;
-		//}
+		if (!CommonMigration.documentValidAgainstXSD(xmlDocument, "person")) {
+			return null;
+		}
 		Model m = ModelFactory.createDefaultModel();
-		Element current = xmlDocument.getDocumentElement();
-		Resource main = m.createResource(PP + current.getAttribute("RID"));
-		m.add(main, RDF.type, m.createLiteral(PP + "Person"));
-		Property prop = m.getProperty(CP, "status");
-		m.add(main, prop, current.getAttribute("status"));
+		CommonMigration.setPrefixes(m);
+		Element root = xmlDocument.getDocumentElement();
+		Element current;
+		Resource main = m.createResource(PP + root.getAttribute("RID"));
+		m.add(main, RDF.type, CommonMigration.getLitFromUri(m, PP + "Person"));
+		Property prop = m.getProperty(RP, "status");
+		m.add(main, prop, root.getAttribute("status"));
 		String lang = null;
 		Node node = null;
 		Literal value = null;
 		
 		// names
 		
-		NodeList nodeList = xmlDocument.getElementsByTagNameNS(PXSDNS, "name");
+		NodeList nodeList = root.getElementsByTagNameNS(PXSDNS, "name");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			lang = CommonMigration.getBCP47(current);
@@ -47,7 +50,7 @@ public class PersonMigration {
 		
 		// gender
 		
-		nodeList = xmlDocument.getElementsByTagNameNS(PXSDNS, "info");
+		nodeList = root.getElementsByTagNameNS(PXSDNS, "info");
 		value = m.createLiteral(((Element) nodeList.item(0)).getAttribute("gender"));
 		prop = m.getProperty(PP, "gender");
 		m.add(main, prop, value);
@@ -55,7 +58,7 @@ public class PersonMigration {
 		// events
 		
 		Resource subResource = null;
-		nodeList = xmlDocument.getElementsByTagNameNS(PXSDNS, "event");
+		nodeList = root.getElementsByTagNameNS(PXSDNS, "event");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			addEvent(m, main, current);
@@ -63,11 +66,23 @@ public class PersonMigration {
 		
 		// seat
 		
-		nodeList = xmlDocument.getElementsByTagNameNS(PXSDNS, "seat");
+		nodeList = root.getElementsByTagNameNS(PXSDNS, "seat");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			addSeat(m, main, current);
 		}
+		
+		// relations
+		
+		nodeList = root.getElementsByTagNameNS(PXSDNS, "teacherOf");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			current = (Element) nodeList.item(i);
+			prop = m.getProperty(PP, "teacherOf");
+			value = CommonMigration.getLitFromUri(m, PP+current.getAttribute("pid"));
+			m.add(main, prop, value);
+		}
+		
+		CommonMigration.addNotes(m, root, main, PXSDNS);
 		
 		return m;
 	}
@@ -75,7 +90,7 @@ public class PersonMigration {
 	public static void addEvent(Model m, Resource person, Element e) {
 		Resource subResource = m.createResource(new AnonId(e.getAttribute("pid")));
 		String typeValue = CommonMigration.normalizePropName(e.getAttribute("type"), "Class");
-		Literal value = m.createLiteral(PP+typeValue);
+		Literal value = CommonMigration.getLitFromUri(m, PP+typeValue);
 		m.add(subResource, RDF.type, value);
 		value = m.createLiteral(e.getAttribute("circa"));
 		Property prop = m.getProperty(PP, "event_circa");
@@ -85,7 +100,7 @@ public class PersonMigration {
 	
 	public static void addSeat(Model m, Resource person, Element e) {
 		Resource subResource = m.createResource();
-		Literal value = m.createLiteral(PP+"Seat");
+		Literal value = CommonMigration.getLitFromUri(m, PP+"Seat");
 		m.add(subResource, RDF.type, value);
 		String circa = e.getAttribute("circa");
 		if (circa != null && circa != "") {
@@ -97,7 +112,7 @@ public class PersonMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			Property prop = m.getProperty(PP, "seat_place");
-			value = m.createLiteral(PLP+current.getAttribute("pid"));
+			value = CommonMigration.getLitFromUri(m, PLP+current.getAttribute("pid"));
 			m.add(subResource, prop, value);
 		}
 		m.add(person, m.getProperty(PP+"seat"), subResource);

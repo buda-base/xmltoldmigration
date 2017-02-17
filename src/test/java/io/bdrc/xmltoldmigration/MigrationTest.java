@@ -1,5 +1,10 @@
 package io.bdrc.xmltoldmigration;
 
+import org.apache.jena.rdf.model.Model;
+import org.w3c.dom.Document;
+
+import io.bdrc.xmltoldmigration.MigrationHelpers;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -10,7 +15,7 @@ import junit.framework.TestSuite;
 public class MigrationTest 
     extends TestCase
 {
-	final String TESTDIR = "src/test/xml/";
+	final String TESTDIR = "src/test/";
 	
     /**
      * Create the test case
@@ -32,6 +37,9 @@ public class MigrationTest
 
     public void testP1331()
     {
-        assertTrue( true );
+    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1331.xml");
+    	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
+    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1331.jsonld");
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
     }
 }
