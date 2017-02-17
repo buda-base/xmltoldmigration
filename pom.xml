@@ -50,6 +50,12 @@
       <type>pom</type>
       <version>3.2.0</version>
     </dependency>
+	<!-- https://mvnrepository.com/artifact/com.github.galigator.openllet/openllet-jena -->
+	<dependency>
+	    <groupId>com.github.galigator.openllet</groupId>
+	    <artifactId>openllet-jena</artifactId>
+	    <version>2.6.0</version>
+	</dependency>
     <dependency>
     	<groupId>com.sun.xsom</groupId>
     	<artifactId>xsom</artifactId>
