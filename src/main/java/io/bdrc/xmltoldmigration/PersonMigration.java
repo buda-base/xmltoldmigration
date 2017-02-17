@@ -30,7 +30,7 @@ public class PersonMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		Resource main = m.createResource(PP + root.getAttribute("RID"));
-		m.add(main, RDF.type, CommonMigration.getLitFromUri(m, PP + "Person"));
+		m.add(main, RDF.type, m.createResource(PP + "Person"));
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
 		String lang = null;
@@ -78,8 +78,7 @@ public class PersonMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			prop = m.getProperty(PP, "teacherOf");
-			value = CommonMigration.getLitFromUri(m, PP+current.getAttribute("pid"));
-			m.add(main, prop, value);
+			m.add(main, prop, m.createResource(PP+current.getAttribute("pid")));
 		}
 		
 		CommonMigration.addNotes(m, root, main, PXSDNS);
@@ -90,9 +89,8 @@ public class PersonMigration {
 	public static void addEvent(Model m, Resource person, Element e) {
 		Resource subResource = m.createResource(new AnonId(e.getAttribute("pid")));
 		String typeValue = CommonMigration.normalizePropName(e.getAttribute("type"), "Class");
-		Literal value = CommonMigration.getLitFromUri(m, PP+typeValue);
-		m.add(subResource, RDF.type, value);
-		value = m.createLiteral(e.getAttribute("circa"));
+		m.add(subResource, RDF.type, m.createProperty(typeValue));
+		Literal value = m.createLiteral(e.getAttribute("circa"));
 		Property prop = m.getProperty(PP, "event_circa");
 		m.add(subResource, prop, value);
 		m.add(person, m.getProperty(PP+"event"), subResource);
@@ -100,20 +98,20 @@ public class PersonMigration {
 	
 	public static void addSeat(Model m, Resource person, Element e) {
 		Resource subResource = m.createResource();
-		Literal value = CommonMigration.getLitFromUri(m, PP+"Seat");
+		Resource value = m.createResource(PP+"Seat");
 		m.add(subResource, RDF.type, value);
 		String circa = e.getAttribute("circa");
 		if (circa != null && circa != "") {
-			value = m.createLiteral(circa);
 			Property prop = m.getProperty(PP, "seat_circa");
-			m.add(subResource, prop, value);
+			m.add(subResource, prop, m.createLiteral(circa));
 		}
 		NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			Property prop = m.getProperty(PP, "seat_place");
-			value = CommonMigration.getLitFromUri(m, PLP+current.getAttribute("pid"));
-			m.add(subResource, prop, value);
+			Resource r = m.createResource(PLP+current.getAttribute("pid"));
+			//value = CommonMigration.getLitFromUri(m, PLP+current.getAttribute("pid"));
+			m.add(subResource, prop, r);
 		}
 		m.add(person, m.getProperty(PP+"seat"), subResource);
 	}

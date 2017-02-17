@@ -1,14 +1,20 @@
 package io.bdrc.xmltoldmigration;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Iterator;
 
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
@@ -16,6 +22,10 @@ import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.sparql.core.DatasetGraph;
+
+import openllet.core.exceptions.InternalReasonerException;
+import openllet.jena.PelletReasonerFactory;
+
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -99,6 +109,39 @@ public class MigrationHelpers {
 		Document d = documentFromFileName(src);
 		Model m = xmlToRdf(d, type);
 		modelToFileName(m, dst);
+	}
+	
+	public static OntModel getOntologyModel()
+	{   
+	    OntModel ontoModel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
+	    try {
+	        InputStream inputStream = new FileInputStream("src/main/resources/owl/bdrc.owl");
+	        ontoModel.read(inputStream, "", "RDF/XML");
+	        inputStream.close();
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	    }
+	    return ontoModel;
+	}
+	
+	public static boolean rdfOkInOntology(Model m, OntModel o) {
+		o.addSubModel(m);
+		ValidityReport vr;
+		try {
+			vr = o.validate();
+		}
+		catch(InternalReasonerException e) {
+			System.out.print(e.getMessage());
+			return false;
+		}
+		if (!vr.isValid()) {
+			Iterator<ValidityReport.Report> itr = vr.getReports();
+			while(itr.hasNext()) {
+				ValidityReport.Report report = itr.next();
+		        System.out.print(report.toString());
+		    }
+		}
+		return vr.isValid();
 	}
 	
 }

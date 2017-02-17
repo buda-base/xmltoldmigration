@@ -67,7 +67,8 @@ public class CommonMigration  {
 	}
 	
 	public static Literal getLitFromUri(Model m, String uri) {
-		return m.createLiteral(m.shortForm(uri));
+		//return m.createLiteral(m.shortForm(uri));
+		return m.createLiteral(uri);
 	}
 	
 //	private static Map<String, Property>  generatedProperties = new HashMap<String, Property>(); 
@@ -91,15 +92,14 @@ public class CommonMigration  {
 	
 	public static void addNote(Model m, Element e, Resource r) {
 		Resource note = m.createResource(new AnonId());
-		m.add(note, RDF.type, getLitFromUri(m, ROOT_PREFIX+"Note"));
+		m.add(note, RDF.type, m.createResource(ROOT_PREFIX+"Note"));
 		Property prop = m.createProperty(ROOT_PREFIX+"note");
 		Literal lit;
 		m.add(r, prop, note);
 		String value = e.getAttribute("work");
 		if (value != "") {
 			prop = m.createProperty(ROOT_PREFIX+"note_work");
-			lit = getLitFromUri(m, WORK_PREFIX+value);
-			m.add(note, prop, lit);
+			m.add(note, prop, m.createResource(WORK_PREFIX+value));
 		}
 		value = e.getAttribute("location");
 		if (value != "") {
