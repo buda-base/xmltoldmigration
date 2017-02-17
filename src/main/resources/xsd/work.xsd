@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:c="http://www.tbrc.org/models/common#"
+    targetNamespace="http://www.tbrc.org/models/work#" xmlns:work="http://www.tbrc.org/models/work#"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation/>
+    </xsd:annotation>
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: work -->
+    <xsd:element name="work" type="work:Work"/>
+    <xsd:complexType name="Work">
+        <xsd:group ref="work:WorkElems"/>
+        <xsd:attribute name="RID" type="c:workRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+    </xsd:complexType>
+    <xsd:group name="WorkElems">
+        <xsd:sequence>
+            <xsd:element name="title" type="work:Title" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="outlinedBy" type="work:OutlinedBy" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="hasPubInfo" type="work:HasPubInfo" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="archiveInfo" type="work:ArchiveInfo" minOccurs="0" maxOccurs="1"/>
+            <xsd:group ref="work:OtherWorkElems" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="OtherWorkElems">
+        <xsd:choice>
+            <xsd:element name="info" type="work:Info" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="creator" type="work:Creator" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="location" type="c:Location" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="subject" type="c:Subject" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="inProduct" type="work:InProduct" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="scanInfo" type="work:ScanInfo" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="catalogInfo" type="work:CatalogInfo" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="volumeMap" type="work:VolumeMap" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:choice>
+    </xsd:group>
+    <xsd:complexType name="Title">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>
+                <xsd:attribute name="type" type="c:titleTypeAttr"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Info">
+        <xsd:sequence>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="nodeType" type="work:nodeTypeAttr" default="publishedWork"/>
+        <xsd:attribute name="parent" type="c:workRID"/>
+        <xsd:attribute name="seriesType" type="work:seriesTypeAttr" use="optional"/>
+        <xsd:attribute name="number" type="xsd:string" use="optional"/>
+        <xsd:attribute name="numbered" type="xsd:boolean" use="optional"/>
+        <xsd:attribute name="edition" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    This attribute should either be the Wylie or Unicode Tibetan description of
+                    the edition such as "co ne" or "sde dge par phud"
+                </xsd:documentation>
+            </xsd:annotation>                        
+        </xsd:attribute>
+        <xsd:attribute name="hasTexts" type="xsd:boolean" default="false"/>
+    </xsd:complexType>
+    <xsd:complexType name="Creator">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="person" type="c:personRID"/>
+                <xsd:attribute name="type" type="c:creatorTypeAttr"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="OutlinedBy">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="outline" type="c:outlineRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="HasPubInfo">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="info" type="c:pubinfoRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="ArchiveInfo">
+        <xsd:sequence>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="restriction" type="work:restrictionTypeAttr"/>
+        <xsd:attribute name="distribution" type="work:distributionTypeAttr"/>
+        <xsd:attribute name="license" type="work:licenseTypeAttr"/>
+        <xsd:attribute name="access" type="work:accessTypeAttr"/>
+        <xsd:attribute name="vols" type="xsd:positiveInteger" use="optional"/>
+        <xsd:attribute name="status" type="work:statusTypeAttr" default="scanned"/>
+    </xsd:complexType>
+    <xsd:complexType name="InProduct">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="pid" type="c:productRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="ScanInfo">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="CatalogInfo">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="english"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="native"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="VolumeMap">
+        <xsd:sequence>
+            <xsd:element name="volume" type="work:Volume" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Volume">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="num" type="xsd:positiveInteger"/>
+                <xsd:attribute name="imagegroup" type="c:imagegroupRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:simpleType name="nodeTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="unicodeText"/>
+            <xsd:enumeration value="conceptualWork"/>
+            <xsd:enumeration value="publishedWork"/>
+            <xsd:enumeration value="series"/>
+            <xsd:enumeration value="bibliographicOnly"/>
+            <xsd:enumeration value="isPublishedTranslationOf"/>
+            <xsd:enumeration value="isUnpublishedTranslationOf"/>
+            <xsd:enumeration value="isIntendedTranslationOf"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="seriesTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="monographic"/>
+            <xsd:enumeration value="non-monographic"/>
+            <xsd:enumeration value="supplement"/>
+            <xsd:enumeration value="multipart"/>
+            <xsd:enumeration value="serial"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="restrictionTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="none"/>
+            <xsd:enumeration value="copyright"/>
+            <xsd:enumeration value="tradition"/>
+            <xsd:enumeration value="quality"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="distributionTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="web"/>
+            <xsd:enumeration value="physical"/>
+            <xsd:enumeration value="tbrc"/>
+            <xsd:enumeration value="authorized"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="licenseTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ccby"/>
+            <xsd:enumeration value="copyright"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="accessTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="openAccess"/>
+            <xsd:enumeration value="fairUse"/>
+            <xsd:enumeration value="restrictedSealed"/>
+            <xsd:enumeration value="temporarilyRestricted"/>
+            <xsd:enumeration value="restrictedByQuality"/>
+            <xsd:enumeration value="restrictedByTbrc"/>
+            <xsd:enumeration value="restrictedInChina"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="statusTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="scanned"/>
+            <xsd:enumeration value="formattedPoor"/>
+            <xsd:enumeration value="formattedClean"/>
+            <xsd:enumeration value="needsReconstruction"/>
+            <xsd:enumeration value="notInTBRC"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

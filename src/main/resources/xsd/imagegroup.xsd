@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:c="http://www.tbrc.org/models/common#"
+    targetNamespace="http://www.tbrc.org/models/imagegroup#" xmlns:ig="http://www.tbrc.org/models/imagegroup#" 
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation/>
+    </xsd:annotation>
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: imagegroup -->
+    <xsd:element name="imagegroup" type="ig:ImageGroup"/>
+    <xsd:complexType name="ImageGroup">
+        <xsd:sequence>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="isVolumeOf" type="ig:IsVolumeOf" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="images" type="ig:Images" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="archiveInfo" type="ig:ArchiveInfo" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="scanning" type="ig:Scanning" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="qc" type="ig:QC" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="imagerepairstatus" type="ig:ImageRepairStatus" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="wfaudittrail" type="c:WfAuditTrail" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="RID" type="c:imagegroupRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+    </xsd:complexType>
+    <xsd:complexType name="IsVolumeOf">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="work" type="c:workRID" use="required"/>
+                <xsd:attribute name="num" type="xsd:positiveInteger" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Images">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="total" type="xsd:positiveInteger" use="required"/>
+                <xsd:attribute name="tbrcintro" type="xsd:positiveInteger" use="optional"/>
+                <xsd:attribute name="intro" type="xsd:positiveInteger" use="optional"/>
+                <xsd:attribute name="text" type="xsd:positiveInteger" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="ArchiveInfo">
+        <xsd:sequence>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="restriction" type="ig:restrictionTypeAttr"/>
+        <xsd:attribute name="distribution" type="ig:distributionTypeAttr"/>
+    </xsd:complexType>
+    <xsd:complexType name="Scanning">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="initiated" type="xsd:boolean" default="false"/>
+                <xsd:attribute name="complete" type="xsd:boolean" default="false"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="QC">
+        <xsd:sequence>
+            <xsd:element name="qcperson" type="ig:QcPerson" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="qcdate" type="ig:QcDate" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="qcnotes" type="ig:QcNotes" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="initiated" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="repairing" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="complete" type="xsd:boolean" default="false"/>
+    </xsd:complexType>
+    <xsd:complexType name="QcPerson">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>            
+    </xsd:complexType>
+    <xsd:complexType name="QcDate">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>            
+    </xsd:complexType>
+    <xsd:complexType name="QcNotes">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>            
+    </xsd:complexType>
+    <xsd:complexType name="ImageRepairStatus">
+        <xsd:sequence>
+            <xsd:element name="imagerepair" type="ig:ImageRepair" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ImageRepair">
+        <xsd:sequence>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="imgid" use="required" type="xsd:string"/>
+        <xsd:attribute name="status" use="required" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:simpleType name="restrictionTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="none"/>
+            <xsd:enumeration value="copyright"/>
+            <xsd:enumeration value="tradition"/>
+            <xsd:enumeration value="quality"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="distributionTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="web"/>
+            <xsd:enumeration value="physical"/>
+            <xsd:enumeration value="tbrc"/>
+            <xsd:enumeration value="authorized"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

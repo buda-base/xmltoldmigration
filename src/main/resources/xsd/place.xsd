@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:c="http://www.tbrc.org/models/common#" targetNamespace="http://www.tbrc.org/models/place#"
+    xmlns:plc="http://www.tbrc.org/models/place#" elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation>Place library object<p/>The Place library object tracks greogrphical data
+            for historical and quasi-historical places. Places may be used as targets of
+            classification relationships such as IsUnControlled. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: place -->
+    <xsd:element name="place" type="plc:Place"/>
+    <xsd:complexType name="Place">
+        <xsd:group ref="plc:PlaceElems"/>
+        <xsd:attribute name="RID" type="c:placeRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+    </xsd:complexType>
+    <xsd:group name="PlaceElems">
+        <xsd:sequence>
+            <xsd:element name="name" type="c:Name" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:group ref="plc:OtherPlaceElems" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="OtherPlaceElems">
+        <xsd:choice>
+            <xsd:element name="info" type="plc:Info" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="gis" type="plc:GIS" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="event" type="plc:Event" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="isLocatedIn" type="plc:IsLocatedIn" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="near" type="plc:Near" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="contains" type="plc:Contains" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="address" type="plc:Address" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="tlm" type="plc:TLM" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:choice>
+    </xsd:group>
+    <xsd:complexType name="Info">
+        <xsd:attribute name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="Event">
+        <xsd:annotation>
+            <xsd:documentation>Place Events have a year specification, a type such as founded,
+                abandoned; zero or more affiliations to Persons, Corporations, Topics, Lineages etc;
+                and zero or more notes and descriptions.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="affiliation" type="plc:Affiliation" minOccurs="0"
+                maxOccurs="unbounded"/>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="type" type="xsd:string" use="required">
+            <xsd:annotation c:taxonomy="placeEventTypes" c:taxType="token">
+                <xsd:documentation> the type attribute value is listed in the placeEventTypes root
+                    taxonomy that is listed in taxonomies.xml. These are tokens that will appear
+                    literally in the Event type attribute </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="circa" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+    <xsd:complexType name="Affiliation">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="type" type="xsd:string">
+                    <xsd:annotation c:taxonomy="placeAffiliationTypes" c:taxType="taxonomy">
+                        <xsd:documentation> the Affiliation type attribute must be the name of a
+                            taxonomy root that is found in taxonomies.xml. The placeAffiliationTypes
+                            is a list of the allowed roots. This named taxonomy is the enumeration
+                            of the types of entities that can be affiliated with a Place Event. The
+                            elements of the named taxonomy will be used to populate the list of
+                            choices that are presented to the Editor user when creating a Place
+                            Event. The selected value will be recorded in the "rid" attribute - see
+                            next. </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="rid" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation> the rid attribute records the RID of the affilated
+                            entity: Person, Taxonomy topic and so on. I suppose this could be a
+                            class name from a taxonomy? </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="GIS">
+        <xsd:sequence>
+            <xsd:element name="id" type="plc:GisId" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="coords" type="plc:GisCoords" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="GisId">
+        <xsd:attribute name="value" type="xsd:string"/>
+        <xsd:attribute name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="GisCoords">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lat" type="xsd:string"/>
+                <xsd:attribute name="long" type="xsd:string"/>
+                <xsd:attribute name="accuracy" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="TLM">
+        <xsd:annotation>
+            <xsd:documentation>
+                The TLM element contains management information for a Library Place that is managed
+                by the TBRC Library Manager. This includes RID components, a reference to the 
+                Library's shelf classification taxonomy, and the group ids for users of the TLM app.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="taxonomy" type="plc:TlmTaxonomy" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="groups" type="plc:TlmGroups" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="code" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation> 
+                    the code attribute records a unique 3-latin-letter code for the Library.
+                    For example, DZL would be reasonable for Dzongsar Library. The code along
+                    with the num attribute are used to create RIDs for Works that are added by
+                    the library. RIDs will take the form of: W1TLMDZL000001
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="num" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The num attribute records the last RID suffix allocated for the
+                    Library. The num should be a 6 digit zero filled string initialized to "000001".
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="accession" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The accession attribute records the next accession number to be allocated for the
+                    Library. The num should be a 6 digit zero filled string initialized to "000001".
+                    This number is incremented each time a new holdng is added for this library.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="TlmTaxonomy">
+        <xsd:annotation>
+            <xsd:documentation>
+                The TLMTaxonomy element contains an RID reference to a Taxonomy Outline that specifies
+                the Library's shelf classification. By convention the taxonomy should have maximum
+                depth of 4 levels - this constraint allows for a manageable GUI design.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="rid" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The rid attribute records the RID of the Taxonomy Outline for the Library's
+                    shelf classification.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="TlmGroups">
+        <xsd:annotation>
+            <xsd:documentation>
+                The TlmGroups element records the group names of the Administrators and Librarians
+                associated with the Library. Administrators are permitted update the profiles for
+                the Library and the Monastery (if any) that the Library is associated with. Librarians
+                are permitted to manage the holdings of the Library.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="admin" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The admin attribute records the name of the group of users that are permitted to
+                    update the Library and Monastery profiles for the Library. The group name will
+                    conventionally be named by lower-casing the TLM/@code and appending "Admin".
+                    For example, "dzlAdmin"
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="adminEmail" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The admin email is used to send requests for new users to be added to the Library.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="librarian" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The librarian attribute records the name of the group of users that are permitted to
+                    add/update/delete Library holdings. The group name will conventionally be named by 
+                    lower-casing the TLM/@code and appending "Librarian". For example, "dzlLibrarian"
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="librarianEmail" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The librarian email is used to send notices to the Library's staff.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="IsLocatedIn">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="place" type="c:placeRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Near">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="place" type="c:placeRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Contains">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="place" type="c:placeRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Address">
+        <xsd:annotation>
+            <xsd:documentation>
+                The Address element allows to record conventional address informaton for a Place. It
+                is added to support the Tibetan Library Management application that allows for
+                recording holdings of Works from other libraries.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="number" type="xsd:string"/>
+        <xsd:attribute name="street" type="xsd:string"/>
+        <xsd:attribute name="city" type="xsd:string"/>
+        <xsd:attribute name="state" type="xsd:string"/>
+        <xsd:attribute name="country" type="xsd:string"/>
+        <xsd:attribute name="postal" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:simpleType name="placeTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="notSpecified"/>
+            <xsd:enumeration value="brogSde"/>
+            <xsd:enumeration value="chus"/>
+            <xsd:enumeration value="city"/>
+            <xsd:enumeration value="clanName"/>
+            <xsd:enumeration value="college"/>
+            <xsd:enumeration value="country"/>
+            <xsd:enumeration value="county"/>
+            <xsd:enumeration value="countySeats"/>
+            <xsd:enumeration value="dzong"/>
+            <xsd:enumeration value="estate"/>
+            <xsd:enumeration value="hermitage"/>
+            <xsd:enumeration value="khul"/>
+            <xsd:enumeration value="kungHre"/>
+            <xsd:enumeration value="lake"/>
+            <xsd:enumeration value="maNiKhorChen"/>
+            <xsd:enumeration value="miTshan"/>
+            <xsd:enumeration value="monastery"/>
+            <xsd:enumeration value="mountain"/>
+            <xsd:enumeration value="mountainPass"/>
+            <xsd:enumeration value="municipality"/>
+            <xsd:enumeration value="nationalForest"/>
+            <xsd:enumeration value="nomadicCommunity"/>
+            <xsd:enumeration value="nunnery"/>
+            <xsd:enumeration value="palace"/>
+            <xsd:enumeration value="phug"/>
+            <xsd:enumeration value="placeOfPilgrimage"/>
+            <xsd:enumeration value="principality (rgyal khab)"/>
+            <xsd:enumeration value="prefecture"/>
+            <xsd:enumeration value="province"/>
+            <xsd:enumeration value="residentialHouse"/>
+            <xsd:enumeration value="river"/>
+            <xsd:enumeration value="sbasYul"/>
+            <xsd:enumeration value="sgrubPhug"/>
+            <xsd:enumeration value="stupa"/>
+            <xsd:enumeration value="temple"/>
+            <xsd:enumeration value="templeComplex"/>
+            <xsd:enumeration value="tombComplex"/>
+            <xsd:enumeration value="tos"/>
+            <xsd:enumeration value="townshipSeats"/>
+            <xsd:enumeration value="traditionalPlaceName"/>
+            <xsd:enumeration value="tribalLineage"/>
+            <xsd:enumeration value="village"/>
+            <xsd:enumeration value="zhangxiang"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

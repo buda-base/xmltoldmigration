@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:c="http://www.tbrc.org/models/common#"
+    targetNamespace="http://www.tbrc.org/models/lineage#"
+    xmlns:lin="http://www.tbrc.org/models/lineage#" elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation>Lineage transmissions capture the relationship between lineage holders,
+            sets of texts and the dates when the lineage was transferred from one holder to
+        another.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: lineage -->
+    <xsd:element name="lineage" type="lin:Lineage"/>
+    <xsd:complexType name="Lineage">
+        <xsd:group ref="lin:LineageElems"/>
+        <xsd:attribute name="RID" type="c:lineageRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+    </xsd:complexType>
+    <xsd:group name="LineageElems">
+        <xsd:sequence>
+            <xsd:element name="name" type="c:Name" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:group ref="lin:OtherLineageElems" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="OtherLineageElems">
+        <xsd:choice>
+            <xsd:element name="lineageRef" type="lin:LineageRef" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>This Lineage is a derivation from the referenced Lineage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="info" type="lin:Type" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="location" type="c:Location" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>This is the location of the lineage in a specified gsan / thob yig.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="object" type="lin:ObjectRef" minOccurs="1" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>These works or topics are the founding works or deities of the
+                        Lineage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="holder" type="lin:Holder" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="alternative" type="lin:Alternative" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:choice>
+    </xsd:group>
+    <xsd:complexType name="Holder">
+        <xsd:sequence>
+            <xsd:element name="who" type="lin:EntityRef" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="received" type="lin:Received" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>These are the Holders from who the current Holder received
+                        the Lineage transmission. Typically there is a unique Holder from whom the
+                        Lineage is received but two or more are possible.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="downTo" type="lin:DownTo" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>This models the "down to ..." references to other Lineages.
+                        The other Lineage from the beginning to the holder with the same who as this
+                        holder is implicitly included with this lineage. The known use case is for the
+                        initial holder to include the prior holders from another lineage as the initial
+                        without having members of this lineage without having to repeat them. It may be
+                        meaningful to use this feature deeper in a lineage but that is not defined at
+                        this time. It is meaningful to include multiple from references which is
+                        interpreted as implicitly creating an alternative lineage for each from element.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="downFrom" type="lin:DownFrom" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>This models the "down from ..." references to other Lineages.
+                        The other Lineage from the holder with the same who as this
+                        holder on to the end is implicitly included with this lineage.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="work" type="lin:WorkRef" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>These works are works added by the current
+                    Holder</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Alternative">
+        <xsd:annotation>
+            <xsd:documentation>An Alternative is used to express a variant of the main lineage inline in the same
+            Lineage document rather than creating separate documents for each lineage variation. It is modeled on
+            the conventions used in gsan yig for this purpose. So an Alternative will typically have three or more
+            holders: 1) the start holder that mentions a holder in the containing Lineage that is the start point
+            of the variation; 2) then one or more holders that represent the variation; and 3) then a final holder 
+            that mentions a holder in the containing Lineage that is the end point of the variation. The start holder
+            is marked by including a downTo element and the end holder is marked with a downFrom element. If the
+            downTo holder is not present then the variation is a variation on the intial sequence of the lineage. If
+            the downFrom is not present then the variation is a the end of the lineage. Generally the Alternatives
+            should appear at the end of the main sequence of holders and there may be as many Alternatives as needed
+            to express the variations in the gsan yig / thob yig.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="holder" type="lin:Holder" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="LineageRef">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="RID" type="c:lineageRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Type">
+        <xsd:attribute name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="WorkRef">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="RID" type="c:workRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="ObjectRef">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="RID" type="c:objectRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="EntityRef">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="RID" type="c:originatorRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="DownTo">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="RID" type="c:lineageRID" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="DownFrom">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="RID" type="c:lineageRID" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Received">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="RID" type="c:originatorRID" use="required"/>
+                <xsd:attribute name="site" type="c:placeRID" use="optional"/>
+                <xsd:attribute name="circa" type="xsd:string" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>

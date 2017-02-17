@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.tbrc.org/models/corporation#"
+    xmlns:corp="http://www.tbrc.org/models/corporation#" xmlns:c="http://www.tbrc.org/models/common#"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: corporation -->
+    <xsd:element name="corporation" type="corp:Corporation"/>
+    <xsd:complexType name="Corporation">
+        <xsd:sequence>
+            <xsd:element name="name" type="c:Name" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="member" type="corp:Member" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="region" type="corp:Region" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="RID" type="c:corporationRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+    </xsd:complexType>
+    <xsd:complexType name="Member">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="person" type="c:personRID"/>
+                <xsd:attribute name="type" type="corp:memberTypeAttr"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Region">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="place" type="c:placeRID"/>
+                <xsd:attribute name="start" type="xsd:string"/>
+                <xsd:attribute name="startCirca" type="xsd:string"/>
+                <xsd:attribute name="end" type="xsd:string"/>
+                <xsd:attribute name="endCirca" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:simpleType name="memberTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="blood"/>
+            <xsd:enumeration value="unknown"/>
+            <xsd:enumeration value="monastic"/>
+            <xsd:enumeration value="marriage"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

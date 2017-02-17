@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:c="http://www.tbrc.org/models/common#"
+    targetNamespace="http://www.tbrc.org/models/topic#" xmlns:topic="http://www.tbrc.org/models/topic#"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation>Subjects Just as in a traditional library catalog, each Work in the
+            knowledgebase can be classified under one or more Subject Headings. A Subject Heading
+            can be one of the following things: 1. A technical term; 2. The title of a Work; 3. The
+            name of a Person; 4. The name of a Place. A technical term (e.g. mandala or sgrub thabs
+            can have any number of Equivalent Meanings from other languages. The other types of
+            Subject Headings (Work Titles, Person Names, Place Names) are also Library Objects with
+            their own records in the Works, Persons, or Places databases. Each Subject Headings
+            record is composed of several fields. Not every field appears in each record. Click on
+            the links below for more information about these fields. Subtopics: Subject Headings
+            that are connected to Works Subject Headings with equivalent meanings Subject Headings
+            Usage Information See also: Library Objects | Subject Search</xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: topic -->
+    <xsd:element name="topic" type="topic:Topic"/>
+    <xsd:complexType name="Topic">
+        <xsd:group ref="topic:TopicElems"/>
+        <xsd:attribute name="RID" type="c:topicRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing">
+            <xsd:annotation>
+                <xsd:documentation>Indicates whether the Topic definition is available for use.
+
+Typical values are released, provisional, withdrawn. NB. if a Topic is withdrawn it will be necessary to run the appropriate admin query to either remove  subject elements from Works and Outlines that reference the Topic being withdrawn or an alternative Topic needs to be specified.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:group name="TopicElems">
+        <xsd:sequence>
+            <xsd:element name="name" type="c:Name" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:group ref="topic:OtherTopicElems" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="OtherTopicElems">
+        <xsd:choice>
+            <xsd:element name="seeAlso" type="topic:SeeAlso" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:choice>
+    </xsd:group>
+    <xsd:complexType name="SeeAlso">
+        <xsd:annotation>
+            <xsd:documentation>The seeAlso is used to reference other Topics that are related to this topic.
+
+It is not clear when this feature should be used to reference other items such as Persons or Works and so on.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:annotation>
+                <xsd:documentation>This is the primary name of the Topic being referenced. It is assumed to be Tibetan in Wylie.
+
+This might have to re-worked when extending to other languages where there may be non-Tibetan topics.</xsd:documentation>
+            </xsd:annotation>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="rid" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>This is the resource identifier for the Topic being referenced.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:c="http://www.tbrc.org/models/common#"
+    targetNamespace="http://www.tbrc.org/models/person#" xmlns:per="http://www.tbrc.org/models/person#"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: person -->
+    <xsd:element name="person" type="per:Person"/>
+    <xsd:complexType name="Person">
+        <xsd:annotation>
+            <xsd:documentation>The Person object tracks biographical
+                data such as kinship relations, birth and death dates, administrative offices 
+                and seats held, important events and known name variants.  Instances of Person objects
+                are created for historical and quasi-historical personages, including legendary and mythical
+                figures. Deities are defined as Topics. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:group ref="per:PersonElems"/>
+        <xsd:attribute name="RID" type="c:personRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+    </xsd:complexType>
+    <xsd:group name="PersonElems">
+        <xsd:annotation>
+            <xsd:documentation>The Person object tracks biographical
+                data such as kinship relations, birth and death dates, administrative offices 
+                and seats held, important events and known name variants.  Instances of Person objects
+                are created for historical and quasi-historical personages, including legendary and mythical
+                figures. Deities are defined as Topics. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="per:Name" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:group ref="per:OtherPersonElems" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="OtherPersonElems">
+        <xsd:annotation>
+            <xsd:documentation>The Person object tracks biographical
+                data such as kinship relations, birth and death dates, administrative offices 
+                and seats held, important events and known name variants.  Instances of Person objects
+                are created for historical and quasi-historical personages, including legendary and mythical
+                figures. Deities are defined as Topics. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:choice>
+            <xsd:element name="info" type="per:Info" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="event" type="per:Event" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="seat" type="per:Seat" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="studentOf" type="per:StudentOf" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="teacherOf" type="per:TeacherOf" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="kinship" type="per:KinshipRelation" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="incarnationOf" type="per:IncarnationRelation" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="ofSect" type="per:SectRelation" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:choice>
+    </xsd:group>
+    <xsd:complexType name="Name">
+        <xsd:annotation>
+            <xsd:documentation>In Tibetan culture, a person often has many different names depending on
+                religious, political, clan or social affiations.  Cataloging name variants allows
+                TBRC to properly define biographical entries according to Tibetan customs.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>
+                <xsd:attribute name="type" type="per:nameTypeAttr" default="primaryName"/>
+                <xsd:attribute name="type-tib" type="xsd:string" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Info">
+        <xsd:annotation><xsd:documentation>Person Info is currently limited to gender but could be expanded to include other
+            kinds of information.</xsd:documentation></xsd:annotation>
+        <xsd:attribute name="gender" type="per:genderTypeAttr" default="male"/>
+        <xsd:attribute name="type" type="per:personTypeAttr" default="actor"/>
+    </xsd:complexType>
+    <xsd:complexType name="Event">
+        <xsd:annotation>
+            <xsd:documentation>Person Events are usually historical events of interest that 
+                involve an Office and Place and an optional year.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="office" type="per:Office" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="place" type="per:Place" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="corp" type="per:Corporation" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="pid" type="c:anyRID"/>
+        <xsd:attribute name="type" type="c:eventTypeAttr" use="required"/>
+        <xsd:attribute name="circa" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+    <xsd:complexType name="Seat">
+        <xsd:sequence>
+            <xsd:element name="place" type="per:Place"/>
+        </xsd:sequence>
+        <xsd:attribute name="circa" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+    <xsd:complexType name="Office">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="pid" type="c:officeRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Corporation">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="pid" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="SectRelation">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="sect" type="c:topicRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Place">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="pid" type="c:placeRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="RelatedPerson">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="pid" type="c:personRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="StudentOf">
+        <xsd:simpleContent>
+            <xsd:extension base="per:RelatedPerson"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="TeacherOf">
+        <xsd:simpleContent>
+            <xsd:extension base="per:RelatedPerson"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="KinshipRelation">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="relation" type="per:kinshipRelationType"/>
+                <xsd:attribute name="person" type="c:personRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="IncarnationRelation">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="relation" type="per:incarnationRelationType" use="optional"/>
+                <xsd:attribute name="secondary" type="per:incarnationRelationType" use="optional"/>
+                <xsd:attribute name="being" type="per:beingRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:simpleType name="beingRID">
+        <xsd:union memberTypes="c:personRID c:topicRID"/>
+    </xsd:simpleType>    
+    <xsd:simpleType name="nameTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="commonName"/>
+            <xsd:enumeration value="primaryName"/>
+            <xsd:enumeration value="primaryTitle"/>
+            <xsd:enumeration value="personalName"/>
+            <xsd:enumeration value="tulkuTitle"/>
+            <xsd:enumeration value="officeTitle"/>
+            <xsd:enumeration value="gterStonTitle"/>
+            <xsd:enumeration value="title"/>
+            <xsd:enumeration value="familyName"/>
+            <xsd:enumeration value="firstOrdinationName"/>
+            <xsd:enumeration value="finalOrdinationName"/>
+            <xsd:enumeration value="bodhisattvaVowName"/>
+            <xsd:enumeration value="secretInitiatoryName"/>
+            <xsd:enumeration value="chineseName"/>
+            <xsd:enumeration value="otherName"/>
+            <xsd:enumeration value="reversal"/>
+            <xsd:enumeration value="sanskrit"/>
+            <xsd:enumeration value="grammatical"/>
+            <xsd:enumeration value="variantOrthography"/>
+            <xsd:enumeration value="penName"/>
+            <xsd:enumeration value="corporateName"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="genderTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="male"/>
+            <xsd:enumeration value="female"/>
+            <xsd:enumeration value="unknown"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="personTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="nonActor"/>
+            <xsd:enumeration value="actor"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="kinshipRelationType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="hasSon"/>
+            <xsd:enumeration value="hasFather"/>
+            <xsd:enumeration value="hasMother"/>
+            <xsd:enumeration value="hasUncle"/>
+            <xsd:enumeration value="hasSister"/>
+            <xsd:enumeration value="hasBrother"/>
+            <xsd:enumeration value="hasAunt"/>
+            <xsd:enumeration value="hasDaughter"/>
+            <xsd:enumeration value="hasCousin"/>
+            <xsd:enumeration value="hasGrandmother"/>
+            <xsd:enumeration value="hasGrandfather"/>
+            <xsd:enumeration value="hasSisterInLaw"/>
+            <xsd:enumeration value="hasBrotherInLaw"/>
+            <xsd:enumeration value="hasNephew"/>
+            <xsd:enumeration value="hasNiece"/>
+            <xsd:enumeration value="hasGranddaughter"/>
+            <xsd:enumeration value="hasGrandson"/>
+            <xsd:enumeration value="hasWife"/>
+            <xsd:enumeration value="hasHusband"/>
+            <xsd:enumeration value="hasYoungerBrother"/>
+            <xsd:enumeration value="hasOlderBrother"/>
+            <xsd:enumeration value="hasYoungerSister"/>
+            <xsd:enumeration value="hasOlderSister"/>
+            <xsd:enumeration value="hasMaternalUncle"/>
+            <xsd:enumeration value="hasPaternalUncle"/>
+            <xsd:enumeration value="hasMaternalAunt"/>
+            <xsd:enumeration value="hasPaternalAunt"/>
+            <xsd:enumeration value="hasConsort"/>
+            <xsd:enumeration value="incarnationOf"/>
+            <xsd:enumeration value="hasIncarnation"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="incarnationRelationType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="general"/>
+            <xsd:enumeration value="yangtse"/>
+            <xsd:enumeration value="body"/>
+            <xsd:enumeration value="speech"/>
+            <xsd:enumeration value="mind"/>
+            <xsd:enumeration value="qualities"/>
+            <xsd:enumeration value="activities"/>
+        </xsd:restriction>
+    </xsd:simpleType>    
+</xsd:schema>

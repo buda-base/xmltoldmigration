@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:c="http://www.tbrc.org/models/common#"
+    targetNamespace="http://www.tbrc.org/models/product#" xmlns:prd="http://www.tbrc.org/models/product#"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation>An Product represents a collection of works that are distributed together
+        on a CDROM, DVDROM or harddrive. The various Works that are contained in the Product
+        include an inProduct element that refers back to the Product. So to find all the Works
+        that are contained in a Product is a simple XQuery.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: office -->
+    <xsd:element name="product" type="prd:Product"/>
+    <xsd:complexType name="Product">
+        <xsd:sequence>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="access" type="prd:Access" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="RID" type="c:productRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+    </xsd:complexType>
+    <xsd:complexType name="Access">
+        <xsd:annotation>
+            <xsd:documentation>An Access describes the IP Addresses that are allowed and those that are
+            not allowed to access elements of this Product</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="include" type="prd:Include" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="org" type="prd:Org" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="allow" type="prd:Allow" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Include">
+        <xsd:attribute name="RID" type="c:productRID"/>
+    </xsd:complexType>
+    <xsd:complexType name="Org">
+        <xsd:sequence>
+            <xsd:element name="org" type="prd:Org" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="allow" type="prd:Allow" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="Allow">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>           
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>

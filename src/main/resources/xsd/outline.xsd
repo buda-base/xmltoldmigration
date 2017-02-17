@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:c="http://www.tbrc.org/models/common#"
+    xmlns:tbrc="http://tbrc.org/1/0/docs"
+    targetNamespace="http://www.tbrc.org/models/outline#" xmlns:out="http://www.tbrc.org/models/outline#"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation tbrc:type="concepts">
+            <p>Outlines describe the contents of Works. An outline may apply to a collection of
+                works such as the bka&apos; &apos;gyur or rgyud &apos;bum or it may
+                apply to a single work such as chos bying mdzod or ye shes bla ma. The Work which is
+                the target of the Outline may be a ConceptualWork or a PublishedWork. Each node of
+                an Outline may be a Section which describes a subset of the Work, e.g., the gzhung
+                bsdus of the bka&apos; &apos;gyur; or it may be a Text which is contained in
+                the Work, e.g., chos bying mdzod which is contained in the mdzod bdun, or it might
+                be a chapter of sub-text of a Work, e.g., Chapter 5 of the phyogs bcu mun sel.</p>
+            <p>Section nodes include one or more section Names and zero or more Descriptions
+                typically differing by language. A Section may also contain zero or more
+                CrossReferences to nodes of other Outlines. This is used to describe how one Outline
+                corresponds to another. A Section may also contain any mix of zero or more (sub)
+                Sections and Texts. Section nodes are introduced in order to convey structure that
+                is typically not explicit on the Work being outlined. Such structure may be passed
+                on in oral tradition or other written Works that are referenced in the construction
+                of the Outline.</p>
+            <p>Text nodes typically describe a single work, e.g., a sutra, tantra or commentary; or
+                a textually defined sub-text of such a work, e.g., the second of the third of the
+                first part of Chapter 9 of a particular text. Text nodes have one or more Names,
+                zero or more Creators, an optional Date of writing, and zero or more Places that
+                describe where the Text was revealed or written and so on. There may be no Creator
+                if the Creator is implicit in the Work being Outlined. If the Outlined Work is a
+                PublishedWork then a Text node will typically contain volume, page, line and phrase
+                information for the segments of the containing work that comprise the Text. A Text
+                node of a ConceptualWork will not have any pagination information since the Work is
+                not physically manifest. A Text node may also contain a link to more Detail which is
+                another Outline which provides detail on the node which contains the Detail.</p>
+            <p> </p>
+        </xsd:documentation>
+        <xsd:documentation tbrc:type="overview">
+            <p>The Outline models both dkar chags and sa bcad as well as other organizations of
+            Tibetan texts</p>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: outline -->
+    <xsd:element name="outline" type="out:Outline"/>
+    <xsd:complexType name="Outline">
+        <xsd:group ref="out:OutlineElems"/>
+        <xsd:attribute name="RID" type="c:outlineRID" use="required"/>
+        <xsd:attribute name="webAccess" type="out:accessTypeAttr" use="optional"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+        <xsd:attribute name="pagination" type="out:paginationTypeAttr" default="relative"/>
+    </xsd:complexType>
+    <xsd:group name="OutlineElems">
+        <xsd:sequence>
+            <xsd:element name="name" type="c:Name" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:group ref="out:OtherOutlineElems" minOccurs="1" maxOccurs="unbounded"/>            
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="OtherOutlineElems">
+        <xsd:choice>
+            <xsd:element name="isOutlineOf" type="out:IsOutlineOf" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="location" type="c:Location" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation> In the case that the Outline is the detail of a particular
+                        Text then the location typically will specify the Work and Volume (relative
+                        to 1) that contains the Outlined Text. Thus Locations on the sub-structure
+                        need only mention page, line and phrase</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="parent" type="out:Parent" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="creator" type="out:Creator" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="viewIn" type="out:ViewIn" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="node" type="out:Node" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:choice>
+    </xsd:group>
+    <xsd:complexType name="Node">
+        <xsd:annotation>
+            <xsd:documentation>Section nodes include one or more section Names and zero or more
+                Descriptions typically differing by language. A Section may also contain zero or
+                more References to nodes of other Outlines. This is used to describe how one Outline
+                corresponds to another. A Section may also contain any mix of zero or more (sub)
+                Sections and Texts. Section nodes are introduced in order to convey structure that
+                is typically not explicit on the Work being outlined. Such structure may be passed
+                on in oral tradition or other written Works that are referenced in the construction
+                of the Outline. Sections may also be used to represent sub-structure within a Text
+                such as a chapter or other sub-section. In this case a Location(s) may be used to
+                indicate the start or start and finish of the section within the text. Further the
+                work and volume information may be defaulted with a Location at the top-level
+                Outline element.</xsd:documentation>
+            <xsd:documentation>Text nodes typically describe a single work, e.g., a sutra, tantra or
+                commentary; or a textually defined sub-text of such a work, e.g., the second of the
+                third of the first part of Chapter 9 of a particular text. Text nodes have one or
+                more Names, zero or more Creators, an optional Date of writing, and zero or more
+                Places that describe where the Text was revealed or written and so on. There may be
+                no Creator if the Creator is implicit in the Work being Outlined. If the Outlined
+                Work is a PublishedWork then a Text node will typically contain volume, page, line
+                and phrase information for the segments of the containing work that comprise the
+                Text. A Text node of a ConceptualWork will not have any pagination information since
+                the Work is not physically manifest. A Text node may also contain a link to more
+                Detail which is another Outline which provides detail on the node which contains the
+                Detail.</xsd:documentation>
+            <xsd:documentation>
+                Outlines are also used to represent Taxonomies and in this case Nodes will be of
+                type "class". Such nodes will relate to either a Topic or a value that is simply a
+                token used to identify an instance of a Taxonomy element. These situations are
+                part of the general support for replacing XSD Enumerations for attribute values
+                such as Place event Types and so on with Taxnomy docs so that 
+                these enumerations can be managed declaratively outside the code - i.e., so we
+                don't have to regenerate software just to add a new attribute value. Other node
+                types relate to the original use of Outline docs to represent the Tables of
+                Content of a Work (or eventually sa bcad).
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:group ref="out:NodeElems" maxOccurs="unbounded"/>
+        <xsd:attribute name="type" type="out:nodeTypeAttr">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The type attribute specifies the kind of content that can be expected in the
+                    node. For example, if the type is "class" then the node is part of a taxonomy
+                    and the information will relate to either a Topic of a value that is simply a
+                    token used to identify an instance of a Taxonomy element.
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+        <xsd:attribute name="work" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    I don't think this attribute is being used anywhere. It was intended to support
+                    some sort of linkage from the Outline of a Work to a Work that a node was related
+                    to but I don't remember the use case and as far as I know no one else is using
+                    this.
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+        <xsd:attribute name="parent" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    This attribute is used to record the RID of a Conceptual Work that this Node is
+                    an instance/manifestation/edition of
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+        <xsd:attribute name="value" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The value attribute is used when the type is "class" and the node defines the
+                    value of an enumeration that is used to populate other records, e.g., placeEventType
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+        <xsd:attribute name="class" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The class attribute is used when the type is "class" and the node refers to another
+                    item in the system - usually a Topic. This is part of the use of Outline docs to
+                    represent taxonomies in different forms
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="RID" type="xsd:string" use="optional"/>
+        <xsd:attribute name="webAccess" type="out:accessTypeAttr" use="optional"/>
+    </xsd:complexType>
+    <xsd:group name="NodeElems">
+        <xsd:sequence>
+            <xsd:group ref="out:Names" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:group ref="out:OtherNodeElems" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="Names">
+        <xsd:choice>
+            <xsd:element name="name" type="c:Name"/>
+            <xsd:element name="title" type="out:Title"/>
+        </xsd:choice>
+    </xsd:group>
+    <xsd:group name="OtherNodeElems">
+        <xsd:choice>
+            <xsd:element name="creator" type="out:Creator" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="location" type="c:Location" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="ref" type="out:Ref" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="browser" type="out:Browser" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="viewIn" type="out:ViewIn" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="site" type="out:Site" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="detail" type="out:Detail" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="subject" type="c:Subject" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="node" type="out:Node" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:choice>
+    </xsd:group>
+    <xsd:complexType name="Ref">
+        <xsd:annotation>
+            <xsd:documentation> The node attribute must be present and if the outline attribute is not 
+                present then the reference is to a Node in the current Outline. Text if present is 
+                typically a name or title from the referenced Node</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="outline" type="c:outlineRID" use="optional"/>
+                <xsd:attribute name="node" type="c:outlineNodeRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Browser">
+        <xsd:annotation>
+            <xsd:documentation>This element describes a browser instance in the gwt application. The class
+                attribute is the name of the browser class to be instantiated. The module and funct attributes
+                identify the XQuery to run and the params attribute is a comma separated list of the params to
+                be passed to the funct.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="class" type="xsd:string" use="required"/>
+                <xsd:attribute name="module" type="xsd:string" use="required"/>
+                <xsd:attribute name="funct" type="xsd:string" use="required"/>
+                <xsd:attribute name="params" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="ViewIn">
+        <xsd:annotation>
+            <xsd:documentation>This element indicates that this node is to be listed in the "quick view" list
+                identified by the list attribute. Currently 'genres' and 'subjects' are implemented in the
+                Indium application. The label of the element is a label to be used for I18N. The
+                CData if any is advisory.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="target" type="xsd:string" use="optional"/>
+                <xsd:attribute name="list" type="xsd:string" use="required"/>
+                <xsd:attribute name="label" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="IsOutlineOf">
+        <xsd:annotation>
+            <xsd:documentation>links to the work that this outline describes. The content of this
+                element is the primary title of the target work.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="type" type="out:outlineTypeAttr" use="required"/>
+                <xsd:attribute name="work" type="c:workRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Title">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>
+                <xsd:attribute name="type" type="c:titleTypeAttr"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Creator">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="person" type="c:personRID"/>
+                <xsd:attribute name="type" type="c:creatorTypeAttr"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Site">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="place" type="c:placeRID" use="optional"/>
+                <xsd:attribute name="type" type="out:siteTypeAttr" use="optional"/>
+                <xsd:attribute name="circa" type="xsd:integer" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Parent">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="outline" type="c:outlineRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Detail">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="outline" type="c:outlineRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:simpleType name="nodeTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="section"/>
+            <xsd:enumeration value="text"/>
+            <xsd:enumeration value="chapter"/>
+            <xsd:enumeration value="volume"/>
+            <xsd:enumeration value="class"/>
+            <xsd:enumeration value="translation"/>
+            <xsd:enumeration value="collection"/>
+            <xsd:enumeration value="token"/>
+            <xsd:enumeration value="taxonomy"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="siteTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="started"/>
+            <xsd:enumeration value="completed"/>
+            <xsd:enumeration value="edited"/>
+            <xsd:enumeration value="revealed"/>
+            <xsd:enumeration value="written"/>
+            <xsd:enumeration value="printedAt"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="outlineTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="gsungBum"/>
+            <xsd:enumeration value="compositeVolume"/>
+            <xsd:enumeration value="partialCollectedWorks"/>
+            <xsd:enumeration value="multivolumeCollection"/>
+            <xsd:enumeration value="subjectCollection"/>
+            <xsd:enumeration value="saBcad"/>
+            <xsd:enumeration value="gterChos"/>
+            <xsd:enumeration value="notAssigned"/>
+            <xsd:enumeration value="taxonomy"/>
+            <xsd:enumeration value="enumeration"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="accessTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="notAvailable"/>
+            <xsd:enumeration value="abstractOnly"/>
+            <xsd:enumeration value="fullAccess"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="paginationTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="absolute"/>
+            <xsd:enumeration value="relative"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

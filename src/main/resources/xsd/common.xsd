@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.tbrc.org/models/common#"
+	xmlns:c="http://www.tbrc.org/models/common#">
+	<xsd:complexType name="AuditLog">
+		<xsd:annotation>
+			<xsd:documentation>The audit log is updated when the user publishes the document with the DLMS Editor. The audit log is a list of audit entries, one for each time the document is published.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="entry" type="c:AuditEntry" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AuditEntry">
+		<xsd:annotation>
+			<xsd:documentation>Every time a document is published with the DLMS Editor an audit entry is added to the audit log stored in the document. The audit entry includes the name of the user, the date and a comment about what was changed in the document and the purpose of the change. It is encouraged that users add informative comments when publishing changes to a document.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:annotation>
+				<xsd:documentation>The content of the audit entry is a comment supplied by the user indicating the changes and the purpose of the changes in the document being published.</xsd:documentation>
+			</xsd:annotation>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="when" type="xsd:string" use="required">
+					<xsd:annotation>
+						<xsd:documentation>the date and time of publishing</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="who" type="xsd:string" use="required">
+					<xsd:annotation>
+						<xsd:documentation>the name of the user who is publishing. This is where the user name information in the DLMS Editor preferences gets used and it is important that the user enter a meaningful name in this preference field of the editor.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="Classification">
+		<xsd:annotation>
+			<xsd:documentation>Not In Use - A Classification bundles together a set of one or more relations that serve to define or characterize in some manner the source object that is being classified. This framework supercedes the legacy Topic framework. As we implement this framework it will become possible to classify Persons, Places and so on, in addition to Works and Outline nodes.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="relation" type="c:Relation" minOccurs="1" maxOccurs="unbounded"/>
+			<xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Relation">
+		<xsd:annotation>
+			<xsd:documentation>Not In Use - A Relation describes a characteristic of the source. For example, the source may be about something like a Person or Place. Or the source may be an instance of a Genre and so on. The type attribute is names a Topic which models the type of relation. For example, isInstanceOf or isAbout and so on.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="type" type="c:topicRID" use="required">
+					<xsd:annotation>
+						<xsd:documentation>The Topic should be one that is organized in the "classifying relation"
+							taxonomy, TX1CT2100</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="classifier" type="c:anyRID" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="ExternalEntry">
+		<xsd:annotation>
+			<xsd:documentation>The external entry element is intended to be used to link to an external site / resource that provides additional or related information for the Work, Person, Place and so on. The content of the external entry is a string that will be displayed by the web client. If the data attribute is present it will be interpreted as a URL linking to a web resource, e.g., to a related Treasury of Lives biography. There are currently a few records, e.g., G1KG5700, that have data links to TBRC Outline nodes.
+
+If the data attribute is present the web-client will use it to display a link that can be clicked to visit the linked item in a new window.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:annotation>
+				<xsd:documentation>An informative non-localized string that is displayed by the web client when an external entry is present.</xsd:documentation>
+			</xsd:annotation>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="source" type="xsd:string" use="required">
+					<xsd:annotation>
+						<xsd:documentation>this attribute is not used - it's original purpose was to provide a link to the top-level of an external resource such as a http://treasuryoflives.org.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="data" type="xsd:string" use="required">
+					<xsd:annotation>
+						<xsd:documentation>this should be the link to the specific item that is related to this Work, Person, Place and so on.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="Name">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+				<xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="Note">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="work" type="c:workRID" use="optional"/>
+				<xsd:attribute name="location" type="xsd:string" use="optional"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="Description" mixed="true">
+		<xsd:sequence>
+			<xsd:element name="location" type="c:Location" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="lang" type="c:langTypeAttr" default="english"/>
+		<xsd:attribute name="encoding" type="c:langEncTypeAttr" default="native"/>
+		<xsd:attribute name="type" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="Subject">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="class" type="c:anyRID"/>
+				<xsd:attribute name="node" type="c:outlineNodeRID" use="optional"/>
+				<xsd:attribute name="type" type="c:usageTypeAttr"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="Location">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="type" type="c:locationTypeAttr" default="page"/>
+				<xsd:attribute name="work" type="c:workRID"/>
+				<xsd:attribute name="vol" type="xsd:string"/>
+				<xsd:attribute name="page" type="xsd:string"/>
+				<xsd:attribute name="side" type="xsd:string"/>
+				<xsd:attribute name="line" type="xsd:string"/>
+				<xsd:attribute name="phrase" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="locationTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="page"/>
+			<xsd:enumeration value="folio"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DlmsType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="artobject"/>
+			<xsd:enumeration value="corporation"/>
+			<!-- xsd:enumeration value="diety"/ -->
+			<!-- xsd:enumeration value="event"/ -->
+			<xsd:enumeration value="external"/>
+			<!-- xsd:enumeration value="genre"/ -->
+			<xsd:enumeration value="icon"/>
+			<xsd:enumeration value="imagegroup"/>
+			<xsd:enumeration value="lineage"/>
+			<xsd:enumeration value="v3"/>
+			<xsd:enumeration value="office"/>
+			<xsd:enumeration value="outline"/>
+			<xsd:enumeration value="person"/>
+			<xsd:enumeration value="place"/>
+			<xsd:enumeration value="product"/>
+			<xsd:enumeration value="pubinfo"/>
+			<xsd:enumeration value="scanrequest"/>
+			<!-- xsd:enumeration value="sect"/ -->
+			<xsd:enumeration value="taxonomy"/>
+			<xsd:enumeration value="topic"/>
+			<xsd:enumeration value="work"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="artobjectRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="A\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="corporationRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="C\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- xsd:simpleType name="dietyRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="TD\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType -->
+	<xsd:simpleType name="eventRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="E\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="externalRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="X\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- xsd:simpleType name="genreRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="TG\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType -->
+	<xsd:simpleType name="imagegroupRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="I\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="iconRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="IC\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="lineageRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="L\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="marcRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="LC\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="officeRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="R\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="outlineRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="O\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="outlineNodeRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="personRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="P\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="placeRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="G\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="productRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="PR\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="pubinfoRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="MW\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="scanreqRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="SR\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- xsd:simpleType name="sectRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="TS\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType -->
+	<xsd:simpleType name="topicRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="T\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="taxonomyRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="TX\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="workRID">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="W\w+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="entityRID">
+		<xsd:union memberTypes="c:personRID c:corporationRID"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="originatorRID">
+		<xsd:union memberTypes="c:personRID c:topicRID"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="objectRID">
+		<xsd:union memberTypes="c:workRID c:topicRID"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="anyRID">
+		<xsd:union memberTypes="c:corporationRID c:imagegroupRID c:lineageRID
+			c:marcRID c:officeRID c:outlineRID c:personRID c:placeRID c:productRID c:pubinfoRID c:scanreqRID
+			c:topicRID c:workRID c:externalRID c:iconRID c:artobjectRID c:eventRID"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="langTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="tibetan"/>
+			<xsd:enumeration value="english"/>
+			<xsd:enumeration value="chinese"/>
+			<xsd:enumeration value="sanskrit"/>
+			<xsd:enumeration value="mongolian"/>
+			<xsd:enumeration value="french"/>
+			<xsd:enumeration value="russian"/>
+			<xsd:enumeration value="zhangZhung"/>
+			<xsd:enumeration value="dzongkha"/>
+			<xsd:enumeration value="miNyag"/>
+			<xsd:enumeration value="german"/>
+			<xsd:enumeration value="japanese"/>
+			<xsd:enumeration value="unspecified"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="langEncTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="extendedWylie"/>
+			<xsd:enumeration value="wadeGiles"/>
+			<xsd:enumeration value="pinyin"/>
+			<xsd:enumeration value="libraryOfCongress"/>
+			<xsd:enumeration value="native"/>
+			<xsd:enumeration value="rma"/>
+			<xsd:enumeration value="sansDiacritics"/>
+			<xsd:enumeration value="withDiacritics"/>
+			<xsd:enumeration value="transliteration"/>
+			<xsd:enumeration value="acip"/>
+			<xsd:enumeration value="tbrcPhonetic"/>
+			<xsd:enumeration value="alternatePhonetic"/>
+			<xsd:enumeration value="syllables"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="titleTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="bibliographicalTitle"/>
+			<xsd:enumeration value="titlePageTitle"/>
+			<xsd:enumeration value="fullTitle"/>
+			<xsd:enumeration value="subtitle"/>
+			<xsd:enumeration value="runningTitle"/>
+			<xsd:enumeration value="dkarChagTitle"/>
+			<xsd:enumeration value="colophonTitle"/>
+			<xsd:enumeration value="coverTitle"/>
+			<xsd:enumeration value="sectionTitle"/>
+			<xsd:enumeration value="halfTitle"/>
+			<xsd:enumeration value="otherTitle"/>
+			<xsd:enumeration value="captionTitle"/>
+			<xsd:enumeration value="spineTitle"/>
+			<xsd:enumeration value="incipit"/>
+			<xsd:enumeration value="portion"/>
+			<xsd:enumeration value="copyrightPageTitle"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="creatorTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="hasMainAuthor"/>
+			<xsd:enumeration value="hasContributingAuthor"/>
+			<xsd:enumeration value="hasTranslator"/>
+			<xsd:enumeration value="hasEditor"/>
+			<xsd:enumeration value="hasGeneralAuthor"/>
+			<xsd:enumeration value="hasScribe"/>
+			<xsd:enumeration value="hasRequester"/>
+			<xsd:enumeration value="hasCalligrapher"/>
+			<xsd:enumeration value="hasArtist"/>
+			<xsd:enumeration value="hasCommentator"/>
+			<xsd:enumeration value="hasBard"/>
+			<xsd:enumeration value="hasAttributedAuthor"/>
+			<xsd:enumeration value="hasTerton"/>
+			<xsd:enumeration value="hasRecipientOfResponseToQuery"/>
+			<xsd:enumeration value="hasPandita"/>
+			<xsd:enumeration value="hasReviserOfTranslation"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="eventTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="birth"/>
+			<xsd:enumeration value="death"/>
+			<xsd:enumeration value="assumesSeat"/>
+			<xsd:enumeration value="leavesSeat"/>
+			<xsd:enumeration value="assumeOffice"/>
+			<xsd:enumeration value="leavesOffice"/>
+			<xsd:enumeration value="foundsMonastery"/>
+			<xsd:enumeration value="marriage"/>
+			<xsd:enumeration value="divorce"/>
+			<xsd:enumeration value="rabByungOrdination"/>
+			<xsd:enumeration value="finalOrdination"/>
+			<xsd:enumeration value="discoveryOfGterMa"/>
+			<xsd:enumeration value="affiliation"/>
+			<xsd:enumeration value="residence"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="usageTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="isAboutControlled"/>
+			<xsd:enumeration value="isAboutUncontrolled"/>
+			<xsd:enumeration value="isInstanceOfGenre"/>
+			<xsd:enumeration value="isAboutPerson"/>
+			<xsd:enumeration value="isAboutCorporation"/>
+			<xsd:enumeration value="isAboutMeeting"/>
+			<xsd:enumeration value="isAboutPlace"/>
+			<xsd:enumeration value="isAboutClan"/>
+			<xsd:enumeration value="isCommentaryOn"/>
+			<xsd:enumeration value="isAboutDeity"/>
+			<xsd:enumeration value="isAboutSect"/>
+			<xsd:enumeration value="isAboutText"/>
+			<xsd:enumeration value="isInstanceOf"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="statusTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="editing"/>
+			<xsd:enumeration value="provisional"/>
+			<xsd:enumeration value="released"/>
+			<xsd:enumeration value="seekingOut"/>
+			<xsd:enumeration value="acquiring"/>
+			<xsd:enumeration value="accessioned"/>
+			<xsd:enumeration value="scanned"/>
+			<xsd:enumeration value="withdrawn"/>
+			<xsd:enumeration value="onHold"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- work flow common definitions -->
+	<xsd:complexType name="WfAuditTrail">
+		<xsd:sequence>
+			<xsd:element name="step" type="c:Step" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Step">
+		<xsd:sequence>
+			<xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="person" use="required" type="xsd:string"/>
+		<xsd:attribute name="name" use="required" type="xsd:string"/>
+		<xsd:attribute name="timestamp" use="required" type="xsd:string"/>
+	</xsd:complexType></xsd:schema>
