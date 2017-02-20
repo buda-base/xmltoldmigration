@@ -11,6 +11,8 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
@@ -20,6 +22,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -89,6 +92,9 @@ public class CommonMigration  {
 		return m.createLiteral(uri);
 	}
 	
+	public static void addLabel(Model m, Resource r, Literal l) {
+		m.add(r, RDFS.label, l);
+	}
 	
 	public static String normalizePropName(String toNormalize, String targetType) {
 		String res = toNormalize.replace("'", "");
@@ -115,7 +121,7 @@ public class CommonMigration  {
 			lit = m.createLiteral(value);
 			m.add(note, prop, lit);
 		}
-		value = e.getTextContent();
+		value = e.getTextContent().trim();
 		if (value != "") {
 			prop = m.createProperty(ROOT_PREFIX+"note_content");
 			lit = m.createLiteral(value);
@@ -127,6 +133,53 @@ public class CommonMigration  {
 		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "note");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			addNote(m, (Element) nodeList.item(i), r);
+		}
+	}
+	
+	public static Literal literalFromXsdDate(Model m, String s) {
+		// was quite difficult to find...
+		XSDDateTime dateTime = (XSDDateTime)XSDDatatype.XSDdateTime.parse(s);
+		return m.createTypedLiteral(dateTime);
+	}
+	
+	public static void addLogEntry(Model m, Element e, Resource r) {
+		if (e == null) return;
+		Resource logEntry = m.createResource(new AnonId());
+		m.add(logEntry, RDF.type, m.createProperty(ROOT_PREFIX+"LogEntry"));
+		Property prop = m.createProperty(ROOT_PREFIX+"log_entry");
+		m.add(r, prop, logEntry);
+		String value = e.getAttribute("when");
+		if (value != "") {
+			prop = m.createProperty(ROOT_PREFIX+"log_when");
+			m.add(logEntry, prop, literalFromXsdDate(m, value));
+		}
+		value = e.getAttribute("who").trim();
+		if (value != "") {
+			prop = m.createProperty(ROOT_PREFIX+"log_who");
+			m.add(logEntry, prop, m.createLiteral(value, "en"));
+		}
+		value = e.getTextContent().trim();
+		if (value != "") {
+			prop = m.createProperty(ROOT_PREFIX+"log_content");
+			m.add(logEntry, prop, m.createLiteral(value, "en"));
+		}
+		
+	}
+	
+	public static void addLog(Model m, Element e, Resource r, String XsdPrefix) {
+		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "log");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element log = (Element) nodeList.item(i);
+			NodeList logEntriesList = log.getElementsByTagNameNS(XsdPrefix, "entry");
+			for (int j = 0; j < logEntriesList.getLength(); j++) {
+				Element logEntry = (Element) logEntriesList.item(j);
+				addLogEntry(m, logEntry, r);
+			}
+			logEntriesList = log.getElementsByTagName("entry");
+			for (int k = 0; k < logEntriesList.getLength(); k++) {
+				Element logEntry = (Element) logEntriesList.item(k);
+				addLogEntry(m, logEntry, r);
+			}
 		}
 	}
 	
@@ -213,6 +266,14 @@ public class CommonMigration  {
 	
 	public static String getBCP47(Element e) {
 		return getBCP47(e.getAttribute("lang"), e.getAttribute("encoding"));
+	}
+	
+	public static String getBCP47(Element e, String dflt) {
+		String res = getBCP47(e.getAttribute("lang"), e.getAttribute("encoding"));
+		if (res == "" || res == null) {
+			return dflt;
+		}
+		return res;
 	}
 	
 	public static boolean documentValidAgainstXSD(Document document, String xsdName) {

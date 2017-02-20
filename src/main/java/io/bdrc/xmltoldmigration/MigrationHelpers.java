@@ -49,13 +49,10 @@ public class MigrationHelpers {
 		ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
         JsonLdOptions opts = new JsonLdOptions();
         ctx.setOptions(opts);
-//		Symbol vocabContextKey = Symbol.create("@vocab");
-//		ctx.put(vocabContextKey, CommonMigration.ROOT_PREFIX);
-		System.out.println(ctx.toString());
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
         PrefixMap pm = RiotLib.prefixMap(g);
-        String base = null;//CommonMigration.ROOT_PREFIX;
-        w.write(System.out, g, pm, base, ctx) ;
+        String base = null;
+        w.write(out, g, pm, base, ctx) ;
 	}
 	
 	public static boolean isSimilarTo(Model src, Model dst) {

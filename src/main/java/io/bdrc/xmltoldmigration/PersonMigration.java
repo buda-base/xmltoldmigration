@@ -34,7 +34,6 @@ public class PersonMigration {
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
 		String lang = null;
-		Node node = null;
 		Literal value = null;
 		
 		// names
@@ -42,10 +41,13 @@ public class PersonMigration {
 		NodeList nodeList = root.getElementsByTagNameNS(PXSDNS, "name");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			lang = CommonMigration.getBCP47(current);
-			value = m.createLiteral(current.getTextContent(), lang);
+			lang = CommonMigration.getBCP47(current, "bo-x-ewts");
+			value = m.createLiteral(current.getTextContent().trim(), lang);
 			prop = m.getProperty(PP, current.getAttribute("type"));
 			m.add(main, prop, value);
+			if (i == 0) {
+				CommonMigration.addLabel(m, main, value);
+			}
 		}
 		
 		// gender
@@ -81,7 +83,17 @@ public class PersonMigration {
 			m.add(main, prop, m.createResource(PP+current.getAttribute("pid")));
 		}
 		
+		// kinship
+		
+		nodeList = root.getElementsByTagNameNS(PXSDNS, "kinship");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			current = (Element) nodeList.item(i);
+			addKinship(m, main, current);
+		}
+		
 		CommonMigration.addNotes(m, root, main, PXSDNS);
+		
+		CommonMigration.addLog(m, root, main, PXSDNS);
 		
 		return m;
 	}
@@ -94,6 +106,15 @@ public class PersonMigration {
 		Property prop = m.getProperty(PP, "event_circa");
 		m.add(subResource, prop, value);
 		m.add(person, m.getProperty(PP+"event"), subResource);
+	}
+	
+	public static void addKinship(Model m, Resource person, Element e) {
+		String relation = e.getAttribute("relation");
+		String with = e.getAttribute("person");
+		Property prop;
+		prop = m.createProperty(PP+relation);
+		Resource r = m.createResource(PP+with);
+		m.add(person, prop, r);
 	}
 	
 	public static void addSeat(Model m, Resource person, Element e) {
