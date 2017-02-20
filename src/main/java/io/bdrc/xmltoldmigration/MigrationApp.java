@@ -14,6 +14,6 @@ public class MigrationApp
     	final String TESTDIR = "src/test/";
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1331.xml");
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
-    	MigrationHelpers.modelToOutputStream (fromXml, System.out);
+    	MigrationHelpers.modelToOutputStream (fromXml, System.out, "person", true);
     }
 }

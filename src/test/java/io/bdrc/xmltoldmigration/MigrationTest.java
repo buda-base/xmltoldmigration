@@ -30,7 +30,7 @@ public class MigrationTest
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1331.xml");
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1331.jsonld");
-    	//MigrationHelpers.modelToOutputStream(fromXml, System.out);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         
@@ -42,7 +42,7 @@ public class MigrationTest
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1583.xml");
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out);
+    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         

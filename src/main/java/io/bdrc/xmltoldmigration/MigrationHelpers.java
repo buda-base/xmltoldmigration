@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
@@ -23,7 +25,6 @@ import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.sparql.core.DatasetGraph;
-import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
 import openllet.jena.PelletReasonerFactory;
@@ -36,15 +37,57 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import com.github.jsonldjava.core.JsonLdOptions;
+import com.github.jsonldjava.utils.JsonUtils;
 
 public class MigrationHelpers {
 
 	protected static DocumentBuilderFactory documentFactory = null;
 	
-	public static void modelToOutputStream (Model m, OutputStream out) {
+	protected static Map<String,Object> typeToFrameObject = new HashMap<String,Object>();
+	
+	public static Map<String,String> typeToRootShortUri = new HashMap<String,String>();
+	static {
+		typeToRootShortUri.put("person", "per:Person");
+		typeToRootShortUri.put("work", "wor:Work");
+		typeToRootShortUri.put("outline", "out:Outline");
+		typeToRootShortUri.put("place", "plc:Place");
+		typeToRootShortUri.put("topic", "top:Topic");
+		typeToRootShortUri.put("lineage", "lin:Lineage");
+		typeToRootShortUri.put("corporation", "crp:Corporation");
+		typeToRootShortUri.put("office", "ofc:Office");
+    }
+	
+	public static Object getFrameObject(String type) {
+		Object jsonObject = typeToFrameObject.get(type);
+		if (jsonObject != null) {
+			return jsonObject;
+		}
+		String rootShortUri = typeToRootShortUri.get(type); 
+		String jsonString = "{\"@context\": "+CommonMigration.getJsonLDContext()+", \"@type\": \""+rootShortUri+"\"}";
+		try {
+			jsonObject = JsonUtils.fromString(jsonString);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		typeToFrameObject.put(type, jsonObject);
+		return jsonObject;
+	}
+	
+	public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) {
 		//RDFDataMgr.write(System.out, m, RDFFormat.JSONLD_PRETTY);
-		WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
+		WriterDatasetRIOT w;
+		if (frame) {
+			w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_FRAME_PRETTY);
+		} else {
+			w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY); 
+		}
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
+		if (frame) {
+			Object frameObj = getFrameObject(type);
+			System.out.println(frameObj);
+			ctx.setFrame(frameObj);
+		}
 		// https://issues.apache.org/jira/browse/JENA-1292
 		ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
         JsonLdOptions opts = new JsonLdOptions();
@@ -88,9 +131,9 @@ public class MigrationHelpers {
 		return model;
 	}
 	
-	public static void modelToFileName(Model m, String fname) {
+	public static void modelToFileName(Model m, String fname, String type, boolean frame) {
 		try {
-			modelToOutputStream(m, new FileOutputStream(fname));
+			modelToOutputStream(m, new FileOutputStream(fname), type, frame);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,10 +153,10 @@ public class MigrationHelpers {
 		return m;
 	}
 	
-	public static void convertOneFile(String src, String dst, String type) {
+	public static void convertOneFile(String src, String dst, String type, boolean frame) {
 		Document d = documentFromFileName(src);
 		Model m = xmlToRdf(d, type);
-		modelToFileName(m, dst);
+		modelToFileName(m, dst, type, frame);
 	}
 	
 	// change Range Datatypes from rdf:PlainLitteral to rdf:langString

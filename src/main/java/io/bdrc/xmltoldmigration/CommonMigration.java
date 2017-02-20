@@ -20,7 +20,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.reasoner.ValidityReport;
-import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
@@ -48,11 +47,9 @@ public class CommonMigration  {
 	public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
 	public static final String XSD_PREFIX = "http://www.w3.org/2001/XMLSchema#";
 	
-	public static PrefixMapping pm;
-	
 	public static void setPrefixes(Model m) {
 		m.setNsPrefix("com", COMMON_PREFIX);
-		m.setNsPrefix("r", ROOT_PREFIX);
+		m.setNsPrefix("", ROOT_PREFIX);
 		m.setNsPrefix("per", PERSON_PREFIX);
 		m.setNsPrefix("wor", WORK_PREFIX);
 		m.setNsPrefix("out", OUTLINE_PREFIX);

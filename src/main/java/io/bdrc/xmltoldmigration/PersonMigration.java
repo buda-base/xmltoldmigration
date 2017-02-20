@@ -9,13 +9,11 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
 public class PersonMigration {
-	
-	private static final String CP = CommonMigration.COMMON_PREFIX;
+
 	private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
@@ -59,7 +57,6 @@ public class PersonMigration {
 		
 		// events
 		
-		Resource subResource = null;
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "event");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
