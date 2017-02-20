@@ -7,14 +7,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
 
+import org.apache.jena.ontology.DatatypeProperty;
+import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.reasoner.ValidityReport;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
@@ -22,8 +23,8 @@ import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.util.iterator.ExtendedIterator;
 
-import openllet.core.exceptions.InternalReasonerException;
 import openllet.jena.PelletReasonerFactory;
 
 import org.w3c.dom.Document;
@@ -111,9 +112,34 @@ public class MigrationHelpers {
 		modelToFileName(m, dst);
 	}
 	
+	// change Range Datatypes from rdf:PlainLitteral to rdf:langString
+	// Warning: only works for 
+	public static void rdf10tordf11(OntModel o) {
+		Resource RDFPL = o.getResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral");
+		Resource RDFLS = o.getResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
+		ExtendedIterator<DatatypeProperty> it = o.listDatatypeProperties();
+	    while(it.hasNext()) {
+			DatatypeProperty p = it.next();
+			Resource r = p.getRange();
+			if (r != null && r.equals(RDFPL)) {
+				p.setRange(RDFLS);
+			}
+	    }
+	}
+	
+	public static void removeIndividuals(OntModel o) {
+		ExtendedIterator<Individual> it = o.listIndividuals();
+	    while(it.hasNext()) {
+			Individual i = it.next();
+			i.remove();
+	    }
+	}
+	
 	public static OntModel getOntologyModel()
 	{   
-	    OntModel ontoModel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
+		// the initial model from Protege is not considered valid by Openllet because
+		// it's RDF1.0, so we first open it with no reasoner:
+		OntModel ontoModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM, null);
 	    try {
 	        InputStream inputStream = new FileInputStream("src/main/resources/owl/bdrc.owl");
 	        ontoModel.read(inputStream, "", "RDF/XML");
@@ -121,27 +147,12 @@ public class MigrationHelpers {
 	    } catch (Exception e) {
 	        System.out.println(e.getMessage());
 	    }
-	    return ontoModel;
-	}
-	
-	public static boolean rdfOkInOntology(Model m, OntModel o) {
-		o.addSubModel(m);
-		ValidityReport vr;
-		try {
-			vr = o.validate();
-		}
-		catch(InternalReasonerException e) {
-			System.out.print(e.getMessage());
-			return false;
-		}
-		if (!vr.isValid()) {
-			Iterator<ValidityReport.Report> itr = vr.getReports();
-			while(itr.hasNext()) {
-				ValidityReport.Report report = itr.next();
-		        System.out.print(report.toString());
-		    }
-		}
-		return vr.isValid();
+	    // then we fix it by removing the individuals and converting rdf10 to rdf11
+	    removeIndividuals(ontoModel);
+	    rdf10tordf11(ontoModel);
+	    // then we change the reasoner to Openllet:
+	    OntModel ontoModelInferred = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, ontoModel);
+	    return ontoModelInferred;
 	}
 	
 }

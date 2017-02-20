@@ -1,7 +1,5 @@
 package io.bdrc.xmltoldmigration;
 
-import java.io.OutputStream;
-
 import org.apache.jena.rdf.model.Model;
 import org.w3c.dom.Document;
 

@@ -47,8 +47,8 @@ public class MigrationTest
 //    	MigrationHelpers.modelToOutputStream(diff, System.out);
         //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         OntModel o = MigrationHelpers.getOntologyModel();
-        boolean ok = MigrationHelpers.rdfOkInOntology(fromXml, o);
-        assertTrue(true);
+        boolean ok = CommonMigration.rdfOkInOntology(fromXml, o);
+        assertTrue(ok);
         
     }
 }

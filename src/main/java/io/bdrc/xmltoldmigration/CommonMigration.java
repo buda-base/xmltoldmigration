@@ -2,32 +2,30 @@ package io.bdrc.xmltoldmigration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
 
@@ -71,16 +69,6 @@ public class CommonMigration  {
 		return m.createLiteral(uri);
 	}
 	
-//	private static Map<String, Property>  generatedProperties = new HashMap<String, Property>(); 
-//	
-//	public static Property getProperty(String prefix, String name) {
-//		Property res = generatedProperties.get(prefix+name);
-//		if (res == null) {
-//			res = ResourceFactory.createProperty(prefix, name);
-//			generatedProperties.put(prefix+name, res);
-//		}
-//		return res;
-//	}
 	
 	public static String normalizePropName(String toNormalize, String targetType) {
 		String res = toNormalize.replace("'", "");
@@ -234,6 +222,26 @@ public class CommonMigration  {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public static boolean rdfOkInOntology(Model m, OntModel o) {
+		o.addSubModel(m);
+		ValidityReport vr;
+		try {
+			vr = o.validate();
+		}
+		catch(InternalReasonerException e) {
+			System.out.print(e.getMessage());
+			return false;
+		}
+		if (!vr.isValid()) {
+			Iterator<ValidityReport.Report> itr = vr.getReports();
+			while(itr.hasNext()) {
+				ValidityReport.Report report = itr.next();
+		        System.out.print(report.toString());
+		    }
+		}
+		return vr.isValid();
 	}
 	
 }
