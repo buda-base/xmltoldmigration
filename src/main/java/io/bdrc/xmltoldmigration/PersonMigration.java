@@ -89,7 +89,7 @@ public class PersonMigration {
 	public static void addEvent(Model m, Resource person, Element e) {
 		Resource subResource = m.createResource(new AnonId(e.getAttribute("pid")));
 		String typeValue = CommonMigration.normalizePropName(e.getAttribute("type"), "Class");
-		m.add(subResource, RDF.type, m.createProperty(typeValue));
+		m.add(subResource, RDF.type, m.createProperty(PP+typeValue));
 		Literal value = m.createLiteral(e.getAttribute("circa"));
 		Property prop = m.getProperty(PP, "event_circa");
 		m.add(subResource, prop, value);

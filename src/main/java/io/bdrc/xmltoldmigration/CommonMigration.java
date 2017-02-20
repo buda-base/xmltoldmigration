@@ -48,8 +48,8 @@ public class CommonMigration  {
 	public static PrefixMapping pm;
 	
 	public static void setPrefixes(Model m) {
-		m.setNsPrefix("", ROOT_PREFIX);
 		m.setNsPrefix("com", COMMON_PREFIX);
+		m.setNsPrefix("r", ROOT_PREFIX);
 		m.setNsPrefix("per", PERSON_PREFIX);
 		m.setNsPrefix("wor", WORK_PREFIX);
 		m.setNsPrefix("out", OUTLINE_PREFIX);
@@ -62,6 +62,26 @@ public class CommonMigration  {
 		m.setNsPrefix("rdf", RDF_PREFIX);
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
 		m.setNsPrefix("xsd", XSD_PREFIX);
+	}
+	
+	public static String getJsonLDContext() {
+		return "{"
+				+"\"@vocab\" : \""+ROOT_PREFIX+"\","
+				+"\"@language\" : \"en\"," // ?
+			    +"\"com\" : \""+COMMON_PREFIX+"\","
+			    +"\"crp\" : \""+CORPORATION_PREFIX+"\","
+			    +"\"owl\" : \""+OWL_PREFIX+"\","
+			    +"\"plc\" : \""+PLACE_PREFIX+"\","
+			    +"\"xsd\" : \""+XSD_PREFIX+"\","
+			    +"\"rdfs\" : \""+RDFS_PREFIX+"\","
+			    +"\"ofc\" : \""+OFFICE_PREFIX+"\","
+			    +"\"out\" : \""+OUTLINE_PREFIX+"\","
+			    +"\"lin\" : \""+LINEAGE_PREFIX+"\","
+			    +"\"top\" : \""+TOPIC_PREFIX+"\","
+			    +"\"rdf\" : \""+RDF_PREFIX+"\","
+			    +"\"wor\" : \""+WORK_PREFIX+"\","
+			    +"\"per\" : \""+PERSON_PREFIX+"\""
+			    +"}";
 	}
 	
 	public static Literal getLitFromUri(Model m, String uri) {
@@ -80,7 +100,7 @@ public class CommonMigration  {
 	
 	public static void addNote(Model m, Element e, Resource r) {
 		Resource note = m.createResource(new AnonId());
-		m.add(note, RDF.type, m.createResource(ROOT_PREFIX+"Note"));
+		m.add(note, RDF.type, m.createProperty(ROOT_PREFIX+"Note"));
 		Property prop = m.createProperty(ROOT_PREFIX+"note");
 		Literal lit;
 		m.add(r, prop, note);

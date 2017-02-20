@@ -23,6 +23,7 @@ import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
 import openllet.jena.PelletReasonerFactory;
@@ -44,11 +45,16 @@ public class MigrationHelpers {
 		//RDFDataMgr.write(System.out, m, RDFFormat.JSONLD_PRETTY);
 		WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
+		// https://issues.apache.org/jira/browse/JENA-1292
+		ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
         JsonLdOptions opts = new JsonLdOptions();
         ctx.setOptions(opts);
+//		Symbol vocabContextKey = Symbol.create("@vocab");
+//		ctx.put(vocabContextKey, CommonMigration.ROOT_PREFIX);
+		System.out.println(ctx.toString());
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
         PrefixMap pm = RiotLib.prefixMap(g);
-        String base = null;
+        String base = null;//CommonMigration.ROOT_PREFIX;
         w.write(System.out, g, pm, base, ctx) ;
 	}
 	
@@ -60,6 +66,7 @@ public class MigrationHelpers {
 		if (documentFactory == null) {
 			documentFactory = DocumentBuilderFactory.newInstance();
 		}
+		// working around http://bugs.java.com/bugdatabase/view_bug.do?bug_id=JDK-8175245
 		documentFactory.setNamespaceAware(true);
 		Document document = null;
 		try {

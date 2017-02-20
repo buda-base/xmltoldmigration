@@ -1,79 +1,50 @@
 {
   "@graph" : [ {
     "@id" : "_:b0",
-    "note_content" : "date of death from this source",
-    "note_location" : "p. 359",
-    "note_work" : "wor:W20115",
-    "rdf:type" : ":Note"
+    "@type" : "per:Seat",
+    "per:seat_place" : {
+      "@id" : "plc:G844"
+    }
   }, {
     "@id" : "_:b1",
-    "seat_place" : "plc:G844",
-    "rdf:type" : "per:Seat"
+    "@type" : "Note",
+    "note_content" : "date of death from this source",
+    "note_location" : "p. 359",
+    "note_work" : {
+      "@id" : "wor:W20115"
+    }
   }, {
     "@id" : "_:b2",
-    "event_circa" : "1322",
-    "rdf:type" : "per:Death"
+    "@type" : "per:Death",
+    "per:event_circa" : "1322"
   }, {
     "@id" : "per:P1331",
-    "event" : "_:b2",
-    "gender" : "male",
-    "primaryName" : {
+    "@type" : "per:Person",
+    "per:event" : {
+      "@id" : "_:b2"
+    },
+    "per:gender" : "male",
+    "per:primaryName" : {
       "@language" : "bo-x-ewts",
       "@value" : "blo gros rnam dag"
     },
-    "primaryTitle" : {
+    "per:primaryTitle" : {
       "@language" : "bo-x-ewts",
       "@value" : "bya yul blo bzang rnam dag"
     },
-    "seat" : "_:b1",
-    "teacherOf" : "per:P1323",
-    "note" : "_:b0",
-    "status" : "released",
-    "rdf:type" : "per:Person"
-  } ],
-  "@context" : {
-    "note_content" : {
-      "@id" : "http://purl.bdrc.io/ontology/root/note_content"
+    "per:seat" : {
+      "@id" : "_:b0"
     },
-    "note_location" : {
-      "@id" : "http://purl.bdrc.io/ontology/root/note_location"
-    },
-    "note_work" : {
-      "@id" : "http://purl.bdrc.io/ontology/root/note_work"
-    },
-    "seat_place" : {
-      "@id" : "http://purl.bdrc.io/ontology/person#seat_place"
-    },
-    "event_circa" : {
-      "@id" : "http://purl.bdrc.io/ontology/person#event_circa"
+    "per:teacherOf" : {
+      "@id" : "per:P1323"
     },
     "note" : {
-      "@id" : "http://purl.bdrc.io/ontology/root/note",
-      "@type" : "@id"
+      "@id" : "_:b1"
     },
-    "teacherOf" : {
-      "@id" : "http://purl.bdrc.io/ontology/person#teacherOf"
-    },
-    "seat" : {
-      "@id" : "http://purl.bdrc.io/ontology/person#seat",
-      "@type" : "@id"
-    },
-    "event" : {
-      "@id" : "http://purl.bdrc.io/ontology/person#event",
-      "@type" : "@id"
-    },
-    "gender" : {
-      "@id" : "http://purl.bdrc.io/ontology/person#gender"
-    },
-    "primaryTitle" : {
-      "@id" : "http://purl.bdrc.io/ontology/person#primaryTitle"
-    },
-    "primaryName" : {
-      "@id" : "http://purl.bdrc.io/ontology/person#primaryName"
-    },
-    "status" : {
-      "@id" : "http://purl.bdrc.io/ontology/root/status"
-    },
+    "status" : "released"
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
     "com" : "http://purl.bdrc.io/ontology/common#",
     "crp" : "http://purl.bdrc.io/ontology/coroporation#",
     "owl" : "http://www.w3.org/2002/07/owl#",
