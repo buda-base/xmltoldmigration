@@ -8,30 +8,22 @@
   }, {
     "@id" : "_:b1",
     "@type" : "Note",
-    "note_content" : {
-      "@value" : "date of death from this source"
-    },
-    "note_location" : {
-      "@value" : "p. 359"
-    },
+    "note_content" : "date of death from this source",
+    "note_location" : "p. 359",
     "note_work" : {
       "@id" : "wor:W20115"
     }
   }, {
     "@id" : "_:b2",
     "@type" : "per:Death",
-    "per:event_circa" : {
-      "@value" : "1322"
-    }
+    "per:event_circa" : "1322"
   }, {
     "@id" : "per:P1331",
     "@type" : "per:Person",
     "per:event" : {
       "@id" : "_:b2"
     },
-    "per:gender" : {
-      "@value" : "male"
-    },
+    "per:gender" : "male",
     "per:primaryName" : {
       "@language" : "bo-x-ewts",
       "@value" : "blo gros rnam dag"
@@ -49,9 +41,7 @@
     "note" : {
       "@id" : "_:b1"
     },
-    "status" : {
-      "@value" : "released"
-    },
+    "status" : "released",
     "rdfs:label" : {
       "@language" : "bo-x-ewts",
       "@value" : "blo gros rnam dag"
@@ -59,7 +49,6 @@
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "@language" : "en",
     "com" : "http://purl.bdrc.io/ontology/common#",
     "crp" : "http://purl.bdrc.io/ontology/coroporation#",
     "owl" : "http://www.w3.org/2002/07/owl#",
