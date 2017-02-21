@@ -152,6 +152,7 @@
             <xsd:extension base="xsd:string">
                 <xsd:attribute name="relation" type="per:incarnationRelationType" use="optional"/>
                 <xsd:attribute name="secondary" type="per:incarnationRelationType" use="optional"/>
+<!-- not possible is XSD 1.0               <xsd:assert test="(@relation and not(@secondary)) or (not(@relation) and @secondary)"/>-->
                 <xsd:attribute name="being" type="per:beingRID" use="required"/>
             </xsd:extension>
         </xsd:simpleContent>

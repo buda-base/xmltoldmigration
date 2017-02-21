@@ -67,7 +67,7 @@ If the data attribute is present the web-client will use it to display a link th
 				<xsd:documentation>An informative non-localized string that is displayed by the web client when an external entry is present.</xsd:documentation>
 			</xsd:annotation>
 			<xsd:extension base="xsd:string">
-				<xsd:attribute name="source" type="xsd:string" use="required">
+				<xsd:attribute name="source" type="xsd:string" use="optional">
 					<xsd:annotation>
 						<xsd:documentation>this attribute is not used - it's original purpose was to provide a link to the top-level of an external resource such as a http://treasuryoflives.org.</xsd:documentation>
 					</xsd:annotation>
