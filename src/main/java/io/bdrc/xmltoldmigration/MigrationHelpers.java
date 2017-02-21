@@ -154,6 +154,9 @@ public class MigrationHelpers {
 		case "place":
 			m = PlaceMigration.MigratePlace(d);
 			break;
+		case "lineage":
+			m = LineageMigration.MigrateLineage(d);
+			break;
 		default:
 			// arg
 			return m;

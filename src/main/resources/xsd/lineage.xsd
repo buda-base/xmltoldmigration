@@ -31,7 +31,7 @@
                     <xsd:documentation>This Lineage is a derivation from the referenced Lineage</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="info" type="lin:Type" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="info" type="lin:Info" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="location" type="c:Location" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>This is the location of the lineage in a specified gsan / thob yig.</xsd:documentation>
@@ -50,6 +50,9 @@
             <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:choice>
     </xsd:group>
+    <xsd:complexType name="Info">
+        <xsd:attribute name="type" type="lin:lineageTypeAttr"/>
+    </xsd:complexType>
     <xsd:complexType name="Holder">
         <xsd:sequence>
             <xsd:element name="who" type="lin:EntityRef" minOccurs="1" maxOccurs="1"/>
@@ -161,4 +164,20 @@
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
+ 	<xsd:simpleType name="lineageTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="lineageTypes:dbang"/>
+			<xsd:enumeration value="lineageTypes:dmarKhrid"/>
+			<xsd:enumeration value="lineageTypes:gdamsNgag"/>
+			<xsd:enumeration value="lineageTypes:khrid"/>
+			<xsd:enumeration value="lineageTypes:lung"/>
+			<xsd:enumeration value="lineageTypes:manNgag"/>
+			<xsd:enumeration value="lineageTypes:notSpecified"/>
+			<xsd:enumeration value="lineageTypes:nyeBrgyud"/>
+			<xsd:enumeration value="lineageTypes:ringBrgyud"/>
+			<xsd:enumeration value="lineageTypes:rjesGnang"/>
+			<xsd:enumeration value="lineageTypes:sdomBrgyud"/>
+			<xsd:enumeration value="lineageTypes:snyanBrgyud"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 </xsd:schema>

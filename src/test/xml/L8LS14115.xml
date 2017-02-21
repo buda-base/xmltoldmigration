@@ -1,0 +1,54 @@
+<lineage:lineage xmlns:lineage="http://www.tbrc.org/models/lineage#" RID="L8LS14115" status="released">
+    <lineage:name>gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig</lineage:name>
+    <lineage:info type="lineageTypes:dbang"/>
+    <lineage:object RID="T1613">gshin rje gshed dmar po </lineage:object>
+    <lineage:description type="summary">initiation transmission of clear light blessing of rakta yamari</lineage:description>
+    <lineage:holder>
+        <lineage:who RID="P1132">kun dga' bzang po</lineage:who>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P1040">kun dga' dbang phyug</lineage:who>
+        <lineage:received RID="P1132" circa="?">kun dga' bzang po</lineage:received>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P1873">dkon mchog 'phel ba</lineage:who>
+        <lineage:received RID="P1040" circa="?">kun dga' dbang phyug</lineage:received>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P2509">lha mchog seng+ge</lineage:who>
+        <lineage:received RID="P1873" circa="?">dkon mchog 'phel ba</lineage:received>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P783">dkon mchog lhun grub</lineage:who>
+        <lineage:received RID="P2509" circa="?">lha mchog seng+ge</lineage:received>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P3120">rin chen bkra shis rgyal mtshan</lineage:who>
+        <lineage:received RID="P783" circa="?">dkon mchog lhun grub</lineage:received>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P0RK1171">shAkya seng+ge</lineage:who>
+        <lineage:received RID="P3120" circa="?">rin chen bkra shis rgyal mtshan</lineage:received>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P8LS14116">bkra shis rgyal mtshan</lineage:who>
+        <lineage:received RID="P0RK1171" circa="?">shAkya seng+ge</lineage:received>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P3510">rin chen bsod nams mchog grub</lineage:who>
+        <lineage:received RID="P8LS14116" circa="?">bkra shis rgyal mtshan</lineage:received>
+    </lineage:holder>
+    <lineage:holder>
+        <lineage:who RID="P37">ngag dbang blo bzang rgya mtsho</lineage:who>
+        <lineage:received RID="P3510" circa="?">rin chen bsod nams mchog grub</lineage:received>
+    </lineage:holder>
+    <lineage:location page="236" vol="1," work="W1PD107937"/>
+    <lineage:log>
+        <entry when="2013-07-17T10:49:42.963Z" who="Lobsang Shastri"/>
+        <entry when="2014-03-06T09:18:45.742Z" who="Lobsang Shastri">added location</entry>
+        <entry when="2014-05-14T14:36:08.904Z" who="Lobsang Shastri">changed type</entry>
+        <entry when="2014-07-28T11:30:18.879Z" who="Lobsang Shastri"/>
+        <entry when="2014-07-28T17:20:44.974-04:00" who="Code Ferret">normalized names of who and received elements</entry>
+        <entry when="2014-07-29T12:42:13.479-04:00" who="Code Ferret">normalized names of who and received elements - yet again</entry>
+    </lineage:log>
+</lineage:lineage>

@@ -22,12 +22,14 @@ public class MigrationTest
 	OntModel ontology = null;
 	Validator personValidator = null;
 	Validator placeValidator = null;
+	Validator lineageValidator = null;
 	
 	@Before
 	public void init() {
 		ontology = MigrationHelpers.getOntologyModel();
 		personValidator = MigrationHelpers.getValidatorFor("person");
 		placeValidator = MigrationHelpers.getValidatorFor("place");
+		lineageValidator = MigrationHelpers.getValidatorFor("lineage");
 	}
 	
 	@Test
@@ -63,6 +65,18 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	//Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
     	MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+    }
+	
+	@Test
+    public void testL8LS14115()
+    {
+    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/L8LS14115.xml");
+    	assertTrue(CommonMigration.documentValidates(d, lineageValidator));
+    	Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
+    	//Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
+    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", true);
         //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
     }

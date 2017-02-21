@@ -14,34 +14,36 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 
-public class PlaceMigration {
+public class LineageMigration {
 
 	private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
+	private static final String LP = CommonMigration.LINEAGE_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
-	private static final String PLXSDNS = "http://www.tbrc.org/models/place#";
+	private static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
 	
-	public static Model MigratePlace(Document xmlDocument) {
+	public static Model MigrateLineage(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String value = getTypeStr(root);
-		Resource main = m.createResource(PLP + root.getAttribute("RID"));
-		m.add(main, RDF.type, m.createResource(PLP + value));
-		if (!value.equals("Place")) {
-			m.add(main, RDF.type, m.createResource(PLP + "Place"));
+		Resource main = m.createResource(LP + root.getAttribute("RID"));
+		m.add(main, RDF.type, m.createResource(LP + value));
+		if (!value.equals("Lineage")) {
+			m.add(main, RDF.type, m.createResource(LP + "Lineage"));
 		}
+		
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
-		CommonMigration.addNames(m, root, main, PLXSDNS);
+		CommonMigration.addNames(m, root, main, LXSDNS);
 		
-		CommonMigration.addNotes(m, root, main, PLXSDNS);
+		CommonMigration.addNotes(m, root, main, LXSDNS);
 		
-		CommonMigration.addExternals(m, root, main, PLXSDNS);
+		CommonMigration.addExternals(m, root, main, LXSDNS);
 		
-		CommonMigration.addLog(m, root, main, PLXSDNS);
+		CommonMigration.addLog(m, root, main, LXSDNS);
 		
 		// remaining fields: gis, event, isLocatedIn, near, contains, address, tlm, description
 		
@@ -49,7 +51,7 @@ public class PlaceMigration {
 	}
 
 	public static String getTypeStr(Element root) {
-		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
+		NodeList nodeList = root.getElementsByTagNameNS(LXSDNS, "info");
 		String value = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
@@ -58,11 +60,11 @@ public class PlaceMigration {
 				System.err.println("No info for Place "+root.getAttribute("RID"));
 				return "Place";
 			}
-			if (!value.startsWith("placeTypes:")) {
-				System.err.println("Invalid Place type '"+value+"' for Place"+root.getAttribute("RID"));
+			if (!value.startsWith("lineageTypes:")) {
+				System.err.println("Invalid Place type '"+value+"' for Lineage "+root.getAttribute("RID"));
 				return "Place";
 			}
-			value = value.substring(11);
+			value = value.substring(13);
 			value = CommonMigration.normalizePropName(value, "Class");
 			break;
 		}
