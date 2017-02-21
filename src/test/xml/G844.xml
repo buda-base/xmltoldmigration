@@ -1,0 +1,27 @@
+<g:place xmlns:g="http://www.tbrc.org/models/place#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="G844" status="released" xsi:schemaLocation="http://www.tbrc.org/models/place# http://www.tbrc-dlms.org/tbrc-defs/1/0/place.xsd">
+    <g:name encoding="native" lang="tibetan">bya yul</g:name>
+    <g:name encoding="native" lang="tibetan">bya pa'i yul</g:name>
+    <g:name encoding="native" lang="tibetan">bya pa khri dpon gyi mnga' khongs</g:name>
+    <g:info type="placeTypes:rgyalPhran"/>
+    <g:event circa="13uu/17uu" type="placeEventTypes:founded"/>
+    <g:isLocatedIn place="G843">byar yul</g:isLocatedIn>
+    <g:contains place="G4885">chos 'khor lhun po </g:contains>
+    <g:contains place="G229">bya yul dgon pa </g:contains>
+    <g:contains place="G3478">pad+ma bkod</g:contains>
+    <g:contains place="G1183">sman mkhar phan bde gling </g:contains>
+    <g:contains place="G2CN10883">bya yul rdo rje pho thog dgon gyi par khang </g:contains>
+    <g:contains place="G3JT12502">byams pa chos gling gzhis ka'i par khang  </g:contains>
+    <g:note>the region of the rulers of the bya principality in southern tibet</g:note>
+    <g:note location="p.1467-1468" work="W26372">བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།</g:note>
+    <g:log>
+        <entry when="2012-10-12T12:21:11.602Z" who="Chungdak Nangpa">added contain</entry>
+        <entry when="2012-12-11T12:39:05.287-05:00" who="msheehy">type changed from traditionalPlaceName to srolRgyunGyiSaMing</entry>
+        <entry when="2013-02-05T10:28:55.426Z" who="Jigme Namgyal">added byams pa chos gling gzhis ka'i par khang </entry>
+        <entry when="2013-02-25T16:44:50.079Z" who="Chungdak Nangpa">added contain</entry>
+        <entry when="2013-04-01T09:36:07.005Z" who="Chungdak Nangpa">added type &amp; location &amp; contains</entry>
+        <entry when="2013-05-29T12:18:47.035Z" who="Michael R. Sheehy">added place contained</entry>
+        <entry when="2014-01-06T14:22:58.026Z" who="Chungdak Nangpa">added location</entry>
+        <entry when="2014-02-19T14:10:50.715Z" who="Chungdak Nangpa">added name &amp; note</entry>
+    </g:log>
+</g:place>
+

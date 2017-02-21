@@ -212,6 +212,20 @@ public class CommonMigration  {
 		}
 	}
 	
+	public static void addNames(Model m, Element e, Resource r, String XsdPrefix) {
+		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "name");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element current = (Element) nodeList.item(i);
+			String lang = getBCP47(current, "bo-x-ewts");
+			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
+			Property prop = m.getProperty(ROOT_PREFIX+"name");
+			m.add(r, prop, value);
+			if (i == 0) {
+				addLabel(m, r, value);
+			}
+		}
+	}
+	
 	public static String getBCP47Suffix(String encoding) {
 		switch(encoding) {
 		case "extendedWylie":
@@ -293,12 +307,31 @@ public class CommonMigration  {
 		return getIso639(language)+getBCP47Suffix(encoding);
 	}
 	
+	// from http://stackoverflow.com/a/14066594/2560906
+	private static boolean isAllASCII(String input) {
+	    boolean isASCII = true;
+	    for (int i = 0; i < input.length(); i++) {
+	        int c = input.charAt(i);
+	        if (c > 0x7F) {
+	            isASCII = false;
+	            break;
+	        }
+	    }
+	    return isASCII;
+	}
+	
 	public static String getBCP47(Element e) {
-		return getBCP47(e.getAttribute("lang"), e.getAttribute("encoding"));
+		String res = getBCP47(e.getAttribute("lang"), e.getAttribute("encoding"));
+		String value = e.getTextContent().trim();
+		// some values are wrongly marked as native instead of extendedWylie
+		if (res != null && res.equals("bo") && isAllASCII(value)) {
+			res = "bo-x-ewts";// could be loc?
+		}
+		return res;
 	}
 	
 	public static String getBCP47(Element e, String dflt) {
-		String res = getBCP47(e.getAttribute("lang"), e.getAttribute("encoding"));
+		String res = getBCP47(e);
 		if (res == "" || res == null) {
 			return dflt;
 		}

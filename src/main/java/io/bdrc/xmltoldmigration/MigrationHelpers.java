@@ -151,6 +151,9 @@ public class MigrationHelpers {
 		case "person":
 			m = PersonMigration.MigratePerson(d);
 			break;
+		case "place":
+			m = PlaceMigration.MigratePlace(d);
+			break;
 		default:
 			// arg
 			return m;

@@ -21,11 +21,13 @@ public class MigrationTest
 	final String TESTDIR = "src/test/";
 	OntModel ontology = null;
 	Validator personValidator = null;
+	Validator placeValidator = null;
 	
 	@Before
 	public void init() {
 		ontology = MigrationHelpers.getOntologyModel();
 		personValidator = MigrationHelpers.getValidatorFor("person");
+		placeValidator = MigrationHelpers.getValidatorFor("place");
 	}
 	
 	@Test
@@ -51,6 +53,17 @@ public class MigrationTest
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-        
+    }
+	
+	@Test
+    public void testG844()
+    {
+    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
+    	assertTrue(CommonMigration.documentValidates(d, placeValidator));
+    	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
+    	//Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
+    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
     }
 }
