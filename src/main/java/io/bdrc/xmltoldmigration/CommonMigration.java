@@ -133,6 +133,38 @@ public class CommonMigration  {
 		}
 	}
 	
+	public static void addExternal(Model m, Element e, Resource r) {
+		Resource ext = m.createResource(new AnonId());
+		m.add(ext, RDF.type, m.createProperty(ROOT_PREFIX+"External"));
+		Property prop = m.createProperty(ROOT_PREFIX+"external");
+		Literal lit;
+		m.add(r, prop, ext);
+		String value = e.getAttribute("data");
+		if (value != "") {
+			prop = m.createProperty(ROOT_PREFIX+"external_data");
+			m.add(ext, prop, m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
+		}
+		value = e.getAttribute("source");
+		if (value != "") {
+			prop = m.createProperty(ROOT_PREFIX+"external_source");
+			lit = m.createLiteral(value);
+			m.add(ext, prop, lit);
+		}
+		value = e.getTextContent().trim();
+		if (value != "") {
+			prop = m.createProperty(ROOT_PREFIX+"external_content");
+			lit = m.createLiteral(value);
+			m.add(ext, prop, lit);
+		}
+	}
+	
+	public static void addExternals(Model m, Element e, Resource r, String XsdPrefix) {
+		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "external");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			addExternal(m, (Element) nodeList.item(i), r);
+		}
+	}
+	
 	public static Literal literalFromXsdDate(Model m, String s) {
 		// was quite difficult to find...
 		XSDDateTime dateTime = (XSDDateTime)XSDDatatype.XSDdateTime.parse(s);

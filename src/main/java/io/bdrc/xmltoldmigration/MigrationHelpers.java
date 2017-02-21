@@ -63,7 +63,7 @@ public class MigrationHelpers {
 			return jsonObject;
 		}
 		String rootShortUri = typeToRootShortUri.get(type); 
-		String jsonString = "{\"@context\": "+CommonMigration.getJsonLDContext()+", \"@type\": \""+rootShortUri+"\"}";
+		String jsonString = "{\"@type\": \""+rootShortUri+"\", \"@context\": "+CommonMigration.getJsonLDContext()+"}";
 		try {
 			jsonObject = JsonUtils.fromString(jsonString);
 		} catch (IOException e) {
@@ -85,7 +85,6 @@ public class MigrationHelpers {
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
 		if (frame) {
 			Object frameObj = getFrameObject(type);
-			System.out.println(frameObj);
 			ctx.setFrame(frameObj);
 		}
 		// https://issues.apache.org/jira/browse/JENA-1292

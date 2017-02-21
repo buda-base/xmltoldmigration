@@ -16,6 +16,7 @@ public class PersonMigration {
 
 	private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
+	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
@@ -88,11 +89,56 @@ public class PersonMigration {
 			addKinship(m, main, current);
 		}
 		
+		// ofSect
+		
+		nodeList = root.getElementsByTagNameNS(PXSDNS, "ofSect");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			current = (Element) nodeList.item(i);
+			prop = m.getProperty(PP, "ofSect");
+			m.add(main, prop, m.createResource(TP+current.getAttribute("sect")));
+		}
+		
+		// incarnationOf
+		
+		nodeList = root.getElementsByTagNameNS(PXSDNS, "incarnationOf");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			current = (Element) nodeList.item(i);
+			addIncarnation(m, main, current);
+		}
+		
 		CommonMigration.addNotes(m, root, main, PXSDNS);
+		
+		CommonMigration.addExternals(m, root, main, PXSDNS);
 		
 		CommonMigration.addLog(m, root, main, PXSDNS);
 		
 		return m;
+	}
+	
+	public static void addIncarnation(Model m, Resource r, Element e) {
+		Resource incarnationOf = m.createResource(new AnonId());
+		m.add(incarnationOf, RDF.type, m.createProperty(PP+"IncarnationOf"));
+		m.add(r, m.getProperty(PP+"incarnationOf"), incarnationOf);
+		String value = e.getAttribute("being");
+		Resource being;
+		if (value.startsWith("P")) {
+			being = m.createResource(PP+value);
+		} else {
+			being = m.createResource(TP+value);
+		}
+		Property prop = m.getProperty(PP, "incarnationOf_being");
+		m.add(incarnationOf, prop, being);
+		value = e.getAttribute("relation");
+		if (value != null && value != "") {
+			prop = m.getProperty(PP, "incarnationOf_relation");
+			m.add(incarnationOf, prop, m.createLiteral(value));
+		}
+		value = e.getAttribute("secondary");
+		if (value != null && value != "") {
+			prop = m.getProperty(PP, "incarnationOf_secondary");
+			m.add(incarnationOf, prop, m.createLiteral(value));
+		}
+		
 	}
 	
 	public static void addEvent(Model m, Resource person, Element e) {
