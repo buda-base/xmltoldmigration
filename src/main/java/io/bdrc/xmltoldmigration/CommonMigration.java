@@ -108,18 +108,18 @@ public class CommonMigration  {
 		Literal lit;
 		m.add(r, prop, note);
 		String value = e.getAttribute("work");
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"note_work");
 			m.add(note, prop, m.createResource(WORK_PREFIX+value));
 		}
 		value = e.getAttribute("location");
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"note_location");
 			lit = m.createLiteral(value);
 			m.add(note, prop, lit);
 		}
 		value = e.getTextContent().trim();
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"note_content");
 			lit = m.createLiteral(value);
 			m.add(note, prop, lit);
@@ -140,18 +140,18 @@ public class CommonMigration  {
 		Literal lit;
 		m.add(r, prop, ext);
 		String value = e.getAttribute("data");
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"external_data");
 			m.add(ext, prop, m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
 		}
 		value = e.getAttribute("source");
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"external_source");
 			lit = m.createLiteral(value);
 			m.add(ext, prop, lit);
 		}
 		value = e.getTextContent().trim();
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"external_content");
 			lit = m.createLiteral(value);
 			m.add(ext, prop, lit);
@@ -178,17 +178,17 @@ public class CommonMigration  {
 		Property prop = m.createProperty(ROOT_PREFIX+"log_entry");
 		m.add(r, prop, logEntry);
 		String value = e.getAttribute("when");
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"log_when");
 			m.add(logEntry, prop, literalFromXsdDate(m, value));
 		}
 		value = e.getAttribute("who").trim();
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"log_who");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
 		}
 		value = e.getTextContent().trim();
-		if (value != "") {
+		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"log_content");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
 		}
@@ -298,8 +298,8 @@ public class CommonMigration  {
 	}
 	
 	public static String getBCP47(String language, String encoding) {
-		if (language == "" || language == null) {
-			if (encoding != "" && encoding != null) {
+		if (language == null || language.isEmpty()) {
+			if (encoding != null && !encoding.isEmpty()) {
 				System.out.println("encoding with no language!");
 			}
 			return null;
@@ -332,7 +332,7 @@ public class CommonMigration  {
 	
 	public static String getBCP47(Element e, String dflt) {
 		String res = getBCP47(e);
-		if (res == "" || res == null) {
+		if (res == null || res.isEmpty()) {
 			return dflt;
 		}
 		return res;

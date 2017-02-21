@@ -126,12 +126,12 @@ public class PersonMigration {
 		Property prop = m.getProperty(PP, "incarnationOf_being");
 		m.add(incarnationOf, prop, being);
 		value = e.getAttribute("relation");
-		if (value != null && value != "") {
+		if (value != null && !value.isEmpty()) {
 			prop = m.getProperty(PP, "incarnationOf_relation");
 			m.add(incarnationOf, prop, m.createLiteral(value));
 		}
 		value = e.getAttribute("secondary");
-		if (value != null && value != "") {
+		if (value != null && !value.isEmpty()) {
 			prop = m.getProperty(PP, "incarnationOf_secondary");
 			m.add(incarnationOf, prop, m.createLiteral(value));
 		}
@@ -162,7 +162,7 @@ public class PersonMigration {
 		Resource value = m.createResource(PP+"Seat");
 		m.add(subResource, RDF.type, value);
 		String circa = e.getAttribute("circa");
-		if (circa != null && circa != "") {
+		if (circa != null && !circa.isEmpty()) {
 			Property prop = m.getProperty(PP, "seat_circa");
 			m.add(subResource, prop, m.createLiteral(circa));
 		}
