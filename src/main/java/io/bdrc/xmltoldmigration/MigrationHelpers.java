@@ -32,9 +32,15 @@ import openllet.jena.PelletReasonerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.utils.JsonUtils;
@@ -191,7 +197,7 @@ public class MigrationHelpers {
 	        ontoModel.read(inputStream, "", "RDF/XML");
 	        inputStream.close();
 	    } catch (Exception e) {
-	        System.out.println(e.getMessage());
+	        System.err.println(e.getMessage());
 	    }
 	    // then we fix it by removing the individuals and converting rdf10 to rdf11
 	    removeIndividuals(ontoModel);
@@ -199,6 +205,21 @@ public class MigrationHelpers {
 	    // then we change the reasoner to Openllet:
 	    OntModel ontoModelInferred = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, ontoModel);
 	    return ontoModelInferred;
+	}
+	
+	public static Validator getValidatorFor(String type) {
+		String xsdFullName = "src/main/resources/xsd/"+type+".xsd";
+		SchemaFactory factory = 
+	            SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema;
+		try {
+			schema = factory.newSchema(new File(xsdFullName));
+		}
+		catch (SAXException ex) {
+			System.err.println("xsd file looks invalid...");
+			return null;
+		}
+		return schema.newValidator();
 	}
 	
 }

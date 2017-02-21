@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.assertTrue;
 
+import javax.xml.validation.Validator;
+
 
 /**
  * Unit test for simple App.
@@ -18,16 +20,19 @@ public class MigrationTest
 {
 	final String TESTDIR = "src/test/";
 	OntModel ontology = null;
+	Validator personValidator = null;
 	
 	@Before
 	public void init() {
 		ontology = MigrationHelpers.getOntologyModel();
+		personValidator = MigrationHelpers.getValidatorFor("person");
 	}
 	
 	@Test
     public void testP1331()
     {
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1331.xml");
+		assertTrue(CommonMigration.documentValidates(d, personValidator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1331.jsonld");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
@@ -40,9 +45,10 @@ public class MigrationTest
     public void testP1583()
     {
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1583.xml");
+    	assertTrue(CommonMigration.documentValidates(d, personValidator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         

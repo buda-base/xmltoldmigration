@@ -305,31 +305,20 @@ public class CommonMigration  {
 		return res;
 	}
 	
-	public static boolean documentValidAgainstXSD(Document document, String xsdName) {
-		String xsdFullName = "src/main/resources/xsd/"+xsdName+".xsd";
+	public static boolean documentValidates(Document document, Validator validator) {
 		Source xmlSource = new DOMSource(document);
-		SchemaFactory factory = 
-	            SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema;
-		try {
-			schema = factory.newSchema(new File(xsdFullName));
-		}
-		catch (SAXException ex) {
-			System.out.println("xsd file looks invalid...");
-			return false;
-		}
-		Validator validator = schema.newValidator();
 		try {
             validator.validate(xmlSource);
         }
         catch (SAXException ex) {
-            System.out.println("Document is not valid because:");
-            System.out.println(ex.getMessage());
+            System.err.println("Document is not valid because:");
+            System.err.println(ex.getMessage());
             ex.printStackTrace();
             return false;
         } catch (IOException e) {
-			// TODO Auto-generated catch block
+        	System.err.println("IO problem:");
 			e.printStackTrace();
+			return false;
 		}
 		return true;
 	}

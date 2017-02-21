@@ -21,9 +21,6 @@ public class PersonMigration {
 	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
 	public static Model MigratePerson(Document xmlDocument) {
-		if (!CommonMigration.documentValidAgainstXSD(xmlDocument, "person")) {
-			return null;
-		}
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
