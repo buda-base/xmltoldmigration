@@ -1,177 +1,21 @@
 {
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work/",
+    "per" : "http://purl.bdrc.io/ontology/person#"
+  },
   "@graph" : [ {
-    "@id" : "_:b0",
-    "@type" : "LogEntry",
-    "log_content" : {
-      "@language" : "en",
-      "@value" : "added name rgyal sras thugs mchog rtsal"
-    },
-    "log_when" : {
-      "@type" : "xsd:dateTime",
-      "@value" : "2009-10-22T18:31:49.12Z"
-    },
-    "log_who" : {
-      "@language" : "en",
-      "@value" : "Karma Gongde"
-    }
-  }, {
-    "@id" : "_:b1",
-    "@type" : "per:Seat",
-    "per:seat_place" : {
-      "@id" : "plc:G521"
-    }
-  }, {
-    "@id" : "_:b10",
-    "@type" : "LogEntry",
-    "log_content" : {
-      "@language" : "en",
-      "@value" : "added records"
-    },
-    "log_when" : {
-      "@type" : "xsd:dateTime",
-      "@value" : "2008-07-02T17:03:41.75Z"
-    },
-    "log_who" : {
-      "@language" : "en",
-      "@value" : "Joe McClellan"
-    }
-  }, {
-    "@id" : "_:b11",
-    "@type" : "Note",
-    "note_content" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
-  }, {
-    "@id" : "_:b12",
-    "@type" : "LogEntry",
-    "log_content" : {
-      "@language" : "en",
-      "@value" : "edited note"
-    },
-    "log_when" : {
-      "@type" : "xsd:dateTime",
-      "@value" : "2012-06-11T09:58:04.367Z"
-    },
-    "log_who" : {
-      "@language" : "en",
-      "@value" : "Michael R. Sheehy"
-    }
-  }, {
-    "@id" : "_:b13",
-    "@type" : "Note",
-    "note_content" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
-  }, {
-    "@id" : "_:b14",
-    "@type" : "Note",
-    "note_content" : "biography\ndates: 1308-1363",
-    "note_location" : "v. 2, pp.104-112",
-    "note_work" : {
-      "@id" : "wor:W25268"
-    }
-  }, {
-    "@id" : "_:b15",
-    "@type" : "LogEntry",
-    "log_content" : {
-      "@language" : "en",
-      "@value" : "edited names"
-    },
-    "log_when" : {
-      "@type" : "xsd:dateTime",
-      "@value" : "2011-07-01T04:41:07.905Z"
-    },
-    "log_who" : {
-      "@language" : "en",
-      "@value" : "Michael Sheehy"
-    }
-  }, {
-    "@id" : "_:b16",
-    "@type" : "LogEntry",
-    "log_content" : {
-      "@language" : "en",
-      "@value" : "added records"
-    },
-    "log_when" : {
-      "@type" : "xsd:dateTime",
-      "@value" : "2008-06-30T17:01:56.496Z"
-    },
-    "log_who" : {
-      "@language" : "en",
-      "@value" : "Joe McClellan"
-    }
-  }, {
-    "@id" : "_:b2",
-    "@type" : "per:Birth",
-    "per:event_circa" : "1308"
-  }, {
-    "@id" : "_:b3",
-    "@type" : "Note",
-    "note_content" : "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him.",
-    "note_location" : "251",
-    "note_work" : {
-      "@id" : "wor:W27401"
-    }
-  }, {
-    "@id" : "_:b4",
-    "@type" : "LogEntry",
-    "log_content" : {
-      "@language" : "en",
-      "@value" : "bcos"
-    },
-    "log_when" : {
-      "@type" : "xsd:dateTime",
-      "@value" : "2011-04-27T12:51:43.397Z"
-    },
-    "log_who" : {
-      "@language" : "en",
-      "@value" : "Paldor"
-    }
-  }, {
-    "@id" : "_:b5",
-    "@type" : "LogEntry",
-    "log_content" : {
-      "@language" : "en",
-      "@value" : "corrected title and name variant designations"
-    },
-    "log_when" : {
-      "@type" : "xsd:dateTime",
-      "@value" : "2012-08-23T16:40:14.673Z"
-    },
-    "log_who" : {
-      "@language" : "en",
-      "@value" : "Jeff Wallman"
-    }
-  }, {
-    "@id" : "_:b6",
-    "@type" : "Note",
-    "note_location" : "p. 6",
-    "note_work" : {
-      "@id" : "wor:W19822"
-    }
-  }, {
-    "@id" : "_:b7",
-    "@type" : "LogEntry",
-    "log_content" : {
-      "@language" : "en",
-      "@value" : "added name in chinese"
-    },
-    "log_when" : {
-      "@type" : "xsd:dateTime",
-      "@value" : "2011-08-02T16:53:12.77Z"
-    },
-    "log_who" : {
-      "@language" : "en",
-      "@value" : "Chungdak Nangpa"
-    }
-  }, {
-    "@id" : "_:b8",
-    "@type" : "Note",
-    "note_location" : "p. 77",
-    "note_work" : {
-      "@id" : "wor:W19801"
-    }
-  }, {
-    "@id" : "_:b9",
-    "@type" : "per:Death",
-    "per:event_circa" : "1364"
-  }, {
     "@id" : "per:P1583",
     "@type" : "per:Person",
     "per:commonName" : {
@@ -179,9 +23,13 @@
       "@value" : "klong chen pa/"
     },
     "per:event" : [ {
-      "@id" : "_:b9"
+      "@id" : "_:b18",
+      "@type" : "per:Death",
+      "per:event_circa" : "1364"
     }, {
-      "@id" : "_:b2"
+      "@id" : "_:b1",
+      "@type" : "per:Birth",
+      "per:event_circa" : "1308"
     } ],
     "per:gender" : "male",
     "per:hasFather" : {
@@ -189,6 +37,24 @@
     },
     "per:hasMother" : {
       "@id" : "per:P1585"
+    },
+    "per:incarnationOf" : [ {
+      "@id" : "_:b16",
+      "@type" : "per:IncarnationOf",
+      "per:incarnationOf_being" : {
+        "@id" : "per:P561654"
+      },
+      "per:incarnationOf_relation" : "yangtse"
+    }, {
+      "@id" : "_:b10",
+      "@type" : "per:IncarnationOf",
+      "per:incarnationOf_being" : {
+        "@id" : "per:P561654"
+      },
+      "per:incarnationOf_secondary" : "mind"
+    } ],
+    "per:ofSect" : {
+      "@id" : "top:T1234"
     },
     "per:personalName" : {
       "@language" : "bo-x-ewts",
@@ -206,7 +72,11 @@
       "@value" : "klong chen rab 'byams pa dri med 'od zer/"
     },
     "per:seat" : {
-      "@id" : "_:b1"
+      "@id" : "_:b17",
+      "@type" : "per:Seat",
+      "per:seat_place" : {
+        "@id" : "plc:G521"
+      }
     },
     "per:secretInitiatoryName" : {
       "@language" : "bo-x-ewts",
@@ -268,56 +138,179 @@
       "@language" : "bo-x-ewts",
       "@value" : "klong chen rab 'byams/"
     } ],
+    "external" : {
+      "@id" : "_:b5",
+      "@type" : "External",
+      "external_content" : "External example",
+      "external_data" : {
+        "@type" : "xsd:anyURI",
+        "@value" : "http://example.com"
+      }
+    },
     "log_entry" : [ {
-      "@id" : "_:b5"
+      "@id" : "_:b14",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "edited note"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-06-11T09:58:04.367Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Michael R. Sheehy"
+      }
     }, {
-      "@id" : "_:b7"
+      "@id" : "_:b15",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name in chinese"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2011-08-02T16:53:12.77Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
     }, {
-      "@id" : "_:b10"
+      "@id" : "_:b13",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "bcos"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2011-04-27T12:51:43.397Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Paldor"
+      }
     }, {
-      "@id" : "_:b0"
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "corrected title and name variant designations"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-08-23T16:40:14.673Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
     }, {
-      "@id" : "_:b12"
+      "@id" : "_:b4",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added records"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2008-06-30T17:01:56.496Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Joe McClellan"
+      }
     }, {
-      "@id" : "_:b4"
+      "@id" : "_:b8",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "edited names"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2011-07-01T04:41:07.905Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Michael Sheehy"
+      }
     }, {
-      "@id" : "_:b15"
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name rgyal sras thugs mchog rtsal"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-10-22T18:31:49.12Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Karma Gongde"
+      }
     }, {
-      "@id" : "_:b16"
+      "@id" : "_:b9",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added records"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2008-07-02T17:03:41.75Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Joe McClellan"
+      }
     } ],
     "note" : [ {
-      "@id" : "_:b6"
+      "@id" : "_:b12",
+      "@type" : "Note",
+      "note_content" : "biography\ndates: 1308-1363",
+      "note_location" : "v. 2, pp.104-112",
+      "note_work" : {
+        "@id" : "wor:W25268"
+      }
     }, {
-      "@id" : "_:b8"
+      "@id" : "_:b19",
+      "@type" : "Note",
+      "note_content" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
     }, {
-      "@id" : "_:b3"
+      "@id" : "_:b2",
+      "@type" : "Note",
+      "note_location" : "p. 6",
+      "note_work" : {
+        "@id" : "wor:W19822"
+      }
     }, {
-      "@id" : "_:b11"
+      "@id" : "_:b6",
+      "@type" : "Note",
+      "note_location" : "p. 77",
+      "note_work" : {
+        "@id" : "wor:W19801"
+      }
     }, {
-      "@id" : "_:b13"
+      "@id" : "_:b7",
+      "@type" : "Note",
+      "note_content" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
     }, {
-      "@id" : "_:b14"
+      "@id" : "_:b11",
+      "@type" : "Note",
+      "note_content" : "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him.",
+      "note_location" : "251",
+      "note_work" : {
+        "@id" : "wor:W27401"
+      }
     } ],
     "status" : "released",
     "rdfs:label" : {
       "@language" : "bo-x-ewts",
       "@value" : "dri med 'od zer/"
     }
-  } ],
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#"
-  }
+  } ]
 }
