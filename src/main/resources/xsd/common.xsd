@@ -99,7 +99,7 @@ If the data attribute is present the web-client will use it to display a link th
 	<xsd:complexType name="Description" mixed="true">
 		<xsd:attribute name="lang" type="c:langTypeAttr" default="english"/>
 		<xsd:attribute name="encoding" type="c:langEncTypeAttr" default="native"/>
-		<xsd:attribute name="type" type="xsd:string" use="optional"/>
+		<xsd:attribute name="type" type="c:descriptionTypeAttr" use="optional"/>
 	</xsd:complexType>
 	<xsd:complexType name="Subject">
 		<xsd:simpleContent>
@@ -398,6 +398,45 @@ If the data attribute is present the web-client will use it to display a link th
 			<xsd:enumeration value="scanned"/>
 			<xsd:enumeration value="withdrawn"/>
 			<xsd:enumeration value="onHold"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="descriptionTypeAttr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="access"/>
+			<xsd:enumeration value="authorship"/>
+			<xsd:enumeration value="colophon"/>
+			<xsd:enumeration value="completionDate"/>
+			<xsd:enumeration value="contents"/>
+			<xsd:enumeration value="dist_py"/>
+			<xsd:enumeration value="dld"/>
+			<xsd:enumeration value="dpl480"/>
+			<xsd:enumeration value="errata"/>
+			<xsd:enumeration value="featured"/>
+			<xsd:enumeration value="gbdist"/>
+			<xsd:enumeration value="gonpaPer1000"/>
+			<xsd:enumeration value="gonpaPerEcumen"/>
+			<xsd:enumeration value="HungarianAcademyofSciences"/>
+			<xsd:enumeration value="IsIAO"/>
+			<xsd:enumeration value="license"/>
+			<xsd:enumeration value="location"/>
+			<xsd:enumeration value="nameKR"/>
+			<xsd:enumeration value="nameLex"/>
+			<xsd:enumeration value="onDisk"/>
+			<xsd:enumeration value="OrientalInstitute.Prague"/>
+			<xsd:enumeration value="Otani"/>
+			<xsd:enumeration value="prov_py"/>
+			<xsd:enumeration value="status"/>
+			<xsd:enumeration value="summary"/>
+			<xsd:enumeration value="thumbnail"/>
+			<xsd:enumeration value="Tib.Hand.und.Blockdrucke"/>
+			<xsd:enumeration value="toh"/>
+			<xsd:enumeration value="town_ch"/>
+			<xsd:enumeration value="town_syl"/>
+			<xsd:enumeration value="ToyoBunko"/>
+			<xsd:enumeration value="what"/>
+			<xsd:enumeration value="when"/>
+			<xsd:enumeration value="where"/>
+			<xsd:enumeration value="who"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<!-- work flow common definitions -->
