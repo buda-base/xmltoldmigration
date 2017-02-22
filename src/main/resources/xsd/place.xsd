@@ -78,7 +78,7 @@
                             next. </xsd:documentation>
                     </xsd:annotation>
                 </xsd:attribute>
-                <xsd:attribute name="rid" type="xsd:string">
+                <xsd:attribute name="rid" type="plc:lineageTypeAttr">
                     <xsd:annotation>
                         <xsd:documentation> the rid attribute records the RID of the affilated
                             entity: Person, Taxonomy topic and so on. I suppose this could be a
@@ -264,6 +264,37 @@
             <xsd:enumeration value="placeEventTypes:destroyed"/>
             <xsd:enumeration value="placeEventTypes:founded"/>
             <xsd:enumeration value="placeEventTypes:rebuilt"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="lineageTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="lineage:Nyingma"/>
+            <xsd:enumeration value="lineage:Kadam"/>
+            <xsd:enumeration value="lineage:Geluk"/>
+            <xsd:enumeration value="lineage:Kagyu"/>
+            <xsd:enumeration value="lineage:KarmaKagyu"/>
+            <xsd:enumeration value="lineage:MarpaKagyu"/>
+            <xsd:enumeration value="lineage:DrigungKagyu"/>
+            <xsd:enumeration value="lineage:DrukpaKagyu"/>
+            <xsd:enumeration value="lineage:BaromKagyu"/>
+            <xsd:enumeration value="lineage:ShangpaKagyu"/>
+            <xsd:enumeration value="lineage:TodrukKagyu"/>
+            <xsd:enumeration value="lineage:ZurmangKagyu"/>
+            <xsd:enumeration value="lineage:TsalpaKagyu"/>
+            <xsd:enumeration value="lineage:YazangKagyu"/>
+            <xsd:enumeration value="lineage:YelpaKagyu"/>
+            <xsd:enumeration value="lineage:TaklungKagyu"/>
+            <xsd:enumeration value="lineage:NedoKagyu"/>
+            <xsd:enumeration value="lineage:TaklungKagyu"/>
+            <xsd:enumeration value="lineage:Sakya"/>
+            <xsd:enumeration value="lineage:NgorSakya"/>
+            <xsd:enumeration value="lineage:Jonang"/>
+            <xsd:enumeration value="lineage:Bodong"/>
+            <xsd:enumeration value="lineage:Chod"/>
+            <xsd:enumeration value="lineage:Zhije"/>
+            <xsd:enumeration value="lineage:Bon"/>
+            <xsd:enumeration value="lineage:Zhalu"/>
+            <xsd:enumeration value="lineage:Rime"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="placeTypeAttr">
