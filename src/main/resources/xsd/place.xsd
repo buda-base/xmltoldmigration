@@ -54,7 +54,7 @@
             <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
-        <xsd:attribute name="type" type="xsd:string" use="required">
+        <xsd:attribute name="type" type="plc:eventTypeAttr" use="required">
             <xsd:annotation c:taxonomy="placeEventTypes" c:taxType="token">
                 <xsd:documentation> the type attribute value is listed in the placeEventTypes root
                     taxonomy that is listed in taxonomies.xml. These are tokens that will appear
@@ -66,7 +66,7 @@
     <xsd:complexType name="Affiliation">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="type" type="xsd:string">
+                <xsd:attribute name="type" type="plc:affiliationTypeAttr">
                     <xsd:annotation c:taxonomy="placeAffiliationTypes" c:taxType="taxonomy">
                         <xsd:documentation> the Affiliation type attribute must be the name of a
                             taxonomy root that is found in taxonomies.xml. The placeAffiliationTypes
@@ -243,6 +243,22 @@
         <xsd:attribute name="country" type="xsd:string"/>
         <xsd:attribute name="postal" type="xsd:string"/>
     </xsd:complexType>
+    <xsd:simpleType name="affiliationTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="placeEventAffiliationTypes:lineage"/>
+            <xsd:enumeration value="placeEventAffiliationTypes:corporation"/>
+            <xsd:enumeration value="placeEventAffiliationTypes:office"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="eventTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="placeEventTypes:abandonned"/>
+            <xsd:enumeration value="placeEventTypes:converted"/>
+            <xsd:enumeration value="placeEventTypes:destroyed"/>
+            <xsd:enumeration value="placeEventTypes:founded"/>
+            <xsd:enumeration value="placeEventTypes:rebuilt"/>
+        </xsd:restriction>
+    </xsd:simpleType>
     <xsd:simpleType name="placeTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="notSpecified"/>

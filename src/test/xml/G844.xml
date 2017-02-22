@@ -12,6 +12,33 @@
     <g:contains place="G2CN10883">bya yul rdo rje pho thog dgon gyi par khang </g:contains>
     <g:contains place="G3JT12502">byams pa chos gling gzhis ka'i par khang  </g:contains>
     <g:note>the region of the rulers of the bya principality in southern tibet</g:note>
+    <!-- from G30 -->
+    <g:gis>
+        <g:id type="chgis_id"  value="854"/>
+        <g:id type="fromLex"  value="540102200:540101145"/>
+        <g:id type="fromTBRC"  value="540102200:540101145"/>
+        <g:coords lat="       29.63984"  long="       91.22002"/>
+    </g:gis>
+    <g:event circa="1187"  type="placeEventTypes:founded">
+        <g:affiliation rid="lineage:Kagyu"  type="placeEventAffiliationTypes:lineage"/>
+    </g:event>
+    <g:description encoding="native"  lang="chinese"  type="town_ch">蔡公堂乡 </g:description>
+    <g:description encoding="syllables"  lang="chinese"  type="town_syl">Cai Gong Tang Xiang</g:description>
+    <g:description encoding="native"  lang="english"  type="gbdist">5401</g:description>
+    <g:description encoding="pinyin"  lang="chinese"  type="dist_py">Lhasa Shi</g:description>
+    <g:description encoding="pinyin"  lang="chinese"  type="prov_py">Xizang</g:description>
+    <g:description encoding="extendedWylie"  lang="tibetan"  type="nameLex">tshal gung thang</g:description>
+    <g:description encoding="extendedWylie"  lang="tibetan"  type="nameKR">tshal gung thang</g:description>
+    <g:description encoding="native"  lang="english"  type="gonpaPer1000">7.514</g:description>
+    <g:description encoding="native"  lang="english"  type="gonpaPerEcumen">7.51</g:description>
+    <!-- end from G30 -->
+    <!-- from G1TLMTGA000001 -->
+    <g:address city="Chauntra"  country="India"  number="མི་གསལ།"  postal="175032"  state="Himachal Pradesh"  street="Dzongsar Institute"/>
+    <g:tlm accession="004476"  code="TGA"  num="003159">
+        <g:taxonomy rid="O1TLMXXX000011"/>
+        <g:groups admin="tgaAdmin"  adminEmail="xxx"  librarian="tgaLibrarian"  librarianEmail="xxx"/>
+    </g:tlm>
+    <!-- end from G1TLMTGA000001 -->
     <g:note location="p.1467-1468" work="W26372">བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།</g:note>
     <g:log>
         <entry when="2012-10-12T12:21:11.602Z" who="Chungdak Nangpa">added contain</entry>
