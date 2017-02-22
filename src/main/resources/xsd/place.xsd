@@ -96,7 +96,7 @@
     </xsd:complexType>
     <xsd:complexType name="GisId">
         <xsd:attribute name="value" type="xsd:string"/>
-        <xsd:attribute name="type" type="xsd:string"/>
+        <xsd:attribute name="type" type="plc:gisIdTypeAttr"/>
     </xsd:complexType>
     <xsd:complexType name="GisCoords">
         <xsd:simpleContent>
@@ -243,6 +243,13 @@
         <xsd:attribute name="country" type="xsd:string"/>
         <xsd:attribute name="postal" type="xsd:string"/>
     </xsd:complexType>
+    <xsd:simpleType name="gisIdTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="fromLex"/>
+            <xsd:enumeration value="fromTBRC"/>
+            <xsd:enumeration value="chgis_id"/>
+        </xsd:restriction>
+    </xsd:simpleType>
     <xsd:simpleType name="affiliationTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="placeEventAffiliationTypes:lineage"/>
