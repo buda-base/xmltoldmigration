@@ -58,7 +58,7 @@ public class PersonMigration {
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "event");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			addEvent(m, main, current);
+			addEvent(m, main, current, i);
 		}
 		
 		// seat
@@ -100,7 +100,7 @@ public class PersonMigration {
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "incarnationOf");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			addIncarnation(m, main, current);
+			addIncarnation(m, main, current, i);
 		}
 		
 		CommonMigration.addNotes(m, root, main, PXSDNS);
@@ -112,8 +112,9 @@ public class PersonMigration {
 		return m;
 	}
 	
-	public static void addIncarnation(Model m, Resource r, Element e) {
-		Resource incarnationOf = m.createResource(new AnonId());
+	public static void addIncarnation(Model m, Resource r, Element e, int i) {
+		String resourceName = CommonMigration.getSubResourceName(r, PP, "IncarnationOf", i+1);
+		Resource incarnationOf = m.createResource(resourceName);
 		m.add(incarnationOf, RDF.type, m.createProperty(PP+"IncarnationOf"));
 		m.add(r, m.getProperty(PP+"incarnationOf"), incarnationOf);
 		String value = e.getAttribute("being");
@@ -138,8 +139,9 @@ public class PersonMigration {
 		
 	}
 	
-	public static void addEvent(Model m, Resource person, Element e) {
-		Resource subResource = m.createResource(new AnonId(e.getAttribute("pid")));
+	public static void addEvent(Model m, Resource person, Element e, int i) {
+		String resourceName = CommonMigration.getSubResourceName(person, PP, "Event", i+1);
+		Resource subResource = m.createResource(resourceName);
 		String typeValue = CommonMigration.normalizePropName(e.getAttribute("type"), "Class");
 		m.add(subResource, RDF.type, m.createProperty(PP+typeValue));
 		Literal value = m.createLiteral(e.getAttribute("circa"));

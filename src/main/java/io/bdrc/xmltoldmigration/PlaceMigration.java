@@ -43,7 +43,9 @@ public class PlaceMigration {
 		
 		CommonMigration.addLog(m, root, main, PLXSDNS);
 		
-		// remaining fields: gis, event, isLocatedIn, near, contains, address, tlm, description
+		CommonMigration.addDescriptions(m, root, main, PLXSDNS);
+		
+		// remaining fields: gis, event, isLocatedIn, near, contains, address, tlm
 		
 		return m;
 	}

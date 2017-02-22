@@ -89,6 +89,19 @@ public class CommonMigration  {
 		return m.createLiteral(uri);
 	}
 	
+	public static String getSubResourceName(Resource main, String prefix, String type, String index) {
+		String mainName = main.getLocalName();
+		return prefix+mainName+"_"+type+index;
+	}
+	
+	public static String getSubResourceName(Resource main, String prefix, String type, int index) {
+		return getSubResourceName(main, prefix, type, String.valueOf(index));
+	}
+	
+	public static String getSubResourceName(Resource main, String prefix, String type) {
+		return getSubResourceName(main, prefix, type, "");
+	}
+	
 	public static void addLabel(Model m, Resource r, Literal l) {
 		m.add(r, RDFS.label, l);
 	}
@@ -101,8 +114,9 @@ public class CommonMigration  {
 		return res;
 	}
 	
-	public static void addNote(Model m, Element e, Resource r) {
-		Resource note = m.createResource(new AnonId());
+	public static void addNote(Model m, Element e, Resource r, int i) {
+		String resourceName = getSubResourceName(r, ROOT_PREFIX, "Note", i+1);
+		Resource note = m.createResource(resourceName);
 		m.add(note, RDF.type, m.createProperty(ROOT_PREFIX+"Note"));
 		Property prop = m.createProperty(ROOT_PREFIX+"note");
 		Literal lit;
@@ -129,12 +143,13 @@ public class CommonMigration  {
 	public static void addNotes(Model m, Element e, Resource r, String XsdPrefix) {
 		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "note");
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			addNote(m, (Element) nodeList.item(i), r);
+			addNote(m, (Element) nodeList.item(i), r, i);
 		}
 	}
 	
-	public static void addExternal(Model m, Element e, Resource r) {
-		Resource ext = m.createResource(new AnonId());
+	public static void addExternal(Model m, Element e, Resource r, int i) {
+		String resourceName = getSubResourceName(r, ROOT_PREFIX, "External", i+1);
+		Resource ext = m.createResource(resourceName);
 		m.add(ext, RDF.type, m.createProperty(ROOT_PREFIX+"External"));
 		Property prop = m.createProperty(ROOT_PREFIX+"external");
 		Literal lit;
@@ -161,7 +176,7 @@ public class CommonMigration  {
 	public static void addExternals(Model m, Element e, Resource r, String XsdPrefix) {
 		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "external");
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			addExternal(m, (Element) nodeList.item(i), r);
+			addExternal(m, (Element) nodeList.item(i), r, i);
 		}
 	}
 	
@@ -223,6 +238,17 @@ public class CommonMigration  {
 			if (i == 0) {
 				addLabel(m, r, value);
 			}
+		}
+	}
+	
+	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
+		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "description");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element current = (Element) nodeList.item(i);
+			String lang = getBCP47(current, "en");
+			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
+			Property prop = m.getProperty(ROOT_PREFIX+"description");
+			m.add(r, prop, value);
 		}
 	}
 	
