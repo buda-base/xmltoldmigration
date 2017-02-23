@@ -155,10 +155,6 @@ public class PlaceMigration {
 	}
 	
 	public static void addGis(Model m, Element gis, Resource main) {
-		String name = CommonMigration.getSubResourceName(main, PLP, "Gis");
-		Resource gisResource = m.createResource(name);
-		m.add(main, m.getProperty(PLP+"hasGIS"), gisResource);
-		m.add(gisResource, RDF.type, m.createResource(PLP + "Gis"));
 		NodeList nodeList = gis.getElementsByTagNameNS(PLXSDNS, "id");
 		String value = null;
 		Property prop;
@@ -169,7 +165,7 @@ public class PlaceMigration {
 			prop = m.getProperty(PLP+value);
 			value = current.getAttribute("value").trim();
 			l = m.createLiteral(value);
-			m.add(gisResource, prop, l);
+			m.add(main, prop, l);
 		}
 		nodeList = gis.getElementsByTagNameNS(PLXSDNS, "coords");
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -177,16 +173,16 @@ public class PlaceMigration {
 			prop = m.getProperty(PLP+"lat");
 			value = current.getAttribute("lat").trim();
 			l = m.createLiteral(value);
-			m.add(gisResource, prop, l);
+			m.add(main, prop, l);
 			prop = m.getProperty(PLP+"long");
 			value = current.getAttribute("long").trim();
 			l = m.createLiteral(value);
-			m.add(gisResource, prop, l);
+			m.add(main, prop, l);
 			prop = m.getProperty(PLP+"accuracy");
 			value = current.getAttribute("accuracy").trim();
 			if(!value.isEmpty()) {
 				l = m.createLiteral(value);
-				m.add(gisResource, prop, l);
+				m.add(main, prop, l);
 			}
 		}
 		

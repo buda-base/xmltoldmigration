@@ -44,19 +44,15 @@ public class ProductMigration {
 		NodeList nodeList = root.getElementsByTagNameNS(PRXSDNS, "access");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			String value = CommonMigration.getSubResourceName(main, PRP, "Access");
-			Resource access = m.createResource(value);
-			m.add(access, RDF.type, m.createResource(PRP+"Access"));
-			m.add(main, m.getProperty(PRP+"hasAccess"), access);
 			NodeList subNodeList = current.getElementsByTagNameNS(PRXSDNS, "include");
 			for (int j = 0; j < subNodeList.getLength(); j++) {
 				Element subCurrent = (Element) subNodeList.item(j);
-				value = subCurrent.getAttribute("RID");
+				String value = subCurrent.getAttribute("RID");
 				Resource included = m.createResource(PRP + root.getAttribute("RID"));
 				prop = m.getProperty(PRP+"include");
 				m.add(main, prop, included);
 			}
-			addOrgs(m, access, current);
+			addOrgs(m, main, current);
 		}
 		
 		return m;

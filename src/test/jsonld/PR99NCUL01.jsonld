@@ -24,11 +24,20 @@
       "@language" : "en",
       "@value" : "This or that"
     },
-    "prd:hasAccess" : {
-      "@id" : "prd:PR99NCUL01_Access",
-      "@type" : "prd:Access",
+    "prd:hasOrg" : [ {
+      "@id" : "prd:PR99NCUL01_Org5",
+      "@type" : "prd:Org",
+      "prd:allow" : "ip1",
+      "rdfs:label" : {
+        "@language" : "en",
+        "@value" : "Sub3"
+      }
+    }, {
+      "@id" : "prd:PR99NCUL01_Org2",
+      "@type" : "prd:Org",
+      "prd:allow" : [ "ip1", "ip2", "ip3" ],
       "prd:hasOrg" : [ {
-        "@id" : "prd:PR99NCUL01_Access_Org5",
+        "@id" : "prd:PR99NCUL01_Org2_Org3",
         "@type" : "prd:Org",
         "prd:allow" : "ip1",
         "rdfs:label" : {
@@ -36,7 +45,7 @@
           "@value" : "Sub3"
         }
       }, {
-        "@id" : "prd:PR99NCUL01_Access_Org4",
+        "@id" : "prd:PR99NCUL01_Org2_Org2",
         "@type" : "prd:Org",
         "prd:allow" : "ip2",
         "rdfs:label" : {
@@ -44,56 +53,43 @@
           "@value" : "Sub2"
         }
       }, {
-        "@id" : "prd:PR99NCUL01_Access_Org3",
+        "@id" : "prd:PR99NCUL01_Org2_Org1",
         "@type" : "prd:Org",
         "prd:allow" : "ip3",
         "rdfs:label" : {
           "@language" : "en",
           "@value" : "Sub1"
         }
-      }, {
-        "@id" : "prd:PR99NCUL01_Access_Org2",
-        "@type" : "prd:Org",
-        "prd:allow" : [ "ip1", "ip2", "ip3" ],
-        "prd:hasOrg" : [ {
-          "@id" : "prd:PR99NCUL01_Access_Org2_Org3",
-          "@type" : "prd:Org",
-          "prd:allow" : "ip1",
-          "rdfs:label" : {
-            "@language" : "en",
-            "@value" : "Sub3"
-          }
-        }, {
-          "@id" : "prd:PR99NCUL01_Access_Org2_Org2",
-          "@type" : "prd:Org",
-          "prd:allow" : "ip2",
-          "rdfs:label" : {
-            "@language" : "en",
-            "@value" : "Sub2"
-          }
-        }, {
-          "@id" : "prd:PR99NCUL01_Access_Org2_Org1",
-          "@type" : "prd:Org",
-          "prd:allow" : "ip3",
-          "rdfs:label" : {
-            "@language" : "en",
-            "@value" : "Sub1"
-          }
-        } ],
-        "rdfs:label" : {
-          "@language" : "en",
-          "@value" : "Top2"
-        }
-      }, {
-        "@id" : "prd:PR99NCUL01_Access_Org1",
-        "@type" : "prd:Org",
-        "prd:allow" : [ "ip4", "ip5" ],
-        "rdfs:label" : {
-          "@language" : "en",
-          "@value" : "Top1"
-        }
-      } ]
-    },
+      } ],
+      "rdfs:label" : {
+        "@language" : "en",
+        "@value" : "Top2"
+      }
+    }, {
+      "@id" : "prd:PR99NCUL01_Org3",
+      "@type" : "prd:Org",
+      "prd:allow" : "ip3",
+      "rdfs:label" : {
+        "@language" : "en",
+        "@value" : "Sub1"
+      }
+    }, {
+      "@id" : "prd:PR99NCUL01_Org1",
+      "@type" : "prd:Org",
+      "prd:allow" : [ "ip4", "ip5" ],
+      "rdfs:label" : {
+        "@language" : "en",
+        "@value" : "Top1"
+      }
+    }, {
+      "@id" : "prd:PR99NCUL01_Org4",
+      "@type" : "prd:Org",
+      "prd:allow" : "ip2",
+      "rdfs:label" : {
+        "@language" : "en",
+        "@value" : "Sub2"
+      }
+    } ],
     "prd:include" : {
       "@id" : "prd:PR99NCUL01"
     },
