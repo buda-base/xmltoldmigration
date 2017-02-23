@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
@@ -52,6 +54,7 @@ public class ProductMigration {
 				prop = m.getProperty(PRP+"include");
 				m.add(main, prop, included);
 			}
+			addAllows(m, main, current);
 			addOrgs(m, main, current);
 		}
 		
@@ -59,9 +62,9 @@ public class ProductMigration {
 	}
 	
 	public static void addOrgs(Model m, Resource r, Element e) {
-		NodeList nodeList = e.getElementsByTagNameNS(PRXSDNS, "org");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element current = (Element) nodeList.item(i);
+		List<Element> nodeList = CommonMigration.getChildrenByTagName(e, PRXSDNS, "org");
+		for (int i = 0; i < nodeList.size(); i++) {
+			Element current = (Element) nodeList.get(i);
 			addOrg(m, r, current, i);
 		}
 	}
@@ -75,15 +78,18 @@ public class ProductMigration {
 			m.add(org, RDFS.label, m.createLiteral(value, "en"));
 		}
 		m.add(r, m.getProperty(PRP+"hasOrg"), org);
-		// allow
-		NodeList nodeList = orgElement.getElementsByTagNameNS(PRXSDNS, "allow");
-		for (int j = 0; j < nodeList.getLength(); j++) {
-			Element current = (Element) nodeList.item(j);
-			value = current.getTextContent().trim();
-			m.add(org, m.getProperty(PRP+"allow"), m.createLiteral(value));
-		}
+		addAllows(m, org, orgElement);
 		// sub orgs
 		addOrgs(m, org, orgElement);
+	}
+	
+	public static void addAllows(Model m, Resource r, Element e) {
+		List<Element> nodeList = CommonMigration.getChildrenByTagName(e, PRXSDNS, "allow");
+		for (int j = 0; j < nodeList.size(); j++) {
+			Element current = nodeList.get(j);
+			String value = current.getTextContent().trim();
+			m.add(r, m.getProperty(PRP+"allow"), m.createLiteral(value));
+		}
 	}
 	
 }

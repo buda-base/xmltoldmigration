@@ -18,6 +18,7 @@
                 <product:allow>ip1</product:allow>
             </product:org>
         </product:org>
+        <product:allow>ip6</product:allow>
     </product:access>
     <product:log>
         <entry when="2014-09-22T19:39:47.382Z" who="Chris Tomlinson">added entry for NCCU Taiwan</entry>

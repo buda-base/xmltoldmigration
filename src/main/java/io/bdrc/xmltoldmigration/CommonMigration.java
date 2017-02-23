@@ -2,7 +2,9 @@ package io.bdrc.xmltoldmigration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -24,6 +26,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -420,4 +423,15 @@ public class CommonMigration  {
 		return vr.isValid();
 	}
 	
+	// like getElementsByTagNameNS but not recursive (strange DOM doesn't have that)
+	public static List<Element> getChildrenByTagName(Element parent, String xsdPrefix, String name) {
+	    List<Element> nodeList = new ArrayList<Element>();
+	    for (Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
+			if (child.getNodeType() == Node.ELEMENT_NODE&& name.equals(child.getLocalName())) {
+				nodeList.add((Element) child);
+			}
+		}
+	    return nodeList;
+	  }
+
 }
