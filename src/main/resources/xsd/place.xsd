@@ -158,7 +158,7 @@
                 depth of 4 levels - this constraint allows for a manageable GUI design.
             </xsd:documentation>
         </xsd:annotation>
-        <xsd:attribute name="rid" type="xsd:string">
+        <xsd:attribute name="rid" type="c:outlineRID" use="required">
             <xsd:annotation>
                 <xsd:documentation>
                     The rid attribute records the RID of the Taxonomy Outline for the Library's
