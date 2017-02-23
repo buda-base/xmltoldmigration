@@ -78,7 +78,7 @@
                             next. </xsd:documentation>
                     </xsd:annotation>
                 </xsd:attribute>
-                <xsd:attribute name="rid" type="plc:lineageTypeAttr">
+                <xsd:attribute name="rid" type="plc:affiliationRID">
                     <xsd:annotation>
                         <xsd:documentation> the rid attribute records the RID of the affilated
                             entity: Person, Taxonomy topic and so on. I suppose this could be a
@@ -88,6 +88,9 @@
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
+    <xsd:simpleType name="affiliationRID">
+		<xsd:union memberTypes="c:corporationRID c:officeRID plc:lineageTypeAttr"/>
+	</xsd:simpleType>
     <xsd:complexType name="GIS">
         <xsd:sequence>
             <xsd:element name="id" type="plc:GisId" minOccurs="0" maxOccurs="unbounded"/>
