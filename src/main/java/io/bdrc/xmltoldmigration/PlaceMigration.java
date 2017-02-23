@@ -218,6 +218,10 @@ public class PlaceMigration {
 			String name = CommonMigration.getSubResourceName(main, PLP, "Event", i+1);
 			Resource event = m.createResource(PLP + name);
 			m.add(event, RDF.type, m.getResource(PLP+value));
+			value = current.getAttribute("circa").trim();
+			if (!value.isEmpty()) {
+				m.add(event, m.createProperty(PLP+"event_circa"), m.createLiteral(value));
+			}
 			Property prop = m.getProperty(PLP+"hasEvent");
 			m.add(main, prop, event);
 			addAffiliations(m, current, event);

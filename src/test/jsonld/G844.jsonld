@@ -84,7 +84,8 @@
     },
     "plc:hasEvent" : [ {
       "@id" : "plc:http://purl.bdrc.io/ontology/place#G844_Event1",
-      "@type" : "plc:Founded"
+      "@type" : "plc:Founded",
+      "plc:event_circa" : "13uu/17uu"
     }, {
       "@id" : "plc:http://purl.bdrc.io/ontology/place#G844_Event2",
       "@type" : "plc:Founded",
@@ -101,6 +102,7 @@
       "plc:affiliatedWith_office" : {
         "@id" : "ofc:Rtest"
       },
+      "plc:event_circa" : "1187",
       "note" : {
         "@id" : "http://purl.bdrc.io/ontology/root/G844_Event2_Note1",
         "@type" : "Note",
