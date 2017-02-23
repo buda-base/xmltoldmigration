@@ -32,6 +32,7 @@ import openllet.core.exceptions.InternalReasonerException;
 public class CommonMigration  {
 
 	public static final String CORE_PREFIX = "http://onto.bdrc.io/ontologies/bdrc/";
+	public static final String DESCRIPTION_PREFIX = "http://onto.bdrc.io/ontology/description#";
 	public static final String ROOT_PREFIX = "http://purl.bdrc.io/ontology/root/";
 	public static final String COMMON_PREFIX = "http://purl.bdrc.io/ontology/common#";
 	public static final String CORPORATION_PREFIX = "http://purl.bdrc.io/ontology/coroporation#";
@@ -62,6 +63,7 @@ public class CommonMigration  {
 		m.setNsPrefix("rdf", RDF_PREFIX);
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
 		m.setNsPrefix("xsd", XSD_PREFIX);
+		m.setNsPrefix("desc", DESCRIPTION_PREFIX);
 	}
 	
 	public static String getJsonLDContext() {
@@ -80,7 +82,8 @@ public class CommonMigration  {
 			    +"\"top\" : \""+TOPIC_PREFIX+"\","
 			    +"\"rdf\" : \""+RDF_PREFIX+"\","
 			    +"\"wor\" : \""+WORK_PREFIX+"\","
-			    +"\"per\" : \""+PERSON_PREFIX+"\""
+			    +"\"per\" : \""+PERSON_PREFIX+"\","
+			    +"\"desc\" : \""+DESCRIPTION_PREFIX+"\""
 			    +"}";
 	}
 	
@@ -247,7 +250,9 @@ public class CommonMigration  {
 			Element current = (Element) nodeList.item(i);
 			String lang = getBCP47(current, "en");
 			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
-			Property prop = m.getProperty(ROOT_PREFIX+"description");
+			String type = current.getAttribute("type");
+			if (type.isEmpty()) type = "description";
+			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
 			m.add(r, prop, value);
 		}
 	}

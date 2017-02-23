@@ -1,52 +1,4 @@
 {
-  "@graph" : [ {
-    "@id" : "_:b0",
-    "@type" : "per:Seat",
-    "per:seat_place" : {
-      "@id" : "plc:G844"
-    }
-  }, {
-    "@id" : "_:b1",
-    "@type" : "Note",
-    "note_content" : "date of death from this source",
-    "note_location" : "p. 359",
-    "note_work" : {
-      "@id" : "wor:W20115"
-    }
-  }, {
-    "@id" : "_:b2",
-    "@type" : "per:Death",
-    "per:event_circa" : "1322"
-  }, {
-    "@id" : "per:P1331",
-    "@type" : "per:Person",
-    "per:event" : {
-      "@id" : "_:b2"
-    },
-    "per:gender" : "male",
-    "per:primaryName" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "blo gros rnam dag"
-    },
-    "per:primaryTitle" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "bya yul blo bzang rnam dag"
-    },
-    "per:seat" : {
-      "@id" : "_:b0"
-    },
-    "per:teacherOf" : {
-      "@id" : "per:P1323"
-    },
-    "note" : {
-      "@id" : "_:b1"
-    },
-    "status" : "released",
-    "rdfs:label" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "blo gros rnam dag"
-    }
-  } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/root/",
     "com" : "http://purl.bdrc.io/ontology/common#",
@@ -61,6 +13,49 @@
     "top" : "http://purl.bdrc.io/ontology/topic#",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#"
-  }
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  },
+  "@graph" : [ {
+    "@id" : "per:P1331",
+    "@type" : "per:Person",
+    "per:event" : {
+      "@id" : "per:P1331_Event1",
+      "@type" : "per:Death",
+      "per:event_circa" : "1322"
+    },
+    "per:gender" : "male",
+    "per:primaryName" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "blo gros rnam dag"
+    },
+    "per:primaryTitle" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "bya yul blo bzang rnam dag"
+    },
+    "per:seat" : {
+      "@id" : "_:b0",
+      "@type" : "per:Seat",
+      "per:seat_place" : {
+        "@id" : "plc:G844"
+      }
+    },
+    "per:teacherOf" : {
+      "@id" : "per:P1323"
+    },
+    "note" : {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1331_Note1",
+      "@type" : "Note",
+      "note_content" : "date of death from this source",
+      "note_location" : "p. 359",
+      "note_work" : {
+        "@id" : "wor:W20115"
+      }
+    },
+    "status" : "released",
+    "rdfs:label" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "blo gros rnam dag"
+    }
+  } ]
 }

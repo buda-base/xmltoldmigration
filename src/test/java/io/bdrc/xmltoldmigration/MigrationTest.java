@@ -63,9 +63,9 @@ public class MigrationTest
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
     	assertTrue(CommonMigration.documentValidates(d, placeValidator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
-    	//Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
-        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
     }
 	
@@ -76,7 +76,7 @@ public class MigrationTest
     	assertTrue(CommonMigration.documentValidates(d, lineageValidator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
     	//Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", true);
         //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
     }

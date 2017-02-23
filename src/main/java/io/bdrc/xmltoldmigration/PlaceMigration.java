@@ -81,11 +81,117 @@ public class PlaceMigration {
 		
 		addEvents(m, root, main);
 		
-		// remaining fields: gis, isLocatedIn, near, contains, address, tlm
+		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "gis");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			current = (Element) nodeList.item(i);
+			addGis(m, current, main);
+		}
+		
+		addSimpleObjectProp("isLocatedIn", m, main, root);
+		addSimpleObjectProp("near", m, main, root);
+		addSimpleObjectProp("contains", m, main, root);
+		
+		// address
+		nodeList = root.getElementsByTagNameNS(PLXSDNS, "address");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			current = (Element) nodeList.item(i);
+			value = CommonMigration.getSubResourceName(main, PLP, "Address");
+			Resource address = m.createResource(value);
+			m.add(address, RDF.type, m.createResource(PLP + "Address"));
+			m.add(main, m.getProperty(PLP+"hasAddress"), address);
+			addSimpleAttr(current.getAttribute("city"), "city", m, address);
+			addSimpleAttr(current.getAttribute("country"), "country", m, address);
+			addSimpleAttr(current.getAttribute("number"), "number", m, address);
+			addSimpleAttr(current.getAttribute("postal"), "postal", m, address);
+			addSimpleAttr(current.getAttribute("state"), "state", m, address);
+			addSimpleAttr(current.getAttribute("street"), "street", m, address);
+		}
+		
+		// tlm
+		nodeList = root.getElementsByTagNameNS(PLXSDNS, "tlm");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			current = (Element) nodeList.item(i);
+			addTlm(m, main, current);
+		}
 		
 		return m;
 	}
 
+	public static void addTlm(Model m, Resource main, Element tlmEl) {
+		addSimpleAttr(tlmEl.getAttribute("accession"), "hasTLM_accession", m, main);
+		addSimpleAttr(tlmEl.getAttribute("code"), "hasTLM_code", m, main);
+		addSimpleAttr(tlmEl.getAttribute("num"), "hasTLM_num", m, main);
+		NodeList nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "taxonomy");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element current = (Element) nodeList.item(i);
+			Resource tax = m.createResource(CommonMigration.OUTLINE_PREFIX+current.getAttribute("rid"));
+			m.add(main, m.getProperty(PLP+"hasTLM_taxonomy"), tax);
+		}
+		nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "groups");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element current = (Element) nodeList.item(i);
+			addSimpleAttr(current.getAttribute("admin"), "hasTLM_admin", m, main);
+			addSimpleAttr(current.getAttribute("adminEmail"), "hasTLM_adminEmail", m, main);
+			addSimpleAttr(current.getAttribute("librarian"), "hasTLM_librarian", m, main);
+			addSimpleAttr(current.getAttribute("librarianEmail"), "hasTLM_librarianEmail", m, main);
+		}
+	}
+	
+	public static void addSimpleAttr(String attrValue, String attrName, Model m, Resource r) {
+		if (attrValue.isEmpty()) return;
+		Property prop = m.getProperty(PLP+attrName);
+		m.add(r, prop, m.createLiteral(attrValue));
+	}
+	
+	public static void addSimpleObjectProp(String propName, Model m, Resource main, Element root) {
+		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, propName);
+		Property prop = m.getProperty(PLP+propName);
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element current = (Element) nodeList.item(i);
+			String value = current.getAttribute("place");
+			Resource sub = m.createResource(PLP+value);
+			m.add(main, prop, sub);
+		}
+	}
+	
+	public static void addGis(Model m, Element gis, Resource main) {
+		String name = CommonMigration.getSubResourceName(main, PLP, "Gis");
+		Resource gisResource = m.createResource(name);
+		m.add(main, m.getProperty(PLP+"hasGIS"), gisResource);
+		m.add(gisResource, RDF.type, m.createResource(PLP + "Gis"));
+		NodeList nodeList = gis.getElementsByTagNameNS(PLXSDNS, "id");
+		String value = null;
+		Property prop;
+		Literal l;
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element current = (Element) nodeList.item(i);
+			value = current.getAttribute("type");
+			prop = m.getProperty(PLP+value);
+			value = current.getAttribute("value").trim();
+			l = m.createLiteral(value);
+			m.add(gisResource, prop, l);
+		}
+		nodeList = gis.getElementsByTagNameNS(PLXSDNS, "coords");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element current = (Element) nodeList.item(i);
+			prop = m.getProperty(PLP+"lat");
+			value = current.getAttribute("lat").trim();
+			l = m.createLiteral(value);
+			m.add(gisResource, prop, l);
+			prop = m.getProperty(PLP+"long");
+			value = current.getAttribute("long").trim();
+			l = m.createLiteral(value);
+			m.add(gisResource, prop, l);
+			prop = m.getProperty(PLP+"accuracy");
+			value = current.getAttribute("accuracy").trim();
+			if(!value.isEmpty()) {
+				l = m.createLiteral(value);
+				m.add(gisResource, prop, l);
+			}
+		}
+		
+	}
+	
 	public static String getTypeStr(Element root) {
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
 		String value = null;
