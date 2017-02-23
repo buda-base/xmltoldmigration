@@ -1,0 +1,294 @@
+{
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work/",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  },
+  "@graph" : [ {
+    "@id" : "plc:G844",
+    "@type" : [ "plc:Place", "plc:RgyalPhran" ],
+    "desc:dist_py" : {
+      "@language" : "zh-x-pinyin",
+      "@value" : "Lhasa Shi"
+    },
+    "desc:gbdist" : {
+      "@language" : "en",
+      "@value" : "5401"
+    },
+    "desc:gonpaPer1000" : {
+      "@language" : "en",
+      "@value" : "7.514"
+    },
+    "desc:gonpaPerEcumen" : {
+      "@language" : "en",
+      "@value" : "7.51"
+    },
+    "desc:nameKR" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "tshal gung thang"
+    },
+    "desc:nameLex" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "tshal gung thang"
+    },
+    "desc:prov_py" : {
+      "@language" : "zh-x-pinyin",
+      "@value" : "Xizang"
+    },
+    "desc:town_ch" : {
+      "@language" : "zh",
+      "@value" : "蔡公堂乡"
+    },
+    "desc:town_syl" : {
+      "@language" : "zh-x-syx",
+      "@value" : "Cai Gong Tang Xiang"
+    },
+    "desc:who" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "test"
+    },
+    "plc:contains" : [ {
+      "@id" : "plc:G1183"
+    }, {
+      "@id" : "plc:G4885"
+    }, {
+      "@id" : "plc:G229"
+    }, {
+      "@id" : "plc:G2CN10883"
+    }, {
+      "@id" : "plc:G3JT12502"
+    }, {
+      "@id" : "plc:G3478"
+    } ],
+    "plc:hasAddress" : {
+      "@id" : "plc:G844_Address",
+      "@type" : "plc:Address",
+      "plc:city" : "Chauntra",
+      "plc:country" : "India",
+      "plc:number" : "མི་གསལ།",
+      "plc:postal" : "175032",
+      "plc:state" : "Himachal Pradesh",
+      "plc:street" : "Dzongsar Institute"
+    },
+    "plc:hasEvent" : [ {
+      "@id" : "plc:http://purl.bdrc.io/ontology/place#G844_Event1",
+      "@type" : "plc:Founded"
+    }, {
+      "@id" : "plc:http://purl.bdrc.io/ontology/place#G844_Event2",
+      "@type" : "plc:Founded",
+      "desc:who" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "test"
+      },
+      "plc:affiliatedWith_corporation" : {
+        "@id" : "crp:Ctest"
+      },
+      "plc:affiliatedWith_lineage" : {
+        "@id" : "out:O5TAX0035TAX002"
+      },
+      "plc:affiliatedWith_office" : {
+        "@id" : "ofc:Rtest"
+      },
+      "note" : {
+        "@id" : "http://purl.bdrc.io/ontology/root/G844_Event2_Note1",
+        "@type" : "Note",
+        "note_content" : "event note test",
+        "note_location" : "test",
+        "note_work" : {
+          "@id" : "wor:Wtest"
+        }
+      }
+    } ],
+    "plc:hasGIS" : {
+      "@id" : "plc:G844_Gis",
+      "@type" : "plc:Gis",
+      "plc:chgis_id" : "854",
+      "plc:fromLex" : "540102200:540101145",
+      "plc:fromTBRC" : "540102200:540101145",
+      "plc:lat" : "29.63984",
+      "plc:long" : "91.22002"
+    },
+    "plc:hasTLM_accession" : "004476",
+    "plc:hasTLM_admin" : "tgaAdmin",
+    "plc:hasTLM_adminEmail" : "xxx",
+    "plc:hasTLM_code" : "TGA",
+    "plc:hasTLM_librarian" : "tgaLibrarian",
+    "plc:hasTLM_librarianEmail" : "xxx",
+    "plc:hasTLM_num" : "003159",
+    "plc:hasTLM_taxonomy" : {
+      "@id" : "out:O1TLMXXX000011"
+    },
+    "plc:isLocatedIn" : {
+      "@id" : "plc:G843"
+    },
+    "log_entry" : [ {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-10-12T12:21:11.602Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b4",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added place contained"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-05-29T12:18:47.035Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Michael R. Sheehy"
+      }
+    }, {
+      "@id" : "_:b5",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name & note"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-02-19T14:10:50.715Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b6",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added byams pa chos gling gzhis ka'i par khang"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T10:28:55.426Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jigme Namgyal"
+      }
+    }, {
+      "@id" : "_:b7",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added location"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-01-06T14:22:58.026Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-12-11T17:39:05.287Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "msheehy"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added type & location & contains"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-04-01T09:36:07.005Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    } ],
+    "name" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "bya pa khri dpon gyi mnga' khongs"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bya yul"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bya pa'i yul"
+    } ],
+    "note" : [ {
+      "@id" : "http://purl.bdrc.io/ontology/root/G844_Note2",
+      "@type" : "Note",
+      "note_content" : "event note test",
+      "note_location" : "test",
+      "note_work" : {
+        "@id" : "wor:Wtest"
+      }
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/G844_Note1",
+      "@type" : "Note",
+      "note_content" : "the region of the rulers of the bya principality in southern tibet"
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/G844_Note3",
+      "@type" : "Note",
+      "note_content" : "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།",
+      "note_location" : "p.1467-1468",
+      "note_work" : {
+        "@id" : "wor:W26372"
+      }
+    } ],
+    "status" : "released",
+    "rdfs:label" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "bya yul"
+    }
+  } ]
+}
