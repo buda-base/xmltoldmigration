@@ -23,6 +23,7 @@ public class MigrationTest
 	Validator personValidator = null;
 	Validator placeValidator = null;
 	Validator lineageValidator = null;
+	Validator productValidator = null;
 	
 	@Before
 	public void init() {
@@ -30,6 +31,7 @@ public class MigrationTest
 		personValidator = MigrationHelpers.getValidatorFor("person");
 		placeValidator = MigrationHelpers.getValidatorFor("place");
 		lineageValidator = MigrationHelpers.getValidatorFor("lineage");
+		productValidator = MigrationHelpers.getValidatorFor("product");
 	}
 	
 	@Test
@@ -65,6 +67,18 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+    }
+	
+	@Test
+    public void testPR99NCUL01()
+    {
+    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/PR99NCUL01.xml");
+    	assertTrue(CommonMigration.documentValidates(d, productValidator));
+    	Model fromXml = MigrationHelpers.xmlToRdf(d, "product");
+    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/PR99NCUL01.jsonld");
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "product", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
     }

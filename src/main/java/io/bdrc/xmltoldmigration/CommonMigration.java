@@ -38,6 +38,7 @@ public class CommonMigration  {
 	public static final String CORPORATION_PREFIX = "http://purl.bdrc.io/ontology/coroporation#";
 	public static final String LINEAGE_PREFIX = "http://purl.bdrc.io/ontology/lineage#";
 	public static final String OFFICE_PREFIX = "http://purl.bdrc.io/ontology/office#";
+	public static final String PRODUCT_PREFIX = "http://purl.bdrc.io/ontology/product#";
 	public static final String OUTLINE_PREFIX = "http://purl.bdrc.io/ontology/outline#";
 	public static final String PERSON_PREFIX = "http://purl.bdrc.io/ontology/person#";
 	public static final String PLACE_PREFIX = "http://purl.bdrc.io/ontology/place#";
@@ -52,6 +53,7 @@ public class CommonMigration  {
 		m.setNsPrefix("com", COMMON_PREFIX);
 		m.setNsPrefix("", ROOT_PREFIX);
 		m.setNsPrefix("per", PERSON_PREFIX);
+		m.setNsPrefix("prd", PRODUCT_PREFIX);
 		m.setNsPrefix("wor", WORK_PREFIX);
 		m.setNsPrefix("out", OUTLINE_PREFIX);
 		m.setNsPrefix("plc", PLACE_PREFIX);
@@ -72,6 +74,7 @@ public class CommonMigration  {
 				//+"\"@language\" : \"en\"," // ?
 			    +"\"com\" : \""+COMMON_PREFIX+"\","
 			    +"\"crp\" : \""+CORPORATION_PREFIX+"\","
+			    +"\"prd\" : \""+PRODUCT_PREFIX+"\","
 			    +"\"owl\" : \""+OWL_PREFIX+"\","
 			    +"\"plc\" : \""+PLACE_PREFIX+"\","
 			    +"\"xsd\" : \""+XSD_PREFIX+"\","
@@ -244,8 +247,9 @@ public class CommonMigration  {
 		}
 	}
 	
-	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
+	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "description");
+		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			String lang = getBCP47(current, "en");
@@ -254,7 +258,16 @@ public class CommonMigration  {
 			if (type.isEmpty()) type = "description";
 			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
 			m.add(r, prop, value);
+			// for product, the name is the first description type="contents"
+			if (!labelGuessed && type == "contents") {
+				m.add(r, RDFS.label, value);
+				labelGuessed = true;
+			}
 		}
+	}
+	
+	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
+		addDescriptions(m, e, r, XsdPrefix, false);
 	}
 	
 	public static String getBCP47Suffix(String encoding) {

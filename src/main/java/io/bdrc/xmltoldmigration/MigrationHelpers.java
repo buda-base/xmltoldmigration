@@ -60,6 +60,7 @@ public class MigrationHelpers {
 		typeToRootShortUri.put("topic", "top:Topic");
 		typeToRootShortUri.put("lineage", "lin:Lineage");
 		typeToRootShortUri.put("corporation", "crp:Corporation");
+		typeToRootShortUri.put("product", "prd:Product");
 		typeToRootShortUri.put("office", "ofc:Office");
     }
 	
@@ -153,6 +154,9 @@ public class MigrationHelpers {
 			break;
 		case "place":
 			m = PlaceMigration.MigratePlace(d);
+			break;
+		case "product":
+			m = ProductMigration.MigrateProduct(d);
 			break;
 		case "lineage":
 			m = LineageMigration.MigrateLineage(d);

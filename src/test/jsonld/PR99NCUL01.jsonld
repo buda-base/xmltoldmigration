@@ -1,0 +1,118 @@
+{
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work/",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  },
+  "@graph" : [ {
+    "@id" : "prd:PR99NCUL01",
+    "@type" : "prd:Product",
+    "desc:contents" : {
+      "@language" : "en",
+      "@value" : "This or that"
+    },
+    "prd:hasAccess" : {
+      "@id" : "prd:PR99NCUL01_Access",
+      "@type" : "prd:Access",
+      "prd:hasOrg" : [ {
+        "@id" : "prd:PR99NCUL01_Access_Org5",
+        "@type" : "prd:Org",
+        "prd:allow" : "ip1",
+        "rdfs:label" : {
+          "@language" : "en",
+          "@value" : "Sub3"
+        }
+      }, {
+        "@id" : "prd:PR99NCUL01_Access_Org4",
+        "@type" : "prd:Org",
+        "prd:allow" : "ip2",
+        "rdfs:label" : {
+          "@language" : "en",
+          "@value" : "Sub2"
+        }
+      }, {
+        "@id" : "prd:PR99NCUL01_Access_Org3",
+        "@type" : "prd:Org",
+        "prd:allow" : "ip3",
+        "rdfs:label" : {
+          "@language" : "en",
+          "@value" : "Sub1"
+        }
+      }, {
+        "@id" : "prd:PR99NCUL01_Access_Org2",
+        "@type" : "prd:Org",
+        "prd:allow" : [ "ip1", "ip2", "ip3" ],
+        "prd:hasOrg" : [ {
+          "@id" : "prd:PR99NCUL01_Access_Org2_Org3",
+          "@type" : "prd:Org",
+          "prd:allow" : "ip1",
+          "rdfs:label" : {
+            "@language" : "en",
+            "@value" : "Sub3"
+          }
+        }, {
+          "@id" : "prd:PR99NCUL01_Access_Org2_Org2",
+          "@type" : "prd:Org",
+          "prd:allow" : "ip2",
+          "rdfs:label" : {
+            "@language" : "en",
+            "@value" : "Sub2"
+          }
+        }, {
+          "@id" : "prd:PR99NCUL01_Access_Org2_Org1",
+          "@type" : "prd:Org",
+          "prd:allow" : "ip3",
+          "rdfs:label" : {
+            "@language" : "en",
+            "@value" : "Sub1"
+          }
+        } ],
+        "rdfs:label" : {
+          "@language" : "en",
+          "@value" : "Top2"
+        }
+      }, {
+        "@id" : "prd:PR99NCUL01_Access_Org1",
+        "@type" : "prd:Org",
+        "prd:allow" : [ "ip4", "ip5" ],
+        "rdfs:label" : {
+          "@language" : "en",
+          "@value" : "Top1"
+        }
+      } ]
+    },
+    "prd:include" : {
+      "@id" : "prd:PR99NCUL01"
+    },
+    "prd:status" : "released",
+    "log_entry" : {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added entry for NCCU Taiwan"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-09-22T19:39:47.382Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chris Tomlinson"
+      }
+    }
+  } ]
+}

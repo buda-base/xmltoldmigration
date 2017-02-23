@@ -46,7 +46,7 @@
     </xsd:complexType>
     <xsd:complexType name="Allow">
         <xsd:simpleContent>
-            <xsd:extension base="xsd:string"/>           
+            <xsd:extension base="xsd:string"/>
         </xsd:simpleContent>
     </xsd:complexType>
 </xsd:schema>
