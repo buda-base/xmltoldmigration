@@ -29,7 +29,6 @@
             <xsd:element name="creator" type="work:Creator" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="location" type="c:Location" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="subject" type="c:Subject" minOccurs="0" maxOccurs="unbounded"/>
-            <xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="inProduct" type="work:InProduct" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="scanInfo" type="work:ScanInfo" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="catalogInfo" type="work:CatalogInfo" minOccurs="0" maxOccurs="unbounded"/>
@@ -63,7 +62,7 @@
                     This attribute should either be the Wylie or Unicode Tibetan description of
                     the edition such as "co ne" or "sde dge par phud"
                 </xsd:documentation>
-            </xsd:annotation>                        
+            </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="hasTexts" type="xsd:boolean" default="false"/>
     </xsd:complexType>

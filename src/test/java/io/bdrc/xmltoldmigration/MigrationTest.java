@@ -25,6 +25,7 @@ public class MigrationTest
 	Validator lineageValidator = null;
 	Validator productValidator = null;
 	Validator corporationValidator = null;
+	Validator workValidator = null;
 	
 	@Before
 	public void init() {
@@ -34,6 +35,7 @@ public class MigrationTest
 		lineageValidator = MigrationHelpers.getValidatorFor("lineage");
 		productValidator = MigrationHelpers.getValidatorFor("product");
 		corporationValidator = MigrationHelpers.getValidatorFor("corporation");
+		workValidator = MigrationHelpers.getValidatorFor("work");
 	}
 	
 	@Test
@@ -96,6 +98,18 @@ public class MigrationTest
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
     }
+	
+	   @Test
+	    public void testWork()
+	    {
+	        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/WorkTest.xml");  
+	        assertTrue(CommonMigration.documentValidates(d, workValidator));
+	        Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
+	        //Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/WorkTest.jsonld");
+	        MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", true);
+	        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+	        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+	    }
 
 	@Test
     public void testL8LS14115()

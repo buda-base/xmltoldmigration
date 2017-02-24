@@ -1,0 +1,32 @@
+<w:work xmlns:w="http://www.tbrc.org/models/work#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="W12837" status="released" xsi:schemaLocation="http://www.tbrc.org/models/work# http://www.tbrc-dlms.org/tbrc-defs/1/0/work.xsd">
+    <w:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">kun rig rnam bshad</w:title>
+    <w:title encoding="extendedWylie" lang="tibetan" type="otherTitle">bcom ldan 'das thams cad rig pa'i rnam bshad/_kun rig gi cho ga'i 'grel chen/_bcom ldan 'das thams cad rig pa'i dkyil 'khor cho ga'i rnam bshad legs bshad snying po</w:title>
+    <w:title encoding="extendedWylie" lang="tibetan" type="titlePageTitle">bcom ldan 'das thams cad rig pa'i rnam bshad</w:title>
+    <w:hasPubInfo info="MW12837"/>
+    <w:archiveInfo distribution="physical" restriction="none" status="scanned" vols="1" license="ccby" access="openAccess"/>
+    <w:info nodeType="publishedWork"/>
+    <w:creator person="P1591" type="hasMainAuthor">grags pa rgyal mtshan</w:creator>
+    <w:subject class="T976" type="isAboutDeity">kun rig</w:subject>
+    <w:subject class="T61" type="isInstanceOfGenre">rnam bshad</w:subject>
+    <w:inProduct pid="PR01UNRESTR">All Released and Unrestricted Works</w:inProduct>
+    <w:inProduct pid="PRHD03">TBRC Core Text Collection 3</w:inProduct>
+    <w:scanInfo>scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011
+2004</w:scanInfo>
+    <w:catalogInfo>Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa.</w:catalogInfo>
+    <w:volumeMap>
+        <w:volume imagegroup="I4158" num="1"/>
+    </w:volumeMap>
+    <w:note>tbrc holds digitally scanned images, tiffs and pdf files:
+4158
+
+other instances noted:
+175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;
+235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985..</w:note>
+    <w:log>
+        <entry when="2007-09-08T18:25:18.406Z" who="Gene Smith">cataloging reviewed</entry>
+        <entry when="2013-02-05T12:06:50.245Z" who="Jigme Namgyal">added print type and source printery</entry>
+        <entry when="2014-04-21T19:05:36.322-04:00" who="Jeff Wallman">normalized catalog info</entry>
+        <entry when="2014-05-17T07:18:37.731-04:00" who="Jeff Wallman">normalized catalog info</entry>
+    </w:log>
+</w:work>
+

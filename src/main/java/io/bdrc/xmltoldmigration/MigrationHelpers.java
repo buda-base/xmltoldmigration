@@ -164,6 +164,9 @@ public class MigrationHelpers {
 		case "lineage":
 			m = LineageMigration.MigrateLineage(d);
 			break;
+	     case "work":
+	            m = WorkMigration.MigrateWork(d);
+	            break;
 		default:
 			// arg
 			return m;
