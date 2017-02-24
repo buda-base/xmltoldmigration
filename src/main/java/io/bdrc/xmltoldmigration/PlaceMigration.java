@@ -184,6 +184,12 @@ public class PlaceMigration {
 				l = m.createLiteral(value);
 				m.add(main, prop, l);
 			}
+			prop = m.getProperty(PLP+"regionPoly");
+			value = current.getTextContent().trim();
+			if(!value.isEmpty()) {
+				l = m.createLiteral(value);
+				m.add(main, prop, l);
+			}
 		}
 		
 	}
