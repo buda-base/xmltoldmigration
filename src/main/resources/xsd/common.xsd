@@ -104,7 +104,7 @@ If the data attribute is present the web-client will use it to display a link th
 	<xsd:complexType name="Subject">
 		<xsd:simpleContent>
 			<xsd:extension base="xsd:string">
-				<xsd:attribute name="class" type="c:anyRID"/>
+				<xsd:attribute name="class" type="c:topicRID" use="required"/>
 				<xsd:attribute name="node" type="c:outlineNodeRID" use="optional"/>
 				<xsd:attribute name="type" type="c:usageTypeAttr"/>
 			</xsd:extension>

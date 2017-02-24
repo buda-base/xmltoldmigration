@@ -69,7 +69,7 @@
     <xsd:complexType name="Creator">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="person" type="c:personRID"/>
+                <xsd:attribute name="person" type="c:personRID" use="required"/>
                 <xsd:attribute name="type" type="c:creatorTypeAttr"/>
             </xsd:extension>
         </xsd:simpleContent>
@@ -102,7 +102,7 @@
     <xsd:complexType name="InProduct">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="pid" type="c:productRID"/>
+                <xsd:attribute name="pid" type="c:productRID" use="required"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>

@@ -61,6 +61,7 @@ public class MigrationHelpers {
 		typeToRootShortUri.put("lineage", "lin:Lineage");
 		typeToRootShortUri.put("corporation", "crp:Corporation");
 		typeToRootShortUri.put("product", "prd:Product");
+		typeToRootShortUri.put("volumes", "prd:Volumes");
 		typeToRootShortUri.put("office", "ofc:Office");
     }
 	

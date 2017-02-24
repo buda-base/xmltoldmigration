@@ -46,6 +46,7 @@ public class CommonMigration  {
 	public static final String PERSON_PREFIX = "http://purl.bdrc.io/ontology/person#";
 	public static final String PLACE_PREFIX = "http://purl.bdrc.io/ontology/place#";
 	public static final String TOPIC_PREFIX = "http://purl.bdrc.io/ontology/topic#";
+	public static final String VOLUMES_PREFIX = "http://purl.bdrc.io/ontology/volumes#";
 	public static final String WORK_PREFIX = "http://purl.bdrc.io/ontology/work/";
 	public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
 	public static final String RDF_PREFIX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
@@ -62,6 +63,7 @@ public class CommonMigration  {
 		m.setNsPrefix("plc", PLACE_PREFIX);
 		m.setNsPrefix("top", TOPIC_PREFIX);
 		m.setNsPrefix("lin", LINEAGE_PREFIX);
+		m.setNsPrefix("vol", VOLUMES_PREFIX);
 		m.setNsPrefix("crp", CORPORATION_PREFIX);
 		m.setNsPrefix("ofc", OFFICE_PREFIX);
 		m.setNsPrefix("owl", OWL_PREFIX);
@@ -89,6 +91,7 @@ public class CommonMigration  {
 			    +"\"rdf\" : \""+RDF_PREFIX+"\","
 			    +"\"wor\" : \""+WORK_PREFIX+"\","
 			    +"\"per\" : \""+PERSON_PREFIX+"\","
+			    +"\"vol\" : \""+VOLUMES_PREFIX+"\","
 			    +"\"desc\" : \""+DESCRIPTION_PREFIX+"\""
 			    +"}";
 	}

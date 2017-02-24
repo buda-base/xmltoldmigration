@@ -4,7 +4,7 @@
     <w:title encoding="extendedWylie" lang="tibetan" type="titlePageTitle">bcom ldan 'das thams cad rig pa'i rnam bshad</w:title>
     <w:hasPubInfo info="MW12837"/>
     <w:archiveInfo distribution="physical" restriction="none" status="scanned" vols="1" license="ccby" access="openAccess"/>
-    <w:info nodeType="publishedWork"/>
+    <w:info nodeType="publishedWork" parent="W12345" seriesType="monographic" number="2" numbered="true" edition="this is the edition"/>
     <w:creator person="P1591" type="hasMainAuthor">grags pa rgyal mtshan</w:creator>
     <w:subject class="T976" type="isAboutDeity">kun rig</w:subject>
     <w:subject class="T61" type="isInstanceOfGenre">rnam bshad</w:subject>
