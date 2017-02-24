@@ -56,10 +56,6 @@
       "@language" : "zh-x-syx",
       "@value" : "Cai Gong Tang Xiang"
     },
-    "desc:who" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "test"
-    },
     "plc:chgis_id" : "854",
     "plc:contains" : [ {
       "@id" : "plc:G1183"
@@ -133,67 +129,7 @@
     "plc:lat" : "29.63984",
     "plc:long" : "91.22002",
     "log_entry" : [ {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added type & location & contains"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-04-01T09:36:07.005Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b5",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added location"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-01-06T14:22:58.026Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b6",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-10-12T12:21:11.602Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b7",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -208,7 +144,22 @@
         "@value" : "Jigme Namgyal"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b4",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-12-11T17:39:05.287Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "msheehy"
+      }
+    }, {
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -223,7 +174,7 @@
         "@value" : "Michael R. Sheehy"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -238,19 +189,64 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+        "@value" : "added contain"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2012-12-11T17:39:05.287Z"
+        "@value" : "2012-10-12T12:21:11.602Z"
       },
       "log_who" : {
         "@language" : "en",
-        "@value" : "msheehy"
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b5",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added type & location & contains"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-04-01T09:36:07.005Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b6",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added location"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-01-06T14:22:58.026Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b7",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
       }
     } ],
     "name" : [ {
@@ -266,23 +262,15 @@
     "note" : [ {
       "@id" : "http://purl.bdrc.io/ontology/root/G844_Note2",
       "@type" : "Note",
-      "note_content" : "event note test",
-      "note_location" : "test",
-      "note_work" : {
-        "@id" : "wor:Wtest"
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/G844_Note1",
-      "@type" : "Note",
-      "note_content" : "the region of the rulers of the bya principality in southern tibet"
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/G844_Note3",
-      "@type" : "Note",
       "note_content" : "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།",
       "note_location" : "p.1467-1468",
       "note_work" : {
         "@id" : "wor:W26372"
       }
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/G844_Note1",
+      "@type" : "Note",
+      "note_content" : "the region of the rulers of the bya principality in southern tibet"
     } ],
     "status" : "released",
     "rdfs:label" : {

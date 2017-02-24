@@ -150,9 +150,10 @@ public class CommonMigration  {
 	}
 	
 	public static void addNotes(Model m, Element e, Resource r, String XsdPrefix) {
-		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "note");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			addNote(m, (Element) nodeList.item(i), r, i);
+		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "note");
+		for (int i = 0; i < nodeList.size(); i++) {
+			Element current = (Element) nodeList.get(i);
+			addNote(m, current, r, i);
 		}
 	}
 	
@@ -183,9 +184,10 @@ public class CommonMigration  {
 	}
 	
 	public static void addExternals(Model m, Element e, Resource r, String XsdPrefix) {
-		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "external");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			addExternal(m, (Element) nodeList.item(i), r, i);
+		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "external");
+		for (int i = 0; i < nodeList.size(); i++) {
+			Element current = (Element) nodeList.get(i);
+			addExternal(m, current, r, i);
 		}
 	}
 	
@@ -237,9 +239,9 @@ public class CommonMigration  {
 	}
 	
 	public static void addNames(Model m, Element e, Resource r, String XsdPrefix) {
-		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "name");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element current = (Element) nodeList.item(i);
+		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "name");
+		for (int i = 0; i < nodeList.size(); i++) {
+			Element current = (Element) nodeList.get(i);
 			String lang = getBCP47(current, "bo-x-ewts");
 			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
 			Property prop = m.getProperty(ROOT_PREFIX+"name");
@@ -251,10 +253,10 @@ public class CommonMigration  {
 	}
 	
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
-		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "description");
+		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
 		boolean labelGuessed = !guessLabel;
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element current = (Element) nodeList.item(i);
+		for (int i = 0; i < nodeList.size(); i++) {
+			Element current = (Element) nodeList.get(i);
 			String lang = getBCP47(current, "en");
 			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
 			String type = current.getAttribute("type");
