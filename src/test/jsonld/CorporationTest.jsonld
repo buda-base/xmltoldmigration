@@ -1,0 +1,74 @@
+{
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work/",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  },
+  "@graph" : [ {
+    "@id" : "crp:C11MS170",
+    "@type" : "crp:Corporation",
+    "desc:description" : {
+      "@language" : "en",
+      "@value" : "some description"
+    },
+    "crp:member" : {
+      "@id" : "per:P1856"
+    },
+    "crp:region" : {
+      "@id" : "plc:G934"
+    },
+    "crp:status" : "released",
+    "crp:unknown" : {
+      "@id" : "per:P1857"
+    },
+    "log_entry" : {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "created new corp."
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-10-23T10:26:04.725Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Michael Sheehy"
+      }
+    },
+    "name" : [ {
+      "@language" : "en-x-tbrc",
+      "@value" : "Dranka"
+    }, {
+      "@language" : "bo-x-tbrc",
+      "@value" : "bran ka"
+    } ],
+    "note" : [ {
+      "@id" : "http://purl.bdrc.io/ontology/root/C11MS170_Note2",
+      "@type" : "Note",
+      "note_content" : "associated w / 11th cent. master, P4CZ15480 ?"
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/C11MS170_Note1",
+      "@type" : "Note",
+      "note_content" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
+    } ],
+    "rdfs:label" : {
+      "@language" : "bo-x-tbrc",
+      "@value" : "bran ka"
+    }
+  } ]
+}

@@ -22,7 +22,7 @@
     <xsd:complexType name="Member">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="person" type="c:personRID"/>
+                <xsd:attribute name="person" type="c:personRID" use="required"/>
                 <xsd:attribute name="type" type="corp:memberTypeAttr"/>
             </xsd:extension>
         </xsd:simpleContent>

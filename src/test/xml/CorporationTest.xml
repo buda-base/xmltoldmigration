@@ -1,0 +1,14 @@
+<corporation:corporation xmlns:corporation="http://www.tbrc.org/models/corporation#" RID="C11MS170" status="released">
+    <corporation:name encoding="tbrcPhonetic" lang="tibetan">bran ka</corporation:name>
+    <corporation:name encoding="tbrcPhonetic" lang="english">Dranka</corporation:name>
+    <corporation:description>some description</corporation:description>
+    <corporation:member person="P1856">1127 1199/1200 </corporation:member>
+    <corporation:member person="P1857" type="unknown">1127 1199/1200 </corporation:member>
+    <corporation:region/>
+    <corporation:region endCirca="" place="G934">Something...</corporation:region>
+    <corporation:note>The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan. </corporation:note>
+    <corporation:note>associated w / 11th cent. master, P4CZ15480 ?</corporation:note>
+    <corporation:log>
+        <entry when="2014-10-23T10:26:04.725Z" who="Michael Sheehy">created new corp.</entry>
+    </corporation:log>
+</corporation:corporation>

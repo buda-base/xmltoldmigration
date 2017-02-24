@@ -149,6 +149,9 @@ public class MigrationHelpers {
 	public static Model xmlToRdf(Document d, String type) {
 		Model m = null;
 		switch (type) {
+		case "corporation":
+			m = CorporationMigration.MigrateCorporation(d);
+			break;
 		case "person":
 			m = PersonMigration.MigratePerson(d);
 			break;
