@@ -22,6 +22,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.reasoner.ValidityReport;
+import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
@@ -126,13 +127,25 @@ public class CommonMigration  {
 		return res;
 	}
 	
-	public static void addNote(Model m, Element e, Resource r, int i) {
+	public static void addNote(Model m, Element e, Resource r, int i, Property p, Literal l) {
+	    // some empty <note/> appear sometimes
+	    if (e.getAttribute("work").isEmpty() && e.getAttribute("location").isEmpty() && e.getTextContent().trim().isEmpty()) {
+	        return;
+	    }
 		String resourceName = getSubResourceName(r, ROOT_PREFIX, "Note", i+1);
 		Resource note = m.createResource(resourceName);
 		m.add(note, RDF.type, m.createProperty(ROOT_PREFIX+"Note"));
 		Property prop = m.createProperty(ROOT_PREFIX+"note");
 		Literal lit;
-		m.add(r, prop, note);
+		if (p == null) {
+		    m.add(r, prop, note);
+		} else {
+		    Resource axiom = m.createResource(OWL2.Axiom);
+		    axiom.addProperty(OWL2.annotatedSource, r);
+		    axiom.addProperty(OWL2.annotatedProperty, p);
+		    axiom.addProperty(OWL2.annotatedTarget, l);
+		    axiom.addLiteral(prop, note);
+		}
 		String value = e.getAttribute("work");
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"note_work");
@@ -156,8 +169,16 @@ public class CommonMigration  {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "note");
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			addNote(m, current, r, i);
+			addNote(m, current, r, i, null, null);
 		}
+	}
+	
+	public static void addNotes(Model m, Element e, Resource r, Property p, Literal l, String XsdPrefix) {
+	    List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "note");
+        for (int i = 0; i < nodeList.size(); i++) {
+            Element current = (Element) nodeList.get(i);
+            addNote(m, current, r, i, p, l);
+        }
 	}
 	
 	public static void addExternal(Model m, Element e, Resource r, int i) {
@@ -276,6 +297,18 @@ public class CommonMigration  {
 	
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
 		addDescriptions(m, e, r, XsdPrefix, false);
+	}
+	
+	public static String getPrefixFromRID(String rid) {
+	    // warning: should be made more reliable
+	    if (rid.startsWith("W")) return WORK_PREFIX;
+	    if (rid.startsWith("T")) return TOPIC_PREFIX;
+	    if (rid.startsWith("P")) return PERSON_PREFIX;
+	    if (rid.startsWith("G")) return PLACE_PREFIX;
+	    if (rid.startsWith("R")) return OFFICE_PREFIX;
+	    if (rid.startsWith("L")) return LINEAGE_PREFIX;
+	    System.err.println("cannot infer prefix from RID "+rid);
+	    return null;
 	}
 	
 	public static String getBCP47Suffix(String encoding) {

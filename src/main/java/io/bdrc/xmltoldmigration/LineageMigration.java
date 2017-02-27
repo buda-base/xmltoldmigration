@@ -37,12 +37,10 @@ public class LineageMigration {
 		
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
+		
 		CommonMigration.addNames(m, root, main, LXSDNS);
-		
 		CommonMigration.addNotes(m, root, main, LXSDNS);
-		
 		CommonMigration.addExternals(m, root, main, LXSDNS);
-		
 		CommonMigration.addLog(m, root, main, LXSDNS);
 		
 		// remaining fields: gis, event, isLocatedIn, near, contains, address, tlm, description

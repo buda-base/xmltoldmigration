@@ -21,6 +21,7 @@ public class WorkMigration {
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String PRP = CommonMigration.PRODUCT_PREFIX;
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
+	private static final String VP = CommonMigration.VOLUMES_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String WXSDNS = "http://www.tbrc.org/models/work#";
 	
@@ -37,9 +38,9 @@ public class WorkMigration {
 		String value = null;
 		Literal lit = null;
 		
-		//CommonMigration.addNotes(m, root, main, WXSDNS);
-	    //CommonMigration.addExternals(m, root, main, WXSDNS);
-	    //CommonMigration.addLog(m, root, main, WXSDNS);
+		CommonMigration.addNotes(m, root, main, WXSDNS);
+	    CommonMigration.addExternals(m, root, main, WXSDNS);
+	    CommonMigration.addLog(m, root, main, WXSDNS);
 		
 		// titles
 		
@@ -48,7 +49,7 @@ public class WorkMigration {
 			current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
 			if (value.isEmpty()) {
-			    value = "title"; // ?
+			    value = "bibliographicalTitle";
 			}
 			prop = m.getProperty(PP, value);
 	        lang = CommonMigration.getBCP47(current, "bo-x-ewts");
@@ -92,11 +93,6 @@ public class WorkMigration {
                     m.add(main, prop, lit);
                 }
             } catch (NumberFormatException e) {}
-            
-            // TODO: handle restriction and distribution?
-            // ?
-            CommonMigration.addNotes(m, current, main, WXSDNS);
-            
         }
 
         // info
@@ -118,8 +114,6 @@ public class WorkMigration {
                 prop = m.getProperty(WP+"info_parent");
                 m.add(main, prop, m.createResource(WP+value));
             }
-            // TODO: handle parent?
-            CommonMigration.addNotes(m, current, main, WXSDNS);
         }
         
         // creator
@@ -129,14 +123,12 @@ public class WorkMigration {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("type");
             if (value.isEmpty()) {
-                value = "hasCreator"; // ?
+                value = "hasMainAuthor";
             }
             prop = m.createProperty(WP+value);
             value = current.getAttribute("person"); // required
             m.add(main, prop, m.createResource(PP+value));
         }
-        
-        // TODO: subject
         
         // inProduct
         
@@ -164,6 +156,20 @@ public class WorkMigration {
             current = (Element) nodeList.item(i);
             value = current.getTextContent();
             m.add(main, m.getProperty(WP+"scanInfo"), m.createLiteral(value, "en"));
+        }
+        
+        // subject
+        
+        nodeList = root.getElementsByTagNameNS(WXSDNS, "subject");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            current = (Element) nodeList.item(i);
+            value = current.getAttribute("type");
+            if (value.isEmpty()) {
+                value = "subjectObjectProperty"; // TODO?
+            }
+            prop = m.getProperty(RP, "subject_"+value);
+            value = current.getAttribute("class").trim();
+            m.add(main, prop, m.createResource(TP+value));
         }
         
         // TODO: volumeMap, hasPubInfo
