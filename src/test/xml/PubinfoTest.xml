@@ -1,0 +1,19 @@
+<mw:pubinfo xmlns:mw="http://www.tbrc.org/models/pubinfo#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="MW12837" status="released" xsi:schemaLocation="http://www.tbrc.org/models/pubinfo# http://www.tbrc-dlms.org/tbrc-defs/1/0/pubinfo.xsd">
+    <mw:isPubInfoFor work="W12837"/>
+    <mw:publisherName>[zhol par khang]</mw:publisherName>
+    <mw:publisherLocation>[lha sa]</mw:publisherLocation>
+    <mw:publisherDate>[2000?]</mw:publisherDate>
+    <mw:printType type="blockprint"/>
+    <mw:sourcePrintery place="G1PD129184">zhol bka' 'gyur par khang / </mw:sourcePrintery>
+    <mw:authorshipStatement>'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan</mw:authorshipStatement>
+    <mw:encoding>In Tibetan</mw:encoding>
+    <mw:extent>177 ff.</mw:extent>
+    <mw:hollis>014254679</mw:hollis>
+    <mw:tbrcHoldings>1</mw:tbrcHoldings>
+    <mw:biblioNote>print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta</mw:biblioNote>
+    <mw:log>
+        <entry when="2013-02-05T12:06:57.572Z" who="Jigme Namgyal">added print type and source printery</entry>
+        <entry when="2014-04-21T20:30:13.577-04:00" who="Jeff Wallman">normalize encoding field for pub info</entry>
+        <entry when="2015-01-05T12:22:13.356-05:00" who="Code Ferret">added hollis field to pub info</entry>
+    </mw:log>
+</mw:pubinfo>

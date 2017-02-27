@@ -162,6 +162,9 @@ public class MigrationHelpers {
 		case "product":
 			m = ProductMigration.MigrateProduct(d);
 			break;
+		case "pubinfo":
+            m = PubinfoMigration.MigratePubinfo(d);
+            break;
 		case "lineage":
 			m = LineageMigration.MigrateLineage(d);
 			break;

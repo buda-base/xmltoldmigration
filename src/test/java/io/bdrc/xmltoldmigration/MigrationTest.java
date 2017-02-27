@@ -29,6 +29,7 @@ public class MigrationTest
 	Validator officeValidator = null;
 	Validator topicValidator = null;
 	Validator outlineValidator = null;
+	Validator pubinfoValidator = null;
 	
 	@Before
 	public void init() {
@@ -42,6 +43,7 @@ public class MigrationTest
 		officeValidator = MigrationHelpers.getValidatorFor("office");
 		topicValidator = MigrationHelpers.getValidatorFor("topic");
 		outlineValidator = MigrationHelpers.getValidatorFor("outline");
+		pubinfoValidator = MigrationHelpers.getValidatorFor("pubinfo");
 	}
 	
 	@Test
@@ -124,8 +126,20 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, outlineValidator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+       }
+       
+       @Test
+       public void testPubinfo()
+       {
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/PubinfoTest.xml");  
+           //assertTrue(CommonMigration.documentValidates(d, pubinfoValidator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "pubinfo");
+           //Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/PubinfoTest.jsonld");
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "pubinfo", false);
+           //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
        }
 	   
