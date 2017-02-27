@@ -1,5 +1,7 @@
 package io.bdrc.xmltoldmigration;
 
+import java.util.List;
+
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
@@ -42,27 +44,12 @@ public class WorkMigration {
 	    CommonMigration.addExternals(m, root, main, WXSDNS);
 	    CommonMigration.addLog(m, root, main, WXSDNS);
 		
-		// titles
-		
-		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "title");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			current = (Element) nodeList.item(i);
-			value = current.getAttribute("type");
-			if (value.isEmpty()) {
-			    value = "bibliographicalTitle";
-			}
-			prop = m.getProperty(PP, value);
-	        lang = CommonMigration.getBCP47(current, "bo-x-ewts");
-            lit = m.createLiteral(current.getTextContent().trim(), lang);
-			m.add(main, prop, lit);
-			if (i == 0) {
-				CommonMigration.addLabel(m, main, lit);
-			}
-		}
+	    CommonMigration.addTitles(m, main, root, WXSDNS, true);
+	    CommonMigration.addSubjects(m, main, root, WXSDNS);
 		
 		// archiveInfo
 		
-		nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
+		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("license");
@@ -156,20 +143,6 @@ public class WorkMigration {
             current = (Element) nodeList.item(i);
             value = current.getTextContent();
             m.add(main, m.getProperty(WP+"scanInfo"), m.createLiteral(value, "en"));
-        }
-        
-        // subject
-        
-        nodeList = root.getElementsByTagNameNS(WXSDNS, "subject");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            current = (Element) nodeList.item(i);
-            value = current.getAttribute("type");
-            if (value.isEmpty()) {
-                value = "subjectObjectProperty"; // TODO?
-            }
-            prop = m.getProperty(RP, "subject_"+value);
-            value = current.getAttribute("class").trim();
-            m.add(main, prop, m.createResource(TP+value));
         }
         
         // TODO: volumeMap, hasPubInfo

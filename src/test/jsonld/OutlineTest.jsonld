@@ -1,0 +1,199 @@
+{
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work/",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  },
+  "@graph" : [ {
+    "@id" : "out:O2DB87572",
+    "@type" : [ "out:Outline", "out:partialCollectedWorks" ],
+    "out:hasNode" : [ {
+      "@id" : "out:O2DB875722DB87583",
+      "@type" : "out:Class",
+      "out:hasNode" : {
+        "@id" : "out:O2DB875722DB875732DB87599",
+        "@type" : "out:Class",
+        "desc:location" : {
+          "@language" : "en",
+          "@value" : "p. 1 (1st group)"
+        },
+        "out:location" : [ {
+          "@id" : "wor:O2DB875722DB875732DB87599_Location2",
+          "@type" : "wor:LocationByPage",
+          "wor:page" : "18",
+          "wor:volume" : "2",
+          "wor:work" : {
+            "@id" : "wor:W30020"
+          }
+        }, {
+          "@id" : "wor:O2DB875722DB875732DB87599_Location1",
+          "@type" : "wor:LocationByPage",
+          "wor:page" : "11",
+          "wor:volume" : "2",
+          "wor:work" : {
+            "@id" : "wor:W30020"
+          }
+        } ],
+        "wor:bibliographicalTitle" : {
+          "@language" : "bo-x-ewts",
+          "@value" : "gleng gzhi/"
+        }
+      },
+      "out:location" : {
+        "@id" : "wor:O2DB875722DB87583_Location1",
+        "@type" : "wor:LocationByPage",
+        "wor:volume" : "2",
+        "wor:work" : {
+          "@id" : "wor:W30020"
+        }
+      },
+      "out:node_class" : {
+        "@id" : "top:T977"
+      },
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "2 (smad cha)"
+      }
+    }, {
+      "@id" : "out:O2DB875722DB87582",
+      "@type" : "out:Volume",
+      "out:browser_class" : "WritingsClassBrowser",
+      "out:browser_module" : "global-search",
+      "out:browser_params" : "PR01DOR0,250",
+      "out:hasNode" : {
+        "@id" : "out:O2DB875722DB87573",
+        "@type" : "out:Text",
+        "desc:location" : {
+          "@language" : "en",
+          "@value" : "p. 1 (1st group)"
+        },
+        "out:location" : [ {
+          "@id" : "wor:O2DB875722DB87573_Location2",
+          "@type" : "wor:LocationByPage",
+          "wor:page" : "18",
+          "wor:volume" : "1",
+          "wor:work" : {
+            "@id" : "wor:W30020"
+          }
+        }, {
+          "@id" : "wor:O2DB875722DB87573_Location1",
+          "@type" : "wor:LocationByPage",
+          "wor:page" : "11",
+          "wor:volume" : "1",
+          "wor:work" : {
+            "@id" : "wor:W30020"
+          }
+        } ],
+        "wor:bibliographicalTitle" : {
+          "@language" : "bo-x-ewts",
+          "@value" : "gleng gzhi/"
+        }
+      },
+      "out:hasSite" : {
+        "@id" : "out:O2DB875722DB87582_Site",
+        "@type" : "out:SiteVolume",
+        "out:site_circa" : "1235",
+        "out:site_place" : {
+          "@id" : "plc:G4449"
+        }
+      },
+      "out:location" : {
+        "@id" : "wor:O2DB875722DB87582_Location1",
+        "@type" : "wor:LocationByPage",
+        "wor:volume" : "1",
+        "wor:work" : {
+          "@id" : "wor:W30020"
+        }
+      },
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "1 (stod cha)"
+      },
+      "subject_isInstanceOfGenre" : {
+        "@id" : "top:T208"
+      }
+    } ],
+    "out:isOutlineOf" : {
+      "@id" : "wor:W30020"
+    },
+    "out:location" : {
+      "@id" : "wor:O2DB87572_Location1",
+      "@type" : "wor:LocationByPage",
+      "wor:work" : {
+        "@id" : "wor:W30020"
+      }
+    },
+    "out:pagination" : "absolute",
+    "out:status" : "released",
+    "out:viewIn_label" : "rituals",
+    "out:viewIn_list" : "subjects",
+    "out:webAccess" : "notAvailable",
+    "log_entry" : [ {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-09-15T14:51:25.708Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Bumu Dega"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "vol. 1 outline images fixed"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-10-03T14:40:05.896Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "zhu dag byas"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-12-28T10:00:20.456Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "paldor"
+      }
+    } ],
+    "name" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "mngon pa"
+    } ],
+    "rdfs:label" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
+    }
+  } ]
+}

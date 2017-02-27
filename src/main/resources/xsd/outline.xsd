@@ -243,7 +243,7 @@
         </xsd:annotation>
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="type" type="out:outlineTypeAttr" use="required"/>
+                <xsd:attribute name="type" type="out:outlineTypeAttr"/>
                 <xsd:attribute name="work" type="c:workRID"/>
             </xsd:extension>
         </xsd:simpleContent>

@@ -262,19 +262,24 @@ public class CommonMigration  {
 		}
 	}
 	
-	public static void addNames(Model m, Element e, Resource r, String XsdPrefix) {
+	public static void addNames(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "name");
+		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			String lang = getBCP47(current, "bo-x-ewts");
 			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
 			Property prop = m.getProperty(ROOT_PREFIX+"name");
 			m.add(r, prop, value);
-			if (i == 0) {
+			if (!labelGuessed && i == 0) {
 				addLabel(m, r, value);
 			}
 		}
 	}
+	
+   public static void addNames(Model m, Element e, Resource r, String XsdPrefix) {
+       addNames(m, e, r, XsdPrefix, true);
+    }
 	
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
@@ -298,6 +303,75 @@ public class CommonMigration  {
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
 		addDescriptions(m, e, r, XsdPrefix, false);
 	}
+	
+       public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel) {
+            List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
+            boolean labelGuessed = !guessLabel;
+            for (int i = 0; i < nodeList.size(); i++) {
+                Element current = (Element) nodeList.get(i);
+                String value = current.getAttribute("type");
+                if (value.isEmpty()) {
+                    value = "bibliographicalTitle";
+                }
+                String lang = getBCP47(current, "bo-x-ewts");
+                Literal lit = m.createLiteral(current.getTextContent().trim(), lang);
+                m.add(main, m.getProperty(WORK_PREFIX, value), lit);
+                if (i == 0 && !labelGuessed) {
+                    CommonMigration.addLabel(m, main, lit);
+                }
+            }
+        }
+       
+       public static void addSubjects(Model m, Resource main, Element root, String XsdPrefix) {
+           List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "subject");
+           for (int i = 0; i < nodeList.size(); i++) {
+               Element current = (Element) nodeList.get(i);
+               String value = current.getAttribute("type");
+               if (value.isEmpty()) {
+                   value = "subjectObjectProperty"; // TODO?
+               }
+               Property prop = m.getProperty(ROOT_PREFIX, "subject_"+value);
+               value = current.getAttribute("class").trim();
+               m.add(main, prop, m.createResource(TOPIC_PREFIX+value));
+           }
+       }
+       
+       public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname) {
+           List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
+           for (int i = 0; i < nodeList.size(); i++) {
+               Element current = (Element) nodeList.get(i);
+               
+               String value = getSubResourceName(main, WORK_PREFIX, "Location", i+1);
+               Resource loc = m.createResource(value);
+               
+               value = current.getAttribute("type");
+               if (value.isEmpty()) value = "page";
+               value = value.equals("page") ? "LocationByPage" : "LocationByFolio";
+               m.add(loc, RDF.type, m.createResource(WORK_PREFIX+value));
+               
+               m.add(main, m.getProperty(propname), loc);
+               
+               value = current.getAttribute("work");
+               if (!value.isEmpty())
+                   m.add(loc, m.getProperty(WORK_PREFIX, "work"), m.createResource(WORK_PREFIX+value));
+               
+               value = current.getAttribute("vol");
+               if (!value.isEmpty())
+                   m.add(loc, m.getProperty(WORK_PREFIX, "volume"), m.createLiteral(value));
+               
+               value = current.getAttribute("page");
+               if (!value.isEmpty())
+                   m.add(loc, m.getProperty(WORK_PREFIX, "page"), m.createLiteral(value));
+               
+               value = current.getAttribute("side");
+               if (!value.isEmpty())
+                   m.add(loc, m.getProperty(WORK_PREFIX, "side"), m.createLiteral(value));
+               
+               value = current.getAttribute("phrase");
+               if (!value.isEmpty())
+                   m.add(loc, m.getProperty(WORK_PREFIX, "phrase"), m.createLiteral(value));
+           }
+       }
 	
 	public static String getPrefixFromRID(String rid) {
 	    // warning: should be made more reliable
