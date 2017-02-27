@@ -28,6 +28,7 @@ public class MigrationTest
 	Validator workValidator = null;
 	Validator officeValidator = null;
 	Validator topicValidator = null;
+	Validator outlineValidator = null;
 	
 	@Before
 	public void init() {
@@ -40,6 +41,7 @@ public class MigrationTest
 		workValidator = MigrationHelpers.getValidatorFor("work");
 		officeValidator = MigrationHelpers.getValidatorFor("office");
 		topicValidator = MigrationHelpers.getValidatorFor("topic");
+		outlineValidator = MigrationHelpers.getValidatorFor("outline");
 	}
 	
 	@Test
@@ -114,6 +116,18 @@ public class MigrationTest
 	        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
 	        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
 	    }
+	   
+       @Test
+       public void testOutline()
+       {
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/OutlineTest.xml");  
+           assertTrue(CommonMigration.documentValidates(d, outlineValidator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
+           //Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
+           //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+       }
 	   
        @Test
        public void testOffice()

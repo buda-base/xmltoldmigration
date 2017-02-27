@@ -168,10 +168,13 @@ public class MigrationHelpers {
         case "office":
             m = OfficeMigration.MigrateOffice(d);
             break;
+        case "outline":
+            m = OutlineMigration.MigrateOutline(d);
+            break;
         case "topic":
             m = TopicMigration.MigrateTopic(d);
             break;
-	     case "work":
+	    case "work":
 	        m = WorkMigration.MigrateWork(d);
 	        break;
 		default:

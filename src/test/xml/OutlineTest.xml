@@ -1,0 +1,32 @@
+<outline:outline xmlns:outline="http://www.tbrc.org/models/outline#" RID="O2DB87572" pagination="absolute" status="released" webAccess="notAvailable">
+    <outline:name>bka' brgyud pa'i gsung rab dpe tshogs las mngon pa </outline:name>
+    <outline:name>mngon pa </outline:name>
+    <outline:isOutlineOf work="W30020">mngon pa </outline:isOutlineOf>
+    <outline:location work="W30020"/>
+    <outline:creator type="hasScribe">Bumu Dega; outlined with the gracious support of the khyentse foundation</outline:creator>
+    <outline:node RID="O2DB875722DB87582" type="volume">
+        <outline:name encoding="extendedWylie" lang="tibetan">1 (stod cha)</outline:name>
+        <outline:location vol="1" work="W30020"/>
+        <outline:node RID="O2DB875722DB87573" type="text">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi/</outline:title>
+            <outline:location page="11" vol="1" work="W30020"/>
+            <outline:location page="18" vol="1" work="W30020"/>
+            <outline:description encoding="native" lang="english" type="location">p. 1 (1st group)</outline:description>
+        </outline:node>
+    </outline:node>
+    <outline:node RID="O2DB875722DB87583" type="volume">
+        <outline:name encoding="extendedWylie" lang="tibetan">2 (smad cha)</outline:name>
+        <outline:location vol="2" work="W30020"/>
+        <outline:node RID="O2DB875722DB875732DB87599" type="text">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi/</outline:title>
+            <outline:location page="11" vol="2" work="W30020"/>
+            <outline:location page="18" vol="2" work="W30020"/>
+            <outline:description encoding="native" lang="english" type="location">p. 1 (1st group)</outline:description>
+        </outline:node>
+    </outline:node>
+    <outline:log>
+        <entry when="2009-09-15T14:51:25.708Z" who="Bumu Dega"/>
+        <entry when="2009-12-28T10:00:20.456Z" who="paldor">zhu dag byas</entry>
+        <entry when="2014-10-03T14:40:05.896Z" who="Lobsang Shastri">vol. 1 outline images fixed</entry>
+    </outline:log>
+</outline:outline>
