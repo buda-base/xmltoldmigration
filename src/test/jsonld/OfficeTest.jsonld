@@ -19,57 +19,50 @@
     "desc" : "http://onto.bdrc.io/ontology/description#"
   },
   "@graph" : [ {
-    "@id" : "crp:C11MS170",
-    "@type" : "crp:Corporation",
-    "desc:contents" : {
+    "@id" : "ofc:R8LS12811",
+    "@type" : "ofc:Office",
+    "desc:contents" : [ {
       "@language" : "en",
-      "@value" : "some description"
-    },
-    "crp:member" : {
-      "@id" : "per:P1856"
-    },
-    "crp:region" : {
-      "@id" : "plc:G934"
-    },
-    "crp:status" : "released",
-    "crp:unknown" : {
-      "@id" : "per:P1857"
-    },
-    "log_entry" : {
-      "@id" : "_:b0",
+      "@value" : "Bonpo Lung Lama Tulku Line"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bon po lung bla ma'i skye brgyud/"
+    } ],
+    "ofc:status" : "released",
+    "log_entry" : [ {
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "created new corp."
+        "@value" : "added phonetic title"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-10-23T10:26:04.725Z"
+        "@value" : "2014-07-11T12:26:57.845Z"
       },
       "log_who" : {
         "@language" : "en",
         "@value" : "Michael Sheehy"
       }
-    },
-    "name" : [ {
-      "@language" : "en-x-tbrc",
-      "@value" : "Dranka"
     }, {
-      "@language" : "bo-x-tbrc",
-      "@value" : "bran ka"
-    } ],
-    "note" : [ {
-      "@id" : "http://purl.bdrc.io/ontology/root/C11MS170_Note2",
-      "@type" : "Note",
-      "note_content" : "associated w / 11th cent. master, P4CZ15480 ?"
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/C11MS170_Note1",
-      "@type" : "Note",
-      "note_content" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "created new office"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-12-20T16:34:48.895Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
     } ],
     "rdfs:label" : {
-      "@language" : "bo-x-tbrc",
-      "@value" : "bran ka"
+      "@language" : "bo-x-ewts",
+      "@value" : "bon po lung bla ma'i skye brgyud/"
     }
   } ]
 }

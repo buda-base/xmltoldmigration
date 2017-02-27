@@ -42,7 +42,7 @@ public class CorporationMigration {
 		
 		CommonMigration.addLog(m, root, main, CXSDNS);
 		
-		CommonMigration.addDescriptions(m, root, main, CXSDNS, true);
+		CommonMigration.addDescriptions(m, root, main, CXSDNS);
 		
 		// members
 		

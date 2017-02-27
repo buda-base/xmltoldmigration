@@ -284,11 +284,11 @@ public class CommonMigration  {
 			String lang = getBCP47(current, "en");
 			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
 			String type = current.getAttribute("type");
-			if (type.isEmpty()) type = "description";
+			if (type.isEmpty()) type = "contents";
 			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
 			m.add(r, prop, value);
-			// for product, the name is the first description type="contents"
-			if (!labelGuessed && type == "contents") {
+			// for product and office the name is the first description type="contents"
+			if (!labelGuessed && type.equals("contents")) {
 				m.add(r, RDFS.label, value);
 				labelGuessed = true;
 			}
@@ -431,7 +431,7 @@ public class CommonMigration  {
         catch (SAXException ex) {
             System.err.println("Document is not valid because:");
             System.err.println(ex.getMessage());
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return false;
         } catch (IOException e) {
         	System.err.println("IO problem:");

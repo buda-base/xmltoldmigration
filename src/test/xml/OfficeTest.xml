@@ -1,0 +1,8 @@
+<office:office xmlns:office="http://www.tbrc.org/models/office#" RID="R8LS12811" status="released">
+    <office:description encoding="extendedWylie" lang="tibetan" type="contents">bon po lung bla ma'i skye brgyud/</office:description>
+    <office:description encoding="native" lang="english" type="contents">Bonpo Lung Lama Tulku Line</office:description>
+    <office:log>
+        <entry when="2012-12-20T16:34:48.895Z" who="Lobsang Shastri">created new office</entry>
+        <entry when="2014-07-11T12:26:57.845Z" who="Michael Sheehy">added phonetic title</entry>
+    </office:log>
+</office:office>

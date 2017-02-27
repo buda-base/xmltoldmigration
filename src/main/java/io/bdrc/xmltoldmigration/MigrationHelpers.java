@@ -165,6 +165,9 @@ public class MigrationHelpers {
 		case "lineage":
 			m = LineageMigration.MigrateLineage(d);
 			break;
+        case "office":
+            m = OfficeMigration.MigrateOffice(d);
+            break;
 	     case "work":
 	            m = WorkMigration.MigrateWork(d);
 	            break;
