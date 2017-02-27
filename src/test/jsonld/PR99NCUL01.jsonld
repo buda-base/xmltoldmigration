@@ -15,6 +15,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "wor" : "http://purl.bdrc.io/ontology/work/",
     "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
     "desc" : "http://onto.bdrc.io/ontology/description#"
   },
   "@graph" : [ {
@@ -32,7 +33,7 @@
         "@id" : "prd:PR99NCUL01_Org2_Org3",
         "@type" : "prd:Org",
         "prd:allow" : "ip1",
-        "rdfs:label" : {
+        "prd:org_name" : {
           "@language" : "en",
           "@value" : "Sub3"
         }
@@ -40,7 +41,7 @@
         "@id" : "prd:PR99NCUL01_Org2_Org2",
         "@type" : "prd:Org",
         "prd:allow" : "ip2",
-        "rdfs:label" : {
+        "prd:org_name" : {
           "@language" : "en",
           "@value" : "Sub2"
         }
@@ -48,12 +49,12 @@
         "@id" : "prd:PR99NCUL01_Org2_Org1",
         "@type" : "prd:Org",
         "prd:allow" : "ip3",
-        "rdfs:label" : {
+        "prd:org_name" : {
           "@language" : "en",
           "@value" : "Sub1"
         }
       } ],
-      "rdfs:label" : {
+      "prd:org_name" : {
         "@language" : "en",
         "@value" : "Top2"
       }
@@ -61,7 +62,7 @@
       "@id" : "prd:PR99NCUL01_Org1",
       "@type" : "prd:Org",
       "prd:allow" : [ "ip4", "ip5" ],
-      "rdfs:label" : {
+      "prd:org_name" : {
         "@language" : "en",
         "@value" : "Top1"
       }
@@ -85,6 +86,10 @@
         "@language" : "en",
         "@value" : "Chris Tomlinson"
       }
+    },
+    "rdfs:label" : {
+      "@language" : "en",
+      "@value" : "This or that"
     }
   } ]
 }

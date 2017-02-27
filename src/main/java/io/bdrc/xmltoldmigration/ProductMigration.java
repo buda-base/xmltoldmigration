@@ -75,7 +75,7 @@ public class ProductMigration {
 		m.add(org, RDF.type, m.getResource(PRP+"Org"));
 		value = orgElement.getAttribute("name");
 		if (!value.isEmpty()) {
-			m.add(org, RDFS.label, m.createLiteral(value, "en"));
+			m.add(org, m.getProperty(PRP+"org_name"), m.createLiteral(value, "en"));
 		}
 		m.add(r, m.getProperty(PRP+"hasOrg"), org);
 		addAllows(m, org, orgElement);

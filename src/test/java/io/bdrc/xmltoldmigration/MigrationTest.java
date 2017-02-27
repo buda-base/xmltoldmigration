@@ -84,7 +84,7 @@ public class MigrationTest
     	assertTrue(CommonMigration.documentValidates(d, productValidator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "product");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/PR99NCUL01.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "product", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "product", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
     }
