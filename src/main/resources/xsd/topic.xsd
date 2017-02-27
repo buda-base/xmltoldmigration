@@ -58,7 +58,7 @@ It is not clear when this feature should be used to reference other items such a
 This might have to re-worked when extending to other languages where there may be non-Tibetan topics.</xsd:documentation>
             </xsd:annotation>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="rid" type="xsd:string">
+                <xsd:attribute name="rid" type="c:topicRID">
                     <xsd:annotation>
                         <xsd:documentation>This is the resource identifier for the Topic being referenced.</xsd:documentation>
                     </xsd:annotation>

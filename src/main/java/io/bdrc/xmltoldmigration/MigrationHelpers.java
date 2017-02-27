@@ -168,9 +168,12 @@ public class MigrationHelpers {
         case "office":
             m = OfficeMigration.MigrateOffice(d);
             break;
+        case "topic":
+            m = TopicMigration.MigrateTopic(d);
+            break;
 	     case "work":
-	            m = WorkMigration.MigrateWork(d);
-	            break;
+	        m = WorkMigration.MigrateWork(d);
+	        break;
 		default:
 			// arg
 			return m;

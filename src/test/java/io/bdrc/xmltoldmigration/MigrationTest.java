@@ -27,6 +27,7 @@ public class MigrationTest
 	Validator corporationValidator = null;
 	Validator workValidator = null;
 	Validator officeValidator = null;
+	Validator topicValidator = null;
 	
 	@Before
 	public void init() {
@@ -38,6 +39,7 @@ public class MigrationTest
 		corporationValidator = MigrationHelpers.getValidatorFor("corporation");
 		workValidator = MigrationHelpers.getValidatorFor("work");
 		officeValidator = MigrationHelpers.getValidatorFor("office");
+		topicValidator = MigrationHelpers.getValidatorFor("topic");
 	}
 	
 	@Test
@@ -121,6 +123,18 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "office");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OfficeTest.jsonld");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", true);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+       }
+       
+       @Test
+       public void testTopic()
+       {
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/TopicTest.xml");  
+           assertTrue(CommonMigration.documentValidates(d, topicValidator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "topic");
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
        }

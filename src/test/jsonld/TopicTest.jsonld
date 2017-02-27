@@ -1,0 +1,141 @@
+{
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work/",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  },
+  "@graph" : [ {
+    "@id" : "top:T3CN2023",
+    "@type" : "top:Topic",
+    "desc:contents" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "bde bar gshegs pa'i bka'i dgongs 'grel bstan bcos 'gyur ro cog te/ rgya gar mkhas pa'i bstan bcos bod skad du 'gyur ba glegs bam brgya phrag lhag tsam bzhugs pa rnams so/ de rnams kyi khrod du nang don rig pa kho na gsungs pa glegs bam 170 lhag bzhugs pa grub cha gtso bo yin cing / da dung tshad ma'i bstan bcos kyi glegs bam po ti 21 tsam dang / sgra rig pa po ti 4/ gso ba rig pa po ti 5/ bzo rig pa po ti 1/ sna tshogs glegs bam po ti 9tsam bcas bzhugs pa yin no//"
+    }, {
+      "@language" : "en",
+      "@value" : "Tenjur Canonical Text"
+    } ],
+    "log_entry" : [ {
+      "@id" : "_:b4",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "created record"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-28T12:16:56.098Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added description: Tenjur Canonical Text"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-09-30T10:22:32.29Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added see also"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-09-04T13:13:26.221Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added description"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-31T16:58:10.553Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added description"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-31T16:55:02.487Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    } ],
+    "name" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "bstan 'gyur/"
+    }, {
+      "@language" : "zh",
+      "@value" : "丹珠尔"
+    }, {
+      "@language" : "en-x-tbrc",
+      "@value" : "Tengyur"
+    }, {
+      "@language" : "en-x-alt",
+      "@value" : "Tenjur"
+    }, {
+      "@language" : "zh",
+      "@value" : "丹珠尔大藏经"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bstan bcos 'gyur ro 'tshal/"
+    }, {
+      "@language" : "zh-x-pinyin",
+      "@value" : "dan zhu er"
+    }, {
+      "@language" : "zh-x-pinyin",
+      "@value" : "dan zhu er da zang jing"
+    } ],
+    "top:seeAlso" : {
+      "@id" : "top:T1129"
+    },
+    "top:status" : "released",
+    "rdfs:label" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "bstan 'gyur/"
+    }
+  } ]
+}

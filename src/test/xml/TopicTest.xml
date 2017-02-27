@@ -1,0 +1,20 @@
+<topic:topic xmlns:topic="http://www.tbrc.org/models/topic#" RID="T3CN2023"  status="released">
+    <topic:name lang="tibetan">bstan 'gyur/</topic:name>
+    <topic:name lang="tibetan">bstan bcos 'gyur ro 'tshal/</topic:name>
+    <topic:name encoding="tbrcPhonetic"  lang="english">Tengyur</topic:name>
+    <topic:name encoding="alternatePhonetic"  lang="english">Tenjur</topic:name>
+    <topic:name encoding="native"  lang="chinese">丹珠尔</topic:name>
+    <topic:name encoding="native"  lang="chinese">丹珠尔大藏经</topic:name>
+    <topic:name encoding="pinyin"  lang="chinese">dan zhu er</topic:name>
+    <topic:name encoding="pinyin"  lang="chinese">dan zhu er da zang jing</topic:name>
+    <topic:description encoding="extendedWylie"  lang="tibetan">bde bar gshegs pa'i bka'i dgongs 'grel bstan bcos 'gyur ro cog te/ rgya gar mkhas pa'i bstan bcos bod skad du 'gyur ba glegs bam brgya phrag lhag tsam bzhugs pa rnams so/ de rnams kyi khrod du nang don rig pa kho na gsungs pa glegs bam 170 lhag bzhugs pa grub cha gtso bo yin cing / da dung tshad ma'i bstan bcos kyi glegs bam po ti 21 tsam dang / sgra rig pa po ti 4/ gso ba rig pa po ti 5/ bzo rig pa po ti 1/ sna tshogs glegs bam po ti 9tsam bcas bzhugs pa yin no//</topic:description>
+    <topic:description>Tenjur Canonical Text</topic:description>
+    <topic:seeAlso rid="T1129">bka' bstan/</topic:seeAlso>
+    <topic:log>
+        <entry when="2015-08-28T12:16:56.098Z"  who="Chungdak Nangpa">created record</entry>
+        <entry when="2015-08-31T16:55:02.487Z"  who="Chungdak Nangpa">added description</entry>
+        <entry when="2015-08-31T16:58:10.553Z"  who="Chungdak Nangpa">added description</entry>
+        <entry when="2015-09-04T13:13:26.221Z"  who="Chungdak Nangpa">added see also</entry>
+        <entry when="2015-09-30T10:22:32.290Z"  who="Chungdak Nangpa">added description: Tenjur Canonical Text</entry>
+    </topic:log>
+</topic:topic>
