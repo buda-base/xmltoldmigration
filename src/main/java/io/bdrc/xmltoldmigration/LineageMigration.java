@@ -27,7 +27,6 @@ public class LineageMigration {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
-		Element current;
 		String value = getTypeStr(root);
 		Resource main = m.createResource(LP + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(LP + value));
@@ -38,14 +37,104 @@ public class LineageMigration {
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
 		
-		CommonMigration.addNames(m, root, main, LXSDNS);
-		CommonMigration.addNotes(m, root, main, LXSDNS);
-		CommonMigration.addExternals(m, root, main, LXSDNS);
-		CommonMigration.addLog(m, root, main, LXSDNS);
+    	CommonMigration.addNames(m, root, main, LXSDNS);
+    	CommonMigration.addNotes(m, root, main, LXSDNS);
+    	CommonMigration.addExternals(m, root, main, LXSDNS);
+    	CommonMigration.addDescriptions(m, root, main, LXSDNS);
+    	CommonMigration.addLog(m, root, main, LXSDNS);
+    	CommonMigration.addLocations(m, main, root, LXSDNS, LP+"location");
 		
-		// remaining fields: gis, event, isLocatedIn, near, contains, address, tlm, description
+        NodeList nodeList = root.getElementsByTagNameNS(LXSDNS, "object");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            value = current.getAttribute("RID").trim();
+            if (!value.isEmpty()) {
+                value =  CommonMigration.getPrefixFromRID(value)+value;
+                m.add(main, m.getProperty(LP+"object"), m.getResource(value));
+            }
+        }
+        
+        nodeList = root.getElementsByTagNameNS(LXSDNS, "lineageRef");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            value = current.getAttribute("RID").trim();
+            if (!value.isEmpty())
+                m.add(main, m.getProperty(LP+"ref"), m.getResource(LP+value));
+        }
+		
+        List<Element> elList = CommonMigration.getChildrenByTagName(root, LXSDNS, "holder");
+        for (int i = 0; i < elList.size(); i++) {
+            Element current = (Element) elList.get(i);
+            addHolder(m, main, current, i);
+        }
+        
+        nodeList = root.getElementsByTagNameNS(LXSDNS, "alternative");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            value = CommonMigration.getSubResourceName(main, LP, "Alternative", i+1);
+            Resource alternative = m.createResource(value);
+            m.add(alternative, RDF.type, m.getResource(LP+"Alternative"));
+            m.add(main, m.getProperty(LP+"altnernative"), alternative);
+            elList = CommonMigration.getChildrenByTagName(current, LXSDNS, "holder");
+            for (int j = 0; j < elList.size(); j++) {
+                Element holderElement = (Element) elList.get(j);
+                addHolder(m, alternative, holderElement, j);
+            }
+        }
 		
 		return m;
+	}
+	
+	public static void addHolder(Model m, Resource r, Element e, int i) {
+	    String value = CommonMigration.getSubResourceName(r, LP, "Holder", i+1);
+	    Resource holder = m.createResource(value);
+	    m.add(holder, RDF.type, m.getResource(LP+"Holder"));
+	    m.add(r, m.getProperty(LP+"holder"), holder);
+	    NodeList nodeList = e.getElementsByTagNameNS(LXSDNS, "who");
+        for (int j = 0; j < nodeList.getLength(); j++) {
+            Element current = (Element) nodeList.item(j);
+            value = current.getAttribute("RID");
+            if (!value.isEmpty()) {
+                value =  CommonMigration.getPrefixFromRID(value)+value;
+                m.add(holder, m.getProperty(LP+"who"), m.getResource(value));
+            }
+        }
+        
+        nodeList = e.getElementsByTagNameNS(LXSDNS, "downTo");
+        for (int j = 0; j < nodeList.getLength(); j++) {
+            Element current = (Element) nodeList.item(j);
+            value = current.getAttribute("RID");
+            if (!value.isEmpty())
+                m.add(holder, m.getProperty(LP+"downTo"), m.getResource(LP+value));
+        }
+        
+        nodeList = e.getElementsByTagNameNS(LXSDNS, "downFrom");
+        for (int j = 0; j < nodeList.getLength(); j++) {
+            Element current = (Element) nodeList.item(j);
+            value = current.getAttribute("RID");
+            if (!value.isEmpty())
+                m.add(holder, m.getProperty(LP+"downFrom"), m.getResource(LP+value));
+        }
+        
+        nodeList = e.getElementsByTagNameNS(LXSDNS, "received");
+        for (int j = 0; j < nodeList.getLength(); j++) {
+            Element current = (Element) nodeList.item(j);
+            value = CommonMigration.getSubResourceName(r, LP, "Received", j+1);
+            Resource received = m.createResource(value);
+            m.add(received, RDF.type, m.getResource(LP+"Received"));
+            m.add(holder, m.getProperty(LP+"received"), received);
+            value = current.getAttribute("RID");
+            if (!value.isEmpty()) {
+                value =  CommonMigration.getPrefixFromRID(value)+value;
+                m.add(received, m.getProperty(LP+"from"), m.getResource(value));
+            }
+            value = current.getAttribute("site");
+            if (!value.isEmpty())
+                m.add(received, m.getProperty(LP+"site"), m.getResource(PLP+value));
+            value = current.getAttribute("circa");
+            if (!value.isEmpty())
+                m.add(received, m.getProperty(LP+"circa"), m.createLiteral(value));
+        }
 	}
 
 	public static String getTypeStr(Element root) {
@@ -54,20 +143,9 @@ public class LineageMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
-			if (value == null || value.isEmpty()) {
-				System.err.println("No info for Place "+root.getAttribute("RID"));
-				return "Place";
-			}
-			if (!value.startsWith("lineageTypes:")) {
-				System.err.println("Invalid Place type '"+value+"' for Lineage "+root.getAttribute("RID"));
-				return "Place";
-			}
+			if (value.isEmpty()) value = "lineageTypes:Lineage";
 			value = value.substring(13);
 			value = CommonMigration.normalizePropName(value, "Class");
-			break;
-		}
-		if (value == "notSpecified") {
-			return "Place";
 		}
 		return value;
 	}

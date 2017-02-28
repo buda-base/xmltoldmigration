@@ -138,7 +138,7 @@ public class MigrationTest
            //assertTrue(CommonMigration.documentValidates(d, pubinfoValidator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "pubinfo");
            //Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/PubinfoTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "pubinfo", false);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "pubinfo", false);
            //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
        }
@@ -173,9 +173,9 @@ public class MigrationTest
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/L8LS14115.xml");
     	assertTrue(CommonMigration.documentValidates(d, lineageValidator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
-    	//Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
+    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/L8LS14115.jsonld");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", true);
-        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
     }
 }
