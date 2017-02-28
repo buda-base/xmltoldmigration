@@ -1,11 +1,7 @@
 package io.bdrc.xmltoldmigration;
 
-import java.util.List;
-
-import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
@@ -15,10 +11,8 @@ import org.w3c.dom.NodeList;
 
 public class PubinfoMigration {
 
-	private static final String OP = CommonMigration.OUTLINE_PREFIX;
 	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String PP = CommonMigration.PLACE_PREFIX;
-	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
 
 	public static Model MigratePubinfo(Document xmlDocument) {
@@ -63,11 +57,87 @@ public class PubinfoMigration {
         addSimpleElement("sourceNote", "pubinfo_sourceNote", "en", root, m, main);
         addSimpleElement("editionStatement", "pubinfo_editionStatement", "bo-x-ewts", root, m, main);
         
-        // TODO: holding, shelf, sourcePrintery, series, library, printType
-
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
         CommonMigration.addLog(m, root, main, WPXSDNS);
+        
+        nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String value = CommonMigration.getSubResourceName(main, WP, "Series", i+1);
+            Resource series = m.createResource(value);
+            m.add(series, RDF.type, m.getResource(WP+"PubinfoSeries"));
+            //m.add(main, m.createProperty(WP+"hasPubinfoSeries"), series);// TODO: check name
+            value = current.getAttribute("name").trim();
+            if (!value.isEmpty())
+                m.add(series, m.getProperty(WP+"pubinfo_series_name"), m.createLiteral(value));
+            
+            value = current.getAttribute("number").trim();
+            if (!value.isEmpty())
+                m.add(series, m.getProperty(WP+"pubinfo_series_number"), m.createLiteral(value));
+            
+            value = current.getTextContent().trim();
+            if (!value.isEmpty())
+                m.add(series, m.getProperty(WP+"pubinfo_series_content"), m.createLiteral(value));
+        }
+        
+        nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String value = current.getAttribute("type").trim();
+            if (!value.isEmpty())
+                m.add(main, m.getProperty(WP+"pubinfo_printType"), m.createLiteral(value));
+        }
+
+        // TODO: clarify with ontology
+//        nodeList = root.getElementsByTagNameNS(WPXSDNS, "sourcePrintery");
+//        for (int i = 0; i < nodeList.getLength(); i++) {
+//            Element current = (Element) nodeList.item(i);
+//            String value = current.getAttribute("place").trim();
+//            if (!value.isEmpty())
+//                m.add(main, m.getProperty(WP+"pubinfo_printType"), m.createResource(PP+value));
+//        }
+
+
+        
+        nodeList = root.getElementsByTagNameNS(WPXSDNS, "holding");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String value = CommonMigration.getSubResourceName(main, WP, "Holding", i+1);
+            Resource holding = m.createResource(value);
+            m.add(holding, RDF.type, m.getResource(WP+"Holding"));
+            //m.add(main, m.createProperty(WP+"hasHolding"), holding);// TODO: check name
+            
+            addSimpleElement("exception", "holding_exception", null, current, m, holding);
+            
+            NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");
+            for (int j = 0; j < subNodeList.getLength(); j++) {
+                Element subCurrent = (Element) subNodeList.item(j);
+                //String lang = CommonMigration.getBCP47(subCurrent, "bo-x-ewts"); // TODO: clarify with ontology
+                value = subCurrent.getTextContent().trim();
+                if (!value.isEmpty())
+                    m.add(holding, m.createProperty(WP+"holding_shelf"), m.createLiteral(value));
+                
+                value = subCurrent.getAttribute("copies").trim();
+                if (!value.isEmpty())
+                    m.add(holding, m.createProperty(WP+"holding_copies"), m.createLiteral(value));
+            }
+            
+            subNodeList = root.getElementsByTagNameNS(WPXSDNS, "library");
+            for (int j = 0; j < subNodeList.getLength(); j++) {
+                Element subCurrent = (Element) subNodeList.item(j);
+                value = subCurrent.getAttribute("rid").trim();
+                if (!value.isEmpty())
+                    m.add(holding, m.createProperty(WP+"holding_library"), m.createResource(PP+value));
+                
+                value = subCurrent.getAttribute("code").trim();
+                if (!value.isEmpty())
+                    m.add(holding, m.createProperty(WP+"holding_code"), m.createLiteral(value));
+                
+                // TODO: what about the text content?
+            }
+            
+        }
         
 		return m;
 	}
