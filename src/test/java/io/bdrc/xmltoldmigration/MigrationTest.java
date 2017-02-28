@@ -30,6 +30,7 @@ public class MigrationTest
 	Validator topicValidator = null;
 	Validator outlineValidator = null;
 	Validator pubinfoValidator = null;
+	Validator imagegroupValidator = null;
 	
 	@Before
 	public void init() {
@@ -44,6 +45,7 @@ public class MigrationTest
 		topicValidator = MigrationHelpers.getValidatorFor("topic");
 		outlineValidator = MigrationHelpers.getValidatorFor("outline");
 		pubinfoValidator = MigrationHelpers.getValidatorFor("pubinfo");
+		imagegroupValidator = MigrationHelpers.getValidatorFor("imagegroup");
 	}
 	
 	@Test
@@ -164,6 +166,18 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+       }
+       
+       @Test
+       public void testImagegroup()
+       {
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/ImagegroupTest.xml");  
+           assertTrue(CommonMigration.documentValidates(d, imagegroupValidator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
+           //Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/ImagegroupTest.jsonld");
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "volume", true);
+           //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
        }
 

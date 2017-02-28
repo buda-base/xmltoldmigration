@@ -61,7 +61,8 @@ public class MigrationHelpers {
 		typeToRootShortUri.put("lineage", "lin:Lineage");
 		typeToRootShortUri.put("corporation", "crp:Corporation");
 		typeToRootShortUri.put("product", "prd:Product");
-		typeToRootShortUri.put("volumes", "prd:Volumes");
+		typeToRootShortUri.put("volumes", "vol:Volumes");
+		typeToRootShortUri.put("volume", "vol:Volume");
 		typeToRootShortUri.put("office", "ofc:Office");
     }
 	
@@ -164,6 +165,9 @@ public class MigrationHelpers {
 			break;
 		case "pubinfo":
             m = PubinfoMigration.MigratePubinfo(d);
+            break;
+		case "imagegroup":
+            m = ImagegroupMigration.MigrateImagegroup(d);
             break;
 		case "lineage":
 			m = LineageMigration.MigrateLineage(d);

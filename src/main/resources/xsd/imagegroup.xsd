@@ -34,10 +34,10 @@
     <xsd:complexType name="Images">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="total" type="xsd:positiveInteger" use="required"/>
-                <xsd:attribute name="tbrcintro" type="xsd:positiveInteger" use="optional"/>
-                <xsd:attribute name="intro" type="xsd:positiveInteger" use="optional"/>
-                <xsd:attribute name="text" type="xsd:positiveInteger" use="optional"/>
+                <xsd:attribute name="total" type="xsd:nonNegativeInteger" use="required"/>
+                <xsd:attribute name="tbrcintro" type="xsd:nonNegativeInteger" use="optional"/>
+                <xsd:attribute name="intro" type="xsd:nonNegativeInteger" use="optional"/>
+                <xsd:attribute name="text" type="xsd:nonNegativeInteger" use="optional"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>

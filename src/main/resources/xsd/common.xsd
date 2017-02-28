@@ -422,6 +422,7 @@ If the data attribute is present the web-client will use it to display a link th
 			<xsd:enumeration value="nameKR"/>
 			<xsd:enumeration value="nameLex"/>
 			<xsd:enumeration value="onDisk"/>
+			<xsd:enumeration value="ondisk"/>
 			<xsd:enumeration value="OrientalInstitute.Prague"/>
 			<xsd:enumeration value="Otani"/>
 			<xsd:enumeration value="prov_py"/>

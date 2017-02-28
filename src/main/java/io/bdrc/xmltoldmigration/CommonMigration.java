@@ -281,15 +281,21 @@ public class CommonMigration  {
        addNames(m, e, r, XsdPrefix, true);
     }
 	
-	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
+	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel, boolean guessLang) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
 		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			String lang = getBCP47(current, "en");
-			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
+			Literal value;
+			if (guessLang) {
+			    String lang = getBCP47(current, "en");
+	            value = m.createLiteral(current.getTextContent().trim(), lang);
+			} else {
+			    value = m.createLiteral(current.getTextContent().trim());
+			}
 			String type = current.getAttribute("type");
 			if (type.isEmpty()) type = "contents";
+			if (type.equals("ondisk")) type = "onDisk";// rid=I4158 has "ondisk" instead of "onDisk" 
 			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
 			m.add(r, prop, value);
 			// for product and office the name is the first description type="contents"
@@ -300,8 +306,12 @@ public class CommonMigration  {
 		}
 	}
 	
+	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
+        addDescriptions(m, e, r, XsdPrefix, guessLabel, true);
+    }
+	
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
-		addDescriptions(m, e, r, XsdPrefix, false);
+		addDescriptions(m, e, r, XsdPrefix, false, true);
 	}
 	
        public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel) {
