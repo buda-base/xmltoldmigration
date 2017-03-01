@@ -10,7 +10,7 @@
     </lineage:holder>
     <lineage:holder>
         <lineage:who RID="P1040">kun dga' dbang phyug</lineage:who>
-        <lineage:received RID="P1132" circa="?">kun dga' bzang po</lineage:received>
+        <lineage:received RID="P1132" circa="test circa">kun dga' bzang po</lineage:received>
     </lineage:holder>
     <!-- from L8LS15627 --><lineage:alternative>
         <lineage:holder>

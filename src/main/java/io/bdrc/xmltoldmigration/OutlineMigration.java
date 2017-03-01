@@ -37,7 +37,7 @@ public class OutlineMigration {
             value = current.getAttribute("type").trim();
             value = CommonMigration.normalizePropName(value, null);
             if (value.isEmpty()) {
-                value = "Outline";//?
+                value = "NoType";
             }
             m.add(main, RDF.type, m.createResource(OP + value));
             if (!value.equals("Outline"))
@@ -57,18 +57,22 @@ public class OutlineMigration {
         m.add(main, m.getProperty(OP+"pagination"), m.createLiteral(value));
         
 		CommonMigration.addNames(m, root, main, OXSDNS);
-
 		CommonMigration.addNotes(m, root, main, OXSDNS);
-
 		CommonMigration.addExternals(m, root, main, OXSDNS);
-
 		CommonMigration.addLog(m, root, main, OXSDNS);
-
 		CommonMigration.addDescriptions(m, root, main, OXSDNS);
-		
-		// TODO: creator
-		
 		CommonMigration.addLocations(m, main, root, OXSDNS, OP+"location");
+		
+	    // creator
+		// originally supposed to be a wrk:creator property, but unlike the latter, it
+		// never maps to a per:Person, because ontologies are BDRC staff and not per:Persons
+		// so a new out:authorship data property has been created to capture the textcontent
+        nodeList = root.getElementsByTagNameNS(OXSDNS, "creator");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            value = current.getTextContent().trim();
+            m.add(main, m.createProperty(OP+"authorship"), m.createLiteral(value));
+        }
 		
 		// TODO: parent (unused?)
 		
@@ -106,12 +110,14 @@ public class OutlineMigration {
         
         m.add(r, m.getProperty(OP+"hasNode"), node);
         
-        CommonMigration.addNames(m, e, node, OXSDNS, false);
+        CommonMigration.addNames(m, e, node, OXSDNS, true);
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
         CommonMigration.addTitles(m, node, e, OXSDNS, false);
         
         CommonMigration.addLocations(m, node, e, OXSDNS, OP+"location");
         CommonMigration.addSubjects(m, node, e, OXSDNS);
+        
+        addSimpleAttr(e.getAttribute("value"), "node_value", m, node);
         
         addViewIn(m, node, e);
         
@@ -127,7 +133,7 @@ public class OutlineMigration {
             // TODO: what about current.getTextContent()?
         }
         
-         nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "site");
+        nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "site");
         for (int j = 0; j < nodeList.size(); j++) {
             Element current = (Element) nodeList.get(j);
             
@@ -173,8 +179,9 @@ public class OutlineMigration {
             addSimpleAttr(current.getAttribute("label"), "viewIn_label", m, r);
             addSimpleAttr(current.getAttribute("list"), "viewIn_list", m, r);
             addSimpleAttr(current.getAttribute("target"), "viewIn_target", m, r);
-            
-            // TODO: what about e.getTextContent()?
+            String value = current.getTextContent().trim();
+            if (!value.isEmpty())
+                m.add(r, m.getProperty(OP+"viewIn_content"), m.createLiteral(value));
         }
 	}
 

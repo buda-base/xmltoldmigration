@@ -21,7 +21,7 @@
   "@graph" : [ {
     "@id" : "top:T3CN2023",
     "@type" : "top:Topic",
-    "desc:contents" : [ {
+    "desc:noType" : [ {
       "@language" : "bo-x-ewts",
       "@value" : "bde bar gshegs pa'i bka'i dgongs 'grel bstan bcos 'gyur ro cog te/ rgya gar mkhas pa'i bstan bcos bod skad du 'gyur ba glegs bam brgya phrag lhag tsam bzhugs pa rnams so/ de rnams kyi khrod du nang don rig pa kho na gsungs pa glegs bam 170 lhag bzhugs pa grub cha gtso bo yin cing / da dung tshad ma'i bstan bcos kyi glegs bam po ti 21 tsam dang / sgra rig pa po ti 4/ gso ba rig pa po ti 5/ bzo rig pa po ti 1/ sna tshogs glegs bam po ti 9tsam bcas bzhugs pa yin no//"
     }, {
@@ -29,37 +29,7 @@
       "@value" : "Tenjur Canonical Text"
     } ],
     "log_entry" : [ {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "created record"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-28T12:16:56.098Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
       "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added description: Tenjur Canonical Text"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-09-30T10:22:32.29Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -74,7 +44,22 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "created record"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-28T12:16:56.098Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -89,7 +74,22 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b4",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added description: Tenjur Canonical Text"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-09-30T10:22:32.29Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",

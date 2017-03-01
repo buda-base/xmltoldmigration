@@ -128,11 +128,13 @@ public class LineageMigration {
                 value =  CommonMigration.getPrefixFromRID(value)+value;
                 m.add(received, m.getProperty(LP+"from"), m.getResource(value));
             }
+
             value = current.getAttribute("site");
             if (!value.isEmpty())
                 m.add(received, m.getProperty(LP+"site"), m.getResource(PLP+value));
+
             value = current.getAttribute("circa");
-            if (!value.isEmpty())
+            if (!value.isEmpty() && !value.equals("?"))
                 m.add(received, m.getProperty(LP+"circa"), m.createLiteral(value));
         }
 	}

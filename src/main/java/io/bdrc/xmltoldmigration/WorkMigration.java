@@ -1,16 +1,13 @@
 package io.bdrc.xmltoldmigration;
 
-import java.util.List;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.XSD;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -22,9 +19,6 @@ public class WorkMigration {
 	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String PRP = CommonMigration.PRODUCT_PREFIX;
-	private static final String TP = CommonMigration.TOPIC_PREFIX;
-	private static final String VP = CommonMigration.VOLUMES_PREFIX;
-	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String WXSDNS = "http://www.tbrc.org/models/work#";
 	
 	public static Model MigrateWork(Document xmlDocument) {
@@ -52,23 +46,16 @@ public class WorkMigration {
 		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            value = current.getAttribute("license");
-            if (value.isEmpty()) {
-                value = "ccby"; // ?
-            }
-            prop = m.getProperty(WP, value);
-            value = current.getAttribute("access");
-            if (value.isEmpty()) {
-                value = "temporarilyRestricted"; // ?
-            }
-            lit = m.createLiteral(value);
-            m.add(main, prop, lit);
+            value = current.getAttribute("license").trim();
+            if (!value.isEmpty())
+                m.add(main, m.getProperty(WP+"license"), m.createLiteral(value));
             
+            value = current.getAttribute("access").trim();
+            if (!value.isEmpty())
+                m.add(main, m.getProperty(WP+"access"), m.createLiteral(value));
             
             value = current.getAttribute("status");
-            if (value.isEmpty()) {
-                value = "scanned"; // from xsd
-            }
+            if (value.isEmpty()) value = "scanned"; // from xsd
             prop = m.getProperty(WP, "archiveInfo_status");
             m.add(main, prop, m.createLiteral(value));
             
@@ -144,8 +131,6 @@ public class WorkMigration {
             value = current.getTextContent();
             m.add(main, m.getProperty(WP+"scanInfo"), m.createLiteral(value, "en"));
         }
-        
-        // TODO: volumeMap, hasPubInfo
         
 		return m;
 		

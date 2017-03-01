@@ -21,6 +21,7 @@
   "@graph" : [ {
     "@id" : "out:O2DB87572",
     "@type" : [ "out:Outline", "out:partialCollectedWorks" ],
+    "out:authorship" : "Bumu Dega; outlined with the gracious support of the khyentse foundation",
     "out:hasNode" : [ {
       "@id" : "out:O2DB875722DB87583",
       "@type" : "out:Class",
@@ -64,7 +65,12 @@
       "out:node_class" : {
         "@id" : "top:T977"
       },
+      "out:node_value" : "varia",
       "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "2 (smad cha)"
+      },
+      "rdfs:label" : {
         "@language" : "bo-x-ewts",
         "@value" : "2 (smad cha)"
       }
@@ -125,6 +131,10 @@
       },
       "subject_isInstanceOfGenre" : {
         "@id" : "top:T208"
+      },
+      "rdfs:label" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "1 (stod cha)"
       }
     } ],
     "out:isOutlineOf" : {
@@ -139,6 +149,7 @@
     },
     "out:pagination" : "absolute",
     "out:status" : "released",
+    "out:viewIn_content" : "Rituals | cho ga | 仪轨",
     "out:viewIn_label" : "rituals",
     "out:viewIn_list" : "subjects",
     "out:webAccess" : "notAvailable",

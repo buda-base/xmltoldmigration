@@ -1,0 +1,148 @@
+{
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work/",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  },
+  "@graph" : [ {
+    "@id" : "wor:W12837",
+    "@type" : "wor:Work",
+    "log_entry" : [ {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalized catalog info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-21T23:05:36.322Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added print type and source printery"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T12:06:50.245Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jigme Namgyal"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalized catalog info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-05-17T11:18:37.731Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "cataloging reviewed"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2007-09-08T18:25:18.406Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Gene Smith"
+      }
+    } ],
+    "note" : {
+      "@id" : "http://purl.bdrc.io/ontology/root/W12837_Note1",
+      "@type" : "Note",
+      "note_content" : "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."
+    },
+    "status" : "released",
+    "subject_isAboutDeity" : {
+      "@id" : "top:T976"
+    },
+    "subject_isInstanceOfGenre" : {
+      "@id" : "top:T61"
+    },
+    "wor:access" : "openAccess",
+    "wor:archiveInfo_status" : "scanned",
+    "wor:archiveInfo_vols" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "1"
+    },
+    "wor:bibliographicalTitle" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "kun rig rnam bshad"
+    },
+    "wor:catalogInfo" : {
+      "@language" : "en",
+      "@value" : "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."
+    },
+    "wor:hasMainAuthor" : {
+      "@id" : "per:P1591"
+    },
+    "wor:inProduct" : [ {
+      "@id" : "prd:PRHD03"
+    }, {
+      "@id" : "prd:PR01UNRESTR"
+    } ],
+    "wor:info_edition" : "this is the edition",
+    "wor:info_nodeType" : "publishedWork",
+    "wor:info_number" : "2",
+    "wor:info_numbered" : {
+      "@type" : "xsd:boolean",
+      "@value" : "true"
+    },
+    "wor:info_parent" : {
+      "@id" : "wor:W12345"
+    },
+    "wor:info_seriesType" : "monographic",
+    "wor:license" : "ccby",
+    "wor:otherTitle" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "bcom ldan 'das thams cad rig pa'i rnam bshad/_kun rig gi cho ga'i 'grel chen/_bcom ldan 'das thams cad rig pa'i dkyil 'khor cho ga'i rnam bshad legs bshad snying po"
+    },
+    "wor:scanInfo" : {
+      "@language" : "en",
+      "@value" : "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011\n2004"
+    },
+    "wor:titlePageTitle" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "bcom ldan 'das thams cad rig pa'i rnam bshad"
+    },
+    "rdfs:label" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "kun rig rnam bshad"
+    }
+  } ]
+}

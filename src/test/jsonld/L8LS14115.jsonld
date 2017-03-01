@@ -37,7 +37,6 @@
         "lin:received" : {
           "@id" : "lin:L8LS14115_Alternative1_Received1",
           "@type" : "lin:Received",
-          "lin:circa" : "?",
           "lin:from" : {
             "@id" : "per:P8LS15618"
           },
@@ -65,7 +64,7 @@
       "lin:received" : {
         "@id" : "lin:L8LS14115_Received1",
         "@type" : "lin:Received",
-        "lin:circa" : "?",
+        "lin:circa" : "test circa",
         "lin:from" : {
           "@id" : "per:P1132"
         }
@@ -90,7 +89,33 @@
       "@id" : "lin:L1RKL2042"
     },
     "log_entry" : [ {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalized names of who and received elements"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T21:20:44.974Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Code Ferret"
+      }
+    }, {
       "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-07-17T10:49:42.963Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    }, {
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_when" : {
         "@type" : "xsd:dateTime",
@@ -101,22 +126,7 @@
         "@value" : "Lobsang Shastri"
       }
     }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "normalized names of who and received elements - yet again"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-29T16:42:13.479Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Code Ferret"
-      }
-    }, {
-      "@id" : "_:b2",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -131,26 +141,15 @@
         "@value" : "Lobsang Shastri"
       }
     }, {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-07-17T10:49:42.963Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
       "@id" : "_:b4",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "normalized names of who and received elements"
+        "@value" : "normalized names of who and received elements - yet again"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T21:20:44.974Z"
+        "@value" : "2014-07-29T16:42:13.479Z"
       },
       "log_who" : {
         "@language" : "en",

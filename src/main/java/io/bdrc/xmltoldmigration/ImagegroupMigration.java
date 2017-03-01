@@ -1,10 +1,15 @@
 package io.bdrc.xmltoldmigration;
 
+import java.util.List;
+
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -16,6 +21,8 @@ public class ImagegroupMigration {
 	private static final String VP = CommonMigration.VOLUMES_PREFIX;
 	private static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
 
+	
+	// for testing purposes only
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m);
@@ -28,11 +35,21 @@ public class ImagegroupMigration {
 	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource main) {
 		
 		Element root = xmlDocument.getDocumentElement();
-                
-		CommonMigration.addDescriptions(m, root, main, IGXSDNS, false, false);
-        CommonMigration.addLog(m, root, main, IGXSDNS);
         
-        NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
+		// adding the ondisk/onDisk description as vol:imageList
+		NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "description");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String type = current.getAttribute("type").trim();
+            if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
+            Literal value = m.createLiteral(current.getTextContent().trim()); 
+            m.add(main, m.getProperty(VP+"imageList"), value);
+        }
+		
+        CommonMigration.addLog(m, root, main, IGXSDNS);
+        CommonMigration.addDescriptions(m, root, main, IGXSDNS, false);
+        
+        nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("intro").trim();

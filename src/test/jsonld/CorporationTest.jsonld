@@ -21,7 +21,7 @@
   "@graph" : [ {
     "@id" : "crp:C11MS170",
     "@type" : "crp:Corporation",
-    "desc:contents" : {
+    "desc:noType" : {
       "@language" : "en",
       "@value" : "some description"
     },

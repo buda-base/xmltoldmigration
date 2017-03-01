@@ -15,13 +15,15 @@ public class PubinfoMigration {
 	private static final String PP = CommonMigration.PLACE_PREFIX;
 	private static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
 
+	
+	// used for testing only
 	public static Model MigratePubinfo(Document xmlDocument) {
-		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m);
-		Element root = xmlDocument.getDocumentElement();
-		Resource main = null;
-		
-		NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "isPubInfoFor");
+	    Model m = ModelFactory.createDefaultModel();
+        CommonMigration.setPrefixes(m);
+        Element root = xmlDocument.getDocumentElement();
+        Resource main = null;
+        
+        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "isPubInfoFor");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("work");
@@ -31,7 +33,16 @@ public class PubinfoMigration {
             }
             main = m.createResource(WP+value);
         }
-        
+        m.add(main, RDF.type, m.getResource(WP+"Work"));
+        MigratePubinfo(xmlDocument, m, main);
+        return m;
+	}
+	
+	// use this giving a wkr:Work as main argument to fill the work data
+	public static Model MigratePubinfo(Document xmlDocument, Model m, Resource main) {
+		
+		Element root = xmlDocument.getDocumentElement();
+		
         // TODO: all these "en" defaults look strange...
         addSimpleElement("publisherName", "pubinfo_publisherName", "en", root, m, main);
         addSimpleElement("publisherLocation", "pubinfo_publisherLocation", "en", root, m, main);
@@ -61,13 +72,13 @@ public class PubinfoMigration {
         CommonMigration.addExternals(m, root, main, WPXSDNS);
         CommonMigration.addLog(m, root, main, WPXSDNS);
         
-        nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");
+        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = CommonMigration.getSubResourceName(main, WP, "Series", i+1);
             Resource series = m.createResource(value);
             m.add(series, RDF.type, m.getResource(WP+"PubinfoSeries"));
-            //m.add(main, m.createProperty(WP+"hasPubinfoSeries"), series);// TODO: check name
+            m.add(main, m.createProperty(WP+"hasPubinfoSeries"), series);
             value = current.getAttribute("name").trim();
             if (!value.isEmpty())
                 m.add(series, m.getProperty(WP+"pubinfo_series_name"), m.createLiteral(value));
@@ -89,14 +100,18 @@ public class PubinfoMigration {
                 m.add(main, m.getProperty(WP+"pubinfo_printType"), m.createLiteral(value));
         }
 
-        // TODO: clarify with ontology
-//        nodeList = root.getElementsByTagNameNS(WPXSDNS, "sourcePrintery");
-//        for (int i = 0; i < nodeList.getLength(); i++) {
-//            Element current = (Element) nodeList.item(i);
-//            String value = current.getAttribute("place").trim();
-//            if (!value.isEmpty())
-//                m.add(main, m.getProperty(WP+"pubinfo_printType"), m.createResource(PP+value));
-//        }
+        nodeList = root.getElementsByTagNameNS(WPXSDNS, "sourcePrintery");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String value = current.getAttribute("place").trim();
+            if (!value.isEmpty())
+                m.add(main, m.getProperty(WP+"hasSourcePrintery"), m.createResource(PP+value));
+            else {
+                value = current.getTextContent().trim();
+                if (!value.isEmpty())
+                    m.add(main, m.getProperty(WP+"pubinfo_sourcePrintery_string"), m.createLiteral(value));
+            }
+        }
 
 
         
@@ -106,7 +121,7 @@ public class PubinfoMigration {
             String value = CommonMigration.getSubResourceName(main, WP, "Holding", i+1);
             Resource holding = m.createResource(value);
             m.add(holding, RDF.type, m.getResource(WP+"Holding"));
-            //m.add(main, m.createProperty(WP+"hasHolding"), holding);// TODO: check name
+            m.add(main, m.createProperty(WP+"hasHolding"), holding);
             
             addSimpleElement("exception", "holding_exception", null, current, m, holding);
             
@@ -129,6 +144,8 @@ public class PubinfoMigration {
                 value = subCurrent.getAttribute("rid").trim();
                 if (!value.isEmpty())
                     m.add(holding, m.createProperty(WP+"holding_library"), m.createResource(PP+value));
+                else
+                    System.err.println("Pubinfo holding has no library RID!");
                 
                 value = subCurrent.getAttribute("code").trim();
                 if (!value.isEmpty())

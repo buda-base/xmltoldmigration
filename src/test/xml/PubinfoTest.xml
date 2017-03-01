@@ -5,13 +5,13 @@
     <mw:publisherDate>[2000?]</mw:publisherDate>
     <mw:printType type="blockprint"/>
     <mw:sourcePrintery place="G1PD129184">zhol bka' 'gyur par khang / </mw:sourcePrintery>
+    <mw:sourcePrintery>test sourcePrintery with no place</mw:sourcePrintery>
     <mw:authorshipStatement>'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan</mw:authorshipStatement>
     <mw:encoding>In Tibetan</mw:encoding>
     <mw:extent>177 ff.</mw:extent>
     <mw:hollis>014254679</mw:hollis>
     <mw:tbrcHoldings>1</mw:tbrcHoldings>
     <!-- from MW00EGS1016621 --><mw:series name="oral history series"  number="no. 16">test series content</mw:series>
-    <!-- from MW5424 --><mw:sourcePrintery place="G1PD129182">sku 'bum byams pa gling par khang / </mw:sourcePrintery>
     <!-- from MW1TLMTGA000883 --><mw:holding>
         <mw:library code="TGA"  rid="G1TLMTGA000001">rdzong sar dpe mdzod bkra shis sgo mang gong ma/</mw:library>
         <mw:shelf copies="1">ཇ|ཇ|༣||001278</mw:shelf>

@@ -281,21 +281,18 @@ public class CommonMigration  {
        addNames(m, e, r, XsdPrefix, true);
     }
 	
-	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel, boolean guessLang) {
+	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
 		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			Literal value;
-			if (guessLang) {
-			    String lang = getBCP47(current, "en");
-	            value = m.createLiteral(current.getTextContent().trim(), lang);
-			} else {
-			    value = m.createLiteral(current.getTextContent().trim());
-			}
+		    String lang = getBCP47(current, "en");
+            value = m.createLiteral(current.getTextContent().trim(), lang);
 			String type = current.getAttribute("type");
-			if (type.isEmpty()) type = "contents";
-			if (type.equals("ondisk")) type = "onDisk";// rid=I4158 has "ondisk" instead of "onDisk" 
+			if (type.isEmpty()) type = "noType";
+			// onDisk is treated separately in imageGroups, TODO: check if it appears somewhere else
+			if (type.equals("ondisk") || type.equals("onDisk")) continue; 
 			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
 			m.add(r, prop, value);
 			// for product and office the name is the first description type="contents"
@@ -306,12 +303,8 @@ public class CommonMigration  {
 		}
 	}
 	
-	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
-        addDescriptions(m, e, r, XsdPrefix, guessLabel, true);
-    }
-	
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
-		addDescriptions(m, e, r, XsdPrefix, false, true);
+		addDescriptions(m, e, r, XsdPrefix, false);
 	}
 	
        public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel) {
@@ -338,7 +331,7 @@ public class CommonMigration  {
                Element current = (Element) nodeList.get(i);
                String value = current.getAttribute("type");
                if (value.isEmpty()) {
-                   value = "subjectObjectProperty"; // TODO?
+                   value = "noType"; // TODO?
                }
                Property prop = m.getProperty(ROOT_PREFIX, "subject_"+value);
                value = current.getAttribute("class").trim();
