@@ -26,9 +26,9 @@ public class ImagegroupMigration {
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m);
-        Resource volume = m.createResource(VP+"TestVolumes");
-        m.add(volume, RDF.type, m.getResource(VP+"Volumes"));
-        MigrateImagegroup(xmlDocument, m, volume, "testVolume");
+        Resource volumes = m.createResource(VP+"TestVolumes");
+        m.add(volumes, RDF.type, m.getResource(VP+"Volumes"));
+        MigrateImagegroup(xmlDocument, m, volumes, "testVolume");
         return m;
 	}
 	

@@ -28,19 +28,21 @@ public class ScanrequestMigration {
         }
         Resource main = m.createResource(WP+value);
 
-        MigrateScanrequest(xmlDocument, m, main);
+        Resource volumes = m.createResource(VP+"TestVolumes");
+        m.add(volumes, RDF.type, m.getResource(VP+"Volumes"));
+        MigrateScanrequest(xmlDocument, m, volumes);
         
         return m;
 	}
 	
-	// use this giving a wkr:Work as main argument to fill the work data
-	public static Model MigrateScanrequest(Document xmlDocument, Model m, Resource main) {
+	// use this giving a vol:Volumes as main argument to fill the work data
+	public static Model MigrateScanrequest(Document xmlDocument, Model m, Resource volumes) {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
 		String value = root.getAttribute("venue");
-//        if (!value.isEmpty())
-//            m.add(main, m.getProperty(VP+"scan_venue"), m.creteLiteral(value));
+        if (!value.isEmpty())
+            m.add(volumes, m.getProperty(VP+"scan_venue"), m.createLiteral(value));
 		
 		return m;
 	}

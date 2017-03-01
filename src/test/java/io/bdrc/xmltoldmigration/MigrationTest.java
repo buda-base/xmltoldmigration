@@ -177,9 +177,9 @@ public class MigrationTest
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/ScanrequestTest.xml");  
            assertTrue(CommonMigration.documentValidates(d, scanrequestValidator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "scanrequest");
-           //Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", false);
-           //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/ScanrequestTest.jsonld");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "volumes", true);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
        }
        
