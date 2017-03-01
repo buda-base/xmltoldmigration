@@ -26,15 +26,20 @@ public class ImagegroupMigration {
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m);
-        Resource volume = m.createResource(VP+"TestVolume");
-        m.add(volume, RDF.type, m.getResource(VP+"Volume"));
-        MigrateImagegroup(xmlDocument, m, volume);
+        Resource volume = m.createResource(VP+"TestVolumes");
+        m.add(volume, RDF.type, m.getResource(VP+"Volumes"));
+        MigrateImagegroup(xmlDocument, m, volume, "testVolume");
         return m;
 	}
 	
-	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource main) {
+	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource volumes, String volumeName) {
 		
 		Element root = xmlDocument.getDocumentElement();
+		
+		Resource main = m.createResource(VP+volumeName);
+        m.add(main, RDF.type, m.getResource(VP+"Volume"));
+        
+        m.add(volumes, m.getProperty(VP+"hasVolume"), main);
         
 		// adding the ondisk/onDisk description as vol:imageList
 		NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "description");
@@ -46,7 +51,7 @@ public class ImagegroupMigration {
             m.add(main, m.getProperty(VP+"imageList"), value);
         }
 		
-        CommonMigration.addLog(m, root, main, IGXSDNS);
+        CommonMigration.addLog(m, root, volumes, IGXSDNS);
         CommonMigration.addDescriptions(m, root, main, IGXSDNS, false);
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");

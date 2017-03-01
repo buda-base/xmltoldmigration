@@ -175,9 +175,9 @@ public class MigrationTest
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/ImagegroupTest.xml");  
            assertTrue(CommonMigration.documentValidates(d, imagegroupValidator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
-           //Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/ImagegroupTest.jsonld");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "volume", true);
-           //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/ImagegroupTest.jsonld");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "volumes", true);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
        }
 
