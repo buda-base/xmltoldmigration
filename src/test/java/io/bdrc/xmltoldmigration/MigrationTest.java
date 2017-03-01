@@ -31,6 +31,7 @@ public class MigrationTest
 	Validator outlineValidator = null;
 	Validator pubinfoValidator = null;
 	Validator imagegroupValidator = null;
+	Validator scanrequestValidator = null;
 	
 	@Before
 	public void init() {
@@ -46,6 +47,7 @@ public class MigrationTest
 		outlineValidator = MigrationHelpers.getValidatorFor("outline");
 		pubinfoValidator = MigrationHelpers.getValidatorFor("pubinfo");
 		imagegroupValidator = MigrationHelpers.getValidatorFor("imagegroup");
+		scanrequestValidator = MigrationHelpers.getValidatorFor("scanrequest");
 	}
 	
 	@Test
@@ -166,6 +168,18 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+       }
+       
+       @Test
+       public void testScanrequest()
+       {
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/ScanrequestTest.xml");  
+           assertTrue(CommonMigration.documentValidates(d, scanrequestValidator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "scanrequest");
+           //Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", false);
+           //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
        }
        

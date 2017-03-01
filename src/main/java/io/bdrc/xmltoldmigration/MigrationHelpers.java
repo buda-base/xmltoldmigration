@@ -178,6 +178,9 @@ public class MigrationHelpers {
         case "outline":
             m = OutlineMigration.MigrateOutline(d);
             break;
+        case "scanrequest":
+            m = ScanrequestMigration.MigrateScanrequest(d);
+            break;
         case "topic":
             m = TopicMigration.MigrateTopic(d);
             break;

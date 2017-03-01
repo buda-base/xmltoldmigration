@@ -1,0 +1,7 @@
+<scanrequest:scanrequest xmlns:scanrequest="http://www.tbrc.org/models/scanrequest#" RID="SR00KG02831" numvols="1" venue="Delhi" work="W00KG01589">
+    <scanrequest:title>dam can chos kyi rgyal po lha bcu gsum ma'i sgrub thabs rjes snang gi cho ga dang  bcas pa</scanrequest:title>
+    <scanrequest:instructions>scanned from microfilm - Soma 0001 (0000 drive) on Dummy 8, ZJ07 - (zj000201/4-zj000204/4) 5 ff.</scanrequest:instructions>
+    <scanrequest:log>
+        <entry when="2007-08-13T14:40:36.918Z" who="Karma Gongde">new scan request</entry>
+    </scanrequest:log>
+</scanrequest:scanrequest>
