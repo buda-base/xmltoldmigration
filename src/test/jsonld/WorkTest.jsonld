@@ -22,7 +22,7 @@
     "@id" : "wor:W12837",
     "@type" : "wor:Work",
     "log_entry" : [ {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -35,6 +35,21 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Jeff Wallman"
+      }
+    }, {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "cataloging reviewed"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2007-09-08T18:25:18.406Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Gene Smith"
       }
     }, {
       "@id" : "_:b2",
@@ -52,7 +67,7 @@
         "@value" : "Jigme Namgyal"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -66,21 +81,6 @@
         "@language" : "en",
         "@value" : "Jeff Wallman"
       }
-    }, {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "cataloging reviewed"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2007-09-08T18:25:18.406Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Gene Smith"
-      }
     } ],
     "note" : {
       "@id" : "http://purl.bdrc.io/ontology/root/W12837_Note1",
@@ -88,8 +88,11 @@
       "note_content" : "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."
     },
     "status" : "released",
-    "subject_isAboutDeity" : {
-      "@id" : "top:T976"
+    "subject_isAboutPlace" : {
+      "@id" : "plc:G844"
+    },
+    "subject_isCommentaryOn" : {
+      "@id" : "wor:W976"
     },
     "subject_isInstanceOfGenre" : {
       "@id" : "top:T61"
@@ -129,8 +132,8 @@
     "wor:info_seriesType" : "monographic",
     "wor:license" : "ccby",
     "wor:otherTitle" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "bcom ldan 'das thams cad rig pa'i rnam bshad/_kun rig gi cho ga'i 'grel chen/_bcom ldan 'das thams cad rig pa'i dkyil 'khor cho ga'i rnam bshad legs bshad snying po"
+      "@language" : "pi",
+      "@value" : "test pali title"
     },
     "wor:scanInfo" : {
       "@language" : "en",

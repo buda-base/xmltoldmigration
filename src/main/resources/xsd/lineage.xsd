@@ -130,7 +130,7 @@
     <xsd:complexType name="ObjectRef">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="RID" type="c:objectRID" use="required"/>
+                <xsd:attribute name="RID" type="c:resourceRID" use="required"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>

@@ -104,7 +104,7 @@ If the data attribute is present the web-client will use it to display a link th
 	<xsd:complexType name="Subject">
 		<xsd:simpleContent>
 			<xsd:extension base="xsd:string">
-				<xsd:attribute name="class" type="c:topicRID" use="required"/>
+				<xsd:attribute name="class" type="c:resourceRID" use="required"/>
 				<xsd:attribute name="node" type="c:outlineNodeRID" use="optional"/>
 				<xsd:attribute name="type" type="c:usageTypeAttr"/>
 			</xsd:extension>
@@ -278,9 +278,15 @@ If the data attribute is present the web-client will use it to display a link th
 			c:marcRID c:officeRID c:outlineRID c:personRID c:placeRID c:productRID c:pubinfoRID c:scanreqRID
 			c:topicRID c:workRID c:externalRID c:iconRID c:artobjectRID c:eventRID"/>
 	</xsd:simpleType>
+	<xsd:simpleType name="resourceRID">
+		<xsd:union memberTypes="c:corporationRID c:lineageRID
+			c:officeRID c:outlineRID c:personRID c:placeRID c:productRID 
+			c:topicRID c:workRID"/>
+	</xsd:simpleType>
 	<xsd:simpleType name="langTypeAttr">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="tibetan"/>
+			<xsd:enumeration value="pali"/>
 			<xsd:enumeration value="english"/>
 			<xsd:enumeration value="chinese"/>
 			<xsd:enumeration value="sanskrit"/>

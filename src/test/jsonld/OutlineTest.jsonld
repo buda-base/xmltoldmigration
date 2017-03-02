@@ -21,7 +21,10 @@
   "@graph" : [ {
     "@id" : "out:O2DB87572",
     "@type" : [ "out:Outline", "out:partialCollectedWorks" ],
-    "out:authorship" : "Bumu Dega; outlined with the gracious support of the khyentse foundation",
+    "out:authorship" : {
+      "@language" : "en",
+      "@value" : "Bumu Dega; outlined with the gracious support of the khyentse foundation"
+    },
     "out:hasNode" : [ {
       "@id" : "out:O2DB875722DB87583",
       "@type" : "out:Class",
@@ -154,33 +157,7 @@
     "out:viewIn_list" : "subjects",
     "out:webAccess" : "notAvailable",
     "log_entry" : [ {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-09-15T14:51:25.708Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Bumu Dega"
-      }
-    }, {
       "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "vol. 1 outline images fixed"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-10-03T14:40:05.896Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
-      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -193,6 +170,32 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "paldor"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-09-15T14:51:25.708Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Bumu Dega"
+      }
+    }, {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "vol. 1 outline images fixed"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-10-03T14:40:05.896Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
       }
     } ],
     "name" : [ {

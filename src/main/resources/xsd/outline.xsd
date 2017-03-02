@@ -152,7 +152,7 @@
                 </xsd:documentation>
             </xsd:annotation>            
         </xsd:attribute>
-        <xsd:attribute name="class" type="xsd:string" use="optional">
+        <xsd:attribute name="class" type="c:resourceRID" use="optional">
             <xsd:annotation>
                 <xsd:documentation>
                     The class attribute is used when the type is "class" and the node refers to another

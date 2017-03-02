@@ -1,12 +1,14 @@
 <w:work xmlns:w="http://www.tbrc.org/models/work#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="W12837" status="released" xsi:schemaLocation="http://www.tbrc.org/models/work# http://www.tbrc-dlms.org/tbrc-defs/1/0/work.xsd">
     <w:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">kun rig rnam bshad</w:title>
-    <w:title encoding="extendedWylie" lang="tibetan" type="otherTitle">bcom ldan 'das thams cad rig pa'i rnam bshad/_kun rig gi cho ga'i 'grel chen/_bcom ldan 'das thams cad rig pa'i dkyil 'khor cho ga'i rnam bshad legs bshad snying po</w:title>
+    <w:title encoding="native" lang="pali" type="otherTitle">test pali title</w:title>
     <w:title encoding="extendedWylie" lang="tibetan" type="titlePageTitle">bcom ldan 'das thams cad rig pa'i rnam bshad</w:title>
     <w:hasPubInfo info="MW12837"/>
     <w:archiveInfo distribution="physical" restriction="none" status="scanned" vols="1" license="ccby" access="openAccess"/>
     <w:info nodeType="publishedWork" parent="W12345" seriesType="monographic" number="2" numbered="true" edition="this is the edition"/>
     <w:creator person="P1591" type="hasMainAuthor">grags pa rgyal mtshan</w:creator>
-    <w:subject class="T976" type="isAboutDeity">kun rig</w:subject>
+    <w:subject class="W976" type="isCommentaryOn">test work class</w:subject>
+    <w:subject class="G844" type="isAboutPlace">test place class</w:subject>
+    <w:subject type="isAboutDeity">invalid test (no class)</w:subject>
     <w:subject class="T61" type="isInstanceOfGenre">rnam bshad</w:subject>
     <w:inProduct pid="PR01UNRESTR">All Released and Unrestricted Works</w:inProduct>
     <w:inProduct pid="PRHD03">TBRC Core Text Collection 3</w:inProduct>

@@ -331,11 +331,14 @@ public class CommonMigration  {
                Element current = (Element) nodeList.get(i);
                String value = current.getAttribute("type");
                if (value.isEmpty()) {
-                   value = "noType"; // TODO?
+                   value = "noType";
                }
                Property prop = m.getProperty(ROOT_PREFIX, "subject_"+value);
                value = current.getAttribute("class").trim();
-               m.add(main, prop, m.createResource(TOPIC_PREFIX+value));
+               if (!value.isEmpty()) {
+                   value =  CommonMigration.getPrefixFromRID(value)+value;
+                   m.add(main, prop, m.createResource(value));
+               }
            }
        }
        
@@ -400,6 +403,8 @@ public class CommonMigration  {
 			return "-x-loc";
 		case "native":
 			return "";
+		case "none":
+            return "";
 		case "rma":
 			return "-x-rma";
 		case "sansDiacritics":
@@ -428,6 +433,8 @@ public class CommonMigration  {
 		switch(language) {
 		case "tibetan":
 			return "bo";
+		case "pali":
+            return "pi";
 		case "english":
 			return "en";
 		case "chinese":
