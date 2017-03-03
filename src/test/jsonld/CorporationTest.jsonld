@@ -61,11 +61,17 @@
     "note" : [ {
       "@id" : "http://purl.bdrc.io/ontology/root/C11MS170_Note2",
       "@type" : "Note",
-      "note_content" : "associated w / 11th cent. master, P4CZ15480 ?"
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "associated w / 11th cent. master, P4CZ15480 ?"
+      }
     }, {
       "@id" : "http://purl.bdrc.io/ontology/root/C11MS170_Note1",
       "@type" : "Note",
-      "note_content" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
+      }
     } ],
     "rdfs:label" : {
       "@language" : "bo-x-tbrc",

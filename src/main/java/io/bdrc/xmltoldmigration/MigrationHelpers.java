@@ -219,6 +219,7 @@ public class MigrationHelpers {
 		ExtendedIterator<Individual> it = o.listIndividuals();
 	    while(it.hasNext()) {
 			Individual i = it.next();
+			if (i.getLocalName().equals("UNKNOWN")) continue;
 			i.remove();
 	    }
 	}

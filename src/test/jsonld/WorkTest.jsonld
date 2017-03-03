@@ -26,15 +26,15 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "added print type and source printery"
+        "@value" : "normalized catalog info"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T12:06:50.245Z"
+        "@value" : "2014-04-21T23:05:36.322Z"
       },
       "log_who" : {
         "@language" : "en",
-        "@value" : "Jigme Namgyal"
+        "@value" : "Jeff Wallman"
       }
     }, {
       "@id" : "_:b1",
@@ -71,22 +71,25 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "normalized catalog info"
+        "@value" : "added print type and source printery"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-04-21T23:05:36.322Z"
+        "@value" : "2013-02-05T12:06:50.245Z"
       },
       "log_who" : {
         "@language" : "en",
-        "@value" : "Jeff Wallman"
+        "@value" : "Jigme Namgyal"
       }
     } ],
     "migration_exception" : "creator needs to be added to dlms: \"test for exception\"",
     "note" : {
       "@id" : "http://purl.bdrc.io/ontology/root/W12837_Note1",
       "@type" : "Note",
-      "note_content" : "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."
+      }
     },
     "status" : "released",
     "subject_isAboutPlace" : {

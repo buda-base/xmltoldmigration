@@ -31,10 +31,6 @@
       "out:hasNode" : {
         "@id" : "out:O2DB875722DB875732DB87599",
         "@type" : "out:Class",
-        "desc:location" : {
-          "@language" : "en",
-          "@value" : "p. 1 (1st group)"
-        },
         "out:location" : [ {
           "@id" : "wor:O2DB875722DB875732DB87599_Location2",
           "@type" : "wor:LocationByPage",
@@ -52,6 +48,14 @@
             "@id" : "wor:W30020"
           }
         } ],
+        "note" : {
+          "@id" : "http://purl.bdrc.io/ontology/root/O2DB875722DB875732DB87599_Note1",
+          "@type" : "Note",
+          "note_content" : {
+            "@language" : "en",
+            "@value" : "p. 1 (1st group)"
+          }
+        },
         "wor:bibliographicalTitle" : {
           "@language" : "bo-x-ewts",
           "@value" : "gleng gzhi/"
@@ -157,22 +161,7 @@
     "out:viewIn_list" : "subjects",
     "out:webAccess" : "notAvailable",
     "log_entry" : [ {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "zhu dag byas"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-12-28T10:00:20.456Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "paldor"
-      }
-    }, {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_when" : {
         "@type" : "xsd:dateTime",
@@ -183,7 +172,7 @@
         "@value" : "Bumu Dega"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -196,6 +185,21 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Lobsang Shastri"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "zhu dag byas"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-12-28T10:00:20.456Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "paldor"
       }
     } ],
     "name" : [ {

@@ -87,7 +87,7 @@
     <p:kinship person="P1584" relation="hasFather">bstan pa srung</p:kinship>
     <p:kinship person="P1585" relation="hasMother">'brom bza' bsod nams rgyan</p:kinship>
     <p:external data="http://example.com">External example</p:external>
-    <p:incarnationOf relation="yangtse" being="P561654">ignoring string</p:incarnationOf>
+    <p:incarnationOf relation="yangtse">ignoring string</p:incarnationOf>
     <p:incarnationOf secondary="mind" being="P561654">ignoring string</p:incarnationOf>
     <p:ofSect sect="T1234">ignoring string</p:ofSect>
     <p:note location="v. 2, pp.104-112" work="W25268">biography

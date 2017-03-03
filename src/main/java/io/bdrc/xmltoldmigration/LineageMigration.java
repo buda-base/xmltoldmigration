@@ -33,6 +33,9 @@ public class LineageMigration {
 		if (!value.equals("Lineage")) {
 			m.add(main, RDF.type, m.createResource(LP + "Lineage"));
 		}
+		if (value.equals("NotSpecified")) {
+            CommonMigration.addException(m, main, "missing lineage type");
+        }
 		
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
@@ -157,7 +160,9 @@ public class LineageMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
-			if (value.isEmpty()) value = "lineageTypes:Lineage";
+			if (value.isEmpty()) {
+			    value = "lineageTypes:NotSpecified";
+			}
 			if (value.equals("lineageTypes:rlung")) value = "lineageTypes:lung";
 			value = value.substring(13);
 			value = CommonMigration.normalizePropName(value, "Class");

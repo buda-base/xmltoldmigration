@@ -3,6 +3,7 @@
     "@vocab" : "http://purl.bdrc.io/ontology/root/",
     "com" : "http://purl.bdrc.io/ontology/common#",
     "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "plc" : "http://purl.bdrc.io/ontology/place#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
@@ -14,6 +15,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "wor" : "http://purl.bdrc.io/ontology/work/",
     "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
     "desc" : "http://onto.bdrc.io/ontology/description#"
   },
   "@graph" : [ {
@@ -46,7 +48,10 @@
     "note" : {
       "@id" : "http://purl.bdrc.io/ontology/root/P1331_Note1",
       "@type" : "Note",
-      "note_content" : "date of death from this source",
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "date of death from this source"
+      },
       "note_location" : "p. 359",
       "note_work" : {
         "@id" : "wor:W20115"

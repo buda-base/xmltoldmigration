@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -143,9 +144,10 @@ public class CommonMigration  {
             return "stog_number";
 	    case "StogNumber":
             return "stog_number";
-            
-            
-            
+	    case "toh_number":
+            return "toh";
+	    case "SheyNumber":
+            return "shey_number";
 	    default:
 	        return desc;
 	    }
@@ -217,7 +219,7 @@ public class CommonMigration  {
 		value = e.getTextContent().trim();
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"note_content");
-			lit = m.createLiteral(value);
+			lit = m.createLiteral(value, "en");
 			m.add(note, prop, lit);
 		}
 	}
@@ -353,6 +355,14 @@ public class CommonMigration  {
 			if (type.equals("ondisk") || type.equals("onDisk")) continue;
 			if (type.equals("date")) 
 			    addException(m, r, "resource contains a date description that should be changed into something meaningful");
+			if (type.equals("note")) {
+			    String resourceName = getSubResourceName(r, ROOT_PREFIX, "Note", i+1);
+		        Resource note = m.createResource(resourceName);
+		        m.add(note, RDF.type, m.createProperty(ROOT_PREFIX+"Note"));
+	            m.add(r, m.getProperty(ROOT_PREFIX+"note"), note);
+	            m.add(note, m.getProperty(ROOT_PREFIX+"note_content"), m.createLiteral(current.getTextContent().trim(), "en"));
+			    continue;
+			}
 			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
 			m.add(r, prop, value);
 			// for product and office the name is the first description type="contents"

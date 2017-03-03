@@ -161,20 +161,22 @@ public class PersonMigration {
 		String value = e.getAttribute("being").trim();
 		if (value.isEmpty()) {
 		    CommonMigration.addException(m, r, "no RID for incarnation, text reads: \""+e.getTextContent()+"\"");
+		    value = PP+"UNKNOWN";
 		} else {
 		    value = CommonMigration.getPrefixFromRID(value)+value;
-		    Resource being = m.createResource(value);
-	        Property prop = m.getProperty(PP, "incarnationOf_being");
-	        m.add(incarnationOf, prop, being);
 		}
+        Resource being = m.createResource(value);
+        Property prop = m.getProperty(PP, "incarnationOf_being");
+        m.add(incarnationOf, prop, being);
+        
 		value = e.getAttribute("relation");
 		if (value != null && !value.isEmpty()) {
-			Property prop = m.getProperty(PP, "incarnationOf_relation");
+			prop = m.getProperty(PP, "incarnationOf_relation");
 			m.add(incarnationOf, prop, m.createLiteral(value));
 		}
 		value = e.getAttribute("secondary");
 		if (value != null && !value.isEmpty()) {
-			Property prop = m.getProperty(PP, "incarnationOf_secondary");
+			prop = m.getProperty(PP, "incarnationOf_secondary");
 			m.add(incarnationOf, prop, m.createLiteral(value));
 		}
 		

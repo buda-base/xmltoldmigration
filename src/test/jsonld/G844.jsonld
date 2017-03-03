@@ -108,7 +108,10 @@
       "note" : {
         "@id" : "http://purl.bdrc.io/ontology/root/G844_Event2_Note1",
         "@type" : "Note",
-        "note_content" : "event note test",
+        "note_content" : {
+          "@language" : "en",
+          "@value" : "event note test"
+        },
         "note_location" : "test",
         "note_work" : {
           "@id" : "wor:Wtest"
@@ -136,11 +139,26 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "added name & note"
+        "@value" : "added contain"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-02-19T14:10:50.715Z"
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added location"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-01-06T14:22:58.026Z"
       },
       "log_who" : {
         "@language" : "en",
@@ -162,7 +180,7 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b5",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -177,7 +195,37 @@
         "@value" : "Jigme Namgyal"
       }
     }, {
+      "@id" : "_:b5",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added place contained"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-05-29T12:18:47.035Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Michael R. Sheehy"
+      }
+    }, {
       "@id" : "_:b6",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name & note"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-02-19T14:10:50.715Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -193,51 +241,6 @@
       }
     }, {
       "@id" : "_:b7",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added location"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-01-06T14:22:58.026Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added place contained"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-05-29T12:18:47.035Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Michael R. Sheehy"
-      }
-    }, {
-      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -265,7 +268,10 @@
     "note" : [ {
       "@id" : "http://purl.bdrc.io/ontology/root/G844_Note2",
       "@type" : "Note",
-      "note_content" : "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།",
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"
+      },
       "note_location" : "p.1467-1468",
       "note_work" : {
         "@id" : "wor:W26372"
@@ -273,7 +279,10 @@
     }, {
       "@id" : "http://purl.bdrc.io/ontology/root/G844_Note1",
       "@type" : "Note",
-      "note_content" : "the region of the rulers of the bya principality in southern tibet"
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "the region of the rulers of the bya principality in southern tibet"
+      }
     } ],
     "status" : "released",
     "rdfs:label" : {

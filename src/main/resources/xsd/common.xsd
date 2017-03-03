@@ -446,6 +446,7 @@ If the data attribute is present the web-client will use it to display a link th
 			<xsd:enumeration value="thumbnail"/>
 			<xsd:enumeration value="Tib.Hand.und.Blockdrucke"/>
 			<xsd:enumeration value="toh"/>
+			<xsd:enumeration value="toh number"/>
 			<xsd:enumeration value="town_ch"/>
 			<xsd:enumeration value="town_syl"/>
 			<xsd:enumeration value="ToyoBunko"/>
@@ -474,6 +475,7 @@ If the data attribute is present the web-client will use it to display a link th
 			<xsd:enumeration value="gser bri number"/>
 			<xsd:enumeration value="gser bri number "/>
 			<xsd:enumeration value="gse bris number"/>
+			<xsd:enumeration value="gse bris number "/>
 			<xsd:enumeration value="sde dge number"/>
 			<xsd:enumeration value="sde dge number "/>
 			<xsd:enumeration value="sde gde number"/>
@@ -495,6 +497,12 @@ If the data attribute is present the web-client will use it to display a link th
 			<xsd:enumeration value="chapters"/>
 			<xsd:enumeration value="chapter"/>
 			<xsd:enumeration value="location"/>
+			<xsd:enumeration value="vinayottaragrantha"/>
+			<xsd:enumeration value="incipit"/>
+			<xsd:enumeration value="note"/>
+			<xsd:enumeration value="bon bka' 'gyur number"/>
+			<xsd:enumeration value="SheyNumber"/>
+			<xsd:enumeration value="rKTsReference"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<!-- work flow common definitions -->
