@@ -194,15 +194,30 @@ public class PlaceMigration {
 		
 	}
 	
+	public static String normalizePlaceType(String val) {
+	    switch(val) {
+	    case "khul":
+	        return "Khul";
+	    case "placeTypes:townshipSeats":
+	        return "Shang";
+	    case "placeTypes:srolRgyunGyiSaMing":
+            return "SrolRgyunSaMing";
+	    case "placeTypes:tshoPa":
+            return "TshoBa";
+	    }
+	    // starts with "placeTypes:"
+	    val = val.substring(11);
+	    val = CommonMigration.normalizePropName(val, "Class");
+	    return val;
+	}
+	
 	public static String getTypeStr(Element root) {
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
 		String value = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			value = current.getAttribute("type");
-			// starts with "placeTypes:"
-			value = value.substring(11);
-			value = CommonMigration.normalizePropName(value, "Class");
+			value = current.getAttribute("type").trim();
+			value = normalizePlaceType(value);
 			break;
 		}
 		return value;
@@ -214,9 +229,14 @@ public class PlaceMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
-			// starts with "placeEventTypes:"
-			value = value.substring(16);
-			value = CommonMigration.normalizePropName(value, "Class");
+			if (value.isEmpty()) {
+			    value = "NotSpecified";
+	            CommonMigration.addException(m, main, "missing type for an event");
+	        } else {
+	            // should start with "placeEventTypes:"
+	            value = value.substring(16);
+	            value = CommonMigration.normalizePropName(value, "Class");
+	        }
 			String name = CommonMigration.getSubResourceName(main, PLP, "Event", i+1);
 			Resource event = m.createResource(PLP + name);
 			m.add(event, RDF.type, m.getResource(PLP+value));
@@ -243,6 +263,7 @@ public class PlaceMigration {
 			switch (type) {
 			case "placeEventAffiliationTypes:lineage":
 				// rid starts with "lineage:"
+			    if (value.equals("lineage:Kadampa")) value = "lineage:Kadam";
 				value = value.substring(8);
 				String rid = lineageTypeToSomething.get(value);
 				target = m.createResource(CommonMigration.OUTLINE_PREFIX+rid);

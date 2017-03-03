@@ -3,6 +3,7 @@
     "@vocab" : "http://purl.bdrc.io/ontology/root/",
     "com" : "http://purl.bdrc.io/ontology/common#",
     "crp" : "http://purl.bdrc.io/ontology/coroporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "plc" : "http://purl.bdrc.io/ontology/place#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
@@ -14,6 +15,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "wor" : "http://purl.bdrc.io/ontology/work/",
     "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
     "desc" : "http://onto.bdrc.io/ontology/description#"
   },
   "@graph" : [ {
@@ -25,7 +27,7 @@
     },
     "per:event" : [ {
       "@id" : "per:P1583_Event2",
-      "@type" : "per:Death",
+      "@type" : "per:NotSpecified",
       "per:event_circa" : "1364"
     }, {
       "@id" : "per:P1583_Event1",
@@ -83,10 +85,57 @@
       "@language" : "bo-x-ewts",
       "@value" : "rgyal sras thugs mchog rtsal/"
     },
+    "per:studentOf" : [ {
+      "@id" : "per:P1588"
+    }, {
+      "@id" : "per:P1587"
+    }, {
+      "@id" : "per:P2JM188"
+    }, {
+      "@id" : "per:P2JM187"
+    }, {
+      "@id" : "per:P1584"
+    }, {
+      "@id" : "per:P2JM184"
+    }, {
+      "@id" : "per:P2JM183"
+    }, {
+      "@id" : "per:P144"
+    }, {
+      "@id" : "per:P2JM189"
+    }, {
+      "@id" : "per:P2JM185"
+    }, {
+      "@id" : "per:P4312"
+    }, {
+      "@id" : "per:P1586"
+    }, {
+      "@id" : "per:P403"
+    }, {
+      "@id" : "per:P4860"
+    }, {
+      "@id" : "per:P2JM186"
+    }, {
+      "@id" : "per:P2349"
+    }, {
+      "@id" : "per:P66"
+    }, {
+      "@id" : "per:P2JM191"
+    }, {
+      "@id" : "per:P2JM190"
+    }, {
+      "@id" : "per:P2085"
+    }, {
+      "@id" : "per:P1226"
+    } ],
     "per:teacherOf" : [ {
       "@id" : "per:P8527"
     }, {
       "@id" : "per:P2JM200"
+    }, {
+      "@id" : "per:P0RK839"
+    }, {
+      "@id" : "per:P0RK1190"
     }, {
       "@id" : "per:P2JM201"
     }, {
@@ -112,7 +161,13 @@
     }, {
       "@id" : "per:P5911"
     }, {
+      "@id" : "per:P0RK1192"
+    }, {
       "@id" : "per:P7091"
+    }, {
+      "@id" : "per:P0RK783"
+    }, {
+      "@id" : "per:P0RK1191"
     }, {
       "@id" : "per:P2JM203"
     }, {
@@ -149,22 +204,7 @@
       }
     },
     "log_entry" : [ {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added records"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2008-06-30T17:01:56.496Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Joe McClellan"
-      }
-    }, {
-      "@id" : "_:b1",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -179,52 +219,7 @@
         "@value" : "Jeff Wallman"
       }
     }, {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name in chinese"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2011-08-02T16:53:12.77Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b5",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added records"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2008-07-02T17:03:41.75Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Joe McClellan"
-      }
-    }, {
-      "@id" : "_:b6",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name rgyal sras thugs mchog rtsal"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-10-22T18:31:49.12Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Karma Gongde"
-      }
-    }, {
-      "@id" : "_:b0",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -239,7 +234,7 @@
         "@value" : "Paldor"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b4",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -254,7 +249,52 @@
         "@value" : "Michael Sheehy"
       }
     }, {
-      "@id" : "_:b8",
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added records"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2008-06-30T17:01:56.496Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Joe McClellan"
+      }
+    }, {
+      "@id" : "_:b5",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name in chinese"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2011-08-02T16:53:12.77Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b6",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added records"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2008-07-02T17:03:41.75Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Joe McClellan"
+      }
+    }, {
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -268,7 +308,23 @@
         "@language" : "en",
         "@value" : "Michael R. Sheehy"
       }
+    }, {
+      "@id" : "_:b8",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name rgyal sras thugs mchog rtsal"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-10-22T18:31:49.12Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Karma Gongde"
+      }
     } ],
+    "migration_exception" : [ "teacherOf value contains unparsed strings: \"#L204a\"", "missing type for an event" ],
     "note" : [ {
       "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note4",
       "@type" : "Note",

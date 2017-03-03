@@ -86,9 +86,9 @@
       "out:hasNode" : {
         "@id" : "out:O2DB875722DB87573",
         "@type" : "out:Text",
-        "desc:location" : {
+        "desc:gser_bris_number" : {
           "@language" : "en",
-          "@value" : "p. 1 (1st group)"
+          "@value" : "test broken property type"
         },
         "out:location" : [ {
           "@id" : "wor:O2DB875722DB87573_Location2",
@@ -157,7 +157,7 @@
     "out:viewIn_list" : "subjects",
     "out:webAccess" : "notAvailable",
     "log_entry" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -172,7 +172,7 @@
         "@value" : "paldor"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_when" : {
         "@type" : "xsd:dateTime",
@@ -183,7 +183,7 @@
         "@value" : "Bumu Dega"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",

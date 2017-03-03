@@ -85,7 +85,7 @@
             <xsd:element name="corp" type="per:Corporation" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
         <xsd:attribute name="pid" type="c:anyRID"/>
-        <xsd:attribute name="type" type="c:eventTypeAttr" use="required"/>
+        <xsd:attribute name="type" type="c:eventTypeAttr"/>
         <xsd:attribute name="circa" type="xsd:string" use="optional"/>
     </xsd:complexType>
     <xsd:complexType name="Seat">
@@ -125,7 +125,7 @@
     <xsd:complexType name="RelatedPerson">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="pid" type="c:personRID"/>
+                <xsd:attribute name="pid" type="xsd:string"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
@@ -153,7 +153,7 @@
                 <xsd:attribute name="relation" type="per:incarnationRelationType" use="optional"/>
                 <xsd:attribute name="secondary" type="per:incarnationRelationType" use="optional"/>
 <!-- not possible is XSD 1.0               <xsd:assert test="(@relation and not(@secondary)) or (not(@relation) and @secondary)"/>-->
-                <xsd:attribute name="being" type="per:beingRID" use="required"/>
+                <xsd:attribute name="being" type="per:beingRID" use="optional"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>

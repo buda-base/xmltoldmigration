@@ -66,8 +66,14 @@ public class ImagegroupMigration {
                 m.add(main, m.getProperty(VP+"pages_tbrcintro"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
             
             value = current.getAttribute("text").trim();
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
+                if (value.startsWith("-")) {
+                    CommonMigration.addException(m, main, "image group had a negative value for 'text': "+value);
+                    value = "0";
+                }
                 m.add(main, m.getProperty(VP+"pages_text"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+            }
+                
             
             value = current.getAttribute("total").trim();
             if (!value.isEmpty())

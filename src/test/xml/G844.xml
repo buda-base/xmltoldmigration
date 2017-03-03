@@ -15,6 +15,7 @@
     <!-- from G30 -->
     <g:gis>
         <g:id type="chgis_id"  value="854"/>
+        <g:id type="WB_area_sq_km" value="test"/>
         <g:id type="fromLex"  value="540102200:540101145"/>
         <g:id type="fromTBRC"  value="540102200:540101145"/>
         <g:coords lat="       29.63984"  long="       91.22002">Some polygon coordinates</g:coords>

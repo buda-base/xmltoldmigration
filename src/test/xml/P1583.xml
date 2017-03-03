@@ -34,10 +34,11 @@
     <p:event circa="1308" pid="E1988" type="birth">
         <p:place pid="G967">g.yo ru stod grong</p:place>
     </p:event>
-    <p:event circa="1364" pid="E1989" type="death"/>
+    <p:event circa="1364" pid="E1989"/>
     <p:seat>
         <p:place pid="G521">shug gseb dgon (chu shur rdzong)</p:place>
     </p:seat>
+    <!-- from P0RK76 --><p:teacherOf pid="P0RK1190 P0RK839 P0RK1191 P0RK783 #L204a P0RK1192">test</p:teacherOf>
     <p:studentOf pid="P1584">bstan pa srung</p:studentOf>
     <p:studentOf pid="P1586">bsam 'grub rin chen</p:studentOf>
     <p:studentOf pid="P1587">kun dga' 'od zer</p:studentOf>

@@ -100,8 +100,14 @@ public class WorkMigration {
                 value = "hasMainAuthor";
             }
             prop = m.createProperty(WP+value);
-            value = current.getAttribute("person"); // required
-            m.add(main, prop, m.createResource(PP+value));
+            value = current.getAttribute("person").trim(); // required
+            if (value.isEmpty()) continue;
+            if (value.equals("Add to DLMS")) {
+                value = current.getTextContent().trim();
+                if (!value.isEmpty())
+                    CommonMigration.addException(m, main,  "creator needs to be added to dlms: \""+value+"\"");
+            } else 
+                m.add(main, prop, m.createResource(PP+value));
         }
         
         // inProduct

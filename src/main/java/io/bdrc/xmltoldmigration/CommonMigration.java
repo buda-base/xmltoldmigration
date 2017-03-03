@@ -97,6 +97,60 @@ public class CommonMigration  {
 			    +"}";
 	}
 	
+	public static String normalizeDescription(String desc) {
+	    switch (desc) {
+	    case "chapter":
+	        return "chapters";
+	    case "content":
+            return "contents";
+	    case "snar_bstan_number":
+            return "snar_thang_number";
+	    case "snr_thang_number":
+            return "snar_thang_number";
+	    case "gser_bris_numbr":
+            return "gser_bris_number";
+	    case "gser_birs_number":
+            return "gser_bris_number";
+	    case "gse_bris_number":
+            return "gser_bris_number";
+	    case "sger_bris_number":
+            return "gser_bris_number";
+	    case "gser_bri_numer":
+            return "gser_bris_number";
+	    case "gser_dris_number":
+            return "gser_bris_number";
+	    case "gser_bri_number":
+            return "gser_bris_number";
+	    case "gser_bris_nimber":
+            return "gser_bris_number";
+	    case "colopho":
+            return "colophon";
+	    case "colophn":
+	        return "colophon";
+	    case "colophone":
+            return "colophon";
+	    case "sde_gde_number":
+            return "sde_dge_number";
+	    case "de_dge_number":
+            return "sde_dge_number";
+	    case "sdg_dge_number":
+            return "sde_dge_number";
+	    case "sdr_dge_number":
+            return "sde_dge_number";
+	    case "stog_numbe":
+            return "stog_number";
+	    case "stog_unmber":
+            return "stog_number";
+	    case "StogNumber":
+            return "stog_number";
+            
+            
+            
+	    default:
+	        return desc;
+	    }
+	}
+	
 	public static Literal getLitFromUri(Model m, String uri) {
 		//return m.createLiteral(m.shortForm(uri));
 		return m.createLiteral(uri);
@@ -120,10 +174,13 @@ public class CommonMigration  {
 	}
 	
 	public static String normalizePropName(String toNormalize, String targetType) {
-		String res = toNormalize.replace("'", "");
+		String res = toNormalize.trim().replace("'", "").replace(" ", "_");
 		if (targetType == "Class") {
 			res = res.substring(0,1).toUpperCase() + res.substring(1);
 		}
+		if (targetType == "description") {
+            res = normalizeDescription(res);
+        }
 		return res;
 	}
 	
@@ -291,8 +348,11 @@ public class CommonMigration  {
             value = m.createLiteral(current.getTextContent().trim(), lang);
 			String type = current.getAttribute("type");
 			if (type.isEmpty()) type = "noType";
+			type = normalizePropName(type, "description");
 			// onDisk is treated separately in imageGroups, TODO: check if it appears somewhere else
-			if (type.equals("ondisk") || type.equals("onDisk")) continue; 
+			if (type.equals("ondisk") || type.equals("onDisk")) continue;
+			if (type.equals("date")) 
+			    addException(m, r, "resource contains a date description that should be changed into something meaningful");
 			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
 			m.add(r, prop, value);
 			// for product and office the name is the first description type="contents"
@@ -377,6 +437,10 @@ public class CommonMigration  {
                if (!value.isEmpty())
                    m.add(loc, m.getProperty(WORK_PREFIX, "phrase"), m.createLiteral(value));
            }
+       }
+       
+       public static void addException(Model m, Resource r, String exception) {
+           m.add(r, m.getProperty(ROOT_PREFIX+"migration_exception"), m.createLiteral(exception));
        }
 	
 	public static String getPrefixFromRID(String rid) {

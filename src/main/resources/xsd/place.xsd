@@ -251,6 +251,10 @@
             <xsd:enumeration value="fromLex"/>
             <xsd:enumeration value="fromTBRC"/>
             <xsd:enumeration value="chgis_id"/>
+            <xsd:enumeration value="gb2260-2013"/>
+            <xsd:enumeration value="WB_area_sq_km"/>
+            <xsd:enumeration value="WB_pop_2000"/>
+            <xsd:enumeration value="WB_pop_2010"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="affiliationTypeAttr">
@@ -273,6 +277,7 @@
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="lineage:Nyingma"/>
             <xsd:enumeration value="lineage:Kadam"/>
+            <xsd:enumeration value="lineage:Kadampa"/>
             <xsd:enumeration value="lineage:Geluk"/>
             <xsd:enumeration value="lineage:Kagyu"/>
             <xsd:enumeration value="lineage:KarmaKagyu"/>
@@ -303,7 +308,9 @@
     <xsd:simpleType name="placeTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="notSpecified"/>
+            <xsd:enumeration value="khul"/>
             <xsd:enumeration value="placeTypes:notSpecified"/>
+            <xsd:enumeration value="placeTypes:gzimsKhang"/>
             <xsd:enumeration value="placeTypes:rangByung'KhorYug"/>
             <xsd:enumeration value="placeTypes:riRgyud"/>
             <xsd:enumeration value="placeTypes:riBo"/>
@@ -318,6 +325,7 @@
             <xsd:enumeration value="placeTypes:mda'"/>
             <xsd:enumeration value="placeTypes:rtenGzhiYulLung"/>
             <xsd:enumeration value="placeTypes:srolRgyunSaMing"/>
+            <xsd:enumeration value="placeTypes:srolRgyunGyiSaMing"/>
             <xsd:enumeration value="placeTypes:srolRgyunSaKhul"/>
             <xsd:enumeration value="placeTypes:rgyalKhab"/>
             <xsd:enumeration value="placeTypes:gling"/>
@@ -339,6 +347,7 @@
             <xsd:enumeration value="placeTypes:ruSde"/>
             <xsd:enumeration value="placeTypes:'brogSde"/>
             <xsd:enumeration value="placeTypes:tshoBa"/>
+            <xsd:enumeration value="placeTypes:tshoPa"/>
             <xsd:enumeration value="placeTypes:grongSde"/>
             <xsd:enumeration value="placeTypes:brtenPaGnasKhang"/>
             <xsd:enumeration value="placeTypes:dgonPa"/>
@@ -386,6 +395,7 @@
             <xsd:enumeration value="placeTypes:grongRdal"/>
             <xsd:enumeration value="placeTypes:chus"/>
             <xsd:enumeration value="placeTypes:shang"/>
+            <xsd:enumeration value="placeTypes:townshipSeats"/>
             <xsd:enumeration value="placeTypes:grongTsho"/>
         </xsd:restriction>
     </xsd:simpleType>

@@ -75,8 +75,49 @@ public class PersonMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			prop = m.getProperty(PP, "teacherOf");
-			m.add(main, prop, m.createResource(PP+current.getAttribute("pid")));
+			String val = current.getAttribute("pid");
+			if (val.isEmpty()) continue;
+			if (val.contains(" ")) {
+			    String [] parts = val.split(" ");
+			    for (String part: parts) {
+			        if (part.startsWith("#")) {
+                        CommonMigration.addException(m, main, "teacherOf value contains unparsed strings: \""+part+"\"");
+                        continue;
+                    }
+			        if (!part.startsWith("P")) {
+			            System.err.println("cannot parse '"+val+"' correctly");
+			            continue;
+			        }
+			        m.add(main, prop, m.createResource(PP+part));
+			    }
+			} else {
+			    m.add(main, prop, m.createResource(PP+val)); 
+			}
 		}
+        
+		nodeList = root.getElementsByTagNameNS(PXSDNS, "studentOf");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            current = (Element) nodeList.item(i);
+            prop = m.getProperty(PP, "studentOf");
+            String val = current.getAttribute("pid");
+            if (val.isEmpty()) continue;
+            if (val.contains(" ")) {
+                String [] parts = val.split(" ");
+                for (String part: parts) {           
+                    if (part.startsWith("#")) {
+                        CommonMigration.addException(m, main, "studentOf value contains unparsed strings: "+part);
+                        continue;
+                    }
+                    if (!part.startsWith("P")) {
+                        System.err.println("cannot parse '"+val+"' correctly");
+                        continue;
+                    }
+                    m.add(main, prop, m.createResource(PP+part));
+                }
+            } else {
+                m.add(main, prop, m.createResource(PP+val)); 
+            }
+        }
 		
 		// kinship
 		
@@ -117,23 +158,23 @@ public class PersonMigration {
 		Resource incarnationOf = m.createResource(resourceName);
 		m.add(incarnationOf, RDF.type, m.createProperty(PP+"IncarnationOf"));
 		m.add(r, m.getProperty(PP+"incarnationOf"), incarnationOf);
-		String value = e.getAttribute("being");
-		Resource being;
-		if (value.startsWith("P")) {
-			being = m.createResource(PP+value);
+		String value = e.getAttribute("being").trim();
+		if (value.isEmpty()) {
+		    CommonMigration.addException(m, r, "no RID for incarnation, text reads: \""+e.getTextContent()+"\"");
 		} else {
-			being = m.createResource(TP+value);
+		    value = CommonMigration.getPrefixFromRID(value)+value;
+		    Resource being = m.createResource(value);
+	        Property prop = m.getProperty(PP, "incarnationOf_being");
+	        m.add(incarnationOf, prop, being);
 		}
-		Property prop = m.getProperty(PP, "incarnationOf_being");
-		m.add(incarnationOf, prop, being);
 		value = e.getAttribute("relation");
 		if (value != null && !value.isEmpty()) {
-			prop = m.getProperty(PP, "incarnationOf_relation");
+			Property prop = m.getProperty(PP, "incarnationOf_relation");
 			m.add(incarnationOf, prop, m.createLiteral(value));
 		}
 		value = e.getAttribute("secondary");
 		if (value != null && !value.isEmpty()) {
-			prop = m.getProperty(PP, "incarnationOf_secondary");
+			Property prop = m.getProperty(PP, "incarnationOf_secondary");
 			m.add(incarnationOf, prop, m.createLiteral(value));
 		}
 		
@@ -142,7 +183,12 @@ public class PersonMigration {
 	public static void addEvent(Model m, Resource person, Element e, int i) {
 		String resourceName = CommonMigration.getSubResourceName(person, PP, "Event", i+1);
 		Resource subResource = m.createResource(resourceName);
-		String typeValue = CommonMigration.normalizePropName(e.getAttribute("type"), "Class");
+		String typeValue = e.getAttribute("type");
+		if (typeValue.isEmpty()) {
+		    typeValue = "NotSpecified";
+		    CommonMigration.addException(m, person, "missing type for an event");
+		}
+		typeValue = CommonMigration.normalizePropName(typeValue, "Class");
 		m.add(subResource, RDF.type, m.createProperty(PP+typeValue));
 		Literal value = m.createLiteral(e.getAttribute("circa"));
 		Property prop = m.getProperty(PP, "event_circa");

@@ -125,8 +125,20 @@ public class LineageMigration {
             m.add(holder, m.getProperty(LP+"received"), received);
             value = current.getAttribute("RID");
             if (!value.isEmpty()) {
-                value =  CommonMigration.getPrefixFromRID(value)+value;
-                m.add(received, m.getProperty(LP+"from"), m.getResource(value));
+                if (value.contains(" ")) {
+                    String [] parts = value.split(" ");
+                    for (String part: parts) {
+                        if (part.startsWith("#")) {
+                            CommonMigration.addException(m, r, "received value contains unparsed strings: \""+part+"\"");
+                            continue;
+                        }
+                        part =  CommonMigration.getPrefixFromRID(part)+part;
+                        m.add(received, m.getProperty(LP+"from"), m.createResource(part));
+                    }
+                } else {
+                    value =  CommonMigration.getPrefixFromRID(value)+value;
+                    m.add(received, m.getProperty(LP+"from"), m.getResource(value));
+                }
             }
 
             value = current.getAttribute("site");
@@ -146,6 +158,7 @@ public class LineageMigration {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
 			if (value.isEmpty()) value = "lineageTypes:Lineage";
+			if (value.equals("lineageTypes:rlung")) value = "lineageTypes:lung";
 			value = value.substring(13);
 			value = CommonMigration.normalizePropName(value, "Class");
 		}

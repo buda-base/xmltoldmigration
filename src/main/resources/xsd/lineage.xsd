@@ -51,7 +51,7 @@
         </xsd:choice>
     </xsd:group>
     <xsd:complexType name="Info">
-        <xsd:attribute name="type" type="lin:lineageTypeAttr"/>
+        <xsd:attribute name="type" type="lin:lineageTypeAttr" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="Holder">
         <xsd:sequence>
@@ -113,7 +113,7 @@
     <xsd:complexType name="LineageRef">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="RID" type="c:lineageRID" use="required"/>
+                <xsd:attribute name="RID" type="c:lineageRID" use="optional"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
@@ -137,7 +137,7 @@
     <xsd:complexType name="EntityRef">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="RID" type="c:originatorRID" use="required"/>
+                <xsd:attribute name="RID" type="c:originatorRID" use="optional"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
@@ -158,7 +158,7 @@
     <xsd:complexType name="Received">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="RID" type="c:originatorRID" use="required"/>
+                <xsd:attribute name="RID" type="c:originatorRID" use="optional"/>
                 <xsd:attribute name="site" type="c:placeRID" use="optional"/>
                 <xsd:attribute name="circa" type="xsd:string" use="optional"/>
             </xsd:extension>
@@ -171,6 +171,7 @@
 			<xsd:enumeration value="lineageTypes:gdamsNgag"/>
 			<xsd:enumeration value="lineageTypes:khrid"/>
 			<xsd:enumeration value="lineageTypes:lung"/>
+            <xsd:enumeration value="lineageTypes:rlung"/>
 			<xsd:enumeration value="lineageTypes:manNgag"/>
 			<xsd:enumeration value="lineageTypes:notSpecified"/>
 			<xsd:enumeration value="lineageTypes:nyeBrgyud"/>

@@ -6,6 +6,7 @@
     <w:archiveInfo distribution="physical" restriction="none" status="scanned" vols="1" license="ccby" access="openAccess"/>
     <w:info nodeType="publishedWork" parent="W12345" seriesType="monographic" number="2" numbered="true" edition="this is the edition"/>
     <w:creator person="P1591" type="hasMainAuthor">grags pa rgyal mtshan</w:creator>
+    <w:creator person="Add to DLMS" type="hasMainAuthor">test for exception</w:creator>
     <w:subject class="W976" type="isCommentaryOn">test work class</w:subject>
     <w:subject class="G844" type="isAboutPlace">test place class</w:subject>
     <w:subject type="isAboutDeity">invalid test (no class)</w:subject>

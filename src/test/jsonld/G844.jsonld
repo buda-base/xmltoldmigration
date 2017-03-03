@@ -15,6 +15,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "wor" : "http://purl.bdrc.io/ontology/work/",
     "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
     "desc" : "http://onto.bdrc.io/ontology/description#"
   },
   "@graph" : [ {
@@ -56,6 +57,7 @@
       "@language" : "zh-x-syx",
       "@value" : "Cai Gong Tang Xiang"
     },
+    "plc:WB_area_sq_km" : "test",
     "plc:chgis_id" : "854",
     "plc:contains" : [ {
       "@id" : "plc:G1183"
@@ -130,15 +132,15 @@
     "plc:long" : "91.22002",
     "plc:regionPoly" : "Some polygon coordinates",
     "log_entry" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "added contain"
+        "@value" : "added name & note"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
+        "@value" : "2014-02-19T14:10:50.715Z"
       },
       "log_who" : {
         "@language" : "en",
@@ -160,21 +162,6 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added location"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-01-06T14:22:58.026Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
       "@id" : "_:b5",
       "@type" : "LogEntry",
       "log_content" : {
@@ -190,7 +177,52 @@
         "@value" : "Jigme Namgyal"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b6",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added type & location & contains"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-04-01T09:36:07.005Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b7",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added location"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-01-06T14:22:58.026Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -218,36 +250,6 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "msheehy"
-      }
-    }, {
-      "@id" : "_:b6",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added type & location & contains"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-04-01T09:36:07.005Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b7",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name & note"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-02-19T14:10:50.715Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
       }
     } ],
     "name" : [ {
