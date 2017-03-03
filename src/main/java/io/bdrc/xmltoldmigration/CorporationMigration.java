@@ -52,11 +52,11 @@ public class CorporationMigration {
 			current = (Element) nodeList.item(i);
 			value = current.getAttribute("person");
 			Resource person = m.createResource(PP + value);
-			value = current.getAttribute("type");
-			value = CommonMigration.normalizePropName(value, null);
+			value = current.getAttribute("type").trim();
 			if (value.isEmpty()) {
 				value = "member";
 			}
+			value = CommonMigration.normalizePropName(value, null);
 			prop = m.getProperty(CRP+value);
 			m.add(main, prop, person);
 		}

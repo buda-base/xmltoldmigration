@@ -29,6 +29,8 @@ java -jar target/xmltoldmigration-0.1-jar-with-dependencies.jar
 - add licenses as individuals?
 - handle BDRC staff by some individuals of a new class?
 - check if the "onDisk" description type appear outside imagegroup
+- migrate some GIS id (WB_area_sq_km, etc.) to descriptions
+- migrate most description to more specific properties (Kangyur references, etc.)
 
 ## License
 

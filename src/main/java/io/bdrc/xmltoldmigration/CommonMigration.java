@@ -146,6 +146,8 @@ public class CommonMigration  {
             return "stog_number";
 	    case "toh_number":
             return "toh";
+	    case "otani_number":
+            return "otani";
 	    case "SheyNumber":
             return "shey_number";
 	    default:
@@ -179,6 +181,8 @@ public class CommonMigration  {
 		String res = toNormalize.trim().replace("'", "").replace(" ", "_");
 		if (targetType == "Class") {
 			res = res.substring(0,1).toUpperCase() + res.substring(1);
+		} else {
+		    res = res.substring(0,1).toLowerCase() + res.substring(1);
 		}
 		if (targetType == "description") {
             res = normalizeDescription(res);
