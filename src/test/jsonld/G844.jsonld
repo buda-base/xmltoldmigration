@@ -57,7 +57,7 @@
       "@language" : "zh-x-syx",
       "@value" : "Cai Gong Tang Xiang"
     },
-    "plc:WB_area_sq_km" : "test",
+    "plc:wb_area_sq_km" : "test",
     "plc:chgis_id" : "854",
     "plc:contains" : [ {
       "@id" : "plc:G1183"

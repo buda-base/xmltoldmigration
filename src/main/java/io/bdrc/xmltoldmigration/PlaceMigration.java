@@ -162,6 +162,8 @@ public class PlaceMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
+			if (value.startsWith("WB_"))
+			    value = "wb_"+value.substring(3);
 			prop = m.getProperty(PLP+value);
 			value = current.getAttribute("value").trim();
 			l = m.createLiteral(value);
