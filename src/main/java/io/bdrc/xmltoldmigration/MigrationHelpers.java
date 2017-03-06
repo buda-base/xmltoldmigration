@@ -30,6 +30,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 import openllet.jena.PelletReasonerFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -195,10 +196,22 @@ public class MigrationHelpers {
 	}
 	
 	public static void convertOneFile(String src, String dst, String type, boolean frame) {
-		Document d = documentFromFileName(src);
-		Model m = xmlToRdf(d, type);
-		modelToFileName(m, dst, type, frame);
+		convertOneFile(src, dst, type, frame, "");
 	}
+	
+	public static void convertOneFile(String src, String dst, String type, boolean frame, String fileName) {
+        Document d = documentFromFileName(src);
+        Element root = d.getDocumentElement();
+        if (!root.getAttribute("status").equals("released")) return;
+        Model m;
+        try {
+            m = xmlToRdf(d, type);
+        } catch (IllegalArgumentException e) {
+            System.err.println("error in "+fileName+" "+e.getMessage());
+            return;
+        }
+        modelToFileName(m, dst, type, frame);
+    }
 	
 	// change Range Datatypes from rdf:PlainLitteral to rdf:langString
 	// Warning: only works for 

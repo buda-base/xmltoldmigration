@@ -14,6 +14,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.ontology.OntModel;
@@ -280,7 +281,12 @@ public class CommonMigration  {
 	
 	public static Literal literalFromXsdDate(Model m, String s) {
 		// was quite difficult to find...
-		XSDDateTime dateTime = (XSDDateTime)XSDDatatype.XSDdateTime.parse(s);
+	    XSDDateTime dateTime;
+	    try {
+	        dateTime = (XSDDateTime)XSDDatatype.XSDdateTime.parse(s);
+	    } catch (DatatypeFormatException e) {
+	        throw new IllegalArgumentException(e.getMessage());
+	    }
 		return m.createTypedLiteral(dateTime);
 	}
 	
@@ -465,8 +471,11 @@ public class CommonMigration  {
 	    if (rid.startsWith("G")) return PLACE_PREFIX;
 	    if (rid.startsWith("R")) return OFFICE_PREFIX;
 	    if (rid.startsWith("L")) return LINEAGE_PREFIX;
-	    System.err.println("cannot infer prefix from RID "+rid);
-	    return null;
+	    if (rid.startsWith("C")) return CORPORATION_PREFIX;
+	    if (rid.startsWith("O")) return OUTLINE_PREFIX;
+	    //System.err.println("cannot infer prefix from RID "+rid);
+	    //return null;
+	    throw new IllegalArgumentException("cannot infer prefix from RID "+rid);
 	}
 	
 	public static String getBCP47Suffix(String encoding) {
@@ -502,12 +511,11 @@ public class CommonMigration  {
 		case "":
 			return "";
 		default:
-			System.out.println("unknown encoding: "+encoding);
-			return "";
+		    throw new IllegalArgumentException("unknown encoding: "+encoding);
 		}
 	}
 	
-	public static String getIso639(String language) {
+	public static String getIso639(String language) throws IllegalArgumentException {
 		switch(language) {
 		case "tibetan":
 			return "bo";
@@ -533,21 +541,24 @@ public class CommonMigration  {
 			return "mvm"; // not really sure...
 		case "german":
 			return "de";
+		case "":
+            return "en";
 		case "japanese":
 			return "ja";
 		case "unspecified":
 			// https://www.w3.org/International/questions/qa-no-language#undetermined
 			return "und";
 		default:
-			System.out.println("unknown language: "+language);
-			return "";
+		    throw new IllegalArgumentException("unknown language: "+language);
 		}
 	}
 	
-	public static String getBCP47(String language, String encoding) {
+	public static String getBCP47(String language, String encoding) throws IllegalArgumentException {
 		if (language == null || language.isEmpty()) {
 			if (encoding != null && !encoding.isEmpty()) {
-				System.out.println("encoding with no language!");
+			    if (encoding.equals("extendedWylie")) return "bo-x-ewts";
+			    if (encoding.equals("tbrcPhonetic")) return "bo-x-tbrc";
+				throw new IllegalArgumentException("encoding with no language!");
 			}
 			return null;
 		}

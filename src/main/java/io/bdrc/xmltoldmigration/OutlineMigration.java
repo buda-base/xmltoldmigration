@@ -35,10 +35,10 @@ public class OutlineMigration {
             Element current = (Element) nodeList.item(i);
             
             value = current.getAttribute("type").trim();
-            value = CommonMigration.normalizePropName(value, null);
             if (value.isEmpty()) {
                 value = "NoType";
             }
+            value = CommonMigration.normalizePropName(value, null);
             m.add(main, RDF.type, m.createResource(OP + value));
             if (!value.equals("Outline"))
                 m.add(main, RDF.type, m.createResource(OP + "Outline"));

@@ -215,7 +215,7 @@ public class PlaceMigration {
 	
 	public static String getTypeStr(Element root) {
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
-		String value = null;
+		String value = "NotSpecified";
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type").trim();
@@ -254,7 +254,7 @@ public class PlaceMigration {
 		}
 	}
 	
-	public static void addAffiliations(Model m, Element eventElement, Resource event) {
+	public static void addAffiliations(Model m, Element eventElement, Resource event) throws IllegalArgumentException {
 		NodeList nodeList = eventElement.getElementsByTagNameNS(PLXSDNS, "affiliation");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
@@ -262,9 +262,12 @@ public class PlaceMigration {
 			Resource target;
 			Property prop;
 			String value = current.getAttribute("rid");
+			if (value.isEmpty()) continue;
 			switch (type) {
 			case "placeEventAffiliationTypes:lineage":
-				// rid starts with "lineage:"
+			    if (!value.startsWith("lineage:")) {
+	                throw new IllegalArgumentException("invalid affiliation rid value: '"+value+"' (should start with 'lineage:')");
+	            }
 			    if (value.equals("lineage:Kadampa")) value = "lineage:Kadam";
 				value = value.substring(8);
 				String rid = lineageTypeToSomething.get(value);

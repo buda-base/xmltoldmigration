@@ -49,9 +49,14 @@ public class PersonMigration {
 		// gender
 		
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "info");
-		value = m.createLiteral(((Element) nodeList.item(0)).getAttribute("gender"));
-		prop = m.getProperty(PP, "gender");
-		m.add(main, prop, value);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            current = (Element) nodeList.item(i);
+            String gender = current.getAttribute("gender");
+            if (!gender.isEmpty()) {
+                prop = m.getProperty(PP, "gender");
+                m.add(main, prop, m.createLiteral(gender));
+            }
+        }
 		
 		// events
 		
