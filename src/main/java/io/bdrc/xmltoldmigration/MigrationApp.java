@@ -65,7 +65,11 @@ public class MigrationApp
         //migrateType("person", "P");
         //migrateType("corporation", "C");
         //migrateType("lineage", "L");
-        migrateType("outline", "O");
+        //migrateType("outline", "O");
+        migrateType("topic", "T");
+        //migrateType("work", "W");
+        //migrateType("pubinfo", "WP"); // ~8mn
+        //migrateType("imagegroup", "I"); // ~11mn
     	long estimatedTime = System.currentTimeMillis() - startTime;
     	System.out.println("done in "+estimatedTime+" ms");
     }

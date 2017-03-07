@@ -165,7 +165,7 @@ public class PubinfoMigration {
             Element current = (Element) nodeList.item(i);
             String lang = null;
             if (defaultLang != null)
-                lang = CommonMigration.getBCP47(root, defaultLang);
+                lang = CommonMigration.getBCP47(root, defaultLang, m, main);
             String value = current.getTextContent().trim();
             if (value.isEmpty()) {
                 return;

@@ -118,6 +118,7 @@ public class MigrationHelpers {
 		// working around http://bugs.java.com/bugdatabase/view_bug.do?bug_id=JDK-8175245
 		documentFactory.setNamespaceAware(true);
 		Document document = null;
+		// create a new builder at each document to parse in parallel
 		try {
 		    final DocumentBuilder builder = documentFactory.newDocumentBuilder();       
 		    document = builder.parse(new File(fname));

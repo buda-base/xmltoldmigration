@@ -33,6 +33,33 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
+        "@value" : "added description: Tenjur Canonical Text"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      },
+      "migration_exception" : "cannot convert log date properly, original date: '2015-02-30T10:22:32.290Z'"
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added description"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-31T16:55:02.487Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
         "@value" : "added see also"
       },
       "log_when" : {
@@ -44,22 +71,7 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "created record"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-28T12:16:56.098Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b3",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -78,32 +90,18 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "added description: Tenjur Canonical Text"
+        "@value" : "created record"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2015-09-30T10:22:32.29Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added description"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-31T16:55:02.487Z"
+        "@value" : "2015-08-28T12:16:56.098Z"
       },
       "log_who" : {
         "@language" : "en",
         "@value" : "Chungdak Nangpa"
       }
     } ],
+    "migration_exception" : [ "mixed english + encoding 'alternatePhonetic' turned into 'en-x-mixed', please convert other language to unicode", "mixed english + encoding 'tbrcPhonetic' turned into 'en-x-mixed', please convert other language to unicode" ],
     "name" : [ {
       "@language" : "bo-x-ewts",
       "@value" : "bstan 'gyur/"
@@ -111,10 +109,10 @@
       "@language" : "zh",
       "@value" : "丹珠尔"
     }, {
-      "@language" : "en-x-tbrc",
+      "@language" : "en-x-mixed",
       "@value" : "Tengyur"
     }, {
-      "@language" : "en-x-alt",
+      "@language" : "en-x-mixed",
       "@value" : "Tenjur"
     }, {
       "@language" : "zh",

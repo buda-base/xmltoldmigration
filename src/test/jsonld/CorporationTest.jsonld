@@ -51,8 +51,9 @@
         "@value" : "Michael Sheehy"
       }
     },
+    "migration_exception" : "mixed english + encoding 'tbrcPhonetic' turned into 'en-x-mixed', please convert other language to unicode",
     "name" : [ {
-      "@language" : "en-x-tbrc",
+      "@language" : "en-x-mixed",
       "@value" : "Dranka"
     }, {
       "@language" : "bo-x-tbrc",

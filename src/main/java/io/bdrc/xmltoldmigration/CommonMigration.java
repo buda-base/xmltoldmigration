@@ -281,12 +281,7 @@ public class CommonMigration  {
 	
 	public static Literal literalFromXsdDate(Model m, String s) {
 		// was quite difficult to find...
-	    XSDDateTime dateTime;
-	    try {
-	        dateTime = (XSDDateTime)XSDDatatype.XSDdateTime.parse(s);
-	    } catch (DatatypeFormatException e) {
-	        throw new IllegalArgumentException(e.getMessage());
-	    }
+	    XSDDateTime dateTime = (XSDDateTime)XSDDatatype.XSDdateTime.parse(s);
 		return m.createTypedLiteral(dateTime);
 	}
 	
@@ -299,7 +294,11 @@ public class CommonMigration  {
 		String value = e.getAttribute("when");
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"log_when");
-			m.add(logEntry, prop, literalFromXsdDate(m, value));
+			try {
+			    m.add(logEntry, prop, literalFromXsdDate(m, value));
+			} catch (DatatypeFormatException ex) {
+			    addException(m, logEntry, "cannot convert log date properly, original date: '"+value+"'");
+			}
 		}
 		value = e.getAttribute("who").trim();
 		if (!value.isEmpty()) {
@@ -336,7 +335,7 @@ public class CommonMigration  {
 		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			String lang = getBCP47(current, "bo-x-ewts");
+			String lang = getBCP47(current, "bo-x-ewts", m, r);
 			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
 			Property prop = m.getProperty(ROOT_PREFIX+"name");
 			m.add(r, prop, value);
@@ -356,7 +355,7 @@ public class CommonMigration  {
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			Literal value;
-		    String lang = getBCP47(current, "en");
+		    String lang = getBCP47(current, "en", m, r);
             value = m.createLiteral(current.getTextContent().trim(), lang);
 			String type = current.getAttribute("type");
 			if (type.isEmpty()) type = "noType";
@@ -396,7 +395,7 @@ public class CommonMigration  {
                 if (value.isEmpty()) {
                     value = "bibliographicalTitle";
                 }
-                String lang = getBCP47(current, "bo-x-ewts");
+                String lang = getBCP47(current, "bo-x-ewts", m, main);
                 Literal lit = m.createLiteral(current.getTextContent().trim(), lang);
                 m.add(main, m.getProperty(WORK_PREFIX, value), lit);
                 if (i == 0 && !labelGuessed) {
@@ -460,6 +459,7 @@ public class CommonMigration  {
        }
        
        public static void addException(Model m, Resource r, String exception) {
+           System.err.println(exception);
            m.add(r, m.getProperty(ROOT_PREFIX+"migration_exception"), m.createLiteral(exception));
        }
 	
@@ -473,8 +473,6 @@ public class CommonMigration  {
 	    if (rid.startsWith("L")) return LINEAGE_PREFIX;
 	    if (rid.startsWith("C")) return CORPORATION_PREFIX;
 	    if (rid.startsWith("O")) return OUTLINE_PREFIX;
-	    //System.err.println("cannot infer prefix from RID "+rid);
-	    //return null;
 	    throw new IllegalArgumentException("cannot infer prefix from RID "+rid);
 	}
 	
@@ -578,8 +576,25 @@ public class CommonMigration  {
 	    return isASCII;
 	}
 	
-	public static String getBCP47(Element e) {
-		String res = getBCP47(e.getAttribute("lang"), e.getAttribute("encoding"));
+	public static String getBCP47(Element e, Model m, Resource r) {
+	    String lang = e.getAttribute("lang");
+	    String encoding = e.getAttribute("encoding");
+	    // some entries have language in "type"
+	    if (lang.isEmpty()) {
+	        lang = e.getAttribute("type");
+	        if (!lang.equals("sanskrit") && !lang.equals("tibetan")) lang = "";
+	    }
+	    String res = "und";
+	    if (lang.equals("english") && (!encoding.isEmpty() && !encoding.equals("native"))) {
+	        addException(m, r, "mixed english + encoding '"+encoding+"' turned into 'en-x-mixed', please convert other language to unicode");
+	        return "en-x-mixed";
+	    }
+         
+	    try {
+	        res = getBCP47(lang, encoding);
+	    } catch (IllegalArgumentException ex) {
+	        addException(m, r, "lang+encoding invalid combination ('"+lang+"', '"+encoding+"') turned into 'und' language, exception message: "+ex.getMessage());
+	    }
 		String value = e.getTextContent().trim();
 		// some values are wrongly marked as native instead of extendedWylie
 		if (res != null && res.equals("bo") && isAllASCII(value)) {
@@ -588,8 +603,8 @@ public class CommonMigration  {
 		return res;
 	}
 	
-	public static String getBCP47(Element e, String dflt) {
-		String res = getBCP47(e);
+	public static String getBCP47(Element e, String dflt, Model m, Resource r) {
+		String res = getBCP47(e, m, r);
 		if (res == null || res.isEmpty()) {
 			return dflt;
 		}
