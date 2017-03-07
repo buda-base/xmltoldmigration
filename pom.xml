@@ -44,18 +44,32 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+  	<!-- https://mvnrepository.com/artifact/com.github.galigator.openllet/openllet-jena -->
+  	<dependency>
+  	    <groupId>com.github.galigator.openllet</groupId>
+  	    <artifactId>openllet-jena</artifactId>
+  	    <version>2.6.0</version>
+        <exclusions>
+          <exclusion>
+            <artifactId>jena-core</artifactId>
+            <groupId>org.apache.jena</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>jena-arq</artifactId>
+            <groupId>org.apache.jena</groupId>
+          </exclusion>
+        </exclusions>
+  	</dependency>
     <dependency>
       <groupId>org.apache.jena</groupId>
-      <artifactId>apache-jena-libs</artifactId>
-      <type>pom</type>
+      <artifactId>jena-core</artifactId>
       <version>3.2.0</version>
     </dependency>
-	<!-- https://mvnrepository.com/artifact/com.github.galigator.openllet/openllet-jena -->
-	<dependency>
-	    <groupId>com.github.galigator.openllet</groupId>
-	    <artifactId>openllet-jena</artifactId>
-	    <version>2.6.0</version>
-	</dependency>
+    <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-arq</artifactId>
+      <version>3.2.0</version>
+    </dependency>
     <dependency>
     	<groupId>com.sun.xsom</groupId>
     	<artifactId>xsom</artifactId>
