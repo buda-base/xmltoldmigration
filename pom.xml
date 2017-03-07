@@ -14,7 +14,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>io.bdrc.xmltoldmigration.App</mainClass>
+              <mainClass>io.bdrc.xmltoldmigration.MigrationApp</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

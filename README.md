@@ -13,7 +13,7 @@ mvn compile assembly:single
 Simple run:
 
 ```
-mvn exec:java -Dexec.mainClass=io.bdrc.xmltoldmigration.App
+mvn exec:java -Dexec.mainClass=io.bdrc.xmltoldmigration.MigrationApp
 ```
 
 Running the jar file:
