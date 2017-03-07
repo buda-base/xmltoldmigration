@@ -47,4 +47,17 @@ public class ScanrequestMigration {
 		return m;
 	}
 	
+	   // use this giving a vol:Volumes as main argument to fill the work data
+    public static String getWork(Document xmlDocument) {
+        
+        Element root = xmlDocument.getDocumentElement();
+        
+        String value = root.getAttribute("work");
+        if (value.isEmpty()) {
+            System.err.println("No work ID for scanrequest "+root.getAttribute("RID")+"!");
+            return "";
+        }
+        return value;
+    }
+	
 }

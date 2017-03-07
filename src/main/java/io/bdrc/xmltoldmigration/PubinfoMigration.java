@@ -145,7 +145,7 @@ public class PubinfoMigration {
                 if (!value.isEmpty())
                     m.add(holding, m.createProperty(WP+"holding_library"), m.createResource(PP+value));
                 else
-                    System.err.println("Pubinfo holding has no library RID!");
+                    CommonMigration.addException(m, main, "Pubinfo holding has no library RID!");
                 
                 value = subCurrent.getAttribute("code").trim();
                 if (!value.isEmpty())

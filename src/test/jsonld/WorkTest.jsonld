@@ -22,21 +22,6 @@
     "@id" : "wor:W12837",
     "@type" : "wor:Work",
     "log_entry" : [ {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "normalized catalog info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-04-21T23:05:36.322Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
-      }
-    }, {
       "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
@@ -65,6 +50,21 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Gene Smith"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalized catalog info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-21T23:05:36.322Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
       }
     }, {
       "@id" : "_:b3",
@@ -117,6 +117,9 @@
     },
     "wor:hasMainAuthor" : {
       "@id" : "per:P1591"
+    },
+    "wor:hasVolumes" : {
+      "@id" : "vol:V12837"
     },
     "wor:inProduct" : [ {
       "@id" : "prd:PRHD03"

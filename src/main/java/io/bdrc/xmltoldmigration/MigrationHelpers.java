@@ -21,6 +21,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
+import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
@@ -137,7 +138,12 @@ public class MigrationHelpers {
 	
 	public static Model modelFromFileName(String fname) {
 		Model model = ModelFactory.createDefaultModel();
-		model.read(fname, "JSON-LD") ;
+		try {
+		    model.read(fname, "JSON-LD") ;
+		} catch (RiotException e) {
+		    System.err.println("error reading "+fname);
+		    return null;
+		}
 		return model;
 	}
 	
@@ -200,17 +206,22 @@ public class MigrationHelpers {
 		convertOneFile(src, dst, type, frame, "");
 	}
 	
-	public static void convertOneFile(String src, String dst, String type, boolean frame, String fileName) {
-        Document d = documentFromFileName(src);
+	public static Model getModelFromFile(String src, String type, String fileName) {
+	    Document d = documentFromFileName(src);
         Element root = d.getDocumentElement();
-        if (!root.getAttribute("status").equals("released")) return;
-        Model m;
+        if (!root.getAttribute("status").equals("released")) return null;
+        Model m = null;
         try {
             m = xmlToRdf(d, type);
         } catch (IllegalArgumentException e) {
             System.err.println("error in "+fileName+" "+e.getMessage());
-            return;
         }
+        return m;
+	}
+	
+	public static void convertOneFile(String src, String dst, String type, boolean frame, String fileName) {
+        Model m = getModelFromFile(src, type, fileName);
+        if (m == null) return;
         modelToFileName(m, dst, type, frame);
     }
 	

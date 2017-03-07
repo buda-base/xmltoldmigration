@@ -1,7 +1,11 @@
 package io.bdrc.xmltoldmigration;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -19,6 +23,7 @@ public class WorkMigration {
 	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String PRP = CommonMigration.PRODUCT_PREFIX;
+	private static final String VP = CommonMigration.VOLUMES_PREFIX;
 	private static final String WXSDNS = "http://www.tbrc.org/models/work#";
 	
 	public static Model MigrateWork(Document xmlDocument) {
@@ -138,8 +143,32 @@ public class WorkMigration {
             m.add(main, m.getProperty(WP+"scanInfo"), m.createLiteral(value, "en"));
         }
         
+        List<String> imageGroupList = getImageGroupList(xmlDocument);
+        if (!imageGroupList.isEmpty()) {
+            Resource volumes = m.createResource(VP+"V"+root.getAttribute("RID").substring(1));
+            m.add(main, m.getProperty(WP+"hasVolumes"), volumes);
+        }
+        
 		return m;
 		
+	}
+	
+	public static List<String> getImageGroupList(Document d) {
+	    List<String> res = new ArrayList<String>(); 
+	    
+	    Element root = d.getDocumentElement();
+        NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
+        for (int j = 0; j < volumes.getLength(); j++) {
+            Element volume = (Element) volumes.item(j);
+            String value = volume.getAttribute("imagegroup").trim();
+            if (value.isEmpty()) continue;
+            if (!value.startsWith("I")) {
+                System.err.println("Image group doesn't start with I! "+value);
+                continue;
+            }
+            res.add(value);
+        }
+	    return res;
 	}
 	
 	   public static void addSimpleAttr(String attrValue, String attrName, Model m, Resource r, String dflt) {
