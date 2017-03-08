@@ -148,12 +148,21 @@ public class MigrationHelpers {
 	}
 	
 	public static void modelToFileName(Model m, String fname, String type, boolean frame) {
-		try {
-			modelToOutputStream(m, new FileOutputStream(fname), type, frame);
+	    FileOutputStream s;
+	    try {
+		    s = new FileOutputStream(fname);
+			modelToOutputStream(m, s, type, frame);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return;
 		}
+		try {
+            s.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 	
 	public static Model xmlToRdf(Document d, String type) {
