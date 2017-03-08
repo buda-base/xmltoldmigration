@@ -26,21 +26,6 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "normalize encoding field for pub info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-04-22T00:30:13.577Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
-      }
-    }, {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
         "@value" : "added print type and source printery"
       },
       "log_when" : {
@@ -52,7 +37,7 @@
         "@value" : "Jigme Namgyal"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -65,6 +50,21 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Code Ferret"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalize encoding field for pub info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-22T00:30:13.577Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
       }
     } ],
     "wor:hasHolding" : {
@@ -89,8 +89,8 @@
       "@id" : "plc:G1PD129184"
     },
     "wor:pubinfo_authorshipStatement" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan"
+      "@language" : "bo",
+      "@value" : "འདུལ་འཛིན་པའི་འཛིན་པའི་མིང་ཅན་གྲགས་པ་རྒྱལ་མཚན"
     },
     "wor:pubinfo_biblioNote" : {
       "@language" : "en",

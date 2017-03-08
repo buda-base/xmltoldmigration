@@ -22,6 +22,21 @@
     "@id" : "wor:W12837",
     "@type" : "wor:Work",
     "log_entry" : [ {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added print type and source printery"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T12:06:50.245Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jigme Namgyal"
+      }
+    }, {
       "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
@@ -52,7 +67,7 @@
         "@value" : "Gene Smith"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -65,21 +80,6 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Jeff Wallman"
-      }
-    }, {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added print type and source printery"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T12:06:50.245Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jigme Namgyal"
       }
     } ],
     "migration_exception" : "creator needs to be added to dlms: \"test for exception\"",
@@ -108,8 +108,8 @@
       "@value" : "1"
     },
     "wor:bibliographicalTitle" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "kun rig rnam bshad"
+      "@language" : "bo",
+      "@value" : "ཀུན་རིག་རྣམ་བཤད"
     },
     "wor:catalogInfo" : {
       "@language" : "en",
@@ -147,12 +147,12 @@
       "@value" : "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011\n2004"
     },
     "wor:titlePageTitle" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "bcom ldan 'das thams cad rig pa'i rnam bshad"
+      "@language" : "bo",
+      "@value" : "བཅོམ་ལྡན་འདས་ཐམས་ཅད་རིག་པའི་རྣམ་བཤད"
     },
     "rdfs:label" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "kun rig rnam bshad"
+      "@language" : "bo",
+      "@value" : "ཀུན་རིག་རྣམ་བཤད"
     }
   } ]
 }

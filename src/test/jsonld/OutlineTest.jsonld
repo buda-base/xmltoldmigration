@@ -57,8 +57,8 @@
           }
         },
         "wor:bibliographicalTitle" : {
-          "@language" : "bo-x-ewts",
-          "@value" : "gleng gzhi/"
+          "@language" : "bo",
+          "@value" : "གླེང་གཞི།"
         }
       },
       "out:location" : {
@@ -74,12 +74,12 @@
       },
       "out:node_value" : "varia",
       "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "2 (smad cha)"
+        "@language" : "bo",
+        "@value" : "༢་༼སྨད་ཆ༽"
       },
       "rdfs:label" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "2 (smad cha)"
+        "@language" : "bo",
+        "@value" : "༢་༼སྨད་ཆ༽"
       }
     }, {
       "@id" : "out:O2DB875722DB87582",
@@ -116,8 +116,8 @@
           }
         } ],
         "wor:bibliographicalTitle" : {
-          "@language" : "bo-x-ewts",
-          "@value" : "gleng gzhi/"
+          "@language" : "bo",
+          "@value" : "གླེང་གཞི།"
         }
       },
       "out:hasSite" : {
@@ -137,15 +137,15 @@
         }
       },
       "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "1 (stod cha)"
+        "@language" : "bo",
+        "@value" : "༡་༼སྟོད་ཆ༽"
       },
       "subject_isInstanceOfGenre" : {
         "@id" : "top:T208"
       },
       "rdfs:label" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "1 (stod cha)"
+        "@language" : "bo",
+        "@value" : "༡་༼སྟོད་ཆ༽"
       }
     } ],
     "out:isOutlineOf" : {
@@ -165,7 +165,18 @@
     "out:viewIn_list" : "subjects",
     "out:webAccess" : "notAvailable",
     "log_entry" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-09-15T14:51:25.708Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Bumu Dega"
+      }
+    }, {
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -180,7 +191,7 @@
         "@value" : "Lobsang Shastri"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -194,28 +205,17 @@
         "@language" : "en",
         "@value" : "paldor"
       }
-    }, {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-09-15T14:51:25.708Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Bumu Dega"
-      }
     } ],
     "name" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
+      "@language" : "bo",
+      "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
     }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "mngon pa"
+      "@language" : "bo",
+      "@value" : "མངོན་པ"
     } ],
     "rdfs:label" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
+      "@language" : "bo",
+      "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
     }
   } ]
 }

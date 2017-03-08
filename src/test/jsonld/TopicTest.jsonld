@@ -22,11 +22,11 @@
     "@id" : "top:T3CN2023",
     "@type" : "top:Topic",
     "desc:noType" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "bde bar gshegs pa'i bka'i dgongs 'grel bstan bcos 'gyur ro cog te/ rgya gar mkhas pa'i bstan bcos bod skad du 'gyur ba glegs bam brgya phrag lhag tsam bzhugs pa rnams so/ de rnams kyi khrod du nang don rig pa kho na gsungs pa glegs bam 170 lhag bzhugs pa grub cha gtso bo yin cing / da dung tshad ma'i bstan bcos kyi glegs bam po ti 21 tsam dang / sgra rig pa po ti 4/ gso ba rig pa po ti 5/ bzo rig pa po ti 1/ sna tshogs glegs bam po ti 9tsam bcas bzhugs pa yin no//"
-    }, {
       "@language" : "en",
       "@value" : "Tenjur Canonical Text"
+    }, {
+      "@language" : "bo",
+      "@value" : "བདེ་བར་གཤེགས་པའི་བཀའི་དགོངས་འགྲེལ་བསྟན་བཅོས་འགྱུར་རོ་ཅོག་ཏེ།་རྒྱ་གར་མཁས་པའི་བསྟན་བཅོས་བོད་སྐད་དུ་འགྱུར་བ་གླེགས་བམ་བརྒྱ་ཕྲག་ལྷག་ཙམ་བཞུགས་པ་རྣམས་སོ།་དེ་རྣམས་ཀྱི་ཁྲོད་དུ་ནང་དོན་རིག་པ་ཁོ་ན་གསུངས་པ་གླེགས་བམ་༡༧༠་ལྷག་བཞུགས་པ་གྲུབ་ཆ་གཙོ་བོ་ཡིན་ཅིང་།་ད་དུང་ཚད་མའི་བསྟན་བཅོས་ཀྱི་གླེགས་བམ་པོ་ཏི་༢༡་ཙམ་དང་།་སྒྲ་རིག་པ་པོ་ཏི་༤།་གསོ་བ་རིག་པ་པོ་ཏི་༥།་བཟོ་རིག་པ་པོ་ཏི་༡།་སྣ་ཚོགས་གླེགས་བམ་པོ་ཏི་༩ཙམ་བཅས་བཞུགས་པ་ཡིན་ནོ༎"
     } ],
     "log_entry" : [ {
       "@id" : "_:b1",
@@ -103,9 +103,6 @@
     } ],
     "migration_exception" : [ "mixed english + encoding 'alternatePhonetic' turned into 'en-x-mixed', please convert other language to unicode", "mixed english + encoding 'tbrcPhonetic' turned into 'en-x-mixed', please convert other language to unicode" ],
     "name" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "bstan 'gyur/"
-    }, {
       "@language" : "zh",
       "@value" : "丹珠尔"
     }, {
@@ -118,22 +115,25 @@
       "@language" : "zh",
       "@value" : "丹珠尔大藏经"
     }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "bstan bcos 'gyur ro 'tshal/"
+      "@language" : "bo",
+      "@value" : "བསྟན་བཅོས་འགྱུར་རོ་འཚལ།"
     }, {
       "@language" : "zh-x-pinyin",
       "@value" : "dan zhu er"
     }, {
       "@language" : "zh-x-pinyin",
       "@value" : "dan zhu er da zang jing"
+    }, {
+      "@language" : "bo",
+      "@value" : "བསྟན་འགྱུར།"
     } ],
     "top:seeAlso" : {
       "@id" : "top:T1129"
     },
     "top:status" : "released",
     "rdfs:label" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "bstan 'gyur/"
+      "@language" : "bo",
+      "@value" : "བསྟན་འགྱུར།"
     }
   } ]
 }

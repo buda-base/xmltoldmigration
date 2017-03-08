@@ -28,12 +28,12 @@
     },
     "per:gender" : "male",
     "per:primaryName" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "blo gros rnam dag"
+      "@language" : "bo",
+      "@value" : "བློ་གྲོས་རྣམ་དག"
     },
     "per:primaryTitle" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "bya yul blo bzang rnam dag"
+      "@language" : "bo",
+      "@value" : "བྱ་ཡུལ་བློ་བཟང་རྣམ་དག"
     },
     "per:seat" : {
       "@id" : "_:b0",
@@ -59,8 +59,8 @@
     },
     "status" : "released",
     "rdfs:label" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "blo gros rnam dag"
+      "@language" : "bo",
+      "@value" : "བློ་གྲོས་རྣམ་དག"
     }
   } ]
 }
