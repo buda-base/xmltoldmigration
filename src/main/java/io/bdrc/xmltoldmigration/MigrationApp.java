@@ -74,7 +74,7 @@ public class MigrationApp
         case "work":
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();
-            if (!root.getAttribute("status").equals("released")) return;
+            if (!MigrationHelpers.mustBeMigrated(root)) return;
             Model m = null;
             try {
                 m = MigrationHelpers.xmlToRdf(d, type);

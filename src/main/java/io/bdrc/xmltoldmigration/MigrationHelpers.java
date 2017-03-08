@@ -206,10 +206,14 @@ public class MigrationHelpers {
 		convertOneFile(src, dst, type, frame, "");
 	}
 	
+	public static boolean mustBeMigrated(Element root) {
+	    return (!root.getAttribute("status").equals("withdrawn") && !root.getAttribute("status").equals("onHold")); 
+	}
+	
 	public static Model getModelFromFile(String src, String type, String fileName) {
 	    Document d = documentFromFileName(src);
         Element root = d.getDocumentElement();
-        if (!root.getAttribute("status").equals("released")) return null;
+        if (!mustBeMigrated(root)) return null;
         Model m = null;
         try {
             m = xmlToRdf(d, type);

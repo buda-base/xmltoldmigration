@@ -12,6 +12,7 @@
         <!-- from O4328 --><outline:site place="G4449"  type="written" circa="1235">lhun grub steng srib dgon (sde dge) </outline:site>
         <outline:node RID="O2DB875722DB87573" type="text">
             <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi/</outline:title>
+            <outline:creator type="hasScribe">Another scribe</outline:creator>
             <outline:location page="11" vol="1" work="W30020"/>
             <outline:location page="18" vol="1" work="W30020"/>
             <outline:description encoding="native" lang="english" type="gse bris number ">test broken property type</outline:description>

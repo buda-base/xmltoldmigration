@@ -63,17 +63,7 @@ public class OutlineMigration {
 		CommonMigration.addDescriptions(m, root, main, OXSDNS);
 		CommonMigration.addLocations(m, main, root, OXSDNS, OP+"location");
 		
-	    // creator
-		// originally supposed to be a wrk:creator property, but unlike the latter, it
-		// never maps to a per:Person, because ontologies are BDRC staff and not per:Persons
-		// so a new out:authorship data property has been created to capture the textcontent
-        nodeList = root.getElementsByTagNameNS(OXSDNS, "creator");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element current = (Element) nodeList.item(i);
-            String lang = CommonMigration.getBCP47(current, "en", m, main);
-            value = current.getTextContent().trim();
-            m.add(main, m.createProperty(OP+"authorship"), m.createLiteral(value, lang));
-        }
+		addCreators(m, main, root);
 		
 		// TODO: parent (unused?)
 		
@@ -82,6 +72,21 @@ public class OutlineMigration {
 		addNodes(m, main, root);
 		
 		return m;
+	}
+	
+	public static void addCreators(Model m, Resource r, Element e) {
+        // creator
+        // originally supposed to be a wrk:creator property, but unlike the latter, it
+        // never maps to a per:Person, because ontologies are BDRC staff and not per:Persons
+        // so a new out:authorship data property has been created to capture the textcontent
+	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
+        for (int j = 0; j < nodeList.size(); j++) {
+            Element current = (Element) nodeList.get(j);
+            
+            String lang = CommonMigration.getBCP47(current, "en", m, r);
+            String value = current.getTextContent().trim();
+            m.add(r, m.createProperty(OP+"authorship"), m.createLiteral(value, lang));
+        }
 	}
 	
 	public static void addNode(Model m, Resource r, Element e, int i) {
@@ -157,6 +162,8 @@ public class OutlineMigration {
 
             // TODO: what about current.getTextContent()?
         }
+        
+        addCreators(m, node, e);
         
         // sub nodes
         addNodes(m, node, e);

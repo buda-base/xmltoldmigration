@@ -575,6 +575,18 @@ public class CommonMigration  {
 	    }
 	    return isASCII;
 	}
+
+    private static boolean isAllTibetanUnicode(String input) {
+        boolean isTibetan = true;
+        for (int i = 0; i < input.length(); i++) {
+            int c = input.charAt(i);
+            if (c < 0x0F00 || c > 0x0FFF) {
+                isTibetan = false;
+                break;
+            }
+        }
+        return isTibetan;
+    }
 	
 	public static String getBCP47(Element e, Model m, Resource r) {
 	    String lang = e.getAttribute("lang");
@@ -600,6 +612,9 @@ public class CommonMigration  {
 		if (res != null && res.equals("bo") && isAllASCII(value)) {
 			res = "bo-x-ewts";// could be loc?
 		}
+		if (res != null && res.equals("bo-x-ewts") && isAllTibetanUnicode(value)) {
+            res = "bo";
+        }
 		return res;
 	}
 	
