@@ -38,8 +38,8 @@
       "@value" : "7.51"
     },
     "desc:nameKR" : {
-      "@language" : "bo",
-      "@value" : "ཚལ་གུང་ཐང"
+      "@language" : "zh",
+      "@value" : "萨迦·衮噶坚赞｜萨迦班智达"
     },
     "desc:nameLex" : {
       "@language" : "bo",
@@ -58,6 +58,21 @@
       "@value" : "Cai Gong Tang Xiang"
     },
     "log_entry" : [ {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added byams pa chos gling gzhis ka'i par khang"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T10:28:55.426Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jigme Namgyal"
+      }
+    }, {
       "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
@@ -73,7 +88,7 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b4",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -88,6 +103,21 @@
         "@value" : "msheehy"
       }
     }, {
+      "@id" : "_:b5",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
       "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
@@ -97,21 +127,6 @@
       "log_when" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-02-19T14:10:50.715Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
       },
       "log_who" : {
         "@language" : "en",
@@ -131,21 +146,6 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b5",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added byams pa chos gling gzhis ka'i par khang"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T10:28:55.426Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jigme Namgyal"
       }
     }, {
       "@id" : "_:b6",

@@ -337,6 +337,7 @@ public class CommonMigration  {
 		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
+			if (current.getTextContent().trim().isEmpty()) continue;
 			String[] langAndValue = getBCP47AndConvert(current, "bo-x-ewts", m, r);
 			Literal value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			Property prop = m.getProperty(ROOT_PREFIX+"name");
@@ -357,6 +358,8 @@ public class CommonMigration  {
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			Literal value;
+			String descriptionValue = current.getTextContent().trim();
+			if (descriptionValue.isEmpty()) continue;
 			String type = current.getAttribute("type");
 			if (type.isEmpty()) type = "noType";
 			type = normalizePropName(type, "description");
@@ -369,11 +372,10 @@ public class CommonMigration  {
 		        Resource note = m.createResource(resourceName);
 		        m.add(note, RDF.type, m.createProperty(ROOT_PREFIX+"Note"));
 	            m.add(r, m.getProperty(ROOT_PREFIX+"note"), note);
-	            m.add(note, m.getProperty(ROOT_PREFIX+"note_content"), m.createLiteral(current.getTextContent().trim(), "en"));
+	            m.add(note, m.getProperty(ROOT_PREFIX+"note_content"), m.createLiteral(descriptionValue, "en"));
 			    continue;
 			}
 			if (type.equals("nameLex")) {
-			    String descriptionValue = current.getTextContent();
 			    String placeId = r.getLocalName();
 			    descriptionValue = descriptionValue.replace(placeId, "").trim();
 			    current.setTextContent(descriptionValue);
@@ -399,6 +401,7 @@ public class CommonMigration  {
             boolean labelGuessed = !guessLabel;
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
+                if (current.getTextContent().trim().isEmpty()) continue;
                 String type = current.getAttribute("type");
                 if (type.isEmpty()) {
                     type = "bibliographicalTitle";
@@ -595,6 +598,18 @@ public class CommonMigration  {
         }
         return isTibetan;
     }
+    
+    private static boolean isAllChineseUnicode(String input) {
+        boolean isChinese = true;
+        for (int i = 0; i < input.length(); i++) {
+            int c = input.charAt(i);
+            if (c < 0x2E00 && c != '·') {
+                isChinese = false;
+                break;
+            }
+        }
+        return isChinese;
+    }
 	
 	public static String getBCP47(Element e, Model m, Resource r) {
 	    String lang = e.getAttribute("lang");
@@ -620,8 +635,11 @@ public class CommonMigration  {
 		if (res != null && res.equals("bo") && isAllASCII(value)) {
 			res = "bo-x-ewts";// could be loc?
 		}
-		if (res != null && res.equals("bo-x-ewts") && isAllTibetanUnicode(value)) {
+		if (res != null && !res.equals("bo") && isAllTibetanUnicode(value)) {
             res = "bo";
+        }
+		if (res != null && !res.equals("zh") && isAllChineseUnicode(value)) {
+            res = "zh";
         }
 		return res;
 	}

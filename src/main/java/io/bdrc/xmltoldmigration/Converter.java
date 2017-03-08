@@ -1249,6 +1249,8 @@ public class Converter {
         str = str.replace("_ ", "__");
         //str = str.replace("G", "g"); not converting because some strings contain things like "G844" which should output an error
         str = str.replace("K", "k");
+        str = str.replace("H", "h");
+        str = str.replace("G.", "g");
         str = str.replace("Ch", "ch");
         str = str.replace("B", "b");
         str = str.replace(" M", "m");
@@ -1257,6 +1259,7 @@ public class Converter {
         str = str.replace("Sh", "ZZZ");
         str = str.replace("S", "s");
         str = str.replace("ZZZ", "Sh");
+        str = str.replace("Z", "z");
         if (str.startsWith("M")) str = "m"+str.substring(1);
         if (str.startsWith("G")) str = "g"+str.substring(1);
         return str;
