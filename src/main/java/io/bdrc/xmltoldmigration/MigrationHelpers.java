@@ -87,6 +87,7 @@ public class MigrationHelpers {
 	
 	public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) {
 		//RDFDataMgr.write(System.out, m, RDFFormat.JSONLD_PRETTY);
+	    if (m==null) return; // not sure why but seems needed
 		WriterDatasetRIOT w;
 		if (frame) {
 			w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_FRAME_PRETTY);
