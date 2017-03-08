@@ -37,8 +37,8 @@ public class PersonMigration {
 		NodeList nodeList = root.getElementsByTagNameNS(PXSDNS, "name");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			lang = CommonMigration.getBCP47(current, "bo-x-ewts", m, main);
-			value = m.createLiteral(current.getTextContent().trim(), lang);
+			String[] langAndValue = CommonMigration.getBCP47AndConvert(current, "bo-x-ewts", m, main);
+			value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			prop = m.getProperty(PP, current.getAttribute("type"));
 			m.add(main, prop, value);
 			if (i == 0) {

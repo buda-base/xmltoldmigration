@@ -83,9 +83,8 @@ public class OutlineMigration {
         for (int j = 0; j < nodeList.size(); j++) {
             Element current = (Element) nodeList.get(j);
             
-            String lang = CommonMigration.getBCP47(current, "en", m, r);
-            String value = current.getTextContent().trim();
-            m.add(r, m.createProperty(OP+"authorship"), m.createLiteral(value, lang));
+            String[] langAndValue = CommonMigration.getBCP47AndConvert(current, "en", m, r);
+            m.add(r, m.createProperty(OP+"authorship"), m.createLiteral(langAndValue[1], langAndValue[0]));
         }
 	}
 	

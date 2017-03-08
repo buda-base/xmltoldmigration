@@ -164,9 +164,14 @@ public class PubinfoMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String lang = null;
-            if (defaultLang != null)
-                lang = CommonMigration.getBCP47(root, defaultLang, m, main);
-            String value = current.getTextContent().trim();
+            String value = null;
+            if (defaultLang != null) {
+                String[] langAndValue = CommonMigration.getBCP47AndConvert(current, defaultLang, m, main);
+                value = langAndValue[1];
+                lang = langAndValue[0];
+            } else {
+                value = current.getTextContent().trim();
+            }
             if (value.isEmpty()) {
                 return;
             }

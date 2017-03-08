@@ -56,6 +56,8 @@ public class CommonMigration  {
 	public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
 	public static final String XSD_PREFIX = "http://www.w3.org/2001/XMLSchema#";
 	
+	public static final Converter converter = new Converter();
+	
 	public static void setPrefixes(Model m) {
 		m.setNsPrefix("com", COMMON_PREFIX);
 		m.setNsPrefix("", ROOT_PREFIX);
@@ -335,8 +337,8 @@ public class CommonMigration  {
 		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			String lang = getBCP47(current, "bo-x-ewts", m, r);
-			Literal value = m.createLiteral(current.getTextContent().trim(), lang);
+			String[] langAndValue = getBCP47AndConvert(current, "bo-x-ewts", m, r);
+			Literal value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			Property prop = m.getProperty(ROOT_PREFIX+"name");
 			m.add(r, prop, value);
 			if (!labelGuessed && i == 0) {
@@ -355,8 +357,8 @@ public class CommonMigration  {
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			Literal value;
-		    String lang = getBCP47(current, "en", m, r);
-            value = m.createLiteral(current.getTextContent().trim(), lang);
+		    String[] langAndValue = getBCP47AndConvert(current, "en", m, r);
+            value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			String type = current.getAttribute("type");
 			if (type.isEmpty()) type = "noType";
 			type = normalizePropName(type, "description");
@@ -391,15 +393,15 @@ public class CommonMigration  {
             boolean labelGuessed = !guessLabel;
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
-                String value = current.getAttribute("type");
-                if (value.isEmpty()) {
-                    value = "bibliographicalTitle";
+                String type = current.getAttribute("type");
+                if (type.isEmpty()) {
+                    type = "bibliographicalTitle";
                 }
-                String lang = getBCP47(current, "bo-x-ewts", m, main);
-                Literal lit = m.createLiteral(current.getTextContent().trim(), lang);
-                m.add(main, m.getProperty(WORK_PREFIX, value), lit);
+                String[] langAndValue = getBCP47AndConvert(current, "bo-x-ewts", m, main);
+                Literal value = m.createLiteral(langAndValue[1], langAndValue[0]);
+                m.add(main, m.getProperty(WORK_PREFIX, type), value);
                 if (i == 0 && !labelGuessed) {
-                    CommonMigration.addLabel(m, main, lit);
+                    CommonMigration.addLabel(m, main, value);
                 }
             }
         }
@@ -620,10 +622,39 @@ public class CommonMigration  {
 	
 	public static String getBCP47(Element e, String dflt, Model m, Resource r) {
 		String res = getBCP47(e, m, r);
-		if (res == null || res.isEmpty()) {
+		if (dflt != null && (res == null || res.isEmpty())) {
 			return dflt;
 		}
 		return res;
+	}
+	
+	public static String EwtsToUnicode(String value, Model m, Resource r) {
+	    List<String> conversionWarnings = new ArrayList<String>();
+	    String convertedValue = converter.toUnicode(value, conversionWarnings, false);
+	    if (conversionWarnings.size() > 0) {
+	        String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
+	        exceptionString += " initial ewts string: "+value;
+	        addException(m, r, exceptionString);
+	    }
+	    return convertedValue;
+	}
+	
+	public static String[] getBCP47AndConvert(Element e, String dflt, Model m, Resource r) {
+	    String tag = getBCP47(e, dflt, m, r);
+	    String value = e.getTextContent().trim();
+	    if (tag.equals("bo-x-ewts")) {
+	        List<String> conversionWarnings = new ArrayList<String>();
+	        String convertedValue = converter.toUnicode(value, conversionWarnings, false);
+	        if (conversionWarnings.size() > 0) {
+	            String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
+	            exceptionString += " initial ewts string: "+value;
+	            addException(m, r, exceptionString);
+	        } else {
+	            value = convertedValue;
+	            tag = "bo";
+	        }
+	    }
+	    return new String[]{tag,value};
 	}
 	
 	public static boolean documentValidates(Document document, Validator validator) {
