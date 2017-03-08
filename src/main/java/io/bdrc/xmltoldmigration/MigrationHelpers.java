@@ -7,9 +7,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.jena.atlas.io.IO;
+import org.apache.jena.atlas.lib.Chars;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
@@ -21,11 +26,15 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
+import org.apache.jena.riot.RIOT;
+import org.apache.jena.riot.RDFFormat.JSONLDVariant;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
+import org.apache.jena.riot.writer.JsonLDWriter;
 import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
 import openllet.jena.PelletReasonerFactory;
@@ -44,6 +53,14 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.utils.JsonUtils;
 
@@ -85,19 +102,19 @@ public class MigrationHelpers {
 		return jsonObject;
 	}
 	
+	// these annotations don't work, for some reason
+	//@JsonPropertyOrder(alphabetic=true)
+	//@JsonPropertyOrder({ "rdfs:label" })
 	public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) {
-		//RDFDataMgr.write(System.out, m, RDFFormat.JSONLD_PRETTY);
 	    if (m==null) return; // not sure why but seems needed
-		WriterDatasetRIOT w;
-		if (frame) {
-			w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_FRAME_PRETTY);
-		} else {
-			w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY); 
-		}
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
+		JSONLDVariant variant;
 		if (frame) {
 			Object frameObj = getFrameObject(type);
 			ctx.setFrame(frameObj);
+			variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_FRAME_PRETTY.getVariant();
+		} else {
+		    variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_COMPACT_PRETTY.getVariant();
 		}
 		// https://issues.apache.org/jira/browse/JENA-1292
 		ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
@@ -106,7 +123,28 @@ public class MigrationHelpers {
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
         PrefixMap pm = RiotLib.prefixMap(g);
         String base = null;
-        w.write(out, g, pm, base, ctx) ;
+        Object jsonObject;
+        Writer wr = new OutputStreamWriter(out, Chars.charsetUTF8) ;
+        try {
+            jsonObject = JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
+            //JsonUtils.writePrettyPrint(wr, jsonObject) ;
+            // or ir more details, with more config:
+            ObjectMapper JSON_MAPPER = new ObjectMapper();
+            JSON_MAPPER.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+            JSON_MAPPER.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+            JsonFactory JSON_FACTORY = new JsonFactory(JSON_MAPPER);
+            JSON_FACTORY.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
+            JSON_FACTORY.disable(JsonFactory.Feature.INTERN_FIELD_NAMES);
+            JSON_FACTORY.disable(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES);
+            final JsonGenerator jw = JSON_FACTORY.createGenerator(wr);
+            jw.useDefaultPrettyPrinter();
+            jw.writeObject(jsonObject);
+            wr.write("\n");
+        } catch (JsonLdError | IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        IO.flush(wr) ;
 	}
 	
 	public static boolean isSimilarTo(Model src, Model dst) {
