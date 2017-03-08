@@ -357,8 +357,6 @@ public class CommonMigration  {
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			Literal value;
-		    String[] langAndValue = getBCP47AndConvert(current, "en", m, r);
-            value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			String type = current.getAttribute("type");
 			if (type.isEmpty()) type = "noType";
 			type = normalizePropName(type, "description");
@@ -374,6 +372,14 @@ public class CommonMigration  {
 	            m.add(note, m.getProperty(ROOT_PREFIX+"note_content"), m.createLiteral(current.getTextContent().trim(), "en"));
 			    continue;
 			}
+			if (type.equals("nameLex")) {
+			    String descriptionValue = current.getTextContent();
+			    String placeId = r.getLocalName();
+			    descriptionValue = descriptionValue.replace(placeId, "").trim();
+			    current.setTextContent(descriptionValue);
+			}
+			String[] langAndValue = getBCP47AndConvert(current, "en", m, r);
+            value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
 			m.add(r, prop, value);
 			// for product and office the name is the first description type="contents"

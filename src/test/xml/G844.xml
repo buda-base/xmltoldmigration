@@ -31,6 +31,7 @@
     <g:description encoding="syllables"  lang="chinese"  type="town_syl">Cai Gong Tang Xiang</g:description>
     <g:description encoding="native"  lang="english"  type="gbdist">5401</g:description>
     <g:description encoding="pinyin"  lang="chinese"  type="dist_py">Lhasa Shi</g:description>
+    <g:description encoding="extendedWylie"  lang="tibetan"  type="nameLex">tshal gung thang  G844 </g:description>
     <g:description encoding="pinyin"  lang="chinese"  type="prov_py">Xizang</g:description>
     <g:description encoding="extendedWylie"  lang="tibetan"  type="nameLex">tshal gung thang</g:description>
     <g:description encoding="extendedWylie"  lang="tibetan"  type="nameKR">tshal gung thang</g:description>
