@@ -168,7 +168,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, topicValidator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "topic");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
        }

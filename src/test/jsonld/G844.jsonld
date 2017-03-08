@@ -136,52 +136,7 @@
     "plc:regionPoly" : "Some polygon coordinates",
     "plc:wb_area_sq_km" : "test",
     "log_entry" : [ {
-      "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added type & location & contains"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-04-01T09:36:07.005Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name & note"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-02-19T14:10:50.715Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-10-12T12:21:11.602Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b5",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -200,18 +155,18 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "added location"
+        "@value" : "added name & note"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-01-06T14:22:58.026Z"
+        "@value" : "2014-02-19T14:10:50.715Z"
       },
       "log_who" : {
         "@language" : "en",
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -226,7 +181,7 @@
         "@value" : "Jigme Namgyal"
       }
     }, {
-      "@id" : "_:b6",
+      "@id" : "_:b5",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -241,7 +196,22 @@
         "@value" : "Michael R. Sheehy"
       }
     }, {
-      "@id" : "_:b7",
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added location"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-01-06T14:22:58.026Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b6",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -255,16 +225,46 @@
         "@language" : "en",
         "@value" : "msheehy"
       }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added type & location & contains"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-04-01T09:36:07.005Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b7",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-10-12T12:21:11.602Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
     } ],
     "name" : [ {
+      "@language" : "bo",
+      "@value" : "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"
+    }, {
       "@language" : "bo",
       "@value" : "བྱ་ཡུལ"
     }, {
       "@language" : "bo",
       "@value" : "བྱ་པ་ཁྲི་དཔོན་གྱི་མངའ་ཁོངས"
-    }, {
-      "@language" : "bo",
-      "@value" : "བྱ་པའི་ཡུལ"
     } ],
     "note" : [ {
       "@id" : "http://purl.bdrc.io/ontology/root/G844_Note2",

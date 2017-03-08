@@ -582,7 +582,7 @@ public class CommonMigration  {
         boolean isTibetan = true;
         for (int i = 0; i < input.length(); i++) {
             int c = input.charAt(i);
-            if (c < 0x0F00 || c > 0x0FFF) {
+            if ((c < 0x0F00 || c > 0x0FFF) && c != ' ') {
                 isTibetan = false;
                 break;
             }
@@ -628,23 +628,12 @@ public class CommonMigration  {
 		return res;
 	}
 	
-	public static String EwtsToUnicode(String value, Model m, Resource r) {
-	    List<String> conversionWarnings = new ArrayList<String>();
-	    String convertedValue = converter.toUnicode(value, conversionWarnings, false);
-	    if (conversionWarnings.size() > 0) {
-	        String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
-	        exceptionString += " initial ewts string: "+value;
-	        addException(m, r, exceptionString);
-	    }
-	    return convertedValue;
-	}
-	
 	public static String[] getBCP47AndConvert(Element e, String dflt, Model m, Resource r) {
 	    String tag = getBCP47(e, dflt, m, r);
 	    String value = e.getTextContent().trim();
 	    if (tag.equals("bo-x-ewts")) {
 	        List<String> conversionWarnings = new ArrayList<String>();
-	        String convertedValue = converter.toUnicode(value, conversionWarnings, false);
+	        String convertedValue = converter.toUnicode(value, conversionWarnings, true);
 	        if (conversionWarnings.size() > 0) {
 	            String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
 	            exceptionString += " initial ewts string: "+value;

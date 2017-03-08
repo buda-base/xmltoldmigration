@@ -75,11 +75,11 @@
       "out:node_value" : "varia",
       "name" : {
         "@language" : "bo",
-        "@value" : "༢་༼སྨད་ཆ༽"
+        "@value" : "༢ ༼སྨད་ཆ༽"
       },
       "rdfs:label" : {
         "@language" : "bo",
-        "@value" : "༢་༼སྨད་ཆ༽"
+        "@value" : "༢ ༼སྨད་ཆ༽"
       }
     }, {
       "@id" : "out:O2DB875722DB87582",
@@ -138,14 +138,14 @@
       },
       "name" : {
         "@language" : "bo",
-        "@value" : "༡་༼སྟོད་ཆ༽"
+        "@value" : "༡ ༼སྟོད་ཆ༽"
       },
       "subject_isInstanceOfGenre" : {
         "@id" : "top:T208"
       },
       "rdfs:label" : {
         "@language" : "bo",
-        "@value" : "༡་༼སྟོད་ཆ༽"
+        "@value" : "༡ ༼སྟོད་ཆ༽"
       }
     } ],
     "out:isOutlineOf" : {
@@ -165,17 +165,6 @@
     "out:viewIn_list" : "subjects",
     "out:webAccess" : "notAvailable",
     "log_entry" : [ {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-09-15T14:51:25.708Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Bumu Dega"
-      }
-    }, {
       "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
@@ -204,6 +193,17 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "paldor"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-09-15T14:51:25.708Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Bumu Dega"
       }
     } ],
     "name" : [ {
