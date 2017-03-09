@@ -12,6 +12,9 @@ import org.junit.Before;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.validation.Validator;
 
 
@@ -34,6 +37,7 @@ public class MigrationTest
 	Validator pubinfoValidator = null;
 	Validator imagegroupValidator = null;
 	Validator scanrequestValidator = null;
+	public static final Converter converter = new Converter();
 	
 	@Before
 	public void init() {
@@ -62,8 +66,32 @@ public class MigrationTest
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-        
     }
+	
+	public String toUnicode(String s, List<String>conversionWarnings) {
+	    String convertedValue = converter.toUnicode(s, conversionWarnings, true);
+	    System.out.println("converting \""+s+"\" into "+convertedValue);
+	    if (conversionWarnings.size() > 0) {
+	        System.out.println("with warnings: "+String.join(", ", conversionWarnings));
+	    }
+	    return convertedValue;
+	}
+	
+	@Test
+	public void textEwts() {
+	    List<String> conversionWarnings = new ArrayList<String>();
+	    String res = toUnicode("pa'ng", conversionWarnings);
+	    assertTrue(res.equals("པའང"));
+	    assertTrue(conversionWarnings.size()==0);
+	    conversionWarnings = new ArrayList<String>();
+	    res = toUnicode("be'u'i'o", conversionWarnings);
+        assertTrue(res.equals("བེའུའིའོ"));
+        assertTrue(conversionWarnings.size()==0);
+        conversionWarnings = new ArrayList<String>();
+        res = toUnicode("pa'm", conversionWarnings);
+        assertTrue(res.equals("པའམ"));
+        assertTrue(conversionWarnings.size()==0);
+	}
 	
 	@Test
     public void testP1583()

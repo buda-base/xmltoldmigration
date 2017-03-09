@@ -110,7 +110,7 @@ public class MigrationApp
             String pubinfoFileName = DATA_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
             File pubinfoFile = new File(pubinfoFileName);
             if (!pubinfoFile.exists()) {
-                System.err.println("missing "+pubinfoFileName);
+                MigrationHelpers.writeLog("missing "+pubinfoFileName);
                 MigrationHelpers.modelToFileName(m, outfileName, type, true);
                 return;
             }
@@ -127,16 +127,7 @@ public class MigrationApp
     public static void migrateType(String type, String mustStartWith) {
         createDirIfNotExists(OUTPUT_DIR+type+"s");
         if (type.equals("work")) createDirIfNotExists(OUTPUT_DIR+"volumes");
-        String dirName = DATA_DIR+"tbrc-"+type+"s";
-        File[] files = new File(dirName).listFiles();
-        System.out.println("converting "+files.length+" "+type+" files");
-        Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
-    }
-    
-    public static void main( String[] args )
-    {
-        createDirIfNotExists(OUTPUT_DIR);
-        File logfile = new File("migration-report.log");
+        File logfile = new File(OUTPUT_DIR+type+"s-migration.log");
         PrintWriter pw;
         try {
             pw = new PrintWriter(logfile);
@@ -145,6 +136,16 @@ public class MigrationApp
             return;
         }
         MigrationHelpers.writeLogsTo(pw);
+        String dirName = DATA_DIR+"tbrc-"+type+"s";
+        File[] files = new File(dirName).listFiles();
+        System.out.println("converting "+files.length+" "+type+" files");
+        Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
+        pw.close();
+    }
+    
+    public static void main( String[] args )
+    {
+        createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
     	migrateType("place", "G");
     	migrateType("office", "R");
@@ -153,10 +154,9 @@ public class MigrationApp
         migrateType("lineage", "L");
         migrateType("outline", "O");
         migrateType("topic", "T");
-        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
+        //migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
         migrateType("work", "W"); // ~20mn, also does pubinfos and imagegroups
         migrateType("scanrequest", "SR"); // requires works to be finished
-        pw.close();
     	long estimatedTime = System.currentTimeMillis() - startTime;
     	System.out.println("done in "+estimatedTime+" ms");
     }

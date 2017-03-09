@@ -141,7 +141,7 @@ public class Converter {
     m_tib_other;
     private static HashMap<String, Integer> m_ambiguous_key;
     private static HashMap<Character, Integer> m_tokens_start;
-    private static HashSet<String> m_special, m_suffixes, m_tib_stacks, m_tokens;
+    private static HashSet<String> m_special, m_suffixes, m_tib_stacks, m_tokens, m_affixedsuff2;
     private static HashMap<String, HashSet<String>> m_superscripts, m_subscripts, m_prefixes, m_suff2;
 
     // initialize all the hashes with the correspondences between Converter and Unicode.  
@@ -653,23 +653,33 @@ public class Converter {
         tmpSet.add("r");
         tmpSet.add("l");
         m_suff2.put("d", tmpSet);
+        
+        m_affixedsuff2 = new HashSet<String>();
+        m_affixedsuff2.add("ng");
+        m_affixedsuff2.add("m");
 
         // root letter index for very ambiguous three-stack syllables
         m_ambiguous_key = new HashMap<String, Integer>();
         m_ambiguous_key.put("dgs",  1);
         m_ambiguous_key.put("dms",  1);
+        m_ambiguous_key.put("dngs", 1);
         m_ambiguous_key.put("'gs",  1);
-        m_ambiguous_key.put("mngs",     0);
+        m_ambiguous_key.put("'bs",  1);
+        m_ambiguous_key.put("mngs", 0);
+        m_ambiguous_key.put("mgs",  0);
         m_ambiguous_key.put("bgs",  0);
         m_ambiguous_key.put("dbs",  1);
 
         m_ambiguous_wylie = new HashMap<String, String>();
-        m_ambiguous_wylie.put("dgs",    "dgas");
-        m_ambiguous_wylie.put("dms",    "dmas");
-        m_ambiguous_wylie.put("'gs",    "'gas");
-        m_ambiguous_wylie.put("mngs",   "mangs");
-        m_ambiguous_wylie.put("bgs",    "bags");
-        m_ambiguous_wylie.put("dbs",    "dbas");
+        m_ambiguous_wylie.put("dgs",  "dgas");
+        m_ambiguous_wylie.put("dngs", "dngas");
+        m_ambiguous_wylie.put("dms",  "dmas");
+        m_ambiguous_wylie.put("'gs",  "'gas");
+        m_ambiguous_wylie.put("'bs",  "'bas");
+        m_ambiguous_wylie.put("mngs", "mangs");
+        m_ambiguous_wylie.put("mgs",  "mags");
+        m_ambiguous_wylie.put("bgs",  "bags");
+        m_ambiguous_wylie.put("dbs",  "dbas");
 
         // *** Unicode to Converter mappings ***
 
@@ -1824,7 +1834,10 @@ public class Converter {
                             warns.add("Second suffix \"" + stack.single_consonant + "\" does not occur after \"" + prev_cons + "\".");
                         }
                     } else {
-                        warns.add("Invalid 2nd suffix consonant: \"" + stack.single_consonant  + "\".");
+                        // handles བའམ བའིའོ བའང,, but བེའུའིའོ is not handled... should be rare enough though 
+                        if(!m_affixedsuff2.contains(stack.single_consonant) || !prev_cons.equals("'")) {
+                            warns.add("Invalid 2nd suffix consonant: \"" + stack.single_consonant  + "\".");
+                        }
                     }
                     state = State.NONE;
 
