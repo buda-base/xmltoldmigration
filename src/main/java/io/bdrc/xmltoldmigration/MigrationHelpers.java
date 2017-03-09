@@ -156,6 +156,11 @@ public class MigrationHelpers {
     protected static void insertRec(String k, Object v, SortedMap<String,Object> tm) {
 	    if (k.equals("@graph")) {
 	        if (v instanceof ArrayList) {
+	            if (((ArrayList<Object>) v).size() == 0) {
+	                tm.put(k,v);
+	                writeLog("empty graph, shouldn't happen!");
+	                return;
+	            }
 	            Object o = ((ArrayList<Object>) v).get(0);
 	            if (o instanceof Map) {
                     Map<String,Object> orderedo = orderEntries((Map<String,Object>) o);
