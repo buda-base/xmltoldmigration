@@ -1263,6 +1263,8 @@ public class Converter {
         str = str.replace("C", "c");
         str = str.replace("B", "b");
         str = str.replace(" b ", " ba ");
+        str = str.replace(" m ", " ma ");
+        str = str.replace(" m'i ", " ma'i ");
         str = str.replace(" b'i ", " ba'i ");
         str = str.replace("P", "p");
         str = str.replace("L", "l");

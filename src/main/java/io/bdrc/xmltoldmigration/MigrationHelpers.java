@@ -1,6 +1,7 @@
 package io.bdrc.xmltoldmigration;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,8 +13,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.jena.atlas.io.IO;
 import org.apache.jena.atlas.lib.Chars;
@@ -62,10 +69,14 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.utils.JsonUtils;
+
+
 
 public class MigrationHelpers {
 
@@ -128,10 +139,50 @@ public class MigrationHelpers {
 		return jsonObject;
 	}
 	
+	 static class MigrationComparator implements Comparator<String>
+	 {
+	     public int compare(String s1, String s2)
+	     {
+	         if(s1.equals("log_entry")) return 1;
+	         if(s1.equals("@context")) return 1;
+	         if(s1.equals("@graph")) return -1;
+	         if(s1.equals("rdfs:label")) return -1;
+	         if(s1.equals("status")) return -1;
+	         return s1.compareTo(s2);
+	     }
+	 }
+	
+	@SuppressWarnings("unchecked")
+    protected static void insertRec(String k, Object v, SortedMap<String,Object> tm) {
+	    if (k.equals("@graph")) {
+	        if (v instanceof ArrayList) {
+	            Object o = ((ArrayList<Object>) v).get(0);
+	            if (o instanceof Map) {
+                    Map<String,Object> orderedo = orderEntries((Map<String,Object>) o);
+                    ((ArrayList<Object>) v).set(0, orderedo);
+	            }
+	            tm.put(k, v);
+	        } else {// supposing v instance of Map
+	            tm.put(k, orderEntries( (Map<String,Object>) v));
+	        }
+	    } else {
+	        tm.put(k, v);
+	    }
+	}
+	
+	// reorder list
+    protected static Map<String,Object> orderEntries(Map<String,Object> input)
+    {
+        SortedMap<String,Object> res = new TreeMap<String,Object>(new MigrationComparator());
+        input.forEach( (k,v) -> insertRec(k, v, res) );
+        return res;
+    }
+	
 	// these annotations don't work, for some reason
 	//@JsonPropertyOrder(alphabetic=true)
 	//@JsonPropertyOrder({ "rdfs:label" })
-	public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) {
+	@SuppressWarnings("unchecked")
+    public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) {
 	    if (m==null) return; // not sure why but seems needed
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
 		JSONLDVariant variant;
@@ -153,18 +204,8 @@ public class MigrationHelpers {
         Writer wr = new OutputStreamWriter(out, Chars.charsetUTF8) ;
         try {
             jsonObject = JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            //JsonUtils.writePrettyPrint(wr, jsonObject) ;
-            // or ir more details, with more config:
-            ObjectMapper JSON_MAPPER = new ObjectMapper();
-            JSON_MAPPER.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
-            JSON_MAPPER.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-            JsonFactory JSON_FACTORY = new JsonFactory(JSON_MAPPER);
-            JSON_FACTORY.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
-            JSON_FACTORY.disable(JsonFactory.Feature.INTERN_FIELD_NAMES);
-            JSON_FACTORY.disable(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES);
-            final JsonGenerator jw = JSON_FACTORY.createGenerator(wr);
-            jw.useDefaultPrettyPrinter();
-            jw.writeObject(jsonObject);
+            jsonObject = orderEntries((Map<String,Object>) jsonObject);
+            JsonUtils.writePrettyPrint(wr, jsonObject) ;
             wr.write("\n");
         } catch (JsonLdError | IOException e) {
             e.printStackTrace();
