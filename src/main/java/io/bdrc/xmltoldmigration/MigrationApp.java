@@ -73,6 +73,7 @@ public class MigrationApp
             volumes = volumesModel.getResource(VP+"V"+workId.substring(1));
             volumesModel = ScanrequestMigration.MigrateScanrequest(srd, volumesModel, volumes);
             MigrationHelpers.modelToFileName(volumesModel, volumesFileName, "volumes", true);
+            break;
         case "work":
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();

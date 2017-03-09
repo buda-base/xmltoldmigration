@@ -168,7 +168,6 @@ public class LineageMigration {
 			value = CommonMigration.normalizePropName(value, "Class");
 		}
 		if (value == null) {
-		    System.err.println("missing info or info/@type for lineage");
 		    value = "NotSpecified";
 		}
 		return value;
