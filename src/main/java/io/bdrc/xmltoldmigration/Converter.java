@@ -1247,12 +1247,15 @@ public class Converter {
         str = str.replace("8 ", "8_");
         str = str.replace("9 ", "9_");
         str = str.replace("_ ", "__");
-        //str = str.replace("G", "g"); not converting because some strings contain things like "G844" which should output an error
+        str = str.replace("G", "g");
         str = str.replace("K", "k");
-        str = str.replace("H", "h");
         str = str.replace("G.", "g");
-        str = str.replace("Ch", "ch");
+        str = str.replace("C", "c");
         str = str.replace("B", "b");
+        str = str.replace(" b ", " ba ");
+        str = str.replace(" b'i ", " ba'i ");
+        str = str.replace("P", "p");
+        str = str.replace("L", "l");
         str = str.replace(" M", "m");
         str = str.replace("(M", "(m");
         // convert S but not Sh:
@@ -1261,7 +1264,6 @@ public class Converter {
         str = str.replace("ZZZ", "Sh");
         str = str.replace("Z", "z");
         if (str.startsWith("M")) str = "m"+str.substring(1);
-        if (str.startsWith("G")) str = "g"+str.substring(1);
         return str;
     }
 

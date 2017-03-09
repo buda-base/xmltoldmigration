@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,6 +73,29 @@ public class MigrationHelpers {
 	
 	protected static Map<String,Object> typeToFrameObject = new HashMap<String,Object>();
 	
+	public static Writer logWriter;
+	
+	static {
+	    try {
+            logWriter = new PrintWriter(new OutputStreamWriter(System.err, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            // Well, that's a stupid try/catch...
+            e.printStackTrace();
+        }
+	}
+	
+	public static void writeLogsTo(PrintWriter w) {
+	    logWriter = w;
+	}
+
+	public static void writeLog(String s) {
+        try {
+            logWriter.write(s+"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 	public static Map<String,String> typeToRootShortUri = new HashMap<String,String>();
 	static {
 		typeToRootShortUri.put("person", "per:Person");

@@ -470,8 +470,9 @@ public class CommonMigration  {
        }
        
        public static void addException(Model m, Resource r, String exception) {
-           System.err.println(exception);
            m.add(r, m.getProperty(ROOT_PREFIX+"migration_exception"), m.createLiteral(exception));
+           exception = "Error in resource "+r.getLocalName()+": "+exception;
+           MigrationHelpers.writeLog(exception);
        }
 	
 	public static String getPrefixFromRID(String rid) {

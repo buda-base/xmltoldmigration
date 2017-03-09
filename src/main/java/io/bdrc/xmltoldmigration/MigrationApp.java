@@ -1,6 +1,8 @@
 package io.bdrc.xmltoldmigration;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -134,6 +136,15 @@ public class MigrationApp
     public static void main( String[] args )
     {
         createDirIfNotExists(OUTPUT_DIR);
+        File logfile = new File("migration-report.log");
+        PrintWriter pw;
+        try {
+            pw = new PrintWriter(logfile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+        MigrationHelpers.writeLogsTo(pw);
         long startTime = System.currentTimeMillis();
     	migrateType("place", "G");
     	migrateType("office", "R");
@@ -142,9 +153,10 @@ public class MigrationApp
         migrateType("lineage", "L");
         migrateType("outline", "O");
         migrateType("topic", "T");
-        //migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
+        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
         migrateType("work", "W"); // ~20mn, also does pubinfos and imagegroups
         migrateType("scanrequest", "SR"); // requires works to be finished
+        pw.close();
     	long estimatedTime = System.currentTimeMillis() - startTime;
     	System.out.println("done in "+estimatedTime+" ms");
     }
