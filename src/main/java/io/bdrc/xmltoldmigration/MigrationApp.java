@@ -156,6 +156,7 @@ public class MigrationApp
         migrateType("outline", "O");
         migrateType("topic", "T");
         //migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
+        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType("work", "W"); // ~20mn, also does pubinfos and imagegroups
         migrateType("scanrequest", "SR"); // requires works to be finished
     	long estimatedTime = System.currentTimeMillis() - startTime;

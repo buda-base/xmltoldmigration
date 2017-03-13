@@ -5,19 +5,16 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -33,18 +30,20 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.JsonLDWriteContext;
-import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
-import org.apache.jena.riot.RIOT;
 import org.apache.jena.riot.RDFFormat.JSONLDVariant;
 import org.apache.jena.riot.RiotException;
-import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.riot.writer.JsonLDWriter;
 import org.apache.jena.sparql.core.DatasetGraph;
-import org.apache.jena.sparql.util.Context;
 import org.apache.jena.util.iterator.ExtendedIterator;
+import org.ektorp.CouchDbConnector;
+import org.ektorp.CouchDbInstance;
+import org.ektorp.http.HttpClient;
+import org.ektorp.http.StdHttpClient;
+import org.ektorp.impl.StdCouchDbConnector;
+import org.ektorp.impl.StdCouchDbInstance;
 
 import openllet.jena.PelletReasonerFactory;
 
@@ -56,22 +55,11 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
+
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.utils.JsonUtils;
@@ -86,7 +74,24 @@ public class MigrationHelpers {
 	
 	public static Writer logWriter;
 	
+	public static HttpClient httpClient;
+	public static CouchDbInstance dbInstance;
+	public static CouchDbConnector db = null;
+	
+	public static boolean usecouchdb = true;
+	
 	static {
+    	try {
+            httpClient = new StdHttpClient.Builder()
+                    .url("http://localhost:5984")
+                    .build();
+            dbInstance = new StdCouchDbInstance(httpClient);
+            db = new StdCouchDbConnector("test", dbInstance);
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
 	    try {
             logWriter = new PrintWriter(new OutputStreamWriter(System.err, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
@@ -182,10 +187,43 @@ public class MigrationHelpers {
         input.forEach( (k,v) -> insertRec(k, v, res) );
         return res;
     }
+    
+    public static void jsonObjectToCouch(Object jsonObject, String type) {
+        if (db == null) return;
+        TreeMap<String,Object> obj = (TreeMap<String,Object>) jsonObject;
+        Object graph = null; // = ((TreeMap<String,Object>) jsonObject).get("@graph"); this doesn't work for unknown reasons
+        for(Map.Entry<String, Object> entry : obj.entrySet()) {
+            if (entry.getKey().equals("@graph")) {
+                graph = entry.getValue();
+                break;
+            }
+        }
+        if (graph == null) {
+            System.out.println("cannot extract graph");
+            return;
+        }
+        Map<String,Object> resource = ((ArrayList<Map<String,Object>>) graph).get(0);
+        String Id = null;//resource.get("@id").toString(); again, this doesn't work... programming in Java is so sad...
+        for(Map.Entry<String, Object> entry : resource.entrySet()) {
+            if (entry.getKey().equals("@id")) {
+                Id = entry.getValue().toString();
+                break;
+            }
+        }
+        if (Id == null) {
+            System.out.println("cannot extract @id");
+            System.out.println(resource.toString());
+            return;
+        }
+        HashMap<String,Object> finalObject = new HashMap<String,Object>();
+        finalObject.put("@graph", graph);
+        finalObject.put("_id", Id);
+        if (!db.contains(Id)) {
+            db.create(Id, finalObject);
+        }
+    }
 	
 	// these annotations don't work, for some reason
-	//@JsonPropertyOrder(alphabetic=true)
-	//@JsonPropertyOrder({ "rdfs:label" })
 	@SuppressWarnings("unchecked")
     public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) {
 	    if (m==null) return; // not sure why but seems needed
@@ -210,6 +248,8 @@ public class MigrationHelpers {
         try {
             jsonObject = JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
             jsonObject = orderEntries((Map<String,Object>) jsonObject);
+            if (usecouchdb)
+                jsonObjectToCouch(jsonObject, type);
             JsonUtils.writePrettyPrint(wr, jsonObject) ;
             wr.write("\n");
         } catch (JsonLdError | IOException e) {
