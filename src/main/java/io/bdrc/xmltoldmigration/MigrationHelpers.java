@@ -198,7 +198,7 @@ public class MigrationHelpers {
                 break;
             }
         }
-        if (graph == null) {
+        if (graph == null || ((ArrayList<Map<String,Object>>) graph).size() == 0) {
             System.out.println("cannot extract graph");
             return;
         }
