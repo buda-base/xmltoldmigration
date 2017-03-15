@@ -240,7 +240,7 @@ public class PlaceMigration {
 	            value = CommonMigration.normalizePropName(value, "Class");
 	        }
 			String name = CommonMigration.getSubResourceName(main, PLP, "Event", i+1);
-			Resource event = m.createResource(PLP + name);
+			Resource event = m.createResource(name);
 			m.add(event, RDF.type, m.getResource(PLP+value));
 			value = current.getAttribute("circa").trim();
 			if (!value.isEmpty()) {
