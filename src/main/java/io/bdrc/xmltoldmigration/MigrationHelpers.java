@@ -83,7 +83,7 @@ public class MigrationHelpers {
 	static {
     	try {
             httpClient = new StdHttpClient.Builder()
-                    .url("http://localhost:5984")
+                    .url("http://localhost:13598")
                     .build();
             dbInstance = new StdCouchDbInstance(httpClient);
             db = new StdCouchDbConnector("test", dbInstance);
