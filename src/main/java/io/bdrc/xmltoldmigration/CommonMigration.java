@@ -157,6 +157,44 @@ public class CommonMigration  {
 	        return desc;
 	    }
 	}
+
+	public static String addPrefixToDescription(String type) {
+	    switch (type) {
+        case "bon_bka_gyur_number":
+        case "catalogue_number":
+        case "gser_bris_number":
+        case "lhasa_number":
+        case "otani":
+        case "otani_beijing":
+        case "rKTsReference":
+        case "sde_dge_number":
+        case "shey_number":
+        case "snar_thang_number":
+        case "stog_number":
+        case "toh":
+        case "urga_number":
+        case "vinayottaragrantha":
+        case "libraryOfCongress":
+        case "extent":
+        case "chapters":
+        case "incipit":
+        case "colophon":
+            return OUTLINE_PREFIX+type;
+        case "nameLex":
+        case "nameKR":
+        case "gbdist":
+        case "town_syl":
+        case "town_py":
+        case "town_ch":
+        case "prov_py":
+        case "gonpaPerEcumen":
+        case "gonpaPer1000":
+        case "dist_py":
+            return PLACE_PREFIX+type;
+        default:
+            return DESCRIPTION_PREFIX+type;
+        }
+	}
 	
 	public static Literal getLitFromUri(Model m, String uri) {
 		//return m.createLiteral(m.shortForm(uri));
@@ -382,7 +420,7 @@ public class CommonMigration  {
 			}
 			String[] langAndValue = getBCP47AndConvert(current, "en", m, r);
             value = m.createLiteral(langAndValue[1], langAndValue[0]);
-			Property prop = m.getProperty(DESCRIPTION_PREFIX+type);
+			Property prop = m.getProperty(addPrefixToDescription(type));
 			m.add(r, prop, value);
 			// for product and office the name is the first description type="contents"
 			if (!labelGuessed && type.equals("contents")) {

@@ -79,7 +79,7 @@ public class MigrationHelpers {
 	public static CouchDbConnector db = null;
 	
 	public static boolean usecouchdb = false;
-	public static boolean writefiles = true;
+	public static boolean writefiles = false;
 	public static boolean checkagainstOwl = false;
 	public static boolean checkagainstXsd = true;
 	

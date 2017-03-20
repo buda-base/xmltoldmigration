@@ -92,10 +92,10 @@
 		<xsd:union memberTypes="c:corporationRID c:officeRID plc:lineageTypeAttr"/>
 	</xsd:simpleType>
     <xsd:complexType name="GIS">
-        <xsd:sequence>
+        <xsd:choice maxOccurs="unbounded">
             <xsd:element name="id" type="plc:GisId" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="coords" type="plc:GisCoords" minOccurs="0" maxOccurs="1"/>
-        </xsd:sequence>
+        </xsd:choice>
     </xsd:complexType>
     <xsd:complexType name="GisId">
         <xsd:attribute name="value" type="xsd:string"/>

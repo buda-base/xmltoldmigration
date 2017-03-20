@@ -97,13 +97,13 @@
       "out:hasNode" : {
         "@id" : "out:O2DB875722DB87573",
         "@type" : "out:Text",
-        "desc:gser_bris_number" : {
-          "@language" : "en",
-          "@value" : "test broken property type"
-        },
         "out:authorship" : {
           "@language" : "en",
           "@value" : "Another scribe"
+        },
+        "out:gser_bris_number" : {
+          "@language" : "en",
+          "@value" : "test broken property type"
         },
         "out:location" : [ {
           "@id" : "wor:O2DB875722DB87573_Location2",
@@ -187,18 +187,7 @@
     "out:viewIn_list" : "subjects",
     "out:webAccess" : "notAvailable",
     "log_entry" : [ {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-09-15T14:51:25.708Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Bumu Dega"
-      }
-    }, {
-      "@id" : "_:b0",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -213,7 +202,18 @@
         "@value" : "paldor"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-09-15T14:51:25.708Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Bumu Dega"
+      }
+    }, {
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",

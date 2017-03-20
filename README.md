@@ -30,17 +30,9 @@ java -jar target/xmltoldmigration-0.1-jar-with-dependencies.jar
 - handle BDRC staff by some individuals of a new class?
 - check if the "onDisk" description type appear outside imagegroup
 - migrate some GIS id (WB_area_sq_km, etc.) to descriptions
-- migrate most description to more specific properties (Kangyur references, etc.)
-- handle '.' in ewts converter (in g.yag for instance)
+- migrate most description to more specific properties (first batch done, more to be done later)
+- some properties have a useless lang tag: gbdist, gonpaPer1000, etc.
 
-changed descriptions:
-- outline: libraryOfCongress, extent, chapters, incipit, colophon
-- outline/number: bon_bka_gyur_number, catalogue_number, gser_bris_number, lhasa_number, otani, otani_beijing, rKTsReference, sde_dge_number, shey_number, snar_thang_number, stog_number, toh, urga_number, vinayottaragrantha
-- place: nameLex, nameKR, gbdist, town_syl, town_py, town_ch, prov_py, gonpaPerEcumen, gonpaPer1000, dist_py
-
-changes types:
-- all wor:pubinfoProperty now range xsd:string, except authorship statement, biblioNote, editionStatement, printery, publisherLocation, publisherName, seriesName, sourceNote
-- all wor:locationDataProperty and vol:number passed to (xsd:string or xsd:positiveInteger)
 
 ## License
 
