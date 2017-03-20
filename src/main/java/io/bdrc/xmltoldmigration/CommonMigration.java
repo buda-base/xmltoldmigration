@@ -672,17 +672,22 @@ public class CommonMigration  {
 	}
 	
 	public static boolean documentValidates(Document document, Validator validator) {
+	    return documentValidates(document, validator, "");
+	}
+	
+	public static boolean documentValidates(Document document, Validator validator, String fileName) {
 		Source xmlSource = new DOMSource(document);
 		try {
             validator.validate(xmlSource);
         }
         catch (SAXException ex) {
-            System.err.println("Document is not valid because:");
-            System.err.println(ex.getMessage());
+            MigrationHelpers.writeLog("Document "+fileName+" is not valid because:");
+            MigrationHelpers.writeLog(ex.getMessage());
             //ex.printStackTrace();
             return false;
         } catch (IOException e) {
-        	System.err.println("IO problem:");
+            MigrationHelpers.writeLog("IO problem:");
+            MigrationHelpers.writeLog(e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -690,20 +695,25 @@ public class CommonMigration  {
 	}
 	
 	public static boolean rdfOkInOntology(Model m, OntModel o) {
+	    return rdfOkInOntology(m, o, "");
+	}
+	
+	public static boolean rdfOkInOntology(Model m, OntModel o, String fileName) {
 		o.addSubModel(m);
 		ValidityReport vr;
 		try {
 			vr = o.validate();
 		}
 		catch(InternalReasonerException e) {
-			System.out.print(e.getMessage());
+		    MigrationHelpers.writeLog(e.getMessage());
 			return false;
 		}
 		if (!vr.isValid()) {
+		    MigrationHelpers.writeLog("Model "+fileName+" not OK in ontology because:");
 			Iterator<ValidityReport.Report> itr = vr.getReports();
 			while(itr.hasNext()) {
 				ValidityReport.Report report = itr.next();
-		        System.out.print(report.toString());
+				MigrationHelpers.writeLog(report.toString());
 		    }
 		}
 		return vr.isValid();

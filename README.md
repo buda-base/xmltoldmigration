@@ -33,6 +33,11 @@ java -jar target/xmltoldmigration-0.1-jar-with-dependencies.jar
 - migrate most description to more specific properties (Kangyur references, etc.)
 - handle '.' in ewts converter (in g.yag for instance)
 
+change descriptions:
+- outline: libraryOfCongress, extent, chapters, incipit, colophon
+- outline/number: bon_bka_gyur_number, catalogue_number, gser_bris_number, lhasa_number, otani, otani_beijing, rKTsReference, sde_dge_number, shey_number, snar_thang_number, stog_number, toh, urga_number, vinayottaragrantha
+- place: nameLex, nameKR, gbdist, town_syl, town_py, town_ch, prov_py, gonpaPerEcumen, gonpaPer1000, dist_py
+
 ## License
 
 The code is Copyright 2017 Buddhist Digital Resource Center, and is provided under [Apache License 2.0](LICENSE).

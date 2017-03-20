@@ -141,6 +141,7 @@ public class MigrationApp
         File[] files = new File(dirName).listFiles();
         System.out.println("converting "+files.length+" "+type+" files");
         Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
+        //Stream.of(files).forEach(file -> migrateOneFile(file, type, mustStartWith));
         pw.close();
     }
     

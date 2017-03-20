@@ -79,6 +79,17 @@ public class MigrationHelpers {
 	public static CouchDbConnector db = null;
 	
 	public static boolean usecouchdb = true;
+	public static boolean writefiles = true;
+	public static boolean checkagainstOwl = false;
+	public static boolean checkagainstXsd = true;
+	
+	public static OntModel ontologymodel = null;
+
+    static {
+        if (checkagainstOwl) {
+            ontologymodel = MigrationHelpers.getOntologyModel();
+        }
+    }
 	
 	static {
     	try {
@@ -149,6 +160,7 @@ public class MigrationHelpers {
 	     public int compare(String s1, String s2)
 	     {
 	         if(s1.equals("log_entry")) return 1;
+	         if(s2.equals("log_entry")) return -1;
 	         if(s1.equals("@context")) return 1;
 	         if(s1.equals("@graph")) return -1;
 	         if(s1.equals("rdfs:label")) return -1;
@@ -158,13 +170,12 @@ public class MigrationHelpers {
 	 }
 	
 	@SuppressWarnings("unchecked")
-    protected static void insertRec(String k, Object v, SortedMap<String,Object> tm) {
+    protected static void insertRec(String k, Object v, SortedMap<String,Object> tm) throws IllegalArgumentException {
 	    if (k.equals("@graph")) {
 	        if (v instanceof ArrayList) {
 	            if (((ArrayList<Object>) v).size() == 0) {
 	                tm.put(k,v);
-	                writeLog("empty graph, shouldn't happen!");
-	                return;
+	                throw new IllegalArgumentException("empty graph, shouldn't happen!");
 	            }
 	            Object o = ((ArrayList<Object>) v).get(0);
 	            if (o instanceof Map) {
@@ -181,10 +192,10 @@ public class MigrationHelpers {
 	}
 	
 	// reorder list
-    protected static Map<String,Object> orderEntries(Map<String,Object> input)
+    protected static Map<String,Object> orderEntries(Map<String,Object> input) throws IllegalArgumentException
     {
         SortedMap<String,Object> res = new TreeMap<String,Object>(new MigrationComparator());
-        input.forEach( (k,v) -> insertRec(k, v, res) );
+        input.forEach( (k,v) ->  insertRec(k, v, res) );
         return res;
     }
     
@@ -225,8 +236,10 @@ public class MigrationHelpers {
 	
 	// these annotations don't work, for some reason
 	@SuppressWarnings("unchecked")
-    public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) {
-	    if (m==null) return; // not sure why but seems needed
+    public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) throws IllegalArgumentException {
+	    if (m==null) 
+	        throw new IllegalArgumentException("null model returned");
+	    if (out == null && !usecouchdb) return;
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
 		JSONLDVariant variant;
 		if (frame) {
@@ -244,19 +257,22 @@ public class MigrationHelpers {
         PrefixMap pm = RiotLib.prefixMap(g);
         String base = null;
         Object jsonObject;
-        Writer wr = new OutputStreamWriter(out, Chars.charsetUTF8) ;
+        Writer wr = null;
+        if (out != null) wr = new OutputStreamWriter(out, Chars.charsetUTF8) ;
         try {
             jsonObject = JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
             jsonObject = orderEntries((Map<String,Object>) jsonObject);
             if (usecouchdb)
                 jsonObjectToCouch(jsonObject, type);
-            JsonUtils.writePrettyPrint(wr, jsonObject) ;
-            wr.write("\n");
+            if (wr != null) {
+                JsonUtils.writePrettyPrint(wr, jsonObject) ;
+                wr.write("\n");
+                IO.flush(wr) ;
+            }
         } catch (JsonLdError | IOException e) {
             e.printStackTrace();
             return;
         }
-        IO.flush(wr) ;
 	}
 	
 	public static boolean isSimilarTo(Model src, Model dst) {
@@ -292,20 +308,22 @@ public class MigrationHelpers {
 		try {
 		    model.read(fname, "JSON-LD") ;
 		} catch (RiotException e) {
-		    System.err.println("error reading "+fname);
+		    writeLog("error reading "+fname);
 		    return null;
 		}
 		return model;
 	}
 	
 	public static void modelToFileName(Model m, String fname, String type, boolean frame) {
-	    FileOutputStream s;
+	    FileOutputStream s = null;
 	    try {
 		    s = new FileOutputStream(fname);
-			modelToOutputStream(m, s, type, frame);
+		    modelToOutputStream(m, s, type, frame);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return;
+		} catch (IllegalArgumentException e) {
+		    writeLog("error writing "+fname+": "+e.getMessage());
 		}
 		try {
             s.close();
@@ -370,13 +388,20 @@ public class MigrationHelpers {
 	
 	public static Model getModelFromFile(String src, String type, String fileName) {
 	    Document d = documentFromFileName(src);
+	    if (checkagainstXsd) {
+	        Validator v = getValidatorFor(type);
+	        CommonMigration.documentValidates(d, v, src);
+	    }
         Element root = d.getDocumentElement();
         if (!mustBeMigrated(root)) return null;
         Model m = null;
         try {
             m = xmlToRdf(d, type);
         } catch (IllegalArgumentException e) {
-            System.err.println("error in "+fileName+" "+e.getMessage());
+            writeLog("error in "+fileName+" "+e.getMessage());
+        }
+        if (checkagainstOwl) {
+            CommonMigration.rdfOkInOntology(m, ontologymodel);
         }
         return m;
 	}
@@ -431,7 +456,11 @@ public class MigrationHelpers {
 	    return ontoModelInferred;
 	}
 	
+	public static Map<String,Validator> validators = new HashMap<String,Validator>();
+	
 	public static Validator getValidatorFor(String type) {
+	    Validator res = validators.get("type");
+	    if (res != null) return res;
 		String xsdFullName = "src/main/resources/xsd/"+type+".xsd";
 		SchemaFactory factory = 
 	            SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -443,7 +472,9 @@ public class MigrationHelpers {
 			System.err.println("xsd file looks invalid...");
 			return null;
 		}
-		return schema.newValidator();
+		res = schema.newValidator();
+		validators.put(type, res);
+		return res;
 	}
 	
 }
