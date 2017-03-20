@@ -28,16 +28,29 @@ public class ImagegroupMigration {
         CommonMigration.setPrefixes(m);
         Resource volumes = m.createResource(VP+"TestVolumes");
         m.add(volumes, RDF.type, m.getResource(VP+"Volumes"));
-        MigrateImagegroup(xmlDocument, m, volumes, "testVolume");
+        MigrateImagegroup(xmlDocument, m, volumes, "testVolume", "1", "testVolumes");
         return m;
 	}
 	
-	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource volumes, String volumeName) {
+	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource volumes, String volumeName, String volumeNumber, String volumesName) {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
-		Resource main = m.createResource(VP+volumeName);
+		Resource main = m.createResource(VP+volumesName+"_"+volumeName);
         m.add(main, RDF.type, m.getResource(VP+"Volume"));
+        
+        try {
+            int intval = Integer.parseInt(volumeNumber);
+            if (intval < 1) {
+                CommonMigration.addException(m, main, "invalid volume number, must be a positive integer, got '"+volumeNumber+"'");
+                m.add(main, m.getProperty(VP, "number"), m.createLiteral(volumeNumber));
+            } else {
+                m.add(main, m.getProperty(VP, "number"), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
+            }
+        } catch (NumberFormatException e) {
+            CommonMigration.addException(m, main, "invalid volume number, must be a positive integer, got '"+volumeNumber+"'");
+            m.add(main, m.getProperty(VP, "number"), m.createLiteral(volumeNumber));
+        }
         
         m.add(volumes, m.getProperty(VP+"hasVolume"), main);
         

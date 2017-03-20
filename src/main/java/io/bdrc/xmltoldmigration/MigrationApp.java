@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.apache.jena.ontology.OntModel;
@@ -87,13 +88,15 @@ public class MigrationApp
             }
             
             // migrate volumes
-            List<String> imagegroupList = WorkMigration.getImageGroupList(d);
-            if (imagegroupList.size() > 0) {
+            Map<String,String> vols = WorkMigration.getImageGroupList(d);
+            if (vols.size() > 0) {
                 volumesModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(volumesModel);
-                volumes = volumesModel.createResource(VP+"V"+baseName.substring(1));
+                String volumesName = "V"+baseName.substring(1);
+                volumes = volumesModel.createResource(VP+volumesName);
                 volumesModel.add(volumes, RDF.type, volumesModel.createResource(VP + "Volumes"));
-                for (String imagegroup : imagegroupList) {
+                for (Map.Entry<String,String> vol : vols.entrySet()) {
+                    String imagegroup = vol.getKey();
                     String imagegroupFileName = DATA_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
                     File imagegroupFile = new File(imagegroupFileName);
                     if (!imagegroupFile.exists()) {
@@ -101,9 +104,9 @@ public class MigrationApp
                         continue;
                     }
                     d = MigrationHelpers.documentFromFileName(imagegroupFileName);
-                    ImagegroupMigration.MigrateImagegroup(d, volumesModel, volumes, VP+imagegroup);
+                    ImagegroupMigration.MigrateImagegroup(d, volumesModel, volumes, imagegroup, vol.getValue(), volumesName);
                 }
-                String volOutfileName = OUTPUT_DIR+"volumes/V"+baseName.substring(1)+".jsonld";
+                String volOutfileName = OUTPUT_DIR+"volumes/"+volumesName+".jsonld";
                 MigrationHelpers.modelToFileName(volumesModel, volOutfileName, "volumes", true);
             }
             
@@ -156,7 +159,7 @@ public class MigrationApp
         migrateType("lineage", "L");
         migrateType("outline", "O");
         migrateType("topic", "T");
-        //migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
+//        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
         //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType("work", "W"); // ~20mn, also does pubinfos and imagegroups
         migrateType("scanrequest", "SR"); // requires works to be finished

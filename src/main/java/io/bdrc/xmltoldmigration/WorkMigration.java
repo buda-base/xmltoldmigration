@@ -2,7 +2,9 @@ package io.bdrc.xmltoldmigration;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.AnonId;
@@ -143,7 +145,7 @@ public class WorkMigration {
             m.add(main, m.getProperty(WP+"scanInfo"), m.createLiteral(value, "en"));
         }
         
-        List<String> imageGroupList = getImageGroupList(xmlDocument);
+        Map<String,String> imageGroupList = getImageGroupList(xmlDocument);
         if (!imageGroupList.isEmpty()) {
             Resource volumes = m.createResource(VP+"V"+root.getAttribute("RID").substring(1));
             m.add(main, m.getProperty(WP+"hasVolumes"), volumes);
@@ -153,8 +155,8 @@ public class WorkMigration {
 		
 	}
 	
-	public static List<String> getImageGroupList(Document d) {
-	    List<String> res = new ArrayList<String>(); 
+	public static Map<String,String> getImageGroupList(Document d) {
+	    Map<String,String> res = new HashMap<String,String>(); 
 	    
 	    Element root = d.getDocumentElement();
         NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
@@ -166,7 +168,7 @@ public class WorkMigration {
                 System.err.println("Image group doesn't start with I! "+value);
                 continue;
             }
-            res.add(value);
+            res.put(value, volume.getAttribute("num").trim());
         }
 	    return res;
 	}

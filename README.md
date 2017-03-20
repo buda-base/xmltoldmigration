@@ -40,7 +40,7 @@ changed descriptions:
 
 changes types:
 - all wor:pubinfoProperty now range xsd:string, except authorship statement, biblioNote, editionStatement, printery, publisherLocation, publisherName, seriesName, sourceNote
-- all wor:locationDataProperty passed to (xsd:string or xsd:positiveInteger)
+- all wor:locationDataProperty and vol:number passed to (xsd:string or xsd:positiveInteger)
 
 ## License
 
