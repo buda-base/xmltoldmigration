@@ -150,6 +150,13 @@ public class MigrationApp
     
     public static void main( String[] args )
     {
+		for (int i = 0; i < args.length; i++) {
+			String arg = args[i];
+			if (arg.equals("-useCouchdb")) {
+				MigrationHelpers.usecouchdb = true;
+			}
+		}
+		
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
     	migrateType("place", "G");
