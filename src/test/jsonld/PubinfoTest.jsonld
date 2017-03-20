@@ -1,72 +1,7 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
     "@id" : "wor:W12837",
     "@type" : "wor:Work",
-    "log_entry" : [ {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added print type and source printery"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T12:06:57.572Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jigme Namgyal"
-      }
-    }, {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added hollis field to pub info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-01-05T17:22:13.356Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Code Ferret"
-      }
-    }, {
-      "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "normalize encoding field for pub info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-04-22T00:30:13.577Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
-      }
-    } ],
     "wor:hasHolding" : {
       "@id" : "wor:W12837_Holding1",
       "@type" : "wor:Holding",
@@ -110,6 +45,71 @@
       "@value" : "[zhol par khang]"
     },
     "wor:pubinfo_sourcePrintery_string" : "test sourcePrintery with no place",
-    "wor:pubinfo_tbrcHoldings" : "1"
-  } ]
+    "wor:pubinfo_tbrcHoldings" : "1",
+    "log_entry" : [ {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added hollis field to pub info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-01-05T17:22:13.356Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Code Ferret"
+      }
+    }, {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalize encoding field for pub info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-22T00:30:13.577Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added print type and source printery"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T12:06:57.572Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jigme Namgyal"
+      }
+    } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }

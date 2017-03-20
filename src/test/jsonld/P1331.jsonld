@@ -1,26 +1,24 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
+    "rdfs:label" : {
+      "@language" : "bo",
+      "@value" : "བློ་གྲོས་རྣམ་དག"
+    },
+    "status" : "released",
     "@id" : "per:P1331",
     "@type" : "per:Person",
+    "note" : {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1331_Note1",
+      "@type" : "Note",
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "date of death from this source"
+      },
+      "note_location" : "p. 359",
+      "note_work" : {
+        "@id" : "wor:W20115"
+      }
+    },
     "per:event" : {
       "@id" : "per:P1331_Event1",
       "@type" : "per:Death",
@@ -44,23 +42,25 @@
     },
     "per:teacherOf" : {
       "@id" : "per:P1323"
-    },
-    "note" : {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1331_Note1",
-      "@type" : "Note",
-      "note_content" : {
-        "@language" : "en",
-        "@value" : "date of death from this source"
-      },
-      "note_location" : "p. 359",
-      "note_work" : {
-        "@id" : "wor:W20115"
-      }
-    },
-    "status" : "released",
-    "rdfs:label" : {
-      "@language" : "bo",
-      "@value" : "བློ་གྲོས་རྣམ་དག"
     }
-  } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }

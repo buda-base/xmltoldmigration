@@ -1,87 +1,12 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
+    "rdfs:label" : {
+      "@language" : "bo",
+      "@value" : "ཀུན་རིག་རྣམ་བཤད"
+    },
+    "status" : "released",
     "@id" : "wor:W12837",
     "@type" : "wor:Work",
-    "log_entry" : [ {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added print type and source printery"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T12:06:50.245Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jigme Namgyal"
-      }
-    }, {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "normalized catalog info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-05-17T11:18:37.731Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
-      }
-    }, {
-      "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "cataloging reviewed"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2007-09-08T18:25:18.406Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Gene Smith"
-      }
-    }, {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "normalized catalog info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-04-21T23:05:36.322Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
-      }
-    } ],
     "migration_exception" : "creator needs to be added to dlms: \"test for exception\"",
     "note" : {
       "@id" : "http://purl.bdrc.io/ontology/root/W12837_Note1",
@@ -91,7 +16,6 @@
         "@value" : "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."
       }
     },
-    "status" : "released",
     "subject_isAboutPlace" : {
       "@id" : "plc:G844"
     },
@@ -122,9 +46,9 @@
       "@id" : "vol:V12837"
     },
     "wor:inProduct" : [ {
-      "@id" : "prd:PRHD03"
-    }, {
       "@id" : "prd:PR01UNRESTR"
+    }, {
+      "@id" : "prd:PRHD03"
     } ],
     "wor:info_edition" : "this is the edition",
     "wor:info_nodeType" : "publishedWork",
@@ -150,9 +74,85 @@
       "@language" : "bo",
       "@value" : "བཅོམ་ལྡན་འདས་ཐམས་ཅད་རིག་པའི་རྣམ་བཤད"
     },
-    "rdfs:label" : {
-      "@language" : "bo",
-      "@value" : "ཀུན་རིག་རྣམ་བཤད"
-    }
-  } ]
+    "log_entry" : [ {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added print type and source printery"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T12:06:50.245Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jigme Namgyal"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "cataloging reviewed"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2007-09-08T18:25:18.406Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Gene Smith"
+      }
+    }, {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalized catalog info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-05-17T11:18:37.731Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalized catalog info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-21T23:05:36.322Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }

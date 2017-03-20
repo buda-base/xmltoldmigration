@@ -1,26 +1,73 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
+    "rdfs:label" : {
+      "@language" : "bo",
+      "@value" : "དྲི་མེད་འོད་ཟེར།"
+    },
+    "status" : "released",
     "@id" : "per:P1583",
     "@type" : "per:Person",
+    "external" : {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1583_External1",
+      "@type" : "External",
+      "external_content" : "External example",
+      "external_data" : {
+        "@type" : "xsd:anyURI",
+        "@value" : "http://example.com"
+      }
+    },
+    "migration_exception" : [ "no RID for incarnation, text reads: \"ignoring string\"", "teacherOf value contains unparsed strings: \"#L204a\"", "missing type for an event" ],
+    "note" : [ {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note4",
+      "@type" : "Note",
+      "note_location" : "p. 6",
+      "note_work" : {
+        "@id" : "wor:W19822"
+      }
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note5",
+      "@type" : "Note",
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
+      }
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note1",
+      "@type" : "Note",
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "biography\ndates: 1308-1363"
+      },
+      "note_location" : "v. 2, pp.104-112",
+      "note_work" : {
+        "@id" : "wor:W25268"
+      }
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note6",
+      "@type" : "Note",
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."
+      },
+      "note_location" : "251",
+      "note_work" : {
+        "@id" : "wor:W27401"
+      }
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note2",
+      "@type" : "Note",
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
+      }
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note3",
+      "@type" : "Note",
+      "note_location" : "p. 77",
+      "note_work" : {
+        "@id" : "wor:W19801"
+      }
+    } ],
     "per:commonName" : {
       "@language" : "bo",
       "@value" : "ཀློང་ཆེན་པ།"
@@ -194,16 +241,37 @@
       "@language" : "bo",
       "@value" : "བསམ་ཡས་ལུང་མང་བ།"
     } ],
-    "external" : {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_External1",
-      "@type" : "External",
-      "external_content" : "External example",
-      "external_data" : {
-        "@type" : "xsd:anyURI",
-        "@value" : "http://example.com"
-      }
-    },
     "log_entry" : [ {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "corrected title and name variant designations"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-08-23T16:40:14.673Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added records"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2008-06-30T17:01:56.496Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Joe McClellan"
+      }
+    }, {
       "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
@@ -219,22 +287,7 @@
         "@value" : "Michael Sheehy"
       }
     }, {
-      "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "edited note"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-06-11T09:58:04.367Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Michael R. Sheehy"
-      }
-    }, {
-      "@id" : "_:b3",
+      "@id" : "_:b4",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -249,19 +302,49 @@
         "@value" : "Karma Gongde"
       }
     }, {
-      "@id" : "_:b4",
+      "@id" : "_:b6",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "corrected title and name variant designations"
+        "@value" : "added records"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2012-08-23T16:40:14.673Z"
+        "@value" : "2008-07-02T17:03:41.75Z"
       },
       "log_who" : {
         "@language" : "en",
-        "@value" : "Jeff Wallman"
+        "@value" : "Joe McClellan"
+      }
+    }, {
+      "@id" : "_:b7",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "edited note"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-06-11T09:58:04.367Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Michael R. Sheehy"
+      }
+    }, {
+      "@id" : "_:b8",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name in chinese"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2011-08-02T16:53:12.77Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
       }
     }, {
       "@id" : "_:b0",
@@ -278,108 +361,25 @@
         "@language" : "en",
         "@value" : "Paldor"
       }
-    }, {
-      "@id" : "_:b6",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name in chinese"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2011-08-02T16:53:12.77Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b7",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added records"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2008-07-02T17:03:41.75Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Joe McClellan"
-      }
-    }, {
-      "@id" : "_:b8",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added records"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2008-06-30T17:01:56.496Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Joe McClellan"
-      }
-    } ],
-    "migration_exception" : [ "no RID for incarnation, text reads: \"ignoring string\"", "teacherOf value contains unparsed strings: \"#L204a\"", "missing type for an event" ],
-    "note" : [ {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note4",
-      "@type" : "Note",
-      "note_location" : "p. 6",
-      "note_work" : {
-        "@id" : "wor:W19822"
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note5",
-      "@type" : "Note",
-      "note_content" : {
-        "@language" : "en",
-        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note1",
-      "@type" : "Note",
-      "note_content" : {
-        "@language" : "en",
-        "@value" : "biography\ndates: 1308-1363"
-      },
-      "note_location" : "v. 2, pp.104-112",
-      "note_work" : {
-        "@id" : "wor:W25268"
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note6",
-      "@type" : "Note",
-      "note_content" : {
-        "@language" : "en",
-        "@value" : "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."
-      },
-      "note_location" : "251",
-      "note_work" : {
-        "@id" : "wor:W27401"
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note2",
-      "@type" : "Note",
-      "note_content" : {
-        "@language" : "en",
-        "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note3",
-      "@type" : "Note",
-      "note_location" : "p. 77",
-      "note_work" : {
-        "@id" : "wor:W19801"
-      }
-    } ],
-    "status" : "released",
-    "rdfs:label" : {
-      "@language" : "bo",
-      "@value" : "དྲི་མེད་འོད་ཟེར།"
-    }
-  } ]
+    } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }

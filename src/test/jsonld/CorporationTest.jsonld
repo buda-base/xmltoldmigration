@@ -1,30 +1,11 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
+    "rdfs:label" : {
+      "@language" : "bo-x-tbrc",
+      "@value" : "bran ka"
+    },
     "@id" : "crp:C11MS170",
     "@type" : "crp:Corporation",
-    "desc:noType" : {
-      "@language" : "en",
-      "@value" : "some description"
-    },
     "crp:member" : {
       "@id" : "per:P1856"
     },
@@ -35,29 +16,17 @@
     "crp:unknown" : {
       "@id" : "per:P1857"
     },
-    "log_entry" : {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "created new corp."
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-10-23T10:26:04.725Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Michael Sheehy"
-      }
+    "desc:noType" : {
+      "@language" : "en",
+      "@value" : "some description"
     },
     "migration_exception" : "mixed english + encoding 'tbrcPhonetic' turned into 'en-x-mixed', please convert other language to unicode",
     "name" : [ {
-      "@language" : "en-x-mixed",
-      "@value" : "Dranka"
-    }, {
       "@language" : "bo-x-tbrc",
       "@value" : "bran ka"
+    }, {
+      "@language" : "en-x-mixed",
+      "@value" : "Dranka"
     } ],
     "note" : [ {
       "@id" : "http://purl.bdrc.io/ontology/root/C11MS170_Note2",
@@ -74,9 +43,40 @@
         "@value" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
       }
     } ],
-    "rdfs:label" : {
-      "@language" : "bo-x-tbrc",
-      "@value" : "bran ka"
+    "log_entry" : {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "created new corp."
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-10-23T10:26:04.725Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Michael Sheehy"
+      }
     }
-  } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }

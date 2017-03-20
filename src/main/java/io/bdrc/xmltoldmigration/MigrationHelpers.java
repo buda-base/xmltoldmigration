@@ -78,7 +78,7 @@ public class MigrationHelpers {
 	public static CouchDbInstance dbInstance;
 	public static CouchDbConnector db = null;
 	
-	public static boolean usecouchdb = true;
+	public static boolean usecouchdb = false;
 	public static boolean writefiles = true;
 	public static boolean checkagainstOwl = false;
 	public static boolean checkagainstXsd = true;
@@ -89,9 +89,6 @@ public class MigrationHelpers {
         if (checkagainstOwl) {
             ontologymodel = MigrationHelpers.getOntologyModel();
         }
-    }
-	
-	static {
     	try {
             httpClient = new StdHttpClient.Builder()
                     .url("http://localhost:13598")

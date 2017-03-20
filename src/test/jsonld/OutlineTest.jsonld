@@ -1,26 +1,18 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
+    "rdfs:label" : {
+      "@language" : "bo",
+      "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
+    },
     "@id" : "out:O2DB87572",
     "@type" : [ "out:Outline", "out:partialCollectedWorks" ],
+    "name" : [ {
+      "@language" : "bo",
+      "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
+    }, {
+      "@language" : "bo",
+      "@value" : "མངོན་པ"
+    } ],
     "out:authorship" : {
       "@language" : "en",
       "@value" : "Bumu Dega; outlined with the gracious support of the khyentse foundation"
@@ -167,6 +159,17 @@
     "log_entry" : [ {
       "@id" : "_:b1",
       "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-09-15T14:51:25.708Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Bumu Dega"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
         "@value" : "vol. 1 outline images fixed"
@@ -180,7 +183,7 @@
         "@value" : "Lobsang Shastri"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -194,28 +197,25 @@
         "@language" : "en",
         "@value" : "paldor"
       }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-09-15T14:51:25.708Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Bumu Dega"
-      }
-    } ],
-    "name" : [ {
-      "@language" : "bo",
-      "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
-    }, {
-      "@language" : "bo",
-      "@value" : "མངོན་པ"
-    } ],
-    "rdfs:label" : {
-      "@language" : "bo",
-      "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
-    }
-  } ]
+    } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }

@@ -1,24 +1,10 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
+    "rdfs:label" : {
+      "@language" : "bo",
+      "@value" : "གཤིན་རྗེ་གཤེད་དམར་པོ་ལྷ་ལྔའི་ཆོས་སྐོར་ལས། འོད་གསལ་འཆར་བའི་བྱིན་རླབས་ཀྱི་བརྒྱུད་པ་ལུགས་གཅིག"
+    },
+    "status" : "released",
     "@id" : "lin:L8LS14115",
     "@type" : [ "lin:Lineage", "lin:Dbang" ],
     "desc:summary" : {
@@ -88,7 +74,26 @@
     "lin:ref" : {
       "@id" : "lin:L1RKL2042"
     },
+    "name" : {
+      "@language" : "bo",
+      "@value" : "གཤིན་རྗེ་གཤེད་དམར་པོ་ལྷ་ལྔའི་ཆོས་སྐོར་ལས། འོད་གསལ་འཆར་བའི་བྱིན་རླབས་ཀྱི་བརྒྱུད་པ་ལུགས་གཅིག"
+    },
     "log_entry" : [ {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "changed type"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-05-14T14:36:08.904Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    }, {
       "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
@@ -106,17 +111,6 @@
     }, {
       "@id" : "_:b2",
       "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-07-17T10:49:42.963Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
         "@value" : "normalized names of who and received elements"
@@ -130,33 +124,7 @@
         "@value" : "Code Ferret"
       }
     }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T11:30:18.879Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "changed type"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-05-14T14:36:08.904Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
-      "@id" : "_:b5",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -170,15 +138,47 @@
         "@language" : "en",
         "@value" : "Lobsang Shastri"
       }
-    } ],
-    "name" : {
-      "@language" : "bo",
-      "@value" : "གཤིན་རྗེ་གཤེད་དམར་པོ་ལྷ་ལྔའི་ཆོས་སྐོར་ལས། འོད་གསལ་འཆར་བའི་བྱིན་རླབས་ཀྱི་བརྒྱུད་པ་ལུགས་གཅིག"
-    },
-    "status" : "released",
-    "rdfs:label" : {
-      "@language" : "bo",
-      "@value" : "གཤིན་རྗེ་གཤེད་དམར་པོ་ལྷ་ལྔའི་ཆོས་སྐོར་ལས། འོད་གསལ་འཆར་བའི་བྱིན་རླབས་ཀྱི་བརྒྱུད་པ་ལུགས་གཅིག"
-    }
-  } ]
+    }, {
+      "@id" : "_:b4",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T11:30:18.879Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    }, {
+      "@id" : "_:b5",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-07-17T10:49:42.963Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }
