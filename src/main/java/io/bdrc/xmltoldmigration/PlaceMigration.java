@@ -164,6 +164,7 @@ public class PlaceMigration {
 			value = current.getAttribute("type");
 			if (value.startsWith("WB_"))
 			    value = "wb_"+value.substring(3);
+			if (value.isEmpty()) continue;
 			prop = m.getProperty(PLP+value);
 			value = current.getAttribute("value").trim();
 			l = m.createLiteral(value);
@@ -172,14 +173,18 @@ public class PlaceMigration {
 		nodeList = gis.getElementsByTagNameNS(PLXSDNS, "coords");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			prop = m.getProperty(PLP+"lat");
 			value = current.getAttribute("lat").trim();
-			l = m.createLiteral(value);
-			m.add(main, prop, l);
-			prop = m.getProperty(PLP+"long");
+			if (!value.isEmpty()) {
+			    prop = m.getProperty(PLP+"lat");
+			    l = m.createLiteral(value);
+			    m.add(main, prop, l);
+			}
 			value = current.getAttribute("long").trim();
-			l = m.createLiteral(value);
-			m.add(main, prop, l);
+			if (!value.isEmpty()) {
+			    prop = m.getProperty(PLP+"long");
+			    l = m.createLiteral(value);
+			    m.add(main, prop, l);
+			}
 			prop = m.getProperty(PLP+"accuracy");
 			value = current.getAttribute("accuracy").trim();
 			if(!value.isEmpty()) {

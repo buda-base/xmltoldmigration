@@ -20,6 +20,7 @@
         <g:id type="fromTBRC"  value="540102200:540101145"/>
         <g:coords lat="       29.63984"  long="       91.22002">Some polygon coordinates</g:coords>
     </g:gis>
+    <g:gis><g:id/><g:coords/></g:gis>
     <g:event circa="1187"  type="placeEventTypes:founded">
         <g:affiliation rid="lineage:Kagyu"  type="placeEventAffiliationTypes:lineage"/>
         <g:affiliation rid="Ctest"  type="placeEventAffiliationTypes:corporation"/>
