@@ -33,10 +33,14 @@ java -jar target/xmltoldmigration-0.1-jar-with-dependencies.jar
 - migrate most description to more specific properties (Kangyur references, etc.)
 - handle '.' in ewts converter (in g.yag for instance)
 
-change descriptions:
+changed descriptions:
 - outline: libraryOfCongress, extent, chapters, incipit, colophon
 - outline/number: bon_bka_gyur_number, catalogue_number, gser_bris_number, lhasa_number, otani, otani_beijing, rKTsReference, sde_dge_number, shey_number, snar_thang_number, stog_number, toh, urga_number, vinayottaragrantha
 - place: nameLex, nameKR, gbdist, town_syl, town_py, town_ch, prov_py, gonpaPerEcumen, gonpaPer1000, dist_py
+
+changes types:
+- all wor:pubinfoProperty now range xsd:string, except authorship statement, biblioNote, editionStatement, printery, publisherLocation, publisherName, seriesName, sourceNote
+- all wor:locationDataProperty passed to (xsd:string or xsd:positiveInteger)
 
 ## License
 

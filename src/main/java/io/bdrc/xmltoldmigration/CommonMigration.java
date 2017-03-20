@@ -432,6 +432,24 @@ public class CommonMigration  {
            }
        }
        
+       private static void addLocationIntOrString(Model m, Resource main, Resource loc, Element current, String attributeName, String propname) {
+           String value = current.getAttribute(attributeName).trim();
+           if (!value.isEmpty()) {
+               try {
+                   int intval = Integer.parseInt(value);
+                   if (intval < 1) {
+                       addException(m, main, "in location: '"+propname+"' must be a positive integer, got '"+value+"'");
+                       m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createLiteral(value));
+                   } else {
+                       m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
+                   }
+               } catch (NumberFormatException e) {
+                   addException(m, main, "in location: '"+propname+"' must be a positive integer, got '"+value+"'");
+                   m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createLiteral(value));
+               }
+           }
+       }
+       
        public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname) {
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
            for (int i = 0; i < nodeList.size(); i++) {
@@ -448,24 +466,19 @@ public class CommonMigration  {
                m.add(main, m.getProperty(propname), loc);
                
                value = current.getAttribute("work");
-               if (!value.isEmpty())
+               if (!value.isEmpty()) {
                    m.add(loc, m.getProperty(WORK_PREFIX, "work"), m.createResource(WORK_PREFIX+value));
+               }
                
-               value = current.getAttribute("vol");
-               if (!value.isEmpty())
-                   m.add(loc, m.getProperty(WORK_PREFIX, "volume"), m.createLiteral(value));
-               
-               value = current.getAttribute("page");
-               if (!value.isEmpty())
-                   m.add(loc, m.getProperty(WORK_PREFIX, "page"), m.createLiteral(value));
+               addLocationIntOrString(m, main, loc, current, "vol", "volume");
+               addLocationIntOrString(m, main, loc, current, "page", "page");
+               addLocationIntOrString(m, main, loc, current, "phrase", "phrase");
+               addLocationIntOrString(m, main, loc, current, "line", "line");
                
                value = current.getAttribute("side");
                if (!value.isEmpty())
                    m.add(loc, m.getProperty(WORK_PREFIX, "side"), m.createLiteral(value));
                
-               value = current.getAttribute("phrase");
-               if (!value.isEmpty())
-                   m.add(loc, m.getProperty(WORK_PREFIX, "phrase"), m.createLiteral(value));
            }
        }
        

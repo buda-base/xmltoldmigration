@@ -26,16 +26,28 @@
         "out:location" : [ {
           "@id" : "wor:O2DB875722DB875732DB87599_Location2",
           "@type" : "wor:LocationByPage",
-          "wor:page" : "18",
-          "wor:volume" : "2",
+          "wor:page" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "18"
+          },
+          "wor:volume" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "2"
+          },
           "wor:work" : {
             "@id" : "wor:W30020"
           }
         }, {
           "@id" : "wor:O2DB875722DB875732DB87599_Location1",
           "@type" : "wor:LocationByPage",
-          "wor:page" : "11",
-          "wor:volume" : "2",
+          "wor:page" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "11"
+          },
+          "wor:volume" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "2"
+          },
           "wor:work" : {
             "@id" : "wor:W30020"
           }
@@ -56,7 +68,10 @@
       "out:location" : {
         "@id" : "wor:O2DB875722DB87583_Location1",
         "@type" : "wor:LocationByPage",
-        "wor:volume" : "2",
+        "wor:volume" : {
+          "@type" : "xsd:positiveInteger",
+          "@value" : "2"
+        },
         "wor:work" : {
           "@id" : "wor:W30020"
         }
@@ -93,16 +108,28 @@
         "out:location" : [ {
           "@id" : "wor:O2DB875722DB87573_Location2",
           "@type" : "wor:LocationByPage",
-          "wor:page" : "18",
-          "wor:volume" : "1",
+          "wor:page" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "18"
+          },
+          "wor:volume" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "1"
+          },
           "wor:work" : {
             "@id" : "wor:W30020"
           }
         }, {
           "@id" : "wor:O2DB875722DB87573_Location1",
           "@type" : "wor:LocationByPage",
-          "wor:page" : "11",
-          "wor:volume" : "1",
+          "wor:page" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "11"
+          },
+          "wor:volume" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "1"
+          },
           "wor:work" : {
             "@id" : "wor:W30020"
           }
@@ -123,7 +150,10 @@
       "out:location" : {
         "@id" : "wor:O2DB875722DB87582_Location1",
         "@type" : "wor:LocationByPage",
-        "wor:volume" : "1",
+        "wor:volume" : {
+          "@type" : "xsd:positiveInteger",
+          "@value" : "1"
+        },
         "wor:work" : {
           "@id" : "wor:W30020"
         }
@@ -168,21 +198,6 @@
         "@value" : "Bumu Dega"
       }
     }, {
-      "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "vol. 1 outline images fixed"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-10-03T14:40:05.896Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
       "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
@@ -196,6 +211,21 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "paldor"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "vol. 1 outline images fixed"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-10-03T14:40:05.896Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
       }
     } ]
   } ],

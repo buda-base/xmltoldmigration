@@ -2,12 +2,17 @@
   "@graph" : [ {
     "@id" : "wor:W12837",
     "@type" : "wor:Work",
+    "migration_exception" : "Warnings during unicode conversion: line 1: \"test\": Invalid 2nd suffix consonant: \"t\"., line 1: \"content\": Invalid 2nd suffix consonant: \"t\". initial ewts string: test series content",
     "wor:hasHolding" : {
       "@id" : "wor:W12837_Holding1",
       "@type" : "wor:Holding",
+      "migration_exception" : "Warnings during unicode conversion: No Tibetan characters found! initial ewts string: ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།",
       "wor:holding_code" : "TGA",
       "wor:holding_copies" : "1",
-      "wor:holding_exception" : "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།",
+      "wor:holding_exception" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"
+      },
       "wor:holding_library" : {
         "@id" : "plc:G1TLMTGA000001"
       },
@@ -16,7 +21,10 @@
     "wor:hasPubinfoSeries" : {
       "@id" : "wor:W12837_Series1",
       "@type" : "wor:PubinfoSeries",
-      "wor:pubinfo_series_content" : "test series content",
+      "wor:pubinfo_series_content" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "test series content"
+      },
       "wor:pubinfo_series_name" : "oral history series",
       "wor:pubinfo_series_number" : "no. 16"
     },
@@ -47,7 +55,7 @@
     "wor:pubinfo_sourcePrintery_string" : "test sourcePrintery with no place",
     "wor:pubinfo_tbrcHoldings" : "1",
     "log_entry" : [ {
-      "@id" : "_:b0",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -62,7 +70,7 @@
         "@value" : "Code Ferret"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -77,7 +85,7 @@
         "@value" : "Jeff Wallman"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",

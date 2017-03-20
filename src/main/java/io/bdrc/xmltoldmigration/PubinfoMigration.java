@@ -87,9 +87,11 @@ public class PubinfoMigration {
             if (!value.isEmpty())
                 m.add(series, m.getProperty(WP+"pubinfo_series_number"), m.createLiteral(value));
             
-            value = current.getTextContent().trim();
+            String[] langAndValue = CommonMigration.getBCP47AndConvert(current, "bo-x-ewts", m, main);
+            value = langAndValue[1];
+            String lang = langAndValue[0];
             if (!value.isEmpty())
-                m.add(series, m.getProperty(WP+"pubinfo_series_content"), m.createLiteral(value));
+                m.add(series, m.getProperty(WP+"pubinfo_series_content"), m.createLiteral(value, lang));
         }
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");
@@ -123,7 +125,7 @@ public class PubinfoMigration {
             m.add(holding, RDF.type, m.getResource(WP+"Holding"));
             m.add(main, m.createProperty(WP+"hasHolding"), holding);
             
-            addSimpleElement("exception", "holding_exception", null, current, m, holding);
+            addSimpleElement("exception", "holding_exception", "bo-x-ewts", current, m, holding);
             
             NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");
             for (int j = 0; j < subNodeList.getLength(); j++) {
