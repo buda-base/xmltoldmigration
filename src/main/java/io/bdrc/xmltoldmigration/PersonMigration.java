@@ -40,7 +40,10 @@ public class PersonMigration {
 			if (current.getTextContent().trim().isEmpty()) continue;
 			String[] langAndValue = CommonMigration.getBCP47AndConvert(current, "bo-x-ewts", m, main);
 			value = m.createLiteral(langAndValue[1], langAndValue[0]);
-			prop = m.getProperty(PP, current.getAttribute("type"));
+			String type = current.getAttribute("type").trim();
+			if (type.isEmpty())
+			    type = "primaryName";
+			prop = m.getProperty(PP, type);
 			m.add(main, prop, value);
 			if (i == 0) {
 				CommonMigration.addLabel(m, main, value);
