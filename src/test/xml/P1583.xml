@@ -84,7 +84,7 @@
     <p:teacherOf pid="P2JM207">sangs rgyas dpal rin </p:teacherOf>
     <p:teacherOf pid="P7091"> bya bral chos rje </p:teacherOf>
     <p:teacherOf pid="P314"> 'jigs med gling pa mkhyen brtse 'od zer </p:teacherOf>
-    <p:kinship person="P1584" relation="hasFather">bstan pa srung</p:kinship>
+    <p:kinship person="P1584">bstan pa srung</p:kinship>
     <p:kinship person="P1585" relation="hasMother">'brom bza' bsod nams rgyan</p:kinship>
     <p:external data="http://example.com">External example</p:external>
     <p:incarnationOf relation="yangtse">ignoring string</p:incarnationOf>

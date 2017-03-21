@@ -209,6 +209,10 @@ public class PersonMigration {
 	
 	public static void addKinship(Model m, Resource person, Element e) {
 		String relation = e.getAttribute("relation");
+		if (relation.isEmpty()) {
+		    CommonMigration.addException(m, person, "missing kinship type");
+		    relation = "hasUnknownKinship";
+		}
 		String with = e.getAttribute("person");
 		Property prop;
 		prop = m.createProperty(PP+relation);
