@@ -95,7 +95,7 @@
         "@id" : "ofc:Rtest"
       },
       "plc:event_circa" : "1187",
-      "migration_exception" : "Warnings during unicode conversion: line 1: \"test\": Invalid 2nd suffix consonant: \"t\". initial ewts string: test",
+      "migration_exception" : [ "Warnings during unicode conversion: line 1: \"test\": Invalid 2nd suffix consonant: \"t\". initial ewts string: test", "unknown lineage value: 'test'" ],
       "note" : {
         "@id" : "http://purl.bdrc.io/ontology/root/G844_Event2_Note1",
         "@type" : "Note",
@@ -151,82 +151,7 @@
     },
     "plc:wb_area_sq_km" : "test",
     "log_entry" : [ {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
       "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-10-12T12:21:11.602Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added byams pa chos gling gzhis ka'i par khang"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T10:28:55.426Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jigme Namgyal"
-      }
-    }, {
-      "@id" : "_:b5",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added place contained"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-05-29T12:18:47.035Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Michael R. Sheehy"
-      }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name & note"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-02-19T14:10:50.715Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b6",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -241,7 +166,22 @@
         "@value" : "msheehy"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added place contained"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-05-29T12:18:47.035Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Michael R. Sheehy"
+      }
+    }, {
+      "@id" : "_:b5",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -254,6 +194,66 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b6",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-10-12T12:21:11.602Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name & note"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-02-19T14:10:50.715Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added byams pa chos gling gzhis ka'i par khang"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T10:28:55.426Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jigme Namgyal"
       }
     }, {
       "@id" : "_:b7",

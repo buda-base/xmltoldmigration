@@ -264,20 +264,26 @@ public class PlaceMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			String type = current.getAttribute("type");
-			Resource target;
-			Property prop;
+			Resource target = null;
+			Property prop = null;
 			String value = current.getAttribute("rid");
 			if (value.isEmpty()) continue;
 			switch (type) {
 			case "placeEventAffiliationTypes:lineage":
 			    if (!value.startsWith("lineage:")) {
-	                throw new IllegalArgumentException("invalid affiliation rid value: '"+value+"' (should start with 'lineage:')");
+	                CommonMigration.addException(m, event, "invalid affiliation rid value: '"+value+"' (should start with 'lineage:')");
+	            } else {
+    			    if (value.equals("lineage:Kadampa")) value = "lineage:Kadam";
+    			    if (value.equals("lineage:Shije")) value = "lineage:Zhije";
+    				value = value.substring(8);
+    				String rid = lineageTypeToSomething.get(value);
+    				if (rid == null) {
+    				    CommonMigration.addException(m, event, "unknown lineage value: '"+value+"'");
+    				} else {
+    				    target = m.createResource(CommonMigration.OUTLINE_PREFIX+rid);
+                        prop = m.getProperty(PLP+"affiliatedWith_lineage");
+    				}
 	            }
-			    if (value.equals("lineage:Kadampa")) value = "lineage:Kadam";
-				value = value.substring(8);
-				String rid = lineageTypeToSomething.get(value);
-				target = m.createResource(CommonMigration.OUTLINE_PREFIX+rid);
-				prop = m.getProperty(PLP+"affiliatedWith_lineage");
 				break;
 			case "placeEventAffiliationTypes:corporation":
 				target = m.createResource(CommonMigration.CORPORATION_PREFIX+value);
@@ -288,7 +294,8 @@ public class PlaceMigration {
 				prop = m.getProperty(PLP+"affiliatedWith_office");
 				break;
 			}
-			m.add(event, prop, target);
+			if (prop != null)
+			    m.add(event, prop, target);
 		}
 	}
 	

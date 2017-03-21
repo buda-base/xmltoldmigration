@@ -23,6 +23,7 @@
     <g:gis><g:id/><g:coords/></g:gis>
     <g:event circa="1187"  type="placeEventTypes:founded">
         <g:affiliation rid="lineage:Kagyu"  type="placeEventAffiliationTypes:lineage"/>
+        <g:affiliation rid="lineage:test"  type="placeEventAffiliationTypes:lineage"/>
         <g:affiliation rid="Ctest"  type="placeEventAffiliationTypes:corporation"/>
         <g:affiliation rid="Rtest"  type="placeEventAffiliationTypes:office"/>
         <g:description encoding="extendedWylie"  lang="tibetan"  type="who">test</g:description>

@@ -125,7 +125,7 @@ public class MigrationTest
     {
 	    System.out.println("testing G844");
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
-    	assertTrue(CommonMigration.documentValidates(d, placeValidator));
+    	assertFalse(CommonMigration.documentValidates(d, placeValidator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
