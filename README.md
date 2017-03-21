@@ -4,16 +4,16 @@ This repository contains code that will be used to migrate from TBRC XML files t
 
 ## Compiling and running
 
+Simple run:
+
+```
+mvn compile exec:java -Dexec.args=-useCouchdb
+```
+
 Compiling and generating jar file:
 
 ```
 mvn compile assembly:single
-```
-
-Simple run:
-
-```
-mvn exec:java -Dexec.mainClass=io.bdrc.xmltoldmigration.MigrationApp
 ```
 
 Running the jar file:
