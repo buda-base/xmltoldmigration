@@ -439,7 +439,8 @@ public class MigrationHelpers {
 		// it's RDF1.0, so we first open it with no reasoner:
 		OntModel ontoModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM, null);
 	    try {
-	        InputStream inputStream = new FileInputStream("src/main/resources/owl/bdrc.owl");
+            ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream("owl-file/bdrc.owl");
 	        ontoModel.read(inputStream, "", "RDF/XML");
 	        inputStream.close();
 	    } catch (Exception e) {
