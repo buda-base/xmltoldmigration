@@ -34,7 +34,6 @@ import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFFormat.JSONLDVariant;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.system.PrefixMap;
-import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.riot.writer.JsonLDWriter;
 import org.apache.jena.sparql.core.DatasetGraph;
@@ -252,7 +251,7 @@ public class MigrationHelpers {
         JsonLdOptions opts = new JsonLdOptions();
         ctx.setOptions(opts);
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
-        PrefixMap pm = PrefixMapFactory.create(g.getDefaultGraph().getPrefixMapping()) ;
+        PrefixMap pm = RiotLib.prefixMap(g);
         String base = null;
         Object jsonObject;
         Writer wr = null;

@@ -13,13 +13,13 @@ mvn compile exec:java -Dexec.args=-useCouchdb
 Compiling and generating jar file:
 
 ```
-mvn compile assembly:single
+mvn clean package
 ```
 
 Running the jar file:
 
 ```
-java -jar target/xmltoldmigration-0.1-jar-with-dependencies.jar
+java -jar target/xmltoldmigration-0.1.jar -useCouchdb
 ```
 
 ## TODO
