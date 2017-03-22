@@ -37,14 +37,13 @@ public class PlaceMigration {
 		lineageTypeToSomething.put("DrukpaKagyu", "O5TAX0034JW33808");
 		lineageTypeToSomething.put("BaromKagyu", "O5TAX00310MS14535");
 		lineageTypeToSomething.put("ShangpaKagyu", "O5TAX00310MS14540");
-		lineageTypeToSomething.put("TodrukKachangyu", "O5TAX00310MS14542");
+		lineageTypeToSomething.put("TodrukKagyu", "O5TAX00310MS14542");
 		lineageTypeToSomething.put("ZurmangKagyu", "O5TAX00310MS14543");
 		lineageTypeToSomething.put("TsalpaKagyu", "O5TAX00310MS14551");
 		lineageTypeToSomething.put("YazangKagyu", "O5TAX00310MS14552");
 		lineageTypeToSomething.put("YelpaKagyu", "O5TAX00310MS14553");
 		lineageTypeToSomething.put("TaklungKagyu", "O5TAX00310MS14544");
 		lineageTypeToSomething.put("NedoKagyu", "O5TAX00310MS14538");
-		lineageTypeToSomething.put("TaklungKagyu", "O5TAX00310MS14555");
 		lineageTypeToSomething.put("Sakya", "O5TAX0035TAX004");
 		lineageTypeToSomething.put("NgorSakya", "O5TAX00310MS14539");
 		lineageTypeToSomething.put("Jonang", "O5TAX0035TAX006");
@@ -61,8 +60,8 @@ public class PlaceMigration {
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		String value = getTypeStr(root);
 		Resource main = m.createResource(PLP + root.getAttribute("RID"));
+		String value = getTypeStr(root, m, main);
 		m.add(main, RDF.type, m.createResource(PLP + value));
 		if (!value.equals("Place")) {
 			m.add(main, RDF.type, m.createResource(PLP + "Place"));
@@ -211,6 +210,12 @@ public class PlaceMigration {
             return "SrolRgyunSaMing";
 	    case "placeTypes:tshoPa":
             return "TshoBa";
+        case "placeTypes:rgyalKhams":
+            return "NotSpecified";
+        case "placeTypes:traditionalPlaceName":
+            return "srolRgyunSaMing";
+        case "placeTypes:residentialHouse":
+            return "NotSpecified";
 	    }
 	    // starts with "placeTypes:"
 	    val = val.substring(11);
@@ -218,15 +223,19 @@ public class PlaceMigration {
 	    return val;
 	}
 	
-	public static String getTypeStr(Element root) {
+	public static String getTypeStr(Element root, Model m, Resource main) {
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
 		String value = "NotSpecified";
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type").trim();
-			value = normalizePlaceType(value);
-			break;
+			String normalizedValue = normalizePlaceType(value);
+			if (normalizedValue.equals("NotSpecified")) {
+			    CommonMigration.addException(m, main, "unable to deterine place type, original type: '"+value+"'");
+			}
+			return normalizedValue;
 		}
+	    CommonMigration.addException(m, main, "unspecified place type");
 		return value;
 	}
 	

@@ -54,7 +54,7 @@
             <xsd:element name="description" type="c:Description" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
-        <xsd:attribute name="type" type="plc:eventTypeAttr" use="required">
+        <xsd:attribute name="type" type="plc:eventTypeAttr">
             <xsd:annotation c:taxonomy="placeEventTypes" c:taxType="token">
                 <xsd:documentation> the type attribute value is listed in the placeEventTypes root
                     taxonomy that is listed in taxonomies.xml. These are tokens that will appear
@@ -293,13 +293,13 @@
             <xsd:enumeration value="lineage:YelpaKagyu"/>
             <xsd:enumeration value="lineage:TaklungKagyu"/>
             <xsd:enumeration value="lineage:NedoKagyu"/>
-            <xsd:enumeration value="lineage:TaklungKagyu"/>
             <xsd:enumeration value="lineage:Sakya"/>
             <xsd:enumeration value="lineage:NgorSakya"/>
             <xsd:enumeration value="lineage:Jonang"/>
             <xsd:enumeration value="lineage:Bodong"/>
             <xsd:enumeration value="lineage:Chod"/>
             <xsd:enumeration value="lineage:Zhije"/>
+            <xsd:enumeration value="lineage:Shije"/>
             <xsd:enumeration value="lineage:Bon"/>
             <xsd:enumeration value="lineage:Zhalu"/>
             <xsd:enumeration value="lineage:Rime"/>
@@ -397,6 +397,9 @@
             <xsd:enumeration value="placeTypes:shang"/>
             <xsd:enumeration value="placeTypes:townshipSeats"/>
             <xsd:enumeration value="placeTypes:grongTsho"/>
+            <xsd:enumeration value="placeTypes:rgyalKhams"/>
+            <xsd:enumeration value="placeTypes:traditionalPlaceName"/>
+            <xsd:enumeration value="placeTypes:residentialHouse"/>
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:schema>
