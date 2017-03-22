@@ -180,11 +180,13 @@ public class PersonMigration {
         
 		value = e.getAttribute("relation");
 		if (value != null && !value.isEmpty()) {
+		    if (value.equals("yangsi")) value = "yangtse";
 			prop = m.getProperty(PP, "incarnationOf_relation");
 			m.add(incarnationOf, prop, m.createLiteral(value));
 		}
 		value = e.getAttribute("secondary");
 		if (value != null && !value.isEmpty()) {
+		    if (value.equals("yangsi")) value = "yangtse";
 			prop = m.getProperty(PP, "incarnationOf_secondary");
 			m.add(incarnationOf, prop, m.createLiteral(value));
 		}

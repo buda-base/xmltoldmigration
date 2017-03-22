@@ -21,6 +21,7 @@ public class LineageMigration {
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String LP = CommonMigration.LINEAGE_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
+	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
 	
 	public static Model MigrateLineage(Document xmlDocument) {
@@ -74,11 +75,12 @@ public class LineageMigration {
         nodeList = root.getElementsByTagNameNS(LXSDNS, "alternative");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
+            elList = CommonMigration.getChildrenByTagName(current, LXSDNS, "holder");
+            if (elList.isEmpty()) continue;
             value = CommonMigration.getSubResourceName(main, LP, "Alternative", i+1);
             Resource alternative = m.createResource(value);
             m.add(alternative, RDF.type, m.getResource(LP+"Alternative"));
             m.add(main, m.getProperty(LP+"altnernative"), alternative);
-            elList = CommonMigration.getChildrenByTagName(current, LXSDNS, "holder");
             for (int j = 0; j < elList.size(); j++) {
                 Element holderElement = (Element) elList.get(j);
                 addHolder(m, alternative, holderElement, j);
@@ -93,6 +95,10 @@ public class LineageMigration {
 	    Resource holder = m.createResource(value);
 	    m.add(holder, RDF.type, m.getResource(LP+"Holder"));
 	    m.add(r, m.getProperty(LP+"holder"), holder);
+	    
+       CommonMigration.addNotes(m, e, holder, LXSDNS);
+       CommonMigration.addDescriptions(m, e, holder, LXSDNS);
+	    
 	    NodeList nodeList = e.getElementsByTagNameNS(LXSDNS, "who");
         for (int j = 0; j < nodeList.getLength(); j++) {
             Element current = (Element) nodeList.item(j);
@@ -117,6 +123,14 @@ public class LineageMigration {
             value = current.getAttribute("RID");
             if (!value.isEmpty())
                 m.add(holder, m.getProperty(LP+"downFrom"), m.getResource(LP+value));
+        }
+        
+        nodeList = e.getElementsByTagNameNS(LXSDNS, "work");
+        for (int j = 0; j < nodeList.getLength(); j++) {
+            Element current = (Element) nodeList.item(j);
+            value = current.getAttribute("RID");
+            if (!value.isEmpty())
+                m.add(holder, m.getProperty(LP+"work"), m.getResource(WP+value));
         }
         
         nodeList = e.getElementsByTagNameNS(LXSDNS, "received");

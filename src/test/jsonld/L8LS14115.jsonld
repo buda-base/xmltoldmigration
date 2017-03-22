@@ -32,6 +32,17 @@
         },
         "lin:who" : {
           "@id" : "per:P1018"
+        },
+        "lin:work" : {
+          "@id" : "wor:WTest"
+        },
+        "note" : {
+          "@id" : "http://purl.bdrc.io/ontology/root/L8LS14115_Alternative1_Holder1_Note1",
+          "@type" : "Note",
+          "note_content" : {
+            "@language" : "en",
+            "@value" : "test description"
+          }
         }
       }
     },
@@ -85,6 +96,17 @@
     "log_entry" : [ {
       "@id" : "_:b1",
       "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T11:30:18.879Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
         "@value" : "added location"
@@ -98,7 +120,22 @@
         "@value" : "Lobsang Shastri"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "changed type"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-05-14T14:36:08.904Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    }, {
+      "@id" : "_:b4",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -111,17 +148,6 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Code Ferret"
-      }
-    }, {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-07-17T10:49:42.963Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
       }
     }, {
       "@id" : "_:b0",
@@ -139,26 +165,11 @@
         "@value" : "Code Ferret"
       }
     }, {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T11:30:18.879Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
       "@id" : "_:b5",
       "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "changed type"
-      },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-05-14T14:36:08.904Z"
+        "@value" : "2013-07-17T10:49:42.963Z"
       },
       "log_who" : {
         "@language" : "en",

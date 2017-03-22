@@ -51,6 +51,7 @@ public class CorporationMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			value = current.getAttribute("person");
+			if (value.isEmpty()) continue;
 			Resource person = m.createResource(PP + value);
 			value = current.getAttribute("type").trim();
 			if (value.isEmpty()) {

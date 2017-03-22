@@ -35,10 +35,10 @@
 		<xsd:annotation>
 			<xsd:documentation>Not In Use - A Classification bundles together a set of one or more relations that serve to define or characterize in some manner the source object that is being classified. This framework supercedes the legacy Topic framework. As we implement this framework it will become possible to classify Persons, Places and so on, in addition to Works and Outline nodes.</xsd:documentation>
 		</xsd:annotation>
-		<xsd:sequence>
+		<xsd:choice>
 			<xsd:element name="relation" type="c:Relation" minOccurs="1" maxOccurs="unbounded"/>
 			<xsd:element name="classification" type="c:Classification" minOccurs="0" maxOccurs="unbounded"/>
-		</xsd:sequence>
+		</xsd:choice>
 	</xsd:complexType>
 	<xsd:complexType name="Relation">
 		<xsd:annotation>

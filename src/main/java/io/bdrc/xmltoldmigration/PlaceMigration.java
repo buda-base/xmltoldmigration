@@ -147,7 +147,9 @@ public class PlaceMigration {
 		Property prop = m.getProperty(PLP+propName);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			String value = current.getAttribute("place");
+			String value = current.getAttribute("place").trim();
+			if (value.isEmpty() || value.equals("NONE"))
+			    return;
 			Resource sub = m.createResource(PLP+value);
 			m.add(main, prop, sub);
 		}
