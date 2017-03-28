@@ -7,13 +7,13 @@ import org.w3c.dom.Document;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 
 import org.junit.Test;
-import org.junit.After;
 import org.junit.Before;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,6 +104,9 @@ public class MigrationTest
         res = toUnicode("pa'm", conversionWarnings);
         assertTrue(res.equals("པའམ"));
         assertTrue(conversionWarnings.size()==0);
+        assertTrue(CommonMigration.normalizeTibetan("དྷ་དཹ་").equals("དྷ་དླཱྀ་"));
+        assertTrue(CommonMigration.normalizeTibetan("\u0F81").equals("\u0F71\u0F80"));
+        assertTrue(CommonMigration.normalizeTibetan("\u0F76").equals("\u0FB2\u0F80"));
 	}
 	
 	@Test

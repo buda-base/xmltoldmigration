@@ -2,7 +2,6 @@ package io.bdrc.xmltoldmigration;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -78,7 +77,7 @@ public class MigrationHelpers {
 	public static CouchDbInstance dbInstance;
 	public static CouchDbConnector db = null;
 	
-	public static boolean usecouchdb = false;
+	public static boolean usecouchdb = true;
 	public static boolean writefiles = false;
 	public static boolean checkagainstOwl = false;
 	public static boolean checkagainstXsd = true;

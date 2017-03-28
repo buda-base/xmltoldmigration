@@ -1,13 +1,10 @@
 package io.bdrc.xmltoldmigration;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -37,7 +34,6 @@ public class WorkMigration {
 		m.add(main, RDF.type, m.createResource(WP + "Work"));
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
-		String lang = null;
 		String value = null;
 		Literal lit = null;
 		

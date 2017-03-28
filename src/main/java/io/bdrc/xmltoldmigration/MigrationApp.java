@@ -3,7 +3,6 @@ package io.bdrc.xmltoldmigration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 

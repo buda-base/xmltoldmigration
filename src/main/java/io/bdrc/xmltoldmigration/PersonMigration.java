@@ -1,6 +1,5 @@
 package io.bdrc.xmltoldmigration;
 
-import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -29,7 +28,6 @@ public class PersonMigration {
 		m.add(main, RDF.type, m.createResource(PP + "Person"));
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
-		String lang = null;
 		Literal value = null;
 		
 		// names

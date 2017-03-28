@@ -1,17 +1,10 @@
 package io.bdrc.xmltoldmigration;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.jena.rdf.model.AnonId;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

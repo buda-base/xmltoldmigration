@@ -2,8 +2,6 @@ package io.bdrc.xmltoldmigration;
 
 import java.util.List;
 
-import org.apache.jena.rdf.model.AnonId;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -17,8 +15,6 @@ import org.w3c.dom.NodeList;
 public class LineageMigration {
 
 	private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String PP = CommonMigration.PERSON_PREFIX;
-	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String LP = CommonMigration.LINEAGE_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String WP = CommonMigration.WORK_PREFIX;

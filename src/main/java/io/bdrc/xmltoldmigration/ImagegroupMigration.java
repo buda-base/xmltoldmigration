@@ -1,15 +1,11 @@
 package io.bdrc.xmltoldmigration;
 
-import java.util.List;
-
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,7 +13,6 @@ import org.w3c.dom.NodeList;
 
 public class ImagegroupMigration {
 
-	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String VP = CommonMigration.VOLUMES_PREFIX;
 	private static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
 

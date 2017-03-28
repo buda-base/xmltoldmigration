@@ -1,10 +1,8 @@
 package io.bdrc.xmltoldmigration;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -19,8 +17,6 @@ import org.w3c.dom.NodeList;
 public class PlaceMigration {
 
 	private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String PP = CommonMigration.PERSON_PREFIX;
-	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String PLXSDNS = "http://www.tbrc.org/models/place#";
 	

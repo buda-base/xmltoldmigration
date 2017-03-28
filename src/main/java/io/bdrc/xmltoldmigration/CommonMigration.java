@@ -1,17 +1,12 @@
 package io.bdrc.xmltoldmigration;
 
-import java.io.File;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
-
-import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.apache.jena.datatypes.DatatypeFormatException;
@@ -607,8 +602,11 @@ public class CommonMigration  {
 		case "japanese":
 			return "ja";
 		case "unspecified":
-			// https://www.w3.org/International/questions/qa-no-language#undetermined
-			return "und";
+			// Jena checks tags against https://tools.ietf.org/html/rfc3066 stating:
+		    // You SHOULD NOT use the UND (Undetermined) code unless the protocol
+		    // in use forces you to give a value for the language tag, even if
+		    // the language is unknown.  Omitting the tag is preferred.
+		    throw new IllegalArgumentException("unknown language: "+language);
 		default:
 		    throw new IllegalArgumentException("unknown language: "+language);
 		}
@@ -671,7 +669,7 @@ public class CommonMigration  {
 	        lang = e.getAttribute("type");
 	        if (!lang.equals("sanskrit") && !lang.equals("tibetan")) lang = "";
 	    }
-	    String res = "und";
+	    String res = "en";
 	    if (lang.equals("english") && (!encoding.isEmpty() && !encoding.equals("native"))) {
 	        addException(m, r, "mixed english + encoding '"+encoding+"' turned into 'en-x-mixed', please convert other language to unicode");
 	        return "en-x-mixed";
@@ -680,7 +678,7 @@ public class CommonMigration  {
 	    try {
 	        res = getBCP47(lang, encoding);
 	    } catch (IllegalArgumentException ex) {
-	        addException(m, r, "lang+encoding invalid combination ('"+lang+"', '"+encoding+"') turned into 'und' language, exception message: "+ex.getMessage());
+	        addException(m, r, "lang+encoding invalid combination ('"+lang+"', '"+encoding+"') turned into 'en' language, exception message: "+ex.getMessage());
 	    }
 		String value = e.getTextContent().trim();
 		// some values are wrongly marked as native instead of extendedWylie
@@ -704,9 +702,27 @@ public class CommonMigration  {
 		return res;
 	}
 	
+	public static String normalizeTibetan(String s) {
+	    String res = Normalizer.normalize(s, Normalizer.Form.NFD);
+	    // Normalizer doesn't normalize deprecate characters such as 0x0F79
+	    res = res.replace("\u0F79", "\u0FB3\u0F71\u0F80");
+	    res = res.replace("\u0F77", "\u0FB2\u0F71\u0F80");
+	    // it also doesn't normalize characters which use is discouraged:
+	    res = res.replace("\u0F81", "\u0F71\u0F80");
+	    res = res.replace("\u0F75", "\u0F71\u0F74");
+	    res = res.replace("\u0F73", "\u0F71\u0F72");
+	    return res;
+	}
+	
 	public static String[] getBCP47AndConvert(Element e, String dflt, Model m, Resource r) {
 	    String tag = getBCP47(e, dflt, m, r);
 	    String value = e.getTextContent().trim();
+	    if (tag.equals("bo") && !value.isEmpty()) {
+	        value = normalizeTibetan(value);
+	        if (converter.isCombining(value.charAt(0))) {
+	            addException(m, r, "Unicode string '"+value+"' starts with combining character");
+	        }
+	    }
 	    if (tag.equals("bo-x-ewts")) {
 	        List<String> conversionWarnings = new ArrayList<String>();
 	        String convertedValue = converter.toUnicode(value, conversionWarnings, true);

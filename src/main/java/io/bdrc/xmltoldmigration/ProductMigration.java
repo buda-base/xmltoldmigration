@@ -1,21 +1,13 @@
 package io.bdrc.xmltoldmigration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.jena.rdf.model.AnonId;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
@@ -50,7 +42,7 @@ public class ProductMigration {
 			for (int j = 0; j < subNodeList.getLength(); j++) {
 				Element subCurrent = (Element) subNodeList.item(j);
 				String value = subCurrent.getAttribute("RID");
-				Resource included = m.createResource(PRP + root.getAttribute("RID"));
+				Resource included = m.createResource(PRP + value);
 				prop = m.getProperty(PRP+"include");
 				m.add(main, prop, included);
 			}
