@@ -93,7 +93,7 @@ public class MigrationHelpers {
                     .url("http://localhost:13598")
                     .build();
             dbInstance = new StdCouchDbInstance(httpClient);
-            db = new StdCouchDbConnector("test", dbInstance);
+            db = new StdCouchDbConnector("bdrc", dbInstance);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
