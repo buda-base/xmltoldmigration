@@ -2,6 +2,7 @@ package io.bdrc.xmltoldmigration;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
@@ -87,11 +88,8 @@ public class PubinfoMigration {
             if (!value.isEmpty())
                 m.add(series, m.getProperty(WP+"pubinfo_series_number"), m.createLiteral(value));
             
-            String[] langAndValue = CommonMigration.getBCP47AndConvert(current, "bo-x-ewts", m, main);
-            value = langAndValue[1];
-            String lang = langAndValue[0];
-            if (!value.isEmpty())
-                m.add(series, m.getProperty(WP+"pubinfo_series_content"), m.createLiteral(value, lang));
+            Property prop = m.getProperty(WP+"pubinfo_series_content");
+            CommonMigration.addCurrentString(current, "bo-x-ewts", m, series, prop, false);
         }
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");
@@ -165,22 +163,15 @@ public class PubinfoMigration {
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            String lang = null;
             String value = null;
             if (defaultLang != null) {
-                String[] langAndValue = CommonMigration.getBCP47AndConvert(current, defaultLang, m, main);
-                value = langAndValue[1];
-                lang = langAndValue[0];
+                Property prop = m.createProperty(WP+propName);
+                CommonMigration.addCurrentString(current, defaultLang, m, main, prop, false);
             } else {
                 value = current.getTextContent().trim();
-            }
-            if (value.isEmpty()) {
-                return;
-            }
-            if (lang != null)
-                m.add(main, m.createProperty(WP+propName), m.createLiteral(value, lang));
-            else
+                if (value.isEmpty()) return;
                 m.add(main, m.createProperty(WP+propName), m.createLiteral(value));
+            }
         }
     }
 	

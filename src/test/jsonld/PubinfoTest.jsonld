@@ -2,7 +2,6 @@
   "@graph" : [ {
     "@id" : "wor:W12837",
     "@type" : "wor:Work",
-    "migration_exception" : "Warnings during unicode conversion: line 1: \"test\": Invalid 2nd suffix consonant: \"t\"., line 1: \"content\": Invalid 2nd suffix consonant: \"t\". initial ewts string: test series content",
     "wor:hasHolding" : {
       "@id" : "wor:W12837_Holding1",
       "@type" : "wor:Holding",
@@ -21,6 +20,7 @@
     "wor:hasPubinfoSeries" : {
       "@id" : "wor:W12837_Series1",
       "@type" : "wor:PubinfoSeries",
+      "migration_exception" : "Warnings during unicode conversion: line 1: \"test\": Invalid 2nd suffix consonant: \"t\"., line 1: \"content\": Invalid 2nd suffix consonant: \"t\". initial ewts string: test series content",
       "wor:pubinfo_series_content" : {
         "@language" : "bo-x-ewts",
         "@value" : "test series content"
@@ -31,10 +31,13 @@
     "wor:hasSourcePrintery" : {
       "@id" : "plc:G1PD129184"
     },
-    "wor:pubinfo_authorshipStatement" : {
+    "wor:pubinfo_authorshipStatement" : [ {
       "@language" : "bo",
       "@value" : "འདུལ་འཛིན་པའི་འཛིན་པའི་མིང་ཅན་གྲགས་པ་རྒྱལ་མཚན"
-    },
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan"
+    } ],
     "wor:pubinfo_biblioNote" : {
       "@language" : "en",
       "@value" : "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"
@@ -55,7 +58,7 @@
     "wor:pubinfo_sourcePrintery_string" : "test sourcePrintery with no place",
     "wor:pubinfo_tbrcHoldings" : "1",
     "log_entry" : [ {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -70,7 +73,7 @@
         "@value" : "Code Ferret"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -85,7 +88,7 @@
         "@value" : "Jeff Wallman"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",

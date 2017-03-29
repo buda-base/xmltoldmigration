@@ -1,9 +1,12 @@
 {
   "@graph" : [ {
-    "rdfs:label" : {
+    "rdfs:label" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
+    }, {
       "@language" : "bo",
       "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
-    },
+    } ],
     "@id" : "out:O2DB87572",
     "@type" : [ "out:Outline", "out:partialCollectedWorks" ],
     "name" : [ {
@@ -12,6 +15,12 @@
     }, {
       "@language" : "bo",
       "@value" : "མངོན་པ"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "mngon pa"
     } ],
     "out:authorship" : {
       "@language" : "en",
@@ -60,10 +69,13 @@
             "@value" : "p. 1 (1st group)"
           }
         },
-        "wor:bibliographicalTitle" : {
+        "wor:bibliographicalTitle" : [ {
           "@language" : "bo",
           "@value" : "གླེང་གཞི།"
-        }
+        }, {
+          "@language" : "bo-x-ewts",
+          "@value" : "gleng gzhi/"
+        } ]
       },
       "out:location" : {
         "@id" : "wor:O2DB875722DB87583_Location1",
@@ -80,14 +92,20 @@
         "@id" : "top:T977"
       },
       "out:node_value" : "varia",
-      "name" : {
+      "name" : [ {
         "@language" : "bo",
         "@value" : "༢ ༼སྨད་ཆ༽"
-      },
-      "rdfs:label" : {
+      }, {
+        "@language" : "bo-x-ewts",
+        "@value" : "2 (smad cha)"
+      } ],
+      "rdfs:label" : [ {
         "@language" : "bo",
         "@value" : "༢ ༼སྨད་ཆ༽"
-      }
+      }, {
+        "@language" : "bo-x-ewts",
+        "@value" : "2 (smad cha)"
+      } ]
     }, {
       "@id" : "out:O2DB875722DB87582",
       "@type" : "out:Volume",
@@ -134,10 +152,13 @@
             "@id" : "wor:W30020"
           }
         } ],
-        "wor:bibliographicalTitle" : {
+        "wor:bibliographicalTitle" : [ {
           "@language" : "bo",
           "@value" : "གླེང་གཞི།"
-        }
+        }, {
+          "@language" : "bo-x-ewts",
+          "@value" : "gleng gzhi/"
+        } ]
       },
       "out:hasSite" : {
         "@id" : "out:O2DB875722DB87582_Site",
@@ -158,17 +179,23 @@
           "@id" : "wor:W30020"
         }
       },
-      "name" : {
+      "name" : [ {
         "@language" : "bo",
         "@value" : "༡ ༼སྟོད་ཆ༽"
-      },
+      }, {
+        "@language" : "bo-x-ewts",
+        "@value" : "1 (stod cha)"
+      } ],
       "subject_isInstanceOfGenre" : {
         "@id" : "top:T208"
       },
-      "rdfs:label" : {
+      "rdfs:label" : [ {
+        "@language" : "bo-x-ewts",
+        "@value" : "1 (stod cha)"
+      }, {
         "@language" : "bo",
         "@value" : "༡ ༼སྟོད་ཆ༽"
-      }
+      } ]
     } ],
     "out:isOutlineOf" : {
       "@id" : "wor:W30020"
@@ -187,22 +214,22 @@
     "out:viewIn_list" : "subjects",
     "out:webAccess" : "notAvailable",
     "log_entry" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "zhu dag byas"
+        "@value" : "vol. 1 outline images fixed"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2009-12-28T10:00:20.456Z"
+        "@value" : "2014-10-03T14:40:05.896Z"
       },
       "log_who" : {
         "@language" : "en",
-        "@value" : "paldor"
+        "@value" : "Lobsang Shastri"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_when" : {
         "@type" : "xsd:dateTime",
@@ -217,15 +244,15 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "vol. 1 outline images fixed"
+        "@value" : "zhu dag byas"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-10-03T14:40:05.896Z"
+        "@value" : "2009-12-28T10:00:20.456Z"
       },
       "log_who" : {
         "@language" : "en",
-        "@value" : "Lobsang Shastri"
+        "@value" : "paldor"
       }
     } ]
   } ],

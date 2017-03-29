@@ -371,13 +371,8 @@ public class CommonMigration  {
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			if (current.getTextContent().trim().isEmpty()) continue;
-			String[] langAndValue = getBCP47AndConvert(current, "bo-x-ewts", m, r);
-			Literal value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			Property prop = m.getProperty(ROOT_PREFIX+"name");
-			m.add(r, prop, value);
-			if (!labelGuessed && i == 0) {
-				addLabel(m, r, value);
-			}
+			addCurrentString(current, "bo-x-ewts", m, r, prop, (!labelGuessed && i == 0));
 		}
 	}
 	
@@ -390,7 +385,6 @@ public class CommonMigration  {
 		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			Literal value;
 			String descriptionValue = current.getTextContent().trim();
 			if (descriptionValue.isEmpty()) continue;
 			String type = current.getAttribute("type");
@@ -413,14 +407,13 @@ public class CommonMigration  {
 			    descriptionValue = descriptionValue.replace(placeId, "").trim();
 			    current.setTextContent(descriptionValue);
 			}
-			String[] langAndValue = getBCP47AndConvert(current, "en", m, r);
-            value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			Property prop = m.getProperty(addPrefixToDescription(type));
-			m.add(r, prop, value);
 			// for product and office the name is the first description type="contents"
 			if (!labelGuessed && type.equals("contents")) {
-				m.add(r, RDFS.label, value);
-				labelGuessed = true;
+			    addCurrentString(current, "en", m, r, prop, true);
+			    labelGuessed = true;
+			} else {
+			    addCurrentString(current, "en", m, r, prop, false);
 			}
 		}
 	}
@@ -439,12 +432,8 @@ public class CommonMigration  {
                 if (type.isEmpty()) {
                     type = "bibliographicalTitle";
                 }
-                String[] langAndValue = getBCP47AndConvert(current, "bo-x-ewts", m, main);
-                Literal value = m.createLiteral(langAndValue[1], langAndValue[0]);
-                m.add(main, m.getProperty(WORK_PREFIX, type), value);
-                if (i == 0 && !labelGuessed) {
-                    CommonMigration.addLabel(m, main, value);
-                }
+                Property prop = m.getProperty(WORK_PREFIX, type);
+                addCurrentString(current, "en", m, main, prop, (i == 0 && !labelGuessed));
             }
         }
        
@@ -714,28 +703,34 @@ public class CommonMigration  {
 	    return res;
 	}
 	
-	public static String[] getBCP47AndConvert(Element e, String dflt, Model m, Resource r) {
-	    String tag = getBCP47(e, dflt, m, r);
+	public static void addCurrentString(Element e, String dflt, Model m, Resource r, Property p, boolean addLabel) {
 	    String value = e.getTextContent().trim();
-	    if (tag.equals("bo") && !value.isEmpty()) {
-	        value = normalizeTibetan(value);
-	        if (converter.isCombining(value.charAt(0))) {
-	            addException(m, r, "Unicode string '"+value+"' starts with combining character");
-	        }
-	    }
-	    if (tag.equals("bo-x-ewts")) {
-	        List<String> conversionWarnings = new ArrayList<String>();
-	        String convertedValue = converter.toUnicode(value, conversionWarnings, true);
-	        if (conversionWarnings.size() > 0) {
-	            String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
-	            exceptionString += " initial ewts string: "+value;
-	            addException(m, r, exceptionString);
-	        } else {
-	            value = convertedValue;
-	            tag = "bo";
-	        }
-	    }
-	    return new String[]{tag,value};
+	    if (value.isEmpty()) return;
+	    String tag = getBCP47(e, dflt, m, r);
+        if (tag.equals("bo") && !value.isEmpty()) {
+            value = normalizeTibetan(value);
+            if (converter.isCombining(value.charAt(0))) {
+                addException(m, r, "Unicode string '"+value+"' starts with combining character");
+            }
+        }
+        Literal l = m.createLiteral(value, tag);
+        m.add(r, p, l);
+        if (addLabel) m.add(r, RDFS.label, l);
+        if (tag.equals("bo-x-ewts")) {
+            List<String> conversionWarnings = new ArrayList<String>();
+            String convertedValue = converter.toUnicode(value, conversionWarnings, true);
+            if (conversionWarnings.size() > 0) {
+                String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
+                exceptionString += " initial ewts string: "+value;
+                addException(m, r, exceptionString);
+            } else {
+                value = convertedValue;
+                tag = "bo";
+            }
+            l = m.createLiteral(value, tag);
+            m.add(r, p, l);
+            if (addLabel) m.add(r, RDFS.label, l);
+        }
 	}
 	
 	public static boolean documentValidates(Document document, Validator validator) {

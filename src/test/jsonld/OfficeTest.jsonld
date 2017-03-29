@@ -1,24 +1,12 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
+    "rdfs:label" : [ {
+      "@language" : "bo",
+      "@value" : "བོན་པོ་ལུང་བླ་མའི་སྐྱེ་བརྒྱུད།"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bon po lung bla ma'i skye brgyud/"
+    } ],
     "@id" : "ofc:R8LS12811",
     "@type" : "ofc:Office",
     "desc:contents" : [ {
@@ -27,10 +15,13 @@
     }, {
       "@language" : "bo",
       "@value" : "བོན་པོ་ལུང་བླ་མའི་སྐྱེ་བརྒྱུད།"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bon po lung bla ma'i skye brgyud/"
     } ],
     "ofc:status" : "released",
     "log_entry" : [ {
-      "@id" : "_:b0",
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -45,7 +36,7 @@
         "@value" : "Michael Sheehy"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -59,10 +50,25 @@
         "@language" : "en",
         "@value" : "Lobsang Shastri"
       }
-    } ],
-    "rdfs:label" : {
-      "@language" : "bo",
-      "@value" : "བོན་པོ་ལུང་བླ་མའི་སྐྱེ་བརྒྱུད།"
-    }
-  } ]
+    } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }

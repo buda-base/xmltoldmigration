@@ -1,9 +1,12 @@
 {
   "@graph" : [ {
-    "rdfs:label" : {
+    "rdfs:label" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "kun rig rnam bshad"
+    }, {
       "@language" : "bo",
       "@value" : "ཀུན་རིག་རྣམ་བཤད"
-    },
+    } ],
     "status" : "released",
     "@id" : "wor:W12837",
     "@type" : "wor:Work",
@@ -31,10 +34,13 @@
       "@type" : "xsd:positiveInteger",
       "@value" : "1"
     },
-    "wor:bibliographicalTitle" : {
+    "wor:bibliographicalTitle" : [ {
       "@language" : "bo",
       "@value" : "ཀུན་རིག་རྣམ་བཤད"
-    },
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "kun rig rnam bshad"
+    } ],
     "wor:catalogInfo" : {
       "@language" : "en",
       "@value" : "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."
@@ -70,11 +76,29 @@
       "@language" : "en",
       "@value" : "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011\n2004"
     },
-    "wor:titlePageTitle" : {
+    "wor:titlePageTitle" : [ {
       "@language" : "bo",
       "@value" : "བཅོམ་ལྡན་འདས་ཐམས་ཅད་རིག་པའི་རྣམ་བཤད"
-    },
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bcom ldan 'das thams cad rig pa'i rnam bshad"
+    } ],
     "log_entry" : [ {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalized catalog info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-21T23:05:36.322Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    }, {
       "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
@@ -114,21 +138,6 @@
       "log_when" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-05-17T11:18:37.731Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
-      }
-    }, {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "normalized catalog info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-04-21T23:05:36.322Z"
       },
       "log_who" : {
         "@language" : "en",

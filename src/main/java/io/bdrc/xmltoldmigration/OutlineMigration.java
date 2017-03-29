@@ -82,9 +82,8 @@ public class OutlineMigration {
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
         for (int j = 0; j < nodeList.size(); j++) {
             Element current = (Element) nodeList.get(j);
-            
-            String[] langAndValue = CommonMigration.getBCP47AndConvert(current, "en", m, r);
-            m.add(r, m.createProperty(OP+"authorship"), m.createLiteral(langAndValue[1], langAndValue[0]));
+            Property prop = m.createProperty(OP+"authorship");
+            CommonMigration.addCurrentString(current, "en", m, r, prop, false);
         }
 	}
 	

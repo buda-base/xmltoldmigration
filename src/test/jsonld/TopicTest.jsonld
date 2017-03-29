@@ -1,62 +1,62 @@
 {
-  "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
-    "crp" : "http://purl.bdrc.io/ontology/coroporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work/",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
-  },
   "@graph" : [ {
+    "rdfs:label" : [ {
+      "@language" : "bo",
+      "@value" : "བསྟན་འགྱུར།"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bstan 'gyur/"
+    } ],
     "@id" : "top:T3CN2023",
     "@type" : "top:Topic",
     "desc:noType" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "bde bar gshegs pa'i bka'i dgongs 'grel bstan bcos 'gyur ro cog te/ rgya gar mkhas pa'i bstan bcos bod skad du 'gyur ba glegs bam brgya phrag lhag tsam bzhugs pa rnams so/ de rnams kyi khrod du nang don rig pa kho na gsungs pa glegs bam 170 lhag bzhugs pa grub cha gtso bo yin cing / da dung tshad ma'i bstan bcos kyi glegs bam po ti 21 tsam dang / sgra rig pa po ti 4/ gso ba rig pa po ti 5/ bzo rig pa po ti 1/ sna tshogs glegs bam po ti 9tsam bcas bzhugs pa yin no//"
+    }, {
       "@language" : "en",
       "@value" : "Tenjur Canonical Text"
     }, {
       "@language" : "bo",
       "@value" : "བདེ་བར་གཤེགས་པའི་བཀའི་དགོངས་འགྲེལ་བསྟན་བཅོས་འགྱུར་རོ་ཅོག་ཏེ། རྒྱ་གར་མཁས་པའི་བསྟན་བཅོས་བོད་སྐད་དུ་འགྱུར་བ་གླེགས་བམ་བརྒྱ་ཕྲག་ལྷག་ཙམ་བཞུགས་པ་རྣམས་སོ། དེ་རྣམས་ཀྱི་ཁྲོད་དུ་ནང་དོན་རིག་པ་ཁོ་ན་གསུངས་པ་གླེགས་བམ ༡༧༠ ལྷག་བཞུགས་པ་གྲུབ་ཆ་གཙོ་བོ་ཡིན་ཅིང་། ད་དུང་ཚད་མའི་བསྟན་བཅོས་ཀྱི་གླེགས་བམ་པོ་ཏི ༢༡ ཙམ་དང་། སྒྲ་རིག་པ་པོ་ཏི ༤། གསོ་བ་རིག་པ་པོ་ཏི ༥། བཟོ་རིག་པ་པོ་ཏི ༡། སྣ་ཚོགས་གླེགས་བམ་པོ་ཏི ༩ཙམ་བཅས་བཞུགས་པ་ཡིན་ནོ༎"
     } ],
+    "migration_exception" : [ "mixed english + encoding 'alternatePhonetic' turned into 'en-x-mixed', please convert other language to unicode", "mixed english + encoding 'tbrcPhonetic' turned into 'en-x-mixed', please convert other language to unicode" ],
+    "name" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "bstan 'gyur/"
+    }, {
+      "@language" : "zh",
+      "@value" : "丹珠尔"
+    }, {
+      "@language" : "en-x-mixed",
+      "@value" : "Tengyur"
+    }, {
+      "@language" : "en-x-mixed",
+      "@value" : "Tenjur"
+    }, {
+      "@language" : "zh",
+      "@value" : "丹珠尔大藏经"
+    }, {
+      "@language" : "bo",
+      "@value" : "བསྟན་བཅོས་འགྱུར་རོ་འཚལ།"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bstan bcos 'gyur ro 'tshal/"
+    }, {
+      "@language" : "zh-x-pinyin",
+      "@value" : "dan zhu er"
+    }, {
+      "@language" : "zh-x-pinyin",
+      "@value" : "dan zhu er da zang jing"
+    }, {
+      "@language" : "bo",
+      "@value" : "བསྟན་འགྱུར།"
+    } ],
+    "top:seeAlso" : {
+      "@id" : "top:T1129"
+    },
+    "top:status" : "released",
     "log_entry" : [ {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added description: Tenjur Canonical Text"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      },
-      "migration_exception" : "cannot convert log date properly, original date: '2015-02-30T10:22:32.290Z'"
-    }, {
       "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added description"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-31T16:55:02.487Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -71,7 +71,7 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -80,6 +80,21 @@
       "log_when" : {
         "@type" : "xsd:dateTime",
         "@value" : "2015-08-31T16:58:10.553Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added description"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-31T16:55:02.487Z"
       },
       "log_who" : {
         "@language" : "en",
@@ -100,40 +115,37 @@
         "@language" : "en",
         "@value" : "Chungdak Nangpa"
       }
-    } ],
-    "migration_exception" : [ "mixed english + encoding 'alternatePhonetic' turned into 'en-x-mixed', please convert other language to unicode", "mixed english + encoding 'tbrcPhonetic' turned into 'en-x-mixed', please convert other language to unicode" ],
-    "name" : [ {
-      "@language" : "zh",
-      "@value" : "丹珠尔"
     }, {
-      "@language" : "en-x-mixed",
-      "@value" : "Tengyur"
-    }, {
-      "@language" : "en-x-mixed",
-      "@value" : "Tenjur"
-    }, {
-      "@language" : "zh",
-      "@value" : "丹珠尔大藏经"
-    }, {
-      "@language" : "bo",
-      "@value" : "བསྟན་བཅོས་འགྱུར་རོ་འཚལ།"
-    }, {
-      "@language" : "zh-x-pinyin",
-      "@value" : "dan zhu er"
-    }, {
-      "@language" : "zh-x-pinyin",
-      "@value" : "dan zhu er da zang jing"
-    }, {
-      "@language" : "bo",
-      "@value" : "བསྟན་འགྱུར།"
-    } ],
-    "top:seeAlso" : {
-      "@id" : "top:T1129"
-    },
-    "top:status" : "released",
-    "rdfs:label" : {
-      "@language" : "bo",
-      "@value" : "བསྟན་འགྱུར།"
-    }
-  } ]
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added description: Tenjur Canonical Text"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      },
+      "migration_exception" : "cannot convert log date properly, original date: '2015-02-30T10:22:32.290Z'"
+    } ]
+  } ],
+  "@context" : {
+    "@vocab" : "http://purl.bdrc.io/ontology/root/",
+    "com" : "http://purl.bdrc.io/ontology/common#",
+    "crp" : "http://purl.bdrc.io/ontology/corporation#",
+    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "plc" : "http://purl.bdrc.io/ontology/place#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "ofc" : "http://purl.bdrc.io/ontology/office#",
+    "out" : "http://purl.bdrc.io/ontology/outline#",
+    "lin" : "http://purl.bdrc.io/ontology/lineage#",
+    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "wor" : "http://purl.bdrc.io/ontology/work#",
+    "per" : "http://purl.bdrc.io/ontology/person#",
+    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "desc" : "http://onto.bdrc.io/ontology/description#"
+  }
 }

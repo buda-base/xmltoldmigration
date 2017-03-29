@@ -1,9 +1,12 @@
 {
   "@graph" : [ {
-    "rdfs:label" : {
+    "rdfs:label" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "blo gros rnam dag"
+    }, {
       "@language" : "bo",
       "@value" : "བློ་གྲོས་རྣམ་དག"
-    },
+    } ],
     "status" : "released",
     "@id" : "per:P1331",
     "@type" : "per:Person",
@@ -25,14 +28,20 @@
       "per:event_circa" : "1322"
     },
     "per:gender" : "male",
-    "per:primaryName" : {
+    "per:primaryName" : [ {
       "@language" : "bo",
       "@value" : "བློ་གྲོས་རྣམ་དག"
-    },
-    "per:primaryTitle" : {
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "blo gros rnam dag"
+    } ],
+    "per:primaryTitle" : [ {
       "@language" : "bo",
       "@value" : "བྱ་ཡུལ་བློ་བཟང་རྣམ་དག"
-    },
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bya yul blo bzang rnam dag"
+    } ],
     "per:seat" : {
       "@id" : "_:b0",
       "@type" : "per:Seat",

@@ -28,7 +28,6 @@ public class PersonMigration {
 		m.add(main, RDF.type, m.createResource(PP + "Person"));
 		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
-		Literal value = null;
 		
 		// names
 		
@@ -36,16 +35,11 @@ public class PersonMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			if (current.getTextContent().trim().isEmpty()) continue;
-			String[] langAndValue = CommonMigration.getBCP47AndConvert(current, "bo-x-ewts", m, main);
-			value = m.createLiteral(langAndValue[1], langAndValue[0]);
 			String type = current.getAttribute("type").trim();
 			if (type.isEmpty())
 			    type = "primaryName";
 			prop = m.getProperty(PP, type);
-			m.add(main, prop, value);
-			if (i == 0) {
-				CommonMigration.addLabel(m, main, value);
-			}
+			CommonMigration.addCurrentString(current, "bo-x-ewts", m, main, prop, (i == 0));
 		}
 		
 		// gender

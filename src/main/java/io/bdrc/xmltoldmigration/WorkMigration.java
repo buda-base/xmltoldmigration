@@ -127,9 +127,8 @@ public class WorkMigration {
         nodeList = root.getElementsByTagNameNS(WXSDNS, "catalogInfo");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            if (current.getTextContent().trim().isEmpty()) continue;
-            String[] langAndValue = CommonMigration.getBCP47AndConvert(current, "en", m, main);
-            m.add(main, m.getProperty(WP+"catalogInfo"), m.createLiteral(langAndValue[1], langAndValue[0]));
+            prop = m.getProperty(WP+"catalogInfo");
+            CommonMigration.addCurrentString(current, "en", m, main, prop, false);
         }
         
         // scanInfo

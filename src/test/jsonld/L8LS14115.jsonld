@@ -1,9 +1,12 @@
 {
   "@graph" : [ {
-    "rdfs:label" : {
+    "rdfs:label" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"
+    }, {
       "@language" : "bo",
       "@value" : "གཤིན་རྗེ་གཤེད་དམར་པོ་ལྷ་ལྔའི་ཆོས་སྐོར་ལས། འོད་གསལ་འཆར་བའི་བྱིན་རླབས་ཀྱི་བརྒྱུད་པ་ལུགས་གཅིག"
-    },
+    } ],
     "status" : "released",
     "@id" : "lin:L8LS14115",
     "@type" : [ "lin:Lineage", "lin:Dbang" ],
@@ -89,23 +92,15 @@
       "@id" : "lin:L1RKL2042"
     },
     "migration_exception" : "in location: 'volume' must be a positive integer, got '1,'",
-    "name" : {
+    "name" : [ {
       "@language" : "bo",
       "@value" : "གཤིན་རྗེ་གཤེད་དམར་པོ་ལྷ་ལྔའི་ཆོས་སྐོར་ལས། འོད་གསལ་འཆར་བའི་བྱིན་རླབས་ཀྱི་བརྒྱུད་པ་ལུགས་གཅིག"
-    },
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"
+    } ],
     "log_entry" : [ {
       "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T11:30:18.879Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
-      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -120,7 +115,18 @@
         "@value" : "Lobsang Shastri"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T11:30:18.879Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    }, {
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -129,6 +135,17 @@
       "log_when" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-05-14T14:36:08.904Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Lobsang Shastri"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "LogEntry",
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-07-17T10:49:42.963Z"
       },
       "log_who" : {
         "@language" : "en",
@@ -150,7 +167,7 @@
         "@value" : "Code Ferret"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b5",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -163,17 +180,6 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Code Ferret"
-      }
-    }, {
-      "@id" : "_:b5",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-07-17T10:49:42.963Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
       }
     } ]
   } ],

@@ -1,9 +1,12 @@
 {
   "@graph" : [ {
-    "rdfs:label" : {
+    "rdfs:label" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "dri med 'od zer/"
+    }, {
       "@language" : "bo",
       "@value" : "དྲི་མེད་འོད་ཟེར།"
-    },
+    } ],
     "status" : "released",
     "@id" : "per:P1583",
     "@type" : "per:Person",
@@ -68,10 +71,13 @@
         "@id" : "wor:W19801"
       }
     } ],
-    "per:commonName" : {
+    "per:commonName" : [ {
       "@language" : "bo",
       "@value" : "ཀློང་ཆེན་པ།"
-    },
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "klong chen pa/"
+    } ],
     "per:event" : [ {
       "@id" : "per:P1583_Event2",
       "@type" : "per:NotSpecified",
@@ -106,21 +112,30 @@
     "per:ofSect" : {
       "@id" : "top:T1234"
     },
-    "per:personalName" : {
+    "per:personalName" : [ {
       "@language" : "bo",
       "@value" : "ཚུལ་ཁྲིམས་བློ་གྲོས།"
-    },
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "tshul khrims blo gros/"
+    } ],
     "per:primaryName" : [ {
       "@language" : "bo",
       "@value" : "དྲི་མེད་འོད་ཟེར།"
     }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "dri med 'od zer/"
+    }, {
       "@language" : "zh",
       "@value" : "隆钦热降巴·赤墨俄色"
     } ],
-    "per:primaryTitle" : {
+    "per:primaryTitle" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "klong chen rab 'byams pa dri med 'od zer/"
+    }, {
       "@language" : "bo",
       "@value" : "ཀློང་ཆེན་རབ་འབྱམས་པ་དྲི་མེད་འོད་ཟེར།"
-    },
+    } ],
     "per:seat" : {
       "@id" : "_:b3",
       "@type" : "per:Seat",
@@ -128,10 +143,13 @@
         "@id" : "plc:G521"
       }
     },
-    "per:secretInitiatoryName" : {
+    "per:secretInitiatoryName" : [ {
+      "@language" : "bo-x-ewts",
+      "@value" : "rgyal sras thugs mchog rtsal/"
+    }, {
       "@language" : "bo",
       "@value" : "རྒྱལ་སྲས་ཐུགས་མཆོག་རྩལ།"
-    },
+    } ],
     "per:studentOf" : [ {
       "@id" : "per:P1588"
     }, {
@@ -238,56 +256,17 @@
       "@language" : "bo",
       "@value" : "ཀློང་ཆེན་རབ་འབྱམས།"
     }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bsam yas lung mang ba/"
+    }, {
       "@language" : "bo",
       "@value" : "བསམ་ཡས་ལུང་མང་བ།"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "klong chen rab 'byams/"
     } ],
     "log_entry" : [ {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added records"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2008-06-30T17:01:56.496Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Joe McClellan"
-      }
-    }, {
-      "@id" : "_:b5",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "corrected title and name variant designations"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-08-23T16:40:14.673Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
-      }
-    }, {
-      "@id" : "_:b6",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "bcos"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2011-04-27T12:51:43.397Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Paldor"
-      }
-    }, {
-      "@id" : "_:b0",
+      "@id" : "_:b2",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -306,6 +285,21 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
+        "@value" : "corrected title and name variant designations"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-08-23T16:40:14.673Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    }, {
+      "@id" : "_:b4",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
         "@value" : "added name in chinese"
       },
       "log_when" : {
@@ -317,7 +311,7 @@
         "@value" : "Chungdak Nangpa"
       }
     }, {
-      "@id" : "_:b7",
+      "@id" : "_:b5",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -330,6 +324,36 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Michael Sheehy"
+      }
+    }, {
+      "@id" : "_:b6",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name rgyal sras thugs mchog rtsal"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-10-22T18:31:49.12Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Karma Gongde"
+      }
+    }, {
+      "@id" : "_:b7",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added records"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2008-06-30T17:01:56.496Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Joe McClellan"
       }
     }, {
       "@id" : "_:b8",
@@ -347,19 +371,19 @@
         "@value" : "Michael R. Sheehy"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
-        "@value" : "added name rgyal sras thugs mchog rtsal"
+        "@value" : "bcos"
       },
       "log_when" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2009-10-22T18:31:49.12Z"
+        "@value" : "2011-04-27T12:51:43.397Z"
       },
       "log_who" : {
         "@language" : "en",
-        "@value" : "Karma Gongde"
+        "@value" : "Paldor"
       }
     } ]
   } ],

@@ -10,7 +10,6 @@ import org.w3c.dom.Element;
 
 public class ScanrequestMigration {
 
-	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String VP = CommonMigration.VOLUMES_PREFIX;
 	private static final String SRXSDNS = "http://www.tbrc.org/models/scanrequest#";
 
@@ -25,7 +24,6 @@ public class ScanrequestMigration {
             System.err.println("No work ID for scanrequest "+root.getAttribute("RID")+"!");
             return m;
         }
-        Resource main = m.createResource(WP+value);
 
         Resource volumes = m.createResource(VP+"TestVolumes");
         m.add(volumes, RDF.type, m.getResource(VP+"Volumes"));
