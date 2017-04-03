@@ -24,10 +24,12 @@ import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.ontology.Restriction;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFFormat.JSONLDVariant;
@@ -63,6 +65,7 @@ import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.utils.JsonUtils;
 
+import org.apache.jena.vocabulary.OWL2;
 
 
 public class MigrationHelpers {
@@ -112,6 +115,7 @@ public class MigrationHelpers {
 	}
 
 	public static void writeLog(String s) {
+	    System.out.println(s);
         try {
             logWriter.write(s+"\n");
         } catch (IOException e) {
@@ -409,18 +413,26 @@ public class MigrationHelpers {
     }
 	
 	// change Range Datatypes from rdf:PlainLitteral to rdf:langString
-	// Warning: only works for 
 	public static void rdf10tordf11(OntModel o) {
 		Resource RDFPL = o.getResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral");
 		Resource RDFLS = o.getResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
 		ExtendedIterator<DatatypeProperty> it = o.listDatatypeProperties();
 	    while(it.hasNext()) {
 			DatatypeProperty p = it.next();
-			Resource r = p.getRange();
-			if (r != null && r.equals(RDFPL)) {
-				p.setRange(RDFLS);
+			if (p.hasRange(RDFPL)) {
+			    p.removeRange(RDFPL);
+			    p.addRange(RDFLS);
 			}
 	    }
+	    ExtendedIterator<Restriction> it2 = o.listRestrictions();
+	    while(it2.hasNext()) {
+            Restriction r = it2.next();
+            Statement s = r.getProperty(OWL2.onDataRange); // is that code obvious? no
+            if (s != null && s.getObject().asResource().equals(RDFPL)) {
+                s.changeObject(RDFLS);
+
+            }
+        }
 	}
 	
 	public static void removeIndividuals(OntModel o) {
@@ -444,6 +456,7 @@ public class MigrationHelpers {
 	        inputStream.close();
 	    } catch (Exception e) {
 	        System.err.println(e.getMessage());
+	        System.exit(1);
 	    }
 	    // then we fix it by removing the individuals and converting rdf10 to rdf11
 	    removeIndividuals(ontoModel);

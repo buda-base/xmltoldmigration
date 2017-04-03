@@ -40,7 +40,7 @@
           "@id" : "wor:WTest"
         },
         "note" : {
-          "@id" : "http://purl.bdrc.io/ontology/root/L8LS14115_Alternative1_Holder1_Note1",
+          "@id" : "http://purl.bdrc.io/ontology/root#L8LS14115_Alternative1_Holder1_Note1",
           "@type" : "Note",
           "note_content" : {
             "@language" : "en",
@@ -184,8 +184,7 @@
     } ]
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
+    "@vocab" : "http://purl.bdrc.io/ontology/root#",
     "crp" : "http://purl.bdrc.io/ontology/corporation#",
     "prd" : "http://purl.bdrc.io/ontology/product#",
     "owl" : "http://www.w3.org/2002/07/owl#",

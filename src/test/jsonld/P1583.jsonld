@@ -11,7 +11,7 @@
     "@id" : "per:P1583",
     "@type" : "per:Person",
     "external" : {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_External1",
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_External1",
       "@type" : "External",
       "external_content" : "External example",
       "external_data" : {
@@ -21,21 +21,21 @@
     },
     "migration_exception" : [ "no RID for incarnation, text reads: \"ignoring string\"", "missing kinship type", "teacherOf value contains unparsed strings: \"#L204a\"", "missing type for an event" ],
     "note" : [ {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note4",
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note4",
       "@type" : "Note",
       "note_location" : "p. 6",
       "note_work" : {
         "@id" : "wor:W19822"
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note5",
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note5",
       "@type" : "Note",
       "note_content" : {
         "@language" : "en",
         "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note1",
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note1",
       "@type" : "Note",
       "note_content" : {
         "@language" : "en",
@@ -46,7 +46,7 @@
         "@id" : "wor:W25268"
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note6",
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note6",
       "@type" : "Note",
       "note_content" : {
         "@language" : "en",
@@ -57,14 +57,14 @@
         "@id" : "wor:W27401"
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note2",
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note2",
       "@type" : "Note",
       "note_content" : {
         "@language" : "en",
         "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/P1583_Note3",
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note3",
       "@type" : "Note",
       "note_location" : "p. 77",
       "note_work" : {
@@ -388,8 +388,7 @@
     } ]
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
+    "@vocab" : "http://purl.bdrc.io/ontology/root#",
     "crp" : "http://purl.bdrc.io/ontology/corporation#",
     "prd" : "http://purl.bdrc.io/ontology/product#",
     "owl" : "http://www.w3.org/2002/07/owl#",

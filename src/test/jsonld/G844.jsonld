@@ -28,7 +28,7 @@
       "@value" : "བྱ་པ་ཁྲི་དཔོན་གྱི་མངའ་ཁོངས"
     } ],
     "note" : [ {
-      "@id" : "http://purl.bdrc.io/ontology/root/G844_Note2",
+      "@id" : "http://purl.bdrc.io/ontology/root#G844_Note2",
       "@type" : "Note",
       "note_content" : {
         "@language" : "en",
@@ -39,7 +39,7 @@
         "@id" : "wor:W26372"
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root/G844_Note1",
+      "@id" : "http://purl.bdrc.io/ontology/root#G844_Note1",
       "@type" : "Note",
       "note_content" : {
         "@language" : "en",
@@ -107,7 +107,7 @@
       "plc:event_circa" : "1187",
       "migration_exception" : [ "Warnings during unicode conversion: line 1: \"test\": Invalid 2nd suffix consonant: \"t\". initial ewts string: test", "unknown lineage value: 'test'" ],
       "note" : {
-        "@id" : "http://purl.bdrc.io/ontology/root/G844_Event2_Note1",
+        "@id" : "http://purl.bdrc.io/ontology/root#G844_Event2_Note1",
         "@type" : "Note",
         "note_content" : {
           "@language" : "en",
@@ -286,8 +286,7 @@
     } ]
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
+    "@vocab" : "http://purl.bdrc.io/ontology/root#",
     "crp" : "http://purl.bdrc.io/ontology/corporation#",
     "prd" : "http://purl.bdrc.io/ontology/product#",
     "owl" : "http://www.w3.org/2002/07/owl#",

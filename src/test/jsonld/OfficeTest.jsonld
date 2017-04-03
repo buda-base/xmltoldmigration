@@ -53,8 +53,7 @@
     } ]
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root/",
-    "com" : "http://purl.bdrc.io/ontology/common#",
+    "@vocab" : "http://purl.bdrc.io/ontology/root#",
     "crp" : "http://purl.bdrc.io/ontology/corporation#",
     "prd" : "http://purl.bdrc.io/ontology/product#",
     "owl" : "http://www.w3.org/2002/07/owl#",

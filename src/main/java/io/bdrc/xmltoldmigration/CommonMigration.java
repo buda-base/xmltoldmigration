@@ -32,10 +32,8 @@ import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
 
-	public static final String CORE_PREFIX = "http://onto.bdrc.io/ontologies/bdrc/";
 	public static final String DESCRIPTION_PREFIX = "http://onto.bdrc.io/ontology/description#";
-	public static final String ROOT_PREFIX = "http://purl.bdrc.io/ontology/root/";
-	public static final String COMMON_PREFIX = "http://purl.bdrc.io/ontology/common#";
+	public static final String ROOT_PREFIX = "http://purl.bdrc.io/ontology/root#";
 	public static final String CORPORATION_PREFIX = "http://purl.bdrc.io/ontology/corporation#";
 	public static final String LINEAGE_PREFIX = "http://purl.bdrc.io/ontology/lineage#";
 	public static final String OFFICE_PREFIX = "http://purl.bdrc.io/ontology/office#";
@@ -54,7 +52,6 @@ public class CommonMigration  {
 	public static final Converter converter = new Converter();
 	
 	public static void setPrefixes(Model m) {
-		m.setNsPrefix("com", COMMON_PREFIX);
 		m.setNsPrefix("", ROOT_PREFIX);
 		m.setNsPrefix("per", PERSON_PREFIX);
 		m.setNsPrefix("prd", PRODUCT_PREFIX);
@@ -77,7 +74,6 @@ public class CommonMigration  {
 		return "{"
 				+"\"@vocab\" : \""+ROOT_PREFIX+"\","
 				//+"\"@language\" : \"en\"," // ?
-			    +"\"com\" : \""+COMMON_PREFIX+"\","
 			    +"\"crp\" : \""+CORPORATION_PREFIX+"\","
 			    +"\"prd\" : \""+PRODUCT_PREFIX+"\","
 			    +"\"owl\" : \""+OWL_PREFIX+"\","
