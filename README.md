@@ -25,7 +25,7 @@ git submodule update --init
 Running the jar file:
 
 ```
-java -jar target/xmltoldmigration-0.1.jar -useCouchdb
+java -jar target/xmltoldmigration-0.2.0.jar -useCouchdb
 ```
 
 ## TODO
@@ -38,7 +38,6 @@ java -jar target/xmltoldmigration-0.1.jar -useCouchdb
 - migrate some GIS id (WB_area_sq_km, etc.) to descriptions
 - migrate most description to more specific properties (first batch done, more to be done later)
 - some properties have a useless lang tag: gbdist, gonpaPer1000, etc.
-- keep the original ewts string in addition to the unicode string
 - https://www.tbrc.org/xmldoc?rid=O5TAX003 has two "TaklungKagyu" entries, does it matter?
 
 
