@@ -73,6 +73,7 @@ public class CommonMigration  {
 	public static String getJsonLDContext() {
 		return "{"
 				+"\"@vocab\" : \""+ROOT_PREFIX+"\","
+				+"\"\" : \""+ROOT_PREFIX+"\","
 				//+"\"@language\" : \"en\"," // ?
 			    +"\"crp\" : \""+CORPORATION_PREFIX+"\","
 			    +"\"prd\" : \""+PRODUCT_PREFIX+"\","

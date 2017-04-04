@@ -115,7 +115,6 @@ public class MigrationHelpers {
 	}
 
 	public static void writeLog(String s) {
-	    System.out.println(s);
         try {
             logWriter.write(s+"\n");
         } catch (IOException e) {
