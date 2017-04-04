@@ -13,14 +13,31 @@
     "external" : {
       "@id" : "http://purl.bdrc.io/ontology/root#P1583_External1",
       "@type" : "External",
-      "external_content" : "External example",
+      "external_content" : {
+        "@language" : "en",
+        "@value" : "External example"
+      },
       "external_data" : {
         "@type" : "xsd:anyURI",
         "@value" : "http://example.com"
       }
     },
-    "migration_exception" : [ "no RID for incarnation, text reads: \"ignoring string\"", "missing kinship type", "teacherOf value contains unparsed strings: \"#L204a\"", "missing type for an event" ],
+    "migration_exception" : [ "missing type for an event", "missing kinship type", "no RID for incarnation, text reads: \"ignoring string\"", "teacherOf value contains unparsed strings: \"#L204a\"" ],
     "note" : [ {
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note3",
+      "@type" : "Note",
+      "note_location" : "p. 77",
+      "note_work" : {
+        "@id" : "wor:W19801"
+      }
+    }, {
+      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note2",
+      "@type" : "Note",
+      "note_content" : {
+        "@language" : "en",
+        "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
+      }
+    }, {
       "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note4",
       "@type" : "Note",
       "note_location" : "p. 6",
@@ -55,20 +72,6 @@
       "note_location" : "251",
       "note_work" : {
         "@id" : "wor:W27401"
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note2",
-      "@type" : "Note",
-      "note_content" : {
-        "@language" : "en",
-        "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note3",
-      "@type" : "Note",
-      "note_location" : "p. 77",
-      "note_work" : {
-        "@id" : "wor:W19801"
       }
     } ],
     "per:commonName" : [ {
@@ -137,7 +140,7 @@
       "@value" : "ཀློང་ཆེན་རབ་འབྱམས་པ་དྲི་མེད་འོད་ཟེར།"
     } ],
     "per:seat" : {
-      "@id" : "_:b3",
+      "@id" : "_:b2",
       "@type" : "per:Seat",
       "per:seat_place" : {
         "@id" : "plc:G521"
@@ -266,7 +269,7 @@
       "@value" : "klong chen rab 'byams/"
     } ],
     "log_entry" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b3",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -281,7 +284,7 @@
         "@value" : "Joe McClellan"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b4",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -296,22 +299,7 @@
         "@value" : "Jeff Wallman"
       }
     }, {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name in chinese"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2011-08-02T16:53:12.77Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
-      }
-    }, {
-      "@id" : "_:b5",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -326,7 +314,7 @@
         "@value" : "Michael Sheehy"
       }
     }, {
-      "@id" : "_:b6",
+      "@id" : "_:b5",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -339,6 +327,36 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Karma Gongde"
+      }
+    }, {
+      "@id" : "_:b1",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added name in chinese"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2011-08-02T16:53:12.77Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Chungdak Nangpa"
+      }
+    }, {
+      "@id" : "_:b6",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "bcos"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2011-04-27T12:51:43.397Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Paldor"
       }
     }, {
       "@id" : "_:b7",
@@ -369,21 +387,6 @@
       "log_who" : {
         "@language" : "en",
         "@value" : "Michael R. Sheehy"
-      }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "bcos"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2011-04-27T12:51:43.397Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Paldor"
       }
     } ]
   } ],

@@ -75,7 +75,7 @@ public class MigrationTest
 		assertTrue(CommonMigration.documentValidates(d, personValidator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1331.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

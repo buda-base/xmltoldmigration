@@ -297,7 +297,7 @@ public class CommonMigration  {
 		value = e.getTextContent().trim();
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"external_content");
-			lit = m.createLiteral(value);
+			lit = m.createLiteral(value, "en");
 			m.add(ext, prop, lit);
 		}
 	}
