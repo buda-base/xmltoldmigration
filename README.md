@@ -16,6 +16,12 @@ Compiling and generating jar file:
 mvn clean package
 ```
 
+If the above fails try:
+
+```
+git submodule update --init
+```
+
 Running the jar file:
 
 ```
