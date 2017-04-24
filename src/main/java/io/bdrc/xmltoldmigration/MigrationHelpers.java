@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -78,7 +79,7 @@ public class MigrationHelpers {
 	
 	public static HttpClient httpClient;
 	public static CouchDbInstance dbInstance;
-	public static CouchDbConnector db = null;
+//	public static CouchDbConnector db = null;
 	
 	public static boolean usecouchdb = true;
 	public static boolean writefiles = false;
@@ -86,6 +87,30 @@ public class MigrationHelpers {
 	public static boolean checkagainstXsd = true;
 	
 	public static OntModel ontologymodel = null;
+	
+	public static final String DB_PREFIX = "bdrc_";
+	// types in target DB
+    public static final String CORPORATION = "corporation";
+    public static final String LINEAGE = "lineage";
+    public static final String OFFICE = "office";
+    public static final String OUTLINE = "outline";
+    public static final String PERSON = "person";
+    public static final String PLACE = "place";
+    public static final String TOPIC = "topic";
+    public static final String VOLUMES = "volumes";
+    public static final String WORK = "work";
+    // types in source DB and not in target DB
+    public static final String IMAGEGROUP = "imagegroup";
+    public static final String PRODUCT = "product";
+    public static final String PUBINFO = "pubinfo";
+    public static final String SCANREQUEST = "scanrequest";
+    public static final String VOLUME = "volume";
+	
+    public static Hashtable<String, CouchDbConnector> dbs = new Hashtable<>();
+    
+    public static void putDB(String type) {
+        dbs.put(type, new StdCouchDbConnector(DB_PREFIX + type, dbInstance));
+    }
 
     static {
         if (checkagainstOwl) {
@@ -96,7 +121,16 @@ public class MigrationHelpers {
                     .url("http://localhost:13598")
                     .build();
             dbInstance = new StdCouchDbInstance(httpClient);
-            db = new StdCouchDbConnector("bdrc", dbInstance);
+
+            putDB(CORPORATION);
+            putDB(LINEAGE);
+            putDB(OFFICE);
+            putDB(OUTLINE);
+            putDB(PERSON);
+            putDB(PLACE);
+            putDB(TOPIC);
+            putDB(VOLUMES);
+            putDB(WORK);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -124,17 +158,17 @@ public class MigrationHelpers {
 
 	public static Map<String,String> typeToRootShortUri = new HashMap<String,String>();
 	static {
-		typeToRootShortUri.put("person", "per:Person");
-		typeToRootShortUri.put("work", "wor:Work");
-		typeToRootShortUri.put("outline", "out:Outline");
-		typeToRootShortUri.put("place", "plc:Place");
-		typeToRootShortUri.put("topic", "top:Topic");
-		typeToRootShortUri.put("lineage", "lin:Lineage");
-		typeToRootShortUri.put("corporation", "crp:Corporation");
-		typeToRootShortUri.put("product", "prd:Product");
-		typeToRootShortUri.put("volumes", "vol:Volumes");
-		typeToRootShortUri.put("volume", "vol:Volume");
-		typeToRootShortUri.put("office", "ofc:Office");
+		typeToRootShortUri.put(PERSON, "per:Person");
+		typeToRootShortUri.put(WORK, "wor:Work");
+		typeToRootShortUri.put(OUTLINE, "out:Outline");
+		typeToRootShortUri.put(PLACE, "plc:Place");
+		typeToRootShortUri.put(TOPIC, "top:Topic");
+		typeToRootShortUri.put(LINEAGE, "lin:Lineage");
+		typeToRootShortUri.put(CORPORATION, "crp:Corporation");
+		typeToRootShortUri.put(PRODUCT, "prd:Product");
+		typeToRootShortUri.put(VOLUMES, "vol:Volumes");
+		typeToRootShortUri.put(VOLUME, "vol:Volume");
+		typeToRootShortUri.put(OFFICE, "ofc:Office");
     }
 	
 	public static Object getFrameObject(String type) {
@@ -199,6 +233,7 @@ public class MigrationHelpers {
     }
     
     public static void jsonObjectToCouch(Object jsonObject, String type) {
+        CouchDbConnector db = dbs.get(type);
         if (db == null) return;
         TreeMap<String,Object> obj = (TreeMap<String,Object>) jsonObject;
         Object graph = null; // = ((TreeMap<String,Object>) jsonObject).get("@graph"); this doesn't work for unknown reasons
@@ -334,40 +369,40 @@ public class MigrationHelpers {
 	public static Model xmlToRdf(Document d, String type) {
 		Model m = null;
 		switch (type) {
-		case "corporation":
+		case CORPORATION:
 			m = CorporationMigration.MigrateCorporation(d);
 			break;
-		case "person":
+		case PERSON:
 			m = PersonMigration.MigratePerson(d);
 			break;
-		case "place":
+		case PLACE:
 			m = PlaceMigration.MigratePlace(d);
 			break;
-		case "product":
+		case PRODUCT:
 			m = ProductMigration.MigrateProduct(d);
 			break;
-		case "pubinfo":
+		case PUBINFO:
             m = PubinfoMigration.MigratePubinfo(d);
             break;
-		case "imagegroup":
+		case IMAGEGROUP:
             m = ImagegroupMigration.MigrateImagegroup(d);
             break;
-		case "lineage":
+		case LINEAGE:
 			m = LineageMigration.MigrateLineage(d);
 			break;
-        case "office":
+        case OFFICE:
             m = OfficeMigration.MigrateOffice(d);
             break;
-        case "outline":
+        case OUTLINE:
             m = OutlineMigration.MigrateOutline(d);
             break;
-        case "scanrequest":
+        case SCANREQUEST:
             m = ScanrequestMigration.MigrateScanrequest(d);
             break;
-        case "topic":
+        case TOPIC:
             m = TopicMigration.MigrateTopic(d);
             break;
-	    case "work":
+	    case WORK:
 	        m = WorkMigration.MigrateWork(d);
 	        break;
 		default:

@@ -27,6 +27,17 @@ public class MigrationApp
     public static final String WP = CommonMigration.WORK_PREFIX;
     public static final String VP = CommonMigration.VOLUMES_PREFIX;
     
+    public static final String CORPORATION = MigrationHelpers.CORPORATION;
+    public static final String LINEAGE = MigrationHelpers.LINEAGE;
+    public static final String OFFICE = MigrationHelpers.OFFICE;
+    public static final String OUTLINE = MigrationHelpers.OUTLINE;
+    public static final String PERSON = MigrationHelpers.PERSON;
+    public static final String PLACE = MigrationHelpers.PLACE;
+    public static final String SCANREQUEST = MigrationHelpers.SCANREQUEST;
+    public static final String TOPIC = MigrationHelpers.TOPIC;
+    public static final String VOLUMES = MigrationHelpers.VOLUMES;
+    public static final String WORK = MigrationHelpers.WORK;
+    
     public static OntModel ontology = null;
     
     
@@ -58,11 +69,11 @@ public class MigrationApp
         Resource volumes;
         Model volumesModel;
         switch(type) {
-        case "scanrequest":
+        case SCANREQUEST:
             Document srd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             String workId = ScanrequestMigration.getWork(srd);
             if (workId.isEmpty()) return;
-            String volumesFileName = OUTPUT_DIR+"volumes/V"+workId.substring(1)+".jsonld";
+            String volumesFileName = OUTPUT_DIR+VOLUMES+"/V"+workId.substring(1)+".jsonld";
             File workFile = new File(volumesFileName);
             if (!workFile.exists()) {
                 //System.err.println("ignoring scan request for unreleased "+workId);
@@ -72,9 +83,9 @@ public class MigrationApp
             if (volumesModel == null) return;
             volumes = volumesModel.getResource(VP+"V"+workId.substring(1));
             volumesModel = ScanrequestMigration.MigrateScanrequest(srd, volumesModel, volumes);
-            MigrationHelpers.modelToFileName(volumesModel, volumesFileName, "volumes", true);
+            MigrationHelpers.modelToFileName(volumesModel, volumesFileName, VOLUMES, true);
             break;
-        case "work":
+        case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();
             if (!MigrationHelpers.mustBeMigrated(root)) return;
@@ -105,7 +116,7 @@ public class MigrationApp
                     d = MigrationHelpers.documentFromFileName(imagegroupFileName);
                     ImagegroupMigration.MigrateImagegroup(d, volumesModel, volumes, imagegroup, vol.getValue(), volumesName);
                 }
-                String volOutfileName = OUTPUT_DIR+"volumes/"+volumesName+".jsonld";
+                String volOutfileName = OUTPUT_DIR+VOLUMES+"/"+volumesName+".jsonld";
                 MigrationHelpers.modelToFileName(volumesModel, volOutfileName, "volumes", true);
             }
             
@@ -129,7 +140,7 @@ public class MigrationApp
     
     public static void migrateType(String type, String mustStartWith) {
         createDirIfNotExists(OUTPUT_DIR+type+"s");
-        if (type.equals("work")) createDirIfNotExists(OUTPUT_DIR+"volumes");
+        if (type.equals(WORK)) createDirIfNotExists(OUTPUT_DIR+VOLUMES);
         File logfile = new File(OUTPUT_DIR+type+"s-migration.log");
         PrintWriter pw;
         try {
@@ -158,17 +169,17 @@ public class MigrationApp
 		
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
-    	migrateType("place", "G");
-    	migrateType("office", "R");
-        migrateType("person", "P");
-        migrateType("corporation", "C");
-        migrateType("lineage", "L");
-        migrateType("outline", "O");
-        migrateType("topic", "T");
+    	migrateType(PLACE, "G");
+    	migrateType(OFFICE, "R");
+        migrateType(PERSON, "P");
+        migrateType(CORPORATION, "C");
+        migrateType(LINEAGE, "L");
+        migrateType(OUTLINE, "O");
+        migrateType(TOPIC, "T");
 //        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
         //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
-        migrateType("work", "W"); // ~20mn, also does pubinfos and imagegroups
-        migrateType("scanrequest", "SR"); // requires works to be finished
+        migrateType(WORK, "W"); // ~20mn, also does pubinfos and imagegroups
+        migrateType(SCANREQUEST, "SR"); // requires works to be finished
     	long estimatedTime = System.currentTimeMillis() - startTime;
     	System.out.println("done in "+estimatedTime+" ms");
     }
