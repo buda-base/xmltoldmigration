@@ -469,9 +469,10 @@ public class CommonMigration  {
            }
        }
        
-       public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname) {
+       public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname, String propname1, String propname2) {
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
-           for (int i = 0; i < nodeList.size(); i++) {
+           int i;
+           for (i = 0; i < nodeList.size(); i++) {
                Element current = (Element) nodeList.get(i);
                
                String value = getSubResourceName(main, WORK_PREFIX, "Location", i+1);
@@ -482,7 +483,24 @@ public class CommonMigration  {
                value = value.equals("page") ? "LocationByPage" : "LocationByFolio";
                m.add(loc, RDF.type, m.createResource(WORK_PREFIX+value));
                
-               m.add(main, m.getProperty(propname), loc);
+               // convention: if propname2 is not null, then we're in the case where the first property
+               // is beginsAt and the second is endsAt, we handle it accordingly
+               if (propname1 != null && nodeList.size() > 1) {
+                   switch (i) {
+                   case 0:
+                       m.add(main, m.getProperty(propname1), loc);
+                       break;
+                   case 1:
+                       m.add(main, m.getProperty(propname2), loc);
+                       break;
+                   case 2:
+                       addException(m, main, "too many locations, it should only have 2");
+                   default:
+                       m.add(main, m.getProperty(propname), loc);
+                   }
+               } else {
+                   m.add(main, m.getProperty(propname), loc);
+               }
                
                value = current.getAttribute("work");
                if (!value.isEmpty()) {

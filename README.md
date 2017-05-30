@@ -42,6 +42,8 @@ java -jar target/xmltoldmigration-0.2.0.jar -useCouchdb
 - Outline nodes labels are based on names, but when absent, it may need to be based on titles?
 - compute the end page of outline nodes?
 - make sure the vol info is present in outline locations when a work has more than 1 volume
+- link the volumes to the work?
+- add name in the volumes? (extracted from outlines)
 
 
 ## License

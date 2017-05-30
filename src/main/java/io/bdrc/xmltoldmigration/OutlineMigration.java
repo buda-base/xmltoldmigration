@@ -61,7 +61,7 @@ public class OutlineMigration {
 		CommonMigration.addExternals(m, root, main, OXSDNS);
 		CommonMigration.addLog(m, root, main, OXSDNS);
 		CommonMigration.addDescriptions(m, root, main, OXSDNS);
-		CommonMigration.addLocations(m, main, root, OXSDNS, OP+"location");
+		CommonMigration.addLocations(m, main, root, OXSDNS, OP+"location", null, null);
 		
 		addCreators(m, main, root);
 		
@@ -118,7 +118,7 @@ public class OutlineMigration {
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
         CommonMigration.addTitles(m, node, e, OXSDNS, false);
         
-        CommonMigration.addLocations(m, node, e, OXSDNS, OP+"location");
+        CommonMigration.addLocations(m, node, e, OXSDNS, OP+"location", OP+"beginsAt", OP+"endsAt");
         CommonMigration.addSubjects(m, node, e, OXSDNS);
         
         addSimpleAttr(e.getAttribute("value"), "node_value", m, node);
