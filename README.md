@@ -44,6 +44,7 @@ java -jar target/xmltoldmigration-0.2.0.jar -useCouchdb
 - make sure the vol info is present in outline locations when a work has more than 1 volume
 - link the volumes to the work?
 - add name in the volumes? (extracted from outlines)
+- differentiate migration exception types?
 
 
 ## License
