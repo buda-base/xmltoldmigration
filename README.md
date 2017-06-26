@@ -45,6 +45,8 @@ java -jar target/xmltoldmigration-0.2.0.jar -useCouchdb
 - link the volumes to the work?
 - add name in the volumes? (extracted from outlines)
 - differentiate migration exception types?
+- check that children cannot contain cycles, Children must be born after the parent, deathDate must be after birthDate ([source](https://www.w3.org/TR/shacl-ucr/#dfn-uc23))
+- substitute \s* by ' ' (some entries contain new lines, which make sqlite crash completely)
 
 
 ## License
