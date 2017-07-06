@@ -22,8 +22,8 @@ public class MigrationApp
 {
     
     // extract tbrc/ folder of exist-db backup here:
-    public static final String DATA_DIR = "tbrc/";
-    public static final String OUTPUT_DIR = "tbrc-jsonld/";
+    public static String DATA_DIR = "tbrc/";
+    public static String OUTPUT_DIR = "tbrc-jsonld/";
     public static final String WP = CommonMigration.WORK_PREFIX;
     public static final String VP = CommonMigration.VOLUMES_PREFIX;
     
@@ -164,7 +164,11 @@ public class MigrationApp
 			String arg = args[i];
 			if (arg.equals("-useCouchdb")) {
 				MigrationHelpers.usecouchdb = true;
-			}
+			} else if (arg.equals("-datadir")) {
+                DATA_DIR = args[i+1];
+            } else if (arg.equals("-outdir")) {
+                OUTPUT_DIR = args[i+1];
+            }
 		}
 		
         createDirIfNotExists(OUTPUT_DIR);

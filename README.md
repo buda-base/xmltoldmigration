@@ -25,8 +25,10 @@ git submodule update --init
 Running the jar file:
 
 ```
-java -jar target/xmltoldmigration-0.2.0.jar -useCouchdb
+java -jar target/xmltoldmigration-0.2.0.jar [-useCouchdb] [-datadir <dir path>] [-outdir <dir path>]
 ```
+
+All args are optional. By default the jsonld files are written to `./tbrc-jsonld/`. If the `-outdir` is present it must end with `'/'`. Similarly, by default the data is read from `./tbrc/`, and if the `-datadir` is present it must be terminated with `'/'`. Finally, by default the files are not loaded into couchdb so if one wants to upload to couchdb then `-useCouhdb` needs to be supplied.
 
 ## TODO
 
