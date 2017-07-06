@@ -451,8 +451,9 @@ public class CommonMigration  {
            }
        }
        
-       private static void addLocationIntOrString(Model m, Resource main, Resource loc, Element current, String attributeName, String propname) {
+       private static int addLocationIntOrString(Model m, Resource main, Resource loc, Element current, String attributeName, String propname) {
            String value = current.getAttribute(attributeName).trim();
+           int res = -1;
            if (!value.isEmpty()) {
                try {
                    int intval = Integer.parseInt(value);
@@ -461,17 +462,22 @@ public class CommonMigration  {
                        m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createLiteral(value));
                    } else {
                        m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
+                       res = intval;
                    }
                } catch (NumberFormatException e) {
                    addException(m, main, "in location: '"+propname+"' must be a positive integer, got '"+value+"'");
                    m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createLiteral(value));
                }
            }
+           return res;
        }
        
-       public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname) {
+       public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname, String propname1, String propname2) {
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
-           for (int i = 0; i < nodeList.size(); i++) {
+           int i;
+           int volume1 = -1;
+           int page1 = -1;
+           for (i = 0; i < nodeList.size(); i++) {
                Element current = (Element) nodeList.get(i);
                
                String value = getSubResourceName(main, WORK_PREFIX, "Location", i+1);
@@ -482,15 +488,43 @@ public class CommonMigration  {
                value = value.equals("page") ? "LocationByPage" : "LocationByFolio";
                m.add(loc, RDF.type, m.createResource(WORK_PREFIX+value));
                
-               m.add(main, m.getProperty(propname), loc);
+               // convention: if propname2 is not null, then we're in the case where the first property
+               // is beginsAt and the second is endsAt, we handle it accordingly
+               if (propname1 != null && nodeList.size() > 1) {
+                   switch (i) {
+                   case 0:
+                       m.add(main, m.getProperty(propname1), loc);
+                       break;
+                   case 1:
+                       m.add(main, m.getProperty(propname2), loc);
+                       break;
+                   case 2:
+                       addException(m, main, "too many locations, it should only have 2");
+                       //System.err.println(main.getLocalName()+" has 3 or more locations");
+                   default:
+                       m.add(main, m.getProperty(propname), loc);
+                   }
+               } else {
+                   m.add(main, m.getProperty(propname), loc);
+               }
                
                value = current.getAttribute("work");
                if (!value.isEmpty()) {
                    m.add(loc, m.getProperty(WORK_PREFIX, "work"), m.createResource(WORK_PREFIX+value));
                }
                
-               addLocationIntOrString(m, main, loc, current, "vol", "volume");
-               addLocationIntOrString(m, main, loc, current, "page", "page");
+               int volume = addLocationIntOrString(m, main, loc, current, "vol", "volume");
+               if (i == 0) volume1 = volume;
+               if (i == 1 && propname1 != null && volume != -1 && volume1 != -1 && volume < volume1) {
+                   addException(m, main, "end location volume is before beginning location volume");
+                   // System.err.println(main.getLocalName()+" begins at volume "+volume1+", end at volume "+volume);
+               }
+               int page = addLocationIntOrString(m, main, loc, current, "page", "page");
+               if (i == 0) page1 = page;
+               if (i == 1 && propname1 != null && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
+                   addException(m, main, "end location page is before beginning location");
+                   // System.err.println(main.getLocalName()+" begins at page "+page1+", end at page "+page);
+               }
                addLocationIntOrString(m, main, loc, current, "phrase", "phrase");
                addLocationIntOrString(m, main, loc, current, "line", "line");
                

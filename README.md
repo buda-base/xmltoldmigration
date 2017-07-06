@@ -41,6 +41,14 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 - migrate most description to more specific properties (first batch done, more to be done later)
 - some properties have a useless lang tag: gbdist, gonpaPer1000, etc.
 - https://www.tbrc.org/xmldoc?rid=O5TAX003 has two "TaklungKagyu" entries, does it matter?
+- Outline nodes labels are based on names, but when absent, it may need to be based on titles?
+- compute the end page of outline nodes?
+- make sure the vol info is present in outline locations when a work has more than 1 volume
+- link the volumes to the work?
+- add name in the volumes? (extracted from outlines)
+- differentiate migration exception types?
+- check that children cannot contain cycles, Children must be born after the parent, deathDate must be after birthDate ([source](https://www.w3.org/TR/shacl-ucr/#dfn-uc23))
+- substitute \s* by ' ' (some entries contain new lines, which make sqlite crash completely)
 
 
 ## License
