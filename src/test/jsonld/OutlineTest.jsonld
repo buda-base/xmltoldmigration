@@ -17,10 +17,10 @@
       "@value" : "མངོན་པ"
     }, {
       "@language" : "bo-x-ewts",
-      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
+      "@value" : "mngon pa"
     }, {
       "@language" : "bo-x-ewts",
-      "@value" : "mngon pa"
+      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
     } ],
     "out:authorship" : {
       "@language" : "en",
@@ -32,21 +32,7 @@
       "out:hasNode" : {
         "@id" : "out:O2DB875722DB875732DB87599",
         "@type" : "out:Class",
-        "out:location" : [ {
-          "@id" : "wor:O2DB875722DB875732DB87599_Location2",
-          "@type" : "wor:LocationByPage",
-          "wor:page" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "18"
-          },
-          "wor:volume" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "2"
-          },
-          "wor:work" : {
-            "@id" : "wor:W30020"
-          }
-        }, {
+        "out:beginsAt" : {
           "@id" : "wor:O2DB875722DB875732DB87599_Location1",
           "@type" : "wor:LocationByPage",
           "wor:page" : {
@@ -60,9 +46,24 @@
           "wor:work" : {
             "@id" : "wor:W30020"
           }
-        } ],
+        },
+        "out:endsAt" : {
+          "@id" : "wor:O2DB875722DB875732DB87599_Location2",
+          "@type" : "wor:LocationByPage",
+          "wor:page" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "18"
+          },
+          "wor:volume" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "2"
+          },
+          "wor:work" : {
+            "@id" : "wor:W30020"
+          }
+        },
         "note" : {
-          "@id" : "http://purl.bdrc.io/ontology/root#O2DB875722DB875732DB87599_Note1",
+          "@id" : ":O2DB875722DB875732DB87599_Note1",
           "@type" : "Note",
           "note_content" : {
             "@language" : "en",
@@ -119,25 +120,7 @@
           "@language" : "en",
           "@value" : "Another scribe"
         },
-        "out:gser_bris_number" : {
-          "@language" : "en",
-          "@value" : "test broken property type"
-        },
-        "out:location" : [ {
-          "@id" : "wor:O2DB875722DB87573_Location2",
-          "@type" : "wor:LocationByPage",
-          "wor:page" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "18"
-          },
-          "wor:volume" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "1"
-          },
-          "wor:work" : {
-            "@id" : "wor:W30020"
-          }
-        }, {
+        "out:beginsAt" : {
           "@id" : "wor:O2DB875722DB87573_Location1",
           "@type" : "wor:LocationByPage",
           "wor:page" : {
@@ -151,7 +134,26 @@
           "wor:work" : {
             "@id" : "wor:W30020"
           }
-        } ],
+        },
+        "out:endsAt" : {
+          "@id" : "wor:O2DB875722DB87573_Location2",
+          "@type" : "wor:LocationByPage",
+          "wor:page" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "18"
+          },
+          "wor:volume" : {
+            "@type" : "xsd:positiveInteger",
+            "@value" : "1"
+          },
+          "wor:work" : {
+            "@id" : "wor:W30020"
+          }
+        },
+        "out:gser_bris_number" : {
+          "@language" : "en",
+          "@value" : "test broken property type"
+        },
         "wor:bibliographicalTitle" : [ {
           "@language" : "bo",
           "@value" : "གླེང་གཞི།"
@@ -218,6 +220,21 @@
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
+        "@value" : "zhu dag byas"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2009-12-28T10:00:20.456Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "paldor"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
         "@value" : "vol. 1 outline images fixed"
       },
       "log_when" : {
@@ -229,7 +246,7 @@
         "@value" : "Lobsang Shastri"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_when" : {
         "@type" : "xsd:dateTime",
@@ -239,25 +256,11 @@
         "@language" : "en",
         "@value" : "Bumu Dega"
       }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "zhu dag byas"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-12-28T10:00:20.456Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "paldor"
-      }
     } ]
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/root#",
+    "" : "http://purl.bdrc.io/ontology/root#",
     "crp" : "http://purl.bdrc.io/ontology/corporation#",
     "prd" : "http://purl.bdrc.io/ontology/product#",
     "owl" : "http://www.w3.org/2002/07/owl#",
