@@ -444,7 +444,7 @@ public class CommonMigration  {
                     type = "bibliographicalTitle";
                 }
                 Property prop = m.getProperty(WORK_PREFIX, type);
-                addCurrentString(current, (i == 0 ? "bo-x-ewts" : "en"), m, main, prop, (i == 0 && !labelGuessed));
+                addCurrentString(current, "bo-x-ewts", m, main, prop, (i == 0 && !labelGuessed));
             }
         }
        
