@@ -223,7 +223,7 @@ public class CommonMigration  {
             res = normalizeDescription(res);
         }
 		return res;
-	}       
+	}
 	
 	public static Pattern whiteSpacePattern = Pattern.compile("[\\s\\p{Cntrl}]+", Pattern.UNICODE_CHARACTER_CLASS);
 	
@@ -444,7 +444,7 @@ public class CommonMigration  {
                     type = "bibliographicalTitle";
                 }
                 Property prop = m.getProperty(WORK_PREFIX, type);
-                addCurrentString(current, "en", m, main, prop, (i == 0 && !labelGuessed));
+                addCurrentString(current, (i == 0 ? "bo-x-ewts" : "en"), m, main, prop, (i == 0 && !labelGuessed));
             }
         }
        
