@@ -45,7 +45,7 @@
     <xsd:complexType name="Outline">
         <xsd:group ref="out:OutlineElems"/>
         <xsd:attribute name="RID" type="c:outlineRID" use="required"/>
-        <xsd:attribute name="webAccess" type="out:accessTypeAttr" use="optional"/>
+        <!-- xsd:attribute name="webAccess" type="out:accessTypeAttr" use="optional"/ -->
         <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
         <xsd:attribute name="pagination" type="out:paginationTypeAttr" default="relative"/>
     </xsd:complexType>
@@ -162,7 +162,7 @@
             </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="RID" type="xsd:string" use="optional"/>
-        <xsd:attribute name="webAccess" type="out:accessTypeAttr" use="optional"/>
+        <!-- xsd:attribute name="webAccess" type="out:accessTypeAttr" use="optional"/ -->
     </xsd:complexType>
     <xsd:group name="NodeElems">
         <xsd:sequence>

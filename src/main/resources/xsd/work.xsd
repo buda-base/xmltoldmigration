@@ -16,7 +16,7 @@
     <xsd:group name="WorkElems">
         <xsd:sequence>
             <xsd:element name="title" type="work:Title" minOccurs="1" maxOccurs="unbounded"/>
-            <xsd:element name="outlinedBy" type="work:OutlinedBy" minOccurs="0" maxOccurs="1"/>
+            <!-- xsd:element name="outlinedBy" type="work:OutlinedBy" minOccurs="0" maxOccurs="1"/ -->
             <xsd:element name="hasPubInfo" type="work:HasPubInfo" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="archiveInfo" type="work:ArchiveInfo" minOccurs="0" maxOccurs="1"/>
             <xsd:group ref="work:OtherWorkElems" minOccurs="1" maxOccurs="unbounded"/>
@@ -51,20 +51,21 @@
         <xsd:sequence>
             <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
+        <!-- xsd:attribute name="type" type="work:nodeTypeAttr" default="publishedWork"/ -->
         <xsd:attribute name="nodeType" type="work:nodeTypeAttr" default="publishedWork"/>
         <xsd:attribute name="parent" type="c:workRID"/>
-        <xsd:attribute name="seriesType" type="work:seriesTypeAttr" use="optional"/>
+        <!-- xsd:attribute name="seriesType" type="work:seriesTypeAttr" use="optional"/ -->
         <xsd:attribute name="number" type="xsd:string" use="optional"/>
         <xsd:attribute name="numbered" type="xsd:boolean" use="optional"/>
-        <xsd:attribute name="edition" type="xsd:string" use="optional">
+        <!-- xsd:attribute name="edition" type="xsd:string" use="optional">
             <xsd:annotation>
                 <xsd:documentation>
                     This attribute should either be the Wylie or Unicode Tibetan description of
                     the edition such as "co ne" or "sde dge par phud"
                 </xsd:documentation>
             </xsd:annotation>
-        </xsd:attribute>
-        <xsd:attribute name="hasTexts" type="xsd:boolean" default="false"/>
+        </xsd:attribute -->
+        <!-- xsd:attribute name="hasTexts" type="xsd:boolean" default="false"/ -->
     </xsd:complexType>
     <xsd:complexType name="Creator">
         <xsd:simpleContent>
@@ -74,13 +75,13 @@
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
-    <xsd:complexType name="OutlinedBy">
+    <!-- xsd:complexType name="OutlinedBy">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
                 <xsd:attribute name="outline" type="c:outlineRID" use="required"/>
             </xsd:extension>
         </xsd:simpleContent>
-    </xsd:complexType>
+    </xsd:complexType -->
     <xsd:complexType name="HasPubInfo">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
@@ -92,12 +93,12 @@
         <xsd:sequence>
             <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
-        <xsd:attribute name="restriction" type="work:restrictionTypeAttr"/>
-        <xsd:attribute name="distribution" type="work:distributionTypeAttr"/>
+        <!-- xsd:attribute name="restriction" type="work:restrictionTypeAttr"/ -->
+        <!-- xsd:attribute name="distribution" type="work:distributionTypeAttr"/ -->
         <xsd:attribute name="license" type="work:licenseTypeAttr"/>
         <xsd:attribute name="access" type="work:accessTypeAttr"/>
         <xsd:attribute name="vols" type="xsd:positiveInteger" use="optional"/>
-        <xsd:attribute name="status" type="work:statusTypeAttr" default="scanned"/>
+        <!-- xsd:attribute name="status" type="work:statusTypeAttr" default="scanned"/ -->
     </xsd:complexType>
     <xsd:complexType name="InProduct">
         <xsd:simpleContent>
@@ -139,13 +140,13 @@
             <xsd:enumeration value="conceptualWork"/>
             <xsd:enumeration value="publishedWork"/>
             <xsd:enumeration value="series"/>
-            <xsd:enumeration value="bibliographicOnly"/>
-            <xsd:enumeration value="isPublishedTranslationOf"/>
-            <xsd:enumeration value="isUnpublishedTranslationOf"/>
-            <xsd:enumeration value="isIntendedTranslationOf"/>
+            <!-- xsd:enumeration value="bibliographicOnly"/ -->
+            <!-- xsd:enumeration value="isPublishedTranslationOf"/ -->
+            <!-- xsd:enumeration value="isUnpublishedTranslationOf"/ -->
+            <!-- xsd:enumeration value="isIntendedTranslationOf"/ -->
         </xsd:restriction>
     </xsd:simpleType>
-    <xsd:simpleType name="seriesTypeAttr">
+    <!-- xsd:simpleType name="seriesTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="monographic"/>
             <xsd:enumeration value="non-monographic"/>
@@ -153,23 +154,23 @@
             <xsd:enumeration value="multipart"/>
             <xsd:enumeration value="serial"/>
         </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="restrictionTypeAttr">
+    </xsd:simpleType -->
+    <!-- xsd:simpleType name="restrictionTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="none"/>
             <xsd:enumeration value="copyright"/>
             <xsd:enumeration value="tradition"/>
             <xsd:enumeration value="quality"/>
         </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="distributionTypeAttr">
+    </xsd:simpleType -->
+    <!-- xsd:simpleType name="distributionTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="web"/>
             <xsd:enumeration value="physical"/>
             <xsd:enumeration value="tbrc"/>
             <xsd:enumeration value="authorized"/>
         </xsd:restriction>
-    </xsd:simpleType>
+    </xsd:simpleType -->
     <xsd:simpleType name="licenseTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="ccby"/>
@@ -187,7 +188,7 @@
             <xsd:enumeration value="restrictedInChina"/>
         </xsd:restriction>
     </xsd:simpleType>
-    <xsd:simpleType name="statusTypeAttr">
+    <!-- xsd:simpleType name="statusTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="scanned"/>
             <xsd:enumeration value="formattedPoor"/>
@@ -195,5 +196,5 @@
             <xsd:enumeration value="needsReconstruction"/>
             <xsd:enumeration value="notInTBRC"/>
         </xsd:restriction>
-    </xsd:simpleType>
+    </xsd:simpleType> -->
 </xsd:schema>
