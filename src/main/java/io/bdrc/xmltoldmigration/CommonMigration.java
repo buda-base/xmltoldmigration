@@ -5,6 +5,8 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Validator;
@@ -223,6 +225,18 @@ public class CommonMigration  {
 		return res;
 	}
 	
+	public static Pattern whiteSpacePattern = Pattern.compile("[\\s\\p{Cntrl}]+", Pattern.UNICODE_CHARACTER_CLASS);
+	
+	public static String normalizeString(String toNormalize, boolean keepSpaces) {
+	    if (keepSpaces)
+	        return toNormalize.trim();
+	    return whiteSpacePattern.matcher(toNormalize).replaceAll(" ").trim();
+	}
+	
+	public static String normalizeString(String toNormalize) {
+	    return normalizeString(toNormalize, false);
+	}
+	
 	public static void addNote(Model m, Element e, Resource r, int i, Property p, Literal l) {
 	    // some empty <note/> appear sometimes
 	    if (e.getAttribute("work").isEmpty() && e.getAttribute("location").isEmpty() && e.getTextContent().trim().isEmpty()) {
@@ -253,7 +267,7 @@ public class CommonMigration  {
 			lit = m.createLiteral(value);
 			m.add(note, prop, lit);
 		}
-		value = e.getTextContent().trim();
+		value = normalizeString(e.getTextContent(), true);
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"note_content");
 			lit = m.createLiteral(value, "en");
@@ -332,12 +346,12 @@ public class CommonMigration  {
 			    addException(m, logEntry, "cannot convert log date properly, original date: '"+value+"'");
 			}
 		}
-		value = e.getAttribute("who").trim();
+		value = normalizeString(e.getAttribute("who"));
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"log_who");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
 		}
-		value = e.getTextContent().trim();
+		value = normalizeString(e.getTextContent(), true);
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ROOT_PREFIX+"log_content");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
@@ -382,7 +396,7 @@ public class CommonMigration  {
 		boolean labelGuessed = !guessLabel;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			String descriptionValue = current.getTextContent().trim();
+			String descriptionValue = normalizeString(current.getTextContent());
 			if (descriptionValue.isEmpty()) continue;
 			String type = current.getAttribute("type");
 			if (type.isEmpty()) type = "noType";
@@ -401,7 +415,7 @@ public class CommonMigration  {
 			}
 			if (type.equals("nameLex")) {
 			    String placeId = r.getLocalName();
-			    descriptionValue = descriptionValue.replace(placeId, "").trim();
+			    descriptionValue = normalizeString(descriptionValue.replace(placeId, ""));
 			    current.setTextContent(descriptionValue);
 			}
 			Property prop = m.getProperty(addPrefixToDescription(type));
@@ -430,7 +444,7 @@ public class CommonMigration  {
                     type = "bibliographicalTitle";
                 }
                 Property prop = m.getProperty(WORK_PREFIX, type);
-                addCurrentString(current, "en", m, main, prop, (i == 0 && !labelGuessed));
+                addCurrentString(current, "bo-x-ewts", m, main, prop, (i == 0 && !labelGuessed));
             }
         }
        
@@ -472,7 +486,7 @@ public class CommonMigration  {
            return res;
        }
        
-       public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname, String propname1, String propname2) {
+       public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname, String propname1, String propname2, String workId) {
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
            int i;
            int volume1 = -1;
@@ -487,7 +501,7 @@ public class CommonMigration  {
                if (value.isEmpty()) value = "page";
                value = value.equals("page") ? "LocationByPage" : "LocationByFolio";
                m.add(loc, RDF.type, m.createResource(WORK_PREFIX+value));
-               
+               String localName = main.getLocalName();
                // convention: if propname2 is not null, then we're in the case where the first property
                // is beginsAt and the second is endsAt, we handle it accordingly
                if (propname1 != null && nodeList.size() > 1) {
@@ -501,6 +515,7 @@ public class CommonMigration  {
                    case 2:
                        addException(m, main, "too many locations, it should only have 2");
                        //System.err.println(main.getLocalName()+" has 3 or more locations");
+                       //System.err.println("- [ ] ["+localName+"](https://www.tbrc.org/#library_work_ViewByOutline-"+localName+"|"+workId+") has invalid location");
                    default:
                        m.add(main, m.getProperty(propname), loc);
                    }
@@ -517,13 +532,14 @@ public class CommonMigration  {
                if (i == 0) volume1 = volume;
                if (i == 1 && propname1 != null && volume != -1 && volume1 != -1 && volume < volume1) {
                    addException(m, main, "end location volume is before beginning location volume");
-                   // System.err.println(main.getLocalName()+" begins at volume "+volume1+", end at volume "+volume);
+                   //System.err.println("- [ ] ["+localName+"](https://www.tbrc.org/#library_work_ViewByOutline-"+localName+"|"+workId+") begins at volume "+volume1+", end at volume "+volume);
                }
                int page = addLocationIntOrString(m, main, loc, current, "page", "page");
                if (i == 0) page1 = page;
                if (i == 1 && propname1 != null && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
                    addException(m, main, "end location page is before beginning location");
-                   // System.err.println(main.getLocalName()+" begins at page "+page1+", end at page "+page);
+                   // System.err.println(main.getLocalName()+" begins at page "+page1+", end at page "+page);d
+                   //System.err.println("- [ ] ["+localName+"](https://www.tbrc.org/#library_work_ViewByOutline-"+localName+"|"+workId+") begins at page "+page1+", end at page "+page+" of volume "+volume1);
                }
                addLocationIntOrString(m, main, loc, current, "phrase", "phrase");
                addLocationIntOrString(m, main, loc, current, "line", "line");
@@ -735,7 +751,7 @@ public class CommonMigration  {
 	}
 	
 	public static void addCurrentString(Element e, String dflt, Model m, Resource r, Property p, boolean addLabel) {
-	    String value = e.getTextContent().trim();
+	    String value = normalizeString(e.getTextContent());
 	    if (value.isEmpty()) return;
 	    String tag = getBCP47(e, dflt, m, r);
         if (tag.equals("bo") && !value.isEmpty()) {

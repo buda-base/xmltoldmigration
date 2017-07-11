@@ -42,7 +42,7 @@ public class LineageMigration {
     	CommonMigration.addExternals(m, root, main, LXSDNS);
     	CommonMigration.addDescriptions(m, root, main, LXSDNS);
     	CommonMigration.addLog(m, root, main, LXSDNS);
-    	CommonMigration.addLocations(m, main, root, LXSDNS, LP+"location", null, null);
+    	CommonMigration.addLocations(m, main, root, LXSDNS, LP+"location", null, null, "");
 		
         NodeList nodeList = root.getElementsByTagNameNS(LXSDNS, "object");
         for (int i = 0; i < nodeList.getLength(); i++) {

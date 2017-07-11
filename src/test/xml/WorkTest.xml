@@ -1,5 +1,5 @@
 <w:work xmlns:w="http://www.tbrc.org/models/work#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="W12837" status="released" xsi:schemaLocation="http://www.tbrc.org/models/work# http://www.tbrc-dlms.org/tbrc-defs/1/0/work.xsd">
-    <w:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">kun rig rnam bshad</w:title>
+    <w:title type="bibliographicalTitle">kun rig rnam bshad</w:title>
     <w:title encoding="native" lang="pali" type="otherTitle">test pali title</w:title>
     <w:title encoding="extendedWylie" lang="tibetan" type="titlePageTitle">bcom ldan 'das thams cad rig pa'i rnam bshad</w:title>
     <w:hasPubInfo info="MW12837"/>

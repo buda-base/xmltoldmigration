@@ -13,6 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +85,13 @@ public class MigrationTest
         assertTrue(CommonMigration.normalizeTibetan("དྷ་དཹ་").equals("དྷ་དླཱྀ་"));
         assertTrue(CommonMigration.normalizeTibetan("\u0F81").equals("\u0F71\u0F80"));
         assertTrue(CommonMigration.normalizeTibetan("\u0F76").equals("\u0FB2\u0F80"));
+	}
+	
+	@Test
+	public void testNormalize() {
+	    assertTrue(CommonMigration.normalizeString("").equals(""));
+	    String allWhiteSpaces = " 1 \u0009 2 \n 3 \u000C 4 \r 5 \u0020 6 \u0085 7 \u00A0 8 \u1680 9 \u180E 10 \u2000 11 \u2001 12 \u2002 13 \u2003 14 \u2004 15 \u2005 16 \u2006 17 \u2007 18 \u2008 19 \u2009 20 \u200A 21 \u2028 22 \u2029 23 \u202F 24 \u205F 25 \u3000 26 \0 27 ";
+	    assertTrue(CommonMigration.normalizeString(allWhiteSpaces).equals("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27"));
 	}
 	
 	@Test

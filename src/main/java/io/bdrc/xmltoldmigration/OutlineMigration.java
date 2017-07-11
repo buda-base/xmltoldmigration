@@ -31,6 +31,7 @@ public class OutlineMigration {
 		// fetch type in isOutlineOf
 		NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
         String value = null;
+        String workId = "";
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             
@@ -44,8 +45,12 @@ public class OutlineMigration {
                 m.add(main, RDF.type, m.createResource(OP + "Outline"));
             
             value = current.getAttribute("work").trim();
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
                 m.add(main, m.getProperty(OP+"isOutlineOf"), m.createProperty(WP+value));
+            } else {
+            	CommonMigration.addException(m, main, "outline does not reference the corresponding work");
+            }
+            workId = value;
         }
         
         value = root.getAttribute("webAccess").trim();
@@ -61,7 +66,7 @@ public class OutlineMigration {
 		CommonMigration.addExternals(m, root, main, OXSDNS);
 		CommonMigration.addLog(m, root, main, OXSDNS);
 		CommonMigration.addDescriptions(m, root, main, OXSDNS);
-		CommonMigration.addLocations(m, main, root, OXSDNS, OP+"location", null, null);
+		CommonMigration.addLocations(m, main, root, OXSDNS, OP+"location", null, null, workId);
 		
 		addCreators(m, main, root);
 		
@@ -69,7 +74,7 @@ public class OutlineMigration {
 		
 		addViewIn(m, main, root);
 		
-		addNodes(m, main, root);
+		addNodes(m, main, root, workId);
 		
 		return m;
 	}
@@ -87,7 +92,7 @@ public class OutlineMigration {
         }
 	}
 	
-	public static void addNode(Model m, Resource r, Element e, int i) {
+	public static void addNode(Model m, Resource r, Element e, int i, String workId) {
 	    String value = e.getAttribute("RID");
 	    if (value.isEmpty())
 	        value = CommonMigration.getSubResourceName(r, OP, "Node", i+1);
@@ -118,7 +123,7 @@ public class OutlineMigration {
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
         CommonMigration.addTitles(m, node, e, OXSDNS, false);
         
-        CommonMigration.addLocations(m, node, e, OXSDNS, OP+"location", OP+"beginsAt", OP+"endsAt");
+        CommonMigration.addLocations(m, node, e, OXSDNS, OP+"location", OP+"beginsAt", OP+"endsAt", workId);
         CommonMigration.addSubjects(m, node, e, OXSDNS);
         
         addSimpleAttr(e.getAttribute("value"), "node_value", m, node);
@@ -164,16 +169,16 @@ public class OutlineMigration {
         addCreators(m, node, e);
         
         // sub nodes
-        addNodes(m, node, e);
+        addNodes(m, node, e, workId);
 	}
 	
 
 	
-	public static void addNodes(Model m, Resource r, Element e) {
+	public static void addNodes(Model m, Resource r, Element e, String workId) {
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
-            addNode(m, r, current, i);
+            addNode(m, r, current, i, workId);
         }
 	}
 	
