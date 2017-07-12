@@ -1,3 +1,6 @@
 [submodule "src/main/resources/owl-file"]
 	path = src/main/resources/owl-file
 	url = https://github.com/BuddhistDigitalResourceCenter/owl-file.git
+[submodule "src/main/resources/hunspell-bo"]
+	path = src/main/resources/hunspell-bo
+	url = https://github.com/eroux/hunspell-bo.git

@@ -4,6 +4,8 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.w3c.dom.Document;
 
+import com.atlascopco.hunspell.Hunspell;
+
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 
 import org.junit.Test;
@@ -97,6 +99,15 @@ public class MigrationTest
 	}
 	
 	@Test
+	public void testHunspell() {
+	    final String hunspellBoPath = "src/main/resources/hunspell-bo/";
+	    final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
+	    assertTrue(speller.spell("བོད"));
+	    assertFalse(speller.spell("བབབོ་ད་དདཨོ་"));
+	    speller.close();
+	}
+	
+	@Test
 	public void testNormalize() {
 	    assertTrue(CommonMigration.normalizeString("").equals(""));
 	    String allWhiteSpaces = " 1 \u0009 2 \n 3 \u000C 4 \r 5 \u0020 6 \u0085 7 \u00A0 8 \u1680 9 \u180E 10 \u2000 11 \u2001 12 \u2002 13 \u2003 14 \u2004 15 \u2005 16 \u2006 17 \u2007 18 \u2008 19 \u2009 20 \u200A 21 \u2028 22 \u2029 23 \u202F 24 \u205F 25 \u3000 26 \0 27 ";
@@ -187,7 +198,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
            //showDifference(fromXml, correctModel);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
