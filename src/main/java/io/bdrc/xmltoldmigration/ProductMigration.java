@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 
 public class ProductMigration {
 	
+    private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String PRP = CommonMigration.PRODUCT_PREFIX;
 	private static final String PRXSDNS = "http://www.tbrc.org/models/product#";
 	
@@ -23,7 +24,7 @@ public class ProductMigration {
 		Element current;
 		Resource main = m.createResource(PRP + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(PRP + "Product"));
-		Property prop = m.getProperty(PRP, "status");
+		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
 		
 		CommonMigration.addNotes(m, root, main, PRXSDNS);

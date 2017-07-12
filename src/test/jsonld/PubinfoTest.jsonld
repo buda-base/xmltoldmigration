@@ -47,27 +47,18 @@
     "wor:pubinfo_hollis" : "014254679",
     "wor:pubinfo_printType" : "blockprint",
     "wor:pubinfo_publisherDate" : "[2000?]",
-    "wor:pubinfo_publisherLocation" : "[lha sa]",
-    "wor:pubinfo_publisherName" : "[zhol par khang]",
+    "wor:pubinfo_publisherLocation" : {
+      "@language" : "en",
+      "@value" : "[lha sa]"
+    },
+    "wor:pubinfo_publisherName" : {
+      "@language" : "en",
+      "@value" : "[zhol par khang]"
+    },
     "wor:pubinfo_sourcePrintery_string" : "test sourcePrintery with no place",
     "wor:pubinfo_tbrcHoldings" : "1",
     "log_entry" : [ {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "normalize encoding field for pub info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-04-22T00:30:13.577Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
-      }
-    }, {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
@@ -82,7 +73,22 @@
         "@value" : "Jigme Namgyal"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b2",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "normalize encoding field for pub info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-22T00:30:13.577Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Jeff Wallman"
+      }
+    }, {
+      "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",

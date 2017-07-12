@@ -12,7 +12,7 @@
     "crp:region" : {
       "@id" : "plc:G934"
     },
-    "crp:status" : "released",
+    "status" : "released",
     "crp:unknown" : {
       "@id" : "per:P1857"
     },

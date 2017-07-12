@@ -55,7 +55,7 @@
     "prd:include" : {
       "@id" : "prd:PR88CT000129"
     },
-    "prd:status" : "released",
+    "status" : "released",
     "log_entry" : {
       "@id" : "_:b0",
       "@type" : "LogEntry",

@@ -54,7 +54,7 @@
     "top:seeAlso" : {
       "@id" : "top:T1129"
     },
-    "top:status" : "released",
+    "status" : "released",
     "log_entry" : [ {
       "@id" : "_:b4",
       "@type" : "LogEntry",

@@ -210,7 +210,7 @@
       }
     },
     "out:pagination" : "absolute",
-    "out:status" : "released",
+    "status" : "released",
     "out:viewIn_content" : "Rituals | cho ga | 仪轨",
     "out:viewIn_label" : "rituals",
     "out:viewIn_list" : "subjects",

@@ -10,6 +10,7 @@ import org.w3c.dom.Element;
 
 public class OfficeMigration {
 	
+    private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String OP = CommonMigration.OFFICE_PREFIX;
 	private static final String OXSDNS = "http://www.tbrc.org/models/office#";
 	
@@ -19,7 +20,7 @@ public class OfficeMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Resource main = m.createResource(OP + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(OP + "Office"));
-		Property prop = m.getProperty(OP, "status");
+		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
 		
 		CommonMigration.addNotes(m, root, main, OXSDNS);

@@ -15,6 +15,7 @@ import org.w3c.dom.NodeList;
 public class OutlineMigration {
 
 	private static final String OP = CommonMigration.OUTLINE_PREFIX;
+	private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String PP = CommonMigration.PLACE_PREFIX;
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
@@ -25,7 +26,7 @@ public class OutlineMigration {
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Resource main = m.createResource(OP + root.getAttribute("RID"));
-		Property prop = m.getProperty(OP, "status");
+		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
 
 		// fetch type in isOutlineOf

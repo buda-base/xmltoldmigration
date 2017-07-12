@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 public class CorporationMigration {
 	
+    private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String CRP = CommonMigration.CORPORATION_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
@@ -24,7 +25,7 @@ public class CorporationMigration {
 		Element current;
 		Resource main = m.createResource(CRP + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(CRP + "Corporation"));
-		Property prop = m.getProperty(CRP, "status");
+		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
 		
 		CommonMigration.addNames(m, root, main, CXSDNS);

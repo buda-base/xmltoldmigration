@@ -19,7 +19,7 @@
       "@language" : "bo-x-ewts",
       "@value" : "bon po lung bla ma'i skye brgyud/"
     } ],
-    "ofc:status" : "released",
+    "status" : "released",
     "log_entry" : [ {
       "@id" : "_:b1",
       "@type" : "LogEntry",

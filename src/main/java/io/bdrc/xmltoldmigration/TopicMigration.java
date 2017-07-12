@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 public class TopicMigration {
 
+    private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String TXSDNS = "http://www.tbrc.org/models/topic#";
 
@@ -22,7 +23,7 @@ public class TopicMigration {
 		Element current;
 		Resource main = m.createResource(TP + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(TP + "Topic"));
-		Property prop = m.getProperty(TP, "status");
+		Property prop = m.getProperty(RP, "status");
 		m.add(main, prop, root.getAttribute("status"));
 
 		CommonMigration.addNames(m, root, main, TXSDNS);
