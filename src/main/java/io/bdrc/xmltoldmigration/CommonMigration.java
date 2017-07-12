@@ -30,6 +30,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.atlascopco.hunspell.Hunspell;
+
 import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
@@ -52,6 +54,8 @@ public class CommonMigration  {
 	public static final String XSD_PREFIX = "http://www.w3.org/2001/XMLSchema#";
 	
 	public static final Converter converter = new Converter();
+	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
+    public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
 	
 	public static void setPrefixes(Model m) {
 		m.setNsPrefix("", ROOT_PREFIX);
@@ -750,6 +754,14 @@ public class CommonMigration  {
 	    return res;
 	}
 	
+	public static boolean isStandardTibetan(String s) {
+	    String[] words = s.split("[ \u0F04-\u0F14\u0F20-\u0F34\u0F3A-\u0F3F]");
+	    for (String word: words) {
+	        if (!speller.spell(word)) return false; 
+	    }
+	    return words.length > 0;
+	}
+
 	public static void addCurrentString(Element e, String dflt, Model m, Resource r, Property p, boolean addLabel) {
 	    String value = normalizeString(e.getTextContent());
 	    if (value.isEmpty()) return;

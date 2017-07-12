@@ -9,6 +9,7 @@ import com.atlascopco.hunspell.Hunspell;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 
 import org.junit.Test;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import static org.junit.Assert.assertFalse;
@@ -37,6 +38,11 @@ public class MigrationTest
 		ontology = MigrationHelpers.getOntologyModel();
 	}
 	
+   @AfterClass
+    public static void close() {
+        CommonMigration.speller.close();
+    }
+
 	public void flushLog() {
 	    try {
             MigrationHelpers.logWriter.flush();
@@ -100,11 +106,13 @@ public class MigrationTest
 	
 	@Test
 	public void testHunspell() {
-	    final String hunspellBoPath = "src/main/resources/hunspell-bo/";
-	    final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
-	    assertTrue(speller.spell("བོད"));
-	    assertFalse(speller.spell("བབབོ་ད་དདཨོ་"));
-	    speller.close();
+	    assertTrue(CommonMigration.isStandardTibetan("བོད"));
+	    assertTrue(CommonMigration.isStandardTibetan("བོད་བོད་ བོད་"));
+	    assertFalse(CommonMigration.isStandardTibetan("བབབོ་ད་དདཨོ་"));
+	    assertFalse(CommonMigration.isStandardTibetan("བབབོ་ད་དདཨོ་"));
+	    assertFalse(CommonMigration.isStandardTibetan("བོད a"));
+	    assertFalse(CommonMigration.isStandardTibetan("abc"));
+	    assertFalse(CommonMigration.isStandardTibetan("རཀག"));
 	}
 	
 	@Test

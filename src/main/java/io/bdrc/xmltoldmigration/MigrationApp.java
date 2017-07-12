@@ -184,6 +184,7 @@ public class MigrationApp
         //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType(WORK, "W"); // ~20mn, also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
+        CommonMigration.speller.close();
     	long estimatedTime = System.currentTimeMillis() - startTime;
     	System.out.println("done in "+estimatedTime+" ms");
     }
