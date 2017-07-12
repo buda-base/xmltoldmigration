@@ -33,7 +33,6 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 ## TODO
 
 - map all nodes of O5TAX003 to topics, to map place/event/affiliation/@rid="lineage:*"
-- build some euristics to guess if an ascii string is Tibetan or English (for pubinfo properties mostly)
 - add licenses as individuals?
 - handle BDRC staff by some individuals of a new class?
 - check if the "onDisk" description type appear outside imagegroup
@@ -42,13 +41,13 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 - some properties have a useless lang tag: gbdist, gonpaPer1000, etc.
 - https://www.tbrc.org/xmldoc?rid=O5TAX003 has two "TaklungKagyu" entries, does it matter?
 - Outline nodes labels are based on names, but when absent, it may need to be based on titles?
-- compute the end page of outline nodes?
 - make sure the vol info is present in outline locations when a work has more than 1 volume
 - link the volumes to the work?
 - add name in the volumes? (extracted from outlines)
-- differentiate migration exception types?
+- differentiate migration exception types? or export migration exceptions to csv files?
 - check that children cannot contain cycles, Children must be born after the parent, deathDate must be after birthDate ([source](https://www.w3.org/TR/shacl-ucr/#dfn-uc23))
-- substitute \s* by ' ' (some entries contain new lines, which make sqlite crash completely)
+- pubinfo properties' lang/encoding tags have a difficult history and should be fixed. Some euristics should be found to apply them correctly
+- ignore fields commented in https://github.com/BuddhistDigitalResourceCenter/xmltoldmigration/commit/068af86db28e70b7d7960ce989a0fab35b03f66a (handling it differently in the xsd file so that the xml files still validate)
 
 
 ## License
