@@ -45,8 +45,8 @@ public class PubinfoMigration {
 		Element root = xmlDocument.getDocumentElement();
 		
         // TODO: all these "en" defaults look strange...
-        addSimpleElement("publisherName", "pubinfo_publisherName", "en", root, m, main);
-        addSimpleElement("publisherLocation", "pubinfo_publisherLocation", "en", root, m, main);
+        addSimpleElement("publisherName", "pubinfo_publisherName", null, root, m, main);
+        addSimpleElement("publisherLocation", "pubinfo_publisherLocation", null, root, m, main);
         addSimpleElement("printery", "pubinfo_printery", "bo-x-ewts", root, m, main);
         addSimpleElement("publisherDate", "pubinfo_publisherDate", null, root, m, main);
         addSimpleElement("lcCallNumber", "pubinfo_lcCallNumber", null, root, m, main);

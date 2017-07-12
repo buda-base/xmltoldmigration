@@ -47,32 +47,11 @@
     "wor:pubinfo_hollis" : "014254679",
     "wor:pubinfo_printType" : "blockprint",
     "wor:pubinfo_publisherDate" : "[2000?]",
-    "wor:pubinfo_publisherLocation" : {
-      "@language" : "en",
-      "@value" : "[lha sa]"
-    },
-    "wor:pubinfo_publisherName" : {
-      "@language" : "en",
-      "@value" : "[zhol par khang]"
-    },
+    "wor:pubinfo_publisherLocation" : "[lha sa]",
+    "wor:pubinfo_publisherName" : "[zhol par khang]",
     "wor:pubinfo_sourcePrintery_string" : "test sourcePrintery with no place",
     "wor:pubinfo_tbrcHoldings" : "1",
     "log_entry" : [ {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added hollis field to pub info"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-01-05T17:22:13.356Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Code Ferret"
-      }
-    }, {
       "@id" : "_:b1",
       "@type" : "LogEntry",
       "log_content" : {
@@ -102,10 +81,26 @@
         "@language" : "en",
         "@value" : "Jigme Namgyal"
       }
+    }, {
+      "@id" : "_:b0",
+      "@type" : "LogEntry",
+      "log_content" : {
+        "@language" : "en",
+        "@value" : "added hollis field to pub info"
+      },
+      "log_when" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-01-05T17:22:13.356Z"
+      },
+      "log_who" : {
+        "@language" : "en",
+        "@value" : "Code Ferret"
+      }
     } ]
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/root#",
+    "" : "http://purl.bdrc.io/ontology/root#",
     "crp" : "http://purl.bdrc.io/ontology/corporation#",
     "prd" : "http://purl.bdrc.io/ontology/product#",
     "owl" : "http://www.w3.org/2002/07/owl#",
