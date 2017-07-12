@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:c="http://www.tbrc.org/models/common#"
+    targetNamespace="http://www.tbrc.org/models/pubinfo#" xmlns:pi="http://www.tbrc.org/models/pubinfo#"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation/>
+    </xsd:annotation>
+    <xsd:import namespace="http://www.tbrc.org/models/common#" schemaLocation="common.xsd"/>
+    <!-- root elements for TBRC: pubinfo -->
+    <xsd:element name="pubinfo" type="pi:PubInfo"/>
+    <xsd:complexType name="PubInfo">
+        <xsd:sequence>
+            <xsd:element name="isPubInfoFor" type="pi:IsPubInfoFor" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="publisherName" type="pi:PublisherName" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="publisherLocation" type="pi:PublisherLocation" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="printery" type="pi:Printery" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="publisherDate" type="pi:PublisherDate" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="printType" type="pi:PrintType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="sourcePrintery" type="pi:SourcePrintery" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="sourceNote" type="pi:SourceNote" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="lcCallNumber" type="pi:LcCallNumber" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="lccn" type="pi:LCCN" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="hollis" type="pi:Hollis" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="seeHarvard" type="pi:SeeHarvard" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="isbn" type="pi:ISBN" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="pl480" type="pi:PL480" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="authorshipStatement" type="pi:AuthorshipStatement" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="encoding" type="pi:Encoding" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="dateOfWriting" type="pi:DateOfWriting" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="extent" type="pi:Extent" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="illustrations" type="pi:Illustrations" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="dimensions" type="pi:Dimensions" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="volumes" type="pi:Volumes" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="seriesName" type="pi:SeriesName" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="seriesNumber" type="pi:SeriesNumber" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="series" type="pi:Series" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="tbrcHoldings" type="pi:TbrcHoldings" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="holding" type="pi:Holding" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="editionStatement" type="pi:EditionStatement" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="biblioNote" type="pi:BiblioNote" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="RID" type="c:pubinfoRID" use="required"/>
+        <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
+    </xsd:complexType>
+    <xsd:complexType name="IsPubInfoFor">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="work" type="c:workRID" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="PrintType">
+        <xsd:attribute name="type" type="pi:printTypeAttr"/>
+    </xsd:complexType>
+    <xsd:complexType name="PublisherName">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="english"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="native"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="PublisherLocation">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="english"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="native"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="SourcePrintery">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="place" type="c:placeRID"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Printery">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="PublisherDate">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="LcCallNumber">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="LCCN">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Hollis">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="SeeHarvard">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="ISBN">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="PL480">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="AuthorshipStatement">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Encoding">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="DateOfWriting">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Extent">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Illustrations">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Dimensions">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Volumes">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="SeriesName">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="SeriesNumber">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Series">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="name" type="xsd:string"/>
+                <xsd:attribute name="number" type="xsd:string"/>
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="TbrcHoldings">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Holding">
+        <xsd:annotation>
+            <xsd:documentation>A holding refers to the library Place which has one or more physical copies of the 
+                catalogued Work and shows the number of copies that are held at the library. The CData for the Holding
+                is the Library's shelving information concerning the location in the library of the physical copies.
+                The exception is an optional note regarding missing volumes in a copy or other information such as may 
+                be useful to qualify the status of one or more copies
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="library" type="pi:Library" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="shelf" type="pi:Shelf" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="exception" type="c:Note" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Library">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="rid" type="c:placeRID"/>
+                <xsd:attribute name="code" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="Shelf">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="copies" type="xsd:string"/>
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="EditionStatement">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="tibetan"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="extendedWylie"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="BiblioNote">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="english"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="native"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="SourceNote">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="lang" type="c:langTypeAttr" default="english"/>
+                <xsd:attribute name="encoding" type="c:langEncTypeAttr" default="native"/>                
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:simpleType name="printTypeAttr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="blockprint"/>
+            <xsd:enumeration value="dbuMed"/>
+            <xsd:enumeration value="dbuCan"/>
+            <xsd:enumeration value="computerInput"/>
+            <xsd:enumeration value="OCR"/>
+            <xsd:enumeration value="typeSet"/>
+            <xsd:enumeration value="facsimile"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>
+
