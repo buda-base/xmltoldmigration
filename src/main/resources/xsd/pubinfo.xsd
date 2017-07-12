@@ -9,7 +9,7 @@
     <!-- root elements for TBRC: pubinfo -->
     <xsd:element name="pubinfo" type="pi:PubInfo"/>
     <xsd:complexType name="PubInfo">
-        <xsd:sequence>
+        <xsd:choice maxOccurs="unbounded" minOccurs="1">
             <xsd:element name="isPubInfoFor" type="pi:IsPubInfoFor" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="publisherName" type="pi:PublisherName" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="publisherLocation" type="pi:PublisherLocation" minOccurs="0" maxOccurs="unbounded"/>
@@ -41,7 +41,7 @@
             <xsd:element name="external" type="c:ExternalEntry" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="note" type="c:Note" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="log" type="c:AuditLog" minOccurs="0" maxOccurs="1"/>
-        </xsd:sequence>
+        </xsd:choice>
         <xsd:attribute name="RID" type="c:pubinfoRID" use="required"/>
         <xsd:attribute name="status" type="c:statusTypeAttr" default="editing"/>
     </xsd:complexType>
