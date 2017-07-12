@@ -44,6 +44,15 @@ public class MigrationTest
         }
 	}
 	
+	public void showDifference (Model src, Model dst) {
+	    Model plus = dst.difference(src);
+	    Model minus = src.difference(dst);
+	    System.out.println("plus:");
+	    System.out.println(plus.toString());
+	    System.out.println("minus:");
+        System.out.println(minus.toString());
+	}
+	
 	@Test
     public void testP1331()
     {
@@ -179,6 +188,7 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
            MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
+           //showDifference(fromXml, correctModel);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
