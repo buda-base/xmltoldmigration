@@ -36,6 +36,14 @@ import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
 
+	public static final String ONTOLOGY_PREFIX = "http://purl.bdrc.io/ontology/";
+	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/ontology/admin/";
+	public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
+	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
+    public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
+    public static final String RDF_PREFIX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+    public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
+    public static final String XSD_PREFIX = "http://www.w3.org/2001/XMLSchema#";
 	public static final String DESCRIPTION_PREFIX = "http://onto.bdrc.io/ontology/description#";
 	public static final String ROOT_PREFIX = "http://purl.bdrc.io/ontology/root#";
 	public static final String CORPORATION_PREFIX = "http://purl.bdrc.io/ontology/corporation#";
@@ -48,17 +56,17 @@ public class CommonMigration  {
 	public static final String TOPIC_PREFIX = "http://purl.bdrc.io/ontology/topic#";
 	public static final String VOLUMES_PREFIX = "http://purl.bdrc.io/ontology/volumes#";
 	public static final String WORK_PREFIX = "http://purl.bdrc.io/ontology/work#";
-	public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
-	public static final String RDF_PREFIX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-	public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
-	public static final String XSD_PREFIX = "http://www.w3.org/2001/XMLSchema#";
 	
 	public static final Converter converter = new Converter();
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
 	
 	public static void setPrefixes(Model m) {
-		m.setNsPrefix("", ROOT_PREFIX);
+		m.setNsPrefix("", ONTOLOGY_PREFIX);
+		m.setNsPrefix("adm", ADMIN_PREFIX);
+		m.setNsPrefix("bdd", DATA_PREFIX);
+		m.setNsPrefix("bdr", RESOURCE_PREFIX);
+		m.setNsPrefix("root", ROOT_PREFIX);
 		m.setNsPrefix("per", PERSON_PREFIX);
 		m.setNsPrefix("prd", PRODUCT_PREFIX);
 		m.setNsPrefix("wor", WORK_PREFIX);
@@ -78,20 +86,22 @@ public class CommonMigration  {
 	
 	public static String getJsonLDContext() {
 		return "{"
-				+"\"@vocab\" : \""+ROOT_PREFIX+"\","
-				+"\"\" : \""+ROOT_PREFIX+"\","
-				//+"\"@language\" : \"en\"," // ?
+				+"\"@vocab\" : \""+ONTOLOGY_PREFIX+"\","
+				+"\"\" : \""+ONTOLOGY_PREFIX+"\","
+				+"\"adm\" : \""+ADMIN_PREFIX+"\","
+				+"\"bdd\" : \""+DATA_PREFIX+"\","
+				+"\"bdr\" : \""+RESOURCE_PREFIX+"\","
+                +"\"rdf\" : \""+RDF_PREFIX+"\","
+                +"\"owl\" : \""+OWL_PREFIX+"\","
+                +"\"xsd\" : \""+XSD_PREFIX+"\","
+                +"\"rdfs\" : \""+RDFS_PREFIX+"\","
 			    +"\"crp\" : \""+CORPORATION_PREFIX+"\","
 			    +"\"prd\" : \""+PRODUCT_PREFIX+"\","
-			    +"\"owl\" : \""+OWL_PREFIX+"\","
 			    +"\"plc\" : \""+PLACE_PREFIX+"\","
-			    +"\"xsd\" : \""+XSD_PREFIX+"\","
-			    +"\"rdfs\" : \""+RDFS_PREFIX+"\","
 			    +"\"ofc\" : \""+OFFICE_PREFIX+"\","
 			    +"\"out\" : \""+OUTLINE_PREFIX+"\","
 			    +"\"lin\" : \""+LINEAGE_PREFIX+"\","
 			    +"\"top\" : \""+TOPIC_PREFIX+"\","
-			    +"\"rdf\" : \""+RDF_PREFIX+"\","
 			    +"\"wor\" : \""+WORK_PREFIX+"\","
 			    +"\"per\" : \""+PERSON_PREFIX+"\","
 			    +"\"vol\" : \""+VOLUMES_PREFIX+"\","

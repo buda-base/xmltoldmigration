@@ -493,7 +493,7 @@ public class MigrationHelpers {
 	        System.exit(1);
 	    }
 	    // then we fix it by removing the individuals and converting rdf10 to rdf11
-	    removeIndividuals(ontoModel);
+	    //removeIndividuals(ontoModel);
 	    rdf10tordf11(ontoModel);
 	    // then we change the reasoner to Openllet:
 	    OntModel ontoModelInferred = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, ontoModel);
