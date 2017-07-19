@@ -173,18 +173,20 @@ public class MigrationApp
 		
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
-    	migrateType(PLACE, "G");
-    	migrateType(OFFICE, "R");
+//        migrateOneFile(new File(DATA_DIR+"tbrc-persons/P1KG16739.xml"), "person", "P");
         migrateType(PERSON, "P");
-        migrateType(CORPORATION, "C");
-        migrateType(LINEAGE, "L");
-        migrateType(OUTLINE, "O");
-        migrateType(TOPIC, "T");
-//        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
-        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
-        migrateType(WORK, "W"); // ~20mn, also does pubinfos and imagegroups
-        migrateType(SCANREQUEST, "SR"); // requires works to be finished
+//    	migrateType(PLACE, "G");
+//    	migrateType(OFFICE, "R");
+//        migrateType(CORPORATION, "C");
+//        migrateType(LINEAGE, "L");
+//        migrateType(OUTLINE, "O");
+//        migrateType(TOPIC, "T");
+////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
+//        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
+//        migrateType(WORK, "W"); // ~20mn, also does pubinfos and imagegroups
+//        migrateType(SCANREQUEST, "SR"); // requires works to be finished
         CommonMigration.speller.close();
+        ExceptionHelper.closeAll();
     	long estimatedTime = System.currentTimeMillis() - startTime;
     	System.out.println("done in "+estimatedTime+" ms");
     }

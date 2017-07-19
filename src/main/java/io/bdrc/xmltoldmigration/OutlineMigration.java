@@ -21,6 +21,7 @@ public class OutlineMigration {
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 
+	// TODO: ignore outlines with type enumeration and taxonomy
 	public static Model MigrateOutline(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);

@@ -61,7 +61,7 @@ public class CommonMigration  {
 	public static final EwtsConverter converter = new EwtsConverter();
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
-	
+    
 	public static void setPrefixes(Model m) {
 		m.setNsPrefix("", ONTOLOGY_PREFIX);
 		m.setNsPrefix("adm", ADMIN_PREFIX);
@@ -566,12 +566,30 @@ public class CommonMigration  {
            }
        }
        
+       public static void addException(Model m, Resource r, String exception, int type) {
+           addException(m, r, exception);
+       }
+       
        public static void addException(Model m, Resource r, String exception) {
            m.add(r, m.getProperty(ROOT_PREFIX+"migration_exception"), m.createLiteral(exception));
            exception = "Error in resource "+r.getLocalName()+": "+exception;
            MigrationHelpers.writeLog(exception);
        }
 	
+       public static void addPropWithType(Model m, Resource r, String propName, String typeName, Property typeProperty, Literal l) {
+           Property name = m.getProperty(ONTOLOGY_PREFIX+"name");
+           r.addProperty(m.getProperty(ONTOLOGY_PREFIX+propName), 
+                   m.createResource()
+                       .addProperty(typeProperty, m.getResource(RESOURCE_PREFIX+typeName))
+                       .addProperty(name, l));
+       }
+       
+       public static void addStatus(Model m, Resource r, String status) {
+           if (status == null || status.isEmpty()) return;
+           String statusName = "Status"+status.substring(0, 1).toUpperCase() + status.substring(1);
+           r.addProperty(m.getProperty(ONTOLOGY_PREFIX+"status"), m.getResource(ONTOLOGY_PREFIX+statusName));
+       }
+       
 	public static String getPrefixFromRID(String rid) {
 	    // warning: should be made more reliable
 	    if (rid.startsWith("W")) return WORK_PREFIX;
@@ -774,12 +792,16 @@ public class CommonMigration  {
 	}
 
 	public static void addCurrentString(Element e, String dflt, Model m, Resource r, Property p, boolean addLabel) {
+	    addCurrentString(e, dflt, m, r, p, addLabel, "", r);
+	}
+	
+	public static void addCurrentString(Element e, String dflt, Model m, Resource r, Property p, boolean addLabel, String propertyHint, Resource main) {
 	    String value = normalizeString(e.getTextContent());
 	    if (value.isEmpty()) return;
 	    String tag = getBCP47(e, dflt, m, r);
         if (tag.equals("bo") && !value.isEmpty()) {
             value = normalizeTibetan(value);
-            if (converter.isCombining(value.charAt(0))) {
+            if (EwtsConverter.isCombining(value.charAt(0))) {
                 addException(m, r, "Unicode string '"+value+"' starts with combining character");
             }
         }
@@ -790,9 +812,10 @@ public class CommonMigration  {
             List<String> conversionWarnings = new ArrayList<String>();
             String convertedValue = converter.toUnicode(value, conversionWarnings, true);
             if (conversionWarnings.size() > 0) {
-                String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
-                exceptionString += " initial ewts string: "+value;
-                addException(m, r, exceptionString);
+                ExceptionHelper.logEwtsException(r.getLocalName(), propertyHint, value, conversionWarnings);
+//                String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
+//                exceptionString += " initial ewts string: "+value;
+//                addException(m, r, exceptionString);
             } else {
                 value = convertedValue;
                 tag = "bo";

@@ -26,8 +26,9 @@ public class PersonMigration {
 		Element current;
 		Resource main = m.createResource(PP + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(PP + "Person"));
-		Property prop = m.getProperty(RP, "status");
-		m.add(main, prop, root.getAttribute("status"));
+		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		
+		Property prop;
 		
 		// names
 		
@@ -39,7 +40,7 @@ public class PersonMigration {
 			if (type.isEmpty())
 			    type = "primaryName";
 			prop = m.getProperty(PP, type);
-			CommonMigration.addCurrentString(current, "bo-x-ewts", m, main, prop, (i == 0));
+			CommonMigration.addCurrentString(current, "bo-x-ewts", m, main, prop, (i == 0), type, main);
 		}
 		
 		// gender
