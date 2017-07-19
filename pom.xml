@@ -96,17 +96,22 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-core</artifactId>
-      <version>3.2.0</version>
+      <version>3.3.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-arq</artifactId>
-      <version>3.2.0</version>
+      <version>3.3.0</version>
     </dependency>
     <dependency>
         <groupId>org.ektorp</groupId>
         <artifactId>org.ektorp</artifactId>
-        <version>1.4.2</version>
+        <version>1.4.4</version>
+    </dependency>
+    <dependency>
+      <groupId>io.bdrc.ewtsconverter</groupId>
+      <artifactId>ewts-converter</artifactId>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
         <groupId>org.slf4j</groupId>

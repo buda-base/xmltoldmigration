@@ -32,6 +32,7 @@ import org.xml.sax.SAXException;
 
 import com.atlascopco.hunspell.Hunspell;
 
+import io.bdrc.ewtsconverter.EwtsConverter;
 import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
@@ -57,7 +58,7 @@ public class CommonMigration  {
 	public static final String VOLUMES_PREFIX = "http://purl.bdrc.io/ontology/volumes#";
 	public static final String WORK_PREFIX = "http://purl.bdrc.io/ontology/work#";
 	
-	public static final Converter converter = new Converter();
+	public static final EwtsConverter converter = new EwtsConverter();
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
 	

@@ -4,8 +4,7 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.w3c.dom.Document;
 
-import com.atlascopco.hunspell.Hunspell;
-
+import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 
 import org.junit.Test;
@@ -16,7 +15,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +28,7 @@ public class MigrationTest
 {
 	final static String TESTDIR = "src/test/";
 	public static OntModel ontology = null;
-	public static final Converter converter = new Converter();
+	public static final EwtsConverter converter = new EwtsConverter();
 	
 	@BeforeClass
 	public static void init() {
