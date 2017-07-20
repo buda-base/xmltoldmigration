@@ -9,10 +9,12 @@ import java.util.Map;
 public class ExceptionHelper {
     // Exception types
     public static final int ET_EWTS = 0;
+    public static final int ET_LANG = 1;
     
     public static final Map<Integer, String> logNames = new HashMap<Integer, String>();
     static {
         logNames.put(ET_EWTS, "errors-ewts.log");
+        logNames.put(ET_EWTS, "errors-lang.log");
     }
     
     public static final Map<Integer, FileWriter> writers = new HashMap<Integer, FileWriter>();
@@ -41,7 +43,17 @@ public class ExceptionHelper {
         }
     }
     
-    public static void logEwtsException(String RID, String propIndication, String original, List<String> warnings) {
+    public static void logException(int type, String RID, String subRID, String propIndication, String error) {
+        FileWriter f = getFileWriter(type);
+        try {
+            f.write("- [ ] ["+RID+"](https://www.tbrc.org/#!rid="+RID+") ");
+            f.write("has problems on property `"+propIndication+"`:"+error);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void logEwtsException(String RID, String subRID, String propIndication, String original, List<String> warnings) {
         FileWriter f = getFileWriter(ET_EWTS);
         try {
             f.write("- [ ] ["+RID+"](https://www.tbrc.org/#!rid="+RID+") ");

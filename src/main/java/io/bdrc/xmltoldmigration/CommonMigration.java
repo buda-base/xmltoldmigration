@@ -58,6 +58,8 @@ public class CommonMigration  {
 	public static final String VOLUMES_PREFIX = "http://purl.bdrc.io/ontology/volumes#";
 	public static final String WORK_PREFIX = "http://purl.bdrc.io/ontology/work#";
 	
+	public static final int ET_LANG = ExceptionHelper.ET_LANG;
+	
 	public static final EwtsConverter converter = new EwtsConverter();
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
@@ -620,9 +622,9 @@ public class CommonMigration  {
 		case "rma":
 			return "-x-rma";
 		case "sansDiacritics":
-			return "-x-sans";
+			return "-x-ndia";
 		case "withDiacritics":
-			return "-x-with";
+			return "-x-wdia";
 		case "transliteration":
 			return "-x-trans";
 		case "acip":
@@ -730,7 +732,7 @@ public class CommonMigration  {
         return isChinese;
     }
 	
-	public static String getBCP47(Element e, Model m, Resource r) {
+	public static String getBCP47(Element e, String propertyHint, String RID, String subRID) {
 	    String lang = e.getAttribute("lang");
 	    String encoding = e.getAttribute("encoding");
 	    // some entries have language in "type"
@@ -740,14 +742,14 @@ public class CommonMigration  {
 	    }
 	    String res = "en";
 	    if (lang.equals("english") && (!encoding.isEmpty() && !encoding.equals("native"))) {
-	        addException(m, r, "mixed english + encoding '"+encoding+"' turned into 'en-x-mixed', please convert other language to unicode");
+	        ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "mixed english + encoding `"+encoding+"` turned into `en-x-mixed`, please convert other language to unicode");
 	        return "en-x-mixed";
 	    }
          
 	    try {
 	        res = getBCP47(lang, encoding);
 	    } catch (IllegalArgumentException ex) {
-	        addException(m, r, "lang+encoding invalid combination ('"+lang+"', '"+encoding+"') turned into 'en' language, exception message: "+ex.getMessage());
+	        ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "lang+encoding invalid combination (`"+lang+"`, `"+encoding+"`) turned into `en` tag, exception message: "+ex.getMessage());
 	    }
 		String value = e.getTextContent().trim();
 		// some values are wrongly marked as native instead of extendedWylie
@@ -763,8 +765,8 @@ public class CommonMigration  {
 		return res;
 	}
 	
-	public static String getBCP47(Element e, String dflt, Model m, Resource r) {
-		String res = getBCP47(e, m, r);
+	public static String getBCP47(Element e, String dflt, String propertyHint, String RID, String subRID) {
+		String res = getBCP47(e, propertyHint, RID, subRID);
 		if (dflt != null && (res == null || res.isEmpty())) {
 			return dflt;
 		}
@@ -795,10 +797,30 @@ public class CommonMigration  {
 	    addCurrentString(e, dflt, m, r, p, addLabel, "", r);
 	}
 	
+	public static Literal getLiteral(Element e, String dflt, Model m, String propertyHint, String RID, String subRID) {
+	       String value = normalizeString(e.getTextContent());
+	        if (value.isEmpty()) return null;
+	        String tag = getBCP47(e, dflt, propertyHint, RID, subRID);
+	        if (tag.equals("bo") && !value.isEmpty()) {
+	            value = normalizeTibetan(value);
+	            if (EwtsConverter.isCombining(value.charAt(0))) {
+	                ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "Unicode string `"+value+"` starts with combining character");
+	            }
+	        }
+	        if (tag.equals("bo-x-ewts")) {
+	            List<String> conversionWarnings = new ArrayList<String>();
+	            converter.toUnicode(value, conversionWarnings, true);
+	            if (conversionWarnings.size() > 0) {
+	                ExceptionHelper.logEwtsException(RID, subRID, propertyHint, value, conversionWarnings);
+	            }
+	        }
+	        return m.createLiteral(value, tag);
+	}
+	
 	public static void addCurrentString(Element e, String dflt, Model m, Resource r, Property p, boolean addLabel, String propertyHint, Resource main) {
 	    String value = normalizeString(e.getTextContent());
 	    if (value.isEmpty()) return;
-	    String tag = getBCP47(e, dflt, m, r);
+	    String tag = getBCP47(e, dflt, propertyHint, main.getLocalName(), main.getLocalName());
         if (tag.equals("bo") && !value.isEmpty()) {
             value = normalizeTibetan(value);
             if (EwtsConverter.isCombining(value.charAt(0))) {
@@ -812,17 +834,15 @@ public class CommonMigration  {
             List<String> conversionWarnings = new ArrayList<String>();
             String convertedValue = converter.toUnicode(value, conversionWarnings, true);
             if (conversionWarnings.size() > 0) {
-                ExceptionHelper.logEwtsException(r.getLocalName(), propertyHint, value, conversionWarnings);
-//                String exceptionString = "Warnings during unicode conversion: "+String.join(", ", conversionWarnings);
-//                exceptionString += " initial ewts string: "+value;
-//                addException(m, r, exceptionString);
-            } else {
-                value = convertedValue;
-                tag = "bo";
-            }
-            l = m.createLiteral(value, tag);
-            m.add(r, p, l);
-            if (addLabel) m.add(r, RDFS.label, l);
+                ExceptionHelper.logEwtsException(r.getLocalName(), r.getLocalName(), propertyHint, value, conversionWarnings);
+            } // else {
+//                value = convertedValue;
+//                tag = "bo";
+//            }
+            // we don't convert to unicode anymore
+//            l = m.createLiteral(value, tag);
+//            m.add(r, p, l);
+//            if (addLabel) m.add(r, RDFS.label, l);
         }
 	}
 	
