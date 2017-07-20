@@ -1,16 +1,9 @@
 <p:person xmlns:p="http://www.tbrc.org/models/person#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="P1583" status="released" xsi:schemaLocation="http://www.tbrc.org/models/person# http://www.tbrc-dlms.org/tbrc-defs/1/0/person.xsd">
-    <p:name encoding="extendedWylie" lang="tibetan" type="primaryName">dri med 'od zer/
-
-</p:name>
-    <p:name encoding="extendedWylie" lang="tibetan" type="primaryTitle">klong chen rab 'byams pa dri med 'od zer/
-
-
-
-</p:name>
+    <p:name encoding="extendedWylie" lang="tibetan" type="primaryName">dri med 'od zer/</p:name>
+    <p:name encoding="extendedWylie" lang="tibetan" type="primaryName">dri med 'od zer/ 2</p:name>
+    <p:name encoding="native" lang="english" type="primaryName">Drime Oser</p:name>
+    <p:name encoding="extendedWylie" lang="tibetan" type="primaryTitle">klong chen rab 'byams pa dri med 'od zer/</p:name>
     <p:name encoding="extendedWylie" lang="tibetan" type="title">klong chen rab 'byams/
-
-
-
 
 </p:name>
     <p:name encoding="extendedWylie" lang="tibetan" type="commonName">klong chen pa/
@@ -18,14 +11,8 @@
 </p:name>
     <p:name encoding="extendedWylie" lang="tibetan" type="personalName">tshul khrims blo gros/
 
-
-
-
-
 </p:name>
     <p:name encoding="extendedWylie" lang="tibetan" type="title">bsam yas lung mang ba/
-
-
 
 </p:name>
     <p:name type="secretInitiatoryName">rgyal sras thugs mchog rtsal/</p:name>
@@ -39,48 +26,6 @@
         <p:place pid="G521">shug gseb dgon (chu shur rdzong)</p:place>
     </p:seat>
     <!-- from P0RK76 --><p:teacherOf pid="P0RK1190 P0RK839 P0RK1191 P0RK783 #L204a P0RK1192">test</p:teacherOf>
-    <p:studentOf pid="P1584">bstan pa srung</p:studentOf>
-    <p:studentOf pid="P1586">bsam 'grub rin chen</p:studentOf>
-    <p:studentOf pid="P1587">kun dga' 'od zer</p:studentOf>
-    <p:studentOf pid="P1588">bkra shis rin chen</p:studentOf>
-    <p:studentOf pid="P2085">blo gros brtan pa</p:studentOf>
-    <p:studentOf pid="P2349">gzhon nu rgyal po</p:studentOf>
-    <p:studentOf pid="P4312">g.yag sde paN chen</p:studentOf>
-    <p:studentOf pid="P403"> dbang phyug ye shes </p:studentOf>
-    <p:studentOf pid="P2JM183">za lung rin po che</p:studentOf>
-    <p:studentOf pid="P2JM184">gzhon nu don grub</p:studentOf>
-    <p:studentOf pid="P2JM185">gzhon nu rdo rje</p:studentOf>
-    <p:studentOf pid="P2JM186">btsan dgon pa </p:studentOf>
-    <p:studentOf pid="P2JM187">chos dpal rgyal mtshan</p:studentOf>
-    <p:studentOf pid="P4860"> gzhon nu rin chen </p:studentOf>
-    <p:studentOf pid="P1226"> bsod nams rgyal mtshan </p:studentOf>
-    <p:studentOf pid="P2JM188">khro phu pa</p:studentOf>
-    <p:studentOf pid="P2JM189">tshong 'dus pa </p:studentOf>
-    <p:studentOf pid="P2JM190">sangs rgyas grags 'od</p:studentOf>
-    <p:studentOf pid="P144"> grags pa rgyal mtshan </p:studentOf>
-    <p:studentOf pid="P66"> rang byung rdo rje </p:studentOf>
-    <p:studentOf pid="P2JM191">dbang ye</p:studentOf>
-    <p:teacherOf pid="P6861">chos grags bzang po</p:teacherOf>
-    <p:teacherOf pid="P8527">khyab brdal lhun grub</p:teacherOf>
-    <p:teacherOf pid="P8528">grags pa 'od zer</p:teacherOf>
-    <p:teacherOf pid="P8764">bkra shis 'byung gnas</p:teacherOf>
-    <p:teacherOf pid="P8784">ye shes rab 'byams</p:teacherOf>
-    <p:teacherOf pid="P2JM192">bde legs rgya mtsho</p:teacherOf>
-    <p:teacherOf pid="P5092"> dpal 'byor rgya mtsho </p:teacherOf>
-    <p:teacherOf pid="P2JM193">sangs rgyas kun dga' </p:teacherOf>
-    <p:teacherOf pid="P5911"> blo gros bzang po </p:teacherOf>
-    <p:teacherOf pid="P2JM195">chos kyi grags pa </p:teacherOf>
-    <p:teacherOf pid="P2JM196">bzod pa grags pa </p:teacherOf>
-    <p:teacherOf pid="P2JM197">dpal mchog</p:teacherOf>
-    <p:teacherOf pid="P2JM198">gzhon nu sangs rgyas</p:teacherOf>
-    <p:teacherOf pid="P2JM199">pha rgod rtogs ldan rgyal po </p:teacherOf>
-    <p:teacherOf pid="P2JM200">'od zer go cha</p:teacherOf>
-    <p:teacherOf pid="P2JM201">'od gsal rang grol</p:teacherOf>
-    <p:teacherOf pid="P2JM202">bsod nams 'od zer </p:teacherOf>
-    <p:teacherOf pid="P2JM203">sangs rgyas dbon po </p:teacherOf>
-    <p:teacherOf pid="P2JM204">bsod nams seng+ge</p:teacherOf>
-    <p:teacherOf pid="P2JM205">'o rgyan chos rje </p:teacherOf>
-    <p:teacherOf pid="P2JM206">grags dpal</p:teacherOf>
     <p:teacherOf pid="P2JM207">sangs rgyas dpal rin </p:teacherOf>
     <p:teacherOf pid="P7091"> bya bral chos rje </p:teacherOf>
     <p:teacherOf pid="P314"> 'jigs med gling pa mkhyen brtse 'od zer </p:teacherOf>
@@ -107,13 +52,6 @@ Subsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med r
 Among them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him. </p:note>
     <p:log>
         <entry when="2008-06-30T17:01:56.496Z" who="Joe McClellan">added records </entry>
-        <entry when="2008-07-02T17:03:41.750Z" who="Joe McClellan">added records</entry>
-        <entry when="2009-10-22T18:31:49.120Z" who="Karma Gongde">added name rgyal sras thugs mchog rtsal</entry>
-        <entry when="2011-04-27T12:51:43.397Z" who="Paldor">bcos</entry>
-        <entry when="2011-07-01T04:41:07.905Z" who="Michael Sheehy">edited names</entry>
-        <entry when="2011-08-02T16:53:12.770Z" who="Chungdak Nangpa">added name in chinese</entry>
-        <entry when="2012-06-11T09:58:04.367Z" who="Michael R. Sheehy">edited note</entry>
-        <entry when="2012-08-23T16:40:14.673Z" who="Jeff Wallman">corrected title and name variant designations</entry>
     </p:log>
 </p:person>
 

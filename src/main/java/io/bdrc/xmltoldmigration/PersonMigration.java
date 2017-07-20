@@ -1,5 +1,9 @@
 package io.bdrc.xmltoldmigration;
 
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -13,34 +17,70 @@ import org.w3c.dom.NodeList;
 
 public class PersonMigration {
 
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String RDFS = CommonMigration.RDFS_PREFIX;
 	private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
+	private static Map<String,Resource> typeNodes = new HashMap<>();
+	
+	private static String getUriFromTypeSubtype(String type, String subtype) {
+	    switch (type) {
+	    case "name":
+	           return BDO+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	    default:
+	           return "";
+	    }
+	}
+	
+   private static String getPropertyFromType(String type) {
+        return "person"+type.substring(0, 1).toUpperCase() + type.substring(1);
+    }
+	
+	private static Resource createFromType(Model m, Resource main, Property p, String type, String subtype) {
+	    Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
+	    Resource r = m.createResource();
+	    r.addProperty(m.getProperty(BDO+getPropertyFromType(type)), typeIndividual);
+	    main.addProperty(p, r);
+	    return r;
+	}
+	
+	private static Resource getResourceForType(Model m, Resource main, Property p, String type, String subtype) {
+	    return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(m, main, p, type, t));
+	}
+	
 	public static Model MigratePerson(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(PP + root.getAttribute("RID"));
+		String RID = root.getAttribute("RID");
+		Resource main = m.createResource(PP + RID);
 		m.add(main, RDF.type, m.createResource(PP + "Person"));
 		CommonMigration.addStatus(m, main, root.getAttribute("status"));
-		
-		Property prop;
 		
 		// names
 		
 		NodeList nodeList = root.getElementsByTagNameNS(PXSDNS, "name");
+		Property nameProp = m.getProperty(BDO+"name");
+		Property prop = m.getProperty(BDO+"personName");
+		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			if (current.getTextContent().trim().isEmpty()) continue;
 			String type = current.getAttribute("type").trim();
 			if (type.isEmpty())
 			    type = "primaryName";
-			prop = m.getProperty(PP, type);
-			CommonMigration.addCurrentString(current, "bo-x-ewts", m, main, prop, (i == 0), type, main);
+			Resource r = getResourceForType(m, main, prop, "name", type);
+			Literal l = CommonMigration.getLiteral(current, "bo-x-ewts", m, type, RID, null);
+			r.addProperty(nameProp, l);
+			if (!labelDoneForLang.computeIfAbsent(l.getLanguage(), (s) -> false)) {
+			    main.addProperty(m.getProperty(RDFS+"label"), l);
+			    labelDoneForLang.put(l.getLanguage(), true);
+			}
 		}
 		
 		// gender
