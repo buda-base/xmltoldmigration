@@ -48,6 +48,8 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 - check that children cannot contain cycles, Children must be born after the parent, deathDate must be after birthDate ([source](https://www.w3.org/TR/shacl-ucr/#dfn-uc23))
 - pubinfo properties' lang/encoding tags have a difficult history and should be fixed. Some euristics should be found to apply them correctly
 - ignore fields commented in https://github.com/BuddhistDigitalResourceCenter/xmltoldmigration/commit/068af86db28e70b7d7960ce989a0fab35b03f66a (handling it differently in the xsd file so that the xml files still validate)
+- spot overlapping outlines
+- transfer places marked as provisional, like G9GBX33010...
 
 
 ## License
