@@ -58,6 +58,11 @@ public class CommonMigration  {
 	public static final String VOLUMES_PREFIX = "http://purl.bdrc.io/ontology/volumes#";
 	public static final String WORK_PREFIX = "http://purl.bdrc.io/ontology/work#";
 	
+	public static final String BDO = ONTOLOGY_PREFIX;
+    public static final String BDD = DATA_PREFIX;
+    public static final String BDR = RESOURCE_PREFIX;
+    public static final String ADM = ADMIN_PREFIX;
+	
 	public static final int ET_LANG = ExceptionHelper.ET_LANG;
 	
 	public static final EwtsConverter converter = new EwtsConverter();
@@ -259,8 +264,8 @@ public class CommonMigration  {
 	    if (e.getAttribute("work").isEmpty() && e.getAttribute("location").isEmpty() && e.getTextContent().trim().isEmpty()) {
 	        return;
 	    }
-	    String resourceName = getSubResourceName(r, ROOT_PREFIX, "Note", i + 1);
-		Resource note = m.createResource(resourceName);
+		Resource note = m.createResource();
+		// really?
 		m.add(note, RDF.type, m.createProperty(ROOT_PREFIX+"Note"));
 		Property prop = m.createProperty(ROOT_PREFIX+"note");
 		Literal lit;
@@ -350,8 +355,8 @@ public class CommonMigration  {
 	
 	public static void addLogEntry(Model m, Element e, Resource r) {
 		if (e == null) return;
-		Resource logEntry = m.createResource(new AnonId());
-		m.add(logEntry, RDF.type, m.createProperty(ROOT_PREFIX+"LogEntry"));
+		Resource logEntry = m.createResource();
+		m.add(logEntry, RDF.type, m.createProperty(BDO+"LogEntry"));
 		Property prop = m.createProperty(ROOT_PREFIX+"log_entry");
 		m.add(r, prop, logEntry);
 		String value = e.getAttribute("when");
@@ -612,7 +617,7 @@ public class CommonMigration  {
 		case "wadeGiles":
 			return "-x-wade";
 		case "pinyin":
-			return "-x-pinyin";
+			return "-Latn-pinyin";
 		case "libraryOfCongress":
 			return "-x-loc";
 		case "native":

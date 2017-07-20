@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 public class PersonMigration {
 
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String RDFS = CommonMigration.RDFS_PREFIX;
 	private static final String RP = CommonMigration.ROOT_PREFIX;
 	private static final String PP = CommonMigration.PERSON_PREFIX;
@@ -30,7 +31,11 @@ public class PersonMigration {
 	private static String getUriFromTypeSubtype(String type, String subtype) {
 	    switch (type) {
 	    case "name":
-	           return BDO+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	        return BDO+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+        case "gender":
+            return BDO+"Gender"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+        case "event":
+            return BDO+"PersonEvent"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
 	    default:
 	           return "";
 	    }
@@ -90,8 +95,8 @@ public class PersonMigration {
             current = (Element) nodeList.item(i);
             String gender = current.getAttribute("gender");
             if (!gender.isEmpty()) {
-                prop = m.getProperty(PP, "gender");
-                m.add(main, prop, m.createLiteral(gender));
+                prop = m.getProperty(BDO, "personGender");
+                m.add(main, prop, m.getResource(getUriFromTypeSubtype("gender", gender)));
             }
         }
 		
@@ -227,19 +232,18 @@ public class PersonMigration {
 	}
 	
 	public static void addEvent(Model m, Resource person, Element e, int i) {
-		String resourceName = CommonMigration.getSubResourceName(person, PP, "Event", i+1);
-		Resource subResource = m.createResource(resourceName);
+		Resource subResource = m.createResource();
 		String typeValue = e.getAttribute("type");
 		if (typeValue.isEmpty()) {
 		    typeValue = "NotSpecified";
 		    CommonMigration.addException(m, person, "missing type for an event");
 		}
-		typeValue = CommonMigration.normalizePropName(typeValue, "Class");
-		m.add(subResource, RDF.type, m.createProperty(PP+typeValue));
+		m.add(subResource, m.getProperty(BDO+"personEventType"), 
+		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
 		Literal value = m.createLiteral(e.getAttribute("circa"));
-		Property prop = m.getProperty(PP, "event_circa");
+		Property prop = m.getProperty(BDO, "onOrAbout");
 		m.add(subResource, prop, value);
-		m.add(person, m.getProperty(PP+"event"), subResource);
+		m.add(person, m.getProperty(BDO+"personEvent"), subResource);
 	}
 	
 	public static void addKinship(Model m, Resource person, Element e) {
@@ -256,23 +260,22 @@ public class PersonMigration {
 	}
 	
 	public static void addSeat(Model m, Resource person, Element e) {
-		Resource subResource = m.createResource();
-		Resource value = m.createResource(PP+"Seat");
-		m.add(subResource, RDF.type, value);
-		String circa = e.getAttribute("circa");
-		if (circa != null && !circa.isEmpty()) {
-			Property prop = m.getProperty(PP, "seat_circa");
-			m.add(subResource, prop, m.createLiteral(circa));
-		}
+        Resource subResource = m.createResource();
+        m.add(person, m.getProperty(BDO+"personEvent"), subResource);
+        m.add(subResource, m.getProperty(BDO+"personEventType"), 
+                m.createProperty(getUriFromTypeSubtype("event", "occupiesSeat")));
+        String circa = e.getAttribute("circa").trim();
+        if (circa != null && !circa.isEmpty()) {
+            m.add(subResource, m.getProperty(BDO, "onOrAbout"), 
+                    m.createLiteral(circa));
+        }
 		NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			Property prop = m.getProperty(PP, "seat_place");
-			Resource r = m.createResource(PLP+current.getAttribute("pid"));
-			//value = CommonMigration.getLitFromUri(m, PLP+current.getAttribute("pid"));
+			Property prop = m.getProperty(BDO, "personEventPlace");
+			Resource r = m.createResource(BDR+current.getAttribute("pid"));
 			m.add(subResource, prop, r);
 		}
-		m.add(person, m.getProperty(PP+"seat"), subResource);
 	}
 
 }
