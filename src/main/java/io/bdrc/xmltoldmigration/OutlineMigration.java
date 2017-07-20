@@ -1,6 +1,8 @@
 package io.bdrc.xmltoldmigration;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -21,6 +23,75 @@ public class OutlineMigration {
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 
+	public static Map<String,Boolean> ridsToIgnore = new HashMap<>();
+	static {
+        ridsToIgnore.put("O2MS4765", true);
+        ridsToIgnore.put("O2MS5129", true);
+        ridsToIgnore.put("O1TLMXXX000011", true);
+        ridsToIgnore.put("O1TLMXXX000012", true);
+        ridsToIgnore.put("O3JW10074", true);
+        ridsToIgnore.put("O3JW11025", true);
+        ridsToIgnore.put("O3JW11874", true);
+        ridsToIgnore.put("O3JW13595", true);
+        ridsToIgnore.put("O3JW14444", true);
+        ridsToIgnore.put("O3JW15385", true);
+        ridsToIgnore.put("O3JW18061", true);
+        ridsToIgnore.put("O3JW18930", true);
+        ridsToIgnore.put("O3JW19779", true);
+        ridsToIgnore.put("O4CTX297", true);
+        ridsToIgnore.put("O3JW17161", true);
+        ridsToIgnore.put("O2MS4381", true);
+        ridsToIgnore.put("O4JW33589", true);
+        ridsToIgnore.put("O3JW5309", true);
+        ridsToIgnore.put("O5TAX003", true);
+        ridsToIgnore.put("OTX2", true);
+        ridsToIgnore.put("OTX5", true);
+        ridsToIgnore.put("O4CTX325", true);
+        ridsToIgnore.put("O4CTX313", true);
+        ridsToIgnore.put("O4JW296", true);
+        ridsToIgnore.put("O4JW313", true);
+        ridsToIgnore.put("O4CTX298", true);
+        ridsToIgnore.put("O4JW33649", true);
+        ridsToIgnore.put("O10MS13722", true);
+        ridsToIgnore.put("O2MS24613", true);
+        ridsToIgnore.put("O1", true);
+	    ridsToIgnore.put("O5JW1123", true);
+	    ridsToIgnore.put("O5JW1071", true);
+	    ridsToIgnore.put("O9TAXTBRC201605", true);
+	    ridsToIgnore.put("O3JW16234", true);
+	    ridsToIgnore.put("O3JW8867", true);
+	    ridsToIgnore.put("O4JW33751", true);
+	    ridsToIgnore.put("O4CTX296", true);
+	    ridsToIgnore.put("O9TAXTBRC201605S", true);
+	    ridsToIgnore.put("O9TAXTBRC201602", true);
+	    ridsToIgnore.put("O9TAXTBRC201605DLD", true);
+	    ridsToIgnore.put("OTX3", true);
+	    ridsToIgnore.put("O9TAXTBRC201604", true);
+	    ridsToIgnore.put("O5JW1109", true);
+	    ridsToIgnore.put("O1HU51", true);
+	    ridsToIgnore.put("O3JW20628", true);
+	    ridsToIgnore.put("O4JW33653", true);
+	    ridsToIgnore.put("O3JW7994", true);
+        ridsToIgnore.put("O5TAX004", true);
+        ridsToIgnore.put("O4JW33840", true);
+        ridsToIgnore.put("OTX4", true);
+        ridsToIgnore.put("O5JW18", true);
+        ridsToIgnore.put("O10MS19652", true);
+        ridsToIgnore.put("OTX1", true);
+        ridsToIgnore.put("O3JW12746", true);
+        ridsToIgnore.put("O5TAX006", true);
+        ridsToIgnore.put("O4JW33844", true);
+        ridsToIgnore.put("O4JW33784", true);
+        ridsToIgnore.put("O4JW33827", true);
+        ridsToIgnore.put("O5TAX005", true);
+        ridsToIgnore.put("O5TAX002", true);
+        ridsToIgnore.put("O5TAX007", true);
+        ridsToIgnore.put("O5TAX007", true);
+        ridsToIgnore.put("O5TAX001", true);
+        ridsToIgnore.put("O5TAX008", true);
+        ridsToIgnore.put("O4JW5431", true);
+	}
+	
 	// TODO: ignore outlines with type enumeration and taxonomy
 	public static Model MigrateOutline(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
