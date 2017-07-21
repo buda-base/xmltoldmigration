@@ -164,7 +164,7 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(PLACE, "plc:Place");
 		typeToRootShortUri.put(TOPIC, ":Topic");
 		typeToRootShortUri.put(LINEAGE, "lin:Lineage");
-		typeToRootShortUri.put(CORPORATION, "crp:Corporation");
+		typeToRootShortUri.put(CORPORATION, ":Corporation");
 		typeToRootShortUri.put(PRODUCT, "prd:Product");
 		typeToRootShortUri.put(VOLUMES, "vol:Volumes");
 		typeToRootShortUri.put(VOLUME, "vol:Volume");

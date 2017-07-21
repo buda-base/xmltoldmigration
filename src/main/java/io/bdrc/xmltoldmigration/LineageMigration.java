@@ -34,8 +34,7 @@ public class LineageMigration {
             CommonMigration.addException(m, main, "missing lineage type");
         }
 		
-		Property prop = m.getProperty(RP, "status");
-		m.add(main, prop, root.getAttribute("status"));
+		CommonMigration.addStatus(m, main, root.getAttribute("status"));
 		
     	CommonMigration.addNames(m, root, main, LXSDNS);
     	CommonMigration.addNotes(m, root, main, LXSDNS);

@@ -23,10 +23,9 @@ public class CorporationMigration {
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(CRP + root.getAttribute("RID"));
-		m.add(main, RDF.type, m.createResource(CRP + "Corporation"));
-		Property prop = m.getProperty(RP, "status");
-		m.add(main, prop, root.getAttribute("status"));
+		Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
+		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Corporation"));
+		CommonMigration.addStatus(m, main, root.getAttribute("status"));
 		
 		CommonMigration.addNames(m, root, main, CXSDNS);
 		
@@ -44,16 +43,21 @@ public class CorporationMigration {
 		String value = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
+			Resource member = m.createResource();
 			value = current.getAttribute("person");
 			if (value.isEmpty()) continue;
-			Resource person = m.createResource(PP + value);
+			Resource person = m.createResource(CommonMigration.BDR + value);
 			value = current.getAttribute("type").trim();
 			if (value.isEmpty()) {
-				value = "member";
+				value = "notSpecified";
 			}
 			value = CommonMigration.normalizePropName(value, null);
-			prop = m.getProperty(CRP+value);
-			m.add(main, prop, person);
+			value = CommonMigration.BDR+"CorporationMemberType"+value.substring(0, 1).toUpperCase() + value.substring(1);
+			Property prop = m.getProperty(CommonMigration.BDO, "corporationHasMember");
+			m.add(main, prop, member);
+			m.add(member, m.getProperty(CommonMigration.BDO, "corporationMember"), person);
+			m.add(member, m.getProperty(CommonMigration.BDO, "corporationMemberType"), 
+			        m.createResource(value));
 		}
 		
 		// regions (ignoring most attributes)
@@ -64,7 +68,7 @@ public class CorporationMigration {
 			value = current.getAttribute("place");
 			if (!value.isEmpty()) {
 				Resource place = m.createResource(PLP + value);
-				prop = m.getProperty(CRP+"region");
+				Property prop = m.getProperty(CommonMigration.BDO+"corporationRegion");
 				m.add(main, prop, place);
 			}
 		}

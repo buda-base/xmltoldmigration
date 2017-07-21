@@ -1,81 +1,93 @@
 {
   "@graph" : [ {
-    "rdfs:label" : {
-      "@language" : "bo-x-tbrc",
-      "@value" : "bran ka"
-    },
-    "@id" : "crp:C11MS170",
-    "@type" : "crp:Corporation",
-    "crp:member" : {
-      "@id" : "per:P1856"
-    },
-    "crp:region" : {
-      "@id" : "plc:G934"
-    },
-    "status" : "released",
-    "crp:unknown" : {
-      "@id" : "per:P1857"
-    },
-    "desc:noType" : {
-      "@language" : "en",
-      "@value" : "some description"
-    },
-    "migration_exception" : "mixed english + encoding 'tbrcPhonetic' turned into 'en-x-mixed', please convert other language to unicode",
-    "name" : [ {
-      "@language" : "bo-x-tbrc",
-      "@value" : "bran ka"
-    }, {
+    "rdfs:label" : [ {
       "@language" : "en-x-mixed",
       "@value" : "Dranka"
+    }, {
+      "@language" : "bo-x-tbrc",
+      "@value" : "bran ka"
+    } ],
+    "status" : {
+      "@id" : ":StatusReleased"
+    },
+    "@id" : "bdr:C11MS170",
+    "@type" : "Corporation",
+    "corporationHasMember" : [ {
+      "@id" : "_:b3",
+      "corporationMember" : {
+        "@id" : "bdr:P1857"
+      },
+      "corporationMemberType" : {
+        "@id" : "bdr:CorporationMemberTypeUnknown"
+      }
+    }, {
+      "@id" : "_:b4",
+      "corporationMember" : {
+        "@id" : "bdr:P1856"
+      },
+      "corporationMemberType" : {
+        "@id" : "bdr:CorporationMemberTypeNotSpecified"
+      }
+    } ],
+    "corporationRegion" : {
+      "@id" : "plc:G934"
+    },
+    "name" : [ {
+      "@language" : "en-x-mixed",
+      "@value" : "Dranka"
+    }, {
+      "@language" : "bo-x-tbrc",
+      "@value" : "bran ka"
     } ],
     "note" : [ {
-      "@id" : "http://purl.bdrc.io/ontology/root#C11MS170_Note2",
-      "@type" : "Note",
-      "note_content" : {
+      "@id" : "_:b0",
+      "noteText" : {
         "@language" : "en",
         "@value" : "associated w / 11th cent. master, P4CZ15480 ?"
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root#C11MS170_Note1",
-      "@type" : "Note",
-      "note_content" : {
+      "@id" : "_:b2",
+      "noteText" : {
         "@language" : "en",
         "@value" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
       }
     } ],
     "log_entry" : {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
+      "@id" : "_:b1",
+      "logMessage" : {
         "@language" : "en",
         "@value" : "created new corp."
       },
-      "log_when" : {
+      "logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-10-23T10:26:04.725Z"
       },
-      "log_who" : {
+      "logWho" : {
         "@language" : "en",
         "@value" : "Michael Sheehy"
       }
     }
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root#",
-    "crp" : "http://purl.bdrc.io/ontology/corporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "@vocab" : "http://purl.bdrc.io/ontology/",
+    "" : "http://purl.bdrc.io/ontology/",
+    "adm" : ":admin/",
+    "bdd" : "http://purl.bdrc.io/data/",
+    "bdr" : "http://purl.bdrc.io/resource/",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work#",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "crp" : ":corporation#",
+    "prd" : ":product#",
+    "plc" : ":place#",
+    "ofc" : ":office#",
+    "out" : ":outline#",
+    "lin" : ":lineage#",
+    "top" : ":topic#",
+    "wor" : ":work#",
+    "per" : ":person#",
+    "vol" : ":volumes#",
     "desc" : "http://onto.bdrc.io/ontology/description#"
   }
 }

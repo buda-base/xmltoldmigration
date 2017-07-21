@@ -165,20 +165,20 @@ public class MigrationTest
 //        flushLog();
 //    }
 //	
-//	@Test
-//    public void testCorporation()
-//    {
-//	    System.out.println("testing corporation");
-//		Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/CorporationTest.xml");	
-//		Validator validator = MigrationHelpers.getValidatorFor("corporation");
-//        assertTrue(CommonMigration.documentValidates(d, validator));
-//		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
-//		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/CorporationTest.jsonld");
-//		//MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", true);
-//        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-//        flushLog();
-//    }
+	@Test
+    public void testCorporation()
+    {
+	    System.out.println("testing corporation");
+		Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/CorporationTest.xml");	
+		Validator validator = MigrationHelpers.getValidatorFor("corporation");
+        assertTrue(CommonMigration.documentValidates(d, validator));
+		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
+		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/CorporationTest.jsonld");
+		MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", true);
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
+    }
 //	
 //	   @Test
 //	    public void testWork()
@@ -249,7 +249,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "topic");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
