@@ -18,10 +18,9 @@ public class OfficeMigration {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
-		Resource main = m.createResource(OP + root.getAttribute("RID"));
-		m.add(main, RDF.type, m.createResource(OP + "Office"));
-		Property prop = m.getProperty(RP, "status");
-		m.add(main, prop, root.getAttribute("status"));
+		Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
+		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Office"));
+		CommonMigration.addStatus(m, main, root.getAttribute("status"));
 		
 		CommonMigration.addNotes(m, root, main, OXSDNS);
 		

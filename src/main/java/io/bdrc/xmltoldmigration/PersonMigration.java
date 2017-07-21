@@ -20,10 +20,6 @@ public class PersonMigration {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String RDFS = CommonMigration.RDFS_PREFIX;
-	private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String PP = CommonMigration.PERSON_PREFIX;
-	private static final String TP = CommonMigration.TOPIC_PREFIX;
-	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
 	private static String getUriFromTypeSubtype(String type, String subtype) {

@@ -162,13 +162,13 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(WORK, "wor:Work");
 		typeToRootShortUri.put(OUTLINE, "out:Outline");
 		typeToRootShortUri.put(PLACE, "plc:Place");
-		typeToRootShortUri.put(TOPIC, "top:Topic");
+		typeToRootShortUri.put(TOPIC, ":Topic");
 		typeToRootShortUri.put(LINEAGE, "lin:Lineage");
 		typeToRootShortUri.put(CORPORATION, "crp:Corporation");
 		typeToRootShortUri.put(PRODUCT, "prd:Product");
 		typeToRootShortUri.put(VOLUMES, "vol:Volumes");
 		typeToRootShortUri.put(VOLUME, "vol:Volume");
-		typeToRootShortUri.put(OFFICE, "ofc:Office");
+		typeToRootShortUri.put(OFFICE, ":Office");
     }
 	
 	public static Object getFrameObject(String type) {

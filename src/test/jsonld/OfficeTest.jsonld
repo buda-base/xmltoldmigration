@@ -1,28 +1,19 @@
 {
   "@graph" : [ {
     "rdfs:label" : [ {
-      "@language" : "bo",
-      "@value" : "བོན་པོ་ལུང་བླ་མའི་སྐྱེ་བརྒྱུད།"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "bon po lung bla ma'i skye brgyud/"
-    } ],
-    "@id" : "ofc:R8LS12811",
-    "@type" : "ofc:Office",
-    "desc:contents" : [ {
       "@language" : "en",
       "@value" : "Bonpo Lung Lama Tulku Line"
     }, {
-      "@language" : "bo",
-      "@value" : "བོན་པོ་ལུང་བླ་མའི་སྐྱེ་བརྒྱུད།"
-    }, {
       "@language" : "bo-x-ewts",
       "@value" : "bon po lung bla ma'i skye brgyud/"
     } ],
-    "status" : "released",
+    "status" : {
+      "@id" : ":StatusReleased"
+    },
+    "@id" : "bdr:R8LS12811",
+    "@type" : "Office",
     "log_entry" : [ {
       "@id" : "_:b1",
-      "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
         "@value" : "added phonetic title"
@@ -37,7 +28,6 @@
       }
     }, {
       "@id" : "_:b0",
-      "@type" : "LogEntry",
       "log_content" : {
         "@language" : "en",
         "@value" : "created new office"
@@ -53,21 +43,25 @@
     } ]
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root#",
-    "crp" : "http://purl.bdrc.io/ontology/corporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "@vocab" : "http://purl.bdrc.io/ontology/",
+    "" : "http://purl.bdrc.io/ontology/",
+    "adm" : ":admin/",
+    "bdd" : "http://purl.bdrc.io/data/",
+    "bdr" : "http://purl.bdrc.io/resource/",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work#",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "crp" : ":corporation#",
+    "prd" : ":product#",
+    "plc" : ":place#",
+    "ofc" : ":office#",
+    "out" : ":outline#",
+    "lin" : ":lineage#",
+    "top" : ":topic#",
+    "wor" : ":work#",
+    "per" : ":person#",
+    "vol" : ":volumes#",
     "desc" : "http://onto.bdrc.io/ontology/description#"
   }
 }

@@ -129,7 +129,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -225,35 +225,35 @@ public class MigrationTest
 //           flushLog();
 //       }
 //	   
-//       @Test
-//       public void testOffice()
-//       {
-//           System.out.println("testing office");
-//           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/OfficeTest.xml");  
-//           Validator validator = MigrationHelpers.getValidatorFor("office");
-//           assertTrue(CommonMigration.documentValidates(d, validator));
-//           Model fromXml = MigrationHelpers.xmlToRdf(d, "office");
-//           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OfficeTest.jsonld");
-//           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", true);
-//           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-//           flushLog();
-//       }
+       @Test
+       public void testOffice()
+       {
+           System.out.println("testing office");
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/OfficeTest.xml");  
+           Validator validator = MigrationHelpers.getValidatorFor("office");
+           assertTrue(CommonMigration.documentValidates(d, validator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "office");
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OfficeTest.jsonld");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", true);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+           flushLog();
+       }
 //       
-//       @Test
-//       public void testTopic()
-//       {
-//           System.out.println("testing topic");
-//           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/TopicTest.xml");  
-//           Validator validator = MigrationHelpers.getValidatorFor("topic");
-//           assertTrue(CommonMigration.documentValidates(d, validator));
-//           Model fromXml = MigrationHelpers.xmlToRdf(d, "topic");
-//           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
-//           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
-//           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-//           flushLog();
-//       }
+       @Test
+       public void testTopic()
+       {
+           System.out.println("testing topic");
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/TopicTest.xml");  
+           Validator validator = MigrationHelpers.getValidatorFor("topic");
+           assertTrue(CommonMigration.documentValidates(d, validator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "topic");
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+           flushLog();
+       }
 //       
 //       @Test
 //       public void testScanrequest()

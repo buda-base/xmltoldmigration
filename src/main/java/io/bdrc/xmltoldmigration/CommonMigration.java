@@ -414,7 +414,7 @@ public class CommonMigration  {
             }
 			if (type.isEmpty()) type = "noType";
 			String newType = normalizePropName(type, "description");
-			if (newType.equals("__ignore")) continue;
+			if (newType != null && newType.equals("__ignore")) continue;
 			if (newType == null || newType.isEmpty()) {
 			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "unhandled description type: "+type);
 			    continue;
@@ -430,13 +430,14 @@ public class CommonMigration  {
 	            m.add(note, m.getProperty(BDO+"noteText"), l);
 			    continue;
 			}
-			Property prop = m.getProperty(BDO,type);
-			r.addProperty(prop, l);
-			// for product and office the name is the first description type="contents"
-            if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage()) && type.equals("contents")) {
+			// for product and office the name is the first description type="contents", and we don't want to keep it in a description
+            if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage()) && type.equals("work_desc_contents")) {
                 r.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
                 labelDoneForLang.put(l.getLanguage(), true);
+                continue;
             }
+            Property prop = m.getProperty(BDO,type);
+            r.addProperty(prop, l);
 		}
 	}
 	
