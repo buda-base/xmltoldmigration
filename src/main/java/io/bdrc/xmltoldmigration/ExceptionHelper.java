@@ -10,9 +10,9 @@ public class ExceptionHelper {
     // Exception types
     public static final int ET_EWTS = 0;
     public static final int ET_LANG = 1;
-    public static final int ET_DESC = 1;
-    public static final int ET_GEN = 1;
-    public static final int ET_OUTLINE = 1;
+    public static final int ET_DESC = 2;
+    public static final int ET_GEN = 3;
+    public static final int ET_OUTLINE = 4;
     
     public static final Map<Integer, String> logNames = new HashMap<Integer, String>();
     static {
@@ -50,10 +50,11 @@ public class ExceptionHelper {
     }
     
     public static void logException(int type, String RID, String subRID, String propIndication, String error) {
+        //System.out.println(error);
         FileWriter f = getFileWriter(type);
         try {
             f.write("- [ ] ["+RID+"](https://www.tbrc.org/#!rid="+RID+") ");
-            f.write("has problems on property `"+propIndication+"`:"+error);
+            f.write("on property `"+propIndication+"`:"+error+"\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
