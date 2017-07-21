@@ -121,8 +121,19 @@ public class CommonMigration  {
 	
 	public static String normalizeDescription(String desc) {
 	    switch (desc) {
-	    case "chapter": 	          return "chapters";
-	    case "content":               return "contents";
+	    case "chapter": 	          return "work_desc_chapters";
+	    case "chapters":              return "work_desc_chapters";
+	    case "content":               return "work_desc_contents";
+	    case "contents":              return "work_desc_contents";
+	    case "completionDate":        return "work_desc_completionDate";
+	    case "date":                  return "work_desc_date";
+	    case "errata":                return "work_desc_errata";
+	    case "extent":                return "work_desc_extent";
+	    case "id":                    return "work_desc_id";
+	    case "libraryOfCongress":     return "work_desc_libraryOfCongress";
+	    case "location":              return "work_desc_location";
+	    case "remarks":               return "work_desc_remarks";
+	    case "room":                  return "work_desc_room";
 	    case "snar_bstan_number":     return "workKaTenSiglaN";
 	    case "snr_thang_number":      return "workKaTenSiglaN";
 	    case "snar_thang_number":     return "workKaTenSiglaN"; 
@@ -135,9 +146,10 @@ public class CommonMigration  {
 	    case "gser_bri_number":       return "workKaTenSiglaG";
 	    case "gser_bris_nimber":      return "workKaTenSiglaG";
 	    case "gser_bris_number":      return "workKaTenSiglaG";
-	    case "colopho":               return "colophon";
-	    case "colophn":               return "colophon";
-	    case "colophone":             return "colophon";
+	    case "colopho":               return "workColophon";
+	    case "colophon":              return "workColophon";
+	    case "colophn":               return "workColophon";
+	    case "colophone":             return "workColophon";
         case "sde_gde_number":        return "workKaTenSiglaD";
         case "de_dge_number":         return "workKaTenSiglaD";
         case "sdg_dge_number":        return "workKaTenSiglaD";
@@ -160,46 +172,25 @@ public class CommonMigration  {
 	    case "urga_number":           return "workKaTenSiglaU";
 	    case "IsIAO":                 return "workRefIsIAO";
 	    case "catalogue_number":      return "workRefChokLing";
+        case "nameLex":               return "place_name_lex";
+        case "nameKR":                return "place_name_kr";
+        case "gbdist":                return "place_gb_dist";
+        case "town_syl":              return "place_town_syl";
+        case "town_py":               return "place_town_py";
+        case "town_ch":               return "place_town_ch";
+        case "prov_py":               return "place_prov_py";
+        case "gonpaPerEcumen":        return "place_gonpa_per1000";
+        case "gonpaPer1000":          return "place_gonpa_perEcumen";
+        case "dist_py":               return "place_dist_py";
+        case "ondisk":
+        case "onDisk":
+        case "dld":
+        case "dpl480":
+        case "featured":
+            return "__ignore";
 	    default:
-	        return desc;
+	        return null;
 	    }
-	}
-
-	public static String addPrefixToDescription(String type) {
-	    switch (type) {
-        case "workKaTenSiglaBon":
-        case "workRefChokLing":
-        case "workKaTenSiglaG":
-        case "workKaTenSiglaH":
-        case "workKaTenSiglaQ":
-        case "workKaTenRefrKTs":
-        case "workKaTenSiglaD":
-        case "workKaTenSiglaZ":
-        case "workKaTenSiglaN":
-        case "workKaTenSiglaS":
-        case "workKaTenRefToh":
-        case "workKaTenSiglaU":
-        case "workRefIsIAO":
-        case "libraryOfCongress":
-        case "extent":
-        case "chapters":
-        case "incipit":
-        case "colophon":
-            return OUTLINE_PREFIX+type;
-        case "nameLex":
-        case "nameKR":
-        case "gbdist":
-        case "town_syl":
-        case "town_py":
-        case "town_ch":
-        case "prov_py":
-        case "gonpaPerEcumen":
-        case "gonpaPer1000":
-        case "dist_py":
-            return PLACE_PREFIX+type;
-        default:
-            return DESCRIPTION_PREFIX+type;
-        }
 	}
 	
 	public static Literal getLitFromUri(Model m, String uri) {
@@ -303,7 +294,6 @@ public class CommonMigration  {
 	
 	public static void addExternal(Model m, Element e, Resource r, int i) {
 		Resource ext = m.createResource();
-		m.add(ext, RDF.type, m.getProperty(BDO+"External"));
 		Property prop = m.createProperty(BDO+"external");
 		Literal lit;
 		m.add(r, prop, ext);
@@ -353,7 +343,8 @@ public class CommonMigration  {
 			try {
 			    m.add(logEntry, prop, literalFromXsdDate(m, value));
 			} catch (DatatypeFormatException ex) {
-			    addException(m, logEntry, "cannot convert log date properly, original date: '"+value+"'");
+			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+value+"`");
+			    
 			}
 		}
 		value = normalizeString(e.getAttribute("who"));
@@ -422,11 +413,16 @@ public class CommonMigration  {
                 current.setTextContent(current.getTextContent().replace(placeId, ""));
             }
 			if (type.isEmpty()) type = "noType";
-			type = normalizePropName(type, "description");
+			String newType = normalizePropName(type, "description");
+			if (newType.equals("__ignore")) continue;
+			if (newType == null || newType.isEmpty()) {
+			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "unhandled description type: "+type);
+			    continue;
+			}
+			type = newType;
 			// onDisk is treated separately in imageGroups, TODO: check if it appears somewhere else
-			if (type.equals("ondisk") || type.equals("onDisk")) continue;
 			if (type.equals("date")) 
-			    addException(m, r, "resource contains a date description that should be changed into something meaningful");
+			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "a description of type date should be changed into something meaningful");
 			if (type.equals("note")) {
 		        Resource note = m.createResource();
 		        m.add(note, RDF.type, m.createProperty(BDO+"Note"));
@@ -434,7 +430,7 @@ public class CommonMigration  {
 	            m.add(note, m.getProperty(BDO+"noteText"), l);
 			    continue;
 			}
-			Property prop = m.getProperty(addPrefixToDescription(type));
+			Property prop = m.getProperty(BDO,type);
 			r.addProperty(prop, l);
 			// for product and office the name is the first description type="contents"
             if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage()) && type.equals("contents")) {
@@ -493,14 +489,14 @@ public class CommonMigration  {
                try {
                    int intval = Integer.parseInt(value);
                    if (intval < 1) {
-                       addException(m, main, "in location: '"+propname+"' must be a positive integer, got '"+value+"'");
+                       ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "location", "`"+propname+"` must be a positive integer, got `"+value+"`");
                        m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createLiteral(value));
                    } else {
                        m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
                        res = intval;
                    }
                } catch (NumberFormatException e) {
-                   addException(m, main, "in location: '"+propname+"' must be a positive integer, got '"+value+"'");
+                   ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "location", "`"+propname+"` must be a positive integer, got `"+value+"`");
                    m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createLiteral(value));
                }
            }
@@ -534,9 +530,7 @@ public class CommonMigration  {
                        m.add(main, m.getProperty(propname2), loc);
                        break;
                    case 2:
-                       addException(m, main, "too many locations, it should only have 2");
-                       //System.err.println(main.getLocalName()+" has 3 or more locations");
-                       //System.err.println("- [ ] ["+localName+"](https://www.tbrc.org/#library_work_ViewByOutline-"+localName+"|"+workId+") has invalid location");
+                       ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "too many locations, it should only have 2");
                    default:
                        m.add(main, m.getProperty(propname), loc);
                    }
@@ -552,15 +546,12 @@ public class CommonMigration  {
                int volume = addLocationIntOrString(m, main, loc, current, "vol", "volume");
                if (i == 0) volume1 = volume;
                if (i == 1 && propname1 != null && volume != -1 && volume1 != -1 && volume < volume1) {
-                   addException(m, main, "end location volume is before beginning location volume");
-                   //System.err.println("- [ ] ["+localName+"](https://www.tbrc.org/#library_work_ViewByOutline-"+localName+"|"+workId+") begins at volume "+volume1+", end at volume "+volume);
+                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location volume is before beginning location volume");
                }
                int page = addLocationIntOrString(m, main, loc, current, "page", "page");
                if (i == 0) page1 = page;
                if (i == 1 && propname1 != null && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
-                   addException(m, main, "end location page is before beginning location");
-                   // System.err.println(main.getLocalName()+" begins at page "+page1+", end at page "+page);d
-                   //System.err.println("- [ ] ["+localName+"](https://www.tbrc.org/#library_work_ViewByOutline-"+localName+"|"+workId+") begins at page "+page1+", end at page "+page+" of volume "+volume1);
+                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location page is before beginning location");
                }
                addLocationIntOrString(m, main, loc, current, "phrase", "phrase");
                addLocationIntOrString(m, main, loc, current, "line", "line");
@@ -907,7 +898,7 @@ public class CommonMigration  {
 	public static List<Element> getChildrenByTagName(Element parent, String xsdPrefix, String name) {
 	    List<Element> nodeList = new ArrayList<Element>();
 	    for (Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
-			if (child.getNodeType() == Node.ELEMENT_NODE&& name.equals(child.getLocalName())) {
+			if (child.getNodeType() == Node.ELEMENT_NODE && name.equals(child.getLocalName())) {
 				nodeList.add((Element) child);
 			}
 		}

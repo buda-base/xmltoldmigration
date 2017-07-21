@@ -1,18 +1,22 @@
 {
   "@graph" : [ {
     "rdfs:label" : [ {
+      "@language" : "zh",
+      "@value" : "隆钦热降巴·赤墨俄色"
+    }, {
       "@language" : "bo-x-ewts",
       "@value" : "dri med 'od zer/"
     }, {
-      "@language" : "bo",
-      "@value" : "དྲི་མེད་འོད་ཟེར།"
+      "@language" : "en",
+      "@value" : "Drime Oser"
     } ],
-    "status" : "released",
-    "@id" : "per:P1583",
-    "@type" : "per:Person",
+    "status" : {
+      "@id" : ":StatusReleased"
+    },
+    "@id" : "bdr:P1583",
+    "@type" : "Person",
     "external" : {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_External1",
-      "@type" : "External",
+      "@id" : "_:b3",
       "external_content" : {
         "@language" : "en",
         "@value" : "External example"
@@ -22,345 +26,195 @@
         "@value" : "http://example.com"
       }
     },
-    "migration_exception" : [ "missing type for an event", "missing kinship type", "no RID for incarnation, text reads: \"ignoring string\"", "teacherOf value contains unparsed strings: \"#L204a\"" ],
     "note" : [ {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note3",
-      "@type" : "Note",
-      "note_location" : "p. 77",
-      "note_work" : {
-        "@id" : "wor:W19801"
-      }
-    }, {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note2",
-      "@type" : "Note",
-      "note_content" : {
+      "@id" : "_:b17",
+      "noteText" : {
         "@language" : "en",
         "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note4",
-      "@type" : "Note",
-      "note_location" : "p. 6",
-      "note_work" : {
-        "@id" : "wor:W19822"
+      "@id" : "_:b2",
+      "noteLoc" : "p. 77",
+      "noteWork" : {
+        "@id" : "bdr:W19801"
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note5",
-      "@type" : "Note",
-      "note_content" : {
+      "@id" : "_:b14",
+      "noteText" : {
         "@language" : "en",
         "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note1",
-      "@type" : "Note",
-      "note_content" : {
+      "@id" : "_:b10",
+      "noteLoc" : "p. 6",
+      "noteWork" : {
+        "@id" : "bdr:W19822"
+      }
+    }, {
+      "@id" : "_:b12",
+      "noteLoc" : "v. 2, pp.104-112",
+      "noteText" : {
         "@language" : "en",
         "@value" : "biography\ndates: 1308-1363"
       },
-      "note_location" : "v. 2, pp.104-112",
-      "note_work" : {
-        "@id" : "wor:W25268"
+      "noteWork" : {
+        "@id" : "bdr:W25268"
       }
     }, {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1583_Note6",
-      "@type" : "Note",
-      "note_content" : {
+      "@id" : "_:b18",
+      "noteLoc" : "251",
+      "noteText" : {
         "@language" : "en",
         "@value" : "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."
       },
-      "note_location" : "251",
-      "note_work" : {
-        "@id" : "wor:W27401"
+      "noteWork" : {
+        "@id" : "bdr:W27401"
       }
     } ],
-    "per:commonName" : [ {
-      "@language" : "bo",
-      "@value" : "ཀློང་ཆེན་པ།"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "klong chen pa/"
-    } ],
-    "per:event" : [ {
-      "@id" : "per:P1583_Event2",
-      "@type" : "per:NotSpecified",
-      "per:event_circa" : "1364"
-    }, {
-      "@id" : "per:P1583_Event1",
-      "@type" : "per:Birth",
-      "per:event_circa" : "1308"
-    } ],
-    "per:gender" : "male",
-    "per:hasMother" : {
-      "@id" : "per:P1585"
-    },
-    "per:hasUnknownKinship" : {
-      "@id" : "per:P1584"
-    },
-    "per:incarnationOf" : [ {
-      "@id" : "per:P1583_IncarnationOf2",
-      "@type" : "per:IncarnationOf",
-      "per:incarnationOf_being" : {
-        "@id" : "per:P561654"
+    "personEvent" : [ {
+      "@id" : "_:b15",
+      "personEventPlace" : {
+        "@id" : "bdr:G521"
       },
-      "per:incarnationOf_secondary" : "mind"
-    }, {
-      "@id" : "per:P1583_IncarnationOf1",
-      "@type" : "per:IncarnationOf",
-      "per:incarnationOf_being" : {
-        "@id" : "per:UNKNOWN"
-      },
-      "per:incarnationOf_relation" : "yangtse"
-    } ],
-    "per:ofSect" : {
-      "@id" : "top:T1234"
-    },
-    "per:personalName" : [ {
-      "@language" : "bo",
-      "@value" : "ཚུལ་ཁྲིམས་བློ་གྲོས།"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "tshul khrims blo gros/"
-    } ],
-    "per:primaryName" : [ {
-      "@language" : "bo",
-      "@value" : "དྲི་མེད་འོད་ཟེར།"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "dri med 'od zer/"
-    }, {
-      "@language" : "zh",
-      "@value" : "隆钦热降巴·赤墨俄色"
-    } ],
-    "per:primaryTitle" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "klong chen rab 'byams pa dri med 'od zer/"
-    }, {
-      "@language" : "bo",
-      "@value" : "ཀློང་ཆེན་རབ་འབྱམས་པ་དྲི་མེད་འོད་ཟེར།"
-    } ],
-    "per:seat" : {
-      "@id" : "_:b2",
-      "@type" : "per:Seat",
-      "per:seat_place" : {
-        "@id" : "plc:G521"
-      }
-    },
-    "per:secretInitiatoryName" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "rgyal sras thugs mchog rtsal/"
-    }, {
-      "@language" : "bo",
-      "@value" : "རྒྱལ་སྲས་ཐུགས་མཆོག་རྩལ།"
-    } ],
-    "per:studentOf" : [ {
-      "@id" : "per:P1588"
-    }, {
-      "@id" : "per:P1587"
-    }, {
-      "@id" : "per:P2JM188"
-    }, {
-      "@id" : "per:P2JM187"
-    }, {
-      "@id" : "per:P1584"
-    }, {
-      "@id" : "per:P2JM184"
-    }, {
-      "@id" : "per:P2JM183"
-    }, {
-      "@id" : "per:P144"
-    }, {
-      "@id" : "per:P2JM189"
-    }, {
-      "@id" : "per:P2JM185"
-    }, {
-      "@id" : "per:P4312"
-    }, {
-      "@id" : "per:P1586"
-    }, {
-      "@id" : "per:P403"
-    }, {
-      "@id" : "per:P4860"
-    }, {
-      "@id" : "per:P2JM186"
-    }, {
-      "@id" : "per:P2349"
-    }, {
-      "@id" : "per:P66"
-    }, {
-      "@id" : "per:P2JM191"
-    }, {
-      "@id" : "per:P2JM190"
-    }, {
-      "@id" : "per:P2085"
-    }, {
-      "@id" : "per:P1226"
-    } ],
-    "per:teacherOf" : [ {
-      "@id" : "per:P8527"
-    }, {
-      "@id" : "per:P2JM200"
-    }, {
-      "@id" : "per:P0RK839"
-    }, {
-      "@id" : "per:P0RK1190"
-    }, {
-      "@id" : "per:P2JM201"
-    }, {
-      "@id" : "per:P2JM205"
-    }, {
-      "@id" : "per:P2JM193"
-    }, {
-      "@id" : "per:P2JM196"
-    }, {
-      "@id" : "per:P2JM204"
-    }, {
-      "@id" : "per:P5092"
-    }, {
-      "@id" : "per:P2JM199"
-    }, {
-      "@id" : "per:P2JM198"
-    }, {
-      "@id" : "per:P8784"
-    }, {
-      "@id" : "per:P314"
-    }, {
-      "@id" : "per:P8764"
-    }, {
-      "@id" : "per:P5911"
-    }, {
-      "@id" : "per:P0RK1192"
-    }, {
-      "@id" : "per:P7091"
-    }, {
-      "@id" : "per:P0RK783"
-    }, {
-      "@id" : "per:P0RK1191"
-    }, {
-      "@id" : "per:P2JM203"
-    }, {
-      "@id" : "per:P2JM207"
-    }, {
-      "@id" : "per:P2JM202"
-    }, {
-      "@id" : "per:P2JM206"
-    }, {
-      "@id" : "per:P8528"
-    }, {
-      "@id" : "per:P2JM195"
-    }, {
-      "@id" : "per:P6861"
-    }, {
-      "@id" : "per:P2JM197"
-    }, {
-      "@id" : "per:P2JM192"
-    } ],
-    "per:title" : [ {
-      "@language" : "bo",
-      "@value" : "ཀློང་ཆེན་རབ་འབྱམས།"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "bsam yas lung mang ba/"
-    }, {
-      "@language" : "bo",
-      "@value" : "བསམ་ཡས་ལུང་མང་བ།"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "klong chen rab 'byams/"
-    } ],
-    "log_entry" : [ {
-      "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added records"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2008-07-02T17:03:41.75Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Joe McClellan"
-      }
-    }, {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "corrected title and name variant designations"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-08-23T16:40:14.673Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Jeff Wallman"
+      "personEventType" : {
+        "@id" : "bdr:PersonEventOccupiesSeat"
       }
     }, {
       "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "edited names"
+      "onOrAbout" : "1364",
+      "personEventType" : {
+        "@id" : "bdr:PersonEventNotSpecified"
+      }
+    }, {
+      "@id" : "_:b13",
+      "onOrAbout" : "1308",
+      "personEventType" : {
+        "@id" : "bdr:PersonEventBirth"
+      }
+    } ],
+    "personGender" : {
+      "@id" : "bdr:GenderMale"
+    },
+    "personIsIncarnation" : [ {
+      "@id" : "_:b9",
+      "personIncarnationOf" : {
+        "@id" : "bdr:P561654"
+      }
+    }, {
+      "@id" : "_:b8",
+      "personIncarnationOf" : {
+        "@id" : "bdr:UNKNOWN_Person"
       },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2011-07-01T04:41:07.905Z"
+      "personIncarnationOfType" : {
+        "@id" : "bdr:IncarnationTypeYangtse"
+      }
+    } ],
+    "personKin" : [ {
+      "@id" : "_:b19",
+      "personKinType" : {
+        "@id" : "bdr:KinUnspecified"
       },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Michael Sheehy"
+      "personKinWho" : {
+        "@id" : "bdr:P1584"
       }
     }, {
       "@id" : "_:b5",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name rgyal sras thugs mchog rtsal"
+      "personKinType" : {
+        "@id" : "bdr:KinHasMother"
       },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-10-22T18:31:49.12Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Karma Gongde"
+      "personKinWho" : {
+        "@id" : "bdr:P1585"
       }
-    }, {
+    } ],
+    "personName" : [ {
       "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added name in chinese"
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "klong chen rab 'byams pa dri med 'od zer/"
       },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2011-08-02T16:53:12.77Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chungdak Nangpa"
+      "personName" : {
+        "@id" : "bdr:PersonPrimaryTitle"
       }
     }, {
-      "@id" : "_:b6",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "bcos"
+      "@id" : "_:b4",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "tshul khrims blo gros/"
       },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2011-04-27T12:51:43.397Z"
+      "personName" : {
+        "@id" : "bdr:PersonPersonalName"
+      }
+    }, {
+      "@id" : "_:b20",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "klong chen pa/"
       },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Paldor"
+      "personName" : {
+        "@id" : "bdr:PersonCommonName"
       }
     }, {
       "@id" : "_:b7",
-      "@type" : "LogEntry",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "rgyal sras thugs mchog rtsal/"
+      },
+      "personName" : {
+        "@id" : "bdr:PersonSecretInitiatoryName"
+      }
+    }, {
+      "@id" : "_:b11",
+      "name" : [ {
+        "@language" : "zh",
+        "@value" : "隆钦热降巴·赤墨俄色"
+      }, {
+        "@language" : "en",
+        "@value" : "Drime Oser"
+      }, {
+        "@language" : "bo-x-ewts",
+        "@value" : "dri med 'od zer/ 2"
+      }, {
+        "@language" : "bo-x-ewts",
+        "@value" : "dri med 'od zer/"
+      } ],
+      "personName" : {
+        "@id" : "bdr:PersonPrimaryName"
+      }
+    }, {
+      "@id" : "_:b16",
+      "name" : [ {
+        "@language" : "bo-x-ewts",
+        "@value" : "bsam yas lung mang ba/"
+      }, {
+        "@language" : "bo-x-ewts",
+        "@value" : "klong chen rab 'byams/"
+      } ],
+      "personName" : {
+        "@id" : "bdr:PersonTitle"
+      }
+    } ],
+    "personOfSect" : {
+      "@id" : "bdr:T1234"
+    },
+    "personTeacherOf" : [ {
+      "@id" : "bdr:P0RK1190"
+    }, {
+      "@id" : "bdr:P0RK839"
+    }, {
+      "@id" : "bdr:P2JM207"
+    }, {
+      "@id" : "bdr:P314"
+    }, {
+      "@id" : "bdr:P7091"
+    }, {
+      "@id" : "bdr:P0RK1191"
+    }, {
+      "@id" : "bdr:P0RK783"
+    }, {
+      "@id" : "bdr:P0RK1192"
+    } ],
+    "log_entry" : {
+      "@id" : "_:b6",
       "log_content" : {
         "@language" : "en",
         "@value" : "added records"
@@ -373,39 +227,28 @@
         "@language" : "en",
         "@value" : "Joe McClellan"
       }
-    }, {
-      "@id" : "_:b8",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "edited note"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-06-11T09:58:04.367Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Michael R. Sheehy"
-      }
-    } ]
+    }
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root#",
-    "crp" : "http://purl.bdrc.io/ontology/corporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "@vocab" : "http://purl.bdrc.io/ontology/",
+    "" : "http://purl.bdrc.io/ontology/",
+    "adm" : ":admin/",
+    "bdd" : "http://purl.bdrc.io/data/",
+    "bdr" : "http://purl.bdrc.io/resource/",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work#",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
+    "crp" : ":corporation#",
+    "prd" : ":product#",
+    "plc" : ":place#",
+    "ofc" : ":office#",
+    "out" : ":outline#",
+    "lin" : ":lineage#",
+    "top" : ":topic#",
+    "wor" : ":work#",
+    "per" : ":person#",
+    "vol" : ":volumes#",
     "desc" : "http://onto.bdrc.io/ontology/description#"
   }
 }

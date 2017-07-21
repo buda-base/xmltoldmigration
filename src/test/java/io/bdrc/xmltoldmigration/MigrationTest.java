@@ -130,7 +130,7 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
     	MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
-        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }

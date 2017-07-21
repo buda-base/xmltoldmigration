@@ -26,35 +26,37 @@ public class PersonMigration {
 	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
-	private static Map<String,Resource> typeNodes = new HashMap<>();
-	
 	private static String getUriFromTypeSubtype(String type, String subtype) {
 	    switch (type) {
 	    case "name":
-	        return BDO+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	        return BDR+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "gender":
-            return BDO+"Gender"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+            return BDR+"Gender"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "event":
-            return BDO+"PersonEvent"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+            return BDR+"PersonEvent"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+        case "incarnationOf":
+            return BDR+"IncarnationType"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+        case "kin":
+            return BDR+"Kin"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
 	    default:
 	           return "";
 	    }
 	}
 	
-   private static String getPropertyFromType(String type) {
+   private static String getPropertyFromType(Map<String,Resource> typeNodes, String type) {
         return "person"+type.substring(0, 1).toUpperCase() + type.substring(1);
     }
 	
-	private static Resource createFromType(Model m, Resource main, Property p, String type, String subtype) {
+	private static Resource createFromType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
 	    Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
 	    Resource r = m.createResource();
-	    r.addProperty(m.getProperty(BDO+getPropertyFromType(type)), typeIndividual);
+	    r.addProperty(m.getProperty(BDO+getPropertyFromType(typeNodes, type)), typeIndividual);
 	    main.addProperty(p, r);
 	    return r;
 	}
 	
-	private static Resource getResourceForType(Model m, Resource main, Property p, String type, String subtype) {
-	    return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(m, main, p, type, t));
+	private static Resource getResourceForType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
+	    return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(typeNodes, m, main, p, type, t));
 	}
 	
 	public static Model MigratePerson(Document xmlDocument) {
@@ -63,9 +65,11 @@ public class PersonMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String RID = root.getAttribute("RID");
-		Resource main = m.createResource(PP + RID);
-		m.add(main, RDF.type, m.createResource(PP + "Person"));
+		Resource main = m.createResource(BDR + RID);
+		m.add(main, RDF.type, m.createResource(BDO + "Person"));
 		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		
+		Map<String,Resource> typeNodes = new HashMap<>();
 		
 		// names
 		
@@ -79,7 +83,7 @@ public class PersonMigration {
 			String type = current.getAttribute("type").trim();
 			if (type.isEmpty())
 			    type = "primaryName";
-			Resource r = getResourceForType(m, main, prop, "name", type);
+			Resource r = getResourceForType(typeNodes, m, main, prop, "name", type);
 			Literal l = CommonMigration.getLiteral(current, "bo-x-ewts", m, type, RID, null);
 			r.addProperty(nameProp, l);
 			if (!labelDoneForLang.computeIfAbsent(l.getLanguage(), (s) -> false)) {
@@ -121,48 +125,48 @@ public class PersonMigration {
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "teacherOf");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			prop = m.getProperty(PP, "teacherOf");
+			prop = m.getProperty(BDO, "personTeacherOf");
 			String val = current.getAttribute("pid");
 			if (val.isEmpty()) continue;
 			if (val.contains(" ")) {
 			    String [] parts = val.split(" ");
 			    for (String part: parts) {
 			        if (part.startsWith("#")) {
-                        CommonMigration.addException(m, main, "teacherOf value contains unparsed strings: \""+part+"\"");
+			            ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "teacherOf", "value contains unparsed strings: `"+part+"`");
                         continue;
                     }
 			        if (!part.startsWith("P")) {
-			            System.err.println("cannot parse '"+val+"' correctly");
+			            ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "teacherOf", "cannot parse `"+val+"` correctly");
 			            continue;
 			        }
-			        m.add(main, prop, m.createResource(PP+part));
+			        m.add(main, prop, m.createResource(BDR+part));
 			    }
 			} else {
-			    m.add(main, prop, m.createResource(PP+val)); 
+			    m.add(main, prop, m.createResource(BDR+val)); 
 			}
 		}
         
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "studentOf");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            prop = m.getProperty(PP, "studentOf");
+            prop = m.getProperty(BDO, "studentOf");
             String val = current.getAttribute("pid");
             if (val.isEmpty()) continue;
             if (val.contains(" ")) {
                 String [] parts = val.split(" ");
                 for (String part: parts) {           
                     if (part.startsWith("#")) {
-                        CommonMigration.addException(m, main, "studentOf value contains unparsed strings: "+part);
+                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "studentOf", "value contains unparsed strings: `"+part+"`");
                         continue;
                     }
                     if (!part.startsWith("P")) {
-                        System.err.println("cannot parse '"+val+"' correctly");
+                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "studentOf", "cannot parse `"+val+"` correctly");
                         continue;
                     }
-                    m.add(main, prop, m.createResource(PP+part));
+                    m.add(main, prop, m.createResource(BDR+part));
                 }
             } else {
-                m.add(main, prop, m.createResource(PP+val)); 
+                m.add(main, prop, m.createResource(BDR+val)); 
             }
         }
 		
@@ -179,8 +183,8 @@ public class PersonMigration {
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "ofSect");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			prop = m.getProperty(PP, "ofSect");
-			m.add(main, prop, m.createResource(TP+current.getAttribute("sect")));
+			prop = m.getProperty(BDO, "personOfSect");
+			m.add(main, prop, m.createResource(BDR+current.getAttribute("sect")));
 		}
 		
 		// incarnationOf
@@ -201,34 +205,32 @@ public class PersonMigration {
 	}
 	
 	public static void addIncarnation(Model m, Resource r, Element e, int i) {
-		String resourceName = CommonMigration.getSubResourceName(r, PP, "IncarnationOf", i+1);
-		Resource incarnationOf = m.createResource(resourceName);
-		m.add(incarnationOf, RDF.type, m.createProperty(PP+"IncarnationOf"));
-		m.add(r, m.getProperty(PP+"incarnationOf"), incarnationOf);
+		Resource incarnationOf = m.createResource();
+		m.add(r, m.getProperty(BDO, "personIsIncarnation"), incarnationOf);
 		String value = e.getAttribute("being").trim();
 		if (value.isEmpty()) {
-		    CommonMigration.addException(m, r, "no RID for incarnation, text reads: \""+e.getTextContent()+"\"");
-		    value = PP+"UNKNOWN";
+		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "incarnationOf", "no RID for incarnation, text reads: `"+e.getTextContent()+"`");
+		    value = BDR+"UNKNOWN_Person";
 		} else {
-		    value = CommonMigration.getPrefixFromRID(value)+value;
+		    value = BDR+value;
 		}
         Resource being = m.createResource(value);
-        Property prop = m.getProperty(PP, "incarnationOf_being");
+        Property prop = m.getProperty(BDO, "personIncarnationOf");
         m.add(incarnationOf, prop, being);
         
 		value = e.getAttribute("relation");
 		if (value != null && !value.isEmpty()) {
 		    if (value.equals("yangsi")) value = "yangtse";
-			prop = m.getProperty(PP, "incarnationOf_relation");
-			m.add(incarnationOf, prop, m.createLiteral(value));
+			prop = m.getProperty(BDO, "personIncarnationOfType");
+			String uri = getUriFromTypeSubtype("incarnationOf", value);
+			m.add(incarnationOf, prop, m.getResource(uri));
 		}
-		value = e.getAttribute("secondary");
-		if (value != null && !value.isEmpty()) {
-		    if (value.equals("yangsi")) value = "yangtse";
-			prop = m.getProperty(PP, "incarnationOf_secondary");
-			m.add(incarnationOf, prop, m.createLiteral(value));
-		}
-		
+//		value = e.getAttribute("secondary");
+//		if (value != null && !value.isEmpty()) {
+//		    if (value.equals("yangsi")) value = "yangtse";
+//			prop = m.getProperty(PP, "incarnationOf_secondary");
+//			m.add(incarnationOf, prop, m.createLiteral(value));
+//		}
 	}
 	
 	public static void addEvent(Model m, Resource person, Element e, int i) {
@@ -236,7 +238,7 @@ public class PersonMigration {
 		String typeValue = e.getAttribute("type");
 		if (typeValue.isEmpty()) {
 		    typeValue = "NotSpecified";
-		    CommonMigration.addException(m, person, "missing type for an event");
+		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, person.getLocalName(), person.getLocalName(), "event", "missing type");
 		}
 		m.add(subResource, m.getProperty(BDO+"personEventType"), 
 		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
@@ -247,16 +249,18 @@ public class PersonMigration {
 	}
 	
 	public static void addKinship(Model m, Resource person, Element e) {
+	    Resource subResource = m.createResource();
+	    person.addProperty(m.getProperty(BDO+"personKin"), subResource);
 		String relation = e.getAttribute("relation");
 		if (relation.isEmpty()) {
-		    CommonMigration.addException(m, person, "missing kinship type");
-		    relation = "hasUnknownKinship";
+		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, person.getLocalName(), person.getLocalName(), "kinship", "missing kinship type");
+		    relation = "unspecified";
 		}
+		relation = getUriFromTypeSubtype("kin", relation);
 		String with = e.getAttribute("person");
-		Property prop;
-		prop = m.createProperty(PP+relation);
-		Resource r = m.createResource(PP+with);
-		m.add(person, prop, r);
+		Resource r = m.createResource(BDR+with);
+		subResource.addProperty(m.getProperty(BDO, "personKinType"), m.createResource(relation));
+		subResource.addProperty(m.getProperty(BDO, "personKinWho"), r);
 	}
 	
 	public static void addSeat(Model m, Resource person, Element e) {

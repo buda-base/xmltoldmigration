@@ -158,7 +158,7 @@ public class MigrationHelpers {
 
 	public static Map<String,String> typeToRootShortUri = new HashMap<String,String>();
 	static {
-		typeToRootShortUri.put(PERSON, "per:Person");
+		typeToRootShortUri.put(PERSON, ":Person");
 		typeToRootShortUri.put(WORK, "wor:Work");
 		typeToRootShortUri.put(OUTLINE, "out:Outline");
 		typeToRootShortUri.put(PLACE, "plc:Place");

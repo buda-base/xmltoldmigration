@@ -10,11 +10,17 @@ public class ExceptionHelper {
     // Exception types
     public static final int ET_EWTS = 0;
     public static final int ET_LANG = 1;
+    public static final int ET_DESC = 1;
+    public static final int ET_GEN = 1;
+    public static final int ET_OUTLINE = 1;
     
     public static final Map<Integer, String> logNames = new HashMap<Integer, String>();
     static {
         logNames.put(ET_EWTS, "errors-ewts.log");
-        logNames.put(ET_EWTS, "errors-lang.log");
+        logNames.put(ET_LANG, "errors-lang.log");
+        logNames.put(ET_DESC, "errors-desc.log");
+        logNames.put(ET_GEN, "errors-gen.log");
+        logNames.put(ET_OUTLINE, "errors-outline.log");
     }
     
     public static final Map<Integer, FileWriter> writers = new HashMap<Integer, FileWriter>();
