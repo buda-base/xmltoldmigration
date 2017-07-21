@@ -3,8 +3,10 @@ package io.bdrc.xmltoldmigration;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.xml.transform.Source;
@@ -254,8 +256,8 @@ public class CommonMigration  {
 	    }
 		Resource note = m.createResource();
 		// really?
-		m.add(note, RDF.type, m.createProperty(ROOT_PREFIX+"Note"));
-		Property prop = m.createProperty(ROOT_PREFIX+"note");
+		//m.add(note, RDF.type, m.getProperty(BDO, "Note"));
+		Property prop = m.getProperty(BDO, "note");
 		Literal lit;
 		if (p == null) {
 		    m.add(r, prop, note);
@@ -268,21 +270,19 @@ public class CommonMigration  {
 		}
 		String value = e.getAttribute("work");
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"note_work");
-			m.add(note, prop, m.createResource(WORK_PREFIX+value));
+			prop = m.getProperty(BDO, "noteWork");
+			m.add(note, prop, m.createResource(BDR+value));
 		}
 		value = e.getAttribute("location");
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"note_location");
+			prop = m.getProperty(BDO, "noteLoc");
 			lit = m.createLiteral(value);
 			m.add(note, prop, lit);
 		}
-		value = normalizeString(e.getTextContent(), true);
-		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"note_content");
-			lit = m.createLiteral(value, "en");
-			m.add(note, prop, lit);
-		}
+		prop = m.getProperty(BDO, "noteText");
+		lit = getLiteral(e, "en", m, "note", r.getLocalName(), r.getLocalName(), false);
+		if (lit != null)
+		    m.add(note, prop, lit);
 	}
 	
 	public static void addNotes(Model m, Element e, Resource r, String XsdPrefix) {
@@ -302,26 +302,26 @@ public class CommonMigration  {
 	}
 	
 	public static void addExternal(Model m, Element e, Resource r, int i) {
-		String resourceName = getSubResourceName(r, ROOT_PREFIX, "External", i+1);
-		Resource ext = m.createResource(resourceName);
-		m.add(ext, RDF.type, m.createProperty(ROOT_PREFIX+"External"));
-		Property prop = m.createProperty(ROOT_PREFIX+"external");
+		Resource ext = m.createResource();
+		m.add(ext, RDF.type, m.getProperty(BDO+"External"));
+		Property prop = m.createProperty(BDO+"external");
 		Literal lit;
 		m.add(r, prop, ext);
 		String value = e.getAttribute("data");
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"external_data");
+			prop = m.createProperty(BDO+"external_data");
 			m.add(ext, prop, m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
+			// catch errors?
 		}
 		value = e.getAttribute("source");
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"external_source");
+			prop = m.createProperty(BDO+"external_source");
 			lit = m.createLiteral(value);
 			m.add(ext, prop, lit);
 		}
 		value = e.getTextContent().trim();
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"external_content");
+			prop = m.createProperty(BDO+"external_content");
 			lit = m.createLiteral(value, "en");
 			m.add(ext, prop, lit);
 		}
@@ -344,12 +344,12 @@ public class CommonMigration  {
 	public static void addLogEntry(Model m, Element e, Resource r) {
 		if (e == null) return;
 		Resource logEntry = m.createResource();
-		m.add(logEntry, RDF.type, m.createProperty(BDO+"LogEntry"));
-		Property prop = m.createProperty(ROOT_PREFIX+"log_entry");
+		//m.add(logEntry, RDF.type, m.getProperty(BDO+"LogEntry"));
+		Property prop = m.getProperty(BDO, "log_entry");
 		m.add(r, prop, logEntry);
 		String value = e.getAttribute("when");
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"log_when");
+			prop = m.createProperty(BDO+"log_when");
 			try {
 			    m.add(logEntry, prop, literalFromXsdDate(m, value));
 			} catch (DatatypeFormatException ex) {
@@ -358,12 +358,12 @@ public class CommonMigration  {
 		}
 		value = normalizeString(e.getAttribute("who"));
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"log_who");
+			prop = m.createProperty(BDO+"log_who");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
 		}
 		value = normalizeString(e.getTextContent(), true);
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ROOT_PREFIX+"log_content");
+			prop = m.createProperty(BDO+"log_content");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
 		}
 		
@@ -388,12 +388,20 @@ public class CommonMigration  {
 	
 	public static void addNames(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "name");
-		boolean labelGuessed = !guessLabel;
+		// TODO: test
+		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			if (current.getTextContent().trim().isEmpty()) continue;
-			Property prop = m.getProperty(ROOT_PREFIX+"name");
-			addCurrentString(current, "bo-x-ewts", m, r, prop, (!labelGuessed && i == 0));
+			// not sure about the second one in case of an outline
+            Literal l = getLiteral(current, "bo-x-ewts", m, "name", r.getLocalName(), r.getLocalName());
+            if (l != null) {
+                r.addProperty(m.getProperty(BDO, "name"), l);
+                if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage())) {
+                    r.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
+                    labelDoneForLang.put(l.getLanguage(), true);
+                }
+            }
 		}
 	}
 	
@@ -403,12 +411,16 @@ public class CommonMigration  {
 	
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
-		boolean labelGuessed = !guessLabel;
+		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			String descriptionValue = normalizeString(current.getTextContent());
-			if (descriptionValue.isEmpty()) continue;
+			Literal l = getLiteral(current, "en", m, "description", r.getLocalName(), r.getLocalName());
+			if (l == null) continue;
 			String type = current.getAttribute("type");
+	         if (type.equals("nameLex")) {
+                String placeId = r.getLocalName();
+                current.setTextContent(current.getTextContent().replace(placeId, ""));
+            }
 			if (type.isEmpty()) type = "noType";
 			type = normalizePropName(type, "description");
 			// onDisk is treated separately in imageGroups, TODO: check if it appears somewhere else
@@ -416,26 +428,19 @@ public class CommonMigration  {
 			if (type.equals("date")) 
 			    addException(m, r, "resource contains a date description that should be changed into something meaningful");
 			if (type.equals("note")) {
-			    String resourceName = getSubResourceName(r, ROOT_PREFIX, "Note", i+1);
-		        Resource note = m.createResource(resourceName);
-		        m.add(note, RDF.type, m.createProperty(ROOT_PREFIX+"Note"));
-	            m.add(r, m.getProperty(ROOT_PREFIX+"note"), note);
-	            m.add(note, m.getProperty(ROOT_PREFIX+"note_content"), m.createLiteral(descriptionValue, "en"));
+		        Resource note = m.createResource();
+		        m.add(note, RDF.type, m.createProperty(BDO+"Note"));
+	            m.add(r, m.getProperty(BDO+"note"), note);
+	            m.add(note, m.getProperty(BDO+"noteText"), l);
 			    continue;
 			}
-			if (type.equals("nameLex")) {
-			    String placeId = r.getLocalName();
-			    descriptionValue = normalizeString(descriptionValue.replace(placeId, ""));
-			    current.setTextContent(descriptionValue);
-			}
 			Property prop = m.getProperty(addPrefixToDescription(type));
+			r.addProperty(prop, l);
 			// for product and office the name is the first description type="contents"
-			if (!labelGuessed && type.equals("contents")) {
-			    addCurrentString(current, "en", m, r, prop, true);
-			    labelGuessed = true;
-			} else {
-			    addCurrentString(current, "en", m, r, prop, false);
-			}
+            if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage()) && type.equals("contents")) {
+                r.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
+                labelDoneForLang.put(l.getLanguage(), true);
+            }
 		}
 	}
 	
@@ -445,7 +450,7 @@ public class CommonMigration  {
 	
        public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel) {
             List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
-            boolean labelGuessed = !guessLabel;
+            Map<String,Boolean> labelDoneForLang = new HashMap<>();
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
                 if (current.getTextContent().trim().isEmpty()) continue;
@@ -454,7 +459,13 @@ public class CommonMigration  {
                     type = "bibliographicalTitle";
                 }
                 Property prop = m.getProperty(WORK_PREFIX, type);
-                addCurrentString(current, "bo-x-ewts", m, main, prop, (i == 0 && !labelGuessed));
+                Literal l = getLiteral(current, "bo-x-ewts", m, "description", main.getLocalName(), main.getLocalName());
+                if (l == null) continue;
+                main.addProperty(prop,  l);
+                if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage())) {
+                    main.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
+                    labelDoneForLang.put(l.getLanguage(), true);
+                }
             }
         }
        
@@ -791,7 +802,12 @@ public class CommonMigration  {
 	}
 	
 	public static Literal getLiteral(Element e, String dflt, Model m, String propertyHint, String RID, String subRID) {
-	       String value = normalizeString(e.getTextContent());
+	    return getLiteral(e, dflt, m, propertyHint, RID, subRID, true);
+	}
+	
+	public static Literal getLiteral(Element e, String dflt, Model m, String propertyHint, String RID, String subRID, boolean normalize) {
+	        String value = e.getTextContent();
+	        value = normalize ? normalizeString(value) : value.trim();
 	        if (value.isEmpty()) return null;
 	        String tag = getBCP47(e, dflt, propertyHint, RID, subRID);
 	        if (tag.equals("bo") && !value.isEmpty()) {
