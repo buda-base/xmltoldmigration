@@ -71,6 +71,117 @@ public class CommonMigration  {
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
     
+    public static final Map<String, String> logWhoToUri = new HashMap<>();
+    static {
+        fillLogWhoToUri();
+    }
+    
+    public static void fillLogWhoToUri() {
+        String prefix = RESOURCE_PREFIX+"U"; // ?
+        logWhoToUri.put("Gene Smith", prefix+"1");
+        logWhoToUri.put("agardner@sdrubin.org", prefix+"2");
+        logWhoToUri.put("Alex Gardner", prefix+"2");
+        logWhoToUri.put("Alexander Gardner", prefix+"2");
+        logWhoToUri.put("Bumu Dega", prefix+"3");
+        logWhoToUri.put("Dega Bumu", prefix+"3");
+        logWhoToUri.put("Catherine Tsuji", prefix+"4");
+        logWhoToUri.put("Chozin", prefix+"5");
+        logWhoToUri.put("chozin", prefix+"5");
+        logWhoToUri.put("Chris Tomlinson", prefix+"6");
+        logWhoToUri.put("ct", prefix+"6");
+        logWhoToUri.put("Code Ferret", prefix+"6");
+        logWhoToUri.put("chris", prefix+"6");
+        logWhoToUri.put("CodeFerret", prefix+"6");
+        logWhoToUri.put("Chungdak Nangpa", prefix+"7");
+        logWhoToUri.put("Chungdak Ngagpa", prefix+"7");// is it the same name?
+        logWhoToUri.put("Chungdak Ngakpa", prefix+"7");
+        logWhoToUri.put("cnakpa", prefix+"7");
+        logWhoToUri.put("Cuilan Liu", prefix+"8");
+        logWhoToUri.put("Gabi Coura", prefix+"9");
+        logWhoToUri.put("Harry Einhorn", prefix+"10");
+        logWhoToUri.put("Jann Ronis", prefix+"11");
+        logWhoToUri.put("jann ronis", prefix+"11");
+        logWhoToUri.put("Jeff Wallman", prefix+"12");
+        logWhoToUri.put("Jigme Namgyal", prefix+"13");
+        logWhoToUri.put("jm", prefix+"14"); // ?
+        logWhoToUri.put("Joe McClellan", prefix+"15");
+        logWhoToUri.put("Joseph McClellan", prefix+"15");
+        logWhoToUri.put("Karma Gongde", prefix+"16");
+        logWhoToUri.put("kgongde", prefix+"16");
+        logWhoToUri.put("Kelsang Lhamo", prefix+"17");
+        logWhoToUri.put("kelsang", prefix+"17");
+        logWhoToUri.put("Kelsang", prefix+"17");
+        logWhoToUri.put("klhamo", prefix+"17");
+        logWhoToUri.put("Konchok Tsering", prefix+"18");
+        logWhoToUri.put("Lobsang Shastri", prefix+"19");
+        logWhoToUri.put("lshastri", prefix+"19");
+        logWhoToUri.put("Michael R. Sheehy", prefix+"20");
+        logWhoToUri.put("Michael Sheehy", prefix+"20");
+        logWhoToUri.put("msheehy", prefix+"20");
+        logWhoToUri.put("paldor", prefix+"21");
+        logWhoToUri.put("Paldor", prefix+"21");
+        logWhoToUri.put("pal dor", prefix+"21");
+        logWhoToUri.put("Penghao Sun", prefix+"22");
+        logWhoToUri.put("Ralf Kramer", prefix+"23");
+        logWhoToUri.put("Ramon Prats", prefix+"24");
+        logWhoToUri.put("Rory Lindsay", prefix+"25");
+        logWhoToUri.put("Tendzin Parsons", prefix+"26");
+        logWhoToUri.put("Tenzin Dickyi", prefix+"27");
+        logWhoToUri.put("Arya Moallem", prefix+"28");
+        logWhoToUri.put("Awang Ciren", prefix+"29");
+        logWhoToUri.put("Chen Lai", prefix+"30");
+        logWhoToUri.put("Dennis Johnson", prefix+"31");
+        logWhoToUri.put("Dorjee Choden", prefix+"32");
+        logWhoToUri.put("dorjee choden", prefix+"32");
+        logWhoToUri.put("dzongsarlibrary", prefix+"33");
+        logWhoToUri.put("Erdene Baatar", prefix+"34");
+        logWhoToUri.put("Gyurmed Chodrak", prefix+"35");
+        logWhoToUri.put("Gyurme Chograg", prefix+"35");
+        logWhoToUri.put("Hachuluu", prefix+"36");
+        logWhoToUri.put("Haschuluu", prefix+"36");
+        logWhoToUri.put("Jamyang Lodoe", prefix+"37");
+        logWhoToUri.put("Jamyang.Lodoe", prefix+"37");
+        logWhoToUri.put("Jigme Tashi", prefix+"38");
+        logWhoToUri.put("John Canti", prefix+"39");
+        logWhoToUri.put("Khedup Gyatso", prefix+"40");
+        logWhoToUri.put("Legacy Converter", prefix+"41");
+        logWhoToUri.put("mangaram", prefix+"42");
+        logWhoToUri.put("Mara Canizzaro", prefix+"43");
+        logWhoToUri.put("mara canizzaro", prefix+"43");
+        logWhoToUri.put("Morris Hopkins", prefix+"44");
+        logWhoToUri.put("Ngawang Trinley", prefix+"45");
+        logWhoToUri.put("tenzang", prefix+"45");// to be checked
+        logWhoToUri.put("pbaduo", prefix+"46");
+        logWhoToUri.put("topic reclassify", prefix+"47");
+        logWhoToUri.put("zhangning", prefix+"48");
+        logWhoToUri.put("Arthur McKeown", prefix+"49");
+        logWhoToUri.put("Bruno Laine", prefix+"50");
+        logWhoToUri.put("chengdu", prefix+"51");
+        logWhoToUri.put("Chengdu", prefix+"51");
+        logWhoToUri.put("Chojor Radha", prefix+"52");
+        logWhoToUri.put("Elie Roux", prefix+"53");
+        logWhoToUri.put("Gelek Gyatso", prefix+"54");
+        logWhoToUri.put("Gelek.Gyatso", prefix+"54");
+        logWhoToUri.put("Georgia Kashnig", prefix+"55");
+        logWhoToUri.put("jw", prefix+"56");
+        logWhoToUri.put("monastery import", prefix+"57");
+        logWhoToUri.put("mongol import", prefix+"58");
+        logWhoToUri.put("Palri", prefix+"59");
+        logWhoToUri.put("Palri Nepal", prefix+"59");
+        logWhoToUri.put("Palri Parkhang", prefix+"59");
+        logWhoToUri.put("Palri Parkhang Nepal", prefix+"59");
+        logWhoToUri.put("Palris", prefix+"59");
+        logWhoToUri.put("palris", prefix+"59");
+        logWhoToUri.put("places-ensure-contains-has-name", prefix+"60");
+        logWhoToUri.put("Shallima Dellefant", prefix+"61");
+        logWhoToUri.put("sherabling", prefix+"62"); // maybe NT?
+        logWhoToUri.put("Shoko Mekata", prefix+"63");
+        logWhoToUri.put("Stacey Van Vleet", prefix+"64");
+        logWhoToUri.put("Tsering Dhondup", prefix+"65");
+        logWhoToUri.put("Tsering Dondrup", prefix+"65");
+        logWhoToUri.put("Tserings Wangdag and Dhondup", prefix+"65"); // same ?
+    }
+    
 	public static void setPrefixes(Model m) {
 		m.setNsPrefix("", ONTOLOGY_PREFIX);
 		m.setNsPrefix("adm", ADMIN_PREFIX);
@@ -339,22 +450,26 @@ public class CommonMigration  {
 		m.add(r, prop, logEntry);
 		String value = e.getAttribute("when");
 		if (!value.isEmpty()) {
-			prop = m.createProperty(BDO+"log_when");
+			prop = m.createProperty(BDO+"logWhen");
 			try {
 			    m.add(logEntry, prop, literalFromXsdDate(m, value));
 			} catch (DatatypeFormatException ex) {
 			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+value+"`");
-			    
 			}
 		}
 		value = normalizeString(e.getAttribute("who"));
-		if (!value.isEmpty()) {
-			prop = m.createProperty(BDO+"log_who");
-			m.add(logEntry, prop, m.createLiteral(value, "en"));
+		if (!value.isEmpty() && !value.equals("unspecified")) {
+			prop = m.createProperty(BDO+"logWho");
+			String uri = logWhoToUri.get(value);
+			if (uri == null) {
+			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "log_who", "unknown who: "+value);    
+			} else {
+			    m.add(logEntry, prop, m.createLiteral(value, "en"));
+			}
 		}
 		value = normalizeString(e.getTextContent(), true);
 		if (!value.isEmpty()) {
-			prop = m.createProperty(BDO+"log_content");
+			prop = m.createProperty(BDO+"logMessage");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
 		}
 		
