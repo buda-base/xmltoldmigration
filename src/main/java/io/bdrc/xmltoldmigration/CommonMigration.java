@@ -464,7 +464,7 @@ public class CommonMigration  {
 			if (uri == null) {
 			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "log_who", "unknown who: "+value);    
 			} else {
-			    m.add(logEntry, prop, m.createLiteral(value, "en"));
+			    m.add(logEntry, prop, m.createResource(uri));
 			}
 		}
 		value = normalizeString(e.getTextContent(), true);
