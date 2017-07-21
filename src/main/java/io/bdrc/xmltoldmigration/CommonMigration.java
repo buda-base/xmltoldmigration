@@ -119,56 +119,45 @@ public class CommonMigration  {
 	
 	public static String normalizeDescription(String desc) {
 	    switch (desc) {
-	    case "chapter":
-	        return "chapters";
-	    case "content":
-            return "contents";
-	    case "snar_bstan_number":
-            return "snar_thang_number";
-	    case "snr_thang_number":
-            return "snar_thang_number";
-	    case "gser_bris_numbr":
-            return "gser_bris_number";
-	    case "gser_birs_number":
-            return "gser_bris_number";
-	    case "gse_bris_number":
-            return "gser_bris_number";
-	    case "sger_bris_number":
-            return "gser_bris_number";
-	    case "gser_bri_numer":
-            return "gser_bris_number";
-	    case "gser_dris_number":
-            return "gser_bris_number";
-	    case "gser_bri_number":
-            return "gser_bris_number";
-	    case "gser_bris_nimber":
-            return "gser_bris_number";
-	    case "colopho":
-            return "colophon";
-	    case "colophn":
-	        return "colophon";
-	    case "colophone":
-            return "colophon";
-	    case "sde_gde_number":
-            return "sde_dge_number";
-	    case "de_dge_number":
-            return "sde_dge_number";
-	    case "sdg_dge_number":
-            return "sde_dge_number";
-	    case "sdr_dge_number":
-            return "sde_dge_number";
-	    case "stog_numbe":
-            return "stog_number";
-	    case "stog_unmber":
-            return "stog_number";
-	    case "StogNumber":
-            return "stog_number";
-	    case "toh_number":
-            return "toh";
-	    case "otani_number":
-            return "otani";
-	    case "SheyNumber":
-            return "shey_number";
+	    case "chapter": 	          return "chapters";
+	    case "content":               return "contents";
+	    case "snar_bstan_number":     return "workKaTenSiglaN";
+	    case "snr_thang_number":      return "workKaTenSiglaN";
+	    case "snar_thang_number":     return "workKaTenSiglaN"; 
+	    case "gser_bris_numbr":       return "workKaTenSiglaG";
+	    case "gser_birs_number":      return "workKaTenSiglaG";
+	    case "gse_bris_number":       return "workKaTenSiglaG";
+	    case "sger_bris_number":      return "workKaTenSiglaG";
+	    case "gser_bri_numer":        return "workKaTenSiglaG";
+	    case "gser_dris_number":      return "workKaTenSiglaG";
+	    case "gser_bri_number":       return "workKaTenSiglaG";
+	    case "gser_bris_nimber":      return "workKaTenSiglaG";
+	    case "gser_bris_number":      return "workKaTenSiglaG";
+	    case "colopho":               return "colophon";
+	    case "colophn":               return "colophon";
+	    case "colophone":             return "colophon";
+        case "sde_gde_number":        return "workKaTenSiglaD";
+        case "de_dge_number":         return "workKaTenSiglaD";
+        case "sdg_dge_number":        return "workKaTenSiglaD";
+        case "sdr_dge_number":        return "workKaTenSiglaD";
+        case "sde_dge_number":        return "workKaTenSiglaD";
+        case "lhasa_number":          return "workKaTenSiglaH";
+	    case "stog_numbe":            return "workKaTenSiglaS";
+	    case "stog_unmber":           return "workKaTenSiglaS";
+	    case "StogNumber":            return "workKaTenSiglaS";
+	    case "stog_number":           return "workKaTenSiglaS";
+	    case "toh_number":            return "workKaTenRefToh";
+	    case "toh":                   return "workKaTenRefToh";
+	    case "otani_number":          return "workKaTenSiglaQ";
+	    case "otani":                 return "workKaTenSiglaQ";
+	    case "otani_beijing":         return "workKaTenSiglaQ";
+	    case "SheyNumber":            return "workKaTenSiglaZ";
+        case "shey_number":           return "workKaTenSiglaZ";
+	    case "rKTsReference":         return "workKaTenRefrKTs";
+	    case "bon_bka_gyur_number":   return "workKaTenSiglaBon";
+	    case "urga_number":           return "workKaTenSiglaU";
+	    case "IsIAO":                 return "workRefIsIAO";
+	    case "catalogue_number":      return "workRefChokLing";
 	    default:
 	        return desc;
 	    }
@@ -176,20 +165,19 @@ public class CommonMigration  {
 
 	public static String addPrefixToDescription(String type) {
 	    switch (type) {
-        case "bon_bka_gyur_number":
-        case "catalogue_number":
-        case "gser_bris_number":
-        case "lhasa_number":
-        case "otani":
-        case "otani_beijing":
-        case "rKTsReference":
-        case "sde_dge_number":
-        case "shey_number":
-        case "snar_thang_number":
-        case "stog_number":
-        case "toh":
-        case "urga_number":
-        case "vinayottaragrantha":
+        case "workKaTenSiglaBon":
+        case "workRefChokLing":
+        case "workKaTenSiglaG":
+        case "workKaTenSiglaH":
+        case "workKaTenSiglaQ":
+        case "workKaTenRefrKTs":
+        case "workKaTenSiglaD":
+        case "workKaTenSiglaZ":
+        case "workKaTenSiglaN":
+        case "workKaTenSiglaS":
+        case "workKaTenRefToh":
+        case "workKaTenSiglaU":
+        case "workRefIsIAO":
         case "libraryOfCongress":
         case "extent":
         case "chapters":
