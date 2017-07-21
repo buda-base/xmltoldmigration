@@ -206,7 +206,7 @@ public class PersonMigration {
 		String value = e.getAttribute("being").trim();
 		if (value.isEmpty()) {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "incarnationOf", "no RID for incarnation, text reads: `"+e.getTextContent()+"`");
-		    value = BDR+"UNKNOWN_Person";
+		    return;
 		} else {
 		    value = BDR+value;
 		}
@@ -215,18 +215,21 @@ public class PersonMigration {
         m.add(incarnationOf, prop, being);
         
 		value = e.getAttribute("relation");
+		prop = m.getProperty(BDO, "personIncarnationOfType");
 		if (value != null && !value.isEmpty()) {
 		    if (value.equals("yangsi")) value = "yangtse";
-			prop = m.getProperty(BDO, "personIncarnationOfType");
 			String uri = getUriFromTypeSubtype("incarnationOf", value);
 			m.add(incarnationOf, prop, m.getResource(uri));
+		} else {
+		    String uri = getUriFromTypeSubtype("incarnationOf", "general");
+            m.add(incarnationOf, prop, m.getResource(uri));
 		}
-//		value = e.getAttribute("secondary");
-//		if (value != null && !value.isEmpty()) {
-//		    if (value.equals("yangsi")) value = "yangtse";
-//			prop = m.getProperty(PP, "incarnationOf_secondary");
-//			m.add(incarnationOf, prop, m.createLiteral(value));
-//		}
+		value = e.getAttribute("secondary");
+		if (value != null && !value.isEmpty()) {
+		    if (value.equals("yangsi")) value = "yangtse";
+            String uri = getUriFromTypeSubtype("incarnationOf", value);
+            m.add(incarnationOf, prop, m.getResource(uri));
+		}
 	}
 	
 	public static void addEvent(Model m, Resource person, Element e, int i) {
