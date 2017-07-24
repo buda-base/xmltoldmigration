@@ -158,17 +158,17 @@ public class MigrationHelpers {
 
 	public static Map<String,String> typeToRootShortUri = new HashMap<String,String>();
 	static {
-		typeToRootShortUri.put(PERSON, ":Person");
+		typeToRootShortUri.put(PERSON, "bdo:Person");
 		typeToRootShortUri.put(WORK, "wor:Work");
 		typeToRootShortUri.put(OUTLINE, "out:Outline");
-		typeToRootShortUri.put(PLACE, ":Place");
-		typeToRootShortUri.put(TOPIC, ":Topic");
+		typeToRootShortUri.put(PLACE, "bdo:Place");
+		typeToRootShortUri.put(TOPIC, "bdo:Topic");
 		typeToRootShortUri.put(LINEAGE, "lin:Lineage");
-		typeToRootShortUri.put(CORPORATION, ":Corporation");
+		typeToRootShortUri.put(CORPORATION, "bdo:Corporation");
 		typeToRootShortUri.put(PRODUCT, "prd:Product");
 		typeToRootShortUri.put(VOLUMES, "vol:Volumes");
 		typeToRootShortUri.put(VOLUME, "vol:Volume");
-		typeToRootShortUri.put(OFFICE, ":Role");
+		typeToRootShortUri.put(OFFICE, "bdo:Role");
     }
 	
 	public static Object getFrameObject(String type) {

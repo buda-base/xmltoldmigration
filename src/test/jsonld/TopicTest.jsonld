@@ -47,42 +47,20 @@
       "@id" : "bdr:T1129"
     },
     "log_entry" : [ {
-      "@id" : "_:b1",
-      "logMessage" : {
-        "@language" : "en",
-        "@value" : "added description"
-      },
-      "logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-31T16:58:10.553Z"
-      },
-      "logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b2",
-      "logMessage" : {
-        "@language" : "en",
-        "@value" : "added description"
-      },
-      "logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-31T16:55:02.487Z"
-      },
-      "logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
       "@id" : "_:b0",
       "logMessage" : {
         "@language" : "en",
-        "@value" : "added description: Tenjur Canonical Text"
+        "@value" : "added see also"
+      },
+      "logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-09-04T13:13:26.221Z"
       },
       "logWho" : {
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b1",
       "logMessage" : {
         "@language" : "en",
         "@value" : "created record"
@@ -95,14 +73,36 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b4",
+      "@id" : "_:b2",
       "logMessage" : {
         "@language" : "en",
-        "@value" : "added see also"
+        "@value" : "added description"
       },
       "logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2015-09-04T13:13:26.221Z"
+        "@value" : "2015-08-31T16:58:10.553Z"
+      },
+      "logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b3",
+      "logMessage" : {
+        "@language" : "en",
+        "@value" : "added description: Tenjur Canonical Text"
+      },
+      "logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b4",
+      "logMessage" : {
+        "@language" : "en",
+        "@value" : "added description"
+      },
+      "logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-31T16:55:02.487Z"
       },
       "logWho" : {
         "@id" : "bdr:U7"
@@ -111,24 +111,13 @@
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/",
-    "" : "http://purl.bdrc.io/ontology/",
-    "adm" : ":admin/",
+    "bdo" : "http://purl.bdrc.io/ontology/",
+    "adm" : "http://purl.bdrc.io/admin/",
     "bdd" : "http://purl.bdrc.io/data/",
     "bdr" : "http://purl.bdrc.io/resource/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "crp" : ":corporation#",
-    "prd" : ":product#",
-    "plc" : ":place#",
-    "ofc" : ":office#",
-    "out" : ":outline#",
-    "lin" : ":lineage#",
-    "top" : ":topic#",
-    "wor" : ":work#",
-    "per" : ":person#",
-    "vol" : ":volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
   }
 }

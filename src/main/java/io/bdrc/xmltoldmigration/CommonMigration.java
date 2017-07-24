@@ -208,25 +208,14 @@ public class CommonMigration  {
 	public static String getJsonLDContext() {
 		return "{"
 				+"\"@vocab\" : \""+ONTOLOGY_PREFIX+"\","
-				+"\"\" : \""+ONTOLOGY_PREFIX+"\","
+				+"\"bdo\" : \""+ONTOLOGY_PREFIX+"\","
 				+"\"adm\" : \""+ADMIN_PREFIX+"\","
 				+"\"bdd\" : \""+DATA_PREFIX+"\","
 				+"\"bdr\" : \""+RESOURCE_PREFIX+"\","
                 +"\"rdf\" : \""+RDF_PREFIX+"\","
                 +"\"owl\" : \""+OWL_PREFIX+"\","
                 +"\"xsd\" : \""+XSD_PREFIX+"\","
-                +"\"rdfs\" : \""+RDFS_PREFIX+"\","
-			    +"\"crp\" : \""+CORPORATION_PREFIX+"\","
-			    +"\"prd\" : \""+PRODUCT_PREFIX+"\","
-			    +"\"plc\" : \""+PLACE_PREFIX+"\","
-			    +"\"ofc\" : \""+OFFICE_PREFIX+"\","
-			    +"\"out\" : \""+OUTLINE_PREFIX+"\","
-			    +"\"lin\" : \""+LINEAGE_PREFIX+"\","
-			    +"\"top\" : \""+TOPIC_PREFIX+"\","
-			    +"\"wor\" : \""+WORK_PREFIX+"\","
-			    +"\"per\" : \""+PERSON_PREFIX+"\","
-			    +"\"vol\" : \""+VOLUMES_PREFIX+"\","
-			    +"\"desc\" : \""+DESCRIPTION_PREFIX+"\""
+                +"\"rdfs\" : \""+RDFS_PREFIX+"\""
 			    +"}";
 	}
 	
