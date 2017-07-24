@@ -700,7 +700,7 @@ public class CommonMigration  {
        public static void addStatus(Model m, Resource r, String status) {
            if (status == null || status.isEmpty()) return;
            String statusName = "Status"+status.substring(0, 1).toUpperCase() + status.substring(1);
-           r.addProperty(m.getProperty(ONTOLOGY_PREFIX+"status"), m.getResource(ONTOLOGY_PREFIX+statusName));
+           r.addProperty(m.getProperty(BDO+"status"), m.getResource(BDR+statusName));
        }
        
 	public static String getPrefixFromRID(String rid) {
@@ -721,9 +721,10 @@ public class CommonMigration  {
 		case "extendedWylie":
 			return "-x-ewts";
 		case "wadeGiles":
+		    // transliteration of Chinese
 			return "-x-wade";
 		case "pinyin":
-			return "-Latn-pinyin";
+			return "-latn-pinyin";
 		case "libraryOfCongress":
 			return "-x-loc";
 		case "native":
@@ -745,6 +746,8 @@ public class CommonMigration  {
 		case "alternatePhonetic":
 			return "-x-alt";
 		case "syllables":
+		    // the cases we have are essentially town_syl, which is a
+		    // romanization that doesn't seem standard, a kind of phonetic
 			return "-x-syx";
 		case "":
 			return "";
