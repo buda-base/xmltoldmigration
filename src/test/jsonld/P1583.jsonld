@@ -27,10 +27,26 @@
       }
     },
     "note" : [ {
-      "@id" : "_:b17",
+      "@id" : "_:b6",
+      "noteLoc" : "p. 6",
+      "noteWork" : {
+        "@id" : "bdr:W19822"
+      }
+    }, {
+      "@id" : "_:b7",
       "noteText" : {
         "@language" : "en",
-        "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
+        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
+      }
+    }, {
+      "@id" : "_:b11",
+      "noteLoc" : "v. 2, pp.104-112",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "biography\ndates: 1308-1363"
+      },
+      "noteWork" : {
+        "@id" : "bdr:W25268"
       }
     }, {
       "@id" : "_:b2",
@@ -42,26 +58,10 @@
       "@id" : "_:b14",
       "noteText" : {
         "@language" : "en",
-        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
+        "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
       }
     }, {
-      "@id" : "_:b10",
-      "noteLoc" : "p. 6",
-      "noteWork" : {
-        "@id" : "bdr:W19822"
-      }
-    }, {
-      "@id" : "_:b12",
-      "noteLoc" : "v. 2, pp.104-112",
-      "noteText" : {
-        "@language" : "en",
-        "@value" : "biography\ndates: 1308-1363"
-      },
-      "noteWork" : {
-        "@id" : "bdr:W25268"
-      }
-    }, {
-      "@id" : "_:b18",
+      "@id" : "_:b15",
       "noteLoc" : "251",
       "noteText" : {
         "@language" : "en",
@@ -72,7 +72,19 @@
       }
     } ],
     "personEvent" : [ {
-      "@id" : "_:b15",
+      "@id" : "bdr:E1988",
+      "onOrAbout" : "1308",
+      "personEventPlace" : {
+        "@id" : "bdr:G967"
+      },
+      "personEventRole" : {
+        "@id" : "bdr:R123"
+      },
+      "personEventType" : {
+        "@id" : "bdr:PersonEventBirth"
+      }
+    }, {
+      "@id" : "_:b12",
       "personEventPlace" : {
         "@id" : "bdr:G521"
       },
@@ -80,81 +92,47 @@
         "@id" : "bdr:PersonEventOccupiesSeat"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "bdr:E1989",
       "onOrAbout" : "1364",
       "personEventType" : {
         "@id" : "bdr:PersonEventNotSpecified"
-      }
-    }, {
-      "@id" : "_:b13",
-      "onOrAbout" : "1308",
-      "personEventType" : {
-        "@id" : "bdr:PersonEventBirth"
       }
     } ],
     "personGender" : {
       "@id" : "bdr:GenderMale"
     },
     "personIsIncarnation" : [ {
-      "@id" : "_:b9",
+      "@id" : "_:b1",
       "personIncarnationOf" : {
         "@id" : "bdr:P561654"
-      }
-    }, {
-      "@id" : "_:b8",
-      "personIncarnationOf" : {
-        "@id" : "bdr:UNKNOWN_Person"
       },
-      "personIncarnationOfType" : {
-        "@id" : "bdr:IncarnationTypeYangtse"
-      }
+      "personIncarnationOfType" : [ {
+        "@id" : "bdr:IncarnationTypeMind"
+      }, {
+        "@id" : "bdr:IncarnationTypeGeneral"
+      } ]
+    }, {
+      "@id" : "_:b18"
     } ],
     "personKin" : [ {
-      "@id" : "_:b19",
-      "personKinType" : {
-        "@id" : "bdr:KinUnspecified"
-      },
-      "personKinWho" : {
-        "@id" : "bdr:P1584"
-      }
-    }, {
-      "@id" : "_:b5",
+      "@id" : "_:b4",
       "personKinType" : {
         "@id" : "bdr:KinHasMother"
       },
       "personKinWho" : {
         "@id" : "bdr:P1585"
       }
+    }, {
+      "@id" : "_:b16",
+      "personKinType" : {
+        "@id" : "bdr:KinUnspecified"
+      },
+      "personKinWho" : {
+        "@id" : "bdr:P1584"
+      }
     } ],
     "personName" : [ {
-      "@id" : "_:b1",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "klong chen rab 'byams pa dri med 'od zer/"
-      },
-      "personName" : {
-        "@id" : "bdr:PersonPrimaryTitle"
-      }
-    }, {
-      "@id" : "_:b4",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "tshul khrims blo gros/"
-      },
-      "personName" : {
-        "@id" : "bdr:PersonPersonalName"
-      }
-    }, {
-      "@id" : "_:b20",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "klong chen pa/"
-      },
-      "personName" : {
-        "@id" : "bdr:PersonCommonName"
-      }
-    }, {
-      "@id" : "_:b7",
+      "@id" : "_:b10",
       "name" : {
         "@language" : "bo-x-ewts",
         "@value" : "rgyal sras thugs mchog rtsal/"
@@ -163,7 +141,7 @@
         "@id" : "bdr:PersonSecretInitiatoryName"
       }
     }, {
-      "@id" : "_:b11",
+      "@id" : "_:b13",
       "name" : [ {
         "@language" : "zh",
         "@value" : "隆钦热降巴·赤墨俄色"
@@ -181,7 +159,16 @@
         "@id" : "bdr:PersonPrimaryName"
       }
     }, {
-      "@id" : "_:b16",
+      "@id" : "_:b0",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "tshul khrims blo gros/"
+      },
+      "personName" : {
+        "@id" : "bdr:PersonPersonalName"
+      }
+    }, {
+      "@id" : "_:b5",
       "name" : [ {
         "@language" : "bo-x-ewts",
         "@value" : "bsam yas lung mang ba/"
@@ -191,6 +178,24 @@
       } ],
       "personName" : {
         "@id" : "bdr:PersonTitle"
+      }
+    }, {
+      "@id" : "_:b17",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "klong chen rab 'byams pa dri med 'od zer/"
+      },
+      "personName" : {
+        "@id" : "bdr:PersonPrimaryTitle"
+      }
+    }, {
+      "@id" : "_:b9",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "klong chen pa/"
+      },
+      "personName" : {
+        "@id" : "bdr:PersonCommonName"
       }
     } ],
     "personOfSect" : {
@@ -214,18 +219,17 @@
       "@id" : "bdr:P0RK1192"
     } ],
     "log_entry" : {
-      "@id" : "_:b6",
-      "log_content" : {
+      "@id" : "_:b8",
+      "logMessage" : {
         "@language" : "en",
         "@value" : "added records"
       },
-      "log_when" : {
+      "logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2008-06-30T17:01:56.496Z"
       },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Joe McClellan"
+      "logWho" : {
+        "@id" : "bdr:U15"
       }
     }
   } ],

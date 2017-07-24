@@ -19,7 +19,9 @@
     <p:name encoding="native" lang="chinese" type="primaryName">隆钦热降巴·赤墨俄色</p:name>
     <p:info gender="male"/>
     <p:event circa="1308" pid="E1988" type="birth">
+	<p:office pid="R123">test office</p:office>
         <p:place pid="G967">g.yo ru stod grong</p:place>
+	<p:corp pid="C123">test corporation</p:corp>
     </p:event>
     <p:event circa="1364" pid="E1989"/>
     <p:seat>

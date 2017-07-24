@@ -104,7 +104,7 @@
     <xsd:complexType name="Corporation">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="pid" type="xsd:string"/>
+                <xsd:attribute name="pid" type="c:corporationRID"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>

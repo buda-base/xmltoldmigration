@@ -11,34 +11,32 @@
       "@id" : ":StatusReleased"
     },
     "@id" : "bdr:R8LS12811",
-    "@type" : "Office",
+    "@type" : "Role",
     "log_entry" : [ {
       "@id" : "_:b1",
-      "log_content" : {
+      "logMessage" : {
         "@language" : "en",
         "@value" : "added phonetic title"
       },
-      "log_when" : {
+      "logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-07-11T12:26:57.845Z"
       },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Michael Sheehy"
+      "logWho" : {
+        "@id" : "bdr:U20"
       }
     }, {
       "@id" : "_:b0",
-      "log_content" : {
+      "logMessage" : {
         "@language" : "en",
         "@value" : "created new office"
       },
-      "log_when" : {
+      "logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2012-12-20T16:34:48.895Z"
       },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
+      "logWho" : {
+        "@id" : "bdr:U19"
       }
     } ]
   } ],

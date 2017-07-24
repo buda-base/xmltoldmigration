@@ -168,7 +168,7 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(PRODUCT, "prd:Product");
 		typeToRootShortUri.put(VOLUMES, "vol:Volumes");
 		typeToRootShortUri.put(VOLUME, "vol:Volume");
-		typeToRootShortUri.put(OFFICE, ":Office");
+		typeToRootShortUri.put(OFFICE, ":Role");
     }
 	
 	public static Object getFrameObject(String type) {

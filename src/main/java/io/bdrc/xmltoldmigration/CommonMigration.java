@@ -85,8 +85,6 @@ public class CommonMigration  {
         logWhoToUri.put("Bumu Dega", prefix+"3");
         logWhoToUri.put("Dega Bumu", prefix+"3");
         logWhoToUri.put("Catherine Tsuji", prefix+"4");
-        logWhoToUri.put("Chozin", prefix+"5");
-        logWhoToUri.put("chozin", prefix+"5");
         logWhoToUri.put("Chris Tomlinson", prefix+"6");
         logWhoToUri.put("ct", prefix+"6");
         logWhoToUri.put("Code Ferret", prefix+"6");
@@ -108,6 +106,8 @@ public class CommonMigration  {
         logWhoToUri.put("Joseph McClellan", prefix+"15");
         logWhoToUri.put("Karma Gongde", prefix+"16");
         logWhoToUri.put("kgongde", prefix+"16");
+        logWhoToUri.put("Chozin", prefix+"17");
+        logWhoToUri.put("chozin", prefix+"17");
         logWhoToUri.put("Kelsang Lhamo", prefix+"17");
         logWhoToUri.put("kelsang", prefix+"17");
         logWhoToUri.put("Kelsang", prefix+"17");

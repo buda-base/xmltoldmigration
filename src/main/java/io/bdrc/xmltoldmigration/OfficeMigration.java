@@ -19,7 +19,7 @@ public class OfficeMigration {
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
-		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Office"));
+		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Role"));
 		CommonMigration.addStatus(m, main, root.getAttribute("status"));
 		
 		CommonMigration.addNotes(m, root, main, OXSDNS);

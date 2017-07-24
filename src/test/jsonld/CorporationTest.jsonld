@@ -13,20 +13,20 @@
     "@id" : "bdr:C11MS170",
     "@type" : "Corporation",
     "corporationHasMember" : [ {
-      "@id" : "_:b3",
-      "corporationMember" : {
-        "@id" : "bdr:P1857"
-      },
-      "corporationMemberType" : {
-        "@id" : "bdr:CorporationMemberTypeUnknown"
-      }
-    }, {
-      "@id" : "_:b4",
+      "@id" : "_:b0",
       "corporationMember" : {
         "@id" : "bdr:P1856"
       },
       "corporationMemberType" : {
         "@id" : "bdr:CorporationMemberTypeNotSpecified"
+      }
+    }, {
+      "@id" : "_:b2",
+      "corporationMember" : {
+        "@id" : "bdr:P1857"
+      },
+      "corporationMemberType" : {
+        "@id" : "bdr:CorporationMemberTypeUnknown"
       }
     } ],
     "corporationRegion" : {
@@ -40,16 +40,16 @@
       "@value" : "bran ka"
     } ],
     "note" : [ {
-      "@id" : "_:b0",
-      "noteText" : {
-        "@language" : "en",
-        "@value" : "associated w / 11th cent. master, P4CZ15480 ?"
-      }
-    }, {
-      "@id" : "_:b2",
+      "@id" : "_:b3",
       "noteText" : {
         "@language" : "en",
         "@value" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
+      }
+    }, {
+      "@id" : "_:b4",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "associated w / 11th cent. master, P4CZ15480 ?"
       }
     } ],
     "log_entry" : {
@@ -63,8 +63,7 @@
         "@value" : "2014-10-23T10:26:04.725Z"
       },
       "logWho" : {
-        "@language" : "en",
-        "@value" : "Michael Sheehy"
+        "@id" : "bdr:U20"
       }
     }
   } ],

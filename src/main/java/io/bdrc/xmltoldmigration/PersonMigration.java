@@ -233,7 +233,13 @@ public class PersonMigration {
 	}
 	
 	public static void addEvent(Model m, Resource person, Element e, int i) {
-		Resource subResource = m.createResource();
+        String pid = e.getAttribute("pid").trim();
+		Resource subResource;
+		if (pid.isEmpty()) {
+		    subResource = m.createResource();
+		} else {
+		    subResource = m.createResource(BDR+pid);
+		}
 		String typeValue = e.getAttribute("type");
 		if (typeValue.isEmpty()) {
 		    typeValue = "NotSpecified";
@@ -241,9 +247,33 @@ public class PersonMigration {
 		}
 		m.add(subResource, m.getProperty(BDO+"personEventType"), 
 		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
-		Literal value = m.createLiteral(e.getAttribute("circa"));
-		Property prop = m.getProperty(BDO, "onOrAbout");
-		m.add(subResource, prop, value);
+		String circa = CommonMigration.normalizeString(e.getAttribute("circa"));
+		if (!circa.isEmpty()) {
+		    Literal value = m.createLiteral(circa);
+	        Property prop = m.getProperty(BDO, "onOrAbout");
+	        m.add(subResource, prop, value);		    
+		}
+        NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
+        for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
+            Element current = (Element) nodeList.item(i1);
+            Property prop = m.getProperty(BDO, "personEventPlace");
+            Resource r = m.createResource(BDR+current.getAttribute("pid").trim());
+            m.add(subResource, prop, r);
+        }
+        nodeList = e.getElementsByTagNameNS(PXSDNS, "office");
+        for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
+            Element current = (Element) nodeList.item(i1);
+            Property prop = m.getProperty(BDO, "personEventRole");
+            Resource r = m.createResource(BDR+current.getAttribute("pid").trim());
+            m.add(subResource, prop, r);
+        }
+        nodeList = e.getElementsByTagNameNS(PXSDNS, "corporation");
+        for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
+            Element current = (Element) nodeList.item(i1);
+            Property prop = m.getProperty(BDO, "personEventCorporation");
+            Resource r = m.createResource(BDR+current.getAttribute("pid").trim());
+            m.add(subResource, prop, r);
+        }
 		m.add(person, m.getProperty(BDO+"personEvent"), subResource);
 	}
 	
@@ -267,7 +297,7 @@ public class PersonMigration {
         m.add(person, m.getProperty(BDO+"personEvent"), subResource);
         m.add(subResource, m.getProperty(BDO+"personEventType"), 
                 m.createProperty(getUriFromTypeSubtype("event", "occupiesSeat")));
-        String circa = e.getAttribute("circa").trim();
+        String circa = CommonMigration.normalizeString(e.getAttribute("circa"));
         if (circa != null && !circa.isEmpty()) {
             m.add(subResource, m.getProperty(BDO, "onOrAbout"), 
                     m.createLiteral(circa));
