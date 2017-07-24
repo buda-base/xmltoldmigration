@@ -260,8 +260,6 @@
     <xsd:simpleType name="affiliationTypeAttr">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="placeEventAffiliationTypes:lineage"/>
-            <xsd:enumeration value="placeEventAffiliationTypes:corporation"/>
-            <xsd:enumeration value="placeEventAffiliationTypes:office"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="eventTypeAttr">

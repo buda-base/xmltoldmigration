@@ -8,7 +8,7 @@
       "@value" : "bon po lung bla ma'i skye brgyud/"
     } ],
     "status" : {
-      "@id" : ":StatusReleased"
+      "@id" : "bdr:StatusReleased"
     },
     "@id" : "bdr:R8LS12811",
     "@type" : "Role",

@@ -1,8 +1,5 @@
 package io.bdrc.xmltoldmigration;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -16,54 +13,35 @@ import org.w3c.dom.NodeList;
 
 public class PlaceMigration {
 
-	private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String PLP = CommonMigration.PLACE_PREFIX;
 	private static final String PLXSDNS = "http://www.tbrc.org/models/place#";
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
 	
-	private static final Map<String,String> lineageTypeToSomething = new HashMap<String,String>();
-	static {
-		// TODO: should be mapped to topics... currently O5TAX003 nodes
-		lineageTypeToSomething.put("Nyingma", "O5TAX0035TAX001");
-		lineageTypeToSomething.put("Kadam", "O5TAX0035TAX0034JW33790");
-		lineageTypeToSomething.put("Geluk", "O5TAX0035TAX003");
-		lineageTypeToSomething.put("Kagyu", "O5TAX0035TAX002");
-		lineageTypeToSomething.put("KarmaKagyu", "O5TAX00310MS14537");
-		lineageTypeToSomething.put("MarpaKagyu", "O5TAX00310MS14554");
-		lineageTypeToSomething.put("DrigungKagyu", "O5TAX0034JW33807");
-		lineageTypeToSomething.put("DrukpaKagyu", "O5TAX0034JW33808");
-		lineageTypeToSomething.put("BaromKagyu", "O5TAX00310MS14535");
-		lineageTypeToSomething.put("ShangpaKagyu", "O5TAX00310MS14540");
-		lineageTypeToSomething.put("TodrukKagyu", "O5TAX00310MS14542");
-		lineageTypeToSomething.put("ZurmangKagyu", "O5TAX00310MS14543");
-		lineageTypeToSomething.put("TsalpaKagyu", "O5TAX00310MS14551");
-		lineageTypeToSomething.put("YazangKagyu", "O5TAX00310MS14552");
-		lineageTypeToSomething.put("YelpaKagyu", "O5TAX00310MS14553");
-		lineageTypeToSomething.put("TaklungKagyu", "O5TAX00310MS14544");
-		lineageTypeToSomething.put("NedoKagyu", "O5TAX00310MS14538");
-		lineageTypeToSomething.put("Sakya", "O5TAX0035TAX004");
-		lineageTypeToSomething.put("NgorSakya", "O5TAX00310MS14539");
-		lineageTypeToSomething.put("Jonang", "O5TAX0035TAX006");
-		lineageTypeToSomething.put("Bodong", "O5TAX0035TAX007");
-		lineageTypeToSomething.put("Chod", "O5TAX00310MS14536");
-		lineageTypeToSomething.put("Zhije", "O5TAX00310MS14541");
-		lineageTypeToSomething.put("Bon", "O5TAX0035TAX008");
-		lineageTypeToSomething.put("Zhalu", "O5TAX0034JW33836");
-		lineageTypeToSomething.put("Rime", "O5TAX0035TAX005");
-	}
+    private static String getUriFromTypeSubtype(String type, String subtype) {
+        switch (type) {
+        case "tradition":
+            return BDR+"Tradition"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+        case "simple":
+            return BDO+"place"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+        case "eventType":
+            return BDR+"Place"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+        default:
+               return "";
+        }
+    }
 	
 	public static Model MigratePlace(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(PLP + root.getAttribute("RID"));
+		Resource main = m.createResource(BDR + root.getAttribute("RID"));
+		m.add(main, RDF.type, m.createResource(BDO + "Place"));
 		String value = getTypeStr(root, m, main);
-		m.add(main, RDF.type, m.createResource(PLP + value));
-		if (!value.equals("Place")) {
-			m.add(main, RDF.type, m.createResource(PLP + "Place"));
-		}
-		Property prop = m.getProperty(RP, "status");
-		m.add(main, prop, root.getAttribute("status"));
+		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + value));
+		
+		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+
 		CommonMigration.addNames(m, root, main, PLXSDNS);
 		
 		CommonMigration.addNotes(m, root, main, PLXSDNS);
@@ -82,24 +60,23 @@ public class PlaceMigration {
 			addGis(m, current, main);
 		}
 		
-		addSimpleObjectProp("isLocatedIn", m, main, root);
-		addSimpleObjectProp("near", m, main, root);
-		addSimpleObjectProp("contains", m, main, root);
+		addSimpleObjectProp("isLocatedIn", "placeLocatedIn", m, main, root);
+		addSimpleObjectProp("near", "placeIsNear", m, main, root);
+		addSimpleObjectProp("contains", "placeContains", m, main, root);
 		
 		// address
 		nodeList = root.getElementsByTagNameNS(PLXSDNS, "address");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			value = CommonMigration.getSubResourceName(main, PLP, "Address");
-			Resource address = m.createResource(value);
-			m.add(address, RDF.type, m.createResource(PLP + "Address"));
-			m.add(main, m.getProperty(PLP+"hasAddress"), address);
-			addSimpleAttr(current.getAttribute("city"), "city", m, address);
-			addSimpleAttr(current.getAttribute("country"), "country", m, address);
-			addSimpleAttr(current.getAttribute("number"), "number", m, address);
-			addSimpleAttr(current.getAttribute("postal"), "postal", m, address);
-			addSimpleAttr(current.getAttribute("state"), "state", m, address);
-			addSimpleAttr(current.getAttribute("street"), "street", m, address);
+			Resource address = m.createResource();
+			m.add(address, RDF.type, m.createResource(BDO+"PlaceAddress"));
+			m.add(main, m.getProperty(BDO+"placeAddress"), address);
+			addSimpleAttr(current.getAttribute("city"), "city", BDO+"addressCity", m, address);
+			addSimpleAttr(current.getAttribute("country"), BDO+"addressCountry", "country", m, address);
+			addSimpleAttr(current.getAttribute("number"), BDO+"addressNumber", "number", m, address);
+			addSimpleAttr(current.getAttribute("postal"), BDO+"addressPostal", "postal", m, address);
+			addSimpleAttr(current.getAttribute("state"), BDO+"addressState", "state", m, address);
+			addSimpleAttr(current.getAttribute("street"), BDO+"addressStreet", "street", m, address);
 		}
 		
 		// tlm
@@ -113,42 +90,55 @@ public class PlaceMigration {
 	}
 
 	public static void addTlm(Model m, Resource main, Element tlmEl) {
-		addSimpleAttr(tlmEl.getAttribute("accession"), "hasTLM_accession", m, main);
-		addSimpleAttr(tlmEl.getAttribute("code"), "hasTLM_code", m, main);
-		addSimpleAttr(tlmEl.getAttribute("num"), "hasTLM_num", m, main);
+		addSimpleAttr(tlmEl.getAttribute("accession"), "hasTLM_accession", BDO+"place_TLM_accession", m, main);
+		addSimpleAttr(tlmEl.getAttribute("code"), "hasTLM_code", BDO+"place_TLM_code", m, main);
+		addSimpleAttr(tlmEl.getAttribute("num"), "hasTLM_num", BDO+"place_TLM_num", m, main);
 		NodeList nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "taxonomy");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			Resource tax = m.createResource(CommonMigration.OUTLINE_PREFIX+current.getAttribute("rid"));
-			m.add(main, m.getProperty(PLP+"hasTLM_taxonomy"), tax);
+			Resource tax = m.createResource(CommonMigration.BDR+current.getAttribute("rid"));
+			m.add(main, m.getProperty(BDO+"placeTlmTaxonomy"), tax);
 		}
 		nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "groups");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			addSimpleAttr(current.getAttribute("admin"), "hasTLM_admin", m, main);
-			addSimpleAttr(current.getAttribute("adminEmail"), "hasTLM_adminEmail", m, main);
-			addSimpleAttr(current.getAttribute("librarian"), "hasTLM_librarian", m, main);
-			addSimpleAttr(current.getAttribute("librarianEmail"), "hasTLM_librarianEmail", m, main);
+			addSimpleAttr(current.getAttribute("admin"), "hasTLM_admin", BDO+"place_TLM_admin", m, main);
+			addSimpleAttr(current.getAttribute("adminEmail"), "hasTLM_adminEmail", BDO+"place_TLM_adminEmail", m, main);
+			addSimpleAttr(current.getAttribute("librarian"), "hasTLM_librarian", BDO+"place_TLM_librarian", m, main);
+			addSimpleAttr(current.getAttribute("librarianEmail"), "hasTLM_librarianEmail", BDO+"place_TLM_librarianEmail", m, main);
 		}
 	}
 	
-	public static void addSimpleAttr(String attrValue, String attrName, Model m, Resource r) {
+	public static void addSimpleAttr(String attrValue, String attrName, String ontoProp, Model m, Resource r) {
 		if (attrValue.isEmpty()) return;
-		Property prop = m.getProperty(PLP+attrName);
+		Property prop = m.getProperty(ontoProp);
 		m.add(r, prop, m.createLiteral(attrValue));
 	}
 	
-	public static void addSimpleObjectProp(String propName, Model m, Resource main, Element root) {
+	public static void addSimpleObjectProp(String propName, String ontoPropName, Model m, Resource main, Element root) {
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, propName);
-		Property prop = m.getProperty(PLP+propName);
+		Property prop = m.getProperty(BDO, ontoPropName);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			String value = current.getAttribute("place").trim();
 			if (value.isEmpty() || value.equals("NONE"))
 			    return;
-			Resource sub = m.createResource(PLP+value);
+			Resource sub = m.createResource(BDR+value);
 			m.add(main, prop, sub);
 		}
+	}
+	
+	public static String gisIdToUri(String gisId) {
+	    switch (gisId) {
+	    case "fromLex": return BDO+"placeIdLex";
+	    case "fromTBRC": return BDO+"placeIdTBRC";
+	    case "chgis_id": return BDO+"placeChgisId";
+	    case "gb2260-2013": return BDO+"placeGB2260-2013";
+	    case "WB_area_sq_km": return BDO+"WBArea";
+	    case "WB_pop_2000": return BDO+"WB2000";
+	    case "WB_pop_2010": return BDO+"WB2010";
+	    default: return "";
+	    }
 	}
 	
 	public static void addGis(Model m, Element gis, Resource main) {
@@ -159,10 +149,9 @@ public class PlaceMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
-			if (value.startsWith("WB_"))
-			    value = "wb_"+value.substring(3);
+			value = gisIdToUri(value);
 			if (value.isEmpty()) continue;
-			prop = m.getProperty(PLP+value);
+			prop = m.getProperty(value);
 			value = current.getAttribute("value").trim();
 			l = m.createLiteral(value);
 			m.add(main, prop, l);
@@ -172,23 +161,23 @@ public class PlaceMigration {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("lat").trim();
 			if (!value.isEmpty()) {
-			    prop = m.getProperty(PLP+"lat");
+			    prop = m.getProperty(BDO+"placeLat");
 			    l = m.createLiteral(value);
 			    m.add(main, prop, l);
 			}
 			value = current.getAttribute("long").trim();
 			if (!value.isEmpty()) {
-			    prop = m.getProperty(PLP+"long");
+			    prop = m.getProperty(BDO+"placeLong");
 			    l = m.createLiteral(value);
 			    m.add(main, prop, l);
 			}
-			prop = m.getProperty(PLP+"accuracy");
+			prop = m.getProperty(BDO+"placeAccuracy");
 			value = current.getAttribute("accuracy").trim();
 			if(!value.isEmpty()) {
 				l = m.createLiteral(value);
 				m.add(main, prop, l);
 			}
-			prop = m.getProperty(PLP+"regionPoly");
+			prop = m.getProperty(BDO+"placeRegionPoly");
 			value = current.getTextContent().trim();
 			if(!value.isEmpty()) {
 				l = m.createLiteral(value);
@@ -229,11 +218,11 @@ public class PlaceMigration {
 			value = current.getAttribute("type").trim();
 			String normalizedValue = normalizePlaceType(value);
 			if (normalizedValue.equals("NotSpecified")) {
-			    CommonMigration.addException(m, main, "unable to deterine place type, original type: '"+value+"'");
+			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "unable to deterine place type, original type: `"+value+"`");
 			}
 			return normalizedValue;
 		}
-	    CommonMigration.addException(m, main, "unspecified place type");
+	    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "missing place type");
 		return value;
 	}
 	
@@ -244,21 +233,20 @@ public class PlaceMigration {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
 			if (value.isEmpty()) {
-			    value = "NotSpecified";
-	            CommonMigration.addException(m, main, "missing type for an event");
+			    value = BDR+"PlaceEventTypeNotSpecified";
+			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "event", "missing type for an event");
 	        } else {
 	            // should start with "placeEventTypes:"
 	            value = value.substring(16);
-	            value = CommonMigration.normalizePropName(value, "Class");
+	            value = getUriFromTypeSubtype("eventType", value);
 	        }
-			String name = CommonMigration.getSubResourceName(main, PLP, "Event", i+1);
-			Resource event = m.createResource(name);
-			m.add(event, RDF.type, m.getResource(PLP+value));
+			Resource event = m.createResource();
+			m.add(event, m.getProperty(BDO, "placeEventType"), m.getResource(value));
 			value = current.getAttribute("circa").trim();
 			if (!value.isEmpty()) {
-				m.add(event, m.createProperty(PLP+"event_circa"), m.createLiteral(value));
+				m.add(event, m.createProperty(BDO+"onOrAbout"), m.createLiteral(value));
 			}
-			Property prop = m.getProperty(PLP+"hasEvent");
+			Property prop = m.getProperty(BDO+"placeEvent");
 			m.add(main, prop, event);
 			addAffiliations(m, current, event);
 			CommonMigration.addNotes(m, current, event, PLXSDNS);
@@ -283,22 +271,19 @@ public class PlaceMigration {
     			    if (value.equals("lineage:Kadampa")) value = "lineage:Kadam";
     			    if (value.equals("lineage:Shije")) value = "lineage:Zhije";
     				value = value.substring(8);
-    				String rid = lineageTypeToSomething.get(value);
-    				if (rid == null) {
-    				    CommonMigration.addException(m, event, "unknown lineage value: '"+value+"'");
-    				} else {
-    				    target = m.createResource(CommonMigration.OUTLINE_PREFIX+rid);
-                        prop = m.getProperty(PLP+"affiliatedWith_lineage");
-    				}
+    				String url =  getUriFromTypeSubtype("tradition", value);
+				    target = m.createResource(url);
+                    prop = m.getProperty(BDO+"placeEventAffiliation");
 	            }
 				break;
+		    // TODO: handle these two
 			case "placeEventAffiliationTypes:corporation":
 				target = m.createResource(CommonMigration.CORPORATION_PREFIX+value);
-				prop = m.getProperty(PLP+"affiliatedWith_corporation");
+				prop = m.getProperty(BDO+"affiliatedWith_corporation");
 				break;
 			default: // "placeEventAffiliationTypes:office"
 				target = m.createResource(CommonMigration.OFFICE_PREFIX+value);
-				prop = m.getProperty(PLP+"affiliatedWith_office");
+				prop = m.getProperty(BDO+"affiliatedWith_office");
 				break;
 			}
 			if (prop != null)

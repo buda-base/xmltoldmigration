@@ -14,7 +14,7 @@
       "@value" : "丹珠尔"
     } ],
     "status" : {
-      "@id" : ":StatusReleased"
+      "@id" : "bdr:StatusReleased"
     },
     "@id" : "bdr:T3CN2023",
     "@type" : "Topic",

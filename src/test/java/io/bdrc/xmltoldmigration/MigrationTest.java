@@ -2,6 +2,9 @@ package io.bdrc.xmltoldmigration;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.Document;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
@@ -135,20 +138,20 @@ public class MigrationTest
         flushLog();
     }
 	
-//	@Test
-//    public void testG844()
-//    {
-//	    System.out.println("testing G844");
-//    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
-//    	Validator validator = MigrationHelpers.getValidatorFor("place");
-//        assertFalse(CommonMigration.documentValidates(d, validator));
-//    	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
-//    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
-//    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
-//        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-//        flushLog();
-//    }
+	@Test
+    public void testG844()
+    {
+	    System.out.println("testing G844");
+    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
+    	Validator validator = MigrationHelpers.getValidatorFor("place");
+        assertFalse(CommonMigration.documentValidates(d, validator));
+    	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
+    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
+    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
+    }
 //	
 //	@Test
 //    public void testPR99NCUL01()
@@ -234,7 +237,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "office");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OfficeTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", true);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

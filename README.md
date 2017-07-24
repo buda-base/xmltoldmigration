@@ -39,7 +39,6 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 - migrate some GIS id (WB_area_sq_km, etc.) to descriptions
 - migrate most description to more specific properties (first batch done, more to be done later)
 - some properties have a useless lang tag: gbdist, gonpaPer1000, etc.
-- https://www.tbrc.org/xmldoc?rid=O5TAX003 has two "TaklungKagyu" entries, does it matter?
 - Outline nodes labels are based on names, but when absent, it may need to be based on titles?
 - make sure the vol info is present in outline locations when a work has more than 1 volume
 - link the volumes to the work?

@@ -8,7 +8,7 @@
       "@value" : "bran ka"
     } ],
     "status" : {
-      "@id" : ":StatusReleased"
+      "@id" : "bdr:StatusReleased"
     },
     "@id" : "bdr:C11MS170",
     "@type" : "Corporation",

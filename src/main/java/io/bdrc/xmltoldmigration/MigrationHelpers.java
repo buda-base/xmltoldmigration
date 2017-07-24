@@ -161,7 +161,7 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(PERSON, ":Person");
 		typeToRootShortUri.put(WORK, "wor:Work");
 		typeToRootShortUri.put(OUTLINE, "out:Outline");
-		typeToRootShortUri.put(PLACE, "plc:Place");
+		typeToRootShortUri.put(PLACE, ":Place");
 		typeToRootShortUri.put(TOPIC, ":Topic");
 		typeToRootShortUri.put(LINEAGE, "lin:Lineage");
 		typeToRootShortUri.put(CORPORATION, ":Corporation");

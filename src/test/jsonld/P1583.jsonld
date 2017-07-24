@@ -11,7 +11,7 @@
       "@value" : "Drime Oser"
     } ],
     "status" : {
-      "@id" : ":StatusReleased"
+      "@id" : "bdr:StatusReleased"
     },
     "@id" : "bdr:P1583",
     "@type" : "Person",
