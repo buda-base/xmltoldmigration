@@ -16,6 +16,7 @@ public class PlaceMigration {
 	private static final String PLXSDNS = "http://www.tbrc.org/models/place#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String ADM = CommonMigration.ADM;
 	
     private static String getUriFromTypeSubtype(String type, String subtype) {
         switch (type) {
@@ -90,22 +91,22 @@ public class PlaceMigration {
 	}
 
 	public static void addTlm(Model m, Resource main, Element tlmEl) {
-		addSimpleAttr(tlmEl.getAttribute("accession"), "hasTLM_accession", BDO+"place_TLM_accession", m, main);
-		addSimpleAttr(tlmEl.getAttribute("code"), "hasTLM_code", BDO+"place_TLM_code", m, main);
-		addSimpleAttr(tlmEl.getAttribute("num"), "hasTLM_num", BDO+"place_TLM_num", m, main);
+		addSimpleAttr(tlmEl.getAttribute("accession"), "hasTLM_accession", ADM+"place_TLM_accession", m, main);
+		addSimpleAttr(tlmEl.getAttribute("code"), "hasTLM_code", ADM+"place_TLM_code", m, main);
+		addSimpleAttr(tlmEl.getAttribute("num"), "hasTLM_num", ADM+"place_TLM_num", m, main);
 		NodeList nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "taxonomy");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			Resource tax = m.createResource(CommonMigration.BDR+current.getAttribute("rid"));
-			m.add(main, m.getProperty(BDO+"placeTlmTaxonomy"), tax);
+			m.add(main, m.getProperty(ADM+"placeTlmTaxonomy"), tax);
 		}
 		nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "groups");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			addSimpleAttr(current.getAttribute("admin"), "hasTLM_admin", BDO+"place_TLM_admin", m, main);
-			addSimpleAttr(current.getAttribute("adminEmail"), "hasTLM_adminEmail", BDO+"place_TLM_adminEmail", m, main);
-			addSimpleAttr(current.getAttribute("librarian"), "hasTLM_librarian", BDO+"place_TLM_librarian", m, main);
-			addSimpleAttr(current.getAttribute("librarianEmail"), "hasTLM_librarianEmail", BDO+"place_TLM_librarianEmail", m, main);
+			addSimpleAttr(current.getAttribute("admin"), "hasTLM_admin", ADM+"place_TLM_admin", m, main);
+			addSimpleAttr(current.getAttribute("adminEmail"), "hasTLM_adminEmail", ADM+"place_TLM_adminEmail", m, main);
+			addSimpleAttr(current.getAttribute("librarian"), "hasTLM_librarian", ADM+"place_TLM_librarian", m, main);
+			addSimpleAttr(current.getAttribute("librarianEmail"), "hasTLM_librarianEmail", ADM+"place_TLM_librarianEmail", m, main);
 		}
 	}
 	

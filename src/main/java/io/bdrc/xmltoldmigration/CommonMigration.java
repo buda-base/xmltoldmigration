@@ -40,7 +40,7 @@ import openllet.core.exceptions.InternalReasonerException;
 public class CommonMigration  {
 
 	public static final String ONTOLOGY_PREFIX = "http://purl.bdrc.io/ontology/";
-	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/ontology/admin/";
+	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/admin/";
 	public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
 	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
     public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
@@ -230,80 +230,6 @@ public class CommonMigration  {
 			    +"}";
 	}
 	
-	public static String normalizeDescription(String desc) {
-	    switch (desc) {
-	    case "chapter": 	          return "work_desc_chapters";
-	    case "chapters":              return "work_desc_chapters";
-	    case "content":               return "work_desc_contents";
-	    case "contents":              return "work_desc_contents";
-	    case "completionDate":        return "work_desc_completionDate";
-	    case "date":                  return "work_desc_date";
-	    case "errata":                return "work_desc_errata";
-	    case "extent":                return "work_desc_extent";
-	    case "id":                    return "work_desc_id";
-	    case "libraryOfCongress":     return "work_desc_libraryOfCongress";
-	    case "location":              return "work_desc_location";
-	    case "remarks":               return "work_desc_remarks";
-	    case "room":                  return "work_desc_room";
-	    case "snar_bstan_number":     return "workKaTenSiglaN";
-	    case "snr_thang_number":      return "workKaTenSiglaN";
-	    case "snar_thang_number":     return "workKaTenSiglaN"; 
-	    case "gser_bris_numbr":       return "workKaTenSiglaG";
-	    case "gser_birs_number":      return "workKaTenSiglaG";
-	    case "gse_bris_number":       return "workKaTenSiglaG";
-	    case "sger_bris_number":      return "workKaTenSiglaG";
-	    case "gser_bri_numer":        return "workKaTenSiglaG";
-	    case "gser_dris_number":      return "workKaTenSiglaG";
-	    case "gser_bri_number":       return "workKaTenSiglaG";
-	    case "gser_bris_nimber":      return "workKaTenSiglaG";
-	    case "gser_bris_number":      return "workKaTenSiglaG";
-	    case "colopho":               return "workColophon";
-	    case "colophon":              return "workColophon";
-	    case "colophn":               return "workColophon";
-	    case "colophone":             return "workColophon";
-        case "sde_gde_number":        return "workKaTenSiglaD";
-        case "de_dge_number":         return "workKaTenSiglaD";
-        case "sdg_dge_number":        return "workKaTenSiglaD";
-        case "sdr_dge_number":        return "workKaTenSiglaD";
-        case "sde_dge_number":        return "workKaTenSiglaD";
-        case "lhasa_number":          return "workKaTenSiglaH";
-	    case "stog_numbe":            return "workKaTenSiglaS";
-	    case "stog_unmber":           return "workKaTenSiglaS";
-	    case "StogNumber":            return "workKaTenSiglaS";
-	    case "stog_number":           return "workKaTenSiglaS";
-	    case "toh_number":            return "workKaTenRefToh";
-	    case "toh":                   return "workKaTenRefToh";
-	    case "otani_number":          return "workKaTenSiglaQ";
-	    case "otani":                 return "workKaTenSiglaQ";
-	    case "otani_beijing":         return "workKaTenSiglaQ";
-	    case "SheyNumber":            return "workKaTenSiglaZ";
-        case "shey_number":           return "workKaTenSiglaZ";
-	    case "rKTsReference":         return "workKaTenRefrKTs";
-	    case "bon_bka_gyur_number":   return "workKaTenSiglaBon";
-	    case "urga_number":           return "workKaTenSiglaU";
-	    case "IsIAO":                 return "workRefIsIAO";
-	    case "catalogue_number":      return "workRefChokLing";
-        case "nameLex":               return "place_name_lex";
-        case "nameKR":                return "place_name_kr";
-        case "gbdist":                return "place_gb_dist";
-        case "town_syl":              return "place_town_syl";
-        case "town_py":               return "place_town_py";
-        case "town_ch":               return "place_town_ch";
-        case "prov_py":               return "place_prov_py";
-        case "gonpaPerEcumen":        return "place_gonpa_per1000";
-        case "gonpaPer1000":          return "place_gonpa_perEcumen";
-        case "dist_py":               return "place_dist_py";
-        case "ondisk":
-        case "onDisk":
-        case "dld":
-        case "dpl480":
-        case "featured":
-            return "__ignore";
-	    default:
-	        return null;
-	    }
-	}
-	
 	public static Literal getLitFromUri(Model m, String uri) {
 		//return m.createLiteral(m.shortForm(uri));
 		return m.createLiteral(uri);
@@ -326,6 +252,82 @@ public class CommonMigration  {
 		m.add(r, RDFS.label, l);
 	}
 	
+	public static String getDescriptionUriFromType(String type) {
+	    String res = normalizePropName(type, "description");
+	       switch (res) {
+	        case "chapter":               return BDO+"work_desc_chapters";
+	        case "chapters":              return BDO+"work_desc_chapters";
+	        case "content":               return BDO+"work_desc_contents";
+	        case "contents":              return BDO+"work_desc_contents";
+	        case "completionDate":        return BDO+"work_desc_completionDate";
+	        case "date":                  return ADM+"work_desc_date";
+	        case "errata":                return BDO+"work_desc_errata";
+	        case "extent":                return BDO+"work_desc_extent";
+	        case "id":                    return BDO+"work_desc_id";
+	        case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
+	        case "location":              return BDO+"work_desc_location";
+	        case "remarks":               return BDO+"work_desc_remarks";
+	        case "room":                  return BDO+"work_desc_room";
+	        case "summary":               return BDO+"workSummary";
+	        case "snar_bstan_number":     return BDO+"workKaTenSiglaN";
+	        case "snr_thang_number":      return BDO+"workKaTenSiglaN";
+	        case "snar_thang_number":     return BDO+"workKaTenSiglaN"; 
+	        case "gser_bris_numbr":       return BDO+"workKaTenSiglaG";
+	        case "gser_birs_number":      return BDO+"workKaTenSiglaG";
+	        case "gse_bris_number":       return BDO+"workKaTenSiglaG";
+	        case "sger_bris_number":      return BDO+"workKaTenSiglaG";
+	        case "gser_bri_numer":        return BDO+"workKaTenSiglaG";
+	        case "gser_dris_number":      return BDO+"workKaTenSiglaG";
+	        case "gser_bri_number":       return BDO+"workKaTenSiglaG";
+	        case "gser_bris_nimber":      return BDO+"workKaTenSiglaG";
+	        case "gser_bris_number":      return BDO+"workKaTenSiglaG";
+	        case "colopho":               return BDO+"workColophon";
+	        case "colophon":              return BDO+"workColophon";
+	        case "colophn":               return BDO+"workColophon";
+	        case "colophone":             return BDO+"workColophon";
+	        case "sde_gde_number":        return BDO+"workKaTenSiglaD";
+	        case "de_dge_number":         return BDO+"workKaTenSiglaD";
+	        case "sdg_dge_number":        return BDO+"workKaTenSiglaD";
+	        case "sdr_dge_number":        return BDO+"workKaTenSiglaD";
+	        case "sde_dge_number":        return BDO+"workKaTenSiglaD";
+	        case "lhasa_number":          return BDO+"workKaTenSiglaH";
+	        case "stog_numbe":            return BDO+"workKaTenSiglaS";
+	        case "stog_unmber":           return BDO+"workKaTenSiglaS";
+	        case "StogNumber":            return BDO+"workKaTenSiglaS";
+	        case "stog_number":           return BDO+"workKaTenSiglaS";
+	        case "toh_number":            return BDO+"workKaTenRefToh";
+	        case "toh":                   return BDO+"workKaTenRefToh";
+	        case "otani_number":          return BDO+"workKaTenSiglaQ";
+	        case "otani":                 return BDO+"workKaTenSiglaQ";
+	        case "otani_beijing":         return BDO+"workKaTenSiglaQ";
+	        case "SheyNumber":            return BDO+"workKaTenSiglaZ";
+	        case "shey_number":           return BDO+"workKaTenSiglaZ";
+	        case "rKTsReference":         return BDO+"workKaTenRefrKTs";
+	        case "bon_bka_gyur_number":   return BDO+"workKaTenSiglaBon";
+	        case "urga_number":           return BDO+"workKaTenSiglaU";
+	        case "IsIAO":                 return BDO+"workRefIsIAO";
+	        case "catalogue_number":      return BDO+"workRefChokLing";
+            case "gonpaPerEcumen":        return BDO+"placeGonpaPerEcumen";
+	        case "nameLex":               return ADM+"place_name_lex";
+	        case "nameKR":                return ADM+"place_name_kr";
+	        case "gbdist":                return ADM+"place_gb_dist";
+	        case "town_syl":              return ADM+"place_town_syl";
+	        case "town_py":               return ADM+"place_town_py";
+	        case "town_ch":               return ADM+"place_town_ch";
+	        case "prov_py":               return ADM+"place_prov_py";
+	        case "gonpaPer1000":          return ADM+"place_gonpa_per1000";
+	        case "dist_py":               return ADM+"place_dist_py";
+	        case "ondisk":
+	        case "onDisk":
+	        case "dld":
+	        case "dpl480":
+	        case "featured":
+	            return "__ignore";
+	        default:
+	            return null;
+	        }
+	}
+	
 	public static String normalizePropName(String toNormalize, String targetType) {
 		String res = toNormalize.trim().replace("'", "").replace(" ", "_");
 		if (targetType == "Class") {
@@ -333,9 +335,6 @@ public class CommonMigration  {
 		} else {
 		    res = res.substring(0,1).toLowerCase() + res.substring(1);
 		}
-		if (targetType == "description") {
-            res = normalizeDescription(res);
-        }
 		return res;
 	}
 	
@@ -515,44 +514,64 @@ public class CommonMigration  {
        addNames(m, e, r, XsdPrefix, true);
     }
 	
+   public static boolean descriptionTypeNeedsLang(String type) {
+       switch (type) {
+       case "authorship":
+       case "colophon":
+       case "colopho":
+       case "colophn":
+       case "colophone":
+       case "contents": // for office, corporation, etc., maybe not for works
+           return true;
+       default:
+           return false;
+       }
+   }
+   
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			Literal l = getLiteral(current, "en", m, "description", r.getLocalName(), r.getLocalName());
-			if (l == null) continue;
-			String type = current.getAttribute("type");
-	         if (type.equals("nameLex")) {
+			String value = current.getTextContent().trim();
+			if (value.isEmpty()) continue;
+			String type = current.getAttribute("type").trim();
+	        if (type.isEmpty()) type = "noType";
+	        Literal l;
+	        if (descriptionTypeNeedsLang(type)) {
+	            l = getLiteral(current, "en", m, "description", r.getLocalName(), r.getLocalName());
+	            if (l == null) continue;
+	        } else {
+	            l = m.createLiteral(normalizeString(value));
+	        }
+	        if (type.equals("nameLex")) {
                 String placeId = r.getLocalName();
                 current.setTextContent(current.getTextContent().replace(placeId, ""));
             }
-			if (type.isEmpty()) type = "noType";
-			String newType = normalizePropName(type, "description");
-			if (newType != null && newType.equals("__ignore")) continue;
-			if (newType == null || newType.isEmpty()) {
+			if (type.equals(BDO+"date")) { 
+                ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "a description of type date should be changed into something meaningful");
+                continue;
+            }
+            if (type.equals(BDO+"note")) {
+                Resource note = m.createResource();
+                m.add(note, RDF.type, m.createProperty(BDO+"Note"));
+                m.add(r, m.getProperty(BDO+"note"), note);
+                m.add(note, m.getProperty(BDO+"noteText"), l);
+                continue;
+            }
+			String propUri = getDescriptionUriFromType(type);
+			if (propUri != null && propUri.equals("__ignore")) continue;
+			if (propUri == null || propUri.isEmpty()) {
 			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "unhandled description type: "+type);
 			    continue;
 			}
-			type = newType;
-			// onDisk is treated separately in imageGroups, TODO: check if it appears somewhere else
-			if (type.equals("date")) 
-			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "a description of type date should be changed into something meaningful");
-			if (type.equals("note")) {
-		        Resource note = m.createResource();
-		        m.add(note, RDF.type, m.createProperty(BDO+"Note"));
-	            m.add(r, m.getProperty(BDO+"note"), note);
-	            m.add(note, m.getProperty(BDO+"noteText"), l);
-			    continue;
-			}
 			// for product and office the name is the first description type="contents", and we don't want to keep it in a description
-            if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage()) && type.equals("work_desc_contents")) {
+            if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage()) && type.equals("contents")) {
                 r.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
                 labelDoneForLang.put(l.getLanguage(), true);
                 continue;
             }
-            Property prop = m.getProperty(BDO,type);
-            r.addProperty(prop, l);
+            r.addProperty(m.getProperty(propUri), l);
 		}
 	}
 	
@@ -592,8 +611,7 @@ public class CommonMigration  {
                Property prop = m.getProperty(ROOT_PREFIX, "subject_"+value);
                value = current.getAttribute("class").trim();
                if (!value.isEmpty()) {
-                   value =  CommonMigration.getPrefixFromRID(value)+value;
-                   m.add(main, prop, m.createResource(value));
+                   m.add(main, prop, m.createResource(BDR+value));
                }
            }
        }

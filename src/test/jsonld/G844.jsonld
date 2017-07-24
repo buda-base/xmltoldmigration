@@ -13,6 +13,24 @@
     "@id" : "bdr:G844",
     "@type" : "Place",
     "WBArea" : "test",
+    "admin/placeTlmTaxonomy" : {
+      "@id" : "bdr:O1TLMXXX000011"
+    },
+    "admin/place_TLM_accession" : "004476",
+    "admin/place_TLM_admin" : "tgaAdmin",
+    "admin/place_TLM_adminEmail" : "xxx",
+    "admin/place_TLM_code" : "TGA",
+    "admin/place_TLM_librarian" : "tgaLibrarian",
+    "admin/place_TLM_librarianEmail" : "xxx",
+    "admin/place_TLM_num" : "003159",
+    "admin/place_dist_py" : "Lhasa Shi",
+    "admin/place_gb_dist" : "5401",
+    "admin/place_gonpa_per1000" : "7.514",
+    "admin/place_name_kr" : "萨迦·衮噶坚赞｜萨迦班智达",
+    "admin/place_name_lex" : [ "tshal gung thang", "tshal gung thang G844" ],
+    "admin/place_prov_py" : "Xizang",
+    "admin/place_town_ch" : "蔡公堂乡",
+    "admin/place_town_syl" : "Cai Gong Tang Xiang",
     "name" : [ {
       "@language" : "bo-x-ewts",
       "@value" : "bya yul"
@@ -24,13 +42,7 @@
       "@value" : "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"
     } ],
     "note" : [ {
-      "@id" : "_:b12",
-      "noteText" : {
-        "@language" : "en",
-        "@value" : "the region of the rulers of the bya principality in southern tibet"
-      }
-    }, {
-      "@id" : "_:b6",
+      "@id" : "_:b8",
       "noteLoc" : "p.1467-1468",
       "noteText" : {
         "@language" : "en",
@@ -39,9 +51,15 @@
       "noteWork" : {
         "@id" : "bdr:W26372"
       }
+    }, {
+      "@id" : "_:b3",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "the region of the rulers of the bya principality in southern tibet"
+      }
     } ],
     "placeAddress" : {
-      "@id" : "_:b4",
+      "@id" : "_:b6",
       "@type" : "PlaceAddress",
       "addressCity" : "Chauntra"
     },
@@ -68,7 +86,7 @@
         "@id" : "ofc:Rtest"
       },
       "note" : {
-        "@id" : "_:b7",
+        "@id" : "_:b5",
         "noteLoc" : "test",
         "noteText" : {
           "@language" : "en",
@@ -88,12 +106,13 @@
         "@id" : "bdr:PlaceFounded"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b9",
       "onOrAbout" : "13uu/17uu",
       "placeEventType" : {
         "@id" : "bdr:PlaceFounded"
       }
     } ],
+    "placeGonpaPerEcumen" : "7.51",
     "placeIdLex" : "540102200:540101145",
     "placeIdTBRC" : "540102200:540101145",
     "placeLat" : "29.63984",
@@ -102,60 +121,11 @@
     },
     "placeLong" : "91.22002",
     "placeRegionPoly" : "Some polygon coordinates",
-    "placeTlmTaxonomy" : {
-      "@id" : "bdr:O1TLMXXX000011"
-    },
     "placeType" : {
       "@id" : "bdr:NotSpecified"
     },
-    "place_TLM_accession" : "004476",
-    "place_TLM_admin" : "tgaAdmin",
-    "place_TLM_adminEmail" : "xxx",
-    "place_TLM_code" : "TGA",
-    "place_TLM_librarian" : "tgaLibrarian",
-    "place_TLM_librarianEmail" : "xxx",
-    "place_TLM_num" : "003159",
-    "place_dist_py" : {
-      "@language" : "zh-latn-pinyin",
-      "@value" : "Lhasa Shi"
-    },
-    "place_gb_dist" : {
-      "@language" : "en",
-      "@value" : "5401"
-    },
-    "place_gonpa_per1000" : {
-      "@language" : "en",
-      "@value" : "7.51"
-    },
-    "place_gonpa_perEcumen" : {
-      "@language" : "en",
-      "@value" : "7.514"
-    },
-    "place_name_kr" : {
-      "@language" : "zh",
-      "@value" : "萨迦·衮噶坚赞｜萨迦班智达"
-    },
-    "place_name_lex" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "tshal gung thang G844"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "tshal gung thang"
-    } ],
-    "place_prov_py" : {
-      "@language" : "zh-latn-pinyin",
-      "@value" : "Xizang"
-    },
-    "place_town_ch" : {
-      "@language" : "zh",
-      "@value" : "蔡公堂乡"
-    },
-    "place_town_syl" : {
-      "@language" : "zh-x-syx",
-      "@value" : "Cai Gong Tang Xiang"
-    },
     "log_entry" : [ {
-      "@id" : "_:b10",
+      "@id" : "_:b1",
       "logMessage" : {
         "@language" : "en",
         "@value" : "added byams pa chos gling gzhis ka'i par khang"
@@ -168,7 +138,20 @@
         "@id" : "bdr:U13"
       }
     }, {
-      "@id" : "_:b8",
+      "@id" : "_:b10",
+      "logMessage" : {
+        "@language" : "en",
+        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+      },
+      "logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-12-11T17:39:05.287Z"
+      },
+      "logWho" : {
+        "@id" : "bdr:U20"
+      }
+    }, {
+      "@id" : "_:b12",
       "logMessage" : {
         "@language" : "en",
         "@value" : "added location"
@@ -194,32 +177,6 @@
         "@id" : "bdr:U20"
       }
     }, {
-      "@id" : "_:b9",
-      "logMessage" : {
-        "@language" : "en",
-        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
-      },
-      "logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-12-11T17:39:05.287Z"
-      },
-      "logWho" : {
-        "@id" : "bdr:U20"
-      }
-    }, {
-      "@id" : "_:b1",
-      "logMessage" : {
-        "@language" : "en",
-        "@value" : "added type & location & contains"
-      },
-      "logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-04-01T09:36:07.005Z"
-      },
-      "logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
       "@id" : "_:b2",
       "logMessage" : {
         "@language" : "en",
@@ -233,7 +190,20 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b7",
+      "logMessage" : {
+        "@language" : "en",
+        "@value" : "added type & location & contains"
+      },
+      "logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-04-01T09:36:07.005Z"
+      },
+      "logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b4",
       "logMessage" : {
         "@language" : "en",
         "@value" : "added contain"
@@ -246,7 +216,7 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b5",
+      "@id" : "_:b0",
       "logMessage" : {
         "@language" : "en",
         "@value" : "added name & note"
