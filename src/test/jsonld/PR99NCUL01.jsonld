@@ -9,15 +9,29 @@
     },
     "@id" : "bdr:PR99NCUL01",
     "@type" : "Product",
+    "admin/logEntry" : {
+      "@id" : "_:b5",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added entry for NCCU Taiwan"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-09-22T19:39:47.382Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U6"
+      }
+    },
     "productAllowByAddr" : "ip6",
     "productHasOrg" : [ {
-      "@id" : "_:b0",
+      "@id" : "_:b1",
       "name" : {
         "@language" : "en",
         "@value" : "Top2"
       },
       "productHasOrg" : [ {
-        "@id" : "_:b1",
+        "@id" : "_:b0",
         "name" : {
           "@language" : "en",
           "@value" : "Sub3"
@@ -48,26 +62,11 @@
     } ],
     "productInclude" : {
       "@id" : "bdr:PR88CT000129"
-    },
-    "log_entry" : {
-      "@id" : "_:b5",
-      "logMessage" : {
-        "@language" : "en",
-        "@value" : "added entry for NCCU Taiwan"
-      },
-      "logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-09-22T19:39:47.382Z"
-      },
-      "logWho" : {
-        "@id" : "bdr:U6"
-      }
     }
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/",
-    "bdo" : "http://purl.bdrc.io/ontology/",
-    "adm" : "http://purl.bdrc.io/admin/",
+    "adm" : "http://purl.bdrc.io/ontology/admin/",
     "bdd" : "http://purl.bdrc.io/data/",
     "bdr" : "http://purl.bdrc.io/resource/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",

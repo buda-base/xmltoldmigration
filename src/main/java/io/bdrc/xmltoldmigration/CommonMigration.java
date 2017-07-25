@@ -187,17 +187,6 @@ public class CommonMigration  {
 		m.setNsPrefix("adm", ADMIN_PREFIX);
 		m.setNsPrefix("bdd", DATA_PREFIX);
 		m.setNsPrefix("bdr", RESOURCE_PREFIX);
-		m.setNsPrefix("root", ROOT_PREFIX);
-		m.setNsPrefix("per", PERSON_PREFIX);
-		m.setNsPrefix("prd", PRODUCT_PREFIX);
-		m.setNsPrefix("wor", WORK_PREFIX);
-		m.setNsPrefix("out", OUTLINE_PREFIX);
-		m.setNsPrefix("plc", PLACE_PREFIX);
-		m.setNsPrefix("top", TOPIC_PREFIX);
-		m.setNsPrefix("lin", LINEAGE_PREFIX);
-		m.setNsPrefix("vol", VOLUMES_PREFIX);
-		m.setNsPrefix("crp", CORPORATION_PREFIX);
-		m.setNsPrefix("ofc", OFFICE_PREFIX);
 		m.setNsPrefix("owl", OWL_PREFIX);
 		m.setNsPrefix("rdf", RDF_PREFIX);
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
@@ -208,7 +197,6 @@ public class CommonMigration  {
 	public static String getJsonLDContext() {
 		return "{"
 				+"\"@vocab\" : \""+ONTOLOGY_PREFIX+"\","
-				+"\"bdo\" : \""+ONTOLOGY_PREFIX+"\","
 				+"\"adm\" : \""+ADMIN_PREFIX+"\","
 				+"\"bdd\" : \""+DATA_PREFIX+"\","
 				+"\"bdr\" : \""+RESOURCE_PREFIX+"\","
@@ -365,7 +353,7 @@ public class CommonMigration  {
 		}
 		value = e.getAttribute("location");
 		if (!value.isEmpty()) {
-			prop = m.getProperty(BDO, "noteLoc");
+			prop = m.getProperty(BDO, "noteLocationStatement");
 			lit = m.createLiteral(value);
 			m.add(note, prop, lit);
 		}
@@ -434,11 +422,11 @@ public class CommonMigration  {
 		if (e == null) return;
 		Resource logEntry = m.createResource();
 		//m.add(logEntry, RDF.type, m.getProperty(BDO+"LogEntry"));
-		Property prop = m.getProperty(BDO, "log_entry");
+		Property prop = m.getProperty(ADM, "logEntry");
 		m.add(r, prop, logEntry);
 		String value = e.getAttribute("when");
 		if (!value.isEmpty()) {
-			prop = m.createProperty(BDO+"logWhen");
+			prop = m.createProperty(ADM+"logWhen");
 			try {
 			    m.add(logEntry, prop, literalFromXsdDate(m, value));
 			} catch (DatatypeFormatException ex) {
@@ -447,7 +435,7 @@ public class CommonMigration  {
 		}
 		value = normalizeString(e.getAttribute("who"));
 		if (!value.isEmpty() && !value.equals("unspecified")) {
-			prop = m.createProperty(BDO+"logWho");
+			prop = m.createProperty(ADM+"logWho");
 			String uri = logWhoToUri.get(value);
 			if (uri == null) {
 			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "log_who", "unknown who: "+value);    
@@ -457,7 +445,7 @@ public class CommonMigration  {
 		}
 		value = normalizeString(e.getTextContent(), true);
 		if (!value.isEmpty()) {
-			prop = m.createProperty(BDO+"logMessage");
+			prop = m.createProperty(ADM+"logMessage");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
 		}
 		

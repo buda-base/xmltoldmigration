@@ -12,25 +12,39 @@
     },
     "@id" : "bdr:C11MS170",
     "@type" : "Corporation",
+    "admin/logEntry" : {
+      "@id" : "_:b2",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "created new corp."
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-10-23T10:26:04.725Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U20"
+      }
+    },
     "corporationHasMember" : [ {
       "@id" : "_:b0",
-      "corporationMember" : {
-        "@id" : "bdr:P1856"
-      },
-      "corporationMemberType" : {
-        "@id" : "bdr:CorporationMemberTypeNotSpecified"
-      }
-    }, {
-      "@id" : "_:b2",
       "corporationMember" : {
         "@id" : "bdr:P1857"
       },
       "corporationMemberType" : {
         "@id" : "bdr:CorporationMemberTypeUnknown"
       }
+    }, {
+      "@id" : "_:b3",
+      "corporationMember" : {
+        "@id" : "bdr:P1856"
+      },
+      "corporationMemberType" : {
+        "@id" : "bdr:CorporationMemberTypeNotSpecified"
+      }
     } ],
     "corporationRegion" : {
-      "@id" : "plc:G934"
+      "@id" : "http://purl.bdrc.io/ontology/place#G934"
     },
     "name" : [ {
       "@language" : "en-x-mixed",
@@ -40,7 +54,7 @@
       "@value" : "bran ka"
     } ],
     "note" : [ {
-      "@id" : "_:b3",
+      "@id" : "_:b1",
       "noteText" : {
         "@language" : "en",
         "@value" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
@@ -51,42 +65,16 @@
         "@language" : "en",
         "@value" : "associated w / 11th cent. master, P4CZ15480 ?"
       }
-    } ],
-    "log_entry" : {
-      "@id" : "_:b1",
-      "logMessage" : {
-        "@language" : "en",
-        "@value" : "created new corp."
-      },
-      "logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-10-23T10:26:04.725Z"
-      },
-      "logWho" : {
-        "@id" : "bdr:U20"
-      }
-    }
+    } ]
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/",
-    "" : "http://purl.bdrc.io/ontology/",
-    "adm" : ":admin/",
+    "adm" : "http://purl.bdrc.io/ontology/admin/",
     "bdd" : "http://purl.bdrc.io/data/",
     "bdr" : "http://purl.bdrc.io/resource/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "crp" : ":corporation#",
-    "prd" : ":product#",
-    "plc" : ":place#",
-    "ofc" : ":office#",
-    "out" : ":outline#",
-    "lin" : ":lineage#",
-    "top" : ":topic#",
-    "wor" : ":work#",
-    "per" : ":person#",
-    "vol" : ":volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
   }
 }

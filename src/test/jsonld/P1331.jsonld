@@ -1,74 +1,74 @@
 {
   "@graph" : [ {
-    "rdfs:label" : [ {
+    "rdfs:label" : {
       "@language" : "bo-x-ewts",
       "@value" : "blo gros rnam dag"
-    }, {
-      "@language" : "bo",
-      "@value" : "བློ་གྲོས་རྣམ་དག"
-    } ],
-    "status" : "released",
-    "@id" : "per:P1331",
-    "@type" : "per:Person",
+    },
+    "status" : {
+      "@id" : "bdr:StatusReleased"
+    },
+    "@id" : "bdr:P1331",
+    "@type" : "Person",
     "note" : {
-      "@id" : "http://purl.bdrc.io/ontology/root#P1331_Note1",
-      "@type" : "Note",
-      "note_content" : {
+      "@id" : "_:b0",
+      "noteLocationStatement" : "p. 359",
+      "noteText" : {
         "@language" : "en",
         "@value" : "date of death from this source"
       },
-      "note_location" : "p. 359",
-      "note_work" : {
-        "@id" : "wor:W20115"
+      "noteWork" : {
+        "@id" : "bdr:W20115"
       }
     },
-    "per:event" : {
-      "@id" : "per:P1331_Event1",
-      "@type" : "per:Death",
-      "per:event_circa" : "1322"
-    },
-    "per:gender" : "male",
-    "per:primaryName" : [ {
-      "@language" : "bo",
-      "@value" : "བློ་གྲོས་རྣམ་དག"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "blo gros rnam dag"
-    } ],
-    "per:primaryTitle" : [ {
-      "@language" : "bo",
-      "@value" : "བྱ་ཡུལ་བློ་བཟང་རྣམ་དག"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "bya yul blo bzang rnam dag"
-    } ],
-    "per:seat" : {
-      "@id" : "_:b0",
-      "@type" : "per:Seat",
-      "per:seat_place" : {
-        "@id" : "plc:G844"
+    "personEvent" : [ {
+      "@id" : "_:b2",
+      "personEventPlace" : {
+        "@id" : "bdr:G844"
+      },
+      "personEventType" : {
+        "@id" : "bdr:PersonEventOccupiesSeat"
       }
+    }, {
+      "@id" : "bdr:E7285",
+      "onOrAbout" : "1322",
+      "personEventType" : {
+        "@id" : "bdr:PersonEventDeath"
+      }
+    } ],
+    "personGender" : {
+      "@id" : "bdr:GenderMale"
     },
-    "per:teacherOf" : {
-      "@id" : "per:P1323"
+    "personName" : [ {
+      "@id" : "_:b1",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "blo gros rnam dag"
+      },
+      "personName" : {
+        "@id" : "bdr:PersonPrimaryName"
+      }
+    }, {
+      "@id" : "_:b3",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "bya yul blo bzang rnam dag"
+      },
+      "personName" : {
+        "@id" : "bdr:PersonPrimaryTitle"
+      }
+    } ],
+    "personTeacherOf" : {
+      "@id" : "bdr:P1323"
     }
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root#",
-    "crp" : "http://purl.bdrc.io/ontology/corporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "@vocab" : "http://purl.bdrc.io/ontology/",
+    "adm" : "http://purl.bdrc.io/ontology/admin/",
+    "bdd" : "http://purl.bdrc.io/data/",
+    "bdr" : "http://purl.bdrc.io/resource/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work#",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
   }
 }

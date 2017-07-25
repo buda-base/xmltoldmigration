@@ -7,133 +7,136 @@
       "@language" : "bo",
       "@value" : "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"
     } ],
-    "@id" : "bdr:G844",
-    "@type" : "bdo:Place",
-    "adm:placeTlmTaxonomy" : {
-      "@id" : "bdr:O1TLMXXX000011"
+    "status" : {
+      "@id" : "bdr:StatusReleased"
     },
-    "adm:place_TLM_accession" : "004476",
-    "adm:place_TLM_admin" : "tgaAdmin",
-    "adm:place_TLM_adminEmail" : "xxx",
-    "adm:place_TLM_code" : "TGA",
-    "adm:place_TLM_librarian" : "tgaLibrarian",
-    "adm:place_TLM_librarianEmail" : "xxx",
-    "adm:place_TLM_num" : "003159",
-    "adm:place_dist_py" : "Lhasa Shi",
-    "adm:place_gb_dist" : "5401",
-    "adm:place_gonpa_per1000" : "7.514",
-    "adm:place_name_kr" : "萨迦·衮噶坚赞｜萨迦班智达",
-    "adm:place_name_lex" : [ "tshal gung thang", "tshal gung thang G844" ],
-    "adm:place_prov_py" : "Xizang",
-    "adm:place_town_ch" : "蔡公堂乡",
-    "adm:place_town_syl" : "Cai Gong Tang Xiang",
-    "bdo:WBArea" : "test",
-    "bdo:log_entry" : [ {
-      "@id" : "_:b8",
-      "bdo:logMessage" : {
-        "@language" : "en",
-        "@value" : "added name & note"
-      },
-      "bdo:logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-02-19T14:10:50.715Z"
-      },
-      "bdo:logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b11",
-      "bdo:logMessage" : {
-        "@language" : "en",
-        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
-      },
-      "bdo:logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-12-11T17:39:05.287Z"
-      },
-      "bdo:logWho" : {
-        "@id" : "bdr:U20"
-      }
-    }, {
+    "@id" : "bdr:G844",
+    "@type" : "Place",
+    "WBArea" : "test",
+    "admin/logEntry" : [ {
       "@id" : "_:b9",
-      "bdo:logMessage" : {
-        "@language" : "en",
-        "@value" : "added place contained"
-      },
-      "bdo:logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-05-29T12:18:47.035Z"
-      },
-      "bdo:logWho" : {
-        "@id" : "bdr:U20"
-      }
-    }, {
-      "@id" : "_:b13",
-      "bdo:logMessage" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "bdo:logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
-      },
-      "bdo:logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b2",
-      "bdo:logMessage" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "bdo:logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-10-12T12:21:11.602Z"
-      },
-      "bdo:logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b10",
-      "bdo:logMessage" : {
-        "@language" : "en",
-        "@value" : "added location"
-      },
-      "bdo:logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-01-06T14:22:58.026Z"
-      },
-      "bdo:logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b6",
-      "bdo:logMessage" : {
-        "@language" : "en",
-        "@value" : "added byams pa chos gling gzhis ka'i par khang"
-      },
-      "bdo:logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T10:28:55.426Z"
-      },
-      "bdo:logWho" : {
-        "@id" : "bdr:U13"
-      }
-    }, {
-      "@id" : "_:b5",
-      "bdo:logMessage" : {
+      "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added type & location & contains"
       },
-      "bdo:logWhen" : {
+      "admin/logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2013-04-01T09:36:07.005Z"
       },
-      "bdo:logWho" : {
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b8",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added byams pa chos gling gzhis ka'i par khang"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T10:28:55.426Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U13"
+      }
+    }, {
+      "@id" : "_:b10",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-12-11T17:39:05.287Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U20"
+      }
+    }, {
+      "@id" : "_:b12",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added name & note"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-02-19T14:10:50.715Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b1",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added location"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-01-06T14:22:58.026Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b7",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b13",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added place contained"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-05-29T12:18:47.035Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U20"
+      }
+    }, {
+      "@id" : "_:b4",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-10-12T12:21:11.602Z"
+      },
+      "admin/logWho" : {
         "@id" : "bdr:U7"
       }
     } ],
-    "bdo:name" : [ {
+    "admin/placeTlmTaxonomy" : {
+      "@id" : "bdr:O1TLMXXX000011"
+    },
+    "admin/place_TLM_accession" : "004476",
+    "admin/place_TLM_admin" : "tgaAdmin",
+    "admin/place_TLM_adminEmail" : "xxx",
+    "admin/place_TLM_code" : "TGA",
+    "admin/place_TLM_librarian" : "tgaLibrarian",
+    "admin/place_TLM_librarianEmail" : "xxx",
+    "admin/place_TLM_num" : "003159",
+    "admin/place_dist_py" : "Lhasa Shi",
+    "admin/place_gb_dist" : "5401",
+    "admin/place_gonpa_per1000" : "7.514",
+    "admin/place_name_kr" : "萨迦·衮噶坚赞｜萨迦班智达",
+    "admin/place_name_lex" : [ "tshal gung thang", "tshal gung thang G844" ],
+    "admin/place_prov_py" : "Xizang",
+    "admin/place_town_ch" : "蔡公堂乡",
+    "admin/place_town_syl" : "Cai Gong Tang Xiang",
+    "name" : [ {
       "@language" : "bo-x-ewts",
       "@value" : "bya yul"
     }, {
@@ -143,34 +146,34 @@
       "@language" : "bo",
       "@value" : "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"
     } ],
-    "bdo:note" : [ {
-      "@id" : "_:b12",
-      "bdo:noteLoc" : "p.1467-1468",
-      "bdo:noteText" : {
-        "@language" : "en",
-        "@value" : "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"
-      },
-      "bdo:noteWork" : {
-        "@id" : "bdr:W26372"
-      }
-    }, {
-      "@id" : "_:b4",
-      "bdo:noteText" : {
+    "note" : [ {
+      "@id" : "_:b2",
+      "noteText" : {
         "@language" : "en",
         "@value" : "the region of the rulers of the bya principality in southern tibet"
       }
-    } ],
-    "bdo:placeAddress" : {
+    }, {
       "@id" : "_:b3",
-      "bdo:addressCity" : "Chauntra",
-      "bdo:addressCountry" : "India",
-      "bdo:addressNumber" : "མི་གསལ།",
-      "bdo:addressPostal" : "175032",
-      "bdo:addressState" : "Himachal Pradesh",
-      "bdo:addressStreet" : "Dzongsar Institute"
+      "noteLocationStatement" : "p.1467-1468",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"
+      },
+      "noteWork" : {
+        "@id" : "bdr:W26372"
+      }
+    } ],
+    "placeAddress" : {
+      "@id" : "_:b6",
+      "addressCity" : "Chauntra",
+      "addressCountry" : "India",
+      "addressNumber" : "མི་གསལ།",
+      "addressPostal" : "175032",
+      "addressState" : "Himachal Pradesh",
+      "addressStreet" : "Dzongsar Institute"
     },
-    "bdo:placeChgisId" : "854",
-    "bdo:placeContains" : [ {
+    "placeChgisId" : "854",
+    "placeContains" : [ {
       "@id" : "bdr:G3JT12502"
     }, {
       "@id" : "bdr:G2CN10883"
@@ -183,54 +186,51 @@
     }, {
       "@id" : "bdr:G1183"
     } ],
-    "bdo:placeEvent" : [ {
-      "@id" : "_:b0",
-      "bdo:note" : {
-        "@id" : "_:b1",
-        "bdo:noteLoc" : "test",
-        "bdo:noteText" : {
+    "placeEvent" : [ {
+      "@id" : "_:b11",
+      "onOrAbout" : "13uu/17uu",
+      "placeEventType" : {
+        "@id" : "bdr:PlaceFounded"
+      }
+    }, {
+      "@id" : "_:b5",
+      "note" : {
+        "@id" : "_:b0",
+        "noteLocationStatement" : "test",
+        "noteText" : {
           "@language" : "en",
           "@value" : "event note test"
         },
-        "bdo:noteWork" : {
+        "noteWork" : {
           "@id" : "bdr:Wtest"
         }
       },
-      "bdo:onOrAbout" : "1187",
-      "bdo:placeEventAffiliation" : [ {
+      "onOrAbout" : "1187",
+      "placeEventAffiliation" : [ {
         "@id" : "bdr:TraditionTest"
       }, {
         "@id" : "bdr:TraditionKagyu"
       } ],
-      "bdo:placeEventType" : {
-        "@id" : "bdr:PlaceFounded"
-      }
-    }, {
-      "@id" : "_:b7",
-      "bdo:onOrAbout" : "13uu/17uu",
-      "bdo:placeEventType" : {
+      "placeEventType" : {
         "@id" : "bdr:PlaceFounded"
       }
     } ],
-    "bdo:placeGonpaPerEcumen" : "7.51",
-    "bdo:placeIdLex" : "540102200:540101145",
-    "bdo:placeIdTBRC" : "540102200:540101145",
-    "bdo:placeLat" : "29.63984",
-    "bdo:placeLocatedIn" : {
+    "placeGonpaPerEcumen" : "7.51",
+    "placeIdLex" : "540102200:540101145",
+    "placeIdTBRC" : "540102200:540101145",
+    "placeLat" : "29.63984",
+    "placeLocatedIn" : {
       "@id" : "bdr:G843"
     },
-    "bdo:placeLong" : "91.22002",
-    "bdo:placeRegionPoly" : "Some polygon coordinates",
-    "bdo:placeType" : {
+    "placeLong" : "91.22002",
+    "placeRegionPoly" : "Some polygon coordinates",
+    "placeType" : {
       "@id" : "bdr:NotSpecified"
-    },
-    "bdo:status" : {
-      "@id" : "bdr:StatusReleased"
     }
   } ],
   "@context" : {
-    "bdo" : "http://purl.bdrc.io/ontology/",
-    "adm" : "bdo:admin/",
+    "@vocab" : "http://purl.bdrc.io/ontology/",
+    "adm" : "http://purl.bdrc.io/ontology/admin/",
     "bdd" : "http://purl.bdrc.io/data/",
     "bdr" : "http://purl.bdrc.io/resource/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",

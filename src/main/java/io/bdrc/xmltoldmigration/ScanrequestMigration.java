@@ -12,6 +12,9 @@ public class ScanrequestMigration {
 
 	private static final String VP = CommonMigration.VOLUMES_PREFIX;
 	private static final String SRXSDNS = "http://www.tbrc.org/models/scanrequest#";
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String ADM = CommonMigration.ADM;
 
 	
 	// used for testing only
@@ -25,21 +28,21 @@ public class ScanrequestMigration {
             return m;
         }
 
-        Resource volumes = m.createResource(VP+"TestVolumes");
-        m.add(volumes, RDF.type, m.getResource(VP+"Volumes"));
+        Resource volumes = m.createResource(BDR+"TestVolumes");
+        m.add(volumes, RDF.type, m.getResource(BDO+"Item"));
         MigrateScanrequest(xmlDocument, m, volumes);
         
         return m;
 	}
 	
-	// use this giving a vol:Volumes as main argument to fill the work data
-	public static Model MigrateScanrequest(Document xmlDocument, Model m, Resource volumes) {
+	// use this giving an Item as main argument to fill the work data
+	public static Model MigrateScanrequest(Document xmlDocument, Model m, Resource item) {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
-		String value = root.getAttribute("venue");
+		String value = root.getAttribute("venue").trim();
         if (!value.isEmpty())
-            m.add(volumes, m.getProperty(VP+"scan_venue"), m.createLiteral(value));
+            m.add(item, m.getProperty(BDO+"volumeScanVenue"), m.createLiteral(value));
 		
 		return m;
 	}

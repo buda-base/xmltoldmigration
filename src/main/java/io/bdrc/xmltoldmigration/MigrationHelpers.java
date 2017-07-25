@@ -105,6 +105,7 @@ public class MigrationHelpers {
     public static final String PLACE = "place";
     public static final String TOPIC = "topic";
     public static final String VOLUMES = "volumes";
+    public static final String ITEM = "item";
     public static final String WORK = "work";
     // types in source DB and not in target DB
     public static final String IMAGEGROUP = "imagegroup";
@@ -136,7 +137,7 @@ public class MigrationHelpers {
             putDB(PERSON);
             putDB(PLACE);
             putDB(TOPIC);
-            putDB(VOLUMES);
+            putDB(ITEM);
             putDB(WORK);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
@@ -165,17 +166,17 @@ public class MigrationHelpers {
 
 	public static Map<String,String> typeToRootShortUri = new HashMap<String,String>();
 	static {
-		typeToRootShortUri.put(PERSON, "bdo:Person");
+		typeToRootShortUri.put(PERSON, "Person");
 		typeToRootShortUri.put(WORK, "wor:Work");
 		typeToRootShortUri.put(OUTLINE, "out:Outline");
-		typeToRootShortUri.put(PLACE, "bdo:Place");
-		typeToRootShortUri.put(TOPIC, "bdo:Topic");
-		typeToRootShortUri.put(LINEAGE, "bdo:Lineage");
-		typeToRootShortUri.put(CORPORATION, "bdo:Corporation");
-		typeToRootShortUri.put(PRODUCT, "bdo:Product");
-		typeToRootShortUri.put(VOLUMES, "vol:Volumes");
+		typeToRootShortUri.put(PLACE, "Place");
+		typeToRootShortUri.put(TOPIC, "Topic");
+		typeToRootShortUri.put(LINEAGE, "Lineage");
+		typeToRootShortUri.put(CORPORATION, "Corporation");
+		typeToRootShortUri.put(PRODUCT, "Product");
+		typeToRootShortUri.put(ITEM, "Item");
 		typeToRootShortUri.put(VOLUME, "vol:Volume");
-		typeToRootShortUri.put(OFFICE, "bdo:Role");
+		typeToRootShortUri.put(OFFICE, "Role");
     }
 	
 	public static Object getFrameObject(String type) {
