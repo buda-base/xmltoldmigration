@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -15,6 +16,8 @@ public class PubinfoMigration {
 	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String PP = CommonMigration.PLACE_PREFIX;
 	private static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
 
 	
 	// used for testing only
@@ -29,12 +32,12 @@ public class PubinfoMigration {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("work");
             if (value.isEmpty()) {
-                System.err.println("No work ID for pubinfo "+root.getAttribute("RID")+"!");
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "work", "missing work ID!");
                 return m;
             }
-            main = m.createResource(WP+value);
+            main = m.createResource(BDR+value);
         }
-        m.add(main, RDF.type, m.getResource(WP+"Work"));
+        m.add(main, RDF.type, m.getResource(BDO+"Work"));
         MigratePubinfo(xmlDocument, m, main);
         return m;
 	}
@@ -43,31 +46,32 @@ public class PubinfoMigration {
 	public static Model MigratePubinfo(Document xmlDocument, Model m, Resource main) {
 		
 		Element root = xmlDocument.getDocumentElement();
+		String rid = root.getAttribute("RID");
 		
         // TODO: all these "en" defaults look strange...
-        addSimpleElement("publisherName", "pubinfo_publisherName", "en", root, m, main);
-        addSimpleElement("publisherLocation", "pubinfo_publisherLocation", "en", root, m, main);
-        addSimpleElement("printery", "pubinfo_printery", "bo-x-ewts", root, m, main);
-        addSimpleElement("publisherDate", "pubinfo_publisherDate", null, root, m, main);
-        addSimpleElement("lcCallNumber", "pubinfo_lcCallNumber", null, root, m, main);
-        addSimpleElement("lccn", "pubinfo_lccn", null, root, m, main);
-        addSimpleElement("hollis", "pubinfo_hollis", null, root, m, main);
-        addSimpleElement("seeHarvard", "pubinfo_seeHarvard", null, root, m, main);
-        addSimpleElement("pl480", "pubinfo_pl480", null, root, m, main);
-        addSimpleElement("isbn", "pubinfo_isbn", null, root, m, main);
-        addSimpleElement("authorshipStatement", "pubinfo_authorshipStatement", "bo-x-ewts", root, m, main);
-        addSimpleElement("encoding", "pubinfo_encoding", null, root, m, main);
-        addSimpleElement("dateOfWriting", "pubinfo_dateOfWriting", null, root, m, main);
-        addSimpleElement("extent", "pubinfo_extent", null, root, m, main);
-        addSimpleElement("illustrations", "pubinfo_illustrations", null, root, m, main);
-        addSimpleElement("dimensions", "pubinfo_dimensions", null, root, m, main);
-        addSimpleElement("volumes", "pubinfo_volumes", null, root, m, main);
-        addSimpleElement("seriesName", "pubinfo_seriesName", "bo-x-ewts", root, m, main);
-        addSimpleElement("seriesNumber", "pubinfo_seriesNumber", null, root, m, main);
-        addSimpleElement("tbrcHoldings", "pubinfo_tbrcHoldings", null, root, m, main);
-        addSimpleElement("biblioNote", "pubinfo_biblioNote", "en", root, m, main);
-        addSimpleElement("sourceNote", "pubinfo_sourceNote", "en", root, m, main);
-        addSimpleElement("editionStatement", "pubinfo_editionStatement", "bo-x-ewts", root, m, main);
+        addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
+        addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
+        addSimpleElement("printery", BDO+"pubinfo_printery", "bo-x-ewts", root, m, main); //???
+        addSimpleElement("publisherDate", BDO+"workPublisherDate", null, root, m, main);
+        addSimpleElement("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
+        addSimpleElement("lccn", BDO+"workLccn", null, root, m, main);
+        addSimpleElement("hollis", BDO+"workHollis", null, root, m, main);
+        addSimpleElement("seeHarvard", BDO+"workSeeHarvard", null, root, m, main);
+        addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
+        addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
+        addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", "bo-x-ewts", root, m, main);
+        addSimpleElement("encoding", BDO+"workEncoding", null, root, m, main);
+        addSimpleElement("dateOfWriting", BDO+"workDateOfWriting", null, root, m, main);
+        addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
+        addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);
+        addSimpleElement("dimensions", BDO+"workDimensions", null, root, m, main);
+        addSimpleElement("volumes", BDO+"pubinfo_volumes", null, root, m, main); //???
+        addSimpleElement("seriesName", BDO+"workSeriesName", "bo-x-ewts", root, m, main);
+        addSimpleElement("seriesNumber", BDO+"workSeriesNumber", null, root, m, main);
+        addSimpleElement("tbrcHoldings", BDO+"workTbrcHoldings", null, root, m, main);
+        addSimpleElement("biblioNote", BDO+"workBiblioNote", "en", root, m, main);
+        addSimpleElement("sourceNote", BDO+"workSourceNote", "en", root, m, main);
+        addSimpleElement("editionStatement", BDO+"workEditionStatement", "bo-x-ewts", root, m, main);
         
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
@@ -76,19 +80,19 @@ public class PubinfoMigration {
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            String value = CommonMigration.getSubResourceName(main, WP, "Series", i+1);
-            Resource series = m.createResource(value);
-            m.add(series, RDF.type, m.getResource(WP+"PubinfoSeries"));
-            m.add(main, m.createProperty(WP+"hasPubinfoSeries"), series);
-            value = current.getAttribute("name").trim();
+            //String value = CommonMigration.getSubResourceName(main, WP, "Series", i+1);
+            Resource series = m.createResource();
+            //m.add(series, RDF.type, m.getResource(WP+"PubinfoSeries"));
+            m.add(main, m.createProperty(BDO, "workHasPubinfoSeries"), series);
+            String value = current.getAttribute("name").trim();
             if (!value.isEmpty())
-                m.add(series, m.getProperty(WP+"pubinfo_series_name"), m.createLiteral(value));
+                m.add(series, m.getProperty(BDO, "workSeriesName"), m.createLiteral(value));
             
             value = current.getAttribute("number").trim();
             if (!value.isEmpty())
-                m.add(series, m.getProperty(WP+"pubinfo_series_number"), m.createLiteral(value));
+                m.add(series, m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(value));
             
-            Property prop = m.getProperty(WP+"pubinfo_series_content");
+            Property prop = m.getProperty(BDO, "workSeriesContent");
             CommonMigration.addCurrentString(current, "bo-x-ewts", m, series, prop, false);
         }
         
@@ -97,7 +101,7 @@ public class PubinfoMigration {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("type").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(WP+"pubinfo_printType"), m.createLiteral(value));
+                m.add(main, m.getProperty(BDO, "pubinfo_printType"), m.createLiteral(value)); //???
         }
 
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "sourcePrintery");
@@ -105,37 +109,37 @@ public class PubinfoMigration {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("place").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(WP+"hasSourcePrintery"), m.createResource(PP+value));
+                m.add(main, m.getProperty(BDO, "workHasSourcePrintery"), m.createResource(BDR+value));
             else {
                 value = current.getTextContent().trim();
-                if (!value.isEmpty())
-                    m.add(main, m.getProperty(WP+"pubinfo_sourcePrintery_string"), m.createLiteral(value));
+                if (!value.isEmpty()) {
+                    m.add(main, m.getProperty(BDO, "workSourcePrintery_string"), m.createLiteral(value));
+                } else {
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "sourcePrintery", "missing source printery ID!");
+                }
             }
         }
-
-
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "holding");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            String value = CommonMigration.getSubResourceName(main, WP, "Holding", i+1);
-            Resource holding = m.createResource(value);
-            m.add(holding, RDF.type, m.getResource(WP+"Holding"));
-            m.add(main, m.createProperty(WP+"hasHolding"), holding);
+            //String value = CommonMigration.getSubResourceName(main, WP, "Holding", i+1);
+            Resource holding = m.createResource();
+            //m.add(holding, RDF.type, m.getResource(BDO+"Holding"));
+            m.add(main, m.createProperty(BDO, "hasHolding"), holding);
             
-            addSimpleElement("exception", "holding_exception", "bo-x-ewts", current, m, holding);
-            
+            addSimpleElement("exception", BDO+"holding_exception", "bo-x-ewts", current, m, holding);
+            String value;
             NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element subCurrent = (Element) subNodeList.item(j);
-                //String lang = CommonMigration.getBCP47(subCurrent, "bo-x-ewts"); // TODO: clarify with ontology
                 value = subCurrent.getTextContent().trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(WP+"holding_shelf"), m.createLiteral(value));
+                    m.add(holding, m.createProperty(BDO, "holding_shelf"), m.createLiteral(value));
                 
                 value = subCurrent.getAttribute("copies").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(WP+"holding_copies"), m.createLiteral(value));
+                    m.add(holding, m.createProperty(BDO, "holding_copies"), m.createLiteral(value));
             }
             
             subNodeList = root.getElementsByTagNameNS(WPXSDNS, "library");
@@ -143,13 +147,13 @@ public class PubinfoMigration {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getAttribute("rid").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(WP+"holding_library"), m.createResource(PP+value));
+                    m.add(holding, m.createProperty(BDO, "holding_library"), m.createResource(PP+value));
                 else
                     CommonMigration.addException(m, main, "Pubinfo holding has no library RID!");
                 
                 value = subCurrent.getAttribute("code").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(WP+"holding_code"), m.createLiteral(value));
+                    m.add(holding, m.createProperty(BDO, "holding_code"), m.createLiteral(value));
                 
                 // TODO: what about the text content?
             }
@@ -161,16 +165,18 @@ public class PubinfoMigration {
 
 	public static void addSimpleElement(String elementName, String propName, String defaultLang, Element root, Model m, Resource main) {
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
+        String rid = root.getAttribute("RID");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = null;
             if (defaultLang != null) {
-                Property prop = m.createProperty(WP+propName);
-                CommonMigration.addCurrentString(current, defaultLang, m, main, prop, false);
+                Property prop = m.createProperty(propName);
+                Literal l = CommonMigration.getLiteral(current, defaultLang, m, elementName, rid, null);
+                main.addProperty(prop, l);
             } else {
                 value = current.getTextContent().trim();
                 if (value.isEmpty()) return;
-                m.add(main, m.createProperty(WP+propName), m.createLiteral(value));
+                m.add(main, m.createProperty(propName), m.createLiteral(value));
             }
         }
     }
