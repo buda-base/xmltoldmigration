@@ -73,16 +73,11 @@ public class WorkMigration {
             }
             if (!value.isEmpty())
                 m.add(main, m.getProperty(BDO, "workHasAccess"), m.createLiteral(value));
-            
-            value = current.getAttribute("status");
-            if (value.isEmpty()) value = "scanned"; // from xsd
-            prop = m.getProperty(WP, "archiveInfo_status");
-            m.add(main, prop, m.createLiteral(value));
-            
+
             try {
                 int nbvols = Integer.parseUnsignedInt(current.getAttribute("vols"));
                 if (nbvols != 0) {
-                    prop = m.getProperty(WP, "archiveInfo_vols");
+                    prop = m.getProperty(BDO, "workNumberOfVolumes");
                     lit = m.createTypedLiteral(nbvols, XSDDatatype.XSDpositiveInteger);
                     m.add(main, prop, lit);
                 }
@@ -94,10 +89,18 @@ public class WorkMigration {
         nodeList = root.getElementsByTagNameNS(WXSDNS, "info");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            addSimpleAttr(current.getAttribute("nodeType"), "info_nodeType", m, main, "publishedWork");
+            String nodeType = current.getAttribute("nodeType");
+            switch (nodeType) {
+            case "unicodeText": value = BDR+"WorkTypeUnicodeText";
+            case "conceptualWork": value = BDR+"WorkTypeConceptualWork";
+            case "publishedWork": value = BDR+"WorkTypePublishedWork";
+            case "series": value = BDR+"WorkTypeSeries";
+            default: value = "";
+            }
+            if (!value.isEmpty()) {
+                main.addProperty(m.getProperty(BDO, "workType"), m.getResource(value));
+            }
             addSimpleAttr(current.getAttribute("number"), "info_number", m, main, null);
-            addSimpleAttr(current.getAttribute("edition"), "info_edition", m, main, null);
-            addSimpleAttr(current.getAttribute("seriesType"), "info_seriesType", m, main, null);
             value = current.getAttribute("numbered");
             if (!value.isEmpty()) {
                 prop = m.getProperty(WP+"info_numbered");
