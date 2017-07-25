@@ -170,7 +170,7 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(OUTLINE, "out:Outline");
 		typeToRootShortUri.put(PLACE, "bdo:Place");
 		typeToRootShortUri.put(TOPIC, "bdo:Topic");
-		typeToRootShortUri.put(LINEAGE, "lin:Lineage");
+		typeToRootShortUri.put(LINEAGE, "bdo:Lineage");
 		typeToRootShortUri.put(CORPORATION, "bdo:Corporation");
 		typeToRootShortUri.put(PRODUCT, "bdo:Product");
 		typeToRootShortUri.put(VOLUMES, "vol:Volumes");

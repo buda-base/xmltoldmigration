@@ -1,204 +1,171 @@
 {
   "@graph" : [ {
-    "rdfs:label" : [ {
+    "rdfs:label" : {
       "@language" : "bo-x-ewts",
       "@value" : "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"
-    }, {
-      "@language" : "bo",
-      "@value" : "གཤིན་རྗེ་གཤེད་དམར་པོ་ལྷ་ལྔའི་ཆོས་སྐོར་ལས། འོད་གསལ་འཆར་བའི་བྱིན་རླབས་ཀྱི་བརྒྱུད་པ་ལུགས་གཅིག"
-    } ],
-    "status" : "released",
-    "@id" : "lin:L8LS14115",
-    "@type" : [ "lin:Lineage", "lin:Dbang" ],
-    "desc:summary" : {
-      "@language" : "en",
-      "@value" : "initiation transmission of clear light blessing of rakta yamari"
     },
-    "lin:altnernative" : {
-      "@id" : "lin:L8LS14115_Alternative1",
-      "@type" : "lin:Alternative",
-      "lin:holder" : {
-        "@id" : "lin:L8LS14115_Alternative1_Holder1",
-        "@type" : "lin:Holder",
-        "lin:downFrom" : {
-          "@id" : "lin:L8LS15610"
+    "status" : {
+      "@id" : "bdr:StatusReleased"
+    },
+    "@id" : "bdr:L8LS14115",
+    "@type" : "Lineage",
+    "lineageAltnernative" : {
+      "@id" : "_:b5",
+      "lineageHolder" : {
+        "@id" : "_:b6",
+        "@type" : "LineageHolder",
+        "lineageDownFrom" : {
+          "@id" : "bdr:L8LS15610"
         },
-        "lin:received" : {
-          "@id" : "lin:L8LS14115_Alternative1_Received1",
-          "@type" : "lin:Received",
-          "lin:from" : {
-            "@id" : "per:P8LS15618"
+        "lineageReceived" : {
+          "@id" : "_:b7",
+          "lineageFrom" : {
+            "@id" : "bdr:P8LS15618"
           },
-          "lin:site" : {
-            "@id" : "plc:G844"
+          "lineageSite" : {
+            "@id" : "bdr:G844"
           }
         },
-        "lin:who" : {
-          "@id" : "per:P1018"
+        "lineageWho" : {
+          "@id" : "bdr:P1018"
         },
-        "lin:work" : {
-          "@id" : "wor:WTest"
-        },
-        "note" : {
-          "@id" : "http://purl.bdrc.io/ontology/root#L8LS14115_Alternative1_Holder1_Note1",
-          "@type" : "Note",
-          "note_content" : {
-            "@language" : "en",
-            "@value" : "test description"
-          }
+        "lineageWork" : {
+          "@id" : "bdr:WTest"
         }
       }
     },
-    "lin:holder" : [ {
-      "@id" : "lin:L8LS14115_Holder1",
-      "@type" : "lin:Holder",
-      "lin:downTo" : {
-        "@id" : "lin:L8LS15728"
+    "lineageHolder" : [ {
+      "@id" : "_:b8",
+      "@type" : "LineageHolder",
+      "lineageReceived" : {
+        "@id" : "_:b9",
+        "lineageFrom" : {
+          "@id" : "bdr:P1132"
+        },
+        "onOrAbout" : "test circa"
       },
-      "lin:who" : {
-        "@id" : "per:P1132"
-      }
-    }, {
-      "@id" : "lin:L8LS14115_Holder2",
-      "@type" : "lin:Holder",
-      "lin:received" : {
-        "@id" : "lin:L8LS14115_Received1",
-        "@type" : "lin:Received",
-        "lin:circa" : "test circa",
-        "lin:from" : {
-          "@id" : "per:P1132"
-        }
-      },
-      "lin:who" : {
-        "@id" : "per:P1040"
-      }
-    } ],
-    "lin:location" : {
-      "@id" : "wor:L8LS14115_Location1",
-      "@type" : "wor:LocationByPage",
-      "wor:page" : {
-        "@type" : "xsd:positiveInteger",
-        "@value" : "236"
-      },
-      "wor:volume" : "1,",
-      "wor:work" : {
-        "@id" : "wor:W1PD107937"
-      }
-    },
-    "lin:object" : {
-      "@id" : "top:T1613"
-    },
-    "lin:ref" : {
-      "@id" : "lin:L1RKL2042"
-    },
-    "migration_exception" : "in location: 'volume' must be a positive integer, got '1,'",
-    "name" : [ {
-      "@language" : "bo",
-      "@value" : "གཤིན་རྗེ་གཤེད་དམར་པོ་ལྷ་ལྔའི་ཆོས་སྐོར་ལས། འོད་གསལ་འཆར་བའི་བྱིན་རླབས་ཀྱི་བརྒྱུད་པ་ལུགས་གཅིག"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"
-    } ],
-    "log_entry" : [ {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "added location"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-03-06T09:18:45.742Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T11:30:18.879Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
+      "lineageWho" : {
+        "@id" : "bdr:P1040"
       }
     }, {
       "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
+      "@type" : "LineageHolder",
+      "lineageDownTo" : {
+        "@id" : "bdr:L8LS15728"
+      },
+      "lineageWho" : {
+        "@id" : "bdr:P1132"
+      }
+    } ],
+    "lineageLocation" : {
+      "@id" : "_:b0",
+      "workLocationPage" : {
+        "@type" : "xsd:positiveInteger",
+        "@value" : "236"
+      },
+      "workLocationVolume" : {
+        "@type" : "xsd:positiveInteger",
+        "@value" : "1"
+      },
+      "workdLocationWork" : {
+        "@id" : "bdr:W1PD107937"
+      }
+    },
+    "lineageObject" : {
+      "@id" : "bdr:T1613"
+    },
+    "lineageRef" : {
+      "@id" : "bdr:L1RKL2042"
+    },
+    "lineageType" : {
+      "@id" : "bdr:LineageDbang"
+    },
+    "name" : {
+      "@language" : "bo-x-ewts",
+      "@value" : "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"
+    },
+    "workSummary" : "initiation transmission of clear light blessing of rakta yamari",
+    "log_entry" : [ {
+      "@id" : "_:b12",
+      "logMessage" : {
         "@language" : "en",
         "@value" : "changed type"
       },
-      "log_when" : {
+      "logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-05-14T14:36:08.904Z"
       },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
+      "logWho" : {
+        "@id" : "bdr:U19"
+      }
+    }, {
+      "@id" : "_:b10",
+      "logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T11:30:18.879Z"
+      },
+      "logWho" : {
+        "@id" : "bdr:U19"
       }
     }, {
       "@id" : "_:b3",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-07-17T10:49:42.963Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
-    }, {
-      "@id" : "_:b4",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "normalized names of who and received elements - yet again"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-29T16:42:13.479Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Code Ferret"
-      }
-    }, {
-      "@id" : "_:b5",
-      "@type" : "LogEntry",
-      "log_content" : {
+      "logMessage" : {
         "@language" : "en",
         "@value" : "normalized names of who and received elements"
       },
-      "log_when" : {
+      "logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-07-28T21:20:44.974Z"
       },
-      "log_who" : {
+      "logWho" : {
+        "@id" : "bdr:U6"
+      }
+    }, {
+      "@id" : "_:b11",
+      "logMessage" : {
         "@language" : "en",
-        "@value" : "Code Ferret"
+        "@value" : "normalized names of who and received elements - yet again"
+      },
+      "logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-29T16:42:13.479Z"
+      },
+      "logWho" : {
+        "@id" : "bdr:U6"
+      }
+    }, {
+      "@id" : "_:b4",
+      "logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-07-17T10:49:42.963Z"
+      },
+      "logWho" : {
+        "@id" : "bdr:U19"
+      }
+    }, {
+      "@id" : "_:b1",
+      "logMessage" : {
+        "@language" : "en",
+        "@value" : "added location"
+      },
+      "logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-03-06T09:18:45.742Z"
+      },
+      "logWho" : {
+        "@id" : "bdr:U19"
       }
     } ]
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root#",
-    "crp" : "http://purl.bdrc.io/ontology/corporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "@vocab" : "http://purl.bdrc.io/ontology/",
+    "bdo" : "http://purl.bdrc.io/ontology/",
+    "adm" : "bdo:admin/",
+    "bdd" : "http://purl.bdrc.io/data/",
+    "bdr" : "http://purl.bdrc.io/resource/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work#",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
   }
 }

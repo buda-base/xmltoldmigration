@@ -40,7 +40,7 @@ import openllet.core.exceptions.InternalReasonerException;
 public class CommonMigration  {
 
 	public static final String ONTOLOGY_PREFIX = "http://purl.bdrc.io/ontology/";
-	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/admin/";
+	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/ontology/admin/";
 	public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
 	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
     public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
@@ -606,21 +606,21 @@ public class CommonMigration  {
        }
        
        private static int addLocationIntOrString(Model m, Resource main, Resource loc, Element current, String attributeName, String propname) {
-           String value = current.getAttribute(attributeName).trim();
+           String value = current.getAttribute(attributeName).replaceAll(",$", "");
            int res = -1;
            if (!value.isEmpty()) {
                try {
                    int intval = Integer.parseInt(value);
                    if (intval < 1) {
                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "location", "`"+propname+"` must be a positive integer, got `"+value+"`");
-                       m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createLiteral(value));
+                       m.add(loc, m.getProperty(BDO, propname), m.createLiteral(value));
                    } else {
-                       m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
+                       m.add(loc, m.getProperty(BDO, propname), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
                        res = intval;
                    }
                } catch (NumberFormatException e) {
                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "location", "`"+propname+"` must be a positive integer, got `"+value+"`");
-                   m.add(loc, m.getProperty(WORK_PREFIX, propname), m.createLiteral(value));
+                   m.add(loc, m.getProperty(BDO, propname), m.createLiteral(value));
                }
            }
            return res;
@@ -634,13 +634,13 @@ public class CommonMigration  {
            for (i = 0; i < nodeList.size(); i++) {
                Element current = (Element) nodeList.get(i);
                
-               String value = getSubResourceName(main, WORK_PREFIX, "Location", i+1);
-               Resource loc = m.createResource(value);
+               //String value = getSubResourceName(main, WORK_PREFIX, "Location", i+1);
+               Resource loc = m.createResource();
                
-               value = current.getAttribute("type");
-               if (value.isEmpty()) value = "page";
-               value = value.equals("page") ? "LocationByPage" : "LocationByFolio";
-               m.add(loc, RDF.type, m.createResource(WORK_PREFIX+value));
+               String value = current.getAttribute("type");
+               if (value.equals("folio")) {
+                   loc.addProperty(m.getProperty(BDO, "workLocationByFolio"), m.createTypedLiteral("true", XSDDatatype.XSDboolean));
+               }
                String localName = main.getLocalName();
                // convention: if propname2 is not null, then we're in the case where the first property
                // is beginsAt and the second is endsAt, we handle it accordingly
@@ -663,25 +663,25 @@ public class CommonMigration  {
                
                value = current.getAttribute("work");
                if (!value.isEmpty()) {
-                   m.add(loc, m.getProperty(WORK_PREFIX, "work"), m.createResource(WORK_PREFIX+value));
+                   m.add(loc, m.getProperty(BDO, "workdLocationWork"), m.createResource(BDR+value));
                }
                
-               int volume = addLocationIntOrString(m, main, loc, current, "vol", "volume");
+               int volume = addLocationIntOrString(m, main, loc, current, "vol", "workLocationVolume");
                if (i == 0) volume1 = volume;
                if (i == 1 && propname1 != null && volume != -1 && volume1 != -1 && volume < volume1) {
                    ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location volume is before beginning location volume");
                }
-               int page = addLocationIntOrString(m, main, loc, current, "page", "page");
+               int page = addLocationIntOrString(m, main, loc, current, "page", "workLocationPage");
                if (i == 0) page1 = page;
                if (i == 1 && propname1 != null && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
                    ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location page is before beginning location");
                }
-               addLocationIntOrString(m, main, loc, current, "phrase", "phrase");
-               addLocationIntOrString(m, main, loc, current, "line", "line");
+               addLocationIntOrString(m, main, loc, current, "phrase", "workLocationPhrase");
+               addLocationIntOrString(m, main, loc, current, "line", "workLocationLine");
                
                value = current.getAttribute("side");
                if (!value.isEmpty())
-                   m.add(loc, m.getProperty(WORK_PREFIX, "side"), m.createLiteral(value));
+                   m.add(loc, m.getProperty(BDO, "workLocationSide"), m.createLiteral(value));
                
            }
        }

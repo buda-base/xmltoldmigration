@@ -14,10 +14,9 @@ import org.w3c.dom.NodeList;
 
 public class LineageMigration {
 
-	private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String LP = CommonMigration.LINEAGE_PREFIX;
-	private static final String PLP = CommonMigration.PLACE_PREFIX;
-	private static final String WP = CommonMigration.WORK_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+   
 	private static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
 	
 	public static Model MigrateLineage(Document xmlDocument) {
@@ -25,14 +24,14 @@ public class LineageMigration {
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		String value = getTypeStr(root);
-		Resource main = m.createResource(LP + root.getAttribute("RID"));
-		m.add(main, RDF.type, m.createResource(LP + value));
-		if (!value.equals("Lineage")) {
-			m.add(main, RDF.type, m.createResource(LP + "Lineage"));
-		}
+		String rid = root.getAttribute("RID");
 		if (value.equals("NotSpecified")) {
-            CommonMigration.addException(m, main, "missing lineage type");
+		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "event", "missing lineage type");
         }
+		value = BDR+"Lineage"+value.substring(0, 1).toUpperCase() + value.substring(1);
+		Resource main = m.createResource(BDR + rid);
+		m.add(main, RDF.type, m.createResource(BDO + "Lineage"));
+		m.add(main, m.getProperty(BDO, "lineageType"), m.createResource(value));
 		
 		CommonMigration.addStatus(m, main, root.getAttribute("status"));
 		
@@ -41,15 +40,14 @@ public class LineageMigration {
     	CommonMigration.addExternals(m, root, main, LXSDNS);
     	CommonMigration.addDescriptions(m, root, main, LXSDNS);
     	CommonMigration.addLog(m, root, main, LXSDNS);
-    	CommonMigration.addLocations(m, main, root, LXSDNS, LP+"location", null, null, "");
+    	CommonMigration.addLocations(m, main, root, LXSDNS, BDO+"lineageLocation", null, null, "");
 		
         NodeList nodeList = root.getElementsByTagNameNS(LXSDNS, "object");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             value = current.getAttribute("RID").trim();
             if (!value.isEmpty()) {
-                value =  CommonMigration.getPrefixFromRID(value)+value;
-                m.add(main, m.getProperty(LP+"object"), m.getResource(value));
+                m.add(main, m.getProperty(BDO, "lineageObject"), m.getResource(BDR+value));
             }
         }
         
@@ -58,7 +56,7 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(i);
             value = current.getAttribute("RID").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(LP+"ref"), m.getResource(LP+value));
+                m.add(main, m.getProperty(BDO, "lineageRef"), m.getResource(BDR+value));
         }
 		
         List<Element> elList = CommonMigration.getChildrenByTagName(root, LXSDNS, "holder");
@@ -72,10 +70,9 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(i);
             elList = CommonMigration.getChildrenByTagName(current, LXSDNS, "holder");
             if (elList.isEmpty()) continue;
-            value = CommonMigration.getSubResourceName(main, LP, "Alternative", i+1);
-            Resource alternative = m.createResource(value);
-            m.add(alternative, RDF.type, m.getResource(LP+"Alternative"));
-            m.add(main, m.getProperty(LP+"altnernative"), alternative);
+            Resource alternative = m.createResource();
+            //m.add(alternative, RDF.type, m.getResource(BDO+"LineageAlternative"));
+            m.add(main, m.getProperty(BDO, "lineageAltnernative"), alternative);
             for (int j = 0; j < elList.size(); j++) {
                 Element holderElement = (Element) elList.get(j);
                 addHolder(m, alternative, holderElement, j);
@@ -86,21 +83,21 @@ public class LineageMigration {
 	}
 	
 	public static void addHolder(Model m, Resource r, Element e, int i) {
-	    String value = CommonMigration.getSubResourceName(r, LP, "Holder", i+1);
-	    Resource holder = m.createResource(value);
-	    m.add(holder, RDF.type, m.getResource(LP+"Holder"));
-	    m.add(r, m.getProperty(LP+"holder"), holder);
+	    //String value = CommonMigration.getSubResourceName(r, LP, "Holder", i+1);
+	    Resource holder = m.createResource();
+	    m.add(holder, RDF.type, m.getResource(BDO+"LineageHolder"));
+	    m.add(r, m.getProperty(BDO, "lineageHolder"), holder);
 	    
        CommonMigration.addNotes(m, e, holder, LXSDNS);
        CommonMigration.addDescriptions(m, e, holder, LXSDNS);
+       String value;
 	    
 	    NodeList nodeList = e.getElementsByTagNameNS(LXSDNS, "who");
         for (int j = 0; j < nodeList.getLength(); j++) {
             Element current = (Element) nodeList.item(j);
             value = current.getAttribute("RID");
             if (!value.isEmpty()) {
-                value =  CommonMigration.getPrefixFromRID(value)+value;
-                m.add(holder, m.getProperty(LP+"who"), m.getResource(value));
+                m.add(holder, m.getProperty(BDO, "lineageWho"), m.getResource(BDR+value));
             }
         }
         
@@ -109,7 +106,7 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(j);
             value = current.getAttribute("RID");
             if (!value.isEmpty())
-                m.add(holder, m.getProperty(LP+"downTo"), m.getResource(LP+value));
+                m.add(holder, m.getProperty(BDO, "lineageDownTo"), m.getResource(BDR+value));
         }
         
         nodeList = e.getElementsByTagNameNS(LXSDNS, "downFrom");
@@ -117,7 +114,7 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(j);
             value = current.getAttribute("RID");
             if (!value.isEmpty())
-                m.add(holder, m.getProperty(LP+"downFrom"), m.getResource(LP+value));
+                m.add(holder, m.getProperty(BDO, "lineageDownFrom"), m.getResource(BDR+value));
         }
         
         nodeList = e.getElementsByTagNameNS(LXSDNS, "work");
@@ -125,41 +122,39 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(j);
             value = current.getAttribute("RID");
             if (!value.isEmpty())
-                m.add(holder, m.getProperty(LP+"work"), m.getResource(WP+value));
+                m.add(holder, m.getProperty(BDO, "lineageWork"), m.getResource(BDR+value));
         }
         
         nodeList = e.getElementsByTagNameNS(LXSDNS, "received");
         for (int j = 0; j < nodeList.getLength(); j++) {
             Element current = (Element) nodeList.item(j);
-            value = CommonMigration.getSubResourceName(r, LP, "Received", j+1);
-            Resource received = m.createResource(value);
-            m.add(received, RDF.type, m.getResource(LP+"Received"));
-            m.add(holder, m.getProperty(LP+"received"), received);
+            //value = CommonMigration.getSubResourceName(r, LP, "Received", j+1);
+            Resource received = m.createResource();
+            //m.add(received, RDF.type, m.getResource(BDO+"LineageReceived"));
+            m.add(holder, m.getProperty(BDO, "lineageReceived"), received);
             value = current.getAttribute("RID");
             if (!value.isEmpty()) {
                 if (value.contains(" ")) {
                     String [] parts = value.split(" ");
                     for (String part: parts) {
                         if (part.startsWith("#")) {
-                            CommonMigration.addException(m, r, "received value contains unparsed strings: \""+part+"\"");
+                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "received", "received value contains unparsed strings: `"+part+"`");
                             continue;
                         }
-                        part =  CommonMigration.getPrefixFromRID(part)+part;
-                        m.add(received, m.getProperty(LP+"from"), m.createResource(part));
+                        m.add(received, m.getProperty(BDO, "lineageFrom"), m.createResource(BDR+part));
                     }
                 } else {
-                    value =  CommonMigration.getPrefixFromRID(value)+value;
-                    m.add(received, m.getProperty(LP+"from"), m.getResource(value));
+                    m.add(received, m.getProperty(BDO, "lineageFrom"), m.getResource(BDR+value));
                 }
             }
 
             value = current.getAttribute("site");
             if (!value.isEmpty())
-                m.add(received, m.getProperty(LP+"site"), m.getResource(PLP+value));
+                m.add(received, m.getProperty(BDO, "lineageSite"), m.getResource(BDR+value));
 
             value = current.getAttribute("circa");
             if (!value.isEmpty() && !value.equals("?"))
-                m.add(received, m.getProperty(LP+"circa"), m.createLiteral(value));
+                m.add(received, m.getProperty(BDO+"onOrAbout"), m.createLiteral(value));
         }
 	}
 
