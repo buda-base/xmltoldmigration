@@ -2,7 +2,6 @@ package io.bdrc.xmltoldmigration;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
@@ -12,8 +11,6 @@ import org.w3c.dom.NodeList;
 
 public class TopicMigration {
 
-    private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String TP = CommonMigration.TOPIC_PREFIX;
 	private static final String TXSDNS = "http://www.tbrc.org/models/topic#";
 
 	public static Model MigrateTopic(Document xmlDocument) {

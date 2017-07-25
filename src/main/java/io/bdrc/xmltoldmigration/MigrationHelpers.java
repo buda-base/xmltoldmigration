@@ -21,6 +21,7 @@ import java.util.TreeMap;
 
 import org.apache.jena.atlas.io.IO;
 import org.apache.jena.atlas.lib.Chars;
+import org.apache.jena.graph.Graph;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
@@ -34,11 +35,17 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFFormat.JSONLDVariant;
+import org.apache.jena.riot.RDFLanguages;
+import org.apache.jena.riot.RDFParser;
+import org.apache.jena.riot.RDFParserBuilder;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
+import org.apache.jena.riot.system.StreamRDF;
+import org.apache.jena.riot.system.StreamRDFLib;
 import org.apache.jena.riot.writer.JsonLDWriter;
 import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.sparql.graph.GraphFactory;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
@@ -165,7 +172,7 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(TOPIC, "bdo:Topic");
 		typeToRootShortUri.put(LINEAGE, "lin:Lineage");
 		typeToRootShortUri.put(CORPORATION, "bdo:Corporation");
-		typeToRootShortUri.put(PRODUCT, "prd:Product");
+		typeToRootShortUri.put(PRODUCT, "bdo:Product");
 		typeToRootShortUri.put(VOLUMES, "vol:Volumes");
 		typeToRootShortUri.put(VOLUME, "vol:Volume");
 		typeToRootShortUri.put(OFFICE, "bdo:Role");
@@ -339,8 +346,16 @@ public class MigrationHelpers {
 	
 	public static Model modelFromFileName(String fname) {
 		Model model = ModelFactory.createDefaultModel();
+		//Graph g = model.getGraph();
+		//Graph g = GraphFactory.sinkGraph();
+		//Graph g = GraphFactory.createDefaultGraph();
 		try {
-		    model.read(fname, "JSON-LD") ;
+//		    RDFParserBuilder pb = RDFParser.create()
+//		             .source(fname)
+//		             .lang(RDFLanguages.JSONLD)
+//		             .canonicalLiterals(true);
+//		    pb.parse(StreamRDFLib.graph(g));
+		    model.read(fname);
 		} catch (RiotException e) {
 		    writeLog("error reading "+fname);
 		    return null;

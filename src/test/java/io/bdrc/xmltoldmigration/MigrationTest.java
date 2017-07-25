@@ -2,15 +2,7 @@ package io.bdrc.xmltoldmigration;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.Document;
-
-import com.github.jsonldjava.core.JsonLdOptions;
-import com.github.jsonldjava.core.JsonLdProcessor;
-import com.github.jsonldjava.utils.JsonUtils;
-
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 
@@ -23,10 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import javax.xml.validation.Validator;
 
@@ -159,22 +148,22 @@ public class MigrationTest
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
-//	
-//	@Test
-//    public void testPR99NCUL01()
-//    {
-//	    System.out.println("testing product");
-//    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/PR99NCUL01.xml");
-//    	Validator validator = MigrationHelpers.getValidatorFor("product");
-//        assertTrue(CommonMigration.documentValidates(d, validator));
-//    	Model fromXml = MigrationHelpers.xmlToRdf(d, "product");
-//    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/PR99NCUL01.jsonld");
-//    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "product", true);
-//        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-//        flushLog();
-//    }
-//	
+	
+	@Test
+    public void testPR99NCUL01()
+    {
+	    System.out.println("testing product");
+    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/PR99NCUL01.xml");
+    	Validator validator = MigrationHelpers.getValidatorFor("product");
+        assertTrue(CommonMigration.documentValidates(d, validator));
+    	Model fromXml = MigrationHelpers.xmlToRdf(d, "product");
+    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/PR99NCUL01.jsonld");
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "product", true);
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
+    }
+	
 	@Test
     public void testCorporation()
     {
@@ -184,7 +173,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/CorporationTest.jsonld");
-		//MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", true);
+		MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -259,7 +248,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "topic");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/TopicTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

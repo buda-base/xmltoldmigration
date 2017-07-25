@@ -3,7 +3,6 @@ package io.bdrc.xmltoldmigration;
 import java.util.List;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
@@ -13,8 +12,10 @@ import org.w3c.dom.NodeList;
 
 public class ProductMigration {
 	
-    private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String PRP = CommonMigration.PRODUCT_PREFIX;
+    // TODO: move to admin: namespace?
+    
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
 	private static final String PRXSDNS = "http://www.tbrc.org/models/product#";
 	
 	public static Model MigrateProduct(Document xmlDocument) {
@@ -22,10 +23,10 @@ public class ProductMigration {
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(PRP + root.getAttribute("RID"));
-		m.add(main, RDF.type, m.createResource(PRP + "Product"));
-		Property prop = m.getProperty(RP, "status");
-		m.add(main, prop, root.getAttribute("status"));
+		Resource main = m.createResource(BDR + root.getAttribute("RID"));
+		m.add(main, RDF.type, m.createResource(BDO + "Product"));
+		
+		CommonMigration.addStatus(m, main, root.getAttribute("status"));
 		
 		CommonMigration.addNotes(m, root, main, PRXSDNS);
 		
@@ -43,9 +44,8 @@ public class ProductMigration {
 			for (int j = 0; j < subNodeList.getLength(); j++) {
 				Element subCurrent = (Element) subNodeList.item(j);
 				String value = subCurrent.getAttribute("RID");
-				Resource included = m.createResource(PRP + value);
-				prop = m.getProperty(PRP+"include");
-				m.add(main, prop, included);
+				Resource included = m.createResource(BDR + value);
+				m.add(main, m.getProperty(BDO+"productInclude"), included);
 			}
 			addAllows(m, main, current);
 			addOrgs(m, main, current);
@@ -63,14 +63,13 @@ public class ProductMigration {
 	}
 	
 	public static void addOrg(Model m, Resource r, Element orgElement, int i) {
-		String value = CommonMigration.getSubResourceName(r, PRP, "Org", i+1);
-		Resource org = m.createResource(value);
-		m.add(org, RDF.type, m.getResource(PRP+"Org"));
-		value = orgElement.getAttribute("name");
+		Resource org = m.createResource();
+		//m.add(org, RDF.type, m.getResource(PRP+"ProductOrg"));
+		String value = CommonMigration.normalizeString(orgElement.getAttribute("name"));
 		if (!value.isEmpty()) {
-			m.add(org, m.getProperty(PRP+"org_name"), m.createLiteral(value, "en"));
+			m.add(org, m.getProperty(BDO+"name"), m.createLiteral(value, "en"));
 		}
-		m.add(r, m.getProperty(PRP+"hasOrg"), org);
+		m.add(r, m.getProperty(BDO+"productHasOrg"), org);
 		addAllows(m, org, orgElement);
 		// sub orgs
 		addOrgs(m, org, orgElement);
@@ -81,7 +80,7 @@ public class ProductMigration {
 		for (int j = 0; j < nodeList.size(); j++) {
 			Element current = nodeList.get(j);
 			String value = current.getTextContent().trim();
-			m.add(r, m.getProperty(PRP+"allow"), m.createLiteral(value));
+			m.add(r, m.getProperty(BDO+"productAllowByAddr"), m.createLiteral(value));
 		}
 	}
 	

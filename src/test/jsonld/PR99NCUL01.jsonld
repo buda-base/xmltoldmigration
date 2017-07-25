@@ -4,91 +4,75 @@
       "@language" : "en",
       "@value" : "This or that"
     },
-    "@id" : "prd:PR99NCUL01",
-    "@type" : "prd:Product",
-    "desc:contents" : {
-      "@language" : "en",
-      "@value" : "This or that"
+    "status" : {
+      "@id" : "bdr:StatusReleased"
     },
-    "prd:allow" : "ip6",
-    "prd:hasOrg" : [ {
-      "@id" : "prd:PR99NCUL01_Org2",
-      "@type" : "prd:Org",
-      "prd:hasOrg" : [ {
-        "@id" : "prd:PR99NCUL01_Org2_Org3",
-        "@type" : "prd:Org",
-        "prd:allow" : "ip1",
-        "prd:org_name" : {
-          "@language" : "en",
-          "@value" : "Sub3"
-        }
-      }, {
-        "@id" : "prd:PR99NCUL01_Org2_Org2",
-        "@type" : "prd:Org",
-        "prd:allow" : "ip2",
-        "prd:org_name" : {
-          "@language" : "en",
-          "@value" : "Sub2"
-        }
-      }, {
-        "@id" : "prd:PR99NCUL01_Org2_Org1",
-        "@type" : "prd:Org",
-        "prd:allow" : "ip3",
-        "prd:org_name" : {
-          "@language" : "en",
-          "@value" : "Sub1"
-        }
-      } ],
-      "prd:org_name" : {
+    "@id" : "bdr:PR99NCUL01",
+    "@type" : "Product",
+    "productAllowByAddr" : "ip6",
+    "productHasOrg" : [ {
+      "@id" : "_:b0",
+      "name" : {
         "@language" : "en",
         "@value" : "Top2"
-      }
+      },
+      "productHasOrg" : [ {
+        "@id" : "_:b1",
+        "name" : {
+          "@language" : "en",
+          "@value" : "Sub3"
+        },
+        "productAllowByAddr" : "ip1"
+      }, {
+        "@id" : "_:b2",
+        "name" : {
+          "@language" : "en",
+          "@value" : "Sub2"
+        },
+        "productAllowByAddr" : "ip2"
+      }, {
+        "@id" : "_:b3",
+        "name" : {
+          "@language" : "en",
+          "@value" : "Sub1"
+        },
+        "productAllowByAddr" : "ip3"
+      } ]
     }, {
-      "@id" : "prd:PR99NCUL01_Org1",
-      "@type" : "prd:Org",
-      "prd:allow" : [ "ip4", "ip5" ],
-      "prd:org_name" : {
+      "@id" : "_:b4",
+      "name" : {
         "@language" : "en",
         "@value" : "Top1"
-      }
+      },
+      "productAllowByAddr" : [ "ip4", "ip5" ]
     } ],
-    "prd:include" : {
-      "@id" : "prd:PR88CT000129"
+    "productInclude" : {
+      "@id" : "bdr:PR88CT000129"
     },
-    "status" : "released",
     "log_entry" : {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
+      "@id" : "_:b5",
+      "logMessage" : {
         "@language" : "en",
         "@value" : "added entry for NCCU Taiwan"
       },
-      "log_when" : {
+      "logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-09-22T19:39:47.382Z"
       },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Chris Tomlinson"
+      "logWho" : {
+        "@id" : "bdr:U6"
       }
     }
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root#",
-    "crp" : "http://purl.bdrc.io/ontology/corporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
-    "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
-    "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
+    "@vocab" : "http://purl.bdrc.io/ontology/",
+    "bdo" : "http://purl.bdrc.io/ontology/",
+    "adm" : "http://purl.bdrc.io/admin/",
+    "bdd" : "http://purl.bdrc.io/data/",
+    "bdr" : "http://purl.bdrc.io/resource/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work#",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
   }
 }
