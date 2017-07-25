@@ -70,14 +70,14 @@ public class PlaceMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			Resource address = m.createResource();
-			m.add(address, RDF.type, m.createResource(BDO+"PlaceAddress"));
+			//m.add(address, RDF.type, m.createResource(BDO+"PlaceAddress"));
 			m.add(main, m.getProperty(BDO+"placeAddress"), address);
 			addSimpleAttr(current.getAttribute("city"), "city", BDO+"addressCity", m, address);
-			addSimpleAttr(current.getAttribute("country"), BDO+"addressCountry", "country", m, address);
-			addSimpleAttr(current.getAttribute("number"), BDO+"addressNumber", "number", m, address);
-			addSimpleAttr(current.getAttribute("postal"), BDO+"addressPostal", "postal", m, address);
-			addSimpleAttr(current.getAttribute("state"), BDO+"addressState", "state", m, address);
-			addSimpleAttr(current.getAttribute("street"), BDO+"addressStreet", "street", m, address);
+			addSimpleAttr(current.getAttribute("country"), "country", BDO+"addressCountry", m, address);
+			addSimpleAttr(current.getAttribute("number"), "number", BDO+"addressNumber", m, address);
+			addSimpleAttr(current.getAttribute("postal"), "postal", BDO+"addressPostal", m, address);
+			addSimpleAttr(current.getAttribute("state"), "state", BDO+"addressState", m, address);
+			addSimpleAttr(current.getAttribute("street"), "street", BDO+"addressStreet", m, address);
 		}
 		
 		// tlm
@@ -264,31 +264,20 @@ public class PlaceMigration {
 			Property prop = null;
 			String value = current.getAttribute("rid");
 			if (value.isEmpty()) continue;
-			switch (type) {
-			case "placeEventAffiliationTypes:lineage":
-			    if (!value.startsWith("lineage:")) {
-	                CommonMigration.addException(m, event, "invalid affiliation rid value: '"+value+"' (should start with 'lineage:')");
-	            } else {
-    			    if (value.equals("lineage:Kadampa")) value = "lineage:Kadam";
-    			    if (value.equals("lineage:Shije")) value = "lineage:Zhije";
-    				value = value.substring(8);
-    				String url =  getUriFromTypeSubtype("tradition", value);
-				    target = m.createResource(url);
-                    prop = m.getProperty(BDO+"placeEventAffiliation");
-	            }
-				break;
-		    // TODO: handle these two
-			case "placeEventAffiliationTypes:corporation":
-				target = m.createResource(CommonMigration.CORPORATION_PREFIX+value);
-				prop = m.getProperty(BDO+"affiliatedWith_corporation");
-				break;
-			default: // "placeEventAffiliationTypes:office"
-				target = m.createResource(CommonMigration.OFFICE_PREFIX+value);
-				prop = m.getProperty(BDO+"affiliatedWith_office");
-				break;
+			if (!type.equals("placeEventAffiliationTypes:lineage")) {
+			    CommonMigration.addException(m, event, "invalid affiliation type value: `"+type+"` (should be `placeEventAffiliationTypes:lineage`)");
 			}
-			if (prop != null)
-			    m.add(event, prop, target);
+            if (!value.startsWith("lineage:")) {
+                CommonMigration.addException(m, event, "invalid affiliation rid value: `"+value+"` (should be `lineage:`)");
+            } else {
+                if (value.equals("lineage:Kadampa")) value = "lineage:Kadam";
+                if (value.equals("lineage:Shije")) value = "lineage:Zhije";
+                value = value.substring(8);
+                String url =  getUriFromTypeSubtype("tradition", value);
+                target = m.createResource(url);
+                prop = m.getProperty(BDO+"placeEventAffiliation");
+                m.add(event, prop, target);
+            }
 		}
 	}
 	

@@ -3,6 +3,13 @@ package io.bdrc.xmltoldmigration;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.w3c.dom.Document;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.github.jsonldjava.core.JsonLdError;
+import com.github.jsonldjava.core.JsonLdOptions;
+import com.github.jsonldjava.core.JsonLdProcessor;
+import com.github.jsonldjava.utils.JsonUtils;
+
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 
@@ -15,7 +22,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.validation.Validator;
 
@@ -135,7 +144,7 @@ public class MigrationTest
     }
 	
 	@Test
-    public void testG844()
+    public void testG844() throws JsonGenerationException, JsonLdError, IOException
     {
 	    System.out.println("testing G844");
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
@@ -143,7 +152,8 @@ public class MigrationTest
         assertFalse(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
-    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+    	showDifference(fromXml, correctModel);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

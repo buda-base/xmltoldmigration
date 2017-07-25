@@ -723,6 +723,11 @@ public class CommonMigration  {
 	    throw new IllegalArgumentException("cannot infer prefix from RID "+rid);
 	}
 	
+	// IMPORTANT: we're using canonical BCP47 forms, which means that the
+	// script has an upper case first letter (ex: zh-Latn-pinyin), which
+	// is then smashed by the annoying
+	// https://github.com/jsonld-java/jsonld-java/issues/199
+	// so we have a workaround when reading a file, see MigrationHelper
 	public static String getBCP47Suffix(String encoding) {
 		switch(encoding) {
 		case "extendedWylie":
@@ -731,7 +736,7 @@ public class CommonMigration  {
 		    // transliteration of Chinese
 			return "-x-wade";
 		case "pinyin":
-			return "-latn-pinyin";
+			return "-Latn-pinyin";
 		case "libraryOfCongress":
 			return "-x-loc";
 		case "native":

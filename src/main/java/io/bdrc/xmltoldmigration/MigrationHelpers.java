@@ -346,16 +346,14 @@ public class MigrationHelpers {
 	
 	public static Model modelFromFileName(String fname) {
 		Model model = ModelFactory.createDefaultModel();
-		//Graph g = model.getGraph();
-		//Graph g = GraphFactory.sinkGraph();
-		//Graph g = GraphFactory.createDefaultGraph();
+		Graph g = model.getGraph();
 		try {
-//		    RDFParserBuilder pb = RDFParser.create()
-//		             .source(fname)
-//		             .lang(RDFLanguages.JSONLD)
-//		             .canonicalLiterals(true);
-//		    pb.parse(StreamRDFLib.graph(g));
-		    model.read(fname);
+		    // workaround for https://github.com/jsonld-java/jsonld-java/issues/199
+		    RDFParserBuilder pb = RDFParser.create()
+		             .source(fname)
+		             .lang(RDFLanguages.JSONLD)
+		             .canonicalLiterals(true);
+		    pb.parse(StreamRDFLib.graph(g));
 		} catch (RiotException e) {
 		    writeLog("error reading "+fname);
 		    return null;
