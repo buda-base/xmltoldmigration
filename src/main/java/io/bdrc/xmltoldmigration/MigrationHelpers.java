@@ -175,7 +175,7 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(CORPORATION, "Corporation");
 		typeToRootShortUri.put(PRODUCT, "Product");
 		typeToRootShortUri.put(ITEM, "Item");
-		typeToRootShortUri.put(VOLUME, "vol:Volume");
+		typeToRootShortUri.put(VOLUME, "Volume");
 		typeToRootShortUri.put(OFFICE, "Role");
     }
 	

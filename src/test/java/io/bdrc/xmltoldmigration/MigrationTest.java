@@ -76,7 +76,7 @@ public class MigrationTest
 		assertTrue(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1331.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -277,22 +277,22 @@ public class MigrationTest
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
-//       
-//       @Test
-//       public void testImagegroup()
-//       {
-//           System.out.println("testing imagegroup");
-//           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/ImagegroupTest.xml");  
-//           Validator validator = MigrationHelpers.getValidatorFor("imagegroup");
-//           assertTrue(CommonMigration.documentValidates(d, validator));
-//           Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
-//           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/ImagegroupTest.jsonld");
-//           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "volumes", true);
-//           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-//           flushLog();
-//       }
-//
+       
+       @Test
+       public void testImagegroup()
+       {
+           System.out.println("testing imagegroup");
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/ImagegroupTest.xml");  
+           Validator validator = MigrationHelpers.getValidatorFor("imagegroup");
+           assertTrue(CommonMigration.documentValidates(d, validator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/ImagegroupTest.jsonld");
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", true);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+           flushLog();
+       }
+
 	@Test
     public void testL8LS14115()
     {

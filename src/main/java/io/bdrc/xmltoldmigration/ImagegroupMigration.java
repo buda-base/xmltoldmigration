@@ -13,16 +13,17 @@ import org.w3c.dom.NodeList;
 
 public class ImagegroupMigration {
 
-	private static final String VP = CommonMigration.VOLUMES_PREFIX;
 	private static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
 
 	
 	// for testing purposes only
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m);
-        Resource volumes = m.createResource(VP+"TestVolumes");
-        m.add(volumes, RDF.type, m.getResource(VP+"Volumes"));
+        Resource volumes = m.createResource(BDR+"TestVolumes");
+        m.add(volumes, RDF.type, m.getResource(BDO+"Item"));
         MigrateImagegroup(xmlDocument, m, volumes, "testVolume", "1", "testVolumes");
         return m;
 	}
@@ -31,23 +32,24 @@ public class ImagegroupMigration {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
-		Resource main = m.createResource(VP+volumesName+"_"+volumeName);
-        m.add(main, RDF.type, m.getResource(VP+"Volume"));
+		//Resource main = m.createResource(VP+volumesName+"_"+volumeName);
+		Resource main = m.createResource();
+        //m.add(main, RDF.type, m.getResource(BDO+"Volume"));
         
         try {
             int intval = Integer.parseInt(volumeNumber);
             if (intval < 1) {
-                CommonMigration.addException(m, main, "invalid volume number, must be a positive integer, got '"+volumeNumber+"'");
-                m.add(main, m.getProperty(VP, "number"), m.createLiteral(volumeNumber));
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
+                m.add(main, m.getProperty(BDO, "volumeNumber"), m.createLiteral(volumeNumber));
             } else {
-                m.add(main, m.getProperty(VP, "number"), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
+                m.add(main, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
             }
         } catch (NumberFormatException e) {
-            CommonMigration.addException(m, main, "invalid volume number, must be a positive integer, got '"+volumeNumber+"'");
-            m.add(main, m.getProperty(VP, "number"), m.createLiteral(volumeNumber));
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
+            m.add(main, m.getProperty(BDO, "volumeNumber"), m.createLiteral(volumeNumber));
         }
         
-        m.add(volumes, m.getProperty(VP+"hasVolume"), main);
+        m.add(volumes, m.getProperty(BDO+"itemHasVolume"), main);
         
 		// adding the ondisk/onDisk description as vol:imageList
 		NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "description");
@@ -56,7 +58,7 @@ public class ImagegroupMigration {
             String type = current.getAttribute("type").trim();
             if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
             Literal value = m.createLiteral(current.getTextContent().trim()); 
-            m.add(main, m.getProperty(VP+"imageList"), value);
+            m.add(main, m.getProperty(BDO+"volumeImageList"), value);
         }
 		
         CommonMigration.addLog(m, root, volumes, IGXSDNS);
@@ -67,33 +69,33 @@ public class ImagegroupMigration {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("intro").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(VP+"pages_intro"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+                m.add(main, m.getProperty(BDO, "volumePagesIntro"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
             
             value = current.getAttribute("tbrcintro").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(VP+"pages_tbrcintro"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+                m.add(main, m.getProperty(BDO, "volumePagesTbrcIntro"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
             
             value = current.getAttribute("text").trim();
             if (!value.isEmpty()) {
                 if (value.startsWith("-")) {
-                    CommonMigration.addException(m, main, "image group had a negative value for 'text': "+value);
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup:text", "image group had a negative value for `text`: `"+value+"`");
                     value = "0";
                 }
-                m.add(main, m.getProperty(VP+"pages_text"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+                m.add(main, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
             }
                 
             
             value = current.getAttribute("total").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(VP+"pages_total"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+                m.add(main, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
         }
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "qc");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            addSimpleElement("qcperson", "qcperson", current, m, main);
-            addSimpleElement("qcdate", "qcdate", current, m, main);
-            addSimpleElement("qcnotes", "qcnotes", current, m, main);
+            addSimpleElement("qcperson", "volumeQcPerson", current, m, main);
+            addSimpleElement("qcdate", "volumeQcDate", current, m, main);
+            addSimpleElement("qcnotes", "volumeQcNote", current, m, main);
         }
 
 	}
@@ -106,7 +108,7 @@ public class ImagegroupMigration {
             if (value.isEmpty()) {
                 return;
             }
-            m.add(main, m.createProperty(VP+propName), m.createLiteral(value));
+            m.add(main, m.createProperty(BDO+propName), m.createLiteral(value));
         }
     }
 	

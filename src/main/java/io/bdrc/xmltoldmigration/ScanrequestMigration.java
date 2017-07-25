@@ -10,11 +10,9 @@ import org.w3c.dom.Element;
 
 public class ScanrequestMigration {
 
-	private static final String VP = CommonMigration.VOLUMES_PREFIX;
 	private static final String SRXSDNS = "http://www.tbrc.org/models/scanrequest#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADM;
 
 	
 	// used for testing only
@@ -23,8 +21,9 @@ public class ScanrequestMigration {
         CommonMigration.setPrefixes(m);
         Element root = xmlDocument.getDocumentElement();
         String value = root.getAttribute("work");
+        String rid=root.getAttribute("RID");
         if (value.isEmpty()) {
-            System.err.println("No work ID for scanrequest "+root.getAttribute("RID")+"!");
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "work", "missing work id");
             return m;
         }
 
