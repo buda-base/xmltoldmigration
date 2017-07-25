@@ -16,6 +16,7 @@ public class ImagegroupMigration {
 	private static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String ADM = CommonMigration.ADMIN_PREFIX;
 
 	
 	// for testing purposes only
@@ -108,7 +109,7 @@ public class ImagegroupMigration {
             if (value.isEmpty()) {
                 return;
             }
-            m.add(main, m.createProperty(BDO+propName), m.createLiteral(value));
+            m.add(main, m.createProperty(ADM+propName), m.createLiteral(value));
         }
     }
 	

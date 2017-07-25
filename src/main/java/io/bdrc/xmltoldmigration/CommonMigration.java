@@ -245,7 +245,7 @@ public class CommonMigration  {
 	        case "location":              return BDO+"work_desc_location";
 	        case "remarks":               return BDO+"work_desc_remarks";
 	        case "room":                  return BDO+"work_desc_room";
-	        case "summary":               return BDO+"workSummary";
+	        case "summary":               return BDO+"summary";
 	        case "snar_bstan_number":     return BDO+"workKaTenSiglaN";
 	        case "snr_thang_number":      return BDO+"workKaTenSiglaN";
 	        case "snar_thang_number":     return BDO+"workKaTenSiglaN"; 

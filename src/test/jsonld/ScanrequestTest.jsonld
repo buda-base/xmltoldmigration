@@ -2,7 +2,7 @@
   "@graph" : [ {
     "@id" : "bdr:TestVolumes",
     "@type" : "Item",
-    "volumeScanVenue" : "Delhi"
+    "admin/volumeScanVenue" : "Delhi"
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/",

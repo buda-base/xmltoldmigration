@@ -8,7 +8,7 @@
       "@id" : "bdr:StatusReleased"
     },
     "@id" : "bdr:PR99NCUL01",
-    "@type" : "Product",
+    "@type" : "admin/Product",
     "admin/logEntry" : {
       "@id" : "_:b5",
       "admin/logMessage" : {
@@ -23,44 +23,44 @@
         "@id" : "bdr:U6"
       }
     },
-    "productAllowByAddr" : "ip6",
-    "productHasOrg" : [ {
-      "@id" : "_:b1",
-      "name" : {
-        "@language" : "en",
-        "@value" : "Top2"
-      },
-      "productHasOrg" : [ {
-        "@id" : "_:b0",
+    "admin/productAllowByAddr" : "ip6",
+    "admin/productHasOrg" : [ {
+      "@id" : "_:b0",
+      "admin/productHasOrg" : [ {
+        "@id" : "_:b1",
+        "admin/productAllowByAddr" : "ip1",
         "name" : {
           "@language" : "en",
           "@value" : "Sub3"
-        },
-        "productAllowByAddr" : "ip1"
+        }
       }, {
         "@id" : "_:b2",
+        "admin/productAllowByAddr" : "ip2",
         "name" : {
           "@language" : "en",
           "@value" : "Sub2"
-        },
-        "productAllowByAddr" : "ip2"
+        }
       }, {
         "@id" : "_:b3",
+        "admin/productAllowByAddr" : "ip3",
         "name" : {
           "@language" : "en",
           "@value" : "Sub1"
-        },
-        "productAllowByAddr" : "ip3"
-      } ]
+        }
+      } ],
+      "name" : {
+        "@language" : "en",
+        "@value" : "Top2"
+      }
     }, {
       "@id" : "_:b4",
+      "admin/productAllowByAddr" : [ "ip4", "ip5" ],
       "name" : {
         "@language" : "en",
         "@value" : "Top1"
-      },
-      "productAllowByAddr" : [ "ip4", "ip5" ]
+      }
     } ],
-    "productInclude" : {
+    "admin/productInclude" : {
       "@id" : "bdr:PR88CT000129"
     }
   } ],

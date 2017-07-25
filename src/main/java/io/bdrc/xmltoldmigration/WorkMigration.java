@@ -23,6 +23,8 @@ public class WorkMigration {
 	private static final String PP = CommonMigration.PERSON_PREFIX;
 	private static final String PRP = CommonMigration.PRODUCT_PREFIX;
 	private static final String VP = CommonMigration.VOLUMES_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
 	private static final String WXSDNS = "http://www.tbrc.org/models/work#";
 	
 	public static Model MigrateWork(Document xmlDocument) {
@@ -30,12 +32,14 @@ public class WorkMigration {
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(WP + root.getAttribute("RID"));
-		m.add(main, RDF.type, m.createResource(WP + "Work"));
-		Property prop = m.getProperty(RP, "status");
-		m.add(main, prop, root.getAttribute("status"));
+		Resource main = m.createResource(BDR + root.getAttribute("RID"));
+		m.add(main, RDF.type, m.createResource(BDO + "Work"));
+		
+		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		
 		String value = null;
 		Literal lit = null;
+		Property prop;
 		
 		CommonMigration.addNotes(m, root, main, WXSDNS);
 	    CommonMigration.addExternals(m, root, main, WXSDNS);
@@ -50,12 +54,25 @@ public class WorkMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("license").trim();
-            if (!value.isEmpty())
-                m.add(main, m.getProperty(WP+"license"), m.createLiteral(value));
+            if (!value.isEmpty()) {
+                if (value.equals("ccby")) value = BDR+"WorkLicenseTypeCCBY";
+                else value = BDR+"WorkLicenseTypeCopyrighted";
+                m.add(main, m.getProperty(BDO+"workLicense"), m.createResource(value));
+            }
             
             value = current.getAttribute("access").trim();
+            switch (value) {
+            case "openAccess": value = BDR+"WorkAccessOpen";
+            case "fairUse": value = BDR+"WorkAccessFairUse";
+            case "restrictedSealed": value = BDR+"WorkAccessRestrictedSealed";
+            case "temporarilyRestricted": value = BDR+"WorkAccessTemporarilyRestricted";
+            case "restrictedByQuality": value = BDR+"WorkAccessRestrictedByQuality";
+            case "restrictedByTbrc": value = BDR+"WorkAccessRestrictedByTbrc";
+            case "restrictedInChina": value = BDR+"WorkAccessRestrictedInChina";
+            default: value = "";
+            }
             if (!value.isEmpty())
-                m.add(main, m.getProperty(WP+"access"), m.createLiteral(value));
+                m.add(main, m.getProperty(BDO, "workHasAccess"), m.createLiteral(value));
             
             value = current.getAttribute("status");
             if (value.isEmpty()) value = "scanned"; // from xsd

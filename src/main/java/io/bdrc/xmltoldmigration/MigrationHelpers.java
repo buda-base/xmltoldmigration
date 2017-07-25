@@ -168,12 +168,12 @@ public class MigrationHelpers {
 	static {
 		typeToRootShortUri.put(PERSON, "Person");
 		typeToRootShortUri.put(WORK, "Work");
-		typeToRootShortUri.put(OUTLINE, "out:Outline");
+		typeToRootShortUri.put(OUTLINE, "Outline");
 		typeToRootShortUri.put(PLACE, "Place");
 		typeToRootShortUri.put(TOPIC, "Topic");
 		typeToRootShortUri.put(LINEAGE, "Lineage");
 		typeToRootShortUri.put(CORPORATION, "Corporation");
-		typeToRootShortUri.put(PRODUCT, "Product");
+		typeToRootShortUri.put(PRODUCT, "adm:Product");
 		typeToRootShortUri.put(ITEM, "Item");
 		typeToRootShortUri.put(VOLUME, "Volume");
 		typeToRootShortUri.put(OFFICE, "Role");

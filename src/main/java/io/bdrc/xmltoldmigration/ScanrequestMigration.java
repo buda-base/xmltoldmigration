@@ -13,6 +13,7 @@ public class ScanrequestMigration {
 	private static final String SRXSDNS = "http://www.tbrc.org/models/scanrequest#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String ADM = CommonMigration.ADMIN_PREFIX;
 
 	
 	// used for testing only
@@ -41,7 +42,7 @@ public class ScanrequestMigration {
 		
 		String value = root.getAttribute("venue").trim();
         if (!value.isEmpty())
-            m.add(item, m.getProperty(BDO+"volumeScanVenue"), m.createLiteral(value));
+            m.add(item, m.getProperty(ADM+"volumeScanVenue"), m.createLiteral(value));
 		
 		return m;
 	}
