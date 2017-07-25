@@ -498,6 +498,7 @@ public class CommonMigration  {
        case "colopho":
        case "colophn":
        case "colophone":
+       case "summary":
        case "contents": // for office, corporation, etc., maybe not for works
            return true;
        default:

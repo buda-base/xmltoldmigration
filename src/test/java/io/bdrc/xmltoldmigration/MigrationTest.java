@@ -287,7 +287,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/ImagegroupTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", true);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", true);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
