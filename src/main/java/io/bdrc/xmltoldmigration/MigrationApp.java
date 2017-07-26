@@ -91,7 +91,7 @@ public class MigrationApp
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();
-            if (!MigrationHelpers.mustBeMigrated(root)) return;
+            if (!MigrationHelpers.mustBeMigrated(root, "work")) return;
             Model m = null;
             try {
                 m = MigrationHelpers.xmlToRdf(d, type);

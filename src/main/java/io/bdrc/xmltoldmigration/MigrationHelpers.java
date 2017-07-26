@@ -431,8 +431,13 @@ public class MigrationHelpers {
 		convertOneFile(src, dst, type, frame, "");
 	}
 	
-	public static boolean mustBeMigrated(Element root) {
-	    return (!root.getAttribute("status").equals("withdrawn") && !root.getAttribute("status").equals("onHold")); 
+	public static boolean mustBeMigrated(Element root, String type) {
+	    boolean res = (!root.getAttribute("status").equals("withdrawn") && !root.getAttribute("status").equals("onHold"));
+	    if (res == false) return false;
+	    if (type.equals("outline")) {
+	        res = res && !OutlineMigration.ridsToIgnore.containsKey(root.getAttribute("RID"));   
+	    }
+	    return res;
 	}
 	
 	public static Model getModelFromFile(String src, String type, String fileName) {
@@ -442,7 +447,7 @@ public class MigrationHelpers {
 	        CommonMigration.documentValidates(d, v, src);
 	    }
         Element root = d.getDocumentElement();
-        if (!mustBeMigrated(root)) return null;
+        if (!mustBeMigrated(root, type)) return null;
         Model m = null;
         try {
             m = xmlToRdf(d, type);

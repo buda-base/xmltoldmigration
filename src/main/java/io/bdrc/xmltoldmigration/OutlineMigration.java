@@ -21,6 +21,8 @@ public class OutlineMigration {
 	private static final String WP = CommonMigration.WORK_PREFIX;
 	private static final String PP = CommonMigration.PLACE_PREFIX;
 	private static final String TP = CommonMigration.TOPIC_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
 	private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 
 	public static Map<String,Boolean> ridsToIgnore = new HashMap<>();
@@ -98,8 +100,7 @@ public class OutlineMigration {
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
 		Resource main = m.createResource(OP + root.getAttribute("RID"));
-		Property prop = m.getProperty(RP, "status");
-		m.add(main, prop, root.getAttribute("status"));
+		CommonMigration.addStatus(m, main, root.getAttribute("status"));
 
 		// fetch type in isOutlineOf
 		NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
@@ -126,10 +127,6 @@ public class OutlineMigration {
             workId = value;
         }
         
-        value = root.getAttribute("webAccess").trim();
-        if (!value.isEmpty())
-            m.add(main, m.getProperty(OP+"webAccess"), m.createLiteral(value));
-        
         value = root.getAttribute("pagination").trim();
         if (value.isEmpty()) value = "relative";
         m.add(main, m.getProperty(OP+"pagination"), m.createLiteral(value));
@@ -144,8 +141,6 @@ public class OutlineMigration {
 		addCreators(m, main, root);
 		
 		// TODO: parent (unused?)
-		
-		addViewIn(m, main, root);
 		
 		addNodes(m, main, root, workId);
 		
@@ -180,12 +175,6 @@ public class OutlineMigration {
         m.add(node, RDF.type, m.getResource(OP+value));
         m.add(r, m.getProperty(OP+"hasNode"), node);
         
-        addSimpleAttr(e.getAttribute("webAccess"), "webAccess", m, r);
-        
-        value = e.getAttribute("class").trim();
-        if (!value.isEmpty())
-            m.add(r, m.getProperty(OP+"node_class"), m.createResource(TP+value));
-        
         value = e.getAttribute("parent").trim();
         if (!value.isEmpty())
             m.add(r, m.getProperty(OP+"node_parent"), m.createResource(OP+value));
@@ -199,23 +188,7 @@ public class OutlineMigration {
         CommonMigration.addLocations(m, node, e, OXSDNS, OP+"location", OP+"beginsAt", OP+"endsAt", workId);
         CommonMigration.addSubjects(m, node, e, OXSDNS);
         
-        addSimpleAttr(e.getAttribute("value"), "node_value", m, node);
-        
-        addViewIn(m, node, e);
-        
-        List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "browser");
-        for (int j = 0; j < nodeList.size(); j++) {
-            Element current = (Element) nodeList.get(j);
-            
-            addSimpleAttr(current.getAttribute("class"), "browser_class", m, node);
-            addSimpleAttr(current.getAttribute("func"),  "browser_func", m, node);
-            addSimpleAttr(current.getAttribute("module"), "browser_module", m, node);
-            addSimpleAttr(current.getAttribute("params"), "browser_params", m, node);
-    
-            // TODO: what about current.getTextContent()?
-        }
-        
-        nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "site");
+        List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "site");
         for (int j = 0; j < nodeList.size(); j++) {
             Element current = (Element) nodeList.get(j);
             
@@ -230,7 +203,7 @@ public class OutlineMigration {
             m.add(site, RDF.type, m.getResource(OP+value));
             m.add(node, m.getProperty(OP+"hasSite"), site);
             
-            addSimpleAttr(current.getAttribute("circa"), "site_circa", m, site);
+            addSimpleAttr(current.getAttribute("circa"), BDO+"onOrAbout", m, site);
             
             value = current.getAttribute("place").trim();
             if (!value.isEmpty())
@@ -254,25 +227,11 @@ public class OutlineMigration {
             addNode(m, r, current, i, workId);
         }
 	}
-	
-	public static void addViewIn(Model m, Resource r, Element e) {
-	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "viewIn");
-        for (int i = 0; i < nodeList.size(); i++) {
-            Element current = (Element) nodeList.get(i);
-            
-            addSimpleAttr(current.getAttribute("label"), "viewIn_label", m, r);
-            addSimpleAttr(current.getAttribute("list"), "viewIn_list", m, r);
-            addSimpleAttr(current.getAttribute("target"), "viewIn_target", m, r);
-            String value = current.getTextContent().trim();
-            if (!value.isEmpty())
-                m.add(r, m.getProperty(OP+"viewIn_content"), m.createLiteral(value));
-        }
-	}
 
-   public static void addSimpleAttr(String attrValue, String propName, Model m, Resource r) {
+   public static void addSimpleAttr(String attrValue, String propUrl, Model m, Resource r) {
         attrValue = attrValue.trim();
         if (attrValue.isEmpty()) return;
-        Property prop = m.getProperty(OP+propName);
+        Property prop = m.getProperty(propUrl);
         m.add(r, prop, m.createLiteral(attrValue));
     }
 	
