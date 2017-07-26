@@ -131,8 +131,8 @@ public class PlaceMigration {
 	
 	public static String gisIdToUri(String gisId) {
 	    switch (gisId) {
-	    case "fromLex": return BDO+"placeIdLex";
-	    case "fromTBRC": return BDO+"placeIdTBRC";
+	    case "fromLex": return ADM+"place_id_lex";
+	    case "fromTBRC": return ADM+"place_id_TBRC";
 	    case "chgis_id": return BDO+"placeChgisId";
 	    case "gb2260-2013": return BDO+"placeGB2260-2013";
 	    case "WB_area_sq_km": return BDO+"WBArea";
