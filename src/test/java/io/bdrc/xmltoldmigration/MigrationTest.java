@@ -302,7 +302,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/L8LS14115.jsonld");
-    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", true);
+    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

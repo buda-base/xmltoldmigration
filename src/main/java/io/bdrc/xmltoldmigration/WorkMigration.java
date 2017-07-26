@@ -102,8 +102,9 @@ public class WorkMigration {
             }
             addSimpleAttr(current.getAttribute("number"), "info_number", m, main, null);
             value = current.getAttribute("numbered");
+            // TODO: when there is a number, numbered should be true 
             if (!value.isEmpty()) {
-                prop = m.getProperty(WP+"info_numbered");
+                prop = m.getProperty(BDO, "workIsNumbered");
                 m.add(main, prop, m.createTypedLiteral(value, XSDDatatype.XSDboolean));
             }
             value = current.getAttribute("parent");

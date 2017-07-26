@@ -49,6 +49,8 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 - ignore fields commented in https://github.com/BuddhistDigitalResourceCenter/xmltoldmigration/commit/068af86db28e70b7d7960ce989a0fab35b03f66a (handling it differently in the xsd file so that the xml files still validate)
 - spot overlapping outlines
 - transfer places marked as provisional, like G9GBX33010...
+- ignore `work/info@parent=*LEGACY` like in W2DB4598
+- check if description@type=content and description@type=summary appear in the same node
 
 
 ## License

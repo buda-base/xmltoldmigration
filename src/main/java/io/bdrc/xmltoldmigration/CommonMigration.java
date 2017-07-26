@@ -234,8 +234,8 @@ public class CommonMigration  {
 	       switch (res) {
 	        case "chapter":               return BDO+"work_desc_chapters";
 	        case "chapters":              return BDO+"work_desc_chapters";
-	        case "content":               return BDO+"work_desc_contents";
-	        case "contents":              return BDO+"work_desc_contents";
+	        case "content":               return RDFS_PREFIX+"comment";
+	        case "contents":              return RDFS_PREFIX+"comment";
 	        case "completionDate":        return BDO+"work_desc_completionDate";
 	        case "date":                  return ADM+"work_desc_date";
 	        case "errata":                return BDO+"work_desc_errata";
@@ -245,7 +245,7 @@ public class CommonMigration  {
 	        case "location":              return BDO+"work_desc_location";
 	        case "remarks":               return BDO+"work_desc_remarks";
 	        case "room":                  return BDO+"work_desc_room";
-	        case "summary":               return BDO+"summary";
+	        case "summary":               return RDFS_PREFIX+"comment";
 	        case "snar_bstan_number":     return BDO+"workKaTenSiglaN";
 	        case "snr_thang_number":      return BDO+"workKaTenSiglaN";
 	        case "snar_thang_number":     return BDO+"workKaTenSiglaN"; 
@@ -499,6 +499,7 @@ public class CommonMigration  {
        case "colophn":
        case "colophone":
        case "summary":
+       case "content":
        case "contents": // for office, corporation, etc., maybe not for works
            return true;
        default:
