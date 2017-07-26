@@ -581,21 +581,53 @@ public class CommonMigration  {
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
 		addDescriptions(m, e, r, XsdPrefix, false);
 	}
+
+	public static String titleUriFromType(String type) {
+	    switch (type) {
+	    case "bibliographicalTitle":
+	    case "titlePageTitle":
+	    case "fullTitle":
+	    case "subtitle":
+	    case "runningTitle":
+	    case "dkarChagTitle":
+	    case "colophonTitle":
+	    case "coverTitle":
+	    case "halfTitle":
+	    case "otherTitle":
+	    case "spineTitle":
+	    case "incipit":
+	    case "portion":
+	    case "copyrightPageTitle":
+	        return BDR+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1);
+	    }
+	    return null;
+	}
 	
        public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel) {
             List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
             Map<String,Boolean> labelDoneForLang = new HashMap<>();
+            Map<String,Resource> typeNodes = new HashMap<>();
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
-                if (current.getTextContent().trim().isEmpty()) continue;
+                Literal l = getLiteral(current, "bo-x-ewts", m, "description", main.getLocalName(), main.getLocalName());
+                if (l == null) continue;
                 String type = current.getAttribute("type");
                 if (type.isEmpty()) {
                     type = "bibliographicalTitle";
                 }
-                Property prop = m.getProperty(WORK_PREFIX, type);
-                Literal l = getLiteral(current, "bo-x-ewts", m, "description", main.getLocalName(), main.getLocalName());
-                if (l == null) continue;
-                main.addProperty(prop,  l);
+                String uri = titleUriFromType(type);
+                if (uri == null) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "title", "unknown title type `"+type+"` correctly");
+                    uri = BDR+"WorkBibliographicalTitle";
+                }
+                Property prop = m.getProperty(uri);
+                Resource node = typeNodes.get(uri);
+                if (node == null) {
+                    node = m.createResource();
+                    node.addProperty(m.getProperty(BDO, "workTitleType"), m.createResource(uri));
+                    typeNodes.put(uri, node);
+                }
+                node.addProperty(m.getProperty(BDO, "name"), l);
                 if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage())) {
                     main.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
                     labelDoneForLang.put(l.getLanguage(), true);
@@ -607,14 +639,30 @@ public class CommonMigration  {
            List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "subject");
            for (int i = 0; i < nodeList.size(); i++) {
                Element current = (Element) nodeList.get(i);
-               String value = current.getAttribute("type");
-               if (value.isEmpty()) {
-                   value = "noType";
+               String value = current.getAttribute("type").trim();
+               switch (value) {
+               case "isAboutPerson":
+               case "isAboutCorporation":
+               case "isAboutMeeting":
+               case "isAboutPlace":
+               case "isAboutClan":
+               case "isAboutSect":
+               case "isAboutText":
+                   value = BDO+"workIsAbout";
+               case "isAboutControlled":
+               case "isAboutUncontrolled":
+                   value = BDO+"workIsAbout";  // TODO: ?
+               case "isInstanceOfGenre":
+               case "isInstanceOf":
+                   value = BDO+"workGenre"; // TODO: ?
+               case "isCommentaryOn":
+                   value = BDO+"workIsAbout"; // TODO: ?
+               default:
+                   value = BDO+"workIsAbout";
                }
-               Property prop = m.getProperty(ROOT_PREFIX, "subject_"+value);
-               value = current.getAttribute("class").trim();
-               if (!value.isEmpty()) {
-                   m.add(main, prop, m.createResource(BDR+value));
+               String rid = current.getAttribute("class").trim();
+               if (!rid.isEmpty()) {
+                   m.add(main, m.getProperty(value), m.createResource(BDR+rid));
                }
            }
        }

@@ -16,7 +16,7 @@
     "@id" : "bdr:P1583",
     "@type" : "Person",
     "admin/logEntry" : {
-      "@id" : "_:b1",
+      "@id" : "_:b11",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added records"
@@ -30,31 +30,13 @@
       }
     },
     "note" : [ {
-      "@id" : "_:b13",
-      "noteText" : {
-        "@language" : "en",
-        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
-      }
-    }, {
-      "@id" : "_:b11",
+      "@id" : "_:b5",
       "noteText" : {
         "@language" : "en",
         "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
       }
     }, {
-      "@id" : "_:b0",
-      "noteLocationStatement" : "p. 6",
-      "noteWork" : {
-        "@id" : "bdr:W19822"
-      }
-    }, {
-      "@id" : "_:b14",
-      "noteLocationStatement" : "p. 77",
-      "noteWork" : {
-        "@id" : "bdr:W19801"
-      }
-    }, {
-      "@id" : "_:b6",
+      "@id" : "_:b7",
       "noteLocationStatement" : "v. 2, pp.104-112",
       "noteText" : {
         "@language" : "en",
@@ -64,7 +46,19 @@
         "@id" : "bdr:W25268"
       }
     }, {
-      "@id" : "_:b7",
+      "@id" : "_:b8",
+      "noteLocationStatement" : "p. 6",
+      "noteWork" : {
+        "@id" : "bdr:W19822"
+      }
+    }, {
+      "@id" : "_:b0",
+      "noteLocationStatement" : "p. 77",
+      "noteWork" : {
+        "@id" : "bdr:W19801"
+      }
+    }, {
+      "@id" : "_:b12",
       "noteLocationStatement" : "251",
       "noteText" : {
         "@language" : "en",
@@ -72,6 +66,12 @@
       },
       "noteWork" : {
         "@id" : "bdr:W27401"
+      }
+    }, {
+      "@id" : "_:b10",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
       }
     } ],
     "personEvent" : [ {
@@ -87,27 +87,25 @@
         "@id" : "bdr:PersonEventBirth"
       }
     }, {
-      "@id" : "bdr:E1989",
-      "onOrAbout" : "1364",
-      "personEventType" : {
-        "@id" : "bdr:PersonEventNotSpecified"
-      }
-    }, {
-      "@id" : "_:b8",
+      "@id" : "_:b13",
       "personEventPlace" : {
         "@id" : "bdr:G521"
       },
       "personEventType" : {
         "@id" : "bdr:PersonEventOccupiesSeat"
       }
+    }, {
+      "@id" : "bdr:E1989",
+      "onOrAbout" : "1364",
+      "personEventType" : {
+        "@id" : "bdr:PersonEventNotSpecified"
+      }
     } ],
     "personGender" : {
       "@id" : "bdr:GenderMale"
     },
     "personIsIncarnation" : [ {
-      "@id" : "_:b17"
-    }, {
-      "@id" : "_:b10",
+      "@id" : "_:b6",
       "personIncarnationOf" : {
         "@id" : "bdr:P561654"
       },
@@ -116,9 +114,11 @@
       }, {
         "@id" : "bdr:IncarnationTypeGeneral"
       } ]
+    }, {
+      "@id" : "_:b17"
     } ],
     "personKin" : [ {
-      "@id" : "_:b12",
+      "@id" : "_:b16",
       "personKinType" : {
         "@id" : "bdr:KinUnspecified"
       },
@@ -126,7 +126,7 @@
         "@id" : "bdr:P1584"
       }
     }, {
-      "@id" : "_:b9",
+      "@id" : "_:b15",
       "personKinType" : {
         "@id" : "bdr:KinHasMother"
       },
@@ -135,43 +135,25 @@
       }
     } ],
     "personName" : [ {
-      "@id" : "_:b15",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "klong chen pa/"
-      },
-      "personName" : {
-        "@id" : "bdr:PersonCommonName"
-      }
-    }, {
-      "@id" : "_:b4",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "tshul khrims blo gros/"
-      },
-      "personName" : {
-        "@id" : "bdr:PersonPersonalName"
-      }
-    }, {
-      "@id" : "_:b16",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "rgyal sras thugs mchog rtsal/"
-      },
-      "personName" : {
-        "@id" : "bdr:PersonSecretInitiatoryName"
-      }
-    }, {
-      "@id" : "_:b3",
+      "@id" : "_:b1",
       "name" : {
         "@language" : "bo-x-ewts",
         "@value" : "klong chen rab 'byams pa dri med 'od zer/"
       },
-      "personName" : {
+      "personNameType" : {
         "@id" : "bdr:PersonPrimaryTitle"
       }
     }, {
-      "@id" : "_:b5",
+      "@id" : "_:b9",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "rgyal sras thugs mchog rtsal/"
+      },
+      "personNameType" : {
+        "@id" : "bdr:PersonSecretInitiatoryName"
+      }
+    }, {
+      "@id" : "_:b14",
       "name" : [ {
         "@language" : "zh",
         "@value" : "隆钦热降巴·赤墨俄色"
@@ -185,11 +167,20 @@
         "@language" : "bo-x-ewts",
         "@value" : "dri med 'od zer/"
       } ],
-      "personName" : {
+      "personNameType" : {
         "@id" : "bdr:PersonPrimaryName"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b4",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "tshul khrims blo gros/"
+      },
+      "personNameType" : {
+        "@id" : "bdr:PersonPersonalName"
+      }
+    }, {
+      "@id" : "_:b3",
       "name" : [ {
         "@language" : "bo-x-ewts",
         "@value" : "bsam yas lung mang ba/"
@@ -197,8 +188,17 @@
         "@language" : "bo-x-ewts",
         "@value" : "klong chen rab 'byams/"
       } ],
-      "personName" : {
+      "personNameType" : {
         "@id" : "bdr:PersonTitle"
+      }
+    }, {
+      "@id" : "_:b2",
+      "name" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "klong chen pa/"
+      },
+      "personNameType" : {
+        "@id" : "bdr:PersonCommonName"
       }
     } ],
     "personOfSect" : {

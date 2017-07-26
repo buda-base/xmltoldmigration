@@ -26,6 +26,8 @@ public class MigrationApp
     public static String OUTPUT_DIR = "tbrc-jsonld/";
     public static final String WP = CommonMigration.WORK_PREFIX;
     public static final String VP = CommonMigration.VOLUMES_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     
     public static final String CORPORATION = MigrationHelpers.CORPORATION;
     public static final String LINEAGE = MigrationHelpers.LINEAGE;
@@ -36,6 +38,7 @@ public class MigrationApp
     public static final String SCANREQUEST = MigrationHelpers.SCANREQUEST;
     public static final String TOPIC = MigrationHelpers.TOPIC;
     public static final String VOLUMES = MigrationHelpers.VOLUMES;
+    public static final String ITEMS = MigrationHelpers.ITEMS;
     public static final String WORK = MigrationHelpers.WORK;
     
     public static OntModel ontology = null;
@@ -73,7 +76,7 @@ public class MigrationApp
             Document srd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             String workId = ScanrequestMigration.getWork(srd);
             if (workId.isEmpty()) return;
-            String volumesFileName = OUTPUT_DIR+VOLUMES+"/V"+workId.substring(1)+".jsonld";
+            String volumesFileName = OUTPUT_DIR+ITEMS+"/I"+workId.substring(1)+".jsonld";
             File workFile = new File(volumesFileName);
             if (!workFile.exists()) {
                 //System.err.println("ignoring scan request for unreleased "+workId);
@@ -83,7 +86,7 @@ public class MigrationApp
             if (volumesModel == null) return;
             volumes = volumesModel.getResource(VP+"V"+workId.substring(1));
             volumesModel = ScanrequestMigration.MigrateScanrequest(srd, volumesModel, volumes);
-            MigrationHelpers.modelToFileName(volumesModel, volumesFileName, VOLUMES, true);
+            MigrationHelpers.modelToFileName(volumesModel, volumesFileName, ITEMS, true);
             break;
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -102,9 +105,9 @@ public class MigrationApp
             if (vols.size() > 0) {
                 volumesModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(volumesModel);
-                String volumesName = "V"+baseName.substring(1);
-                volumes = volumesModel.createResource(VP+volumesName);
-                volumesModel.add(volumes, RDF.type, volumesModel.createResource(VP + "Volumes"));
+                String volumesName = "I"+baseName.substring(1);
+                volumes = volumesModel.createResource(BDR+volumesName);
+                volumesModel.add(volumes, RDF.type, volumesModel.createResource(BDR + "Item"));
                 for (Map.Entry<String,String> vol : vols.entrySet()) {
                     String imagegroup = vol.getKey();
                     String imagegroupFileName = DATA_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
@@ -129,7 +132,7 @@ public class MigrationApp
                 return;
             }
             d = MigrationHelpers.documentFromFileName(pubinfoFileName);
-            m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(WP+baseName));
+            m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(BDR+baseName));
             MigrationHelpers.modelToFileName(m, outfileName, type, true);
             break;
         default:
@@ -140,7 +143,7 @@ public class MigrationApp
     
     public static void migrateType(String type, String mustStartWith) {
         createDirIfNotExists(OUTPUT_DIR+type+"s");
-        if (type.equals(WORK)) createDirIfNotExists(OUTPUT_DIR+VOLUMES);
+        if (type.equals(WORK)) createDirIfNotExists(OUTPUT_DIR+ITEMS);
         File logfile = new File(OUTPUT_DIR+type+"s-migration.log");
         PrintWriter pw;
         try {
@@ -184,7 +187,7 @@ public class MigrationApp
         migrateType(TOPIC, "T");
 ////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
 //        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
-        migrateType(WORK, "W"); // ~20mn, also does pubinfos and imagegroups
+        migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
         CommonMigration.speller.close();
         ExceptionHelper.closeAll();

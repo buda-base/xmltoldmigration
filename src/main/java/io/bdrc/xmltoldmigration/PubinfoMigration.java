@@ -5,6 +5,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -80,20 +81,24 @@ public class PubinfoMigration {
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            //String value = CommonMigration.getSubResourceName(main, WP, "Series", i+1);
-            Resource series = m.createResource();
-            //m.add(series, RDF.type, m.getResource(WP+"PubinfoSeries"));
-            m.add(main, m.createProperty(BDO, "workHasPubinfoSeries"), series);
             String value = current.getAttribute("name").trim();
             if (!value.isEmpty())
-                m.add(series, m.getProperty(BDO, "workSeriesName"), m.createLiteral(value));
-            
+                m.add(main, m.getProperty(BDO, "workSeriesName"), m.createLiteral(value));
             value = current.getAttribute("number").trim();
-            if (!value.isEmpty())
-                m.add(series, m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(value));
-            
+            if (!value.isEmpty()) {
+                m.add(main, m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(value));
+                m.add(main, m.getProperty(BDO, "workIsNumbered"), m.createTypedLiteral(true));
+            }
             Property prop = m.getProperty(BDO, "workSeriesContent");
-            CommonMigration.addCurrentString(current, "bo-x-ewts", m, series, prop, false);
+            Literal l = CommonMigration.getLiteral(current, "bo-x-ewts", m, "series", main.getLocalName(), null);
+            if (l == null) continue;
+            main.addProperty(prop, l);
+            Statement s = main.getProperty(m.getProperty(BDO, "workExpressionOf"));
+            if (s != null) {
+                l = s.getLiteral();
+                main.removeAll(m.getProperty(BDO, "workExpressionOf"));
+                main.addProperty(m.getProperty(BDO, "workNumberOf"), l);
+            }
         }
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");

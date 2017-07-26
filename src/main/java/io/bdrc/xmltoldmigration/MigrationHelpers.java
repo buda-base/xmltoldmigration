@@ -105,6 +105,7 @@ public class MigrationHelpers {
     public static final String PLACE = "place";
     public static final String TOPIC = "topic";
     public static final String VOLUMES = "volumes";
+    public static final String ITEMS = "items";
     public static final String ITEM = "item";
     public static final String WORK = "work";
     // types in source DB and not in target DB

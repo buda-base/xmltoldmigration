@@ -40,7 +40,7 @@ public class PersonMigration {
 	}
 	
    private static String getPropertyFromType(Map<String,Resource> typeNodes, String type) {
-        return "person"+type.substring(0, 1).toUpperCase() + type.substring(1);
+        return "person"+type.substring(0, 1).toUpperCase() + type.substring(1)+"Type";
     }
 	
 	private static Resource createFromType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
@@ -81,6 +81,7 @@ public class PersonMigration {
 			    type = "primaryName";
 			Resource r = getResourceForType(typeNodes, m, main, prop, "name", type);
 			Literal l = CommonMigration.getLiteral(current, "bo-x-ewts", m, type, RID, null);
+			if (l == null) continue;
 			r.addProperty(nameProp, l);
 			if (!labelDoneForLang.computeIfAbsent(l.getLanguage(), (s) -> false)) {
 			    main.addProperty(m.getProperty(RDFS+"label"), l);

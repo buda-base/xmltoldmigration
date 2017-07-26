@@ -18,14 +18,35 @@ import org.w3c.dom.NodeList;
 
 public class WorkMigration {
 
-	private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String WP = CommonMigration.WORK_PREFIX;
-	private static final String PP = CommonMigration.PERSON_PREFIX;
-	private static final String PRP = CommonMigration.PRODUCT_PREFIX;
-	private static final String VP = CommonMigration.VOLUMES_PREFIX;
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String ADM = CommonMigration.ADMIN_PREFIX;
 	private static final String WXSDNS = "http://www.tbrc.org/models/work#";
+	
+	   private static String getUriFromTypeSubtype(String type, String subtype) {
+	        switch (type) {
+	        case "creator":
+	            return BDR+"CreatorType"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	        default:
+	               return "";
+	        }
+	    }
+	    
+	   private static String getPropertyFromType(Map<String,Resource> typeNodes, String type) {
+	        return "work"+type.substring(0, 1).toUpperCase() + type.substring(1)+"Type";
+	    }
+	    
+	    private static Resource createFromType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
+	        Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
+	        Resource r = m.createResource();
+	        r.addProperty(m.getProperty(BDO+getPropertyFromType(typeNodes, type)), typeIndividual);
+	        main.addProperty(p, r);
+	        return r;
+	    }
+	    
+	    private static Resource getResourceForType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
+	        return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(typeNodes, m, main, p, type, t));
+	    }
 	
 	public static Model MigrateWork(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
@@ -57,7 +78,7 @@ public class WorkMigration {
             if (!value.isEmpty()) {
                 if (value.equals("ccby")) value = BDR+"WorkLicenseTypeCCBY";
                 else value = BDR+"WorkLicenseTypeCopyrighted";
-                m.add(main, m.getProperty(BDO+"workLicense"), m.createResource(value));
+                m.add(main, m.getProperty(ADM+"workLicense"), m.createResource(value));
             }
             
             value = current.getAttribute("access").trim();
@@ -72,10 +93,10 @@ public class WorkMigration {
             default: value = "";
             }
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "workHasAccess"), m.createLiteral(value));
+                m.add(main, m.getProperty(ADM, "workHasAccess"), m.createLiteral(value));
 
             try {
-                int nbvols = Integer.parseUnsignedInt(current.getAttribute("vols"));
+                int nbvols = Integer.parseUnsignedInt(current.getAttribute("vols").trim());
                 if (nbvols != 0) {
                     prop = m.getProperty(BDO, "workNumberOfVolumes");
                     lit = m.createTypedLiteral(nbvols, XSDDatatype.XSDpositiveInteger);
@@ -107,37 +128,48 @@ public class WorkMigration {
                 main.addProperty(m.getProperty("workSeriesNumber"), m.createLiteral(value));
                 numbered = true;
             };
-            value = current.getAttribute("numbered");
-            // TODO: when there is a number, numbered should be true 
+            value = current.getAttribute("numbered"); 
             if (!value.isEmpty()) {
+                numbered = true;
+            }
+            if (numbered) {
                 prop = m.getProperty(BDO, "workIsNumbered");
-                m.add(main, prop, m.createTypedLiteral(value, XSDDatatype.XSDboolean));
+                m.add(main, prop, m.createTypedLiteral(true));
             }
             value = current.getAttribute("parent");
-            if (!value.isEmpty()) {
-                prop = m.getProperty(WP+"info_parent");
-                m.add(main, prop, m.createResource(WP+value));
+            if (!value.isEmpty() && !value.contains("LEGACY")) {
+                if (numbered) {
+                    prop = m.getProperty(BDO, "workNumberOf");
+                } else {
+                    prop = m.getProperty(BDO, "workExpressionOf");
+                }
+                m.add(main, prop, m.createResource(BDR+value));
             }
         }
         
         // creator
         
+        Map<String,Resource> typeNodes = new HashMap<>();
+        Property propWorkCreator = m.getProperty(BDO, "workCreator");
+        
         nodeList = root.getElementsByTagNameNS(WXSDNS, "creator");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            value = current.getAttribute("type");
+            value = current.getAttribute("type").trim();
             if (value.isEmpty()) {
                 value = "hasMainAuthor";
             }
-            prop = m.createProperty(WP+value);
-            value = current.getAttribute("person").trim(); // required
-            if (value.isEmpty()) continue;
-            if (value.equals("Add to DLMS")) {
-                value = current.getTextContent().trim();
-                if (!value.isEmpty())
-                    CommonMigration.addException(m, main,  "creator needs to be added to dlms: \""+value+"\"");
-            } else 
-                m.add(main, prop, m.createResource(PP+value));
+            String person = current.getAttribute("person").trim(); // required
+            if (person.isEmpty()) continue;
+            if (person.equals("Add to DLMS")) {
+                person = current.getTextContent().trim();
+                if (!person.isEmpty())
+                    ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
+            } else {
+                Resource r = getResourceForType(typeNodes, m, main, propWorkCreator, "creator", value);
+                r.addProperty(m.getProperty(BDO, "name"), m.createResource(BDR+person));
+            }
+                
         }
         
         // inProduct
@@ -145,8 +177,8 @@ public class WorkMigration {
         nodeList = root.getElementsByTagNameNS(WXSDNS, "inProduct");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            value = current.getAttribute("pid");
-            m.add(main, m.getProperty(WP+"inProduct"), m.createResource(PRP+value));
+            value = current.getAttribute("pid").trim();
+            m.add(main, m.getProperty(BDO, "workInProduct"), m.createResource(BDR+value));
         }
         
         // catalogInfo
@@ -154,8 +186,9 @@ public class WorkMigration {
         nodeList = root.getElementsByTagNameNS(WXSDNS, "catalogInfo");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            prop = m.getProperty(WP+"catalogInfo");
-            CommonMigration.addCurrentString(current, "en", m, main, prop, false);
+            Literal l = CommonMigration.getLiteral(current, "en", m, "catalogInfo", main.getLocalName(), null);
+            if (l == null) continue;
+            main.addProperty(m.getProperty(BDO, "workCatalogInfo"), l);
         }
         
         // scanInfo
@@ -163,14 +196,15 @@ public class WorkMigration {
         nodeList = root.getElementsByTagNameNS(WXSDNS, "scanInfo");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            value = current.getTextContent();
-            m.add(main, m.getProperty(WP+"scanInfo"), m.createLiteral(value, "en"));
+            Literal l = CommonMigration.getLiteral(current, "en", m, "scanInfo", main.getLocalName(), null);
+            if (l == null) continue;
+            main.addProperty(m.getProperty(BDO, "workScanInfo"), l);
         }
         
         Map<String,String> imageGroupList = getImageGroupList(xmlDocument);
         if (!imageGroupList.isEmpty()) {
-            Resource volumes = m.createResource(VP+"V"+root.getAttribute("RID").substring(1));
-            m.add(main, m.getProperty(WP+"hasVolumes"), volumes);
+            Resource volumes = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1));
+            m.add(main, m.getProperty(BDO, "workHasItem"), volumes);
         }
         
 		return m;
