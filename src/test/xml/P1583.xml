@@ -33,7 +33,8 @@
     <p:teacherOf pid="P314"> 'jigs med gling pa mkhyen brtse 'od zer </p:teacherOf>
     <p:kinship person="P1584">bstan pa srung</p:kinship>
     <p:kinship person="P1585" relation="hasMother">'brom bza' bsod nams rgyan</p:kinship>
-    <p:external data="http://example.com">External example</p:external>
+    <p:external data="http://tbrc.org/link?RID=O1GS39248|O1GS392481GS39291$W23681">External example</p:external>
+    <p:external data="http://treasuryoflives.org/biographies/abc">TOL example</p:external>
     <p:incarnationOf relation="yangtse">ignoring string</p:incarnationOf>
     <p:incarnationOf secondary="mind" being="P561654">ignoring string</p:incarnationOf>
     <p:ofSect sect="T1234">ignoring string</p:ofSect>

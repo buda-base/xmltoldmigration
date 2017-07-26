@@ -111,6 +111,18 @@ public class MigrationTest
 	}
 	
 	@Test
+	public void testUrlNormalization() {
+	    assertTrue(CommonMigration.normalizeToLUrl("http://treasuryoflives.org/biographies/abc").equals("https://www.treasuryoflives.org/biographies/abc"));
+	    assertTrue(CommonMigration.normalizeToLUrl("http://beta.treasuryoflives.org/biographies/abc").equals("https://www.treasuryoflives.org/biographies/abc"));
+	    assertTrue(CommonMigration.getRIDFromTbrcUrl("http://tbrc.org/#library_work_Object-W00EGS1016761").equals("W00EGS1016761"));
+	    assertTrue(CommonMigration.getRIDFromTbrcUrl("http://tbrc.org/link?RID=O2DB102429|O2DB1024292DB102470$W21634").equals("O2DB1024292DB102470"));
+	    assertTrue(CommonMigration.getRIDFromTbrcUrl("http://www.tbrc.org/link/?RID=O1KG4084|O1KG40841KG4095$W1KG3381#library_work_Object-O1KG4084|O1KG40841KG4095$W1KG3381").equals("O1KG40841KG4095"));
+	    assertTrue(CommonMigration.getRIDFromTbrcUrl("http://mercury.tbrc.org/link?RID=O3LS12537|O3LS125373LS13489$W8039").equals("O3LS125373LS13489"));
+	    assertTrue(CommonMigration.getRIDFromTbrcUrl("http://tbrc.org/?locale=bo#library_work_Object-W1PD107999").equals("W1PD107999"));
+	    assertTrue(CommonMigration.getRIDFromTbrcUrl("http://tbrc.org/link/?RID=T1CZ28#library_topic_Object-T1CZ28").equals("T1CZ28"));
+	}
+	
+	@Test
 	public void testHunspell() {
 	    assertTrue(CommonMigration.isStandardTibetan("བོད"));
 	    assertTrue(CommonMigration.isStandardTibetan("བོད་བོད་ བོད་"));
@@ -137,7 +149,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1583.jsonld");
-    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
+    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -302,7 +314,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/L8LS14115.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

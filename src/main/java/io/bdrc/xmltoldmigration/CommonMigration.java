@@ -379,28 +379,52 @@ public class CommonMigration  {
         }
 	}
 	
+	public static String normalizeToLUrl(String toLUrl) {
+	    String res = toLUrl.replace("http", "https");
+	    res = res.replace("//treasuryoflives.org", "//www.treasuryoflives.org");
+	    res = res.replace("//beta.treasuryoflives.org", "//www.treasuryoflives.org");
+	    return res;
+	}
+
+   public static String getRIDFromTbrcUrl(String tbrcUrl) {
+        int i = tbrcUrl.indexOf("RID=");
+        String res = tbrcUrl;
+        if (i > 0) {
+            res = res.substring(i+4);
+        } else {
+            // case of http://tbrc.org/#library_topic_Object-T151
+            // and http://tbrc.org/?locale=bo#library_work_Object-W1PD107999
+            i = res.indexOf("-");
+            return res.substring(i+1);
+        }
+        i = res.indexOf("$");
+        if (i > 0) {
+            res = res.substring(0, i);
+        }
+        i = res.indexOf("#");
+        if (i > 0) {
+            res = res.substring(0, i);
+        }
+        i = res.indexOf("|");
+        if (i > 0) {
+            res = res.substring(i+1);
+        }
+        return res;
+    }
+	
 	public static void addExternal(Model m, Element e, Resource r, int i) {
-		Resource ext = m.createResource();
-		Property prop = m.createProperty(BDO+"external");
-		Literal lit;
-		m.add(r, prop, ext);
-		String value = e.getAttribute("data");
-		if (!value.isEmpty()) {
-			prop = m.createProperty(BDO+"external_data");
-			m.add(ext, prop, m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
-			// catch errors?
+		String value = e.getAttribute("data").trim();
+		if (value.isEmpty()) return;
+		if (value.contains("treasuryoflives.org")) {
+		    value = normalizeToLUrl(value);
+		    r.addProperty(m.createProperty(BDO, "tolUrl"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
+		    return;
 		}
-		value = e.getAttribute("source");
-		if (!value.isEmpty()) {
-			prop = m.createProperty(BDO+"external_source");
-			lit = m.createLiteral(value);
-			m.add(ext, prop, lit);
-		}
-		value = e.getTextContent().trim();
-		if (!value.isEmpty()) {
-			prop = m.createProperty(BDO+"external_content");
-			lit = m.createLiteral(value, "en");
-			m.add(ext, prop, lit);
+		if (value.contains("blog.tbrc.org")) return;
+		if (value.contains("tbrc.org")) {
+		    value = getRIDFromTbrcUrl(value);
+		    // TODO: map outline nodes to new ones
+		    r.addProperty(m.createProperty(RDFS_PREFIX, "seeAlso"), m.createResource(BDR+value));
 		}
 	}
 	

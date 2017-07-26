@@ -100,7 +100,13 @@ public class WorkMigration {
             if (!value.isEmpty()) {
                 main.addProperty(m.getProperty(BDO, "workType"), m.getResource(value));
             }
-            addSimpleAttr(current.getAttribute("number"), "info_number", m, main, null);
+            boolean numbered = false;
+            // will be overwritten when reading the pubinfo
+            value = current.getAttribute("number");
+            if (!value.isEmpty()) {
+                main.addProperty(m.getProperty("workSeriesNumber"), m.createLiteral(value));
+                numbered = true;
+            };
             value = current.getAttribute("numbered");
             // TODO: when there is a number, numbered should be true 
             if (!value.isEmpty()) {
@@ -188,17 +194,5 @@ public class WorkMigration {
         }
 	    return res;
 	}
-	
-	   public static void addSimpleAttr(String attrValue, String attrName, Model m, Resource r, String dflt) {
-	        if (attrValue.isEmpty()) {
-	            if (dflt == null) {
-	                return;
-	            } else {
-	                attrValue = dflt;
-	            }
-	        }
-	        Property prop = m.getProperty(WP+attrName);
-	        m.add(r, prop, m.createLiteral(attrValue));
-	    }
 	
 }
