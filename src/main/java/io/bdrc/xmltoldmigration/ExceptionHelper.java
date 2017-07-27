@@ -54,9 +54,21 @@ public class ExceptionHelper {
     public static void logException(int type, String RID, String subRID, String propIndication, String error) {
         //System.out.println(error);
         FileWriter f = getFileWriter(type);
+        String subRIDStr = (subRID == null) ? "" : "|"+subRID;
         try {
-            f.write("- [ ] ["+RID+"](https://www.tbrc.org/#!rid="+RID+") ");
+            f.write("- [ ] ["+RID+"](https://www.tbrc.org/#!rid="+RID+subRIDStr+") ");
             f.write("on property `"+propIndication+"`:"+error+"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void logException(int type, String RID, String subRID, String rawError) {
+        //System.out.println(error);
+        FileWriter f = getFileWriter(type);
+        String subRIDStr = (subRID == null) ? "" : "|"+subRID;
+        try {
+            f.write("- [ ] ["+RID+"](https://www.tbrc.org/#!rid="+RID+subRIDStr+") "+rawError+"\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

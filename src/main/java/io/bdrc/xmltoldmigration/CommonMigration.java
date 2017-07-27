@@ -708,64 +708,74 @@ public class CommonMigration  {
            return res;
        }
        
-       public static void addLocations(Model m, Resource main, Element root, String XsdPrefix, String propname, String propname1, String propname2, String workId) {
+       public static class LocationVolPage {
+           public Integer endVolNum;
+           public int endPageNum;
+           public Integer beginVolNum;
+           public int beginPageNum;
+           public String RID;
+           
+           public LocationVolPage(Integer beginVolNum, int beginPageNum, Integer endVolNum, int endPageNum, String RID) {
+               this.endVolNum = endVolNum;
+               this.endPageNum = endPageNum;
+               this.beginVolNum = beginVolNum;
+               this.beginPageNum = beginPageNum;
+               this.RID = RID;
+           }
+       }
+       
+       public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId) {
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
            int i;
            int volume1 = -1;
            int page1 = -1;
+           Resource loc = m.createResource();
+           LocationVolPage res = null;
            for (i = 0; i < nodeList.size(); i++) {
+               if (i > 1) {
+                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "too many locations, it should only have 2");
+                   break;
+               }
                Element current = (Element) nodeList.get(i);
                
-               //String value = getSubResourceName(main, WORK_PREFIX, "Location", i+1);
-               Resource loc = m.createResource();
-               
-               String value = current.getAttribute("type");
-               if (value.equals("folio")) {
-                   loc.addProperty(m.getProperty(BDO, "workLocationByFolio"), m.createTypedLiteral("true", XSDDatatype.XSDboolean));
-               }
-               String localName = main.getLocalName();
-               // convention: if propname2 is not null, then we're in the case where the first property
-               // is beginsAt and the second is endsAt, we handle it accordingly
-               if (propname1 != null && nodeList.size() > 1) {
-                   switch (i) {
-                   case 0:
-                       m.add(main, m.getProperty(propname1), loc);
-                       break;
-                   case 1:
-                       m.add(main, m.getProperty(propname2), loc);
-                       break;
-                   case 2:
-                       ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "too many locations, it should only have 2");
-                   default:
-                       m.add(main, m.getProperty(propname), loc);
+               if (i == 0) {
+                   //String value = getSubResourceName(main, WORK_PREFIX, "Location", i+1);
+                   String value = current.getAttribute("type");
+                   if (value.equals("folio")) {
+                       loc.addProperty(m.getProperty(BDO, "workLocationByFolio"), m.createTypedLiteral(true));
                    }
-               } else {
-                   m.add(main, m.getProperty(propname), loc);
+                   m.add(main, m.getProperty(BDO, "workLocation"), loc);    
                }
                
-               value = current.getAttribute("work");
+               String value = current.getAttribute("work");
                if (!value.isEmpty()) {
                    m.add(loc, m.getProperty(BDO, "workdLocationWork"), m.createResource(BDR+value));
                }
                
-               int volume = addLocationIntOrString(m, main, loc, current, "vol", "workLocationVolume");
+               String endString = (i == 0) ? "" : "End";
+               int volume = addLocationIntOrString(m, main, loc, current, "vol", "workLocation"+endString+"Volume");
                if (i == 0) volume1 = volume;
-               if (i == 1 && propname1 != null && volume != -1 && volume1 != -1 && volume < volume1) {
+               if (i == 1 && volume != -1 && volume1 != -1 && volume < volume1) {
                    ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location volume is before beginning location volume");
                }
-               int page = addLocationIntOrString(m, main, loc, current, "page", "workLocationPage");
+               int page = addLocationIntOrString(m, main, loc, current, "page", "workLocation"+endString+"Page");
                if (i == 0) page1 = page;
-               if (i == 1 && propname1 != null && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
+               if (i == 1 && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
                    ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location page is before beginning location");
                }
-               addLocationIntOrString(m, main, loc, current, "phrase", "workLocationPhrase");
-               addLocationIntOrString(m, main, loc, current, "line", "workLocationLine");
+               addLocationIntOrString(m, main, loc, current, "phrase", "workLocation"+endString+"Phrase");
+               addLocationIntOrString(m, main, loc, current, "line", "workLocation"+endString+"Line");
+               
+               if (i == 1 && page != -1) {
+                   res = new LocationVolPage(volume1, page1, volume, page, main.getLocalName());
+               }
                
                value = current.getAttribute("side");
                if (!value.isEmpty())
-                   m.add(loc, m.getProperty(BDO, "workLocationSide"), m.createLiteral(value));
+                   m.add(loc, m.getProperty(BDO, "workLocation"+endString+"Side"), m.createLiteral(value));
                
            }
+           return res;
        }
        
        public static void addException(Model m, Resource r, String exception, int type) {

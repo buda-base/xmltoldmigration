@@ -17,7 +17,7 @@ public class PubinfoMigration {
 	private static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-
+    private static final String ADM = CommonMigration.ADMIN_PREFIX;
 	
 	// used for testing only
 	public static Model MigratePubinfo(Document xmlDocument) {
@@ -64,7 +64,7 @@ public class PubinfoMigration {
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"workDimensions", null, root, m, main);
-        addSimpleElement("volumes", BDO+"pubinfo_volumes", null, root, m, main); //???
+        addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
         addSimpleElement("seriesName", BDO+"workSeriesName", "bo-x-ewts", root, m, main);
         addSimpleElement("seriesNumber", BDO+"workSeriesNumber", null, root, m, main);
         addSimpleElement("tbrcHoldings", BDO+"workTbrcHoldings", null, root, m, main);

@@ -215,21 +215,21 @@ public class MigrationTest
 	        flushLog();
 	    }
 	   
-//       @Test
-//       public void testOutline()
-//       {
-//           System.out.println("testing outline");
-//           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/OutlineTest.xml");  
-//           Validator validator = MigrationHelpers.getValidatorFor("outline");
-//           assertTrue(CommonMigration.documentValidates(d, validator));
-//           Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
-//           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
-//           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
-//           //showDifference(fromXml, correctModel);
-//           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-//           flushLog();
-//       }
+       @Test
+       public void testOutline()
+       {
+           System.out.println("testing outline");
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/OutlineTest.xml");  
+           Validator validator = MigrationHelpers.getValidatorFor("outline");
+           assertTrue(CommonMigration.documentValidates(d, validator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
+           //showDifference(fromXml, correctModel);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+           flushLog();
+       }
        
        @Test
        public void testPubinfo()
