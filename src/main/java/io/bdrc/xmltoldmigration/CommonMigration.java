@@ -622,6 +622,7 @@ public class CommonMigration  {
             List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
             Map<String,Boolean> labelDoneForLang = new HashMap<>();
             Map<String,Resource> typeNodes = new HashMap<>();
+            String typeUsedForLabel = null;
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
                 Literal l = getLiteral(current, EWTS_TAG, m, "description", main.getLocalName(), main.getLocalName());
@@ -646,9 +647,10 @@ public class CommonMigration  {
                 main.addProperty(m.getProperty(BDO, "workTitle"), node);
                 if (guessLabel) {
                     String lang = l.getLanguage().substring(0, 2);
-                    if (!labelDoneForLang.containsKey(lang)) {
+                    if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
                         main.addProperty(m.getProperty(PREFLABEL_URI), l);
                         labelDoneForLang.put(lang, true);
+                        typeUsedForLabel = type;
                     }
                     continue;
                 }

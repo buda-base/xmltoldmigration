@@ -68,6 +68,7 @@ public class PersonMigration {
 		Property nameProp = m.getProperty(CommonMigration.GENLABEL_URI);
 		Property prop = m.getProperty(BDO+"personName");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
+		String typeUsedForLabel = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			if (current.getTextContent().trim().isEmpty()) continue;
@@ -79,9 +80,10 @@ public class PersonMigration {
 			if (l == null) continue;
 			r.addProperty(nameProp, l);
 			String lang = l.getLanguage().substring(0, 2);
-			if (!labelDoneForLang.containsKey(lang)) {
+			if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
 			    main.addProperty(m.getProperty(CommonMigration.PREFLABEL_URI), l);
 			    labelDoneForLang.put(lang, true);
+			    typeUsedForLabel = type;
 			}
 		}
 		
