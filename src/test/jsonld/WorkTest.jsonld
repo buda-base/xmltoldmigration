@@ -4,7 +4,7 @@
       "@language" : "pi",
       "@value" : "test pali title"
     }, {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "kun rig rnam bshad"
     } ],
     "status" : {
@@ -13,6 +13,19 @@
     "@id" : "bdr:W12837",
     "@type" : "Work",
     "admin/logEntry" : [ {
+      "@id" : "_:b4",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "normalized catalog info"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-21T23:05:36.322Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U12"
+      }
+    }, {
       "@id" : "_:b5",
       "admin/logMessage" : {
         "@language" : "en",
@@ -39,19 +52,6 @@
         "@id" : "bdr:U13"
       }
     }, {
-      "@id" : "_:b1",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "normalized catalog info"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-04-21T23:05:36.322Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U12"
-      }
-    }, {
       "@id" : "_:b7",
       "admin/logMessage" : {
         "@language" : "en",
@@ -69,7 +69,7 @@
       "@id" : "bdr:WorkLicenseTypeCCBY"
     },
     "note" : {
-      "@id" : "_:b0",
+      "@id" : "_:b8",
       "noteText" : {
         "@language" : "en",
         "@value" : "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."
@@ -80,7 +80,7 @@
       "@value" : "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."
     },
     "workCreator" : {
-      "@id" : "_:b4",
+      "@id" : "_:b3",
       "workCreatorType" : {
         "@id" : "bdr:CreatorTypeHasMainAuthor"
       },
@@ -120,25 +120,25 @@
     },
     "workSeriesNumber" : "2",
     "workTitle" : [ {
-      "@id" : "_:b3",
+      "@id" : "_:b1",
       "@type" : "WorkTitlePageTitle",
       "rdfs:label" : {
-        "@language" : "bo-x-ewts",
+        "@language" : "bo-latn-x-ewts",
         "@value" : "bcom ldan 'das thams cad rig pa'i rnam bshad"
       }
     }, {
       "@id" : "_:b2",
+      "@type" : "WorkBibliographicalTitle",
+      "rdfs:label" : {
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "kun rig rnam bshad"
+      }
+    }, {
+      "@id" : "_:b0",
       "@type" : "WorkOtherTitle",
       "rdfs:label" : {
         "@language" : "pi",
         "@value" : "test pali title"
-      }
-    }, {
-      "@id" : "_:b8",
-      "@type" : "WorkBibliographicalTitle",
-      "rdfs:label" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "kun rig rnam bshad"
       }
     } ]
   } ],

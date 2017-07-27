@@ -1,7 +1,7 @@
 {
   "@graph" : [ {
     "skos:prefLabel" : {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "blo gros rnam dag"
     },
     "status" : {
@@ -10,7 +10,7 @@
     "@id" : "bdr:P1331",
     "@type" : "Person",
     "note" : {
-      "@id" : "_:b3",
+      "@id" : "_:b1",
       "noteLocationStatement" : "p. 359",
       "noteText" : {
         "@language" : "en",
@@ -39,18 +39,18 @@
       "@id" : "bdr:GenderMale"
     },
     "personName" : [ {
-      "@id" : "_:b1",
-      "@type" : "PersonPrimaryTitle",
-      "rdfs:label" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "bya yul blo bzang rnam dag"
-      }
-    }, {
       "@id" : "_:b2",
       "@type" : "PersonPrimaryName",
       "rdfs:label" : {
-        "@language" : "bo-x-ewts",
+        "@language" : "bo-latn-x-ewts",
         "@value" : "blo gros rnam dag"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "PersonPrimaryTitle",
+      "rdfs:label" : {
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "bya yul blo bzang rnam dag"
       }
     } ],
     "personTeacherOf" : {

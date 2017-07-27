@@ -4,7 +4,7 @@
       "@language" : "en-x-mixed",
       "@value" : "Dranka"
     }, {
-      "@language" : "bo-x-tbrc",
+      "@language" : "bo-latn-x-tbrc",
       "@value" : "bran ka"
     } ],
     "status" : {
@@ -27,6 +27,14 @@
       }
     },
     "corporationHasMember" : [ {
+      "@id" : "_:b2",
+      "corporationMember" : {
+        "@id" : "bdr:P1857"
+      },
+      "corporationMemberType" : {
+        "@id" : "bdr:CorporationMemberTypeUnknown"
+      }
+    }, {
       "@id" : "_:b1",
       "corporationMember" : {
         "@id" : "bdr:P1856"
@@ -34,26 +42,18 @@
       "corporationMemberType" : {
         "@id" : "bdr:CorporationMemberTypeNotSpecified"
       }
-    }, {
-      "@id" : "_:b4",
-      "corporationMember" : {
-        "@id" : "bdr:P1857"
-      },
-      "corporationMemberType" : {
-        "@id" : "bdr:CorporationMemberTypeUnknown"
-      }
     } ],
     "corporationRegion" : {
       "@id" : "bdr:G934"
     },
     "note" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b3",
       "noteText" : {
         "@language" : "en",
         "@value" : "associated w / 11th cent. master, P4CZ15480 ?"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b4",
       "noteText" : {
         "@language" : "en",
         "@value" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."

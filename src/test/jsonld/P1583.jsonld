@@ -7,7 +7,7 @@
       "@language" : "zh",
       "@value" : "隆钦热降巴·赤墨俄色"
     }, {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "dri med 'od zer/"
     } ],
     "status" : {
@@ -16,7 +16,7 @@
     "@id" : "bdr:P1583",
     "@type" : "Person",
     "admin/logEntry" : {
-      "@id" : "_:b10",
+      "@id" : "_:b16",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added records"
@@ -30,25 +30,23 @@
       }
     },
     "note" : [ {
-      "@id" : "_:b14",
+      "@id" : "_:b1",
       "noteLocationStatement" : "p. 6",
       "noteWork" : {
         "@id" : "bdr:W19822"
       }
     }, {
-      "@id" : "_:b3",
-      "noteLocationStatement" : "p. 77",
-      "noteWork" : {
-        "@id" : "bdr:W19801"
-      }
-    }, {
       "@id" : "_:b15",
+      "noteLocationStatement" : "251",
       "noteText" : {
         "@language" : "en",
-        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
+        "@value" : "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."
+      },
+      "noteWork" : {
+        "@id" : "bdr:W27401"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b3",
       "noteLocationStatement" : "v. 2, pp.104-112",
       "noteText" : {
         "@language" : "en",
@@ -58,31 +56,25 @@
         "@id" : "bdr:W25268"
       }
     }, {
-      "@id" : "_:b6",
+      "@id" : "_:b0",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
+      }
+    }, {
+      "@id" : "_:b12",
+      "noteLocationStatement" : "p. 77",
+      "noteWork" : {
+        "@id" : "bdr:W19801"
+      }
+    }, {
+      "@id" : "_:b4",
       "noteText" : {
         "@language" : "en",
         "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
       }
-    }, {
-      "@id" : "_:b1",
-      "noteLocationStatement" : "251",
-      "noteText" : {
-        "@language" : "en",
-        "@value" : "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."
-      },
-      "noteWork" : {
-        "@id" : "bdr:W27401"
-      }
     } ],
     "personEvent" : [ {
-      "@id" : "_:b4",
-      "personEventPlace" : {
-        "@id" : "bdr:G521"
-      },
-      "personEventType" : {
-        "@id" : "bdr:PersonEventOccupiesSeat"
-      }
-    }, {
       "@id" : "bdr:E1988",
       "onOrAbout" : "1308",
       "personEventPlace" : {
@@ -95,6 +87,14 @@
         "@id" : "bdr:PersonEventBirth"
       }
     }, {
+      "@id" : "_:b14",
+      "personEventPlace" : {
+        "@id" : "bdr:G521"
+      },
+      "personEventType" : {
+        "@id" : "bdr:PersonEventOccupiesSeat"
+      }
+    }, {
       "@id" : "bdr:E1989",
       "onOrAbout" : "1364",
       "personEventType" : {
@@ -105,7 +105,7 @@
       "@id" : "bdr:GenderMale"
     },
     "personIsIncarnation" : [ {
-      "@id" : "_:b13",
+      "@id" : "_:b11",
       "personIncarnationOf" : {
         "@id" : "bdr:P561654"
       },
@@ -118,7 +118,7 @@
       "@id" : "_:b17"
     } ],
     "personKin" : [ {
-      "@id" : "_:b11",
+      "@id" : "_:b13",
       "personKinType" : {
         "@id" : "bdr:KinUnspecified"
       },
@@ -126,7 +126,7 @@
         "@id" : "bdr:P1584"
       }
     }, {
-      "@id" : "_:b9",
+      "@id" : "_:b2",
       "personKinType" : {
         "@id" : "bdr:KinHasMother"
       },
@@ -136,20 +136,6 @@
     } ],
     "personName" : [ {
       "@id" : "_:b5",
-      "@type" : "PersonCommonName",
-      "rdfs:label" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "klong chen pa/"
-      }
-    }, {
-      "@id" : "_:b7",
-      "@type" : "PersonPrimaryTitle",
-      "rdfs:label" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "klong chen rab 'byams pa dri med 'od zer/"
-      }
-    }, {
-      "@id" : "_:b12",
       "@type" : "PersonPrimaryName",
       "rdfs:label" : [ {
         "@language" : "zh",
@@ -158,36 +144,50 @@
         "@language" : "en",
         "@value" : "Drime Oser"
       }, {
-        "@language" : "bo-x-ewts",
+        "@language" : "bo-latn-x-ewts",
         "@value" : "dri med 'od zer/ 2"
       }, {
-        "@language" : "bo-x-ewts",
+        "@language" : "bo-latn-x-ewts",
         "@value" : "dri med 'od zer/"
       } ]
     }, {
-      "@id" : "_:b16",
-      "@type" : "PersonSecretInitiatoryName",
+      "@id" : "_:b7",
+      "@type" : "PersonTitle",
+      "rdfs:label" : [ {
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "bsam yas lung mang ba/"
+      }, {
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "klong chen rab 'byams/"
+      } ]
+    }, {
+      "@id" : "_:b9",
+      "@type" : "PersonCommonName",
       "rdfs:label" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "rgyal sras thugs mchog rtsal/"
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "klong chen pa/"
       }
     }, {
       "@id" : "_:b8",
+      "@type" : "PersonPrimaryTitle",
+      "rdfs:label" : {
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "klong chen rab 'byams pa dri med 'od zer/"
+      }
+    }, {
+      "@id" : "_:b6",
       "@type" : "PersonPersonalName",
       "rdfs:label" : {
-        "@language" : "bo-x-ewts",
+        "@language" : "bo-latn-x-ewts",
         "@value" : "tshul khrims blo gros/"
       }
     }, {
-      "@id" : "_:b2",
-      "@type" : "PersonTitle",
-      "rdfs:label" : [ {
-        "@language" : "bo-x-ewts",
-        "@value" : "bsam yas lung mang ba/"
-      }, {
-        "@language" : "bo-x-ewts",
-        "@value" : "klong chen rab 'byams/"
-      } ]
+      "@id" : "_:b10",
+      "@type" : "PersonSecretInitiatoryName",
+      "rdfs:label" : {
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "rgyal sras thugs mchog rtsal/"
+      }
     } ],
     "personOfSect" : {
       "@id" : "bdr:T1234"

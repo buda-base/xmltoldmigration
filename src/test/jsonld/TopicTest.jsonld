@@ -4,7 +4,7 @@
       "@language" : "en-x-mixed",
       "@value" : "Tengyur"
     }, {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "bstan 'gyur/"
     }, {
       "@language" : "zh",
@@ -20,7 +20,7 @@
       "@language" : "zh",
       "@value" : "丹珠尔大藏经"
     }, {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "bstan bcos 'gyur ro 'tshal/"
     }, {
       "@language" : "en-x-mixed",
@@ -35,24 +35,7 @@
       "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "created record"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-28T12:16:56.098Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b0",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added description"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-31T16:58:10.553Z"
+        "@value" : "added description: Tenjur Canonical Text"
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
@@ -61,7 +44,11 @@
       "@id" : "_:b2",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "added description: Tenjur Canonical Text"
+        "@value" : "added see also"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-09-04T13:13:26.221Z"
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
@@ -83,11 +70,24 @@
       "@id" : "_:b4",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "added see also"
+        "@value" : "created record"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2015-09-04T13:13:26.221Z"
+        "@value" : "2015-08-28T12:16:56.098Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b0",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added description"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-31T16:58:10.553Z"
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"

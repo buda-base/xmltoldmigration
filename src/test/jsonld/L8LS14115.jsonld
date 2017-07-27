@@ -1,7 +1,7 @@
 {
   "@graph" : [ {
     "skos:prefLabel" : {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"
     },
     "status" : {
@@ -23,29 +23,7 @@
         "@id" : "bdr:U19"
       }
     }, {
-      "@id" : "_:b8",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "normalized names of who and received elements"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T21:20:44.974Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U6"
-      }
-    }, {
-      "@id" : "_:b6",
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-07-17T10:49:42.963Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U19"
-      }
-    }, {
-      "@id" : "_:b1",
+      "@id" : "_:b9",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "normalized names of who and received elements - yet again"
@@ -58,7 +36,16 @@
         "@id" : "bdr:U6"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b7",
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-07-17T10:49:42.963Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U19"
+      }
+    }, {
+      "@id" : "_:b12",
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-07-28T11:30:18.879Z"
@@ -67,7 +54,7 @@
         "@id" : "bdr:U19"
       }
     }, {
-      "@id" : "_:b5",
+      "@id" : "_:b8",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "changed type"
@@ -79,17 +66,30 @@
       "admin/logWho" : {
         "@id" : "bdr:U19"
       }
+    }, {
+      "@id" : "_:b3",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "normalized names of who and received elements"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T21:20:44.974Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U6"
+      }
     } ],
     "lineageAltnernative" : {
-      "@id" : "_:b12",
+      "@id" : "_:b10",
       "lineageHolder" : {
-        "@id" : "_:b3",
+        "@id" : "_:b5",
         "@type" : "LineageHolder",
         "lineageDownFrom" : {
           "@id" : "bdr:L8LS15610"
         },
         "lineageReceived" : {
-          "@id" : "_:b4",
+          "@id" : "_:b6",
           "lineageFrom" : {
             "@id" : "bdr:P8LS15618"
           },
@@ -106,10 +106,10 @@
       }
     },
     "lineageHolder" : [ {
-      "@id" : "_:b10",
+      "@id" : "_:b1",
       "@type" : "LineageHolder",
       "lineageReceived" : {
-        "@id" : "_:b0",
+        "@id" : "_:b2",
         "lineageFrom" : {
           "@id" : "bdr:P1132"
         },
@@ -119,7 +119,7 @@
         "@id" : "bdr:P1040"
       }
     }, {
-      "@id" : "_:b7",
+      "@id" : "_:b4",
       "@type" : "LineageHolder",
       "lineageDownTo" : {
         "@id" : "bdr:L8LS15728"
@@ -142,7 +142,7 @@
       "@value" : "initiation transmission of clear light blessing of rakta yamari"
     },
     "workLocation" : {
-      "@id" : "_:b9",
+      "@id" : "_:b0",
       "workLocationPage" : {
         "@type" : "xsd:positiveInteger",
         "@value" : "236"

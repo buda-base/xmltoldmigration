@@ -65,7 +65,7 @@ public class CommonMigration  {
 	public static final String ALTLABEL_URI = SKOS_PREFIX+"altLabel";
 	public static final String GENLABEL_URI = RDFS_PREFIX+"label";
 	
-	public static final String EWTS_TAG = "bo-x-ewts";
+	public static final String EWTS_TAG = "bo-Latn-x-ewts";
 	
 	public static final String BDO = ONTOLOGY_PREFIX;
     public static final String BDD = DATA_PREFIX;
@@ -805,14 +805,14 @@ public class CommonMigration  {
 	public static String getBCP47Suffix(String encoding) {
 		switch(encoding) {
 		case "extendedWylie":
-			return "-x-ewts";
+			return "-Latn-x-ewts";
 		case "wadeGiles":
 		    // transliteration of Chinese
-			return "-x-wade";
+			return "-Latn-x-wade";
 		case "pinyin":
 			return "-Latn-pinyin";
 		case "libraryOfCongress":
-			return "-x-loc";
+			return "-Latn-x-loc";
 		case "native":
 			return "";
 		case "none":
@@ -820,21 +820,21 @@ public class CommonMigration  {
 		case "rma":
 			return "-x-rma";
 		case "sansDiacritics":
-			return "-x-ndia";
+			return "-Latn-x-ndia";
 		case "withDiacritics":
-			return "-x-wdia";
+			return "-Latn-x-iats";
 		case "transliteration":
-			return "-x-trans";
+			return "-Latn-x-trans";
 		case "acip":
-			return "-x-acip";
+			return "-Latn-x-acip";
 		case "tbrcPhonetic":
-			return "-x-tbrc";
+			return "-Latn-x-tbrc";
 		case "alternatePhonetic":
-			return "-x-alt";
+			return "-Latn-x-alt";
 		case "syllables":
 		    // the cases we have are essentially town_syl, which is a
 		    // romanization that doesn't seem standard, a kind of phonetic
-			return "-x-syx";
+			return "-x-Latn-syx";
 		case "":
 			return "";
 		default:
@@ -887,7 +887,7 @@ public class CommonMigration  {
 		if (language == null || language.isEmpty()) {
 			if (encoding != null && !encoding.isEmpty()) {
 			    if (encoding.equals("extendedWylie")) return EWTS_TAG;
-			    if (encoding.equals("tbrcPhonetic")) return "bo-x-tbrc";
+			    if (encoding.equals("tbrcPhonetic")) return "bo-Latn-x-tbrc";
 				throw new IllegalArgumentException("encoding with no language!");
 			}
 			return null;

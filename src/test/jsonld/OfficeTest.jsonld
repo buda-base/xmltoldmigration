@@ -4,7 +4,7 @@
       "@language" : "en",
       "@value" : "Bonpo Lung Lama Tulku Line"
     }, {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "bon po lung bla ma'i skye brgyud/"
     } ],
     "status" : {
@@ -13,7 +13,7 @@
     "@id" : "bdr:R8LS12811",
     "@type" : "Role",
     "admin/logEntry" : [ {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added phonetic title"
@@ -26,7 +26,7 @@
         "@id" : "bdr:U20"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "created new office"
