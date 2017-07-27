@@ -13,7 +13,7 @@ public class ExceptionHelper {
     public static final int ET_DESC = 2;
     public static final int ET_GEN = 3;
     public static final int ET_OUTLINE = 4;
-    public static final int ET_MISSING = 4;
+    public static final int ET_MISSING = 5;
     
     public static final Map<Integer, String> logNames = new HashMap<Integer, String>();
     static {
@@ -51,12 +51,19 @@ public class ExceptionHelper {
         }
     }
     
+    public static String getUri(int type, String RID, String subRID) {
+        if (type == ET_OUTLINE) {
+            return "https://www.tbrc.org/#library_work_ViewByOutline-"+subRID+"|"+RID;
+        }
+        return "https://www.tbrc.org/#!rid="+RID;
+    }
+    
     public static void logException(int type, String RID, String subRID, String propIndication, String error) {
         //System.out.println(error);
         FileWriter f = getFileWriter(type);
         String subRIDStr = (subRID == null) ? "" : "|"+subRID;
         try {
-            f.write("- [ ] ["+RID+"](https://www.tbrc.org/#!rid="+RID+subRIDStr+") ");
+            f.write("- [ ] ["+subRID+"]("+getUri(type, RID, subRID)+") ");
             f.write("on property `"+propIndication+"`:"+error+"\n");
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,7 +75,7 @@ public class ExceptionHelper {
         FileWriter f = getFileWriter(type);
         String subRIDStr = (subRID == null) ? "" : "|"+subRID;
         try {
-            f.write("- [ ] ["+RID+"](https://www.tbrc.org/#!rid="+RID+subRIDStr+") "+rawError+"\n");
+            f.write("- [ ] ["+subRID+"]("+getUri(type, RID, subRID)+") "+rawError+"\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

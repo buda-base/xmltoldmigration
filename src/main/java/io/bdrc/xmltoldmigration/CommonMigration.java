@@ -722,6 +722,10 @@ public class CommonMigration  {
                this.beginPageNum = beginPageNum;
                this.RID = RID;
            }
+           
+           public String toString() {
+               return "encVolNum: "+endVolNum+", endPageNum: "+endPageNum+", beginVolNum: "+beginVolNum+", beginPageNum: "+beginPageNum+", RID: "+RID;
+           }
        }
        
        public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId) {
@@ -767,7 +771,7 @@ public class CommonMigration  {
                addLocationIntOrString(m, main, loc, current, "line", "workLocation"+endString+"Line");
                
                if (i == 1 && page != -1) {
-                   res = new LocationVolPage(volume1, page1, volume, page, main.getLocalName());
+                   res = new LocationVolPage(volume1, page1, volume, page, null);
                }
                
                value = current.getAttribute("side");

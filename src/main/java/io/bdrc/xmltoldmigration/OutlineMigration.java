@@ -145,7 +145,7 @@ public class OutlineMigration {
 		
 		addCreators(m, main, root);
 		
-		addNodes(m, main, root, workId, curNodeInt);
+		addNodes(m, main, root, workId, curNodeInt, null, null);
 		
 		return m;
 	}
@@ -166,7 +166,7 @@ public class OutlineMigration {
 	}
 	
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, CommonMigration.
-LocationVolPage previousEndLocVP) {
+LocationVolPage previousLocVP) {
 	    curNode.i = curNode.i+1;
 	    String value = String.format("%04d", curNode.i);	    
         Resource node = m.createResource(value);
@@ -195,13 +195,14 @@ LocationVolPage previousEndLocVP) {
         
         CommonMigration.LocationVolPage locVP =
                 CommonMigration.addLocations(m, node, e, OXSDNS, workId);
+        if (locVP != null) locVP.RID = RID;
         
         // check if outlines cross
-        if (locVP != null && previousEndLocVP != null) {
-            if (previousEndLocVP.endVolNum > locVP.beginVolNum
-                    || (previousEndLocVP.endVolNum == locVP.beginVolNum && previousEndLocVP.endPageNum > locVP.beginPageNum)) {
-                ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, RID, "starts (v."+locVP.beginVolNum+", p. "+locVP.beginPageNum+") before the end of previous node ["+
-                        previousEndLocVP.RID+"](https://www.tbrc.org/#!rid="+RID+"|"+workId+") (v."+previousEndLocVP.endVolNum+", p. "+previousEndLocVP.endPageNum+")\n");
+        if (locVP != null && previousLocVP != null) {
+            if (previousLocVP.endVolNum > locVP.beginVolNum
+                    || (previousLocVP.endVolNum == locVP.beginVolNum && previousLocVP.endPageNum > locVP.beginPageNum)) {
+                ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, RID, "starts (vol. "+locVP.beginVolNum+", p. "+locVP.beginPageNum+") before the end of previous node ["+
+                        previousLocVP.RID+"]("+ExceptionHelper.getUri(ExceptionHelper.ET_OUTLINE, workId, previousLocVP.RID)+") (vol. "+previousLocVP.endVolNum+", p. "+previousLocVP.endPageNum+")");
             }
         }
         
@@ -234,7 +235,7 @@ LocationVolPage previousEndLocVP) {
         addCreators(m, node, e);
         
         // sub nodes
-        addNodes(m, node, e, workId, curNode);
+        addNodes(m, node, e, workId, curNode, locVP, RID);
         
         return locVP;
         
@@ -242,12 +243,28 @@ LocationVolPage previousEndLocVP) {
 	
 
 	
-	public static void addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode) {
+	public static void addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID) {
 	    CommonMigration.LocationVolPage endLocVP = null;
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
             endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP);
+            if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {
+                // check if beginning of child node is before beginning of parent
+                if (parentLocVP.beginVolNum > endLocVP.beginVolNum
+                        || (parentLocVP.beginVolNum == endLocVP.beginVolNum && parentLocVP.beginPageNum > endLocVP.beginPageNum)) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, endLocVP.RID, "starts (vol. "+endLocVP.beginVolNum+", p. "+endLocVP.beginPageNum+") before the beginning of parent node ["+
+                            parentLocVP.RID+"]("+ExceptionHelper.getUri(ExceptionHelper.ET_OUTLINE, workId, parentLocVP.RID)+") (vol. "+parentLocVP.endVolNum+", p. "+parentLocVP.endPageNum+")");
+                }
+            }
+        }
+        if (parentRID != null && endLocVP != null && parentLocVP != null) {
+            // check if beginning of child node is before beginning of parent
+            if (parentLocVP.endVolNum < endLocVP.endVolNum
+                    || (parentLocVP.endVolNum == endLocVP.endVolNum && parentLocVP.endPageNum < endLocVP.endPageNum)) {
+                ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, endLocVP.RID, "ends (vol. "+endLocVP.endVolNum+", p. "+endLocVP.endPageNum+") after the end of parent node ["+
+                        parentLocVP.RID+"]("+ExceptionHelper.getUri(ExceptionHelper.ET_OUTLINE, workId, parentLocVP.RID)+") (vol. "+parentLocVP.endVolNum+", p. "+parentLocVP.endPageNum+")");
+            }
         }
 	}
 

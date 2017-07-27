@@ -47,6 +47,7 @@ public class MigrationTest
    @AfterClass
     public static void close() {
         CommonMigration.speller.close();
+        ExceptionHelper.closeAll();
     }
 
 	public void flushLog() {
