@@ -1,11 +1,11 @@
 {
   "@graph" : [ {
-    "rdfs:label" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "kun rig rnam bshad"
-    }, {
+    "skos:prefLabel" : [ {
       "@language" : "pi",
       "@value" : "test pali title"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "kun rig rnam bshad"
     } ],
     "status" : {
       "@id" : "bdr:StatusReleased"
@@ -13,32 +13,6 @@
     "@id" : "bdr:W12837",
     "@type" : "Work",
     "admin/logEntry" : [ {
-      "@id" : "_:b3",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "normalized catalog info"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-04-21T23:05:36.322Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U12"
-      }
-    }, {
-      "@id" : "_:b2",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added print type and source printery"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T12:06:50.245Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U13"
-      }
-    }, {
       "@id" : "_:b5",
       "admin/logMessage" : {
         "@language" : "en",
@@ -52,7 +26,33 @@
         "@id" : "bdr:U12"
       }
     }, {
+      "@id" : "_:b6",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added print type and source printery"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T12:06:50.245Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U13"
+      }
+    }, {
       "@id" : "_:b1",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "normalized catalog info"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-04-21T23:05:36.322Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U12"
+      }
+    }, {
+      "@id" : "_:b7",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "cataloging reviewed"
@@ -69,7 +69,7 @@
       "@id" : "bdr:WorkLicenseTypeCCBY"
     },
     "note" : {
-      "@id" : "_:b6",
+      "@id" : "_:b0",
       "noteText" : {
         "@language" : "en",
         "@value" : "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."
@@ -81,11 +81,11 @@
     },
     "workCreator" : {
       "@id" : "_:b4",
-      "name" : {
-        "@id" : "bdr:P1591"
-      },
       "workCreatorType" : {
         "@id" : "bdr:CreatorTypeHasMainAuthor"
+      },
+      "rdfs:label" : {
+        "@id" : "bdr:P1591"
       }
     },
     "workHasItem" : {
@@ -117,7 +117,30 @@
     "workScanInfo" : {
       "@language" : "en",
       "@value" : "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"
-    }
+    },
+    "workSeriesNumber" : "2",
+    "workTitle" : [ {
+      "@id" : "_:b3",
+      "@type" : "WorkTitlePageTitle",
+      "rdfs:label" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "bcom ldan 'das thams cad rig pa'i rnam bshad"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "WorkOtherTitle",
+      "rdfs:label" : {
+        "@language" : "pi",
+        "@value" : "test pali title"
+      }
+    }, {
+      "@id" : "_:b8",
+      "@type" : "WorkBibliographicalTitle",
+      "rdfs:label" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "kun rig rnam bshad"
+      }
+    } ]
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/",
@@ -127,6 +150,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
   }
 }

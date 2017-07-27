@@ -36,7 +36,7 @@ public class TopicMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             String value = current.getAttribute("rid").trim();
-            m.add(main, m.getProperty(CommonMigration.BDO+"seeAlso"), m.createProperty(CommonMigration.BDR+value));
+            m.add(main, m.getProperty(CommonMigration.RDFS_PREFIX, "seeAlso"), m.createProperty(CommonMigration.BDR+value));
         }
 		
 		return m;

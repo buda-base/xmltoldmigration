@@ -43,6 +43,7 @@ public class CommonMigration  {
 	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/ontology/admin/";
 	public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
 	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
+	public static final String SKOS_PREFIX = "http://www.w3.org/2004/02/skos/core#";
     public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
     public static final String RDF_PREFIX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
     public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
@@ -59,6 +60,12 @@ public class CommonMigration  {
 	public static final String TOPIC_PREFIX = "http://purl.bdrc.io/ontology/topic#";
 	public static final String VOLUMES_PREFIX = "http://purl.bdrc.io/ontology/volumes#";
 	public static final String WORK_PREFIX = "http://purl.bdrc.io/ontology/work#";
+	
+	public static final String PREFLABEL_URI = SKOS_PREFIX+"prefLabel";
+	public static final String ALTLABEL_URI = SKOS_PREFIX+"altLabel";
+	public static final String GENLABEL_URI = RDFS_PREFIX+"label";
+	
+	public static final String EWTS_TAG = "bo-x-ewts";
 	
 	public static final String BDO = ONTOLOGY_PREFIX;
     public static final String BDD = DATA_PREFIX;
@@ -190,6 +197,7 @@ public class CommonMigration  {
 		m.setNsPrefix("owl", OWL_PREFIX);
 		m.setNsPrefix("rdf", RDF_PREFIX);
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
+		m.setNsPrefix("skos", SKOS_PREFIX);
 		m.setNsPrefix("xsd", XSD_PREFIX);
 		m.setNsPrefix("desc", DESCRIPTION_PREFIX);
 	}
@@ -203,7 +211,8 @@ public class CommonMigration  {
                 +"\"rdf\" : \""+RDF_PREFIX+"\","
                 +"\"owl\" : \""+OWL_PREFIX+"\","
                 +"\"xsd\" : \""+XSD_PREFIX+"\","
-                +"\"rdfs\" : \""+RDFS_PREFIX+"\""
+                +"\"rdfs\" : \""+RDFS_PREFIX+"\","
+                +"\"skos\" : \""+SKOS_PREFIX+"\""
 			    +"}";
 	}
 	
@@ -223,10 +232,6 @@ public class CommonMigration  {
 	
 	public static String getSubResourceName(Resource main, String prefix, String type) {
 		return getSubResourceName(main, prefix, type, "");
-	}
-	
-	public static void addLabel(Model m, Resource r, Literal l) {
-		m.add(r, RDFS.label, l);
 	}
 	
 	public static String getDescriptionUriFromType(String type) {
@@ -417,7 +422,7 @@ public class CommonMigration  {
 		if (value.isEmpty()) return;
 		if (value.contains("treasuryoflives.org")) {
 		    value = normalizeToLUrl(value);
-		    r.addProperty(m.createProperty(BDO, "tolUrl"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
+		    r.addProperty(m.createProperty(RDFS_PREFIX, "seeAlso"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
 		    return;
 		}
 		if (value.contains("blog.tbrc.org")) return;
@@ -494,18 +499,23 @@ public class CommonMigration  {
 	
 	public static void addNames(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "name");
-		// TODO: test
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			if (current.getTextContent().trim().isEmpty()) continue;
 			// not sure about the second one in case of an outline
-            Literal l = getLiteral(current, "bo-x-ewts", m, "name", r.getLocalName(), r.getLocalName());
+            Literal l = getLiteral(current, EWTS_TAG, m, "name", r.getLocalName(), r.getLocalName());
             if (l != null) {
-                r.addProperty(m.getProperty(BDO, "name"), l);
-                if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage())) {
-                    r.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
-                    labelDoneForLang.put(l.getLanguage(), true);
+                if (guessLabel) {
+                    String lang = l.getLanguage().substring(0, 2);
+                    if (!labelDoneForLang.containsKey(lang)) {
+                        r.addProperty(m.getProperty(PREFLABEL_URI), l);
+                        labelDoneForLang.put(lang, true);
+                    } else {
+                        r.addProperty(m.getProperty(ALTLABEL_URI), l);
+                    }
+                } else {
+                    r.addProperty(m.getProperty(GENLABEL_URI), l);
                 }
             }
 		}
@@ -569,9 +579,14 @@ public class CommonMigration  {
 			    continue;
 			}
 			// for product and office the name is the first description type="contents", and we don't want to keep it in a description
-            if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage()) && type.equals("contents")) {
-                r.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
-                labelDoneForLang.put(l.getLanguage(), true);
+            if (guessLabel && type.equals("contents")) {
+                String lang = l.getLanguage().substring(0, 2);
+                if (!labelDoneForLang.containsKey(lang)) {
+                    r.addProperty(m.getProperty(PREFLABEL_URI), l);
+                    labelDoneForLang.put(lang, true);
+                } else {
+                    r.addProperty(m.getProperty(ALTLABEL_URI), l);
+                }
                 continue;
             }
             r.addProperty(m.getProperty(propUri), l);
@@ -598,7 +613,7 @@ public class CommonMigration  {
 	    case "incipit":
 	    case "portion":
 	    case "copyrightPageTitle":
-	        return BDR+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1);
+	        return BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1);
 	    }
 	    return null;
 	}
@@ -609,7 +624,7 @@ public class CommonMigration  {
             Map<String,Resource> typeNodes = new HashMap<>();
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
-                Literal l = getLiteral(current, "bo-x-ewts", m, "description", main.getLocalName(), main.getLocalName());
+                Literal l = getLiteral(current, EWTS_TAG, m, "description", main.getLocalName(), main.getLocalName());
                 if (l == null) continue;
                 String type = current.getAttribute("type");
                 if (type.isEmpty()) {
@@ -618,19 +633,24 @@ public class CommonMigration  {
                 String uri = titleUriFromType(type);
                 if (uri == null) {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "title", "unknown title type `"+type+"` correctly");
-                    uri = BDR+"WorkBibliographicalTitle";
+                    uri = BDO+"WorkBibliographicalTitle";
                 }
                 Property prop = m.getProperty(uri);
                 Resource node = typeNodes.get(uri);
                 if (node == null) {
                     node = m.createResource();
-                    node.addProperty(m.getProperty(BDO, "workTitleType"), m.createResource(uri));
+                    node.addProperty(RDF.type, m.createResource(uri));
                     typeNodes.put(uri, node);
                 }
-                node.addProperty(m.getProperty(BDO, "name"), l);
-                if (guessLabel && !labelDoneForLang.containsKey(l.getLanguage())) {
-                    main.addProperty(m.getProperty(RDFS_PREFIX, "label"), l);
-                    labelDoneForLang.put(l.getLanguage(), true);
+                node.addProperty(m.getProperty(GENLABEL_URI), l);
+                main.addProperty(m.getProperty(BDO, "workTitle"), node);
+                if (guessLabel) {
+                    String lang = l.getLanguage().substring(0, 2);
+                    if (!labelDoneForLang.containsKey(lang)) {
+                        main.addProperty(m.getProperty(PREFLABEL_URI), l);
+                        labelDoneForLang.put(lang, true);
+                    }
+                    continue;
                 }
             }
         }
@@ -757,14 +777,6 @@ public class CommonMigration  {
            exception = "Error in resource "+r.getLocalName()+": "+exception;
            MigrationHelpers.writeLog(exception);
        }
-	
-       public static void addPropWithType(Model m, Resource r, String propName, String typeName, Property typeProperty, Literal l) {
-           Property name = m.getProperty(ONTOLOGY_PREFIX+"name");
-           r.addProperty(m.getProperty(ONTOLOGY_PREFIX+propName), 
-                   m.createResource()
-                       .addProperty(typeProperty, m.getResource(RESOURCE_PREFIX+typeName))
-                       .addProperty(name, l));
-       }
        
        public static void addStatus(Model m, Resource r, String status) {
            if (status == null || status.isEmpty()) return;
@@ -874,7 +886,7 @@ public class CommonMigration  {
 	public static String getBCP47(String language, String encoding) throws IllegalArgumentException {
 		if (language == null || language.isEmpty()) {
 			if (encoding != null && !encoding.isEmpty()) {
-			    if (encoding.equals("extendedWylie")) return "bo-x-ewts";
+			    if (encoding.equals("extendedWylie")) return EWTS_TAG;
 			    if (encoding.equals("tbrcPhonetic")) return "bo-x-tbrc";
 				throw new IllegalArgumentException("encoding with no language!");
 			}
@@ -942,7 +954,7 @@ public class CommonMigration  {
 		String value = e.getTextContent().trim();
 		// some values are wrongly marked as native instead of extendedWylie
 		if (res != null && res.equals("bo") && isAllASCII(value)) {
-			res = "bo-x-ewts";// could be loc?
+			res = EWTS_TAG;// could be loc?
 		}
 		if (res != null && !res.equals("bo") && isAllTibetanUnicode(value)) {
             res = "bo";
@@ -1000,7 +1012,7 @@ public class CommonMigration  {
 	                ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "Unicode string `"+value+"` starts with combining character");
 	            }
 	        }
-	        if (tag.equals("bo-x-ewts")) {
+	        if (tag.equals(EWTS_TAG)) {
 	            List<String> conversionWarnings = new ArrayList<String>();
 	            converter.toUnicode(value, conversionWarnings, true);
 	            if (conversionWarnings.size() > 0) {
@@ -1023,7 +1035,7 @@ public class CommonMigration  {
         Literal l = m.createLiteral(value, tag);
         m.add(r, p, l);
         if (addLabel) m.add(r, RDFS.label, l);
-        if (tag.equals("bo-x-ewts")) {
+        if (tag.equals(EWTS_TAG)) {
             List<String> conversionWarnings = new ArrayList<String>();
             String convertedValue = converter.toUnicode(value, conversionWarnings, true);
             if (conversionWarnings.size() > 0) {

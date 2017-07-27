@@ -125,7 +125,7 @@ public class WorkMigration {
             // will be overwritten when reading the pubinfo
             value = current.getAttribute("number");
             if (!value.isEmpty()) {
-                main.addProperty(m.getProperty("workSeriesNumber"), m.createLiteral(value));
+                main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(value));
                 numbered = true;
             };
             value = current.getAttribute("numbered"); 
@@ -167,7 +167,7 @@ public class WorkMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
                 Resource r = getResourceForType(typeNodes, m, main, propWorkCreator, "creator", value);
-                r.addProperty(m.getProperty(BDO, "name"), m.createResource(BDR+person));
+                r.addProperty(m.getProperty(CommonMigration.GENLABEL_URI), m.createResource(BDR+person));
             }
                 
         }

@@ -3,20 +3,20 @@
     "@id" : "bdr:W12837",
     "@type" : "Work",
     "admin/logEntry" : [ {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "normalize encoding field for pub info"
+        "@value" : "added hollis field to pub info"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-04-22T00:30:13.577Z"
+        "@value" : "2015-01-05T17:22:13.356Z"
       },
       "admin/logWho" : {
-        "@id" : "bdr:U12"
+        "@id" : "bdr:U6"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added print type and source printery"
@@ -29,21 +29,21 @@
         "@id" : "bdr:U13"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b2",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "added hollis field to pub info"
+        "@value" : "normalize encoding field for pub info"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2015-01-05T17:22:13.356Z"
+        "@value" : "2014-04-22T00:30:13.577Z"
       },
       "admin/logWho" : {
-        "@id" : "bdr:U6"
+        "@id" : "bdr:U12"
       }
     } ],
     "hasHolding" : {
-      "@id" : "_:b0",
+      "@id" : "_:b3",
       "holding_code" : "TGA",
       "holding_copies" : "1",
       "holding_exception" : {
@@ -51,7 +51,7 @@
         "@value" : "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"
       },
       "holding_library" : {
-        "@id" : "http://purl.bdrc.io/ontology/place#G1TLMTGA000001"
+        "@id" : "bdr:G1TLMTGA000001"
       },
       "holding_shelf" : "ཇ|ཇ|༣||001278"
     },
@@ -100,6 +100,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
   }
 }

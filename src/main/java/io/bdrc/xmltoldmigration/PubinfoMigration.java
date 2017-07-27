@@ -14,8 +14,6 @@ import org.w3c.dom.NodeList;
 
 public class PubinfoMigration {
 
-	private static final String WP = CommonMigration.WORK_PREFIX;
-	private static final String PP = CommonMigration.PLACE_PREFIX;
 	private static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
@@ -152,7 +150,7 @@ public class PubinfoMigration {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getAttribute("rid").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "holding_library"), m.createResource(PP+value));
+                    m.add(holding, m.createProperty(BDO, "holding_library"), m.createResource(BDR+value));
                 else
                     CommonMigration.addException(m, main, "Pubinfo holding has no library RID!");
                 

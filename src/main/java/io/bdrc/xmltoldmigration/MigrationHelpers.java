@@ -206,6 +206,8 @@ public class MigrationHelpers {
 	         if(s1.equals("@context")) return 1;
 	         if(s1.equals("@graph")) return -1;
 	         if(s1.equals("rdfs:label")) return -1;
+	         if(s1.equals("skos:prefLabel")) return -1;
+	         if(s1.equals("skos:altLabel")) return -1;
 	         if(s1.equals("status")) return -1;
 	         return s1.compareTo(s2);
 	     }

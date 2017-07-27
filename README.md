@@ -32,7 +32,6 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 
 ## TODO
 
-- map all nodes of O5TAX003 to topics, to map place/event/affiliation/@rid="lineage:*"
 - Outline nodes labels are based on names, but when absent, it may need to be based on titles?
 - make sure the vol info is present in outline locations when a work has more than 1 volume
 - link the volumes to the work?
@@ -44,6 +43,7 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 - transfer places marked as provisional, like G9GBX33010...
 - ignore `work/info@parent=*LEGACY` like in W2DB4598
 - check if description@type=content and description@type=summary appear in the same node
+- validate RIDs before making URLs
 
 
 ## License

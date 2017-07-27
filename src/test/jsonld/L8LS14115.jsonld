@@ -1,6 +1,6 @@
 {
   "@graph" : [ {
-    "rdfs:label" : {
+    "skos:prefLabel" : {
       "@language" : "bo-x-ewts",
       "@value" : "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"
     },
@@ -11,54 +11,6 @@
     "@type" : "Lineage",
     "admin/logEntry" : [ {
       "@id" : "_:b11",
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-07-17T10:49:42.963Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U19"
-      }
-    }, {
-      "@id" : "_:b6",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "changed type"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-05-14T14:36:08.904Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U19"
-      }
-    }, {
-      "@id" : "_:b12",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "normalized names of who and received elements - yet again"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-29T16:42:13.479Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U6"
-      }
-    }, {
-      "@id" : "_:b5",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "normalized names of who and received elements"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T21:20:44.974Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U6"
-      }
-    }, {
-      "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added location"
@@ -71,7 +23,42 @@
         "@id" : "bdr:U19"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b8",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "normalized names of who and received elements"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T21:20:44.974Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U6"
+      }
+    }, {
+      "@id" : "_:b6",
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-07-17T10:49:42.963Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U19"
+      }
+    }, {
+      "@id" : "_:b1",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "normalized names of who and received elements - yet again"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-29T16:42:13.479Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U6"
+      }
+    }, {
+      "@id" : "_:b2",
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
         "@value" : "2014-07-28T11:30:18.879Z"
@@ -79,11 +66,24 @@
       "admin/logWho" : {
         "@id" : "bdr:U19"
       }
+    }, {
+      "@id" : "_:b5",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "changed type"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-05-14T14:36:08.904Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U19"
+      }
     } ],
     "lineageAltnernative" : {
-      "@id" : "_:b8",
+      "@id" : "_:b12",
       "lineageHolder" : {
-        "@id" : "_:b9",
+        "@id" : "_:b3",
         "@type" : "LineageHolder",
         "lineageDownFrom" : {
           "@id" : "bdr:L8LS15610"
@@ -106,10 +106,10 @@
       }
     },
     "lineageHolder" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b10",
       "@type" : "LineageHolder",
       "lineageReceived" : {
-        "@id" : "_:b3",
+        "@id" : "_:b0",
         "lineageFrom" : {
           "@id" : "bdr:P1132"
         },
@@ -137,16 +137,12 @@
     "lineageType" : {
       "@id" : "bdr:LineageDbang"
     },
-    "name" : {
-      "@language" : "bo-x-ewts",
-      "@value" : "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"
-    },
     "rdfs:comment" : {
       "@language" : "en",
       "@value" : "initiation transmission of clear light blessing of rakta yamari"
     },
     "workLocation" : {
-      "@id" : "_:b10",
+      "@id" : "_:b9",
       "workLocationPage" : {
         "@type" : "xsd:positiveInteger",
         "@value" : "236"
@@ -168,6 +164,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
   }
 }

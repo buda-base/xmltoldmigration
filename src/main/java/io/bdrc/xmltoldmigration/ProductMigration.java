@@ -68,7 +68,7 @@ public class ProductMigration {
 		//m.add(org, RDF.type, m.getResource(PRP+"ProductOrg"));
 		String value = CommonMigration.normalizeString(orgElement.getAttribute("name"));
 		if (!value.isEmpty()) {
-			m.add(org, m.getProperty(BDO+"name"), m.createLiteral(value, "en"));
+			m.add(org, m.getProperty(CommonMigration.GENLABEL_URI), m.createLiteral(value, "en"));
 		}
 		m.add(r, m.getProperty(ADM+"productHasOrg"), org);
 		addAllows(m, org, orgElement);

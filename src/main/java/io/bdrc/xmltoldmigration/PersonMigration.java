@@ -19,13 +19,12 @@ public class PersonMigration {
 
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String RDFS = CommonMigration.RDFS_PREFIX;
 	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
 	private static String getUriFromTypeSubtype(String type, String subtype) {
 	    switch (type) {
 	    case "name":
-	        return BDR+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	        return BDO+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "gender":
             return BDR+"Gender"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "event":
@@ -39,14 +38,10 @@ public class PersonMigration {
 	    }
 	}
 	
-   private static String getPropertyFromType(Map<String,Resource> typeNodes, String type) {
-        return "person"+type.substring(0, 1).toUpperCase() + type.substring(1)+"Type";
-    }
-	
 	private static Resource createFromType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
 	    Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
 	    Resource r = m.createResource();
-	    r.addProperty(m.getProperty(BDO+getPropertyFromType(typeNodes, type)), typeIndividual);
+	    r.addProperty(RDF.type, typeIndividual);
 	    main.addProperty(p, r);
 	    return r;
 	}
@@ -70,7 +65,7 @@ public class PersonMigration {
 		// names
 		
 		NodeList nodeList = root.getElementsByTagNameNS(PXSDNS, "name");
-		Property nameProp = m.getProperty(BDO+"name");
+		Property nameProp = m.getProperty(CommonMigration.GENLABEL_URI);
 		Property prop = m.getProperty(BDO+"personName");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -80,12 +75,13 @@ public class PersonMigration {
 			if (type.isEmpty())
 			    type = "primaryName";
 			Resource r = getResourceForType(typeNodes, m, main, prop, "name", type);
-			Literal l = CommonMigration.getLiteral(current, "bo-x-ewts", m, type, RID, null);
+			Literal l = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, type, RID, null);
 			if (l == null) continue;
 			r.addProperty(nameProp, l);
-			if (!labelDoneForLang.computeIfAbsent(l.getLanguage(), (s) -> false)) {
-			    main.addProperty(m.getProperty(RDFS+"label"), l);
-			    labelDoneForLang.put(l.getLanguage(), true);
+			String lang = l.getLanguage().substring(0, 2);
+			if (!labelDoneForLang.containsKey(lang)) {
+			    main.addProperty(m.getProperty(CommonMigration.PREFLABEL_URI), l);
+			    labelDoneForLang.put(lang, true);
 			}
 		}
 		

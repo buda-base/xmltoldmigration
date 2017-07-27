@@ -1,14 +1,14 @@
 {
   "@graph" : [ {
-    "rdfs:label" : [ {
+    "skos:prefLabel" : [ {
+      "@language" : "en",
+      "@value" : "Drime Oser"
+    }, {
       "@language" : "zh",
       "@value" : "隆钦热降巴·赤墨俄色"
     }, {
       "@language" : "bo-x-ewts",
       "@value" : "dri med 'od zer/"
-    }, {
-      "@language" : "en",
-      "@value" : "Drime Oser"
     } ],
     "status" : {
       "@id" : "bdr:StatusReleased"
@@ -16,7 +16,7 @@
     "@id" : "bdr:P1583",
     "@type" : "Person",
     "admin/logEntry" : {
-      "@id" : "_:b11",
+      "@id" : "_:b10",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added records"
@@ -30,13 +30,25 @@
       }
     },
     "note" : [ {
-      "@id" : "_:b5",
-      "noteText" : {
-        "@language" : "en",
-        "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
+      "@id" : "_:b14",
+      "noteLocationStatement" : "p. 6",
+      "noteWork" : {
+        "@id" : "bdr:W19822"
       }
     }, {
-      "@id" : "_:b7",
+      "@id" : "_:b3",
+      "noteLocationStatement" : "p. 77",
+      "noteWork" : {
+        "@id" : "bdr:W19801"
+      }
+    }, {
+      "@id" : "_:b15",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
+      }
+    }, {
+      "@id" : "_:b0",
       "noteLocationStatement" : "v. 2, pp.104-112",
       "noteText" : {
         "@language" : "en",
@@ -46,19 +58,13 @@
         "@id" : "bdr:W25268"
       }
     }, {
-      "@id" : "_:b8",
-      "noteLocationStatement" : "p. 6",
-      "noteWork" : {
-        "@id" : "bdr:W19822"
+      "@id" : "_:b6",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."
       }
     }, {
-      "@id" : "_:b0",
-      "noteLocationStatement" : "p. 77",
-      "noteWork" : {
-        "@id" : "bdr:W19801"
-      }
-    }, {
-      "@id" : "_:b12",
+      "@id" : "_:b1",
       "noteLocationStatement" : "251",
       "noteText" : {
         "@language" : "en",
@@ -67,14 +73,16 @@
       "noteWork" : {
         "@id" : "bdr:W27401"
       }
-    }, {
-      "@id" : "_:b10",
-      "noteText" : {
-        "@language" : "en",
-        "@value" : "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."
-      }
     } ],
     "personEvent" : [ {
+      "@id" : "_:b4",
+      "personEventPlace" : {
+        "@id" : "bdr:G521"
+      },
+      "personEventType" : {
+        "@id" : "bdr:PersonEventOccupiesSeat"
+      }
+    }, {
       "@id" : "bdr:E1988",
       "onOrAbout" : "1308",
       "personEventPlace" : {
@@ -87,14 +95,6 @@
         "@id" : "bdr:PersonEventBirth"
       }
     }, {
-      "@id" : "_:b13",
-      "personEventPlace" : {
-        "@id" : "bdr:G521"
-      },
-      "personEventType" : {
-        "@id" : "bdr:PersonEventOccupiesSeat"
-      }
-    }, {
       "@id" : "bdr:E1989",
       "onOrAbout" : "1364",
       "personEventType" : {
@@ -105,7 +105,7 @@
       "@id" : "bdr:GenderMale"
     },
     "personIsIncarnation" : [ {
-      "@id" : "_:b6",
+      "@id" : "_:b13",
       "personIncarnationOf" : {
         "@id" : "bdr:P561654"
       },
@@ -118,7 +118,7 @@
       "@id" : "_:b17"
     } ],
     "personKin" : [ {
-      "@id" : "_:b16",
+      "@id" : "_:b11",
       "personKinType" : {
         "@id" : "bdr:KinUnspecified"
       },
@@ -126,7 +126,7 @@
         "@id" : "bdr:P1584"
       }
     }, {
-      "@id" : "_:b15",
+      "@id" : "_:b9",
       "personKinType" : {
         "@id" : "bdr:KinHasMother"
       },
@@ -135,26 +135,23 @@
       }
     } ],
     "personName" : [ {
-      "@id" : "_:b1",
-      "name" : {
+      "@id" : "_:b5",
+      "@type" : "PersonCommonName",
+      "rdfs:label" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "klong chen pa/"
+      }
+    }, {
+      "@id" : "_:b7",
+      "@type" : "PersonPrimaryTitle",
+      "rdfs:label" : {
         "@language" : "bo-x-ewts",
         "@value" : "klong chen rab 'byams pa dri med 'od zer/"
-      },
-      "personNameType" : {
-        "@id" : "bdr:PersonPrimaryTitle"
       }
     }, {
-      "@id" : "_:b9",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "rgyal sras thugs mchog rtsal/"
-      },
-      "personNameType" : {
-        "@id" : "bdr:PersonSecretInitiatoryName"
-      }
-    }, {
-      "@id" : "_:b14",
-      "name" : [ {
+      "@id" : "_:b12",
+      "@type" : "PersonPrimaryName",
+      "rdfs:label" : [ {
         "@language" : "zh",
         "@value" : "隆钦热降巴·赤墨俄色"
       }, {
@@ -166,40 +163,31 @@
       }, {
         "@language" : "bo-x-ewts",
         "@value" : "dri med 'od zer/"
-      } ],
-      "personNameType" : {
-        "@id" : "bdr:PersonPrimaryName"
+      } ]
+    }, {
+      "@id" : "_:b16",
+      "@type" : "PersonSecretInitiatoryName",
+      "rdfs:label" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "rgyal sras thugs mchog rtsal/"
       }
     }, {
-      "@id" : "_:b4",
-      "name" : {
+      "@id" : "_:b8",
+      "@type" : "PersonPersonalName",
+      "rdfs:label" : {
         "@language" : "bo-x-ewts",
         "@value" : "tshul khrims blo gros/"
-      },
-      "personNameType" : {
-        "@id" : "bdr:PersonPersonalName"
       }
     }, {
-      "@id" : "_:b3",
-      "name" : [ {
+      "@id" : "_:b2",
+      "@type" : "PersonTitle",
+      "rdfs:label" : [ {
         "@language" : "bo-x-ewts",
         "@value" : "bsam yas lung mang ba/"
       }, {
         "@language" : "bo-x-ewts",
         "@value" : "klong chen rab 'byams/"
-      } ],
-      "personNameType" : {
-        "@id" : "bdr:PersonTitle"
-      }
-    }, {
-      "@id" : "_:b2",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "klong chen pa/"
-      },
-      "personNameType" : {
-        "@id" : "bdr:PersonCommonName"
-      }
+      } ]
     } ],
     "personOfSect" : {
       "@id" : "bdr:T1234"
@@ -221,13 +209,12 @@
     }, {
       "@id" : "bdr:P0RK1192"
     } ],
-    "rdfs:seeAlso" : {
-      "@id" : "bdr:O1GS392481GS39291"
-    },
-    "tolUrl" : {
+    "rdfs:seeAlso" : [ {
       "@type" : "xsd:anyURI",
       "@value" : "https://www.treasuryoflives.org/biographies/abc"
-    }
+    }, {
+      "@id" : "bdr:O1GS392481GS39291"
+    } ]
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/",
@@ -237,6 +224,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
   }
 }

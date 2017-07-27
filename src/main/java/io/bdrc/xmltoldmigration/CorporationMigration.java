@@ -11,11 +11,7 @@ import org.w3c.dom.NodeList;
 
 
 public class CorporationMigration {
-	
-    private static final String RP = CommonMigration.ROOT_PREFIX;
-	private static final String CRP = CommonMigration.CORPORATION_PREFIX;
-	private static final String PP = CommonMigration.PERSON_PREFIX;
-	private static final String PLP = CommonMigration.PLACE_PREFIX;
+
 	private static final String CXSDNS = "http://www.tbrc.org/models/corporation#";
 	
 	public static Model MigrateCorporation(Document xmlDocument) {
@@ -67,7 +63,7 @@ public class CorporationMigration {
 			current = (Element) nodeList.item(i);
 			value = current.getAttribute("place");
 			if (!value.isEmpty()) {
-				Resource place = m.createResource(PLP + value);
+				Resource place = m.createResource(CommonMigration.BDR + value);
 				Property prop = m.getProperty(CommonMigration.BDO+"corporationRegion");
 				m.add(main, prop, place);
 			}

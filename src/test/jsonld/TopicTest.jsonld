@@ -1,17 +1,30 @@
 {
   "@graph" : [ {
-    "rdfs:label" : [ {
+    "skos:prefLabel" : [ {
       "@language" : "en-x-mixed",
       "@value" : "Tengyur"
-    }, {
-      "@language" : "zh-latn-pinyin",
-      "@value" : "dan zhu er"
     }, {
       "@language" : "bo-x-ewts",
       "@value" : "bstan 'gyur/"
     }, {
       "@language" : "zh",
       "@value" : "丹珠尔"
+    } ],
+    "skos:altLabel" : [ {
+      "@language" : "zh-latn-pinyin",
+      "@value" : "dan zhu er da zang jing"
+    }, {
+      "@language" : "zh-latn-pinyin",
+      "@value" : "dan zhu er"
+    }, {
+      "@language" : "zh",
+      "@value" : "丹珠尔大藏经"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bstan bcos 'gyur ro 'tshal/"
+    }, {
+      "@language" : "en-x-mixed",
+      "@value" : "Tenjur"
     } ],
     "status" : {
       "@id" : "bdr:StatusReleased"
@@ -20,6 +33,19 @@
     "@type" : "Topic",
     "admin/logEntry" : [ {
       "@id" : "_:b1",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "created record"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-08-28T12:16:56.098Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b0",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added description"
@@ -35,30 +61,13 @@
       "@id" : "_:b2",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "created record"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-08-28T12:16:56.098Z"
+        "@value" : "added description: Tenjur Canonical Text"
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
       }
     }, {
       "@id" : "_:b3",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added see also"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-09-04T13:13:26.221Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b4",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added description"
@@ -71,41 +80,20 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b4",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "added description: Tenjur Canonical Text"
+        "@value" : "added see also"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-09-04T13:13:26.221Z"
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
       }
     } ],
-    "name" : [ {
-      "@language" : "zh",
-      "@value" : "丹珠尔大藏经"
-    }, {
-      "@language" : "zh-latn-pinyin",
-      "@value" : "dan zhu er da zang jing"
-    }, {
-      "@language" : "en-x-mixed",
-      "@value" : "Tenjur"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "bstan 'gyur/"
-    }, {
-      "@language" : "zh-latn-pinyin",
-      "@value" : "dan zhu er"
-    }, {
-      "@language" : "en-x-mixed",
-      "@value" : "Tengyur"
-    }, {
-      "@language" : "zh",
-      "@value" : "丹珠尔"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "bstan bcos 'gyur ro 'tshal/"
-    } ],
-    "seeAlso" : {
+    "rdfs:seeAlso" : {
       "@id" : "bdr:T1129"
     }
   } ],
@@ -117,6 +105,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
   }
 }

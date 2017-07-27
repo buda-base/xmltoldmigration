@@ -1,6 +1,6 @@
 {
   "@graph" : [ {
-    "rdfs:label" : {
+    "skos:prefLabel" : {
       "@language" : "bo-x-ewts",
       "@value" : "blo gros rnam dag"
     },
@@ -10,7 +10,7 @@
     "@id" : "bdr:P1331",
     "@type" : "Person",
     "note" : {
-      "@id" : "_:b0",
+      "@id" : "_:b3",
       "noteLocationStatement" : "p. 359",
       "noteText" : {
         "@language" : "en",
@@ -21,7 +21,7 @@
       }
     },
     "personEvent" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
       "personEventPlace" : {
         "@id" : "bdr:G844"
       },
@@ -40,21 +40,17 @@
     },
     "personName" : [ {
       "@id" : "_:b1",
-      "name" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "blo gros rnam dag"
-      },
-      "personNameType" : {
-        "@id" : "bdr:PersonPrimaryName"
-      }
-    }, {
-      "@id" : "_:b3",
-      "name" : {
+      "@type" : "PersonPrimaryTitle",
+      "rdfs:label" : {
         "@language" : "bo-x-ewts",
         "@value" : "bya yul blo bzang rnam dag"
-      },
-      "personNameType" : {
-        "@id" : "bdr:PersonPrimaryTitle"
+      }
+    }, {
+      "@id" : "_:b2",
+      "@type" : "PersonPrimaryName",
+      "rdfs:label" : {
+        "@language" : "bo-x-ewts",
+        "@value" : "blo gros rnam dag"
       }
     } ],
     "personTeacherOf" : {
@@ -69,6 +65,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
   }
 }

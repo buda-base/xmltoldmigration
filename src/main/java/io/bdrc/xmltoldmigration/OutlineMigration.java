@@ -131,7 +131,6 @@ public class OutlineMigration {
         if (value.isEmpty()) value = "relative";
         m.add(main, m.getProperty(OP+"pagination"), m.createLiteral(value));
         
-		CommonMigration.addNames(m, root, main, OXSDNS);
 		CommonMigration.addNotes(m, root, main, OXSDNS);
 		CommonMigration.addExternals(m, root, main, OXSDNS);
 		CommonMigration.addLog(m, root, main, OXSDNS);
@@ -139,8 +138,6 @@ public class OutlineMigration {
 		CommonMigration.addLocations(m, main, root, OXSDNS, OP+"location", null, null, workId);
 		
 		addCreators(m, main, root);
-		
-		// TODO: parent (unused?)
 		
 		addNodes(m, main, root, workId);
 		

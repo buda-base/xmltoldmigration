@@ -1,6 +1,6 @@
 {
   "@graph" : [ {
-    "rdfs:label" : [ {
+    "skos:prefLabel" : [ {
       "@language" : "en",
       "@value" : "Bonpo Lung Lama Tulku Line"
     }, {
@@ -13,7 +13,7 @@
     "@id" : "bdr:R8LS12811",
     "@type" : "Role",
     "admin/logEntry" : [ {
-      "@id" : "_:b0",
+      "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added phonetic title"
@@ -26,7 +26,7 @@
         "@id" : "bdr:U20"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "created new office"
@@ -48,6 +48,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
   }
 }

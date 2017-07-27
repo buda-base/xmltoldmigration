@@ -1,11 +1,15 @@
 {
   "@graph" : [ {
-    "rdfs:label" : [ {
+    "skos:prefLabel" : {
       "@language" : "bo-x-ewts",
       "@value" : "bya yul"
-    }, {
+    },
+    "skos:altLabel" : [ {
       "@language" : "bo",
       "@value" : "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"
+    }, {
+      "@language" : "bo-x-ewts",
+      "@value" : "bya pa khri dpon gyi mnga' khongs"
     } ],
     "status" : {
       "@id" : "bdr:StatusReleased"
@@ -17,43 +21,17 @@
       "@id" : "_:b7",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+        "@value" : "added place contained"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2012-12-11T17:39:05.287Z"
+        "@value" : "2013-05-29T12:18:47.035Z"
       },
       "admin/logWho" : {
         "@id" : "bdr:U20"
       }
     }, {
-      "@id" : "_:b8",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-10-12T12:21:11.602Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b11",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added byams pa chos gling gzhis ka'i par khang"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T10:28:55.426Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U13"
-      }
-    }, {
-      "@id" : "_:b1",
+      "@id" : "_:b9",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added contain"
@@ -64,6 +42,19 @@
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b8",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-12-11T17:39:05.287Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U20"
       }
     }, {
       "@id" : "_:b13",
@@ -79,20 +70,7 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b4",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added location"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-01-06T14:22:58.026Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b6",
+      "@id" : "_:b2",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added type & location & contains"
@@ -105,17 +83,43 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b9",
+      "@id" : "_:b3",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "added place contained"
+        "@value" : "added location"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2013-05-29T12:18:47.035Z"
+        "@value" : "2014-01-06T14:22:58.026Z"
       },
       "admin/logWho" : {
-        "@id" : "bdr:U20"
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b4",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-10-12T12:21:11.602Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b5",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added byams pa chos gling gzhis ka'i par khang"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T10:28:55.426Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U13"
       }
     } ],
     "admin/placeTlmTaxonomy" : {
@@ -138,16 +142,6 @@
     "admin/place_prov_py" : "Xizang",
     "admin/place_town_ch" : "蔡公堂乡",
     "admin/place_town_syl" : "Cai Gong Tang Xiang",
-    "name" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "bya yul"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "bya pa khri dpon gyi mnga' khongs"
-    }, {
-      "@language" : "bo",
-      "@value" : "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"
-    } ],
     "note" : [ {
       "@id" : "_:b10",
       "noteLocationStatement" : "p.1467-1468",
@@ -159,14 +153,14 @@
         "@id" : "bdr:W26372"
       }
     }, {
-      "@id" : "_:b12",
+      "@id" : "_:b11",
       "noteText" : {
         "@language" : "en",
         "@value" : "the region of the rulers of the bya principality in southern tibet"
       }
     } ],
     "placeAddress" : {
-      "@id" : "_:b5",
+      "@id" : "_:b6",
       "addressCity" : "Chauntra",
       "addressCountry" : "India",
       "addressNumber" : "མི་གསལ།",
@@ -189,9 +183,9 @@
       "@id" : "bdr:G1183"
     } ],
     "placeEvent" : [ {
-      "@id" : "_:b2",
+      "@id" : "_:b0",
       "note" : {
-        "@id" : "_:b3",
+        "@id" : "_:b1",
         "noteLocationStatement" : "test",
         "noteText" : {
           "@language" : "en",
@@ -211,7 +205,7 @@
         "@id" : "bdr:PlaceFounded"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b12",
       "onOrAbout" : "13uu/17uu",
       "placeEventType" : {
         "@id" : "bdr:PlaceFounded"
@@ -236,6 +230,7 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
   }
 }
