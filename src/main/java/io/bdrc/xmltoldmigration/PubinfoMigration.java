@@ -66,10 +66,12 @@ public class PubinfoMigration {
         addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
         addSimpleElement("seriesName", BDO+"workSeriesName", CommonMigration.EWTS_TAG, root, m, main);
         addSimpleElement("seriesNumber", BDO+"workSeriesNumber", null, root, m, main);
-        addSimpleElement("tbrcHoldings", BDO+"workTbrcHoldings", null, root, m, main);
         addSimpleElement("biblioNote", BDO+"workBiblioNote", "en", root, m, main);
         addSimpleElement("sourceNote", BDO+"workSourceNote", "en", root, m, main);
         addSimpleElement("editionStatement", BDO+"workEditionStatement", CommonMigration.EWTS_TAG, root, m, main);
+        
+        // TODO: this goes in the item
+        addSimpleElement("tbrcHoldings", BDO+"itemBDRCHoldingStatemeent", null, root, m, main);
         
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
@@ -162,7 +164,6 @@ public class PubinfoMigration {
                 
                 // TODO: what about the text content?
             }
-            
         }
         
 		return m;

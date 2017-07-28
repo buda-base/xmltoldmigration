@@ -757,7 +757,7 @@ public class CommonMigration  {
                
                String value = current.getAttribute("work");
                if (!value.isEmpty()) {
-                   m.add(loc, m.getProperty(BDO, "workdLocationWork"), m.createResource(BDR+value));
+                   m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
                }
                
                String endString = (i == 0) ? "" : "End";

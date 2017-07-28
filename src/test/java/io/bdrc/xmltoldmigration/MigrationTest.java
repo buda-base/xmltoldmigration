@@ -5,6 +5,7 @@ import org.apache.jena.rdf.model.Model;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
@@ -165,7 +166,7 @@ public class MigrationTest
         assertFalse(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -217,7 +218,7 @@ public class MigrationTest
 	    }
 	   
        @Test
-       public void testOutline()
+       public void testOutline() throws JsonParseException, IOException, JsonLdError
        {
            System.out.println("testing outline");
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/OutlineTest.xml");  

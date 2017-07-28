@@ -169,7 +169,7 @@ public class MigrationHelpers {
 	static {
 		typeToRootShortUri.put(PERSON, "Person");
 		typeToRootShortUri.put(WORK, "Work");
-		typeToRootShortUri.put(OUTLINE, "Outline");
+		typeToRootShortUri.put(OUTLINE, "Work");
 		typeToRootShortUri.put(PLACE, "Place");
 		typeToRootShortUri.put(TOPIC, "Topic");
 		typeToRootShortUri.put(LINEAGE, "Lineage");

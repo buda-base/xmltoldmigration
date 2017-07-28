@@ -17,8 +17,6 @@ import org.w3c.dom.NodeList;
 
 public class OutlineMigration {
 
-	private static final String OP = CommonMigration.OUTLINE_PREFIX;
-	private static final String WP = CommonMigration.WORK_PREFIX;
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
@@ -102,12 +100,11 @@ public class OutlineMigration {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
-		Resource main = m.createResource(BDR + root.getAttribute("RID"));
-		CommonMigration.addStatus(m, main, root.getAttribute("status"));
-		m.add(main, RDF.type, m.createResource(BDO + "Outline"));
 
 		CurNodeInt curNodeInt = new CurNodeInt();
 		curNodeInt.i = 0;
+		Resource main = null;
+		Resource mainOutline = null;
 		
 		// fetch type in isOutlineOf
 		NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
@@ -116,35 +113,54 @@ public class OutlineMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             
+            value = current.getAttribute("work").trim();
+            if (!value.isEmpty()) {
+                workId = value;
+            } else {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "type", "missing work ID, cannot migrate outline");
+                return null;
+            }
+            workId = value;            
+            main = m.createResource(BDR + value);
+            CommonMigration.addStatus(m, main, root.getAttribute("status"));
+            // we have to add the type here (although we do not really want)
+            // because we are limitted by
+            // https://github.com/jsonld-java/jsonld-java/issues/202
+            m.add(main, RDF.type, m.createResource(BDO+"Work"));
+            
+            mainOutline = m.createResource(BDR+root.getAttribute("RID"));
+            mainOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
+            main.addProperty(m.getProperty(ADM, "outline"), mainOutline);
             value = current.getAttribute("type").trim();
             if (value.isEmpty()) {
                 value = "NoType";
             }
-            value = CommonMigration.normalizePropName(value, null);
-            m.add(main, RDF.type, m.createResource(OP + value));
-            if (!value.equals("Outline"))
-                m.add(main, RDF.type, m.createResource(OP + "Outline"));
+            value = BDR+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
+            m.add(main, m.getProperty(ADM, "outlineType"), m.createResource(value));
             
-            value = current.getAttribute("work").trim();
-            if (!value.isEmpty()) {
-                m.add(main, m.getProperty(OP+"isOutlineOf"), m.createProperty(WP+value));
-            } else {
-            	CommonMigration.addException(m, main, "outline does not reference the corresponding work");
-            }
-            workId = value;
+            break; // just reading the first node
+        }
+        if (main == null) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "type", "missing work ID, cannot migrate outline");
+            return null;
         }
         
         value = root.getAttribute("pagination").trim();
-        if (value.isEmpty()) value = "relative";
-        m.add(main, m.getProperty(OP+"pagination"), m.createLiteral(value));
+        if (value.isEmpty() || value == "relative") {
+            value = BDR+"PaginationRelative";
+        } else {
+            value = BDR+"PaginationAbsolute";            
+        }
+        m.add(main, m.getProperty(BDO, "workPagination"), m.createResource(value));
         
-		CommonMigration.addNotes(m, root, main, OXSDNS);
-		CommonMigration.addExternals(m, root, main, OXSDNS);
-		CommonMigration.addLog(m, root, main, OXSDNS);
-		CommonMigration.addDescriptions(m, root, main, OXSDNS);
-		CommonMigration.addLocations(m, main, root, OXSDNS, workId);
+        // if the outline names must really be migrated, do it here
+		CommonMigration.addNotes(m, root, mainOutline, OXSDNS);
+		CommonMigration.addExternals(m, root, mainOutline, OXSDNS);
+		CommonMigration.addLog(m, root, mainOutline, OXSDNS);
+		CommonMigration.addDescriptions(m, root, mainOutline, OXSDNS);
+		CommonMigration.addLocations(m, mainOutline, root, OXSDNS, workId);
 		
-		addCreators(m, main, root);
+		addCreators(m, mainOutline, root);
 		
 		addNodes(m, main, root, workId, curNodeInt, null, null);
 		
@@ -153,9 +169,6 @@ public class OutlineMigration {
 	
 	public static void addCreators(Model m, Resource r, Element e) {
         // creator
-        // originally supposed to be a wrk:creator property, but unlike the latter, it
-        // never maps to a per:Person, because ontologies are BDRC staff and not per:Persons
-        // so a new out:authorship data property has been created to capture the textcontent
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
         for (int j = 0; j < nodeList.size(); j++) {
             Element current = (Element) nodeList.get(j);
@@ -170,7 +183,7 @@ public class OutlineMigration {
 LocationVolPage previousLocVP) {
 	    curNode.i = curNode.i+1;
 	    String value = String.format("%04d", curNode.i);	    
-        Resource node = m.createResource(value);
+        Resource node = m.createResource(BDR+workId+"_"+value);
         String RID = e.getAttribute("RID").trim();
         if (!value.isEmpty()) {
             node.addProperty(m.getProperty(ADM, "workLegacyNode"), RID);
@@ -181,7 +194,7 @@ LocationVolPage previousLocVP) {
         }
         value = "OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
         m.add(node, RDF.type, m.getResource(BDO+"Work"));
-        m.add(node, m.getProperty(BDO, "workOutlineType"), m.getResource(BDR+value));
+        m.add(node, m.getProperty(BDO, "outlineType"), m.getResource(BDR+value));
         
         // what's parent? ignoring
 //        value = e.getAttribute("parent").trim();
