@@ -44,6 +44,7 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 - ignore `work/info@parent=*LEGACY` like in W2DB4598
 - check if description@type=content and description@type=summary appear in the same node
 - validate RIDs before making URLs
+- add place and code for FPL library (G1TLMFPL000001)
 
 
 ## License

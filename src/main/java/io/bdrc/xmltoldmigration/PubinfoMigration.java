@@ -158,11 +158,7 @@ public class PubinfoMigration {
                 else
                     CommonMigration.addException(m, main, "Pubinfo holding has no library RID!");
                 
-                value = subCurrent.getAttribute("code").trim();
-                if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "holding_code"), m.createLiteral(value));
-                
-                // TODO: what about the text content?
+                // ignore @code and content
             }
         }
         
