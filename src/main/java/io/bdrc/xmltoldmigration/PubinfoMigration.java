@@ -47,7 +47,6 @@ public class PubinfoMigration {
 		Element root = xmlDocument.getDocumentElement();
 		String rid = root.getAttribute("RID");
 		
-        // TODO: all these "en" defaults look strange...
         addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
         addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
         addSimpleElement("printery", BDO+"pubinfo_printery", "bo-x-ewts", root, m, main); //???
@@ -58,19 +57,19 @@ public class PubinfoMigration {
         addSimpleElement("seeHarvard", BDO+"workSeeHarvard", null, root, m, main);
         addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
         addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
-        addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", "bo-x-ewts", root, m, main);
+        addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", CommonMigration.EWTS_TAG, root, m, main);
         addSimpleElement("encoding", BDO+"workEncoding", null, root, m, main);
         addSimpleElement("dateOfWriting", BDO+"workDateOfWriting", null, root, m, main);
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"workDimensions", null, root, m, main);
         addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
-        addSimpleElement("seriesName", BDO+"workSeriesName", "bo-x-ewts", root, m, main);
+        addSimpleElement("seriesName", BDO+"workSeriesName", CommonMigration.EWTS_TAG, root, m, main);
         addSimpleElement("seriesNumber", BDO+"workSeriesNumber", null, root, m, main);
         addSimpleElement("tbrcHoldings", BDO+"workTbrcHoldings", null, root, m, main);
         addSimpleElement("biblioNote", BDO+"workBiblioNote", "en", root, m, main);
         addSimpleElement("sourceNote", BDO+"workSourceNote", "en", root, m, main);
-        addSimpleElement("editionStatement", BDO+"workEditionStatement", "bo-x-ewts", root, m, main);
+        addSimpleElement("editionStatement", BDO+"workEditionStatement", CommonMigration.EWTS_TAG, root, m, main);
         
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
@@ -88,7 +87,7 @@ public class PubinfoMigration {
                 m.add(main, m.getProperty(BDO, "workIsNumbered"), m.createTypedLiteral(true));
             }
             Property prop = m.getProperty(BDO, "workSeriesContent");
-            Literal l = CommonMigration.getLiteral(current, "bo-x-ewts", m, "series", main.getLocalName(), null);
+            Literal l = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, "series", main.getLocalName(), null);
             if (l == null) continue;
             main.addProperty(prop, l);
             Statement s = main.getProperty(m.getProperty(BDO, "workExpressionOf"));
@@ -103,8 +102,11 @@ public class PubinfoMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("type").trim();
-            if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "pubinfo_printType"), m.createLiteral(value)); //???
+            if (!value.isEmpty()) {
+                value = BDR+"PrintType"+value.substring(0, 1).toUpperCase() + value.substring(1);
+                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(value));
+            }
+                
         }
 
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "sourcePrintery");
@@ -126,23 +128,23 @@ public class PubinfoMigration {
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "holding");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            //String value = CommonMigration.getSubResourceName(main, WP, "Holding", i+1);
-            Resource holding = m.createResource();
+            String itemUri = BDR+"I"+main.getLocalName().substring(1)+"_00"+(i+2);
+            Resource holding = m.createResource(itemUri);
             //m.add(holding, RDF.type, m.getResource(BDO+"Holding"));
-            m.add(main, m.createProperty(BDO, "hasHolding"), holding);
+            m.add(main, m.createProperty(BDO, "workHasHolding"), holding);
             
-            addSimpleElement("exception", BDO+"holding_exception", "bo-x-ewts", current, m, holding);
+            addSimpleElement("exception", BDO+"itemHoldingException", CommonMigration.EWTS_TAG, current, m, holding);
             String value;
             NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getTextContent().trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "holding_shelf"), m.createLiteral(value));
+                    m.add(holding, m.createProperty(BDO, "itemHoldingShelf"), m.createLiteral(value));
                 
                 value = subCurrent.getAttribute("copies").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "holding_copies"), m.createLiteral(value));
+                    m.add(holding, m.createProperty(BDO, "itemHoldingCopies"), m.createLiteral(value));
             }
             
             subNodeList = root.getElementsByTagNameNS(WPXSDNS, "library");
@@ -150,7 +152,7 @@ public class PubinfoMigration {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getAttribute("rid").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "holding_library"), m.createResource(BDR+value));
+                    m.add(holding, m.createProperty(BDO, "itemLibrary"), m.createResource(BDR+value));
                 else
                     CommonMigration.addException(m, main, "Pubinfo holding has no library RID!");
                 

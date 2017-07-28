@@ -44,6 +44,7 @@ public class CommonMigration  {
 	public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
 	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
 	public static final String SKOS_PREFIX = "http://www.w3.org/2004/02/skos/core#";
+	public static final String VCARD_PREFIX = "http://www.w3.org/2006/vcard/ns#";
     public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
     public static final String RDF_PREFIX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
     public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
@@ -212,7 +213,8 @@ public class CommonMigration  {
                 +"\"owl\" : \""+OWL_PREFIX+"\","
                 +"\"xsd\" : \""+XSD_PREFIX+"\","
                 +"\"rdfs\" : \""+RDFS_PREFIX+"\","
-                +"\"skos\" : \""+SKOS_PREFIX+"\""
+                +"\"skos\" : \""+SKOS_PREFIX+"\","
+                +"\"vcard\" : \""+VCARD_PREFIX+"\""
 			    +"}";
 	}
 	

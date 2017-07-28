@@ -17,6 +17,7 @@ public class PlaceMigration {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADM;
+    private static final String VCARD = CommonMigration.VCARD_PREFIX;
 	
     private static String getUriFromTypeSubtype(String type, String subtype) {
         switch (type) {
@@ -72,12 +73,12 @@ public class PlaceMigration {
 			Resource address = m.createResource();
 			//m.add(address, RDF.type, m.createResource(BDO+"PlaceAddress"));
 			m.add(main, m.getProperty(BDO+"placeAddress"), address);
-			addSimpleAttr(current.getAttribute("city"), "city", BDO+"addressCity", m, address);
-			addSimpleAttr(current.getAttribute("country"), "country", BDO+"addressCountry", m, address);
-			addSimpleAttr(current.getAttribute("number"), "number", BDO+"addressNumber", m, address);
-			addSimpleAttr(current.getAttribute("postal"), "postal", BDO+"addressPostal", m, address);
-			addSimpleAttr(current.getAttribute("state"), "state", BDO+"addressState", m, address);
-			addSimpleAttr(current.getAttribute("street"), "street", BDO+"addressStreet", m, address);
+			addSimpleAttr(current.getAttribute("city"), "city", VCARD+"locality", m, address);
+			addSimpleAttr(current.getAttribute("country"), "country", VCARD+"country-name", m, address);
+			addSimpleAttr(current.getAttribute("postal"), "postal", VCARD+"postal-code", m, address);
+			addSimpleAttr(current.getAttribute("state"), "state", VCARD+"region", m, address);
+			String streetAddress = current.getAttribute("number").trim()+" "+current.getAttribute("street").trim();
+			address.addProperty(m.getProperty(VCARD, "street-address"), m.createLiteral(streetAddress));
 		}
 		
 		// tlm
@@ -98,7 +99,7 @@ public class PlaceMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			Resource tax = m.createResource(CommonMigration.BDR+current.getAttribute("rid"));
-			m.add(main, m.getProperty(ADM+"placeTlmTaxonomy"), tax);
+			m.add(main, m.getProperty(ADM+"place_TLM_taxonomy"), tax);
 		}
 		nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "groups");
 		for (int i = 0; i < nodeList.getLength(); i++) {

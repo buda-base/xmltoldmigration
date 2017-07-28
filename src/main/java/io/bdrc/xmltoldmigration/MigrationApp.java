@@ -105,7 +105,7 @@ public class MigrationApp
             if (vols.size() > 0) {
                 volumesModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(volumesModel);
-                String volumesName = "I"+baseName.substring(1);
+                String volumesName = "I"+baseName.substring(1)+"_001";
                 volumes = volumesModel.createResource(BDR+volumesName);
                 volumesModel.add(volumes, RDF.type, volumesModel.createResource(BDR + "Item"));
                 for (Map.Entry<String,String> vol : vols.entrySet()) {

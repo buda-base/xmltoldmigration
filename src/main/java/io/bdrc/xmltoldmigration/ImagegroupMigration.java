@@ -23,13 +23,13 @@ public class ImagegroupMigration {
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m);
-        Resource volumes = m.createResource(BDR+"TestVolumes");
-        m.add(volumes, RDF.type, m.getResource(BDO+"Item"));
-        MigrateImagegroup(xmlDocument, m, volumes, "testVolume", "1", "testVolumes");
+        Resource item = m.createResource(BDR+"TestItem");
+        m.add(item, RDF.type, m.getResource(BDO+"Item"));
+        MigrateImagegroup(xmlDocument, m, item, "testItem", "1", "testItem");
         return m;
 	}
 	
-	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource volumes, String volumeName, String volumeNumber, String volumesName) {
+	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource item, String volumeName, String volumeNumber, String volumesName) {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
@@ -50,7 +50,7 @@ public class ImagegroupMigration {
             m.add(main, m.getProperty(BDO, "volumeNumber"), m.createLiteral(volumeNumber));
         }
         
-        m.add(volumes, m.getProperty(BDO+"itemHasVolume"), main);
+        m.add(item, m.getProperty(BDO+"itemHasVolume"), main);
         
 		// adding the ondisk/onDisk description as vol:imageList
 		NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "description");
@@ -62,7 +62,7 @@ public class ImagegroupMigration {
             m.add(main, m.getProperty(BDO+"volumeImageList"), value);
         }
 		
-        CommonMigration.addLog(m, root, volumes, IGXSDNS);
+        CommonMigration.addLog(m, root, item, IGXSDNS);
         CommonMigration.addDescriptions(m, root, main, IGXSDNS, false);
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");

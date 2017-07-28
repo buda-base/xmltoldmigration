@@ -102,8 +102,9 @@ public class OutlineMigration {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m);
 		Element root = xmlDocument.getDocumentElement();
-		Resource main = m.createResource(OP + root.getAttribute("RID"));
+		Resource main = m.createResource(BDR + root.getAttribute("RID"));
 		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		m.add(main, RDF.type, m.createResource(BDO + "Outline"));
 
 		CurNodeInt curNodeInt = new CurNodeInt();
 		curNodeInt.i = 0;
@@ -172,24 +173,24 @@ LocationVolPage previousLocVP) {
         Resource node = m.createResource(value);
         String RID = e.getAttribute("RID").trim();
         if (!value.isEmpty()) {
-            node.addProperty(m.getProperty(ADM, "workOldOutlineRID"), RID);
+            node.addProperty(m.getProperty(ADM, "workLegacyNode"), RID);
         }
         value = e.getAttribute("type");
         if (value.isEmpty()) {
             value = "Node";// TODO: ?
         }
-        value = CommonMigration.normalizePropName(value, "Class");
-        m.add(node, RDF.type, m.getResource(BDO+"Outline"));
-        //m.add(node, RDF.type, m.getResource(OP+value));
-        m.add(r, m.getProperty(OP+"hasNode"), node);
+        value = "OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
+        m.add(node, RDF.type, m.getResource(BDO+"Work"));
+        m.add(node, m.getProperty(BDO, "workOutlineType"), m.getResource(BDR+value));
         
-        value = e.getAttribute("parent").trim();
-        if (!value.isEmpty())
-            m.add(r, m.getProperty(BDO, "workPartOf"), m.createResource(BDR+value));
+        // what's parent? ignoring
+//        value = e.getAttribute("parent").trim();
+//        if (!value.isEmpty())
+//            m.add(r, m.getProperty(BDO, "workPartOf"), m.createResource(BDR+value));
         
         m.add(r, m.getProperty(BDO, "workHasPart"), node);
         
-        CommonMigration.addNames(m, e, node, OXSDNS, true);
+        CommonMigration.addNames(m, e, node, OXSDNS);
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
         CommonMigration.addTitles(m, node, e, OXSDNS, false);
         
