@@ -6,19 +6,6 @@
       "@id" : "_:b0",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "added hollis field to pub info"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2015-01-05T17:22:13.356Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U6"
-      }
-    }, {
-      "@id" : "_:b1",
-      "admin/logMessage" : {
-        "@language" : "en",
         "@value" : "added print type and source printery"
       },
       "admin/logWhen" : {
@@ -29,7 +16,7 @@
         "@id" : "bdr:U13"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "normalize encoding field for pub info"
@@ -41,23 +28,23 @@
       "admin/logWho" : {
         "@id" : "bdr:U12"
       }
+    }, {
+      "@id" : "_:b2",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added hollis field to pub info"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2015-01-05T17:22:13.356Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U6"
+      }
     } ],
-    "hasHolding" : {
-      "@id" : "_:b3",
-      "holding_code" : "TGA",
-      "holding_copies" : "1",
-      "holding_exception" : {
-        "@language" : "bo-x-ewts",
-        "@value" : "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"
-      },
-      "holding_library" : {
-        "@id" : "bdr:G1TLMTGA000001"
-      },
-      "holding_shelf" : "ཇ|ཇ|༣||001278"
-    },
-    "pubinfo_printType" : "blockprint",
+    "itemBDRCHoldingStatemeent" : "1",
     "workAuthorshipStatement" : {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan"
     },
     "workBiblioNote" : {
@@ -66,6 +53,19 @@
     },
     "workEncoding" : "In Tibetan",
     "workExtentStatement" : "177 ff.",
+    "workHasHolding" : {
+      "@id" : "bdr:I12837_002",
+      "holding_code" : "TGA",
+      "itemHoldingCopies" : "1",
+      "itemHoldingException" : {
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"
+      },
+      "itemHoldingShelf" : "ཇ|ཇ|༣||001278",
+      "itemLibrary" : {
+        "@id" : "bdr:G1TLMTGA000001"
+      }
+    },
     "workHasSourcePrintery" : {
       "@id" : "bdr:G1PD129184"
     },
@@ -73,6 +73,9 @@
     "workIsNumbered" : {
       "@type" : "xsd:boolean",
       "@value" : "true"
+    },
+    "workPrintType" : {
+      "@id" : "bdr:PrintTypeBlockprint"
     },
     "workPublisherDate" : "[2000?]",
     "workPublisherLocation" : {
@@ -84,13 +87,12 @@
       "@value" : "[zhol par khang]"
     },
     "workSeriesContent" : {
-      "@language" : "bo-x-ewts",
+      "@language" : "bo-latn-x-ewts",
       "@value" : "test series content"
     },
     "workSeriesName" : "oral history series",
     "workSeriesNumber" : "no. 16",
-    "workSourcePrintery_string" : "test sourcePrintery with no place",
-    "workTbrcHoldings" : "1"
+    "workSourcePrintery_string" : "test sourcePrintery with no place"
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/",
@@ -101,6 +103,7 @@
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "skos" : "http://www.w3.org/2004/02/skos/core#"
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "vcard" : "http://www.w3.org/2006/vcard/ns#"
   }
 }

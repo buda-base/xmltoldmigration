@@ -18,59 +18,7 @@
     "@type" : "Place",
     "WBArea" : "test",
     "admin/logEntry" : [ {
-      "@id" : "_:b11",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added name & note"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-02-19T14:10:50.715Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
       "@id" : "_:b8",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added type & location & contains"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-04-01T09:36:07.005Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b12",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-12-11T17:39:05.287Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U20"
-      }
-    }, {
-      "@id" : "_:b6",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added contain"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b13",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added location"
@@ -83,7 +31,7 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b0",
+      "@id" : "_:b10",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added place contained"
@@ -96,7 +44,59 @@
         "@id" : "bdr:U20"
       }
     }, {
-      "@id" : "_:b4",
+      "@id" : "_:b0",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added name & note"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-02-19T14:10:50.715Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b11",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b12",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added type & location & contains"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-04-01T09:36:07.005Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b6",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-12-11T17:39:05.287Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U20"
+      }
+    }, {
+      "@id" : "_:b5",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added byams pa chos gling gzhis ka'i par khang"
@@ -109,7 +109,7 @@
         "@id" : "bdr:U13"
       }
     }, {
-      "@id" : "_:b5",
+      "@id" : "_:b9",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added contain"
@@ -122,9 +122,6 @@
         "@id" : "bdr:U7"
       }
     } ],
-    "admin/placeTlmTaxonomy" : {
-      "@id" : "bdr:O1TLMXXX000011"
-    },
     "admin/place_TLM_accession" : "004476",
     "admin/place_TLM_admin" : "tgaAdmin",
     "admin/place_TLM_adminEmail" : "xxx",
@@ -132,6 +129,9 @@
     "admin/place_TLM_librarian" : "tgaLibrarian",
     "admin/place_TLM_librarianEmail" : "xxx",
     "admin/place_TLM_num" : "003159",
+    "admin/place_TLM_taxonomy" : {
+      "@id" : "bdr:O1TLMXXX000011"
+    },
     "admin/place_dist_py" : "Lhasa Shi",
     "admin/place_gb_dist" : "5401",
     "admin/place_gonpa_per1000" : "7.514",
@@ -143,13 +143,7 @@
     "admin/place_town_ch" : "蔡公堂乡",
     "admin/place_town_syl" : "Cai Gong Tang Xiang",
     "note" : [ {
-      "@id" : "_:b10",
-      "noteText" : {
-        "@language" : "en",
-        "@value" : "the region of the rulers of the bya principality in southern tibet"
-      }
-    }, {
-      "@id" : "_:b7",
+      "@id" : "_:b1",
       "noteLocationStatement" : "p.1467-1468",
       "noteText" : {
         "@language" : "en",
@@ -158,15 +152,20 @@
       "noteWork" : {
         "@id" : "bdr:W26372"
       }
+    }, {
+      "@id" : "_:b7",
+      "noteText" : {
+        "@language" : "en",
+        "@value" : "the region of the rulers of the bya principality in southern tibet"
+      }
     } ],
     "placeAddress" : {
-      "@id" : "_:b1",
-      "addressCity" : "Chauntra",
-      "addressCountry" : "India",
-      "addressNumber" : "མི་གསལ།",
-      "addressPostal" : "175032",
-      "addressState" : "Himachal Pradesh",
-      "addressStreet" : "Dzongsar Institute"
+      "@id" : "_:b2",
+      "vcard:country-name" : "India",
+      "vcard:locality" : "Chauntra",
+      "vcard:postal-code" : "175032",
+      "vcard:region" : "Himachal Pradesh",
+      "vcard:street-address" : "མི་གསལ། Dzongsar Institute"
     },
     "placeChgisId" : "854",
     "placeContains" : [ {
@@ -183,15 +182,15 @@
       "@id" : "bdr:G1183"
     } ],
     "placeEvent" : [ {
-      "@id" : "_:b9",
+      "@id" : "_:b13",
       "onOrAbout" : "13uu/17uu",
       "placeEventType" : {
         "@id" : "bdr:PlaceFounded"
       }
     }, {
-      "@id" : "_:b2",
+      "@id" : "_:b3",
       "note" : {
-        "@id" : "_:b3",
+        "@id" : "_:b4",
         "noteLocationStatement" : "test",
         "noteText" : {
           "@language" : "en",
@@ -231,6 +230,7 @@
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "skos" : "http://www.w3.org/2004/02/skos/core#"
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "vcard" : "http://www.w3.org/2006/vcard/ns#"
   }
 }
