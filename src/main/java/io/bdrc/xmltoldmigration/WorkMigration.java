@@ -81,6 +81,7 @@ public class WorkMigration {
 		
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true);
 	    CommonMigration.addSubjects(m, main, root, WXSDNS);
+	    CommonMigration.addDescriptions(m, root, main, WXSDNS);
 		
 		// archiveInfo
 		
@@ -191,7 +192,7 @@ public class WorkMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("pid").trim();
-            m.add(main, m.getProperty(BDO, "workInProduct"), m.createResource(BDR+value));
+            m.add(main, m.getProperty(ADM, "workInProduct"), m.createResource(BDR+value));
         }
         
         // catalogInfo
@@ -216,8 +217,8 @@ public class WorkMigration {
         
         Map<String,String> imageGroupList = getImageGroupList(xmlDocument);
         if (!imageGroupList.isEmpty()) {
-            Resource volumes = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1));
-            m.add(main, m.getProperty(BDO, "workHasItem"), volumes);
+            Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+"_001");
+            m.add(main, m.getProperty(BDO, "workHasItem"), item);
         }
         
 		return m;

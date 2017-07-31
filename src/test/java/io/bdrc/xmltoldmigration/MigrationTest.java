@@ -211,7 +211,8 @@ public class MigrationTest
 	        assertFalse(CommonMigration.documentValidates(d, validator));
 	        Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
 	        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/WorkTest.jsonld");
-	        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", true);
+	        MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", true);
+	        //showDifference(fromXml, correctModel);
 	        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
 	        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
 	        flushLog();

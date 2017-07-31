@@ -62,6 +62,8 @@ public class CommonMigration  {
 	public static final String VOLUMES_PREFIX = "http://purl.bdrc.io/ontology/volumes#";
 	public static final String WORK_PREFIX = "http://purl.bdrc.io/ontology/work#";
 	
+	public static final String FPL_LIBRARY_ID = "G1TLMFPL000001";
+	
 	public static final String PREFLABEL_URI = SKOS_PREFIX+"prefLabel";
 	public static final String ALTLABEL_URI = SKOS_PREFIX+"altLabel";
 	public static final String GENLABEL_URI = RDFS_PREFIX+"label";
@@ -247,11 +249,11 @@ public class CommonMigration  {
 	        case "date":                  return ADM+"work_desc_date";
 	        case "errata":                return BDO+"work_desc_errata";
 	        case "extent":                return BDO+"work_desc_extent";
-	        case "id":                    return BDO+"work_desc_id";
+	        case "id":                    return "__fpl";
 	        case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
 	        case "location":              return BDO+"work_desc_location";
-	        case "remarks":               return BDO+"work_desc_remarks";
-	        case "room":                  return BDO+"work_desc_room";
+	        case "remarks":               return "__fpl";
+	        case "room":                  return "__fpl";
 	        case "summary":               return RDFS_PREFIX+"comment";
 	        case "snar_bstan_number":     return BDO+"workKaTenSiglaN";
 	        case "snr_thang_number":      return BDO+"workKaTenSiglaN";
@@ -546,6 +548,9 @@ public class CommonMigration  {
 	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
+		Resource fplItem = null;
+		String fplId = null;
+		String fplRoom = null;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			String value = current.getTextContent().trim();
@@ -580,6 +585,33 @@ public class CommonMigration  {
 			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "unhandled description type: "+type);
 			    continue;
 			}
+			if (propUri.equals("__fpl")) {
+			    if (fplItem == null) {
+			        String workId = r.getLocalName();
+			        fplItem = m.createResource(BDR+"I"+workId.substring(1)+"_002");
+			        fplItem.addProperty(RDF.type, m.getResource(BDO+"ItemPhysicalAsset"));
+			        fplItem.addProperty(m.getProperty(BDO, "itemLibrary"), m.getResource(BDR+FPL_LIBRARY_ID));
+			        r.addProperty(m.getProperty(BDO+"workHasItem"), fplItem);
+			    }
+			    switch(type) {
+			    case "id":
+			        fplId = value;
+			        if (fplRoom != null) {
+			            fplItem.addProperty(m.getProperty(BDO, "itemShelf"), m.createLiteral(fplRoom+" | "+fplId));			            
+			        }
+			        break;
+			    case "room":
+			        fplRoom = value;
+			        if (fplId != null) {
+                        fplItem.addProperty(m.getProperty(BDO, "itemShelf"), m.createLiteral(fplRoom+" | "+fplId));                     
+                    }
+                    break;
+			    case "remarks":
+			        fplItem.addProperty(m.getProperty(BDO, "itemPhysicalDescription"), m.createLiteral(value, "en"));
+			        break;
+			    }
+			    continue;
+			}
 			// for product and office the name is the first description type="contents", and we don't want to keep it in a description
             if (guessLabel && type.equals("contents")) {
                 String lang = l.getLanguage().substring(0, 2);
@@ -592,6 +624,10 @@ public class CommonMigration  {
                 continue;
             }
             r.addProperty(m.getProperty(propUri), l);
+		}
+		if ((fplId == null && fplRoom != null) ||
+		        (fplId != null && fplRoom == null)) {
+		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "description", "types `id` and `room` should both be present");
 		}
 	}
 	
