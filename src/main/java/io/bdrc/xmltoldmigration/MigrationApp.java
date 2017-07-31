@@ -112,7 +112,7 @@ public class MigrationApp
                     String imagegroupFileName = DATA_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
                     File imagegroupFile = new File(imagegroupFileName);
                     if (!imagegroupFile.exists()) {
-                        CommonMigration.addException(itemModel, item, "image group "+imagegroupFileName+" referenced but absent from database");
+                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "imagegroup", "image group `"+imagegroupFileName+"` referenced but absent from database");
                         continue;
                     }
                     d = MigrationHelpers.documentFromFileName(imagegroupFileName);

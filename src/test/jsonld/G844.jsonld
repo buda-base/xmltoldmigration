@@ -18,20 +18,7 @@
     "@type" : "Place",
     "WBArea" : "test",
     "admin/logEntry" : [ {
-      "@id" : "_:b8",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added name & note"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-02-19T14:10:50.715Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b10",
+      "@id" : "_:b9",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added location"
@@ -44,7 +31,20 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b7",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added contain"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-25T16:44:50.079Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b13",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added contain"
@@ -57,7 +57,7 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b9",
+      "@id" : "_:b2",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added type & location & contains"
@@ -68,32 +68,6 @@
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b13",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added place contained"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-05-29T12:18:47.035Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U20"
-      }
-    }, {
-      "@id" : "_:b2",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2012-12-11T17:39:05.287Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U20"
       }
     }, {
       "@id" : "_:b3",
@@ -109,17 +83,43 @@
         "@id" : "bdr:U13"
       }
     }, {
-      "@id" : "_:b5",
+      "@id" : "_:b4",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "added contain"
+        "@value" : "added place contained"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
+        "@value" : "2013-05-29T12:18:47.035Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U20"
+      }
+    }, {
+      "@id" : "_:b0",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added name & note"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-02-19T14:10:50.715Z"
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b1",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2012-12-11T17:39:05.287Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U20"
       }
     } ],
     "admin/place_TLM_accession" : "004476",
@@ -132,18 +132,10 @@
     "admin/place_TLM_taxonomy" : {
       "@id" : "bdr:O1TLMXXX000011"
     },
-    "admin/place_dist_py" : "Lhasa Shi",
-    "admin/place_gb_dist" : "5401",
-    "admin/place_gonpa_per1000" : "7.514",
     "admin/place_id_TBRC" : "540102200:540101145",
     "admin/place_id_lex" : "540102200:540101145",
-    "admin/place_name_kr" : "萨迦·衮噶坚赞｜萨迦班智达",
-    "admin/place_name_lex" : [ "tshal gung thang", "tshal gung thang G844" ],
-    "admin/place_prov_py" : "Xizang",
-    "admin/place_town_ch" : "蔡公堂乡",
-    "admin/place_town_syl" : "Cai Gong Tang Xiang",
     "note" : [ {
-      "@id" : "_:b0",
+      "@id" : "_:b12",
       "noteLocationStatement" : "p.1467-1468",
       "noteText" : {
         "@language" : "en",
@@ -153,14 +145,14 @@
         "@id" : "bdr:W26372"
       }
     }, {
-      "@id" : "_:b4",
+      "@id" : "_:b6",
       "noteText" : {
         "@language" : "en",
         "@value" : "the region of the rulers of the bya principality in southern tibet"
       }
     } ],
     "placeAddress" : {
-      "@id" : "_:b11",
+      "@id" : "_:b8",
       "vcard:country-name" : "India",
       "vcard:locality" : "Chauntra",
       "vcard:postal-code" : "175032",
@@ -182,14 +174,14 @@
       "@id" : "bdr:G1183"
     } ],
     "placeEvent" : [ {
-      "@id" : "_:b12",
+      "@id" : "_:b5",
       "@type" : "PlaceFounded",
       "onOrAbout" : "13uu/17uu"
     }, {
-      "@id" : "_:b6",
+      "@id" : "_:b10",
       "@type" : "PlaceFounded",
       "note" : {
-        "@id" : "_:b7",
+        "@id" : "_:b11",
         "noteLocationStatement" : "test",
         "noteText" : {
           "@language" : "en",
@@ -215,13 +207,22 @@
     "placeRegionPoly" : "Some polygon coordinates",
     "placeType" : {
       "@id" : "bdr:NotSpecified"
-    }
+    },
+    "toberemoved/place_dist_py" : "Lhasa Shi",
+    "toberemoved/place_gb_dist" : "5401",
+    "toberemoved/place_gonpa_per1000" : "7.514",
+    "toberemoved/place_name_kr" : "萨迦·衮噶坚赞｜萨迦班智达",
+    "toberemoved/place_name_lex" : [ "tshal gung thang", "tshal gung thang G844" ],
+    "toberemoved/place_prov_py" : "Xizang",
+    "toberemoved/place_town_ch" : "蔡公堂乡",
+    "toberemoved/place_town_syl" : "Cai Gong Tang Xiang"
   } ],
   "@context" : {
     "@vocab" : "http://purl.bdrc.io/ontology/",
     "adm" : "http://purl.bdrc.io/ontology/admin/",
     "bdd" : "http://purl.bdrc.io/data/",
     "bdr" : "http://purl.bdrc.io/resource/",
+    "tbr" : "http://purl.bdrc.io/ontology/toberemoved/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",

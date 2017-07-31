@@ -156,7 +156,7 @@ public class PubinfoMigration {
                 if (!value.isEmpty())
                     m.add(holding, m.createProperty(BDO, "itemLibrary"), m.createResource(BDR+value));
                 else
-                    CommonMigration.addException(m, main, "Pubinfo holding has no library RID!");
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "holding", "Pubinfo holding has no library RID!");
                 
                 // ignore @code and content
             }

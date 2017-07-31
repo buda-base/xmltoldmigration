@@ -45,22 +45,11 @@ public class CommonMigration  {
 	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
 	public static final String SKOS_PREFIX = "http://www.w3.org/2004/02/skos/core#";
 	public static final String VCARD_PREFIX = "http://www.w3.org/2006/vcard/ns#";
+	public static final String TBR_PREFIX = "http://purl.bdrc.io/ontology/toberemoved/";
     public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
     public static final String RDF_PREFIX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
     public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
     public static final String XSD_PREFIX = "http://www.w3.org/2001/XMLSchema#";
-	public static final String DESCRIPTION_PREFIX = "http://onto.bdrc.io/ontology/description#";
-	public static final String ROOT_PREFIX = "http://purl.bdrc.io/ontology/root#";
-	public static final String CORPORATION_PREFIX = "http://purl.bdrc.io/ontology/corporation#";
-	public static final String LINEAGE_PREFIX = "http://purl.bdrc.io/ontology/lineage#";
-	public static final String OFFICE_PREFIX = "http://purl.bdrc.io/ontology/office#";
-	public static final String PRODUCT_PREFIX = "http://purl.bdrc.io/ontology/product#";
-	public static final String OUTLINE_PREFIX = "http://purl.bdrc.io/ontology/outline#";
-	public static final String PERSON_PREFIX = "http://purl.bdrc.io/ontology/person#";
-	public static final String PLACE_PREFIX = "http://purl.bdrc.io/ontology/place#";
-	public static final String TOPIC_PREFIX = "http://purl.bdrc.io/ontology/topic#";
-	public static final String VOLUMES_PREFIX = "http://purl.bdrc.io/ontology/volumes#";
-	public static final String WORK_PREFIX = "http://purl.bdrc.io/ontology/work#";
 	
 	public static final String FPL_LIBRARY_ID = "G1TLMFPL000001";
 	
@@ -74,6 +63,7 @@ public class CommonMigration  {
     public static final String BDD = DATA_PREFIX;
     public static final String BDR = RESOURCE_PREFIX;
     public static final String ADM = ADMIN_PREFIX;
+    public static final String TBR = TBR_PREFIX;
 	
 	public static final int ET_LANG = ExceptionHelper.ET_LANG;
 	
@@ -197,12 +187,13 @@ public class CommonMigration  {
 		m.setNsPrefix("adm", ADMIN_PREFIX);
 		m.setNsPrefix("bdd", DATA_PREFIX);
 		m.setNsPrefix("bdr", RESOURCE_PREFIX);
+		m.setNsPrefix("tbr", TBR_PREFIX);
 		m.setNsPrefix("owl", OWL_PREFIX);
 		m.setNsPrefix("rdf", RDF_PREFIX);
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
 		m.setNsPrefix("skos", SKOS_PREFIX);
+		m.setNsPrefix("vcard", VCARD_PREFIX);
 		m.setNsPrefix("xsd", XSD_PREFIX);
-		m.setNsPrefix("desc", DESCRIPTION_PREFIX);
 	}
 	
 	public static String getJsonLDContext() {
@@ -211,6 +202,7 @@ public class CommonMigration  {
 				+"\"adm\" : \""+ADMIN_PREFIX+"\","
 				+"\"bdd\" : \""+DATA_PREFIX+"\","
 				+"\"bdr\" : \""+RESOURCE_PREFIX+"\","
+				+"\"tbr\" : \""+TBR_PREFIX+"\","
                 +"\"rdf\" : \""+RDF_PREFIX+"\","
                 +"\"owl\" : \""+OWL_PREFIX+"\","
                 +"\"xsd\" : \""+XSD_PREFIX+"\","
@@ -294,15 +286,15 @@ public class CommonMigration  {
 	        case "IsIAO":                 return BDO+"workRefIsIAO";
 	        case "catalogue_number":      return BDO+"workRefChokLing";
             case "gonpaPerEcumen":        return BDO+"placeGonpaPerEcumen";
-	        case "nameLex":               return ADM+"place_name_lex";
-	        case "nameKR":                return ADM+"place_name_kr";
-	        case "gbdist":                return ADM+"place_gb_dist";
-	        case "town_syl":              return ADM+"place_town_syl";
-	        case "town_py":               return ADM+"place_town_py";
-	        case "town_ch":               return ADM+"place_town_ch";
-	        case "prov_py":               return ADM+"place_prov_py";
-	        case "gonpaPer1000":          return ADM+"place_gonpa_per1000";
-	        case "dist_py":               return ADM+"place_dist_py";
+	        case "nameLex":               return TBR+"place_name_lex";
+	        case "nameKR":                return TBR+"place_name_kr";
+	        case "gbdist":                return TBR+"place_gb_dist";
+	        case "town_syl":              return TBR+"place_town_syl";
+	        case "town_py":               return TBR+"place_town_py";
+	        case "town_ch":               return TBR+"place_town_ch";
+	        case "prov_py":               return TBR+"place_prov_py";
+	        case "gonpaPer1000":          return TBR+"place_gonpa_per1000";
+	        case "dist_py":               return TBR+"place_dist_py";
 	        case "ondisk":
 	        case "onDisk":
 	        case "dld":
@@ -822,34 +814,11 @@ public class CommonMigration  {
            return res;
        }
        
-       public static void addException(Model m, Resource r, String exception, int type) {
-           addException(m, r, exception);
-       }
-       
-       public static void addException(Model m, Resource r, String exception) {
-           m.add(r, m.getProperty(ROOT_PREFIX+"migration_exception"), m.createLiteral(exception));
-           exception = "Error in resource "+r.getLocalName()+": "+exception;
-           MigrationHelpers.writeLog(exception);
-       }
-       
        public static void addStatus(Model m, Resource r, String status) {
            if (status == null || status.isEmpty()) return;
            String statusName = "Status"+status.substring(0, 1).toUpperCase() + status.substring(1);
            r.addProperty(m.getProperty(BDO+"status"), m.getResource(BDR+statusName));
        }
-       
-	public static String getPrefixFromRID(String rid) {
-	    // warning: should be made more reliable
-	    if (rid.startsWith("W")) return WORK_PREFIX;
-	    if (rid.startsWith("T")) return TOPIC_PREFIX;
-	    if (rid.startsWith("P")) return PERSON_PREFIX;
-	    if (rid.startsWith("G")) return PLACE_PREFIX;
-	    if (rid.startsWith("R")) return OFFICE_PREFIX;
-	    if (rid.startsWith("L")) return LINEAGE_PREFIX;
-	    if (rid.startsWith("C")) return CORPORATION_PREFIX;
-	    if (rid.startsWith("O")) return OUTLINE_PREFIX;
-	    throw new IllegalArgumentException("cannot infer prefix from RID "+rid);
-	}
 	
 	// IMPORTANT: we're using canonical BCP47 forms, which means that the
 	// script has an upper case first letter (ex: zh-Latn-pinyin), which
@@ -1046,10 +1015,6 @@ public class CommonMigration  {
 	    }
 	    return words.length > 0;
 	}
-
-	public static void addCurrentString(Element e, String dflt, Model m, Resource r, Property p, boolean addLabel) {
-	    addCurrentString(e, dflt, m, r, p, addLabel, "", r);
-	}
 	
 	public static Literal getLiteral(Element e, String dflt, Model m, String propertyHint, String RID, String subRID) {
 	    return getLiteral(e, dflt, m, propertyHint, RID, subRID, true);
@@ -1074,35 +1039,6 @@ public class CommonMigration  {
 	            }
 	        }
 	        return m.createLiteral(value, tag);
-	}
-	
-	public static void addCurrentString(Element e, String dflt, Model m, Resource r, Property p, boolean addLabel, String propertyHint, Resource main) {
-	    String value = normalizeString(e.getTextContent());
-	    if (value.isEmpty()) return;
-	    String tag = getBCP47(e, dflt, propertyHint, main.getLocalName(), main.getLocalName());
-        if (tag.equals("bo") && !value.isEmpty()) {
-            value = normalizeTibetan(value);
-            if (EwtsConverter.isCombining(value.charAt(0))) {
-                addException(m, r, "Unicode string '"+value+"' starts with combining character");
-            }
-        }
-        Literal l = m.createLiteral(value, tag);
-        m.add(r, p, l);
-        if (addLabel) m.add(r, RDFS.label, l);
-        if (tag.equals(EWTS_TAG)) {
-            List<String> conversionWarnings = new ArrayList<String>();
-            String convertedValue = converter.toUnicode(value, conversionWarnings, true);
-            if (conversionWarnings.size() > 0) {
-                ExceptionHelper.logEwtsException(r.getLocalName(), r.getLocalName(), propertyHint, value, conversionWarnings);
-            } // else {
-//                value = convertedValue;
-//                tag = "bo";
-//            }
-            // we don't convert to unicode anymore
-//            l = m.createLiteral(value, tag);
-//            m.add(r, p, l);
-//            if (addLabel) m.add(r, RDFS.label, l);
-        }
 	}
 	
 	public static boolean documentValidates(Document document, Validator validator) {

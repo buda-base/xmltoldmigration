@@ -39,11 +39,8 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 - check that children cannot contain cycles, Children must be born after the parent, deathDate must be after birthDate ([source](https://www.w3.org/TR/shacl-ucr/#dfn-uc23))
 - pubinfo properties' lang/encoding tags have a difficult history and should be fixed. Some euristics should be found to apply them correctly
 - transfer places marked as provisional, like G9GBX33010...
-- ignore `work/info@parent=*LEGACY` like in W2DB4598
 - check if description@type=content and description@type=summary appear in the same node
 - validate RIDs before making URLs
-- add place and code for FPL library (G1TLMFPL000001)
-- add code to sort log entries, lineageHolders, labels?
 
 
 ## License

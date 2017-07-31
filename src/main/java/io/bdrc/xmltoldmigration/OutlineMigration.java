@@ -20,6 +20,7 @@ public class OutlineMigration {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String TBR = CommonMigration.TBR_PREFIX;
 	private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 
 	public static Map<String,Boolean> ridsToIgnore = new HashMap<>();
@@ -136,7 +137,7 @@ public class OutlineMigration {
                 value = "NoType";
             }
             value = BDR+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
-            m.add(main, m.getProperty(ADM, "outlineType"), m.createResource(value));
+            m.add(main, m.getProperty(TBR, "outlineType"), m.createResource(value));
             
             break; // just reading the first node
         }
@@ -153,7 +154,9 @@ public class OutlineMigration {
         }
         m.add(main, m.getProperty(BDO, "workPagination"), m.createResource(value));
         
-        // if the outline names must really be migrated, do it here
+        // if the outline names must really be migrated, do it here, they would be under
+        // the tbr:outlineName property
+        
 		CommonMigration.addNotes(m, root, mainOutline, OXSDNS);
 		CommonMigration.addExternals(m, root, mainOutline, OXSDNS);
 		CommonMigration.addLog(m, root, mainOutline, OXSDNS);

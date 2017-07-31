@@ -250,13 +250,13 @@ public class PlaceMigration {
 			}
 			Property prop = m.getProperty(BDO+"placeEvent");
 			m.add(main, prop, event);
-			addAffiliations(m, current, event);
+			addAffiliations(m, current, event, main);
 			CommonMigration.addNotes(m, current, event, PLXSDNS);
 			CommonMigration.addDescriptions(m, current, event, PLXSDNS);
 		}
 	}
 	
-	public static void addAffiliations(Model m, Element eventElement, Resource event) throws IllegalArgumentException {
+	public static void addAffiliations(Model m, Element eventElement, Resource event, Resource main) throws IllegalArgumentException {
 		NodeList nodeList = eventElement.getElementsByTagNameNS(PLXSDNS, "affiliation");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
@@ -266,10 +266,10 @@ public class PlaceMigration {
 			String value = current.getAttribute("rid");
 			if (value.isEmpty()) continue;
 			if (!type.equals("placeEventAffiliationTypes:lineage")) {
-			    CommonMigration.addException(m, event, "invalid affiliation type value: `"+type+"` (should be `placeEventAffiliationTypes:lineage`)");
+			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "event/affiliation", "invalid affiliation type value: `"+type+"` (should be `placeEventAffiliationTypes:lineage`)");
 			}
             if (!value.startsWith("lineage:")) {
-                CommonMigration.addException(m, event, "invalid affiliation rid value: `"+value+"` (should be `lineage:`)");
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "event/affiliation", "invalid affiliation rid value: `"+value+"` (should be `lineage:`)");
             } else {
                 if (value.equals("lineage:Kadampa")) value = "lineage:Kadam";
                 if (value.equals("lineage:Shije")) value = "lineage:Zhije";
