@@ -543,6 +543,7 @@ public class CommonMigration  {
 		Resource fplItem = null;
 		String fplId = null;
 		String fplRoom = null;
+		String fplDescription = null;
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
 			String value = current.getTextContent().trim();
@@ -581,6 +582,8 @@ public class CommonMigration  {
 			    if (fplItem == null) {
 			        String workId = r.getLocalName();
 			        fplItem = m.createResource(BDR+"I"+workId.substring(1)+"_002");
+			        fplItem.addProperty(m.getProperty(BDO, "itemForWork"), r);
+			        addStatus(m, fplItem, "released");
 			        fplItem.addProperty(RDF.type, m.getResource(BDO+"ItemPhysicalAsset"));
 			        fplItem.addProperty(m.getProperty(BDO, "itemLibrary"), m.getResource(BDR+FPL_LIBRARY_ID));
 			        r.addProperty(m.getProperty(BDO+"workHasItem"), fplItem);
@@ -599,7 +602,7 @@ public class CommonMigration  {
                     }
                     break;
 			    case "remarks":
-			        fplItem.addProperty(m.getProperty(BDO, "itemPhysicalDescription"), m.createLiteral(value, "en"));
+			        fplDescription = (fplDescription == null) ? value : fplDescription+"\n"+value;
 			        break;
 			    }
 			    continue;
@@ -620,6 +623,13 @@ public class CommonMigration  {
 		if ((fplId == null && fplRoom != null) ||
 		        (fplId != null && fplRoom == null)) {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "description", "types `id` and `room` should both be present");
+		}
+		if (fplDescription != null) {
+		    Resource fplVolume = m.createResource();
+		    fplItem.addProperty(m.getProperty(BDO, "itemHasVolume"), fplVolume);
+		    fplVolume.addProperty(RDF.type, m.getProperty(BDO+"VolumePhysicalAsset"));
+		    fplVolume.addProperty(m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(1, XSDDatatype.XSDpositiveInteger));
+		    fplVolume.addProperty(m.getProperty(BDO, "volumePhysicalDescription"), m.createLiteral(fplDescription, "en"));
 		}
 	}
 	
@@ -666,7 +676,6 @@ public class CommonMigration  {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "title", "unknown title type `"+type+"` correctly");
                     uri = BDO+"WorkBibliographicalTitle";
                 }
-                Property prop = m.getProperty(uri);
                 Resource node = typeNodes.get(uri);
                 if (node == null) {
                     node = m.createResource();

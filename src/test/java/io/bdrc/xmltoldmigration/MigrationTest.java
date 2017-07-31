@@ -161,6 +161,34 @@ public class MigrationTest
     public void testG844() throws JsonGenerationException, JsonLdError, IOException
     {
 	    System.out.println("testing G844");
+	    String jsonld = "{\n" + 
+	            "  \"@context\": {\n" + 
+	            "    \"rdfs\": \"http://www.w3.org/2000/01/rdf-schema#\"\n" + 
+	            "  },\n" + 
+	            "  \"@id\": \"http://www.myresource/uuid\",\n" + 
+	            "  \"@type\": \"http://www.myresource/uuidtype\",\n" + 
+	            "  \"http://www.myresource.com/ontology/1.0#talksAbout\": [\n" + 
+	            "    {\n" + 
+	            "      \"rdfs:label\": [\n" + 
+	            "        {\n" + 
+	            "          \"@value\": \"Basketball\",\n" + 
+	            "          \"@language\": \"en\"\n" + 
+	            "        }\n" + 
+	            "      ]\n" + 
+	            "    }\n" + 
+	            "  ]\n" + 
+	            "}";
+	    String frame = "{\n" + 
+	            "  \"@context\": {},\n" + 
+	            "  \"@type\": \"http://www.myresource/uuidtype\"\n" + 
+	            "}";
+	    Object jsonObject = JsonUtils.fromString(jsonld);
+	    Object res = JsonLdProcessor.frame(jsonObject,  
+	            JsonUtils.fromString(frame), new JsonLdOptions());
+	    System.out.println("Framed:\n"+JsonUtils.toPrettyString(res)+"\n\n");
+	    res = JsonLdProcessor.compact(jsonObject, new HashMap<String,String>(), new JsonLdOptions());
+	    System.out.println("Compacted:\n"+JsonUtils.toPrettyString(res)+"\n\n");
+	    
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
     	Validator validator = MigrationHelpers.getValidatorFor("place");
         assertFalse(CommonMigration.documentValidates(d, validator));
