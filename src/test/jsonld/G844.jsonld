@@ -21,32 +21,6 @@
       "@id" : "_:b8",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "added location"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-01-06T14:22:58.026Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U7"
-      }
-    }, {
-      "@id" : "_:b10",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added place contained"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-05-29T12:18:47.035Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U20"
-      }
-    }, {
-      "@id" : "_:b0",
-      "admin/logMessage" : {
-        "@language" : "en",
         "@value" : "added name & note"
       },
       "admin/logWhen" : {
@@ -57,20 +31,33 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b11",
+      "@id" : "_:b10",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added location"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-01-06T14:22:58.026Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U7"
+      }
+    }, {
+      "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added contain"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2013-02-25T16:44:50.079Z"
+        "@value" : "2012-10-12T12:21:11.602Z"
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b12",
+      "@id" : "_:b9",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added type & location & contains"
@@ -83,7 +70,20 @@
         "@id" : "bdr:U7"
       }
     }, {
-      "@id" : "_:b6",
+      "@id" : "_:b13",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added place contained"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-05-29T12:18:47.035Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U20"
+      }
+    }, {
+      "@id" : "_:b2",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "type changed from traditionalPlaceName to srolRgyunGyiSaMing"
@@ -96,7 +96,7 @@
         "@id" : "bdr:U20"
       }
     }, {
-      "@id" : "_:b5",
+      "@id" : "_:b3",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added byams pa chos gling gzhis ka'i par khang"
@@ -109,14 +109,14 @@
         "@id" : "bdr:U13"
       }
     }, {
-      "@id" : "_:b9",
+      "@id" : "_:b5",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added contain"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2012-10-12T12:21:11.602Z"
+        "@value" : "2013-02-25T16:44:50.079Z"
       },
       "admin/logWho" : {
         "@id" : "bdr:U7"
@@ -143,7 +143,7 @@
     "admin/place_town_ch" : "蔡公堂乡",
     "admin/place_town_syl" : "Cai Gong Tang Xiang",
     "note" : [ {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
       "noteLocationStatement" : "p.1467-1468",
       "noteText" : {
         "@language" : "en",
@@ -153,14 +153,14 @@
         "@id" : "bdr:W26372"
       }
     }, {
-      "@id" : "_:b7",
+      "@id" : "_:b4",
       "noteText" : {
         "@language" : "en",
         "@value" : "the region of the rulers of the bya principality in southern tibet"
       }
     } ],
     "placeAddress" : {
-      "@id" : "_:b2",
+      "@id" : "_:b11",
       "vcard:country-name" : "India",
       "vcard:locality" : "Chauntra",
       "vcard:postal-code" : "175032",
@@ -182,15 +182,14 @@
       "@id" : "bdr:G1183"
     } ],
     "placeEvent" : [ {
-      "@id" : "_:b13",
-      "onOrAbout" : "13uu/17uu",
-      "placeEventType" : {
-        "@id" : "bdr:PlaceFounded"
-      }
+      "@id" : "_:b12",
+      "@type" : "PlaceFounded",
+      "onOrAbout" : "13uu/17uu"
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b6",
+      "@type" : "PlaceFounded",
       "note" : {
-        "@id" : "_:b4",
+        "@id" : "_:b7",
         "noteLocationStatement" : "test",
         "noteText" : {
           "@language" : "en",
@@ -205,10 +204,7 @@
         "@id" : "bdr:TraditionTest"
       }, {
         "@id" : "bdr:TraditionKagyu"
-      } ],
-      "placeEventType" : {
-        "@id" : "bdr:PlaceFounded"
-      }
+      } ]
     } ],
     "placeGonpaPerEcumen" : "7.51",
     "placeLat" : "29.63984",

@@ -26,7 +26,7 @@ public class PlaceMigration {
         case "simple":
             return BDO+"place"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "eventType":
-            return BDR+"Place"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+            return BDO+"Place"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         default:
                return "";
         }
@@ -235,7 +235,7 @@ public class PlaceMigration {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
 			if (value.isEmpty()) {
-			    value = BDR+"PlaceEventTypeNotSpecified";
+			    value = BDO+"PlaceEventTypeNotSpecified";
 			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "event", "missing type for an event");
 	        } else {
 	            // should start with "placeEventTypes:"
@@ -243,7 +243,7 @@ public class PlaceMigration {
 	            value = getUriFromTypeSubtype("eventType", value);
 	        }
 			Resource event = m.createResource();
-			m.add(event, m.getProperty(BDO, "placeEventType"), m.getResource(value));
+			m.add(event, RDF.type, m.getResource(value));
 			value = current.getAttribute("circa").trim();
 			if (!value.isEmpty()) {
 				m.add(event, m.createProperty(BDO+"onOrAbout"), m.createLiteral(value));

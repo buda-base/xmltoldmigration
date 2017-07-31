@@ -28,7 +28,7 @@ public class PersonMigration {
         case "gender":
             return BDR+"Gender"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "event":
-            return BDR+"PersonEvent"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+            return BDO+"PersonEvent"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "incarnationOf":
             return BDR+"IncarnationType"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "kin":
@@ -244,7 +244,7 @@ public class PersonMigration {
 		    typeValue = "NotSpecified";
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, person.getLocalName(), person.getLocalName(), "event", "missing type");
 		}
-		m.add(subResource, m.getProperty(BDO+"personEventType"), 
+		m.add(subResource, RDF.type, 
 		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
 		String circa = CommonMigration.normalizeString(e.getAttribute("circa"));
 		if (!circa.isEmpty()) {
@@ -294,7 +294,7 @@ public class PersonMigration {
 	public static void addSeat(Model m, Resource person, Element e) {
         Resource subResource = m.createResource();
         m.add(person, m.getProperty(BDO+"personEvent"), subResource);
-        m.add(subResource, m.getProperty(BDO+"personEventType"), 
+        m.add(subResource, RDF.type, 
                 m.createProperty(getUriFromTypeSubtype("event", "occupiesSeat")));
         String circa = CommonMigration.normalizeString(e.getAttribute("circa"));
         if (circa != null && !circa.isEmpty()) {

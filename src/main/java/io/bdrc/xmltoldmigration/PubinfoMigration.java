@@ -132,8 +132,8 @@ public class PubinfoMigration {
             Element current = (Element) nodeList.item(i);
             String itemUri = BDR+"I"+main.getLocalName().substring(1)+"_00"+(i+2);
             Resource holding = m.createResource(itemUri);
-            //m.add(holding, RDF.type, m.getResource(BDO+"Holding"));
-            m.add(main, m.createProperty(BDO, "workHasHolding"), holding);
+            m.add(holding, RDF.type, m.getResource(BDO+"ItemPhysicalAsset"));
+            m.add(main, m.createProperty(BDO, "workHasItem"), holding);
             
             addSimpleElement("exception", BDO+"itemException", CommonMigration.EWTS_TAG, current, m, holding);
             String value;

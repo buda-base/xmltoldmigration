@@ -3,6 +3,19 @@
     "@id" : "bdr:W12837",
     "@type" : "Work",
     "admin/logEntry" : [ {
+      "@id" : "_:b2",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added print type and source printery"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T12:06:57.572Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U13"
+      }
+    }, {
       "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
@@ -17,19 +30,6 @@
       }
     }, {
       "@id" : "_:b0",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added print type and source printery"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T12:06:57.572Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U13"
-      }
-    }, {
-      "@id" : "_:b2",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added hollis field to pub info"
@@ -53,8 +53,9 @@
     },
     "workEncoding" : "In Tibetan",
     "workExtentStatement" : "177 ff.",
-    "workHasHolding" : {
+    "workHasItem" : {
       "@id" : "bdr:I12837_002",
+      "@type" : "ItemPhysicalAsset",
       "itemCopies" : "1",
       "itemException" : {
         "@language" : "bo-latn-x-ewts",

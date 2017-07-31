@@ -21,36 +21,32 @@
       }
     },
     "personEvent" : [ {
-      "@id" : "_:b0",
+      "@id" : "bdr:E7285",
+      "@type" : "PersonEventDeath",
+      "onOrAbout" : "1322"
+    }, {
+      "@id" : "_:b3",
+      "@type" : "PersonEventOccupiesSeat",
       "personEventPlace" : {
         "@id" : "bdr:G844"
-      },
-      "personEventType" : {
-        "@id" : "bdr:PersonEventOccupiesSeat"
-      }
-    }, {
-      "@id" : "bdr:E7285",
-      "onOrAbout" : "1322",
-      "personEventType" : {
-        "@id" : "bdr:PersonEventDeath"
       }
     } ],
     "personGender" : {
       "@id" : "bdr:GenderMale"
     },
     "personName" : [ {
+      "@id" : "_:b0",
+      "@type" : "PersonPrimaryTitle",
+      "rdfs:label" : {
+        "@language" : "bo-latn-x-ewts",
+        "@value" : "bya yul blo bzang rnam dag"
+      }
+    }, {
       "@id" : "_:b2",
       "@type" : "PersonPrimaryName",
       "rdfs:label" : {
         "@language" : "bo-latn-x-ewts",
         "@value" : "blo gros rnam dag"
-      }
-    }, {
-      "@id" : "_:b3",
-      "@type" : "PersonPrimaryTitle",
-      "rdfs:label" : {
-        "@language" : "bo-latn-x-ewts",
-        "@value" : "bya yul blo bzang rnam dag"
       }
     } ],
     "personTeacherOf" : {
@@ -66,6 +62,7 @@
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "skos" : "http://www.w3.org/2004/02/skos/core#"
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "vcard" : "http://www.w3.org/2006/vcard/ns#"
   }
 }
