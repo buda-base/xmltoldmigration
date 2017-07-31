@@ -226,7 +226,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
            //showDifference(fromXml, correctModel);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );

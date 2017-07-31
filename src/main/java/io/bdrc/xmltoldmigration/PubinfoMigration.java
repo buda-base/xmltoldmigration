@@ -135,18 +135,18 @@ public class PubinfoMigration {
             //m.add(holding, RDF.type, m.getResource(BDO+"Holding"));
             m.add(main, m.createProperty(BDO, "workHasHolding"), holding);
             
-            addSimpleElement("exception", BDO+"itemHoldingException", CommonMigration.EWTS_TAG, current, m, holding);
+            addSimpleElement("exception", BDO+"itemException", CommonMigration.EWTS_TAG, current, m, holding);
             String value;
             NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getTextContent().trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "itemHoldingShelf"), m.createLiteral(value));
+                    m.add(holding, m.createProperty(BDO, "itemShelf"), m.createLiteral(value));
                 
                 value = subCurrent.getAttribute("copies").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "itemHoldingCopies"), m.createLiteral(value));
+                    m.add(holding, m.createProperty(BDO, "itemCopies"), m.createLiteral(value));
             }
             
             subNodeList = root.getElementsByTagNameNS(WPXSDNS, "library");

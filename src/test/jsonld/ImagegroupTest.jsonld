@@ -1,9 +1,9 @@
 {
   "@graph" : [ {
-    "@id" : "bdr:TestVolumes",
-    "@type" : "Item",
+    "@id" : "bdr:TestItem",
+    "@type" : "ItemImageAsset",
     "admin/logEntry" : [ {
-      "@id" : "_:b3",
+      "@id" : "_:b2",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "Updated total pages and added page list"
@@ -16,7 +16,7 @@
         "@id" : "bdr:U6"
       }
     }, {
-      "@id" : "_:b1",
+      "@id" : "_:b3",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "Added ondisk"
@@ -29,7 +29,7 @@
         "@id" : "bdr:U6"
       }
     }, {
-      "@id" : "_:b4",
+      "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "Updated total pages"
@@ -56,7 +56,7 @@
       }
     } ],
     "itemHasVolume" : {
-      "@id" : "_:b2",
+      "@id" : "_:b4",
       "admin/volumeQcDate" : "12/03",
       "admin/volumeQcNote" : "qc notes",
       "admin/volumeQcPerson" : "khedup",
@@ -91,6 +91,8 @@
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
-    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "vcard" : "http://www.w3.org/2006/vcard/ns#"
   }
 }

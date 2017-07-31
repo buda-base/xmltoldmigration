@@ -3,19 +3,6 @@
     "@id" : "bdr:W12837",
     "@type" : "Work",
     "admin/logEntry" : [ {
-      "@id" : "_:b0",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "added print type and source printery"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-02-05T12:06:57.572Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U13"
-      }
-    }, {
       "@id" : "_:b1",
       "admin/logMessage" : {
         "@language" : "en",
@@ -27,6 +14,19 @@
       },
       "admin/logWho" : {
         "@id" : "bdr:U12"
+      }
+    }, {
+      "@id" : "_:b0",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "added print type and source printery"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-02-05T12:06:57.572Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U13"
       }
     }, {
       "@id" : "_:b2",
@@ -55,16 +55,15 @@
     "workExtentStatement" : "177 ff.",
     "workHasHolding" : {
       "@id" : "bdr:I12837_002",
-      "holding_code" : "TGA",
-      "itemHoldingCopies" : "1",
-      "itemHoldingException" : {
+      "itemCopies" : "1",
+      "itemException" : {
         "@language" : "bo-latn-x-ewts",
         "@value" : "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"
       },
-      "itemHoldingShelf" : "ཇ|ཇ|༣||001278",
       "itemLibrary" : {
         "@id" : "bdr:G1TLMTGA000001"
-      }
+      },
+      "itemShelf" : "ཇ|ཇ|༣||001278"
     },
     "workHasSourcePrintery" : {
       "@id" : "bdr:G1PD129184"

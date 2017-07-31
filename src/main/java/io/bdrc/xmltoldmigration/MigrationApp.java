@@ -24,8 +24,7 @@ public class MigrationApp
     // extract tbrc/ folder of exist-db backup here:
     public static String DATA_DIR = "tbrc/";
     public static String OUTPUT_DIR = "tbrc-jsonld/";
-    public static final String WP = CommonMigration.WORK_PREFIX;
-    public static final String VP = CommonMigration.VOLUMES_PREFIX;
+
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     
@@ -69,8 +68,8 @@ public class MigrationApp
         String baseName = fileName.substring(0, fileName.length()-4);
         String outfileName = baseName+".jsonld";
         outfileName = OUTPUT_DIR+type+"s/"+outfileName;
-        Resource volumes;
-        Model volumesModel;
+        Resource item;
+        Model itemModel;
         switch(type) {
         case SCANREQUEST:
             Document srd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -82,11 +81,11 @@ public class MigrationApp
                 //System.err.println("ignoring scan request for unreleased "+workId);
                 return;
             }
-            volumesModel = MigrationHelpers.modelFromFileName(volumesFileName);
-            if (volumesModel == null) return;
-            volumes = volumesModel.getResource(VP+"V"+workId.substring(1));
-            volumesModel = ScanrequestMigration.MigrateScanrequest(srd, volumesModel, volumes);
-            MigrationHelpers.modelToFileName(volumesModel, volumesFileName, ITEMS, true);
+            itemModel = MigrationHelpers.modelFromFileName(volumesFileName);
+            if (itemModel == null) return;
+            item = itemModel.getResource(BDR+"I"+workId.substring(1)+"_001");
+            itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
+            MigrationHelpers.modelToFileName(itemModel, volumesFileName, ITEMS, true);
             break;
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -103,24 +102,24 @@ public class MigrationApp
             // migrate volumes
             Map<String,String> vols = WorkMigration.getImageGroupList(d);
             if (vols.size() > 0) {
-                volumesModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(volumesModel);
-                String volumesName = "I"+baseName.substring(1)+"_001";
-                volumes = volumesModel.createResource(BDR+volumesName);
-                volumesModel.add(volumes, RDF.type, volumesModel.createResource(BDR + "Item"));
+                itemModel = ModelFactory.createDefaultModel();
+                CommonMigration.setPrefixes(itemModel);
+                String itemName = "I"+baseName.substring(1)+"_001";
+                item = itemModel.createResource(BDR+itemName);
+                itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
                 for (Map.Entry<String,String> vol : vols.entrySet()) {
                     String imagegroup = vol.getKey();
                     String imagegroupFileName = DATA_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
                     File imagegroupFile = new File(imagegroupFileName);
                     if (!imagegroupFile.exists()) {
-                        CommonMigration.addException(volumesModel, volumes, "image group "+imagegroupFileName+" referenced but absent from database");
+                        CommonMigration.addException(itemModel, item, "image group "+imagegroupFileName+" referenced but absent from database");
                         continue;
                     }
                     d = MigrationHelpers.documentFromFileName(imagegroupFileName);
-                    ImagegroupMigration.MigrateImagegroup(d, volumesModel, volumes, imagegroup, vol.getValue(), volumesName);
+                    ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getValue(), itemName);
                 }
-                String volOutfileName = OUTPUT_DIR+VOLUMES+"/"+volumesName+".jsonld";
-                MigrationHelpers.modelToFileName(volumesModel, volOutfileName, "volumes", true);
+                String volOutfileName = OUTPUT_DIR+ITEMS+"/"+itemName+".jsonld";
+                MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", true);
             }
             
             // migrate pubinfo

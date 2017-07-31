@@ -10,7 +10,38 @@
     "@id" : "bdr:L8LS14115",
     "@type" : "Lineage",
     "admin/logEntry" : [ {
-      "@id" : "_:b11",
+      "@id" : "_:b10",
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2013-07-17T10:49:42.963Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U19"
+      }
+    }, {
+      "@id" : "_:b8",
+      "admin/logMessage" : {
+        "@language" : "en",
+        "@value" : "normalized names of who and received elements"
+      },
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T21:20:44.974Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U6"
+      }
+    }, {
+      "@id" : "_:b7",
+      "admin/logWhen" : {
+        "@type" : "xsd:dateTime",
+        "@value" : "2014-07-28T11:30:18.879Z"
+      },
+      "admin/logWho" : {
+        "@id" : "bdr:U19"
+      }
+    }, {
+      "@id" : "_:b12",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "added location"
@@ -23,38 +54,7 @@
         "@id" : "bdr:U19"
       }
     }, {
-      "@id" : "_:b9",
-      "admin/logMessage" : {
-        "@language" : "en",
-        "@value" : "normalized names of who and received elements - yet again"
-      },
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-29T16:42:13.479Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U6"
-      }
-    }, {
-      "@id" : "_:b7",
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2013-07-17T10:49:42.963Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U19"
-      }
-    }, {
-      "@id" : "_:b12",
-      "admin/logWhen" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T11:30:18.879Z"
-      },
-      "admin/logWho" : {
-        "@id" : "bdr:U19"
-      }
-    }, {
-      "@id" : "_:b8",
+      "@id" : "_:b3",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "changed type"
@@ -67,29 +67,29 @@
         "@id" : "bdr:U19"
       }
     }, {
-      "@id" : "_:b3",
+      "@id" : "_:b4",
       "admin/logMessage" : {
         "@language" : "en",
-        "@value" : "normalized names of who and received elements"
+        "@value" : "normalized names of who and received elements - yet again"
       },
       "admin/logWhen" : {
         "@type" : "xsd:dateTime",
-        "@value" : "2014-07-28T21:20:44.974Z"
+        "@value" : "2014-07-29T16:42:13.479Z"
       },
       "admin/logWho" : {
         "@id" : "bdr:U6"
       }
     } ],
     "lineageAltnernative" : {
-      "@id" : "_:b10",
+      "@id" : "_:b0",
       "lineageHolder" : {
-        "@id" : "_:b5",
+        "@id" : "_:b1",
         "@type" : "LineageHolder",
         "lineageDownFrom" : {
           "@id" : "bdr:L8LS15610"
         },
         "lineageReceived" : {
-          "@id" : "_:b6",
+          "@id" : "_:b2",
           "lineageFrom" : {
             "@id" : "bdr:P8LS15618"
           },
@@ -106,10 +106,19 @@
       }
     },
     "lineageHolder" : [ {
-      "@id" : "_:b1",
+      "@id" : "_:b9",
+      "@type" : "LineageHolder",
+      "lineageDownTo" : {
+        "@id" : "bdr:L8LS15728"
+      },
+      "lineageWho" : {
+        "@id" : "bdr:P1132"
+      }
+    }, {
+      "@id" : "_:b11",
       "@type" : "LineageHolder",
       "lineageReceived" : {
-        "@id" : "_:b2",
+        "@id" : "_:b5",
         "lineageFrom" : {
           "@id" : "bdr:P1132"
         },
@@ -117,15 +126,6 @@
       },
       "lineageWho" : {
         "@id" : "bdr:P1040"
-      }
-    }, {
-      "@id" : "_:b4",
-      "@type" : "LineageHolder",
-      "lineageDownTo" : {
-        "@id" : "bdr:L8LS15728"
-      },
-      "lineageWho" : {
-        "@id" : "bdr:P1132"
       }
     } ],
     "lineageObject" : {
@@ -142,7 +142,7 @@
       "@value" : "initiation transmission of clear light blessing of rakta yamari"
     },
     "workLocation" : {
-      "@id" : "_:b0",
+      "@id" : "_:b6",
       "workLocationPage" : {
         "@type" : "xsd:positiveInteger",
         "@value" : "236"
@@ -151,7 +151,7 @@
         "@type" : "xsd:positiveInteger",
         "@value" : "1"
       },
-      "workdLocationWork" : {
+      "workLocationWork" : {
         "@id" : "bdr:W1PD107937"
       }
     }
@@ -165,6 +165,7 @@
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "skos" : "http://www.w3.org/2004/02/skos/core#"
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "vcard" : "http://www.w3.org/2006/vcard/ns#"
   }
 }

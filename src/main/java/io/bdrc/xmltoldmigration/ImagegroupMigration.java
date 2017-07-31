@@ -24,7 +24,7 @@ public class ImagegroupMigration {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m);
         Resource item = m.createResource(BDR+"TestItem");
-        m.add(item, RDF.type, m.getResource(BDO+"Item"));
+        m.add(item, RDF.type, m.getResource(BDO+"ItemImageAsset"));
         MigrateImagegroup(xmlDocument, m, item, "testItem", "1", "testItem");
         return m;
 	}
