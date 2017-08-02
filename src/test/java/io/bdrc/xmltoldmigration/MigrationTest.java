@@ -2,6 +2,12 @@ package io.bdrc.xmltoldmigration;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -69,21 +75,6 @@ public class MigrationTest
         System.out.println(minus.toString());
 	}
 	
-	@Test
-    public void testP1331()
-    {
-	    System.out.println("testing P1331");
-    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1331.xml");
-    	Validator validator = MigrationHelpers.getValidatorFor("person");
-		assertTrue(CommonMigration.documentValidates(d, validator));
-    	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
-    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1331.jsonld");
-    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
-        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-        flushLog();
-    }
-	
 	public String toUnicode(String s, List<String>conversionWarnings) {
 	    String convertedValue = converter.toUnicode(s, conversionWarnings, true);
 	    System.out.println("converting \""+s+"\" into "+convertedValue);
@@ -142,6 +133,62 @@ public class MigrationTest
 	    assertTrue(CommonMigration.normalizeString(allWhiteSpaces).equals("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27"));
 	}
 	
+   @Test
+   public void testSortList() {
+       // sort by URI
+       Model m = ModelFactory.createDefaultModel();
+       RDFList testList = m.createList(new RDFNode[] {});
+       testList = testList.with(m.createResource("http://example.com/2").
+               addProperty(RDF.type, m.getResource("http://example.com/type1")));
+       testList = testList.with(m.createResource("http://example.com/1").
+               addProperty(RDF.type, m.getResource("http://example.com/type2")));
+       testList = CommonMigration.getSortedList(testList);
+       assertTrue(testList.isValid());
+       assertTrue(testList.size() == 2);
+       assertTrue(testList.get(0).asResource().getURI() == "http://example.com/1");
+       // sort by string comparison (no lang)
+       m = ModelFactory.createDefaultModel();
+       testList = m.createList(new RDFNode[] {});
+       testList = testList.with(m.createResource().
+               addProperty(RDFS.label, m.createLiteral("bca")));
+       testList = testList.with(m.createResource().
+               addProperty(RDFS.label, m.createLiteral("abc")));
+       testList = CommonMigration.getSortedList(testList);
+       assertTrue(testList.get(0).asResource().getProperty(RDFS.label).getLiteral().getLexicalForm().equals("abc"));
+       m = ModelFactory.createDefaultModel();
+       testList = m.createList(new RDFNode[] {});
+       testList = testList.with(m.createResource().
+               addProperty(RDFS.label, m.createLiteral("abc", "en")));
+       testList = testList.with(m.createResource().
+               addProperty(RDFS.label, m.createLiteral("bca", "bo")));
+       testList = CommonMigration.getSortedList(testList);
+       assertTrue(testList.get(0).asResource().getProperty(RDFS.label).getLiteral().getLexicalForm().equals("bca"));
+       m = ModelFactory.createDefaultModel();
+       Property logWhen = m.getProperty(CommonMigration.ADM, "logWhen");
+       testList = m.createList(new RDFNode[] {});
+       testList = testList.with(m.createResource().
+               addProperty(logWhen, CommonMigration.literalFromXsdDate(m, "2013-04-01T09:36:07.005Z")));
+       testList = testList.with(m.createResource().
+               addProperty(logWhen, CommonMigration.literalFromXsdDate(m, "2013-04-01T09:36:06.005Z")));
+       testList = CommonMigration.getSortedList(testList);
+       assertTrue(testList.get(0).asResource().getProperty(logWhen).getLiteral().getLexicalForm().equals("2013-04-01T09:36:06.005Z"));
+    }
+	
+   @Test
+    public void testP1331()
+    {
+        System.out.println("testing P1331");
+        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1331.xml");
+        Validator validator = MigrationHelpers.getValidatorFor("person");
+        assertTrue(CommonMigration.documentValidates(d, validator));
+        Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/P1331.jsonld");
+        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", true);
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
+    }
+	
 	@Test
     public void testP1583()
     {
@@ -161,34 +208,6 @@ public class MigrationTest
     public void testG844() throws JsonGenerationException, JsonLdError, IOException
     {
 	    System.out.println("testing G844");
-	    String jsonld = "{\n" + 
-	            "  \"@context\": {\n" + 
-	            "    \"rdfs\": \"http://www.w3.org/2000/01/rdf-schema#\"\n" + 
-	            "  },\n" + 
-	            "  \"@id\": \"http://www.myresource/uuid\",\n" + 
-	            "  \"@type\": \"http://www.myresource/uuidtype\",\n" + 
-	            "  \"http://www.myresource.com/ontology/1.0#talksAbout\": [\n" + 
-	            "    {\n" + 
-	            "      \"rdfs:label\": [\n" + 
-	            "        {\n" + 
-	            "          \"@value\": \"Basketball\",\n" + 
-	            "          \"@language\": \"en\"\n" + 
-	            "        }\n" + 
-	            "      ]\n" + 
-	            "    }\n" + 
-	            "  ]\n" + 
-	            "}";
-	    String frame = "{\n" + 
-	            "  \"@context\": {},\n" + 
-	            "  \"@type\": \"http://www.myresource/uuidtype\"\n" + 
-	            "}";
-	    Object jsonObject = JsonUtils.fromString(jsonld);
-	    Object res = JsonLdProcessor.frame(jsonObject,  
-	            JsonUtils.fromString(frame), new JsonLdOptions());
-	    System.out.println("Framed:\n"+JsonUtils.toPrettyString(res)+"\n\n");
-	    res = JsonLdProcessor.compact(jsonObject, new HashMap<String,String>(), new JsonLdOptions());
-	    System.out.println("Compacted:\n"+JsonUtils.toPrettyString(res)+"\n\n");
-	    
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
     	Validator validator = MigrationHelpers.getValidatorFor("place");
         assertFalse(CommonMigration.documentValidates(d, validator));

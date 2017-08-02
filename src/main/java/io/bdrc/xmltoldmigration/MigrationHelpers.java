@@ -285,6 +285,7 @@ public class MigrationHelpers {
 	    if (m==null) 
 	        throw new IllegalArgumentException("null model returned");
 	    if (out == null && !usecouchdb) return;
+	    //m.write(out, "TURTLE");
 		JsonLDWriteContext ctx = new JsonLDWriteContext();
 		JSONLDVariant variant;
 		if (frame) {

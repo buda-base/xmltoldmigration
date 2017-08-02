@@ -3,6 +3,7 @@ package io.bdrc.xmltoldmigration;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.OWL2;
@@ -70,6 +73,8 @@ public class CommonMigration  {
 	public static final EwtsConverter converter = new EwtsConverter();
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
+    
+    public static final BDRCNodeComparator bdrcNodeCompartor = new BDRCNodeComparator(); 
     
     public static final Map<String, String> logWhoToUri = new HashMap<>();
     static {
@@ -210,6 +215,16 @@ public class CommonMigration  {
                 +"\"skos\" : \""+SKOS_PREFIX+"\","
                 +"\"vcard\" : \""+VCARD_PREFIX+"\""
 			    +"}";
+	}
+	
+	public static RDFList getSortedList(RDFList l) {
+	    if (l == null) return null;
+	    Model m = l.getModel();
+	    List<RDFNode> jl = l.asJavaList();
+	    Collections.sort(jl, bdrcNodeCompartor);
+	    l.removeList();
+	    RDFList res = m.createList(jl.iterator());
+	    return res;
 	}
 	
 	public static Literal getLitFromUri(Model m, String uri) {
@@ -443,12 +458,11 @@ public class CommonMigration  {
 		return m.createTypedLiteral(dateTime);
 	}
 	
-	public static void addLogEntry(Model m, Element e, Resource r) {
-		if (e == null) return;
+	public static RDFList addLogEntry(Model m, Element e, Resource r, RDFList list) {
+		if (e == null) return list;
 		Resource logEntry = m.createResource();
 		//m.add(logEntry, RDF.type, m.getProperty(BDO+"LogEntry"));
 		Property prop = m.getProperty(ADM, "logEntry");
-		m.add(r, prop, logEntry);
 		String value = e.getAttribute("when");
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ADM+"logWhen");
@@ -473,23 +487,28 @@ public class CommonMigration  {
 			prop = m.createProperty(ADM+"logMessage");
 			m.add(logEntry, prop, m.createLiteral(value, "en"));
 		}
+		return list.cons(logEntry);
 		
 	}
 	
 	public static void addLog(Model m, Element e, Resource r, String XsdPrefix) {
 		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "log");
+		RDFList list = m.createList(new RDFNode[] {});
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element log = (Element) nodeList.item(i);
 			NodeList logEntriesList = log.getElementsByTagNameNS(XsdPrefix, "entry");
 			for (int j = 0; j < logEntriesList.getLength(); j++) {
 				Element logEntry = (Element) logEntriesList.item(j);
-				addLogEntry(m, logEntry, r);
+				list = addLogEntry(m, logEntry, r, list);
 			}
 			logEntriesList = log.getElementsByTagName("entry");
 			for (int k = 0; k < logEntriesList.getLength(); k++) {
 				Element logEntry = (Element) logEntriesList.item(k);
-				addLogEntry(m, logEntry, r);
+				list = addLogEntry(m, logEntry, r, list);
 			}
+		}
+		if (!list.isEmpty()) {
+		    r.addProperty(m.getProperty(ADM, "logEntry"), list);
 		}
 	}
 	
