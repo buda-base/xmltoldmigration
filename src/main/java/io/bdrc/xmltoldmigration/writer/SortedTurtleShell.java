@@ -3,7 +3,6 @@ package io.bdrc.xmltoldmigration.writer;
 import org.apache.jena.atlas.io.IndentedWriter;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.riot.system.PrefixMap;
-import org.apache.jena.riot.writer.TurtleShell;
 import org.apache.jena.sparql.util.Context;
 
 
