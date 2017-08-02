@@ -24,6 +24,7 @@ public class OutlineMigration {
 	private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 
 	public static Map<String,Boolean> ridsToIgnore = new HashMap<>();
+	public static Map<String,String> ridsToConvert = new HashMap<>();
 	static {
         ridsToIgnore.put("O2MS4765", true);
         ridsToIgnore.put("O2MS5129", true);
@@ -90,7 +91,31 @@ public class OutlineMigration {
         ridsToIgnore.put("O5TAX001", true);
         ridsToIgnore.put("O5TAX008", true);
         ridsToIgnore.put("O4JW5431", true);
+
+        ridsToConvert.put("O1AT3081AT374", null);
+        ridsToConvert.put("O1AT3081AT380", null);
+        ridsToConvert.put("O1GS392481GS39291", null);
+        ridsToConvert.put("O1JM31JM426", null);
+        ridsToConvert.put("O1KG40841KG4095", null);
+        ridsToConvert.put("O1KG40841KG4096", null);
+        ridsToConvert.put("O1KG40841KG4140", null);
+        ridsToConvert.put("O1KG40841KG4141", null);
+        ridsToConvert.put("O1KG40841KG4142", null);
+        ridsToConvert.put("O1KG40841KG4144", null);
+        ridsToConvert.put("O1KG40841KG4145", null);
+        ridsToConvert.put("O1KG40841KG4146", null);
+        ridsToConvert.put("O1KG40841KG4147", null);
+        ridsToConvert.put("O1LS50811LS5085", null);
+        ridsToConvert.put("O1LS50811LS5178", null);
+        ridsToConvert.put("O1LS50811LS5313", null);
+        ridsToConvert.put("O1LS50811LS5314", null);
+        ridsToConvert.put("O2DB1024292DB102465", null);
+        ridsToConvert.put("O2DB1024292DB102470", null);
+        ridsToConvert.put("O2JT38952JT7614", null);
+        ridsToConvert.put("O3LS125373LS13489", null);
 	}
+	
+	
 	
 	static class CurNodeInt{
 	    public int i = 0;
@@ -190,6 +215,9 @@ LocationVolPage previousLocVP) {
         String RID = e.getAttribute("RID").trim();
         if (!value.isEmpty()) {
             node.addProperty(m.getProperty(ADM, "workLegacyNode"), RID);
+            if (ridsToConvert.containsKey(RID)) {
+                ridsToConvert.put(RID, workId+"_"+value);
+            }
         }
         value = e.getAttribute("type");
         if (value.isEmpty()) {

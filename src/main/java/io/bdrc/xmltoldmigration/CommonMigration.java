@@ -428,6 +428,8 @@ public class CommonMigration  {
         if (i > 0) {
             res = res.substring(i+1);
         }
+        String newRID = OutlineMigration.ridsToConvert.get(res);
+        if (newRID != null) return newRID;
         return res;
     }
 	
