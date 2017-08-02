@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
+import java.text.Collator;
 import java.util.Comparator;
 
 import org.apache.jena.rdf.model.Literal;
@@ -13,6 +14,13 @@ import org.apache.jena.vocabulary.RDFS;
 
 public class BDRCNodeComparator implements Comparator<RDFNode> {
 
+    public static Collator collator = Collator.getInstance(); // root locale
+    
+    public int compareStrings(String s0, String s1, String lang) {
+        // maybe we want to use bo collation for tibetan strings, maybe not...
+        return collator.compare(s0, s1);
+    }
+    
     public int compareLiterals(Literal l0, Literal l1) {
         final String lang0 = l0.getLanguage();
         int res;
@@ -23,7 +31,7 @@ public class BDRCNodeComparator implements Comparator<RDFNode> {
         Object o0 = l0.getValue();
         Object o1 = l1.getValue();
         if (o0 instanceof String) {
-            return ((String) o0).compareTo(o1.toString());
+            return compareStrings((String) o0, (String) o1, lang0);
         }
         // compares dates and numbers
         return Util.compareTypedLiterals(l0.asNode(), l1.asNode());
@@ -62,7 +70,13 @@ public class BDRCNodeComparator implements Comparator<RDFNode> {
         res = compareProperties(r0, r1, RDFS.label);
         if (res != 0) return res;
         // if no label, the only case is log entries, sorted by logWhen
-        return compareProperties(r0, r1, r0.getModel().getProperty(CommonMigration.ADM, "logWhen"));
+        res = compareProperties(r0, r1, r0.getModel().getProperty(CommonMigration.ADM, "logWhen"));
+        if (res != 0) return res;
+        res = compareProperties(r0, r1, r0.getModel().getProperty(CommonMigration.BDO, "noteText"));
+        if (res != 0) return res;
+        // unlikely case of events with the same type
+        res = compareProperties(r0, r1, r0.getModel().getProperty(CommonMigration.BDO, "onOrAbout"));
+        return res;
     }
 
 }
