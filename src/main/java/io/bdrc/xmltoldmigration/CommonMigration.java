@@ -219,6 +219,7 @@ public class CommonMigration  {
 	
 	public static RDFList getSortedList(RDFList l) {
 	    if (l == null) return null;
+	    if (l.size() < 2) return l;
 	    Model m = l.getModel();
 	    List<RDFNode> jl = l.asJavaList();
 	    Collections.sort(jl, bdrcNodeCompartor);
@@ -343,19 +344,19 @@ public class CommonMigration  {
 	    return normalizeString(toNormalize, false);
 	}
 	
-	public static void addNote(Model m, Element e, Resource r, int i, Property p, Literal l) {
+	public static RDFList addNote(Model m, Element e, Resource r, int i, Property p, Literal l, RDFList list) {
 	    // some empty <note/> appear sometimes
 	    if (e.getAttribute("work").isEmpty() && e.getAttribute("location").isEmpty() && e.getTextContent().trim().isEmpty()) {
-	        return;
+	        return list;
 	    }
 		Resource note = m.createResource();
 		// really?
 		//m.add(note, RDF.type, m.getProperty(BDO, "Note"));
 		Property prop = m.getProperty(BDO, "note");
 		Literal lit;
-		if (p == null) {
-		    m.add(r, prop, note);
-		} else {
+		if (p != null) {
+		    // reify statement, should not be used anymore
+		    // but in case it was to be used again, it should be converted to list
 		    Resource axiom = m.createResource(OWL2.Axiom);
 		    axiom.addProperty(OWL2.annotatedSource, r);
 		    axiom.addProperty(OWL2.annotatedProperty, p);
@@ -377,21 +378,23 @@ public class CommonMigration  {
 		lit = getLiteral(e, "en", m, "note", r.getLocalName(), r.getLocalName(), false);
 		if (lit != null)
 		    m.add(note, prop, lit);
+		return list.with(note);
 	}
 	
 	public static void addNotes(Model m, Element e, Resource r, String XsdPrefix) {
-		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "note");
-		for (int i = 0; i < nodeList.size(); i++) {
-			Element current = (Element) nodeList.get(i);
-			addNote(m, current, r, i, null, null);
-		}
+	    addNotes(m, e, r, null, null, XsdPrefix);
 	}
 	
 	public static void addNotes(Model m, Element e, Resource r, Property p, Literal l, String XsdPrefix) {
 	    List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "note");
+	    RDFList list = m.createList(new RDFNode[] {});
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
-            addNote(m, current, r, i, p, l);
+            list = addNote(m, current, r, i, p, l, list);
+        }
+        if (!list.isEmpty()) {
+            list = getSortedList(list);
+            r.addProperty(m.getProperty(BDO, "note"), list);
         }
 	}
 	
@@ -428,28 +431,33 @@ public class CommonMigration  {
         return res;
     }
 	
-	public static void addExternal(Model m, Element e, Resource r, int i) {
+	public static RDFList addExternal(Model m, Element e, Resource r, int i, RDFList l) {
 		String value = e.getAttribute("data").trim();
-		if (value.isEmpty()) return;
+		if (value.isEmpty()) return l;
 		if (value.contains("treasuryoflives.org")) {
 		    value = normalizeToLUrl(value);
-		    r.addProperty(m.createProperty(RDFS_PREFIX, "seeAlso"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
-		    return;
+		    return l.with(m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
 		}
-		if (value.contains("blog.tbrc.org")) return;
+		if (value.contains("blog.tbrc.org")) return l;
 		if (value.contains("tbrc.org")) {
 		    value = getRIDFromTbrcUrl(value);
 		    // TODO: map outline nodes to new ones
-		    r.addProperty(m.createProperty(RDFS_PREFIX, "seeAlso"), m.createResource(BDR+value));
+		    return l.with(m.createResource(BDR+value));
 		}
+		return l;
 	}
 	
 	public static void addExternals(Model m, Element e, Resource r, String XsdPrefix) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "external");
+		RDFList list = m.createList(new RDFNode[] {});
 		for (int i = 0; i < nodeList.size(); i++) {
 			Element current = (Element) nodeList.get(i);
-			addExternal(m, current, r, i);
+			list = addExternal(m, current, r, i, list);
 		}
+		if (!list.isEmpty()) {
+            list = getSortedList(list);
+            r.addProperty(m.getProperty(RDFS_PREFIX, "seeAlso"), list);
+        }
 	}
 	
 	public static Literal literalFromXsdDate(Model m, String s) {
@@ -508,6 +516,7 @@ public class CommonMigration  {
 			}
 		}
 		if (!list.isEmpty()) {
+		    list = getSortedList(list);
 		    r.addProperty(m.getProperty(ADM, "logEntry"), list);
 		}
 	}
