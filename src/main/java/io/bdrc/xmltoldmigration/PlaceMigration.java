@@ -136,9 +136,9 @@ public class PlaceMigration {
 	    case "fromTBRC": return ADM+"place_id_TBRC";
 	    case "chgis_id": return BDO+"placeChgisId";
 	    case "gb2260-2013": return BDO+"placeGB2260-2013";
-	    case "WB_area_sq_km": return BDO+"WBArea";
-	    case "WB_pop_2000": return BDO+"WB2000";
-	    case "WB_pop_2010": return BDO+"WB2010";
+	    case "WB_area_sq_km": return BDO+"placeWBArea";
+	    case "WB_pop_2000": return BDO+"placeWB2000";
+	    case "WB_pop_2010": return BDO+"placeWB2010";
 	    default: return "";
 	    }
 	}
