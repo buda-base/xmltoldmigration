@@ -662,17 +662,16 @@ public abstract class TurtleShell {
                 }
 
                 if ( ! rdfLiterals.isEmpty() ) {
-                    writePredicateObjectList(p, rdfLiterals, predicateMaxWidth, first) ;
+                    writePredicateObjectList(p, rdfLiterals, predicateMaxWidth, first, false) ;
                     first = false ;
                 }
                 if ( ! rdfSimpleNodes.isEmpty() ) {
-                    writePredicateObjectList(p, rdfSimpleNodes, predicateMaxWidth, first) ;
+                    writePredicateObjectList(p, rdfSimpleNodes, predicateMaxWidth, first, false) ;
                     first = false ;
                 }
 
-                for ( Node o : rdfComplexNodes ) {
-                    writePredicateObject(p, o, predicateMaxWidth, first) ;
-                    first = false ;
+                if ( ! rdfComplexNodes.isEmpty() ) {
+                    writePredicateObjectList(p, rdfComplexNodes, predicateMaxWidth, first, true) ;
                 }
             }
         }
@@ -684,7 +683,7 @@ public abstract class TurtleShell {
             out.decIndent(INDENT_OBJECT) ;
         }
 
-        private void writePredicateObjectList(Node p, List<Node> objects, int predicateMaxWidth, boolean first) {
+        private void writePredicateObjectList(Node p, List<Node> objects, int predicateMaxWidth, boolean first, boolean complex) {
             writePredicate(p, predicateMaxWidth, first) ;
             out.incIndent(INDENT_OBJECT) ;
             
@@ -696,13 +695,23 @@ public abstract class TurtleShell {
                         out.print(" , ") ;
                     else
                         // Before the current indent, due to a multiline literal being written raw.
-                        // We will pad spaces to indent on output spaces.  Don't add a first " " 
-                        out.print(", ") ;
+                        // We will pad spaces to indent on output spaces.  Don't add a first " "
+                        if (complex)
+                            out.print(",") ;
+                        else
+                            out.print(", ") ;
+                    if (complex) {
+                        println();
+                        out.pad(INDENT_OBJECT) ;
+                    }
                 }
                 else
                     firstObject = false ;
                 int row1 = out.getRow() ;
-                writeNode(o) ;
+                if (complex)
+                    writeNodePretty(o);
+                else
+                    writeNode(o) ;
                 int row2 = out.getRow();
                 lastObjectMultiLine = (row2 > row1) ;
             }
@@ -743,7 +752,7 @@ public abstract class TurtleShell {
                     x.put(p, new ArrayList<Node>()) ;
                 x.get(p).add(t.getObject()) ;
             }
-
+            
             return x ;
         }
 

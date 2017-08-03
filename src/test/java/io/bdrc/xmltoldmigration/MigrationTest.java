@@ -19,6 +19,7 @@ import com.github.jsonldjava.utils.JsonUtils;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
+import io.bdrc.xmltoldmigration.writer.STTLWriter;
 
 import org.junit.Test;
 import org.junit.AfterClass;
@@ -49,6 +50,7 @@ public class MigrationTest
 	public static void init() {
 	    MigrationHelpers.usecouchdb = false;
 		ontology = MigrationHelpers.getOntologyModel();
+		STTLWriter.registerWriter();
 	}
 	
    @AfterClass
@@ -208,12 +210,12 @@ public class MigrationTest
     public void testG844() throws JsonGenerationException, JsonLdError, IOException
     {
 	    System.out.println("testing G844");
-    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
+    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844-simplified.xml");
     	Validator validator = MigrationHelpers.getValidatorFor("place");
-        assertFalse(CommonMigration.documentValidates(d, validator));
+        //assertFalse(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
-    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -274,7 +276,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", true);
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", false);
            //showDifference(fromXml, correctModel);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
