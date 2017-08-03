@@ -162,7 +162,7 @@ public class OutlineMigration {
                 value = "NoType";
             }
             value = BDR+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
-            m.add(main, m.getProperty(TBR, "outlineType"), m.createResource(value));
+            m.add(main, m.getProperty(ADM, "outlineType"), m.createResource(value));
             
             break; // just reading the first node
         }

@@ -1,280 +1,302 @@
 {
   "@graph" : [ {
-    "rdfs:label" : [ {
-      "@language" : "bo-x-ewts",
-      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
+    "@id" : "_:b0",
+    "workLocationEndPage" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "18"
+    },
+    "workLocationEndVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "2"
+    },
+    "workLocationPage" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "11"
+    },
+    "workLocationVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "2"
+    },
+    "workLocationWork" : {
+      "@id" : "bdr:W30020"
+    }
+  }, {
+    "@id" : "_:b1",
+    "@type" : "WorkBibliographicalTitle",
+    "rdfs:label" : {
+      "@language" : "bo-latn-x-ewts",
+      "@value" : "gleng gzhi/"
+    }
+  }, {
+    "@id" : "_:b10",
+    "workLocationEndPage" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "25"
+    },
+    "workLocationEndVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "2"
+    },
+    "workLocationPage" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "17"
+    },
+    "workLocationVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "2"
+    },
+    "workLocationWork" : {
+      "@id" : "bdr:W30020"
+    }
+  }, {
+    "@id" : "_:b11",
+    "@type" : "WorkBibliographicalTitle",
+    "rdfs:label" : {
+      "@language" : "bo-latn-x-ewts",
+      "@value" : "gleng gzhi2/"
+    }
+  }, {
+    "@id" : "_:b12",
+    "admin/logMessage" : {
+      "@language" : "en",
+      "@value" : "zhu dag byas"
+    },
+    "admin/logWhen" : {
+      "@type" : "xsd:dateTime",
+      "@value" : "2009-12-28T10:00:20.456Z"
+    },
+    "admin/logWho" : {
+      "@id" : "bdr:U21"
+    }
+  }, {
+    "@id" : "_:b2",
+    "workLocationEndPage" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "24"
+    },
+    "workLocationEndVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "2"
+    },
+    "workLocationPage" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "12"
+    },
+    "workLocationVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "2"
+    },
+    "workLocationWork" : {
+      "@id" : "bdr:W30020"
+    }
+  }, {
+    "@id" : "_:b3",
+    "admin/logWhen" : {
+      "@type" : "xsd:dateTime",
+      "@value" : "2009-09-15T14:51:25.708Z"
+    },
+    "admin/logWho" : {
+      "@id" : "bdr:U3"
+    }
+  }, {
+    "@id" : "_:b4",
+    "workLocationWork" : {
+      "@id" : "bdr:W30020"
+    }
+  }, {
+    "@id" : "_:b5",
+    "workLocationEndPage" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "18"
+    },
+    "workLocationEndVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "1"
+    },
+    "workLocationPage" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "11"
+    },
+    "workLocationVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "1"
+    },
+    "workLocationWork" : {
+      "@id" : "bdr:W30020"
+    }
+  }, {
+    "@id" : "_:b6",
+    "@type" : "WorkBibliographicalTitle",
+    "rdfs:label" : {
+      "@language" : "bo-latn-x-ewts",
+      "@value" : "gleng gzhi/"
+    }
+  }, {
+    "@id" : "_:b7",
+    "workLocationVolume" : {
+      "@type" : "xsd:positiveInteger",
+      "@value" : "1"
+    },
+    "workLocationWork" : {
+      "@id" : "bdr:W30020"
+    }
+  }, {
+    "@id" : "_:b8",
+    "onOrAbout" : "1235",
+    "workSitePlace" : {
+      "@id" : "bdr:G4449"
+    },
+    "workSiteType" : {
+      "@id" : "bdr:WorkSiteTypeVolume"
+    }
+  }, {
+    "@id" : "_:b9",
+    "admin/logMessage" : {
+      "@language" : "en",
+      "@value" : "vol. 1 outline images fixed"
+    },
+    "admin/logWhen" : {
+      "@type" : "xsd:dateTime",
+      "@value" : "2014-10-03T14:40:05.896Z"
+    },
+    "admin/logWho" : {
+      "@id" : "bdr:U19"
+    }
+  }, {
+    "@id" : "bdr:O2DB87572",
+    "@type" : "admin/Outline",
+    "admin/logEntry" : [ {
+      "@id" : "_:b9"
     }, {
-      "@language" : "bo",
-      "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
+      "@id" : "_:b12"
+    }, {
+      "@id" : "_:b3"
     } ],
-    "@id" : "out:O2DB87572",
-    "@type" : [ "out:Outline", "out:partialCollectedWorks" ],
-    "name" : [ {
-      "@language" : "bo",
-      "@value" : "བཀའ་བརྒྱུད་པའི་གསུང་རབ་དཔེ་ཚོགས་ལས་མངོན་པ"
-    }, {
-      "@language" : "bo",
-      "@value" : "མངོན་པ"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "mngon pa"
-    }, {
-      "@language" : "bo-x-ewts",
-      "@value" : "bka' brgyud pa'i gsung rab dpe tshogs las mngon pa"
-    } ],
-    "out:authorship" : {
+    "admin/outlineAuthorStatement" : {
       "@language" : "en",
       "@value" : "Bumu Dega; outlined with the gracious support of the khyentse foundation"
     },
-    "out:hasNode" : [ {
-      "@id" : "out:O2DB875722DB87583",
-      "@type" : "out:Class",
-      "out:hasNode" : {
-        "@id" : "out:O2DB875722DB875732DB87599",
-        "@type" : "out:Class",
-        "out:beginsAt" : {
-          "@id" : "wor:O2DB875722DB875732DB87599_Location1",
-          "@type" : "wor:LocationByPage",
-          "wor:page" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "11"
-          },
-          "wor:volume" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "2"
-          },
-          "wor:work" : {
-            "@id" : "wor:W30020"
-          }
-        },
-        "out:endsAt" : {
-          "@id" : "wor:O2DB875722DB875732DB87599_Location2",
-          "@type" : "wor:LocationByPage",
-          "wor:page" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "18"
-          },
-          "wor:volume" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "2"
-          },
-          "wor:work" : {
-            "@id" : "wor:W30020"
-          }
-        },
-        "note" : {
-          "@id" : ":O2DB875722DB875732DB87599_Note1",
-          "@type" : "Note",
-          "note_content" : {
-            "@language" : "en",
-            "@value" : "p. 1 (1st group)"
-          }
-        },
-        "wor:bibliographicalTitle" : [ {
-          "@language" : "bo",
-          "@value" : "གླེང་གཞི།"
-        }, {
-          "@language" : "bo-x-ewts",
-          "@value" : "gleng gzhi/"
-        } ]
-      },
-      "out:location" : {
-        "@id" : "wor:O2DB875722DB87583_Location1",
-        "@type" : "wor:LocationByPage",
-        "wor:volume" : {
-          "@type" : "xsd:positiveInteger",
-          "@value" : "2"
-        },
-        "wor:work" : {
-          "@id" : "wor:W30020"
-        }
-      },
-      "out:node_class" : {
-        "@id" : "top:T977"
-      },
-      "out:node_value" : "varia",
-      "name" : [ {
-        "@language" : "bo",
-        "@value" : "༢ ༼སྨད་ཆ༽"
-      }, {
-        "@language" : "bo-x-ewts",
-        "@value" : "2 (smad cha)"
-      } ],
-      "rdfs:label" : [ {
-        "@language" : "bo",
-        "@value" : "༢ ༼སྨད་ཆ༽"
-      }, {
-        "@language" : "bo-x-ewts",
-        "@value" : "2 (smad cha)"
-      } ]
+    "workLocation" : {
+      "@id" : "_:b4"
+    }
+  }, {
+    "@id" : "bdr:W30020",
+    "@type" : "Work",
+    "admin/outline" : {
+      "@id" : "bdr:O2DB87572"
+    },
+    "admin/outlineType" : {
+      "@id" : "bdr:OutlineTypePartialCollectedWorks"
+    },
+    "status" : {
+      "@id" : "bdr:StatusReleased"
+    },
+    "workHasPart" : [ {
+      "@id" : "bdr:W30020_0003"
     }, {
-      "@id" : "out:O2DB875722DB87582",
-      "@type" : "out:Volume",
-      "out:browser_class" : "WritingsClassBrowser",
-      "out:browser_module" : "global-search",
-      "out:browser_params" : "PR01DOR0,250",
-      "out:hasNode" : {
-        "@id" : "out:O2DB875722DB87573",
-        "@type" : "out:Text",
-        "out:authorship" : {
-          "@language" : "en",
-          "@value" : "Another scribe"
-        },
-        "out:beginsAt" : {
-          "@id" : "wor:O2DB875722DB87573_Location1",
-          "@type" : "wor:LocationByPage",
-          "wor:page" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "11"
-          },
-          "wor:volume" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "1"
-          },
-          "wor:work" : {
-            "@id" : "wor:W30020"
-          }
-        },
-        "out:endsAt" : {
-          "@id" : "wor:O2DB875722DB87573_Location2",
-          "@type" : "wor:LocationByPage",
-          "wor:page" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "18"
-          },
-          "wor:volume" : {
-            "@type" : "xsd:positiveInteger",
-            "@value" : "1"
-          },
-          "wor:work" : {
-            "@id" : "wor:W30020"
-          }
-        },
-        "out:gser_bris_number" : {
-          "@language" : "en",
-          "@value" : "test broken property type"
-        },
-        "wor:bibliographicalTitle" : [ {
-          "@language" : "bo",
-          "@value" : "གླེང་གཞི།"
-        }, {
-          "@language" : "bo-x-ewts",
-          "@value" : "gleng gzhi/"
-        } ]
-      },
-      "out:hasSite" : {
-        "@id" : "out:O2DB875722DB87582_Site",
-        "@type" : "out:SiteVolume",
-        "out:site_circa" : "1235",
-        "out:site_place" : {
-          "@id" : "plc:G4449"
-        }
-      },
-      "out:location" : {
-        "@id" : "wor:O2DB875722DB87582_Location1",
-        "@type" : "wor:LocationByPage",
-        "wor:volume" : {
-          "@type" : "xsd:positiveInteger",
-          "@value" : "1"
-        },
-        "wor:work" : {
-          "@id" : "wor:W30020"
-        }
-      },
-      "name" : [ {
-        "@language" : "bo",
-        "@value" : "༡ ༼སྟོད་ཆ༽"
-      }, {
-        "@language" : "bo-x-ewts",
-        "@value" : "1 (stod cha)"
-      } ],
-      "subject_isInstanceOfGenre" : {
-        "@id" : "top:T208"
-      },
-      "rdfs:label" : [ {
-        "@language" : "bo-x-ewts",
-        "@value" : "1 (stod cha)"
-      }, {
-        "@language" : "bo",
-        "@value" : "༡ ༼སྟོད་ཆ༽"
-      } ]
+      "@id" : "bdr:W30020_0001"
     } ],
-    "out:isOutlineOf" : {
-      "@id" : "wor:W30020"
+    "workPagination" : {
+      "@id" : "bdr:PaginationAbsolute"
+    }
+  }, {
+    "@id" : "bdr:W30020_0001",
+    "@type" : "Work",
+    "admin/workLegacyNode" : "O2DB875722DB87582",
+    "outlineType" : {
+      "@id" : "bdr:OutlineTypeVolume"
     },
-    "out:location" : {
-      "@id" : "wor:O2DB87572_Location1",
-      "@type" : "wor:LocationByPage",
-      "wor:work" : {
-        "@id" : "wor:W30020"
-      }
+    "workHasPart" : {
+      "@id" : "bdr:W30020_0002"
     },
-    "out:pagination" : "absolute",
-    "status" : "released",
-    "out:viewIn_content" : "Rituals | cho ga | 仪轨",
-    "out:viewIn_label" : "rituals",
-    "out:viewIn_list" : "subjects",
-    "out:webAccess" : "notAvailable",
-    "log_entry" : [ {
-      "@id" : "_:b2",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "vol. 1 outline images fixed"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2014-10-03T14:40:05.896Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Lobsang Shastri"
-      }
+    "workHasSite" : {
+      "@id" : "_:b8"
+    },
+    "workIsAbout" : {
+      "@id" : "bdr:T208"
+    },
+    "workLocation" : {
+      "@id" : "_:b7"
+    },
+    "skos:prefLabel" : {
+      "@language" : "bo-latn-x-ewts",
+      "@value" : "1 (stod cha)"
+    }
+  }, {
+    "@id" : "bdr:W30020_0002",
+    "@type" : "Work",
+    "admin/outlineAuthorStatement" : {
+      "@language" : "en",
+      "@value" : "Another scribe"
+    },
+    "admin/workLegacyNode" : "O2DB875722DB87573",
+    "outlineType" : {
+      "@id" : "bdr:OutlineTypeText"
+    },
+    "workKaTenSiglaG" : "test broken property type",
+    "workLocation" : {
+      "@id" : "_:b5"
+    },
+    "workTitle" : {
+      "@id" : "_:b6"
+    }
+  }, {
+    "@id" : "bdr:W30020_0003",
+    "@type" : "Work",
+    "admin/workLegacyNode" : "O2DB875722DB87583",
+    "outlineType" : {
+      "@id" : "bdr:OutlineTypeClass"
+    },
+    "workHasPart" : [ {
+      "@id" : "bdr:W30020_0005"
     }, {
-      "@id" : "_:b0",
-      "@type" : "LogEntry",
-      "log_content" : {
-        "@language" : "en",
-        "@value" : "zhu dag byas"
-      },
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-12-28T10:00:20.456Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "paldor"
-      }
-    }, {
-      "@id" : "_:b1",
-      "@type" : "LogEntry",
-      "log_when" : {
-        "@type" : "xsd:dateTime",
-        "@value" : "2009-09-15T14:51:25.708Z"
-      },
-      "log_who" : {
-        "@language" : "en",
-        "@value" : "Bumu Dega"
-      }
-    } ]
+      "@id" : "bdr:W30020_0004"
+    } ],
+    "workLocation" : {
+      "@id" : "_:b2"
+    },
+    "skos:prefLabel" : {
+      "@language" : "bo-latn-x-ewts",
+      "@value" : "2 (smad cha)"
+    }
+  }, {
+    "@id" : "bdr:W30020_0004",
+    "@type" : "Work",
+    "admin/workLegacyNode" : "O2DB875722DB875732DB87599",
+    "outlineType" : {
+      "@id" : "bdr:OutlineTypeClass"
+    },
+    "workLocation" : {
+      "@id" : "_:b0"
+    },
+    "workTitle" : {
+      "@id" : "_:b1"
+    }
+  }, {
+    "@id" : "bdr:W30020_0005",
+    "@type" : "Work",
+    "admin/workLegacyNode" : "O2DB875722DB875732DB87600",
+    "outlineType" : {
+      "@id" : "bdr:OutlineTypeClass"
+    },
+    "workLocation" : {
+      "@id" : "_:b10"
+    },
+    "workTitle" : {
+      "@id" : "_:b11"
+    }
   } ],
   "@context" : {
-    "@vocab" : "http://purl.bdrc.io/ontology/root#",
-    "" : "http://purl.bdrc.io/ontology/root#",
-    "crp" : "http://purl.bdrc.io/ontology/corporation#",
-    "prd" : "http://purl.bdrc.io/ontology/product#",
+    "@vocab" : "http://purl.bdrc.io/ontology/",
+    "adm" : "http://purl.bdrc.io/ontology/admin/",
+    "bdd" : "http://purl.bdrc.io/data/",
+    "bdr" : "http://purl.bdrc.io/resource/",
+    "tbr" : "http://purl.bdrc.io/ontology/toberemoved/",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
-    "plc" : "http://purl.bdrc.io/ontology/place#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "ofc" : "http://purl.bdrc.io/ontology/office#",
-    "out" : "http://purl.bdrc.io/ontology/outline#",
-    "lin" : "http://purl.bdrc.io/ontology/lineage#",
-    "top" : "http://purl.bdrc.io/ontology/topic#",
-    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "wor" : "http://purl.bdrc.io/ontology/work#",
-    "per" : "http://purl.bdrc.io/ontology/person#",
-    "vol" : "http://purl.bdrc.io/ontology/volumes#",
-    "desc" : "http://onto.bdrc.io/ontology/description#"
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "vcard" : "http://www.w3.org/2006/vcard/ns#"
   }
 }
