@@ -33,6 +33,7 @@ import static org.apache.jena.riot.writer.WriterConst.RDF_Rest ;
 import static org.apache.jena.riot.writer.WriterConst.RDF_type ;
 import static org.apache.jena.riot.writer.WriterConst.rdfNS ;
 
+import java.text.Collator;
 import java.util.* ;
 
 import org.apache.jena.atlas.io.IndentedWriter ;
@@ -42,7 +43,14 @@ import org.apache.jena.atlas.lib.Pair ;
 import org.apache.jena.atlas.lib.SetUtils ;
 import org.apache.jena.graph.Graph ;
 import org.apache.jena.graph.Node ;
+import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple ;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.reasoner.rulesys.Util;
 import org.apache.jena.riot.RIOT ;
 import org.apache.jena.riot.other.GLib ;
 import org.apache.jena.riot.out.NodeFormatter ;
@@ -58,6 +66,8 @@ import org.apache.jena.sparql.util.Context ;
 import org.apache.jena.util.iterator.ExtendedIterator ;
 import org.apache.jena.vocabulary.RDF ;
 import org.apache.jena.vocabulary.RDFS ;
+
+import io.bdrc.xmltoldmigration.CommonMigration;
 
 /**
  * Base class to support the pretty forms of Turtle-related languages (Turtle, TriG)
@@ -111,6 +121,7 @@ public abstract class TurtleShell {
         private final Collection<Node>      graphNames ; 
         private final Node                  graphName ;
         private final Graph                 graph ;
+        private final CompareComplex compComplex;
         
         // Blank nodes that have one incoming triple
         private /*final*/ Set<Node>             nestedObjects ; 
@@ -160,6 +171,8 @@ public abstract class TurtleShell {
             // Stop head of lists printed as triples going all the way to the
             // good part.
             nestedObjects.removeAll(listElts) ;
+            
+            compComplex = new CompareComplex(compLiterals, propUriSortList, graph);
 
             //printDetails() ;
         }
@@ -663,15 +676,21 @@ public abstract class TurtleShell {
 
                 if ( ! rdfLiterals.isEmpty() ) {
                     writePredicateObjectList(p, rdfLiterals, predicateMaxWidth, first, false) ;
+                    Collections.sort(rdfLiterals, compLiterals);
+                    System.out.println("literals: "+rdfLiterals.toString());
                     first = false ;
                 }
                 if ( ! rdfSimpleNodes.isEmpty() ) {
                     writePredicateObjectList(p, rdfSimpleNodes, predicateMaxWidth, first, false) ;
+                    Collections.sort(rdfSimpleNodes, compURIs);
+                    System.out.println("simple: "+rdfSimpleNodes.toString());
                     first = false ;
                 }
 
                 if ( ! rdfComplexNodes.isEmpty() ) {
                     writePredicateObjectList(p, rdfComplexNodes, predicateMaxWidth, first, true) ;
+                    Collections.sort(rdfComplexNodes, compComplex);
+                    System.out.println("complex: "+rdfComplexNodes.toString());
                 }
             }
         }
@@ -938,7 +957,7 @@ public abstract class TurtleShell {
     // Sorted by URI.
 
     private static final class ComparePredicates implements Comparator<Node> {
-        private static int classification(Node p) {
+        private static int classification(final Node p) {
             if ( p.equals(RDF_type) )
                 return 0 ;
 
@@ -949,9 +968,9 @@ public abstract class TurtleShell {
         }
 
         @Override
-        public int compare(Node t1, Node t2) {
-            int class1 = classification(t1) ;
-            int class2 = classification(t2) ;
+        public int compare(final Node t1, final Node t2) {
+            final int class1 = classification(t1) ;
+            final int class2 = classification(t2) ;
             if ( class1 != class2 ) {
                 // Java 1.7
                 // return Integer.compare(class1, class2) ;
@@ -961,13 +980,142 @@ public abstract class TurtleShell {
                     return 1 ;
                 return 0 ;
             }
-            String p1 = t1.getURI() ;
-            String p2 = t2.getURI() ;
+            final String p1 = t1.getURI() ;
+            final String p2 = t2.getURI() ;
             return p1.compareTo(p2) ;
         }
     }
+    
+    private static final class CompareURIs implements Comparator<Node> {
+        @Override
+        public int compare(final Node t1, final Node t2) {
+            // URIs then literals then blank nodes
+            if (t1.isURI()) {
+                if (t2.isBlank()) 
+                    return 1;
+                if (t2.isURI())
+                    return t1.getURI().compareTo(t2.getURI());
+                return 1;
+            }
+            if (t2.isURI()) 
+                return -1;
+            if (t1.isBlank()) {
+                if (!t2.isBlank()) 
+                    return -1;
+                return 0;
+            }
+            if (t2.isBlank())
+                return 1;
+            return 0;
+        }
+    }
+    
+    private static final class CompareLiterals implements Comparator<Node> {
+        
+        public static Collator collator = Collator.getInstance(); // root locale
+        
+        public static int compareStrings(final String s0, final String s1, final String lang) {
+            // maybe we want to use the locale corresponding to the lang, maybe not
+            return collator.compare(s0, s1);
+        }
+        
+        public static Integer compareUriSimple(final Node t1, final Node t2) {
+            // URIs then literals then blank nodes
+            if (t1.isURI()) {
+                if (t2.isBlank()) 
+                    return 1;
+                if (t2.isURI())
+                    return t1.getURI().compareTo(t2.getURI());
+                return 1;
+            }
+            if (t2.isURI()) 
+                return -1;
+            if (t1.isBlank()) {
+                if (!t2.isBlank()) 
+                    return -1;
+                return 0;
+            }
+            if (t2.isBlank())
+                return 1;
+            return null;
+        }
+        
+        @Override
+        public int compare(final Node t1, final Node t2) {
+            Integer res = compareUriSimple(t1, t2);
+            if (res != null) return res;
+            final String lang1 = t1.getLiteralLanguage();
+            final String lang2 = t2.getLiteralLanguage();
+            if (!lang1.isEmpty()) {
+                res = lang1.compareTo(lang2);
+                if (res != 0) return res;
+            } else if (!lang2.isEmpty()) {
+                return -1;
+            }
+            final Object o1 = t1.getLiteralValue();
+            final Object o2 = t2.getLiteralValue();
+            if (o1 instanceof String) {
+                if (o2 instanceof String)
+                    return compareStrings((String) o1, (String) o2, lang1);
+                return 1;
+            }
+            if (Util.comparable(t1, t2)) {
+                return Util.compareTypedLiterals(t1, t2);                
+            }
+            return 0;
+        }
+    }
+    
+    private static class CompareComplex implements Comparator<Node> {
+        
+        public Comparator<Node> compLiteral = null;
+        public List<String> propUris = null;
+        public Graph g = null;
+        // create a property: ResourceFactory.createProperty(uri)
+        
+        public CompareComplex(final Comparator<Node> compLiteral, final List<String> propUris, final Graph g) {
+            super();
+            this.compLiteral = compLiteral;
+            this.propUris = propUris;
+            this.g = g;
+        }
+        
+        public int compareUriSimple(final Node t1, final Node t2) {
+            if (!t1.isBlank()) {
+                if (t2.isBlank()) return 1;
+                return t1.getURI().compareTo(t2.getURI());
+            }
+            if (!t2.isBlank()) return -1;
+            return 0;
+        }
+        
+        @Override
+        public int compare(final Node t1, final Node t2) {
+            // sort named nodes by uri
+            int res = compareUriSimple(t1, t2);
+            if (res != 0) return res;
+            for (String propUri : this.propUris) {
+                //res = compareProperties(r1, r2, p);
+                final Triple t1t = RiotLib.triple1(g, t1, NodeFactory.createURI(propUri), Node.ANY) ;
+                final Triple t2t = RiotLib.triple1(g, t1, NodeFactory.createURI(propUri), Node.ANY) ;
+                if (t1t == null && t2t != null) return -1;
+                if (t1t != null && t2t == null) return 1;
+                final Node t1n = t1t.getObject();
+                final Node t2n = t2t.getObject();
+                res = compareUriSimple(t1n, t2n);
+                if (res != 0) return res;
+                return compLiteral.compare(t1n, t2n);
+            }
+            return res;
+            //RDF.type, RDFS.label, getProperty(CommonMigration.ADM, "logWhen"),
+            //getProperty(CommonMigration.BDO, "noteText"), getProperty(CommonMigration.BDO, "onOrAbout") 
+        }
+    }
 
-    private static Comparator<Node> compPredicates = new ComparePredicates() ;
+    private static final Comparator<Node> compPredicates = new ComparePredicates() ;
+    private static final Comparator<Node> compURIs = new CompareURIs() ;
+    private static final Comparator<Node> compLiterals = new CompareLiterals() ;
+    private static final List<String> propUriSortList = Arrays.asList(RDF.type.getURI(), RDFS.label.getURI(), CommonMigration.BDO+"onOrAbout");
 
     protected final void writeNode(Node node) {
         nodeFmt.format(out, node) ;
