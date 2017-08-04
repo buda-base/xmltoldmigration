@@ -205,10 +205,10 @@ public class MigrationTest
 	    System.out.println("testing G844");
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
     	Validator validator = MigrationHelpers.getValidatorFor("place");
-        //assertFalse(CommonMigration.documentValidates(d, validator));
+        assertFalse(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/G844.jsonld");
-    	MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", true);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -269,7 +269,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"jsonld/OutlineTest.jsonld");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", false);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", false);
            //showDifference(fromXml, correctModel);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );

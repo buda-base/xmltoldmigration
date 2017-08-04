@@ -13,7 +13,7 @@
     "@id" : "bdr:C11MS170",
     "@type" : "Corporation",
     "admin/logEntry" : {
-      "@id" : "_:b0",
+      "@id" : "_:b4",
       "admin/logMessage" : {
         "@language" : "en",
         "@value" : "created new corp."
@@ -27,33 +27,29 @@
       }
     },
     "corporationHasMember" : [ {
-      "@id" : "_:b2",
-      "corporationMember" : {
-        "@id" : "bdr:P1857"
-      },
-      "corporationMemberType" : {
-        "@id" : "bdr:CorporationMemberTypeUnknown"
-      }
-    }, {
-      "@id" : "_:b1",
+      "@id" : "_:b0",
+      "@type" : "CorporationMemberNotSpecified",
       "corporationMember" : {
         "@id" : "bdr:P1856"
-      },
-      "corporationMemberType" : {
-        "@id" : "bdr:CorporationMemberTypeNotSpecified"
+      }
+    }, {
+      "@id" : "_:b3",
+      "@type" : "CorporationMemberUnknown",
+      "corporationMember" : {
+        "@id" : "bdr:P1857"
       }
     } ],
     "corporationRegion" : {
       "@id" : "bdr:G934"
     },
     "note" : [ {
-      "@id" : "_:b3",
+      "@id" : "_:b1",
       "noteText" : {
         "@language" : "en",
         "@value" : "associated w / 11th cent. master, P4CZ15480 ?"
       }
     }, {
-      "@id" : "_:b4",
+      "@id" : "_:b2",
       "noteText" : {
         "@language" : "en",
         "@value" : "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."
@@ -65,10 +61,12 @@
     "adm" : "http://purl.bdrc.io/ontology/admin/",
     "bdd" : "http://purl.bdrc.io/data/",
     "bdr" : "http://purl.bdrc.io/resource/",
+    "tbr" : "http://purl.bdrc.io/ontology/toberemoved/",
     "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "owl" : "http://www.w3.org/2002/07/owl#",
     "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
-    "skos" : "http://www.w3.org/2004/02/skos/core#"
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "vcard" : "http://www.w3.org/2006/vcard/ns#"
   }
 }

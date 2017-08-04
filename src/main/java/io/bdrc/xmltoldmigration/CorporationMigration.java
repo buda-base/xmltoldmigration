@@ -48,12 +48,11 @@ public class CorporationMigration {
 				value = "notSpecified";
 			}
 			value = CommonMigration.normalizePropName(value, null);
-			value = CommonMigration.BDR+"CorporationMemberType"+value.substring(0, 1).toUpperCase() + value.substring(1);
+			value = CommonMigration.BDO+"CorporationMember"+value.substring(0, 1).toUpperCase() + value.substring(1);
 			Property prop = m.getProperty(CommonMigration.BDO, "corporationHasMember");
 			m.add(main, prop, member);
 			m.add(member, m.getProperty(CommonMigration.BDO, "corporationMember"), person);
-			m.add(member, m.getProperty(CommonMigration.BDO, "corporationMemberType"), 
-			        m.createResource(value));
+			m.add(member, RDF.type, m.createResource(value));
 		}
 		
 		// regions (ignoring most attributes)
