@@ -35,7 +35,6 @@ bdr:W30020  a        :Work ;
 
 bdr:W30020_0001  a      :Work ;
     skos:prefLabel      "1 (stod cha)"@bo-Latn-x-ewts ;
-    :outlineType        bdr:OutlineTypeVolume ;
     :workHasPart        bdr:W30020_0002 ;
     :workHasSite        [ :onOrAbout      "1235" ;
                           :workSitePlace  bdr:G4449 ;
@@ -45,10 +44,10 @@ bdr:W30020_0001  a      :Work ;
     :workLocation       [ :workLocationVolume  "1"^^xsd:positiveInteger ;
                           :workLocationWork    bdr:W30020
                         ] ;
+    adm:outlineType     bdr:OutlineTypeVolume ;
     adm:workLegacyNode  "O2DB875722DB87582" .
 
 bdr:W30020_0002  a              :Work ;
-    :outlineType                bdr:OutlineTypeText ;
     :workKaTenSiglaG            "test broken property type" ;
     :workLocation               [ :workLocationEndPage    "18"^^xsd:positiveInteger ;
                                   :workLocationEndVolume  "1"^^xsd:positiveInteger ;
@@ -60,11 +59,11 @@ bdr:W30020_0002  a              :Work ;
                                   rdfs:label  "gleng gzhi/"@bo-Latn-x-ewts
                                 ] ;
     adm:outlineAuthorStatement  "Another scribe"@en ;
+    adm:outlineType             bdr:OutlineTypeText ;
     adm:workLegacyNode          "O2DB875722DB87573" .
 
 bdr:W30020_0003  a      :Work ;
     skos:prefLabel      "2 (smad cha)"@bo-Latn-x-ewts ;
-    :outlineType        bdr:OutlineTypeClass ;
     :workHasPart        bdr:W30020_0004 , bdr:W30020_0005 ;
     :workLocation       [ :workLocationEndPage    "24"^^xsd:positiveInteger ;
                           :workLocationEndVolume  "2"^^xsd:positiveInteger ;
@@ -72,10 +71,10 @@ bdr:W30020_0003  a      :Work ;
                           :workLocationVolume     "2"^^xsd:positiveInteger ;
                           :workLocationWork       bdr:W30020
                         ] ;
+    adm:outlineType     bdr:OutlineTypeClass ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
-    :outlineType        bdr:OutlineTypeClass ;
     :workLocation       [ :workLocationEndPage    "18"^^xsd:positiveInteger ;
                           :workLocationEndVolume  "2"^^xsd:positiveInteger ;
                           :workLocationPage       "11"^^xsd:positiveInteger ;
@@ -85,10 +84,10 @@ bdr:W30020_0004  a      :Work ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
                           rdfs:label  "gleng gzhi/"@bo-Latn-x-ewts
                         ] ;
+    adm:outlineType     bdr:OutlineTypeClass ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
-    :outlineType        bdr:OutlineTypeClass ;
     :workLocation       [ :workLocationEndPage    "25"^^xsd:positiveInteger ;
                           :workLocationEndVolume  "2"^^xsd:positiveInteger ;
                           :workLocationPage       "17"^^xsd:positiveInteger ;
@@ -98,4 +97,5 @@ bdr:W30020_0005  a      :Work ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
                           rdfs:label  "gleng gzhi2/"@bo-Latn-x-ewts
                         ] ;
+    adm:outlineType     bdr:OutlineTypeClass ;
     adm:workLegacyNode  "O2DB875722DB875732DB87600" .
