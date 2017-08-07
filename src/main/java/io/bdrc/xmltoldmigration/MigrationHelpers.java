@@ -125,6 +125,9 @@ public class MigrationHelpers {
     public static final String SCANREQUEST = "scanrequest";
     public static final String VOLUME = "volume";
     
+    public static final int OUTPUT_STTL = 0;
+    public static final int OUTPUT_JSONLD = 1;
+    
     public static Lang sttl;
     public static Context ctx;
 	
@@ -165,7 +168,11 @@ public class MigrationHelpers {
             e.printStackTrace();
         }
 	    
-	    sttl = STTLWriter.registerWriter();
+	    setupSTTL();
+	}
+	
+    public static void setupSTTL() {
+        sttl = STTLWriter.registerWriter();
         SortedMap<String, Integer> nsPrio = ComparePredicates.getDefaultNSPriorities();
         nsPrio.put(SKOS.getURI(), 1);
         nsPrio.put("http://purl.bdrc.io/ontology/admin/", 5);
@@ -179,8 +186,8 @@ public class MigrationHelpers {
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "complexPredicatesPriorities"), predicatesPrio);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "indentBase"), 4);
-	}
-	
+    }
+    
 	public static void writeLogsTo(PrintWriter w) {
 	    logWriter = w;
 	}
@@ -301,19 +308,68 @@ public class MigrationHelpers {
         }
         HashMap<String,Object> finalObject = new HashMap<String,Object>();
         finalObject.put("@graph", graph);
+        finalObject.put("@context", "http://purl.bdrc.io/contexts/"+type+".jsonld");
         finalObject.put("_id", Id);
         if (!db.contains(Id)) {
             db.create(Id, finalObject);
         }
     }
 	
+    public static Object modelToJsonObject(Model m, String type) {
+        JsonLDWriteContext ctx = new JsonLDWriteContext();
+        boolean frame = false;
+        JSONLDVariant variant;
+        if (frame) {
+            Object frameObj = getFrameObject(type);
+            ctx.setFrame(frameObj);
+            variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_FRAME_PRETTY.getVariant();
+        } else {
+            variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_COMPACT_PRETTY.getVariant();
+        }
+        // https://issues.apache.org/jira/browse/JENA-1292
+        ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
+        JsonLdOptions opts = new JsonLdOptions();
+        ctx.setOptions(opts);
+        DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
+        PrefixMap pm = RiotLib.prefixMap(g);
+        String base = null;
+        Object jsonObject;
+        Writer wr = null;
+        try {
+            jsonObject = JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
+            jsonObject = orderEntries((Map<String,Object>) jsonObject);
+        } catch (JsonLdError | IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        Map<String,Object> tm = (Map<String,Object>) jsonObject;
+        tm.put("@context", "http://purl.bdrc.io/contexts/"+type+".jsonld");
+        return jsonObject;
+    }
+    
+    public static void jsonObjectToOutputStream(Object jsonObject, OutputStream out) {
+        Writer wr = new OutputStreamWriter(out, Chars.charsetUTF8) ;
+        try {
+            JsonUtils.writePrettyPrint(wr, jsonObject) ;
+            wr.write("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        IO.flush(wr) ;
+    }
+    
 	// these annotations don't work, for some reason
-	@SuppressWarnings("unchecked")
-    public static void modelToOutputStream (Model m, OutputStream out, String type, boolean frame) throws IllegalArgumentException {
+    public static void modelToOutputStream (Model m, OutputStream out, String type, int outputType) throws IllegalArgumentException {
 	    if (m==null) 
 	        throw new IllegalArgumentException("null model returned");
 	    if (out == null && !usecouchdb) return;
-	    RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
+	    if (outputType == OUTPUT_STTL) {
+	        RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
+	        return;
+	    }
+	    // outputType == OUTPUT_JSONLD
+	    Object jsonObject = modelToJsonObject(m, type);
+	    jsonObjectToOutputStream(jsonObject, out);
 	}
 	
 	public static boolean isSimilarTo(Model src, Model dst) {
@@ -361,11 +417,11 @@ public class MigrationHelpers {
 		return model;
 	}
 	
-	public static void modelToFileName(Model m, String fname, String type, boolean frame) {
+	public static void modelToFileName(Model m, String fname, String type, int outputType) {
 	    FileOutputStream s = null;
 	    try {
 		    s = new FileOutputStream(fname);
-		    modelToOutputStream(m, s, type, frame);
+		    modelToOutputStream(m, s, type, outputType);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return;
@@ -425,8 +481,8 @@ public class MigrationHelpers {
 		return m;
 	}
 	
-	public static void convertOneFile(String src, String dst, String type, boolean frame) {
-		convertOneFile(src, dst, type, frame, "");
+	public static void convertOneFile(String src, String dst, String type, int outputType) {
+		convertOneFile(src, dst, type, outputType, "");
 	}
 	
 	public static boolean mustBeMigrated(Element root, String type) {
@@ -458,10 +514,18 @@ public class MigrationHelpers {
         return m;
 	}
 	
-	public static void convertOneFile(String src, String dst, String type, boolean frame, String fileName) {
+	public static void convertOneFile(String src, String dst, String type, int outputType, String fileName) {
         Model m = getModelFromFile(src, type, fileName);
         if (m == null) return;
-        modelToFileName(m, dst, type, frame);
+        if (usecouchdb) {
+            Object o = modelToJsonObject(m, type);
+            if (o != null) {
+                jsonObjectToCouch(o, type);
+            }
+        }
+        if (writefiles) {
+            modelToFileName(m, dst, type, outputType);
+        }
     }
 	
 	// change Range Datatypes from rdf:PlainLitteral to rdf:langString

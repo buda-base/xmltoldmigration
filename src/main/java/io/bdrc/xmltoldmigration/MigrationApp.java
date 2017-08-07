@@ -85,7 +85,7 @@ public class MigrationApp
             if (itemModel == null) return;
             item = itemModel.getResource(BDR+"I"+workId.substring(1)+"_001");
             itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
-            MigrationHelpers.modelToFileName(itemModel, volumesFileName, ITEMS, true);
+            MigrationHelpers.modelToFileName(itemModel, volumesFileName, ITEMS, MigrationHelpers.OUTPUT_STTL);
             break;
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -119,7 +119,7 @@ public class MigrationApp
                     ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getValue(), itemName);
                 }
                 String volOutfileName = OUTPUT_DIR+ITEMS+"/"+itemName+".jsonld";
-                MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", true);
+                MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", MigrationHelpers.OUTPUT_STTL);
             }
             
             // migrate pubinfo
@@ -127,15 +127,15 @@ public class MigrationApp
             File pubinfoFile = new File(pubinfoFileName);
             if (!pubinfoFile.exists()) {
                 MigrationHelpers.writeLog("missing "+pubinfoFileName);
-                MigrationHelpers.modelToFileName(m, outfileName, type, true);
+                MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
                 return;
             }
             d = MigrationHelpers.documentFromFileName(pubinfoFileName);
             m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(BDR+baseName));
-            MigrationHelpers.modelToFileName(m, outfileName, type, true);
+            MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
             break;
         default:
-            MigrationHelpers.convertOneFile(file.getAbsolutePath(), outfileName, type, true, fileName);
+            MigrationHelpers.convertOneFile(file.getAbsolutePath(), outfileName, type, MigrationHelpers.OUTPUT_STTL, fileName);
             break;
         }
     }
