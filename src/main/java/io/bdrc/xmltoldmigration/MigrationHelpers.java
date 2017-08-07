@@ -308,7 +308,7 @@ public class MigrationHelpers {
         }
         HashMap<String,Object> finalObject = new HashMap<String,Object>();
         finalObject.put("@graph", graph);
-        finalObject.put("@context", "http://purl.bdrc.io/contexts/"+type+".jsonld");
+        finalObject.put("@context", obj.get("@context"));
         finalObject.put("_id", Id);
         if (!db.contains(Id)) {
             db.create(Id, finalObject);
@@ -333,18 +333,16 @@ public class MigrationHelpers {
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
         PrefixMap pm = RiotLib.prefixMap(g);
         String base = null;
-        Object jsonObject;
-        Writer wr = null;
+        Map<String,Object> tm;
         try {
-            jsonObject = JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            jsonObject = orderEntries((Map<String,Object>) jsonObject);
+            tm = (Map<String,Object>) JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
+            tm.replace("@context", "http://purl.bdrc.io/contexts/"+type+".jsonld");
+            tm = orderEntries(tm);
         } catch (JsonLdError | IOException e) {
             e.printStackTrace();
             return null;
         }
-        Map<String,Object> tm = (Map<String,Object>) jsonObject;
-        tm.put("@context", "http://purl.bdrc.io/contexts/"+type+".jsonld");
-        return jsonObject;
+        return tm;
     }
     
     public static void jsonObjectToOutputStream(Object jsonObject, OutputStream out) {
