@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -33,11 +34,13 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.JsonLDWriteContext;
+import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFFormat.JSONLDVariant;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RDFParser;
 import org.apache.jena.riot.RDFParserBuilder;
+import org.apache.jena.riot.RDFWriter;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.RiotLib;
@@ -46,6 +49,8 @@ import org.apache.jena.riot.system.StreamRDFLib;
 import org.apache.jena.riot.writer.JsonLDWriter;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.graph.GraphFactory;
+import org.apache.jena.sparql.util.Context;
+import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
@@ -73,7 +78,12 @@ import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.utils.JsonUtils;
 
+import io.bdrc.jena.sttl.CompareComplex;
+import io.bdrc.jena.sttl.ComparePredicates;
+import io.bdrc.jena.sttl.STTLWriter;
+
 import org.apache.jena.vocabulary.OWL2;
+import org.apache.jena.vocabulary.SKOS;
 
 
 public class MigrationHelpers {
@@ -114,6 +124,9 @@ public class MigrationHelpers {
     public static final String PUBINFO = "pubinfo";
     public static final String SCANREQUEST = "scanrequest";
     public static final String VOLUME = "volume";
+    
+    public static Lang sttl;
+    public static Context ctx;
 	
     public static Hashtable<String, CouchDbConnector> dbs = new Hashtable<>();
     
@@ -151,6 +164,21 @@ public class MigrationHelpers {
             // Well, that's a stupid try/catch...
             e.printStackTrace();
         }
+	    
+	    sttl = STTLWriter.registerWriter();
+        SortedMap<String, Integer> nsPrio = ComparePredicates.getDefaultNSPriorities();
+        nsPrio.put(SKOS.getURI(), 1);
+        nsPrio.put("http://purl.bdrc.io/ontology/admin/", 5);
+        nsPrio.put("http://purl.bdrc.io/ontology/toberemoved/", 6);
+        List<String> predicatesPrio = CompareComplex.getDefaultPropUris();
+        predicatesPrio.add("http://purl.bdrc.io/ontology/admin/logWhen");
+        predicatesPrio.add("http://purl.bdrc.io/ontology/onOrAbout");
+        predicatesPrio.add("http://purl.bdrc.io/ontology/noteText");
+        ctx = new Context();
+        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsPriorities"), nsPrio);
+        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);
+        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "complexPredicatesPriorities"), predicatesPrio);
+        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "indentBase"), 4);
 	}
 	
 	public static void writeLogsTo(PrintWriter w) {
@@ -285,39 +313,7 @@ public class MigrationHelpers {
 	    if (m==null) 
 	        throw new IllegalArgumentException("null model returned");
 	    if (out == null && !usecouchdb) return;
-		JsonLDWriteContext ctx = new JsonLDWriteContext();
-		JSONLDVariant variant;
-		if (frame) {
-			Object frameObj = getFrameObject(type);
-			ctx.setFrame(frameObj);
-			variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_FRAME_PRETTY.getVariant();
-		} else {
-		    variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_COMPACT_PRETTY.getVariant();
-		}
-		// https://issues.apache.org/jira/browse/JENA-1292
-		ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
-        JsonLdOptions opts = new JsonLdOptions();
-        ctx.setOptions(opts);
-        DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
-        PrefixMap pm = RiotLib.prefixMap(g);
-        String base = null;
-        Object jsonObject;
-        Writer wr = null;
-        if (out != null) wr = new OutputStreamWriter(out, Chars.charsetUTF8) ;
-        try {
-            jsonObject = JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            jsonObject = orderEntries((Map<String,Object>) jsonObject);
-            if (usecouchdb)
-                jsonObjectToCouch(jsonObject, type);
-            if (wr != null) {
-                JsonUtils.writePrettyPrint(wr, jsonObject) ;
-                wr.write("\n");
-                IO.flush(wr) ;
-            }
-        } catch (JsonLdError | IOException e) {
-            e.printStackTrace();
-            return;
-        }
+	    RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
 	}
 	
 	public static boolean isSimilarTo(Model src, Model dst) {

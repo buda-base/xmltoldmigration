@@ -1,0 +1,48 @@
+@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bdd:   <http://purl.bdrc.io/data/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+bdr:I12837_002  a   :ItemPhysicalAsset ;
+    :itemCopies     "1" ;
+    :itemException  "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo-Latn-x-ewts ;
+    :itemLibrary    bdr:G1TLMTGA000001 ;
+    :itemShelf      "ཇ|ཇ|༣||001278" .
+
+bdr:W12837  a                   :Work ;
+    :itemBDRCHoldingStatemeent  "1" ;
+    :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan"@bo-Latn-x-ewts ;
+    :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
+    :workEncoding               "In Tibetan" ;
+    :workExtentStatement        "177 ff." ;
+    :workHasItem                bdr:I12837_002 ;
+    :workHasSourcePrintery      bdr:G1PD129184 ;
+    :workHollis                 "014254679" ;
+    :workIsNumbered             true ;
+    :workPrintType              bdr:PrintTypeBlockprint ;
+    :workPublisherDate          "[2000?]" ;
+    :workPublisherLocation      "[lha sa]"@en ;
+    :workPublisherName          "[zhol par khang]"@en ;
+    :workSeriesContent          "test series content"@bo-Latn-x-ewts ;
+    :workSeriesName             "oral history series" ;
+    :workSeriesNumber           "no. 16" ;
+    :workSourcePrintery_string  "test sourcePrintery with no place" ;
+    adm:logEntry                [ adm:logMessage  "added print type and source printery"@en ;
+                                  adm:logWhen     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
+                                  adm:logWho      bdr:U13
+                                ] , 
+            [ adm:logMessage  "normalize encoding field for pub info"@en ;
+              adm:logWhen     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+              adm:logWho      bdr:U12
+            ] , 
+            [ adm:logMessage  "added hollis field to pub info"@en ;
+              adm:logWhen     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+              adm:logWho      bdr:U6
+            ] .

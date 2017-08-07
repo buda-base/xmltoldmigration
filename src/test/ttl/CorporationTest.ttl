@@ -1,0 +1,28 @@
+@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bdd:   <http://purl.bdrc.io/data/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+bdr:C11MS170  a            :Corporation ;
+    skos:prefLabel         "bran ka"@bo-Latn-x-tbrc , "Dranka"@en-x-mixed ;
+    :corporationHasMember  [ a                   :CorporationMemberNotSpecified ;
+                             :corporationMember  bdr:P1856
+                           ] , 
+            [ a                   :CorporationMemberUnknown ;
+              :corporationMember  bdr:P1857
+            ] ;
+    :corporationRegion     bdr:G934 ;
+    :note                  [ :noteText  "associated w / 11th cent. master, P4CZ15480 ?"@en ] , 
+            [ :noteText  "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en ] ;
+    :status                bdr:StatusReleased ;
+    adm:logEntry           [ adm:logMessage  "created new corp."@en ;
+                             adm:logWhen     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
+                             adm:logWho      bdr:U20
+                           ] .

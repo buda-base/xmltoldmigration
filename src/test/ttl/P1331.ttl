@@ -1,0 +1,34 @@
+@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bdd:   <http://purl.bdrc.io/data/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+bdr:E7285  a    :PersonEventDeath ;
+    :onOrAbout  "1322" .
+
+bdr:P1331  a          :Person ;
+    skos:prefLabel    "blo gros rnam dag"@bo-Latn-x-ewts ;
+    :note             [ :noteLocationStatement  "p. 359" ;
+                        :noteText               "date of death from this source"@en ;
+                        :noteWork               bdr:W20115
+                      ] ;
+    :personEvent      bdr:E7285 ;
+    :personEvent      [ a                  :PersonEventOccupiesSeat ;
+                        :personEventPlace  bdr:G844
+                      ] ;
+    :personGender     bdr:GenderMale ;
+    :personName       [ a           :PersonPrimaryName ;
+                        rdfs:label  "blo gros rnam dag"@bo-Latn-x-ewts
+                      ] , 
+            [ a           :PersonPrimaryTitle ;
+              rdfs:label  "bya yul blo bzang rnam dag"@bo-Latn-x-ewts
+            ] ;
+    :personTeacherOf  bdr:P1323 ;
+    :status           bdr:StatusReleased .
