@@ -13,7 +13,7 @@
 bdr:I12837_002  a   :ItemPhysicalAsset ;
     :itemForWork    bdr:W12837 ;
     :itemHasVolume  [ a                           :VolumePhysicalAsset ;
-                      :volumeNumber               "1"^^xsd:positiveInteger ;
+                      :volumeNumber               "1"^^xsd:integer ;
                       :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en
                     ] ;
     :itemLibrary    bdr:G1TLMFPL000001 ;
@@ -25,14 +25,14 @@ bdr:W12837  a             :Work ;
     :note                 [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ;
     :status               bdr:StatusReleased ;
     :workCatalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
-    :workCreator          [ rdfs:label        bdr:P1591 ;
+    :workCreator          [ :workCreatorWho   bdr:P1591 ;
                             :workCreatorType  bdr:CreatorTypeHasMainAuthor
                           ] ;
     :workHasItem          bdr:I12837_001 , bdr:I12837_002 ;
     :workIsAbout          bdr:G844 , bdr:T61 , bdr:W976 ;
     :workIsNumbered       true ;
     :workNumberOf         bdr:W12345 ;
-    :workNumberOfVolumes  "1"^^xsd:positiveInteger ;
+    :workNumberOfVolumes  "1"^^xsd:integer ;
     :workScanInfo         "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
     :workSeriesNumber     "2" ;
     :workTitle            [ a           :WorkBibliographicalTitle ;

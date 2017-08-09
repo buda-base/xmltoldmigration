@@ -628,7 +628,7 @@ public class CommonMigration  {
 		    Resource fplVolume = m.createResource();
 		    fplItem.addProperty(m.getProperty(BDO, "itemHasVolume"), fplVolume);
 		    fplVolume.addProperty(RDF.type, m.getProperty(BDO+"VolumePhysicalAsset"));
-		    fplVolume.addProperty(m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(1, XSDDatatype.XSDpositiveInteger));
+		    fplVolume.addProperty(m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(1, XSDDatatype.XSDinteger));
 		    fplVolume.addProperty(m.getProperty(BDO, "volumePhysicalDescription"), m.createLiteral(fplDescription, "en"));
 		}
 	}
@@ -738,7 +738,7 @@ public class CommonMigration  {
                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "location", "`"+propname+"` must be a positive integer, got `"+value+"`");
                        m.add(loc, m.getProperty(BDO, propname), m.createLiteral(value));
                    } else {
-                       m.add(loc, m.getProperty(BDO, propname), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
+                       m.add(loc, m.getProperty(BDO, propname), m.createTypedLiteral(intval, XSDDatatype.XSDinteger));
                        res = intval;
                    }
                } catch (NumberFormatException e) {
@@ -1087,6 +1087,7 @@ public class CommonMigration  {
 		    MigrationHelpers.writeLog(e.getMessage());
 			return false;
 		}
+		if (vr == null) return true;
 		if (!vr.isValid()) {
 		    MigrationHelpers.writeLog("Model "+fileName+" not OK in ontology because:");
 			Iterator<ValidityReport.Report> itr = vr.getReports();

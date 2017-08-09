@@ -355,7 +355,8 @@ public class MigrationHelpers {
             variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_COMPACT_PRETTY.getVariant();
         }
         // https://issues.apache.org/jira/browse/JENA-1292
-        ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
+        ctx.setJsonLDContext(jsonldcontext);
+        //ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
         //ctx.setJsonLDContext(getWorkJsonLdContext());
         JsonLdOptions opts = new JsonLdOptions();
         opts.setUseNativeTypes(true);
@@ -367,8 +368,8 @@ public class MigrationHelpers {
         Map<String,Object> tm;
         try {
             tm = (Map<String,Object>) JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            tm.replace("@context", "http://purl.bdrc.io/contexts/context.jsonld");
-            tm = orderEntries(tm);
+            //tm.replace("@context", "http://purl.bdrc.io/contexts/context.jsonld");
+            //tm = orderEntries(tm);
         } catch (JsonLdError | IOException e) {
             e.printStackTrace();
             return null;
@@ -596,8 +597,7 @@ public class MigrationHelpers {
 		OntModel ontoModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM, null);
 	    try {
             ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
-            //InputStream inputStream = classLoader.getResourceAsStream("owl-file/bdrc.owl");
-            InputStream inputStream = new FileInputStream("/tmp/bdrc.owl");
+            InputStream inputStream = classLoader.getResourceAsStream("owl-file/bdrc.owl");
 	        ontoModel.read(inputStream, "", "RDF/XML");
 	        inputStream.close();
 	    } catch (Exception e) {

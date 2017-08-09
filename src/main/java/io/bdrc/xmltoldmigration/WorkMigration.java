@@ -113,7 +113,7 @@ public class WorkMigration {
                 int nbvols = Integer.parseUnsignedInt(current.getAttribute("vols").trim());
                 if (nbvols != 0) {
                     prop = m.getProperty(BDO, "workNumberOfVolumes");
-                    lit = m.createTypedLiteral(nbvols, XSDDatatype.XSDpositiveInteger);
+                    lit = m.createTypedLiteral(nbvols, XSDDatatype.XSDinteger);
                     m.add(main, prop, lit);
                 }
             } catch (NumberFormatException e) {}
@@ -181,7 +181,7 @@ public class WorkMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
                 Resource r = getResourceForType(typeNodes, m, main, propWorkCreator, "creator", value);
-                r.addProperty(m.getProperty(CommonMigration.GENLABEL_URI), m.createResource(BDR+person));
+                r.addProperty(m.getProperty(BDO, "workCreatorWho"), m.createResource(BDR+person));
             }
                 
         }

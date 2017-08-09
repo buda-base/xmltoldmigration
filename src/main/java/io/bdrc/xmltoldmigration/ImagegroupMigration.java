@@ -43,7 +43,7 @@ public class ImagegroupMigration {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
                 m.add(main, m.getProperty(BDO, "volumeNumber"), m.createLiteral(volumeNumber));
             } else {
-                m.add(main, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(intval, XSDDatatype.XSDpositiveInteger));
+                m.add(main, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(intval, XSDDatatype.XSDinteger));
             }
         } catch (NumberFormatException e) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
@@ -70,11 +70,11 @@ public class ImagegroupMigration {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("intro").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "volumePagesIntro"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+                m.add(main, m.getProperty(BDO, "volumePagesIntro"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             
             value = current.getAttribute("tbrcintro").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "volumePagesTbrcIntro"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+                m.add(main, m.getProperty(BDO, "volumePagesTbrcIntro"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             
             value = current.getAttribute("text").trim();
             if (!value.isEmpty()) {
@@ -82,13 +82,13 @@ public class ImagegroupMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup:text", "image group had a negative value for `text`: `"+value+"`");
                     value = "0";
                 }
-                m.add(main, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+                m.add(main, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             }
                 
             
             value = current.getAttribute("total").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDnonNegativeInteger));
+                m.add(main, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
         }
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "qc");

@@ -41,7 +41,7 @@ bdr:W30020_0001  a      :Work ;
                           :workSiteType   bdr:WorkSiteTypeVolume
                         ] ;
     :workIsAbout        bdr:T208 ;
-    :workLocation       [ :workLocationVolume  "1"^^xsd:positiveInteger ;
+    :workLocation       [ :workLocationVolume  "1"^^xsd:integer ;
                           :workLocationWork    bdr:W30020
                         ] ;
     adm:outlineType     bdr:OutlineTypeVolume ;
@@ -49,10 +49,10 @@ bdr:W30020_0001  a      :Work ;
 
 bdr:W30020_0002  a              :Work ;
     :workKaTenSiglaG            "test broken property type" ;
-    :workLocation               [ :workLocationEndPage    "18"^^xsd:positiveInteger ;
-                                  :workLocationEndVolume  "1"^^xsd:positiveInteger ;
-                                  :workLocationPage       "11"^^xsd:positiveInteger ;
-                                  :workLocationVolume     "1"^^xsd:positiveInteger ;
+    :workLocation               [ :workLocationEndPage    "18"^^xsd:integer ;
+                                  :workLocationEndVolume  "1"^^xsd:integer ;
+                                  :workLocationPage       "11"^^xsd:integer ;
+                                  :workLocationVolume     "1"^^xsd:integer ;
                                   :workLocationWork       bdr:W30020
                                 ] ;
     :workTitle                  [ a           :WorkBibliographicalTitle ;
@@ -65,20 +65,20 @@ bdr:W30020_0002  a              :Work ;
 bdr:W30020_0003  a      :Work ;
     skos:prefLabel      "2 (smad cha)"@bo-Latn-x-ewts ;
     :workHasPart        bdr:W30020_0004 , bdr:W30020_0005 ;
-    :workLocation       [ :workLocationEndPage    "24"^^xsd:positiveInteger ;
-                          :workLocationEndVolume  "2"^^xsd:positiveInteger ;
-                          :workLocationPage       "12"^^xsd:positiveInteger ;
-                          :workLocationVolume     "2"^^xsd:positiveInteger ;
+    :workLocation       [ :workLocationEndPage    "24"^^xsd:integer ;
+                          :workLocationEndVolume  "2"^^xsd:integer ;
+                          :workLocationPage       "12"^^xsd:integer ;
+                          :workLocationVolume     "2"^^xsd:integer ;
                           :workLocationWork       bdr:W30020
                         ] ;
     adm:outlineType     bdr:OutlineTypeClass ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
-    :workLocation       [ :workLocationEndPage    "18"^^xsd:positiveInteger ;
-                          :workLocationEndVolume  "2"^^xsd:positiveInteger ;
-                          :workLocationPage       "11"^^xsd:positiveInteger ;
-                          :workLocationVolume     "2"^^xsd:positiveInteger ;
+    :workLocation       [ :workLocationEndPage    "18"^^xsd:integer ;
+                          :workLocationEndVolume  "2"^^xsd:integer ;
+                          :workLocationPage       "11"^^xsd:integer ;
+                          :workLocationVolume     "2"^^xsd:integer ;
                           :workLocationWork       bdr:W30020
                         ] ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
@@ -88,10 +88,10 @@ bdr:W30020_0004  a      :Work ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
-    :workLocation       [ :workLocationEndPage    "25"^^xsd:positiveInteger ;
-                          :workLocationEndVolume  "2"^^xsd:positiveInteger ;
-                          :workLocationPage       "17"^^xsd:positiveInteger ;
-                          :workLocationVolume     "2"^^xsd:positiveInteger ;
+    :workLocation       [ :workLocationEndPage    "25"^^xsd:integer ;
+                          :workLocationEndVolume  "2"^^xsd:integer ;
+                          :workLocationPage       "17"^^xsd:integer ;
+                          :workLocationVolume     "2"^^xsd:integer ;
                           :workLocationWork       bdr:W30020
                         ] ;
     :workTitle          [ a           :WorkBibliographicalTitle ;

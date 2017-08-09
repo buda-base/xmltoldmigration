@@ -36,8 +36,8 @@ bdr:L8LS14115  a          :Lineage ;
     :lineageRef           bdr:L1RKL2042 ;
     :lineageType          bdr:LineageDbang ;
     :status               bdr:StatusReleased ;
-    :workLocation         [ :workLocationPage    "236"^^xsd:positiveInteger ;
-                            :workLocationVolume  "1"^^xsd:positiveInteger ;
+    :workLocation         [ :workLocationPage    "236"^^xsd:integer ;
+                            :workLocationVolume  "1"^^xsd:integer ;
                             :workLocationWork    bdr:W1PD107937
                           ] ;
     adm:logEntry          [ adm:logWhen  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;

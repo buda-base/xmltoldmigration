@@ -35,7 +35,7 @@ public class MigrationTest
 	@BeforeClass
 	public static void init() {
 	    MigrationHelpers.usecouchdb = false;
-		ontology = MigrationHelpers.getOntologyModel();
+		ontology = MigrationHelpers.ontologymodel;
 	}
 	
    @AfterClass
@@ -296,7 +296,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ImagegroupTest.ttl");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", true);
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", MigrationHelpers.OUTPUT_STTL);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
