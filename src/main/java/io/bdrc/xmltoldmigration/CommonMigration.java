@@ -3,7 +3,6 @@ package io.bdrc.xmltoldmigration;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,17 +17,13 @@ import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -73,8 +68,6 @@ public class CommonMigration  {
 	public static final EwtsConverter converter = new EwtsConverter();
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
-    
-    public static final BDRCNodeComparator bdrcNodeCompartor = new BDRCNodeComparator(); 
     
     public static final Map<String, String> logWhoToUri = new HashMap<>();
     static {
@@ -215,16 +208,6 @@ public class CommonMigration  {
                 +"\"skos\" : \""+SKOS_PREFIX+"\","
                 +"\"vcard\" : \""+VCARD_PREFIX+"\""
 			    +"}";
-	}
-	
-	public static RDFList getSortedList(RDFList l) {
-	    if (l == null) return null;
-	    Model m = l.getModel();
-	    List<RDFNode> jl = l.asJavaList();
-	    Collections.sort(jl, bdrcNodeCompartor);
-	    l.removeList();
-	    RDFList res = m.createList(jl.iterator());
-	    return res;
 	}
 	
 	public static Literal getLitFromUri(Model m, String uri) {
