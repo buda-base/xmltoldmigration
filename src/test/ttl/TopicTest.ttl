@@ -1,4 +1,4 @@
-@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
@@ -16,19 +16,19 @@ bdr:T3CN2023  a     :Topic ;
     skos:prefLabel  "bstan 'gyur/"@bo-Latn-x-ewts , "Tengyur"@en-x-mixed , "丹珠尔"@zh ;
     :status         bdr:StatusReleased ;
     adm:logEntry    [ adm:logMessage  "created record"@en ;
-                      adm:logWhen     "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
+                      adm:logDate     "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
                       adm:logWho      bdr:U7
                     ] , 
             [ adm:logMessage  "added description"@en ;
-              adm:logWhen     "2015-08-31T16:55:02.487Z"^^xsd:dateTime ;
+              adm:logDate     "2015-08-31T16:55:02.487Z"^^xsd:dateTime ;
               adm:logWho      bdr:U7
             ] , 
             [ adm:logMessage  "added description"@en ;
-              adm:logWhen     "2015-08-31T16:58:10.553Z"^^xsd:dateTime ;
+              adm:logDate     "2015-08-31T16:58:10.553Z"^^xsd:dateTime ;
               adm:logWho      bdr:U7
             ] , 
             [ adm:logMessage  "added see also"@en ;
-              adm:logWhen     "2015-09-04T13:13:26.221Z"^^xsd:dateTime ;
+              adm:logDate     "2015-09-04T13:13:26.221Z"^^xsd:dateTime ;
               adm:logWho      bdr:U7
             ] , 
             [ adm:logMessage  "added description: Tenjur Canonical Text"@en ;

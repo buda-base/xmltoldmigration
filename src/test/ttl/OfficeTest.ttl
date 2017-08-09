@@ -1,4 +1,4 @@
-@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
@@ -14,10 +14,10 @@ bdr:R8LS12811  a    :Role ;
     skos:prefLabel  "bon po lung bla ma'i skye brgyud/"@bo-Latn-x-ewts , "Bonpo Lung Lama Tulku Line"@en ;
     :status         bdr:StatusReleased ;
     adm:logEntry    [ adm:logMessage  "created new office"@en ;
-                      adm:logWhen     "2012-12-20T16:34:48.895Z"^^xsd:dateTime ;
+                      adm:logDate     "2012-12-20T16:34:48.895Z"^^xsd:dateTime ;
                       adm:logWho      bdr:U19
                     ] , 
             [ adm:logMessage  "added phonetic title"@en ;
-              adm:logWhen     "2014-07-11T12:26:57.845Z"^^xsd:dateTime ;
+              adm:logDate     "2014-07-11T12:26:57.845Z"^^xsd:dateTime ;
               adm:logWho      bdr:U20
             ] .

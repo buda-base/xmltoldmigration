@@ -1,4 +1,4 @@
-@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
@@ -23,6 +23,6 @@ bdr:C11MS170  a            :Corporation ;
             [ :noteText  "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en ] ;
     :status                bdr:StatusReleased ;
     adm:logEntry           [ adm:logMessage  "created new corp."@en ;
-                             adm:logWhen     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
+                             adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
                              adm:logWho      bdr:U20
                            ] .

@@ -37,7 +37,7 @@ import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
 
-	public static final String ONTOLOGY_PREFIX = "http://purl.bdrc.io/ontology/";
+	public static final String ONTOLOGY_PREFIX = "http://purl.bdrc.io/ontology/core/";
 	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/ontology/admin/";
 	public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
 	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
@@ -451,7 +451,7 @@ public class CommonMigration  {
 		m.add(r, prop, logEntry);
 		String value = e.getAttribute("when");
 		if (!value.isEmpty()) {
-			prop = m.createProperty(ADM+"logWhen");
+			prop = m.createProperty(ADM+"logDate");
 			try {
 			    m.add(logEntry, prop, literalFromXsdDate(m, value));
 			} catch (DatatypeFormatException ex) {

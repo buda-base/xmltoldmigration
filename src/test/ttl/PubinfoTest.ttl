@@ -1,4 +1,4 @@
-@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
@@ -35,14 +35,14 @@ bdr:W12837  a                   :Work ;
     :workSeriesNumber           "no. 16" ;
     :workSourcePrintery_string  "test sourcePrintery with no place" ;
     adm:logEntry                [ adm:logMessage  "added print type and source printery"@en ;
-                                  adm:logWhen     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
+                                  adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
                                   adm:logWho      bdr:U13
                                 ] , 
             [ adm:logMessage  "normalize encoding field for pub info"@en ;
-              adm:logWhen     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+              adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
               adm:logWho      bdr:U12
             ] , 
             [ adm:logMessage  "added hollis field to pub info"@en ;
-              adm:logWhen     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+              adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
               adm:logWho      bdr:U6
             ] .

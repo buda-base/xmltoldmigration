@@ -1,4 +1,4 @@
-@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
@@ -77,6 +77,6 @@ bdr:P1583  a              :Person ;
     :personTeacherOf      bdr:P0RK1190 , bdr:P0RK1191 , bdr:P0RK1192 , bdr:P0RK783 , bdr:P0RK839 , bdr:P2JM207 , bdr:P314 , bdr:P7091 ;
     :status               bdr:StatusReleased ;
     adm:logEntry          [ adm:logMessage  "added records"@en ;
-                            adm:logWhen     "2008-06-30T17:01:56.496Z"^^xsd:dateTime ;
+                            adm:logDate     "2008-06-30T17:01:56.496Z"^^xsd:dateTime ;
                             adm:logWho      bdr:U15
                           ] .

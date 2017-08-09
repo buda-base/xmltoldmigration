@@ -1,4 +1,4 @@
-@prefix :      <http://purl.bdrc.io/ontology/> .
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
@@ -45,19 +45,19 @@ bdr:W12837  a             :Work ;
               rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad"@bo-Latn-x-ewts
             ] ;
     adm:logEntry          [ adm:logMessage  "cataloging reviewed"@en ;
-                            adm:logWhen     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
+                            adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
                             adm:logWho      bdr:U1
                           ] , 
             [ adm:logMessage  "added print type and source printery"@en ;
-              adm:logWhen     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
+              adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
               adm:logWho      bdr:U13
             ] , 
             [ adm:logMessage  "normalized catalog info"@en ;
-              adm:logWhen     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
+              adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
               adm:logWho      bdr:U12
             ] , 
             [ adm:logMessage  "normalized catalog info"@en ;
-              adm:logWhen     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
+              adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
               adm:logWho      bdr:U12
             ] ;
     adm:workInProduct     bdr:PR01UNRESTR , bdr:PRHD03 ;
