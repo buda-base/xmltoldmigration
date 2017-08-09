@@ -1,6 +1,7 @@
 package io.bdrc.xmltoldmigration;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,12 +44,11 @@ import org.apache.jena.riot.RDFParserBuilder;
 import org.apache.jena.riot.RDFWriter;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.system.PrefixMap;
+import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.RiotLib;
-import org.apache.jena.riot.system.StreamRDF;
 import org.apache.jena.riot.system.StreamRDFLib;
 import org.apache.jena.riot.writer.JsonLDWriter;
 import org.apache.jena.sparql.core.DatasetGraph;
-import org.apache.jena.sparql.graph.GraphFactory;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
@@ -90,7 +90,7 @@ public class MigrationHelpers {
 
 	protected static DocumentBuilderFactory documentFactory = null;
 	
-	protected static Map<String,Object> typeToFrameObject = new HashMap<String,Object>();
+	protected static Map<String,Object> typeToFrameObject = new HashMap<>();
 	
 	public static Writer logWriter;
 	
@@ -103,7 +103,10 @@ public class MigrationHelpers {
 	public static boolean checkagainstOwl = false;
 	public static boolean checkagainstXsd = true;
 	
-	public static OntModel ontologymodel = null;
+	public static OntModel ontologymodelSimple = MigrationHelpers.getOntologyModel();
+	public static OntModel ontologymodel = MigrationHelpers.getInferredModel(ontologymodelSimple);
+	public static PrefixMap prefixMap = getPrefixMap();
+	public static Map<String,Object> jsonldcontext = GenerateContext.generateCompleteContext(ontologymodelSimple, prefixMap);
 	
 	public static final String DB_PREFIX = "bdrc_";
 	// types in target DB
@@ -138,9 +141,7 @@ public class MigrationHelpers {
     }
 
     static {
-        if (checkagainstOwl) {
-            ontologymodel = MigrationHelpers.getOntologyModel();
-        }
+        ontologymodel = MigrationHelpers.getOntologyModel();
     	try {
             httpClient = new StdHttpClient.Builder()
                     .url("http://localhost:13598")
@@ -171,6 +172,22 @@ public class MigrationHelpers {
 	    setupSTTL();
 	}
 	
+    public static PrefixMap getPrefixMap() {
+        PrefixMap pm = PrefixMapFactory.create();
+        pm.add("", CommonMigration.ONTOLOGY_PREFIX);
+        pm.add("adm", CommonMigration.ADMIN_PREFIX);
+        pm.add("bdd", CommonMigration.DATA_PREFIX);
+        pm.add("bdr", CommonMigration.RESOURCE_PREFIX);
+        pm.add("tbr", CommonMigration.TBR_PREFIX);
+        pm.add("owl", CommonMigration.OWL_PREFIX);
+        pm.add("rdf", CommonMigration.RDF_PREFIX);
+        pm.add("rdfs", CommonMigration.RDFS_PREFIX);
+        pm.add("skos", CommonMigration.SKOS_PREFIX);
+        pm.add("vcard", CommonMigration.VCARD_PREFIX);
+        pm.add("xsd", CommonMigration.XSD_PREFIX);
+        return pm;
+    }
+    
     public static void setupSTTL() {
         sttl = STTLWriter.registerWriter();
         SortedMap<String, Integer> nsPrio = ComparePredicates.getDefaultNSPriorities();
@@ -216,18 +233,11 @@ public class MigrationHelpers {
     }
 	
 	public static Object getFrameObject(String type) {
-		Object jsonObject = typeToFrameObject.get(type);
-		if (jsonObject != null) {
-			return jsonObject;
-		}
-		String rootShortUri = typeToRootShortUri.get(type); 
-		String jsonString = "{\"@type\": \""+rootShortUri+"\", \"@context\": "+CommonMigration.getJsonLDContext()+"}";
-		try {
-			jsonObject = JsonUtils.fromString(jsonString);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+	    if (typeToFrameObject.containsKey(type))
+	        return typeToFrameObject.get(type);
+		Map<String,Object> jsonObject = new HashMap<String,Object>();
+		jsonObject.put("@type", typeToRootShortUri.get(type));
+		jsonObject.put("@context", jsonldcontext);
 		typeToFrameObject.put(type, jsonObject);
 		return jsonObject;
 	}
@@ -315,9 +325,27 @@ public class MigrationHelpers {
         }
     }
 	
+    public static String getWorkJsonLdContext() {
+        return "{\n" + 
+                "    \"@vocab\" : \"http://purl.bdrc.io/ontology/\",\n" + 
+                "    \"adm\" : \"http://purl.bdrc.io/ontology/admin/\",\n" + 
+                "    \"bdd\" : \"http://purl.bdrc.io/data/\",\n" + 
+                "    \"bdr\" : \"http://purl.bdrc.io/resource/\",\n" + 
+                "    \"tbr\" : \"http://purl.bdrc.io/ontology/toberemoved/\",\n" + 
+                "    \"rdf\" : \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\",\n" + 
+                "    \"owl\" : \"http://www.w3.org/2002/07/owl#\",\n" + 
+                "    \"xsd\" : \"http://www.w3.org/2001/XMLSchema#\",\n" + 
+                "    \"rdfs\" : \"http://www.w3.org/2000/01/rdf-schema#\",\n" + 
+                "    \"skos\" : \"http://www.w3.org/2004/02/skos/core#\",\n" + 
+                //"    \"workNumberOfVolumes\": {\"@type\": \"xsd:positiveInteger\"},\n" + 
+                //"    \"workScanInfo\": {\"@language\": \"bo-x-ewts\"}\n" + 
+                "    \"workNumberOf\": {\"@type\": \"@id\"}\n" +
+                "}";
+    }
+    
     public static Object modelToJsonObject(Model m, String type) {
         JsonLDWriteContext ctx = new JsonLDWriteContext();
-        boolean frame = false;
+        boolean frame = true;
         JSONLDVariant variant;
         if (frame) {
             Object frameObj = getFrameObject(type);
@@ -328,7 +356,10 @@ public class MigrationHelpers {
         }
         // https://issues.apache.org/jira/browse/JENA-1292
         ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
+        //ctx.setJsonLDContext(getWorkJsonLdContext());
         JsonLdOptions opts = new JsonLdOptions();
+        opts.setUseNativeTypes(true);
+        //opts.setProcessingMode("json-ld-1.1");
         ctx.setOptions(opts);
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
         PrefixMap pm = RiotLib.prefixMap(g);
@@ -336,7 +367,7 @@ public class MigrationHelpers {
         Map<String,Object> tm;
         try {
             tm = (Map<String,Object>) JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            tm.replace("@context", "http://purl.bdrc.io/contexts/"+type+".jsonld");
+            tm.replace("@context", "http://purl.bdrc.io/contexts/context.jsonld");
             tm = orderEntries(tm);
         } catch (JsonLdError | IOException e) {
             e.printStackTrace();
@@ -565,19 +596,21 @@ public class MigrationHelpers {
 		OntModel ontoModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM, null);
 	    try {
             ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
-            InputStream inputStream = classLoader.getResourceAsStream("owl-file/bdrc.owl");
+            //InputStream inputStream = classLoader.getResourceAsStream("owl-file/bdrc.owl");
+            InputStream inputStream = new FileInputStream("/tmp/bdrc.owl");
 	        ontoModel.read(inputStream, "", "RDF/XML");
 	        inputStream.close();
 	    } catch (Exception e) {
 	        System.err.println(e.getMessage());
 	        System.exit(1);
 	    }
-	    // then we fix it by removing the individuals and converting rdf10 to rdf11
-	    //removeIndividuals(ontoModel);
+	    // then we fix it by converting RDF-1.0 to RDF-1.1
 	    rdf10tordf11(ontoModel);
-	    // then we change the reasoner to Openllet:
-	    OntModel ontoModelInferred = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, ontoModel);
-	    return ontoModelInferred;
+	    return ontoModel;
+	}
+	
+	public static OntModel getInferredModel(OntModel m) {
+	    return ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, m);
 	}
 	
 	public static Map<String,Validator> validators = new HashMap<String,Validator>();

@@ -1,6 +1,5 @@
 package io.bdrc.xmltoldmigration;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 

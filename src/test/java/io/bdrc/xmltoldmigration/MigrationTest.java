@@ -2,21 +2,13 @@ package io.bdrc.xmltoldmigration;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.github.jsonldjava.core.JsonLdError;
-
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
-
 import org.junit.Test;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -129,47 +121,6 @@ public class MigrationTest
 	}
 	
    @Test
-   public void testSortList() {
-       // sort by URI
-       Model m = ModelFactory.createDefaultModel();
-       RDFList testList = m.createList(new RDFNode[] {});
-       testList = testList.with(m.createResource("http://example.com/2").
-               addProperty(RDF.type, m.getResource("http://example.com/type1")));
-       testList = testList.with(m.createResource("http://example.com/1").
-               addProperty(RDF.type, m.getResource("http://example.com/type2")));
-       testList = CommonMigration.getSortedList(testList);
-       assertTrue(testList.isValid());
-       assertTrue(testList.size() == 2);
-       assertTrue(testList.get(0).asResource().getURI() == "http://example.com/1");
-       // sort by string comparison (no lang)
-       m = ModelFactory.createDefaultModel();
-       testList = m.createList(new RDFNode[] {});
-       testList = testList.with(m.createResource().
-               addProperty(RDFS.label, m.createLiteral("bca")));
-       testList = testList.with(m.createResource().
-               addProperty(RDFS.label, m.createLiteral("abc")));
-       testList = CommonMigration.getSortedList(testList);
-       assertTrue(testList.get(0).asResource().getProperty(RDFS.label).getLiteral().getLexicalForm().equals("abc"));
-       m = ModelFactory.createDefaultModel();
-       testList = m.createList(new RDFNode[] {});
-       testList = testList.with(m.createResource().
-               addProperty(RDFS.label, m.createLiteral("abc", "en")));
-       testList = testList.with(m.createResource().
-               addProperty(RDFS.label, m.createLiteral("bca", "bo")));
-       testList = CommonMigration.getSortedList(testList);
-       assertTrue(testList.get(0).asResource().getProperty(RDFS.label).getLiteral().getLexicalForm().equals("bca"));
-       m = ModelFactory.createDefaultModel();
-       Property logWhen = m.getProperty(CommonMigration.ADM, "logWhen");
-       testList = m.createList(new RDFNode[] {});
-       testList = testList.with(m.createResource().
-               addProperty(logWhen, CommonMigration.literalFromXsdDate(m, "2013-04-01T09:36:07.005Z")));
-       testList = testList.with(m.createResource().
-               addProperty(logWhen, CommonMigration.literalFromXsdDate(m, "2013-04-01T09:36:06.005Z")));
-       testList = CommonMigration.getSortedList(testList);
-       assertTrue(testList.get(0).asResource().getProperty(logWhen).getLiteral().getLexicalForm().equals("2013-04-01T09:36:06.005Z"));
-    }
-	
-   @Test
     public void testP1331()
     {
         System.out.println("testing P1331");
@@ -245,15 +196,16 @@ public class MigrationTest
     }
 	
 	   @Test
-	    public void testWork()
+	    public void testWork() throws JsonLdError, JsonParseException, IOException
 	    {
-	       System.out.println("testing work");
+	        System.out.println("testing work");
 	        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/WorkTest.xml");  
 	        Validator validator = MigrationHelpers.getValidatorFor("work");
 	        assertFalse(CommonMigration.documentValidates(d, validator));
 	        Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
 	        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTest.ttl");
-	        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", true);
+	        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_JSONLD);
+	        MigrationHelpers.modelToOutputStream(correctModel, System.out, "work", MigrationHelpers.OUTPUT_JSONLD);
 	        //showDifference(fromXml, correctModel);
 	        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
 	        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
@@ -269,7 +221,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", MigrationHelpers.OUTPUT_JSONLD);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", MigrationHelpers.OUTPUT_JSONLD);
            //showDifference(fromXml, correctModel);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
