@@ -112,12 +112,18 @@
     <dependency>
         <groupId>com.github.jsonld-java</groupId>
         <artifactId>jsonld-java</artifactId>
-        <version>0.10.0</version>
+        <version>0.11.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.bdrc</groupId>
       <artifactId>jena-stable-turtle</artifactId>
       <version>0.1.0-SNAPSHOT</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>jena-arq</artifactId>
+          <groupId>org.apache.jena</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
         <groupId>org.ektorp</groupId>

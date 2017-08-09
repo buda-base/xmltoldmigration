@@ -360,6 +360,7 @@ public class MigrationHelpers {
         //ctx.setJsonLDContext(getWorkJsonLdContext());
         JsonLdOptions opts = new JsonLdOptions();
         opts.setUseNativeTypes(true);
+        opts.setPruneBlankNodeIdentifiers(true);
         //opts.setProcessingMode("json-ld-1.1");
         ctx.setOptions(opts);
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
