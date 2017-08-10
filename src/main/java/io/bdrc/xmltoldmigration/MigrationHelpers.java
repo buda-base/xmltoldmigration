@@ -1,7 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -106,7 +105,7 @@ public class MigrationHelpers {
 	public static OntModel ontologymodelSimple = MigrationHelpers.getOntologyModel();
 	public static OntModel ontologymodel = MigrationHelpers.getInferredModel(ontologymodelSimple);
 	public static PrefixMap prefixMap = getPrefixMap();
-	public static Map<String,Object> jsonldcontext = GenerateContext.generateCompleteContext(ontologymodelSimple, prefixMap);
+	public static Map<String,Object> jsonldcontext = ContextGenerator.generateContextObject(ontologymodelSimple, prefixMap, "bdo");
 	
 	public static final String DB_PREFIX = "bdrc_";
 	// types in target DB
@@ -324,24 +323,6 @@ public class MigrationHelpers {
             db.create(Id, finalObject);
         }
     }
-	
-    public static String getWorkJsonLdContext() {
-        return "{\n" + 
-                "    \"@vocab\" : \"http://purl.bdrc.io/ontology/\",\n" + 
-                "    \"adm\" : \"http://purl.bdrc.io/ontology/admin/\",\n" + 
-                "    \"bdd\" : \"http://purl.bdrc.io/data/\",\n" + 
-                "    \"bdr\" : \"http://purl.bdrc.io/resource/\",\n" + 
-                "    \"tbr\" : \"http://purl.bdrc.io/ontology/toberemoved/\",\n" + 
-                "    \"rdf\" : \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\",\n" + 
-                "    \"owl\" : \"http://www.w3.org/2002/07/owl#\",\n" + 
-                "    \"xsd\" : \"http://www.w3.org/2001/XMLSchema#\",\n" + 
-                "    \"rdfs\" : \"http://www.w3.org/2000/01/rdf-schema#\",\n" + 
-                "    \"skos\" : \"http://www.w3.org/2004/02/skos/core#\",\n" + 
-                //"    \"workNumberOfVolumes\": {\"@type\": \"xsd:positiveInteger\"},\n" + 
-                //"    \"workScanInfo\": {\"@language\": \"bo-x-ewts\"}\n" + 
-                "    \"workNumberOf\": {\"@type\": \"@id\"}\n" +
-                "}";
-    }
     
     public static Object modelToJsonObject(Model m, String type) {
         JsonLDWriteContext ctx = new JsonLDWriteContext();
@@ -369,8 +350,8 @@ public class MigrationHelpers {
         Map<String,Object> tm;
         try {
             tm = (Map<String,Object>) JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            //tm.replace("@context", "http://purl.bdrc.io/contexts/context.jsonld");
-            //tm = orderEntries(tm);
+            tm.replace("@context", "http://purl.bdrc.io/contexts/context.jsonld");
+            tm = orderEntries(tm);
         } catch (JsonLdError | IOException e) {
             e.printStackTrace();
             return null;
@@ -398,7 +379,6 @@ public class MigrationHelpers {
 	        RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
 	        return;
 	    }
-	    // outputType == OUTPUT_JSONLD
 	    Object jsonObject = modelToJsonObject(m, type);
 	    jsonObjectToOutputStream(jsonObject, out);
 	}
@@ -419,14 +399,8 @@ public class MigrationHelpers {
 		    final DocumentBuilder builder = documentFactory.newDocumentBuilder();       
 		    document = builder.parse(new File(fname));
 		}
-		catch (final ParserConfigurationException e) {
+		catch (final ParserConfigurationException | SAXException | IOException e) {
 		    e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return document;
 	}
@@ -577,7 +551,6 @@ public class MigrationHelpers {
             Statement s = r.getProperty(OWL2.onDataRange); // is that code obvious? no
             if (s != null && s.getObject().asResource().equals(RDFPL)) {
                 s.changeObject(RDFLS);
-
             }
         }
 	}
