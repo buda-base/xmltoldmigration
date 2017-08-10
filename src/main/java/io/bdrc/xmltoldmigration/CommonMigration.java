@@ -194,22 +194,6 @@ public class CommonMigration  {
 		m.setNsPrefix("xsd", XSD_PREFIX);
 	}
 	
-	public static String getJsonLDContext() {
-		return "{"
-				+"\"@vocab\" : \""+ONTOLOGY_PREFIX+"\","
-				+"\"adm\" : \""+ADMIN_PREFIX+"\","
-				+"\"bdd\" : \""+DATA_PREFIX+"\","
-				+"\"bdr\" : \""+RESOURCE_PREFIX+"\","
-				+"\"tbr\" : \""+TBR_PREFIX+"\","
-                +"\"rdf\" : \""+RDF_PREFIX+"\","
-                +"\"owl\" : \""+OWL_PREFIX+"\","
-                +"\"xsd\" : \""+XSD_PREFIX+"\","
-                +"\"rdfs\" : \""+RDFS_PREFIX+"\","
-                +"\"skos\" : \""+SKOS_PREFIX+"\","
-                +"\"vcard\" : \""+VCARD_PREFIX+"\""
-			    +"}";
-	}
-	
 	public static Literal getLitFromUri(Model m, String uri) {
 		//return m.createLiteral(m.shortForm(uri));
 		return m.createLiteral(uri);

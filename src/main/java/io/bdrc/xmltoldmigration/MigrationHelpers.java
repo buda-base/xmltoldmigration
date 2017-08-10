@@ -328,7 +328,7 @@ public class MigrationHelpers {
         JsonLDWriteContext ctx = new JsonLDWriteContext();
         boolean frame = true;
         JSONLDVariant variant;
-        if (frame) {
+        if (type != "outline") {
             Object frameObj = getFrameObject(type);
             ctx.setFrame(frameObj);
             variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_FRAME_PRETTY.getVariant();
@@ -337,8 +337,6 @@ public class MigrationHelpers {
         }
         // https://issues.apache.org/jira/browse/JENA-1292
         ctx.setJsonLDContext(jsonldcontext);
-        //ctx.setJsonLDContext(CommonMigration.getJsonLDContext());
-        //ctx.setJsonLDContext(getWorkJsonLdContext());
         JsonLdOptions opts = new JsonLdOptions();
         opts.setUseNativeTypes(true);
         opts.setPruneBlankNodeIdentifiers(true);
@@ -350,7 +348,7 @@ public class MigrationHelpers {
         Map<String,Object> tm;
         try {
             tm = (Map<String,Object>) JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            tm.replace("@context", "http://purl.bdrc.io/contexts/context.jsonld");
+            tm.replace("@context", "http://purl.bdrc.io/context.jsonld");
             tm = orderEntries(tm);
         } catch (JsonLdError | IOException e) {
             e.printStackTrace();
