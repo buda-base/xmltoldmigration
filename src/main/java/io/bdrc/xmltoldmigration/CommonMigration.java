@@ -838,7 +838,7 @@ public class CommonMigration  {
 		case "sansDiacritics":
 			return "-Latn-x-ndia";
 		case "withDiacritics":
-			return "-Latn-x-iats";
+			return "-Latn-x-iast";
 		case "transliteration":
 			return "-Latn-x-trans";
 		case "acip":
