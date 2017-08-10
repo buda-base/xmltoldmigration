@@ -174,7 +174,8 @@ public class PubinfoMigration {
             if (defaultLang != null) {
                 Property prop = m.createProperty(propName);
                 Literal l = CommonMigration.getLiteral(current, defaultLang, m, elementName, rid, null);
-                main.addProperty(prop, l);
+                if (l != null)
+                    main.addProperty(prop, l);
             } else {
                 value = current.getTextContent().trim();
                 if (value.isEmpty()) return;
