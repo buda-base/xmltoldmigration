@@ -23,7 +23,7 @@ public class MigrationApp
     
     // extract tbrc/ folder of exist-db backup here:
     public static String DATA_DIR = "tbrc/";
-    public static String OUTPUT_DIR = "tbrc-jsonld/";
+    public static String OUTPUT_DIR = "tbrc-ttl/";
 
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
@@ -66,7 +66,7 @@ public class MigrationApp
         if (!fileName.startsWith(mustStartWith)) return;
         if (!fileName.endsWith(".xml")) return;
         String baseName = fileName.substring(0, fileName.length()-4);
-        String outfileName = baseName+".jsonld";
+        String outfileName = baseName+".ttl";
         outfileName = OUTPUT_DIR+type+"s/"+outfileName;
         Resource item;
         Model itemModel;
@@ -75,7 +75,7 @@ public class MigrationApp
             Document srd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             String workId = ScanrequestMigration.getWork(srd);
             if (workId.isEmpty()) return;
-            String volumesFileName = OUTPUT_DIR+ITEMS+"/I"+workId.substring(1)+".jsonld";
+            String volumesFileName = OUTPUT_DIR+ITEMS+"/I"+workId.substring(1)+".ttl";
             File workFile = new File(volumesFileName);
             if (!workFile.exists()) {
                 //System.err.println("ignoring scan request for unreleased "+workId);
@@ -118,7 +118,7 @@ public class MigrationApp
                     d = MigrationHelpers.documentFromFileName(imagegroupFileName);
                     ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getValue(), itemName);
                 }
-                String volOutfileName = OUTPUT_DIR+ITEMS+"/"+itemName+".jsonld";
+                String volOutfileName = OUTPUT_DIR+ITEMS+"/"+itemName+".ttl";
                 MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", MigrationHelpers.OUTPUT_STTL);
             }
             
@@ -166,28 +166,45 @@ public class MigrationApp
 			String arg = args[i];
 			if (arg.equals("-useCouchdb")) {
 				MigrationHelpers.usecouchdb = true;
-			} else if (arg.equals("-datadir")) {
+			}
+		    if (arg.equals("-datadir")) {
                 DATA_DIR = args[i+1];
-            } else if (arg.equals("-outdir")) {
+            }
+		    if (arg.equals("-outdir")) {
                 OUTPUT_DIR = args[i+1];
             }
+		    if (arg.equals("-writefiles")) {
+		        MigrationHelpers.writefiles = true;
+		    }
 		}
+		
+		if (MigrationHelpers.usecouchdb)
+		    System.out.println("sending JSON documents to CouchDB");
+		if (MigrationHelpers.usecouchdb)
+            System.out.println("writing files in "+OUTPUT_DIR);
+		if (!MigrationHelpers.usecouchdb && !MigrationHelpers.writefiles) {
+		    System.err.println("nothing to do, please pass -useCouchdb or -writefiles arguments");
+	        CommonMigration.speller.close();
+	        ExceptionHelper.closeAll();
+		    return;
+		}
+		    
 		
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
 //        migrateOneFile(new File(DATA_DIR+"tbrc-persons/P1KG16739.xml"), "person", "P");
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondance, for externals
         migrateType(OUTLINE, "O");
-//        migrateType(PERSON, "P");
-//    	migrateType(PLACE, "G");
-//    	migrateType(OFFICE, "R");
-//        migrateType(CORPORATION, "C");
-//        migrateType(LINEAGE, "L");
-//        migrateType(TOPIC, "T");
-//////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
-////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
-//        migrateType(WORK, "W"); // also does pubinfos and imagegroups
-//        migrateType(SCANREQUEST, "SR"); // requires works to be finished
+        migrateType(PERSON, "P");
+    	migrateType(PLACE, "G");
+    	migrateType(OFFICE, "R");
+        migrateType(CORPORATION, "C");
+        migrateType(LINEAGE, "L");
+        migrateType(TOPIC, "T");
+//        migrateOneFile(new File(DATA_DIR+"tbrc-works/W1KG10421.xml"), "work", "W");
+//        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
+        migrateType(WORK, "W"); // also does pubinfos and imagegroups
+        migrateType(SCANREQUEST, "SR"); // requires works to be finished
         CommonMigration.speller.close();
         ExceptionHelper.closeAll();
     	long estimatedTime = System.currentTimeMillis() - startTime;
