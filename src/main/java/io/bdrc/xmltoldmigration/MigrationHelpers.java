@@ -350,7 +350,7 @@ public class MigrationHelpers {
         Map<String,Object> tm;
         try {
             tm = (Map<String,Object>) JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            tm.replace("@context", "http://purl.bdrc.io/contexts/context.jsonld");
+            tm.replace("@context", "http://purl.bdrc.io/context.jsonld");
             tm = orderEntries(tm);
         } catch (JsonLdError | IOException e) {
             e.printStackTrace();

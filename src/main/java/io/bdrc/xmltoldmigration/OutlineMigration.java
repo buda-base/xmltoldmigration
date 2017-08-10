@@ -225,7 +225,8 @@ LocationVolPage previousLocVP) {
         }
         value = "OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
         m.add(node, RDF.type, m.getResource(BDO+"Work"));
-        m.add(node, m.getProperty(ADM, "outlineType"), m.getResource(BDR+value));
+        // there should be no such monstruosity
+        //m.add(node, m.getProperty(ADM, "outlineType"), m.getResource(BDR+value));
         
         // what's parent? ignoring
 //        value = e.getAttribute("parent").trim();
