@@ -16,12 +16,12 @@ bdr:O2DB87572  a                adm:Outline ;
     adm:logEntry                [ adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
                                   adm:logWho   bdr:U3
                                 ] , 
-            [ adm:logMessage  "zhu dag byas"@en ;
-              adm:logDate     "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
+            [ adm:logDate     "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
+              adm:logMessage  "zhu dag byas"@en ;
               adm:logWho      bdr:U21
             ] , 
-            [ adm:logMessage  "vol. 1 outline images fixed"@en ;
-              adm:logDate     "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
+            [ adm:logDate     "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
+              adm:logMessage  "vol. 1 outline images fixed"@en ;
               adm:logWho      bdr:U19
             ] ;
     adm:outlineAuthorStatement  "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en .
@@ -41,61 +41,56 @@ bdr:W30020_0001  a      :Work ;
                           :workSiteType   bdr:WorkSiteTypeVolume
                         ] ;
     :workIsAbout        bdr:T208 ;
-    :workLocation       [ :workLocationVolume  "1"^^xsd:integer ;
+    :workLocation       [ :workLocationVolume  1 ;
                           :workLocationWork    bdr:W30020
                         ] ;
-    adm:outlineType     bdr:OutlineTypeVolume ;
     adm:workLegacyNode  "O2DB875722DB87582" .
 
 bdr:W30020_0002  a              :Work ;
     :workKaTenSiglaG            "test broken property type" ;
-    :workLocation               [ :workLocationEndPage    "18"^^xsd:integer ;
-                                  :workLocationEndVolume  "1"^^xsd:integer ;
-                                  :workLocationPage       "11"^^xsd:integer ;
-                                  :workLocationVolume     "1"^^xsd:integer ;
+    :workLocation               [ :workLocationEndPage    18 ;
+                                  :workLocationEndVolume  1 ;
+                                  :workLocationPage       11 ;
+                                  :workLocationVolume     1 ;
                                   :workLocationWork       bdr:W30020
                                 ] ;
     :workTitle                  [ a           :WorkBibliographicalTitle ;
                                   rdfs:label  "gleng gzhi/"@bo-Latn-x-ewts
                                 ] ;
     adm:outlineAuthorStatement  "Another scribe"@en ;
-    adm:outlineType             bdr:OutlineTypeText ;
     adm:workLegacyNode          "O2DB875722DB87573" .
 
 bdr:W30020_0003  a      :Work ;
     skos:prefLabel      "2 (smad cha)"@bo-Latn-x-ewts ;
     :workHasPart        bdr:W30020_0004 , bdr:W30020_0005 ;
-    :workLocation       [ :workLocationEndPage    "24"^^xsd:integer ;
-                          :workLocationEndVolume  "2"^^xsd:integer ;
-                          :workLocationPage       "12"^^xsd:integer ;
-                          :workLocationVolume     "2"^^xsd:integer ;
+    :workLocation       [ :workLocationEndPage    24 ;
+                          :workLocationEndVolume  2 ;
+                          :workLocationPage       12 ;
+                          :workLocationVolume     2 ;
                           :workLocationWork       bdr:W30020
                         ] ;
-    adm:outlineType     bdr:OutlineTypeClass ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
-    :workLocation       [ :workLocationEndPage    "18"^^xsd:integer ;
-                          :workLocationEndVolume  "2"^^xsd:integer ;
-                          :workLocationPage       "11"^^xsd:integer ;
-                          :workLocationVolume     "2"^^xsd:integer ;
+    :workLocation       [ :workLocationEndPage    18 ;
+                          :workLocationEndVolume  2 ;
+                          :workLocationPage       11 ;
+                          :workLocationVolume     2 ;
                           :workLocationWork       bdr:W30020
                         ] ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
                           rdfs:label  "gleng gzhi/"@bo-Latn-x-ewts
                         ] ;
-    adm:outlineType     bdr:OutlineTypeClass ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
-    :workLocation       [ :workLocationEndPage    "25"^^xsd:integer ;
-                          :workLocationEndVolume  "2"^^xsd:integer ;
-                          :workLocationPage       "17"^^xsd:integer ;
-                          :workLocationVolume     "2"^^xsd:integer ;
+    :workLocation       [ :workLocationEndPage    25 ;
+                          :workLocationEndVolume  2 ;
+                          :workLocationPage       17 ;
+                          :workLocationVolume     2 ;
                           :workLocationWork       bdr:W30020
                         ] ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
                           rdfs:label  "gleng gzhi2/"@bo-Latn-x-ewts
                         ] ;
-    adm:outlineType     bdr:OutlineTypeClass ;
     adm:workLegacyNode  "O2DB875722DB875732DB87600" .

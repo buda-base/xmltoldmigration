@@ -205,7 +205,6 @@ public class MigrationTest
 	        Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
 	        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTest.ttl");
 	        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_JSONLD);
-	        MigrationHelpers.modelToOutputStream(correctModel, System.out, "work", MigrationHelpers.OUTPUT_JSONLD);
 	        //showDifference(fromXml, correctModel);
 	        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
 	        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
@@ -221,7 +220,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", MigrationHelpers.OUTPUT_JSONLD);
+           MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", MigrationHelpers.OUTPUT_STTL);
            //showDifference(fromXml, correctModel);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
@@ -296,7 +295,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ImagegroupTest.ttl");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", MigrationHelpers.OUTPUT_STTL);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", MigrationHelpers.OUTPUT_STTL);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

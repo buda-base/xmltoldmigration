@@ -194,9 +194,9 @@ public class MigrationHelpers {
         nsPrio.put("http://purl.bdrc.io/ontology/admin/", 5);
         nsPrio.put("http://purl.bdrc.io/ontology/toberemoved/", 6);
         List<String> predicatesPrio = CompareComplex.getDefaultPropUris();
-        predicatesPrio.add("http://purl.bdrc.io/ontology/admin/logWhen");
-        predicatesPrio.add("http://purl.bdrc.io/ontology/onOrAbout");
-        predicatesPrio.add("http://purl.bdrc.io/ontology/noteText");
+        predicatesPrio.add(CommonMigration.ADM+"logDate");
+        predicatesPrio.add(CommonMigration.BDO+"onOrAbout");
+        predicatesPrio.add(CommonMigration.BDO+"noteText");
         ctx = new Context();
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsPriorities"), nsPrio);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);
