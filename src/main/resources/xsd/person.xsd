@@ -84,7 +84,11 @@
             <xsd:element name="place" type="per:Place" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="corp" type="per:Corporation" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
-        <xsd:attribute name="pid" type="c:anyRID"/>
+        <xsd:attribute name="pid" type="c:anyRID">
+            <xsd:annotation>
+                <xsd:documentation>do not migrate</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
         <xsd:attribute name="type" type="c:eventTypeAttr"/>
         <xsd:attribute name="circa" type="xsd:string" use="optional"/>
     </xsd:complexType>
