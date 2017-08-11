@@ -123,64 +123,69 @@ public class OutlineMigration {
 	    public int i = 0;
 	}
 	
-	// TODO: ignore outlines with type enumeration and taxonomy
+	public static String getWorkId(Document xmlDocument) {
+        Element root = xmlDocument.getDocumentElement();
+        NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String workId = current.getAttribute("work").trim();
+            if (!workId.isEmpty())
+                return workId;
+        }
+        ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "type", "missing work ID, cannot migrate outline");
+        return null;
+	}
+	
 	public static Model MigrateOutline(Document xmlDocument) {
-		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m);
+	    Model workModel = ModelFactory.createDefaultModel();
+	    CommonMigration.setPrefixes(workModel);
+	    String workId = getWorkId(xmlDocument);
+	    if (workId == null || workId.isEmpty())
+	        return null;
+        Resource work = workModel.createResource(BDR + workId);
+        work.addProperty(RDF.type, workModel.getResource(BDO+"Work"));
+        //CommonMigration.addStatus(workModel, work, root.getAttribute("status"));
+	    return MigrateOutline(xmlDocument, workModel, work);
+	}
+
+	public static Model MigrateOutline(Document xmlDocument, Model workModel, Resource work) {
+		Model m;
+		if (splitOutlines) {
+		    m = ModelFactory.createDefaultModel();
+		    CommonMigration.setPrefixes(m);
+		} else {
+		    m = workModel;
+		}
+
 		Element root = xmlDocument.getDocumentElement();
 
 		CurNodeInt curNodeInt = new CurNodeInt();
 		curNodeInt.i = 0;
-		Resource main = null;
 		Resource mainOutline = null;
-		
-		// fetch type in isOutlineOf
-		NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
-        String value = null;
-        String workId = "";
+		String value;
+
+        mainOutline = m.createResource();
+        mainOutline.addProperty(m.getProperty(ADM, "workLegacyNode"), root.getAttribute("RID"));
+        mainOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
+        work.addProperty(m.getProperty(ADM, "outline"), mainOutline);
+        NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            
-            value = current.getAttribute("work").trim();
-            if (!value.isEmpty()) {
-                workId = value;
-            } else {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "type", "missing work ID, cannot migrate outline");
-                return null;
-            }
-            workId = value;            
-            main = m.createResource(BDR + workId);
-            CommonMigration.addStatus(m, main, root.getAttribute("status"));
-            // we have to add the type here (although we do not really want)
-            // because we are limitted by
-            // https://github.com/jsonld-java/jsonld-java/issues/202
-            m.add(main, RDF.type, m.createResource(BDO+"Work"));
-            
-            mainOutline = m.createResource();
-            mainOutline.addProperty(m.getProperty(ADM, "workLegacyNode"), root.getAttribute("RID"));
-            mainOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
-            main.addProperty(m.getProperty(ADM, "outline"), mainOutline);
             value = current.getAttribute("type").trim();
             if (value.isEmpty()) {
                 value = "NoType";
             }
             value = BDR+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
-            m.add(main, m.getProperty(ADM, "outlineType"), m.createResource(value));
-            
-            break; // just reading the first node
+            m.add(work, m.getProperty(ADM, "outlineType"), m.createResource(value));
         }
-        if (main == null) {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "type", "missing work ID, cannot migrate outline");
-            return null;
-        }
-        
+
         value = root.getAttribute("pagination").trim();
         if (value.isEmpty() || value == "relative") {
             value = BDR+"PaginationRelative";
         } else {
             value = BDR+"PaginationAbsolute";            
         }
-        m.add(main, m.getProperty(BDO, "workPagination"), m.createResource(value));
+        m.add(work, m.getProperty(BDO, "workPagination"), m.createResource(value));
         
         // if the outline names must really be migrated, do it here, they would be under
         // the tbr:outlineName property
@@ -189,11 +194,11 @@ public class OutlineMigration {
 		CommonMigration.addExternals(m, root, mainOutline, OXSDNS);
 		CommonMigration.addLog(m, root, mainOutline, OXSDNS);
 		CommonMigration.addDescriptions(m, root, mainOutline, OXSDNS);
-		CommonMigration.addLocations(m, mainOutline, root, OXSDNS, workId);
+		CommonMigration.addLocations(m, mainOutline, root, OXSDNS, work.getLocalName());
 		
 		addCreators(m, mainOutline, root);
 		
-		addNodes(m, main, root, workId, curNodeInt, null, null);
+		addNodes(m, work, root, work.getLocalName(), curNodeInt, null, null);
 		
 		return m;
 	}
