@@ -10,27 +10,27 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:O2DB87572  a                adm:Outline ;
-    :workLocation               [ :workLocationWork
-              bdr:W30020 ] ;
-    adm:logEntry                [ adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
-                                  adm:logWho   bdr:U3
-                                ] , 
-            [ adm:logDate     "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
-              adm:logMessage  "zhu dag byas"@en ;
-              adm:logWho      bdr:U21
-            ] , 
-            [ adm:logDate     "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
-              adm:logMessage  "vol. 1 outline images fixed"@en ;
-              adm:logWho      bdr:U19
-            ] ;
-    adm:outlineAuthorStatement  "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en .
-
 bdr:W30020  a        :Work ;
     :status          bdr:StatusReleased ;
     :workHasPart     bdr:W30020_0001 , bdr:W30020_0003 ;
     :workPagination  bdr:PaginationAbsolute ;
-    adm:outline      bdr:O2DB87572 ;
+    adm:outline      [ a                           adm:Outline ;
+                       :workLocation               [ :workLocationWork
+                                 bdr:W30020 ] ;
+                       adm:logEntry                [ adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
+                                                     adm:logWho   bdr:U3
+                                                   ] , 
+                               [ adm:logDate     "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
+                                 adm:logMessage  "zhu dag byas"@en ;
+                                 adm:logWho      bdr:U21
+                               ] , 
+                               [ adm:logDate     "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
+                                 adm:logMessage  "vol. 1 outline images fixed"@en ;
+                                 adm:logWho      bdr:U19
+                               ] ;
+                       adm:outlineAuthorStatement  "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en ;
+                       adm:workLegacyNode          "O2DB87572"
+                     ] ;
     adm:outlineType  bdr:OutlineTypePartialCollectedWorks .
 
 bdr:W30020_0001  a      :Work ;

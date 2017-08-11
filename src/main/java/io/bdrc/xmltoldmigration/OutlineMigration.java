@@ -149,14 +149,15 @@ public class OutlineMigration {
                 return null;
             }
             workId = value;            
-            main = m.createResource(BDR + value);
+            main = m.createResource(BDR + workId);
             CommonMigration.addStatus(m, main, root.getAttribute("status"));
             // we have to add the type here (although we do not really want)
             // because we are limitted by
             // https://github.com/jsonld-java/jsonld-java/issues/202
             m.add(main, RDF.type, m.createResource(BDO+"Work"));
             
-            mainOutline = m.createResource(BDR+root.getAttribute("RID"));
+            mainOutline = m.createResource();
+            mainOutline.addProperty(m.getProperty(ADM, "workLegacyNode"), root.getAttribute("RID"));
             mainOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
             main.addProperty(m.getProperty(ADM, "outline"), mainOutline);
             value = current.getAttribute("type").trim();
