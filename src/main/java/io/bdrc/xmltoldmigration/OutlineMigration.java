@@ -178,7 +178,7 @@ public class OutlineMigration {
                 value = "NoType";
             }
             value = BDR+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
-            m.add(work, m.getProperty(ADM, "outlineType"), m.createResource(value));
+            m.add(mainOutline, m.getProperty(ADM, "outlineType"), m.createResource(value));
         }
 
         value = root.getAttribute("pagination").trim();
