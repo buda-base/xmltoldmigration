@@ -318,11 +318,11 @@ public class MigrationHelpers {
         couchUpdateOrCreate(jsonObject, documentName, type);
     }
     
-    public static Map<String,Object> modelToJsonObject(Model m, String type) {
+    public static Map<String,Object> modelToJsonObject(Model m, String type, boolean isOutline) {
         JsonLDWriteContext ctx = new JsonLDWriteContext();
         boolean frame = true;
         JSONLDVariant variant;
-        if (type != "outline") {
+        if (!isOutline) {
             Object frameObj = getFrameObject(type);
             ctx.setFrame(frameObj);
             variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_FRAME_PRETTY.getVariant();
@@ -371,7 +371,7 @@ public class MigrationHelpers {
 	        RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
 	        return;
 	    }
-	    Map<String,Object> jsonObject = modelToJsonObject(m, type);
+	    Map<String,Object> jsonObject = modelToJsonObject(m, type, false);
 	    jsonObjectToOutputStream(jsonObject, out);
 	}
 	
@@ -507,11 +507,11 @@ public class MigrationHelpers {
         return m;
 	}
 	
-	public static void convertOneFile(String src, String mainId, String dst, String type, int outputType, String fileName) {
+	public static void convertOneFile(String src, String mainId, String dst, String type, int outputType, String fileName, boolean isOutline) {
         Model m = getModelFromFile(src, type, fileName);
         if (m == null) return;
         if (usecouchdb) {
-            Map<String,Object> o = modelToJsonObject(m, type);
+            Map<String,Object> o = modelToJsonObject(m, type, isOutline);
             if (o != null) {
                 jsonObjectToCouch(o, mainId, type);
             }
@@ -521,10 +521,10 @@ public class MigrationHelpers {
         }
     }
 	
-	public static void outputOneModel(Model m, String mainId, String dst, String type) {
+	public static void outputOneModel(Model m, String mainId, String dst, String type, boolean isOutline) {
 	    if (m == null) return;
         if (usecouchdb) {
-            Map<String,Object> o = modelToJsonObject(m, type);
+            Map<String,Object> o = modelToJsonObject(m, type, isOutline);
             if (o != null) {
                 jsonObjectToCouch(o, mainId, type);
             }

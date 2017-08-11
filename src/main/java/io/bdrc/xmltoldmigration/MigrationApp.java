@@ -100,10 +100,10 @@ public class MigrationApp
             Model outlineModel = OutlineMigration.MigrateOutline(outd, workModel, work);
             if (OutlineMigration.splitOutlines) {
                 String outlineFileName = OUTPUT_DIR+"works/"+outWorkId+"_O01.ttl";
-                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "work");                
+                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "work", true);                
             } else {
                 String workFileName = OUTPUT_DIR+"works/"+outWorkId+".ttl";
-                MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "work");
+                MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "work", true);
                 workCreatedByOutline.put(outWorkId, true);
             }
             break;
@@ -126,8 +126,11 @@ public class MigrationApp
             if (!MigrationHelpers.mustBeMigrated(root, "work"))
                 return;
             Model m = null;
-            if (workCreatedByOutline.containsKey(baseName))
+            boolean containsOutline = false;
+            if (workCreatedByOutline.containsKey(baseName)) {
                 m = MigrationHelpers.modelFromFileName(OUTPUT_DIR+"works/"+baseName+".ttl");
+                containsOutline = true;
+            }
             if (m == null) {
                 m = ModelFactory.createDefaultModel();
             }
@@ -155,7 +158,7 @@ public class MigrationApp
                 }
                 String volOutfileName = OUTPUT_DIR+ITEMS+"/"+itemName+".ttl";
                 //MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", MigrationHelpers.OUTPUT_STTL);
-                MigrationHelpers.outputOneModel(itemModel, itemName, volOutfileName, "item");
+                MigrationHelpers.outputOneModel(itemModel, itemName, volOutfileName, "item", false);
             }
             
             // migrate pubinfo
@@ -164,7 +167,7 @@ public class MigrationApp
             if (!pubinfoFile.exists()) {
                 MigrationHelpers.writeLog("missing "+pubinfoFileName);
                 //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
-                MigrationHelpers.outputOneModel(m, baseName, outfileName, "work");
+                MigrationHelpers.outputOneModel(m, baseName, outfileName, "work", containsOutline);
                 return;
             }
             d = MigrationHelpers.documentFromFileName(pubinfoFileName);
@@ -174,12 +177,12 @@ public class MigrationApp
             //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
             for (Entry<String,Model> e : itemModels.entrySet()){
                 //iterate over the pairs
-                MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), OUTPUT_DIR+ITEMS+"/"+e.getKey()+".ttl", "item");
+                MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), OUTPUT_DIR+ITEMS+"/"+e.getKey()+".ttl", "item", false);
             }
-            MigrationHelpers.outputOneModel(m, baseName, outfileName, "work");
+            MigrationHelpers.outputOneModel(m, baseName, outfileName, "work", containsOutline);
             break;
         default:
-            MigrationHelpers.convertOneFile(file.getAbsolutePath(), baseName, outfileName, type, MigrationHelpers.OUTPUT_STTL, fileName);
+            MigrationHelpers.convertOneFile(file.getAbsolutePath(), baseName, outfileName, type, MigrationHelpers.OUTPUT_STTL, fileName, false);
             break;
         }
     }
@@ -238,7 +241,7 @@ public class MigrationApp
 		
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
-        //MigrationHelpers.usecouchdb = true;
+//        MigrationHelpers.usecouchdb = true;
 //        migrateOneFile(new File(DATA_DIR+"tbrc-persons/P1KG16739.xml"), "person", "P");
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondance, for externals
         migrateType(OUTLINE, "O");
