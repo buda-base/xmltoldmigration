@@ -22,6 +22,8 @@ public class OutlineMigration {
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
     private static final String TBR = CommonMigration.TBR_PREFIX;
 	private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
+	
+	public static boolean splitOutlines = false;
 
 	public static Map<String,Boolean> ridsToIgnore = new HashMap<>();
 	public static Map<String,String> ridsToConvert = new HashMap<>();

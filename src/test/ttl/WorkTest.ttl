@@ -13,7 +13,7 @@
 bdr:I12837_002  a   :ItemPhysicalAsset ;
     :itemForWork    bdr:W12837 ;
     :itemHasVolume  [ a                           :VolumePhysicalAsset ;
-                      :volumeNumber               "1"^^xsd:integer ;
+                      :volumeNumber               1 ;
                       :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en
                     ] ;
     :itemLibrary    bdr:G1TLMFPL000001 ;
@@ -21,43 +21,43 @@ bdr:I12837_002  a   :ItemPhysicalAsset ;
     :status         bdr:StatusReleased .
 
 bdr:W12837  a             :Work ;
-    skos:prefLabel        "kun rig rnam bshad"@bo-Latn-x-ewts ;
+    skos:prefLabel        "kun rig rnam bshad"@bo-x-ewts ;
     :note                 [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ;
     :status               bdr:StatusReleased ;
     :workCatalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
-    :workCreator          [ :workCreatorWho   bdr:P1591 ;
-                            :workCreatorType  bdr:CreatorTypeHasMainAuthor
+    :workCreator          [ :workCreatorType  bdr:CreatorTypeHasMainAuthor ;
+                            :workCreatorWho   bdr:P1591
                           ] ;
     :workHasItem          bdr:I12837_001 , bdr:I12837_002 ;
     :workIsAbout          bdr:G844 , bdr:T61 , bdr:W976 ;
     :workIsNumbered       true ;
     :workNumberOf         bdr:W12345 ;
-    :workNumberOfVolumes  "1"^^xsd:integer ;
+    :workNumberOfVolumes  1 ;
     :workScanInfo         "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
     :workSeriesNumber     "2" ;
     :workTitle            [ a           :WorkBibliographicalTitle ;
-                            rdfs:label  "kun rig rnam bshad"@bo-Latn-x-ewts
+                            rdfs:label  "kun rig rnam bshad"@bo-x-ewts
                           ] , 
             [ a           :WorkOtherTitle ;
-              rdfs:label  "test pali title"@pi
+              rdfs:label  "test pali title"@pi-x-iast
             ] , 
             [ a           :WorkTitlePageTitle ;
-              rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad"@bo-Latn-x-ewts
+              rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad"@bo-x-ewts
             ] ;
-    adm:logEntry          [ adm:logMessage  "cataloging reviewed"@en ;
-                            adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
+    adm:logEntry          [ adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
+                            adm:logMessage  "cataloging reviewed"@en ;
                             adm:logWho      bdr:U1
                           ] , 
-            [ adm:logMessage  "added print type and source printery"@en ;
-              adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
+            [ adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
+              adm:logMessage  "added print type and source printery"@en ;
               adm:logWho      bdr:U13
             ] , 
-            [ adm:logMessage  "normalized catalog info"@en ;
-              adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
+            [ adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
+              adm:logMessage  "normalized catalog info"@en ;
               adm:logWho      bdr:U12
             ] , 
-            [ adm:logMessage  "normalized catalog info"@en ;
-              adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
+            [ adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
+              adm:logMessage  "normalized catalog info"@en ;
               adm:logWho      bdr:U12
             ] ;
     adm:workInProduct     bdr:PR01UNRESTR , bdr:PRHD03 ;

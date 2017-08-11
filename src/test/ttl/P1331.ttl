@@ -14,7 +14,7 @@ bdr:E7285  a    :PersonEventDeath ;
     :onOrAbout  "1322" .
 
 bdr:P1331  a          :Person ;
-    skos:prefLabel    "blo gros rnam dag"@bo-Latn-x-ewts ;
+    skos:prefLabel    "blo gros rnam dag"@bo-x-ewts ;
     :note             [ :noteLocationStatement  "p. 359" ;
                         :noteText               "date of death from this source"@en ;
                         :noteWork               bdr:W20115
@@ -25,10 +25,10 @@ bdr:P1331  a          :Person ;
                       ] ;
     :personGender     bdr:GenderMale ;
     :personName       [ a           :PersonPrimaryName ;
-                        rdfs:label  "blo gros rnam dag"@bo-Latn-x-ewts
+                        rdfs:label  "blo gros rnam dag"@bo-x-ewts
                       ] , 
             [ a           :PersonPrimaryTitle ;
-              rdfs:label  "bya yul blo bzang rnam dag"@bo-Latn-x-ewts
+              rdfs:label  "bya yul blo bzang rnam dag"@bo-x-ewts
             ] ;
     :personTeacherOf  bdr:P1323 ;
     :status           bdr:StatusReleased .

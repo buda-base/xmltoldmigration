@@ -12,13 +12,13 @@
 
 bdr:I12837_002  a   :ItemPhysicalAsset ;
     :itemCopies     "1" ;
-    :itemException  "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo-Latn-x-ewts ;
+    :itemException  "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo-x-ewts ;
     :itemLibrary    bdr:G1TLMTGA000001 ;
     :itemShelf      "ཇ|ཇ|༣||001278" .
 
 bdr:W12837  a                   :Work ;
     :itemBDRCHoldingStatemeent  "1" ;
-    :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan"@bo-Latn-x-ewts ;
+    :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan"@bo-x-ewts ;
     :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
     :workEncoding               "In Tibetan" ;
     :workExtentStatement        "177 ff." ;
@@ -30,19 +30,19 @@ bdr:W12837  a                   :Work ;
     :workPublisherDate          "[2000?]" ;
     :workPublisherLocation      "[lha sa]"@en ;
     :workPublisherName          "[zhol par khang]"@en ;
-    :workSeriesContent          "test series content"@bo-Latn-x-ewts ;
+    :workSeriesContent          "test series content"@bo-x-ewts ;
     :workSeriesName             "oral history series" ;
     :workSeriesNumber           "no. 16" ;
     :workSourcePrintery_string  "test sourcePrintery with no place" ;
-    adm:logEntry                [ adm:logMessage  "added print type and source printery"@en ;
-                                  adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
+    adm:logEntry                [ adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
+                                  adm:logMessage  "added print type and source printery"@en ;
                                   adm:logWho      bdr:U13
                                 ] , 
-            [ adm:logMessage  "normalize encoding field for pub info"@en ;
-              adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+            [ adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+              adm:logMessage  "normalize encoding field for pub info"@en ;
               adm:logWho      bdr:U12
             ] , 
-            [ adm:logMessage  "added hollis field to pub info"@en ;
-              adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+            [ adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+              adm:logMessage  "added hollis field to pub info"@en ;
               adm:logWho      bdr:U6
             ] .

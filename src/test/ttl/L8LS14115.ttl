@@ -12,7 +12,7 @@
 
 bdr:L8LS14115  a          :Lineage ;
     rdfs:comment          "initiation transmission of clear light blessing of rakta yamari"@en ;
-    skos:prefLabel        "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"@bo-Latn-x-ewts ;
+    skos:prefLabel        "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"@bo-x-ewts ;
     :lineageAltnernative  [ :lineageHolder
               [ a                 :LineageHolder ;
                 :lineageDownFrom  bdr:L8LS15610 ;
@@ -22,43 +22,43 @@ bdr:L8LS14115  a          :Lineage ;
                 :lineageWho       bdr:P1018 ;
                 :lineageWork      bdr:WTest
               ] ] ;
-    :lineageHolder        [ a               :LineageHolder ;
-                            :lineageDownTo  bdr:L8LS15728 ;
-                            :lineageWho     bdr:P1132
+    :lineageHolder        [ a                 :LineageHolder ;
+                            :lineageReceived  [ :lineageFrom  bdr:P1132 ;
+                                                :onOrAbout    "test circa"
+                                              ] ;
+                            :lineageWho       bdr:P1040
                           ] , 
-            [ a                 :LineageHolder ;
-              :lineageReceived  [ :lineageFrom  bdr:P1132 ;
-                                  :onOrAbout    "test circa"
-                                ] ;
-              :lineageWho       bdr:P1040
+            [ a               :LineageHolder ;
+              :lineageDownTo  bdr:L8LS15728 ;
+              :lineageWho     bdr:P1132
             ] ;
     :lineageObject        bdr:T1613 ;
     :lineageRef           bdr:L1RKL2042 ;
     :lineageType          bdr:LineageDbang ;
     :status               bdr:StatusReleased ;
-    :workLocation         [ :workLocationPage    "236"^^xsd:integer ;
-                            :workLocationVolume  "1"^^xsd:integer ;
+    :workLocation         [ :workLocationPage    236 ;
+                            :workLocationVolume  1 ;
                             :workLocationWork    bdr:W1PD107937
                           ] ;
     adm:logEntry          [ adm:logDate  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
                             adm:logWho   bdr:U19
                           ] , 
-            [ adm:logMessage  "added location"@en ;
-              adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
+            [ adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
+              adm:logMessage  "added location"@en ;
               adm:logWho      bdr:U19
             ] , 
-            [ adm:logMessage  "changed type"@en ;
-              adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
+            [ adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
+              adm:logMessage  "changed type"@en ;
               adm:logWho      bdr:U19
             ] , 
             [ adm:logDate  "2014-07-28T11:30:18.879Z"^^xsd:dateTime ;
               adm:logWho   bdr:U19
             ] , 
-            [ adm:logMessage  "normalized names of who and received elements"@en ;
-              adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
+            [ adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
+              adm:logMessage  "normalized names of who and received elements"@en ;
               adm:logWho      bdr:U6
             ] , 
-            [ adm:logMessage  "normalized names of who and received elements - yet again"@en ;
-              adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
+            [ adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
+              adm:logMessage  "normalized names of who and received elements - yet again"@en ;
               adm:logWho      bdr:U6
             ] .

@@ -55,7 +55,7 @@ public class CommonMigration  {
 	public static final String ALTLABEL_URI = SKOS_PREFIX+"altLabel";
 	public static final String GENLABEL_URI = RDFS_PREFIX+"label";
 	
-	public static final String EWTS_TAG = "bo-Latn-x-ewts";
+	public static final String EWTS_TAG = "bo-x-ewts";
 	
 	public static final String BDO = ONTOLOGY_PREFIX;
     public static final String BDD = DATA_PREFIX;
@@ -821,36 +821,36 @@ public class CommonMigration  {
 	public static String getBCP47Suffix(String encoding) {
 		switch(encoding) {
 		case "extendedWylie":
-			return "-Latn-x-ewts";
+			return "-x-ewts";
 		case "wadeGiles":
 		    // transliteration of Chinese
-			return "-Latn-x-wade";
+			return "-x-wade";
 		case "pinyin":
 			return "-Latn-pinyin";
 		case "libraryOfCongress":
-			return "-Latn-x-loc";
+			return "-x-alaloc";
 		case "native":
 			return "";
 		case "none":
             return "";
 		case "rma":
-			return "-x-rma";
+			return "-x-rma"; // what's that?
 		case "sansDiacritics":
-			return "-Latn-x-ndia";
+			return "-x-ndia";
 		case "withDiacritics":
-			return "-Latn-x-iast";
+			return "-x-iast";
 		case "transliteration":
-			return "-Latn-x-trans";
+			return "-x-trans";
 		case "acip":
-			return "-Latn-x-acip";
+			return "-x-acip";
 		case "tbrcPhonetic":
-			return "-Latn-x-tbrc";
+			return "-x-tbrc";
 		case "alternatePhonetic":
-			return "-Latn-x-alt";
+			return "-x-alt";
 		case "syllables":
 		    // the cases we have are essentially town_syl, which is a
 		    // romanization that doesn't seem standard, a kind of phonetic
-			return "-x-Latn-syx";
+			return "-x-syx";
 		case "":
 			return "";
 		default:
@@ -923,6 +923,16 @@ public class CommonMigration  {
 	    }
 	    return isASCII;
 	}
+	
+	   private static boolean isAllLatn(String input) {
+	        for (int i = 0; i < input.length(); i++) {
+	            int c = input.charAt(i);
+	            if (c > 0x36F) {
+	                return false;
+	            }
+	        }
+	        return true;
+	    }
 
     private static boolean isAllTibetanUnicode(String input) {
         boolean isTibetan = true;
@@ -961,7 +971,6 @@ public class CommonMigration  {
 	        ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "mixed english + encoding `"+encoding+"` turned into `en-x-mixed`, please convert other language to unicode");
 	        return "en-x-mixed";
 	    }
-         
 	    try {
 	        res = getBCP47(lang, encoding);
 	    } catch (IllegalArgumentException ex) {
@@ -978,6 +987,12 @@ public class CommonMigration  {
 		if (res != null && !res.equals("zh") && isAllChineseUnicode(value)) {
             res = "zh";
         }
+		if (res != null && res.equals("pi")) {
+		    if (isAllLatn(value)) {
+		        res = "pi-x-iast";
+		    }
+		    ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "lang+encoding invalid combination (`"+lang+"`, `"+encoding+"`) turned into `"+res+"` tag, Pali must always have a script.");
+		}
 		return res;
 	}
 	

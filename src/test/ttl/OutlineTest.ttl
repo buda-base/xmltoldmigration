@@ -34,7 +34,7 @@ bdr:W30020  a        :Work ;
     adm:outlineType  bdr:OutlineTypePartialCollectedWorks .
 
 bdr:W30020_0001  a      :Work ;
-    skos:prefLabel      "1 (stod cha)"@bo-Latn-x-ewts ;
+    skos:prefLabel      "1 (stod cha)"@bo-x-ewts ;
     :workHasPart        bdr:W30020_0002 ;
     :workHasSite        [ :onOrAbout      "1235" ;
                           :workSitePlace  bdr:G4449 ;
@@ -55,13 +55,13 @@ bdr:W30020_0002  a              :Work ;
                                   :workLocationWork       bdr:W30020
                                 ] ;
     :workTitle                  [ a           :WorkBibliographicalTitle ;
-                                  rdfs:label  "gleng gzhi/"@bo-Latn-x-ewts
+                                  rdfs:label  "gleng gzhi/"@bo-x-ewts
                                 ] ;
     adm:outlineAuthorStatement  "Another scribe"@en ;
     adm:workLegacyNode          "O2DB875722DB87573" .
 
 bdr:W30020_0003  a      :Work ;
-    skos:prefLabel      "2 (smad cha)"@bo-Latn-x-ewts ;
+    skos:prefLabel      "2 (smad cha)"@bo-x-ewts ;
     :workHasPart        bdr:W30020_0004 , bdr:W30020_0005 ;
     :workLocation       [ :workLocationEndPage    24 ;
                           :workLocationEndVolume  2 ;
@@ -79,7 +79,7 @@ bdr:W30020_0004  a      :Work ;
                           :workLocationWork       bdr:W30020
                         ] ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
-                          rdfs:label  "gleng gzhi/"@bo-Latn-x-ewts
+                          rdfs:label  "gleng gzhi/"@bo-x-ewts
                         ] ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
@@ -91,6 +91,6 @@ bdr:W30020_0005  a      :Work ;
                           :workLocationWork       bdr:W30020
                         ] ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
-                          rdfs:label  "gleng gzhi2/"@bo-Latn-x-ewts
+                          rdfs:label  "gleng gzhi2/"@bo-x-ewts
                         ] ;
     adm:workLegacyNode  "O2DB875722DB875732DB87600" .
