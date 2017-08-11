@@ -53,6 +53,7 @@ import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
+import org.ektorp.DocumentNotFoundException;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbConnector;
@@ -73,6 +74,8 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.utils.JsonUtils;
@@ -101,6 +104,9 @@ public class MigrationHelpers {
 	public static boolean writefiles = false;
 	public static boolean checkagainstOwl = false;
 	public static boolean checkagainstXsd = true;
+	
+	private static ObjectMapper objectMapper = new ObjectMapper();
+    private static final TypeReference<HashMap<String,Object>> hashMapTypeRef = new TypeReference<HashMap<String,Object>>() {};
 	
 	public static OntModel ontologymodelSimple = MigrationHelpers.getOntologyModel();
 	public static OntModel ontologymodel = MigrationHelpers.getInferredModel(ontologymodelSimple);
@@ -227,7 +233,6 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(CORPORATION, "Corporation");
 		typeToRootShortUri.put(PRODUCT, "adm:Product");
 		typeToRootShortUri.put(ITEM, "ItemImageAsset");
-		typeToRootShortUri.put(VOLUME, "Volume");
 		typeToRootShortUri.put(OFFICE, "Role");
     }
 	
@@ -263,7 +268,8 @@ public class MigrationHelpers {
 	        if (v instanceof ArrayList) {
 	            if (((ArrayList<Object>) v).size() == 0) {
 	                tm.put(k,v);
-	                throw new IllegalArgumentException("empty graph, shouldn't happen!");
+	                //throw new IllegalArgumentException("empty graph, shouldn't happen!");
+	                return;
 	            }
 	            Object o = ((ArrayList<Object>) v).get(0);
 	            if (o instanceof Map) {
@@ -287,44 +293,32 @@ public class MigrationHelpers {
         return res;
     }
     
-    public static void jsonObjectToCouch(Object jsonObject, String type) {
+    public static void couchUpdateOrCreate(Map<String,Object> jsonObject, String documentName, String type) {
         CouchDbConnector db = dbs.get(type);
-        if (db == null) return;
-        TreeMap<String,Object> obj = (TreeMap<String,Object>) jsonObject;
-        Object graph = null; // = ((TreeMap<String,Object>) jsonObject).get("@graph"); this doesn't work for unknown reasons
-        for(Map.Entry<String, Object> entry : obj.entrySet()) {
-            if (entry.getKey().equals("@graph")) {
-                graph = entry.getValue();
-                break;
-            }
-        }
-        if (graph == null || ((ArrayList<Map<String,Object>>) graph).size() == 0) {
-            System.out.println("cannot extract graph");
+        if (db == null) {
+            System.err.println("cannot get couch connector for type "+type);
             return;
         }
-        Map<String,Object> resource = ((ArrayList<Map<String,Object>>) graph).get(0);
-        String Id = null;//resource.get("@id").toString(); again, this doesn't work... programming in Java is so sad...
-        for(Map.Entry<String, Object> entry : resource.entrySet()) {
-            if (entry.getKey().equals("@id")) {
-                Id = entry.getValue().toString();
-                break;
-            }
-        }
-        if (Id == null) {
-            System.out.println("cannot extract @id");
-            System.out.println(resource.toString());
-            return;
-        }
-        HashMap<String,Object> finalObject = new HashMap<String,Object>();
-        finalObject.put("@graph", graph);
-        finalObject.put("@context", obj.get("@context"));
-        finalObject.put("_id", Id);
-        if (!db.contains(Id)) {
-            db.create(Id, finalObject);
+        jsonObject.put("_id", documentName);
+        try {
+            final InputStream oldDocStream = db.getAsStream(documentName);
+            final Map<String, Object> res = objectMapper.readValue(oldDocStream, hashMapTypeRef);
+            String oldVersion = (String) res.get("_rev");
+            jsonObject.put("_rev", oldVersion);
+            db.update(jsonObject);
+        } catch (DocumentNotFoundException e) {
+            db.create(jsonObject);
+        } catch (IOException e) {
+            System.err.println(e);
         }
     }
     
-    public static Object modelToJsonObject(Model m, String type) {
+    public static void jsonObjectToCouch(Map<String,Object> jsonObject, String mainId, String type) {
+        String documentName = "bdr:"+mainId;
+        couchUpdateOrCreate(jsonObject, documentName, type);
+    }
+    
+    public static Map<String,Object> modelToJsonObject(Model m, String type) {
         JsonLDWriteContext ctx = new JsonLDWriteContext();
         boolean frame = true;
         JSONLDVariant variant;
@@ -377,7 +371,7 @@ public class MigrationHelpers {
 	        RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
 	        return;
 	    }
-	    Object jsonObject = modelToJsonObject(m, type);
+	    Map<String,Object> jsonObject = modelToJsonObject(m, type);
 	    jsonObjectToOutputStream(jsonObject, out);
 	}
 	
@@ -484,10 +478,6 @@ public class MigrationHelpers {
 		return m;
 	}
 	
-	public static void convertOneFile(String src, String dst, String type, int outputType) {
-		convertOneFile(src, dst, type, outputType, "");
-	}
-	
 	public static boolean mustBeMigrated(Element root, String type) {
 	    boolean res = (!root.getAttribute("status").equals("withdrawn") && !root.getAttribute("status").equals("onHold"));
 	    if (res == false) return false;
@@ -517,19 +507,32 @@ public class MigrationHelpers {
         return m;
 	}
 	
-	public static void convertOneFile(String src, String dst, String type, int outputType, String fileName) {
+	public static void convertOneFile(String src, String mainId, String dst, String type, int outputType, String fileName) {
         Model m = getModelFromFile(src, type, fileName);
         if (m == null) return;
         if (usecouchdb) {
-            Object o = modelToJsonObject(m, type);
+            Map<String,Object> o = modelToJsonObject(m, type);
             if (o != null) {
-                jsonObjectToCouch(o, type);
+                jsonObjectToCouch(o, mainId, type);
             }
         }
         if (writefiles) {
             modelToFileName(m, dst, type, outputType);
         }
     }
+	
+	public static void outputOneModel(Model m, String mainId, String dst, String type) {
+	    if (m == null) return;
+        if (usecouchdb) {
+            Map<String,Object> o = modelToJsonObject(m, type);
+            if (o != null) {
+                jsonObjectToCouch(o, mainId, type);
+            }
+        }
+        if (writefiles) {
+            modelToFileName(m, dst, type, OUTPUT_STTL);
+        }
+	}
 	
 	// change Range Datatypes from rdf:PlainLitteral to rdf:langString
 	public static void rdf10tordf11(OntModel o) {

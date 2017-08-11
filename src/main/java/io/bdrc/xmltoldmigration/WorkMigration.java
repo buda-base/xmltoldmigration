@@ -49,23 +49,15 @@ public class WorkMigration {
 	    private static Resource getResourceForType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
 	        return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(typeNodes, m, main, p, type, t));
 	    }
-	    
-	    public static String getNextItemUri(Model m, Resource r) {
-	        String itemName = "I"+r.getLocalName().substring(1);
-	        int i = 1;
-	        while (true) {
-	            String thisItemName = BDR+itemName+"_"+String.format("%03d", i);
-	            if (!m.containsResource(m.getResource(thisItemName))) {
-	                return thisItemName;
-	            }
-	            i++;
-	            if (i > 20) return thisItemName; // not normal
-	        }
-	    }
 	
-	public static Model MigrateWork(Document xmlDocument) {
-		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m);
+	    
+    public static Model MigrateWork(Document xmlDocument) {
+        Model m = ModelFactory.createDefaultModel();
+        CommonMigration.setPrefixes(m);
+        return MigrateWork(xmlDocument, m);
+    }
+	    
+	public static Model MigrateWork(Document xmlDocument, Model m) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		Resource main = m.createResource(BDR + root.getAttribute("RID"));

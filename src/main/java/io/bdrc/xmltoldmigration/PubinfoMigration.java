@@ -1,5 +1,8 @@
 package io.bdrc.xmltoldmigration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -37,15 +40,14 @@ public class PubinfoMigration {
             main = m.createResource(BDR+value);
         }
         m.add(main, RDF.type, m.getResource(BDO+"Work"));
-        MigratePubinfo(xmlDocument, m, main);
+        MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>());
         return m;
 	}
 	
 	// use this giving a wkr:Work as main argument to fill the work data
-	public static Model MigratePubinfo(Document xmlDocument, Model m, Resource main) {
+	public static Model MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels) {
 		
 		Element root = xmlDocument.getDocumentElement();
-		String rid = root.getAttribute("RID");
 		
         addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
         addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
@@ -130,23 +132,28 @@ public class PubinfoMigration {
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "holding");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            String itemUri = BDR+"I"+main.getLocalName().substring(1)+"_00"+(i+2);
-            Resource holding = m.createResource(itemUri);
-            m.add(holding, RDF.type, m.getResource(BDO+"ItemPhysicalAsset"));
-            m.add(main, m.createProperty(BDO, "workHasItem"), holding);
+            String itemName = "I"+main.getLocalName().substring(1)+"_"+String.format("%03d", i+2);
+            Model itemModel = m;
+            if (WorkMigration.splitItems) {
+                itemModel = ModelFactory.createDefaultModel();
+                itemModels.put(itemName, itemModel);
+            }
+            Resource holding = itemModel.createResource(BDR+itemName);
+            itemModel.add(holding, RDF.type, itemModel.getResource(BDO+"ItemPhysicalAsset"));
+            itemModel.add(main, itemModel.createProperty(BDO, "workHasItem"), holding);
             
-            addSimpleElement("exception", BDO+"itemException", CommonMigration.EWTS_TAG, current, m, holding);
+            addSimpleElement("exception", BDO+"itemException", CommonMigration.EWTS_TAG, current, itemModel, holding);
             String value;
             NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getTextContent().trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "itemShelf"), m.createLiteral(value));
+                    itemModel.add(holding, itemModel.createProperty(BDO, "itemShelf"), itemModel.createLiteral(value));
                 
                 value = subCurrent.getAttribute("copies").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "itemCopies"), m.createLiteral(value));
+                    itemModel.add(holding, itemModel.createProperty(BDO, "itemCopies"), itemModel.createLiteral(value));
             }
             
             subNodeList = root.getElementsByTagNameNS(WPXSDNS, "library");
@@ -154,7 +161,7 @@ public class PubinfoMigration {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getAttribute("rid").trim();
                 if (!value.isEmpty())
-                    m.add(holding, m.createProperty(BDO, "itemLibrary"), m.createResource(BDR+value));
+                    itemModel.add(holding, itemModel.createProperty(BDO, "itemLibrary"), itemModel.createResource(BDR+value));
                 else
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "holding", "Pubinfo holding has no library RID!");
                 

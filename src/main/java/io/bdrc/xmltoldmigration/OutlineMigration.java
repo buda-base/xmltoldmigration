@@ -156,6 +156,8 @@ public class OutlineMigration {
 		} else {
 		    m = workModel;
 		}
+		
+		Resource workInOutlineModel = m.getResource(work.getURI()); 
 
 		Element root = xmlDocument.getDocumentElement();
 
@@ -167,7 +169,7 @@ public class OutlineMigration {
         mainOutline = m.createResource();
         mainOutline.addProperty(m.getProperty(ADM, "workLegacyNode"), root.getAttribute("RID"));
         mainOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
-        work.addProperty(m.getProperty(ADM, "outline"), mainOutline);
+        workInOutlineModel.addProperty(m.getProperty(ADM, "outline"), mainOutline);
         NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
