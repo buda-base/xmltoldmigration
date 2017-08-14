@@ -10,14 +10,6 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:E1988  a           :PersonEventBirth ;
-    :onOrAbout         "1308" ;
-    :personEventPlace  bdr:G967 ;
-    :personEventRole   bdr:R123 .
-
-bdr:E1989  a    :PersonEventNotSpecified ;
-    :onOrAbout  "1364" .
-
 bdr:P1583  a              :Person ;
     rdfs:seeAlso          bdr:O1GS392481GS39291 , "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
     skos:prefLabel        "dri med 'od zer/"@bo-x-ewts , "Drime Oser"@en ;
@@ -31,26 +23,33 @@ bdr:P1583  a              :Person ;
             ] , 
             [ :noteText  "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."@en ] , 
             [ :noteText  "Teachers (not recorded):\nSlob-dpon Dbang-ye, Ston-tshul, Khro-phu-ba, Rin-po-che Za-lung-pa (Zhang Tshal-pa'i Gdams ngag and Rgod-tshang-pa's teachings)\n1319. Takes rab-byung vows from the abbot of Bsam-yas Bsam-grub-rin-chen.\n1326. Enrolls in Gsang-phu Ne'u-thog for formal studies with Mkhan-rabs 15 Slob-dpon Btsan-rgod-pa and Mkhan-rabs 16 Bla-brang Chos-dpal-rgyal-mtshan.\n1338. Comes to Snye-phu Shug-gseb and teaches Snying thig."@en ] , 
-            [ :noteLocationStatement  "p. 77" ;
-              :noteWork               bdr:W19801
-            ] , 
             [ :noteLocationStatement  "p. 6" ;
               :noteWork               bdr:W19822
+            ] , 
+            [ :noteLocationStatement  "p. 77" ;
+              :noteWork               bdr:W19801
             ] ;
-    :personEvent          bdr:E1988 , bdr:E1989 ;
-    :personEvent          [ a                  :PersonEventOccupiesSeat ;
-                            :personEventPlace  bdr:G521
-                          ] ;
+    :personEvent          [ a                  :PersonEventBirth ;
+                            :onOrAbout         "1308" ;
+                            :personEventPlace  bdr:G967 ;
+                            :personEventRole   bdr:R123
+                          ] , 
+            [ a           :PersonEventNotSpecified ;
+              :onOrAbout  "1364"
+            ] , 
+            [ a                  :PersonEventOccupiesSeat ;
+              :personEventPlace  bdr:G521
+            ] ;
     :personGender         bdr:GenderMale ;
-    :personIsIncarnation  [ :personIncarnationOf      bdr:P561654 ;
-                            :personIncarnationOfType  bdr:IncarnationTypeGeneral , bdr:IncarnationTypeMind
+    :personIsIncarnation  []  , 
+            [ :personIncarnationOf      bdr:P561654 ;
+              :personIncarnationOfType  bdr:IncarnationTypeGeneral , bdr:IncarnationTypeMind
+            ] ;
+    :personKin            [ :personKinType  bdr:KinUnspecified ;
+                            :personKinWho   bdr:P1584
                           ] , 
-            []  ;
-    :personKin            [ :personKinType  bdr:KinHasMother ;
-                            :personKinWho   bdr:P1585
-                          ] , 
-            [ :personKinType  bdr:KinUnspecified ;
-              :personKinWho   bdr:P1584
+            [ :personKinType  bdr:KinHasMother ;
+              :personKinWho   bdr:P1585
             ] ;
     :personName           [ a           :PersonChineseName ;
                             rdfs:label  "隆钦热降巴·赤墨俄色"@zh

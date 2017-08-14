@@ -203,6 +203,8 @@ public class MigrationHelpers {
         predicatesPrio.add(CommonMigration.ADM+"logDate");
         predicatesPrio.add(CommonMigration.BDO+"onOrAbout");
         predicatesPrio.add(CommonMigration.BDO+"noteText");
+        predicatesPrio.add(CommonMigration.BDO+"noteWork");
+        predicatesPrio.add(CommonMigration.BDO+"noteLocationStatement");
         ctx = new Context();
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsPriorities"), nsPrio);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);

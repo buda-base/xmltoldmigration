@@ -231,13 +231,7 @@ public class PersonMigration {
 	}
 	
 	public static void addEvent(Model m, Resource person, Element e, int i) {
-        String pid = e.getAttribute("pid").trim();
-		Resource subResource;
-		if (pid.isEmpty()) {
-		    subResource = m.createResource();
-		} else {
-		    subResource = m.createResource(BDR+pid);
-		}
+		Resource subResource = m.createResource();
 		String typeValue = e.getAttribute("type");
 		if (typeValue.isEmpty()) {
 		    typeValue = "NotSpecified";
