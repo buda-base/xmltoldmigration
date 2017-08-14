@@ -29,7 +29,7 @@ public class PersonMigration {
         case "event":
             return BDO+"PersonEvent"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "incarnationOf":
-            return BDR+"IncarnationType"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+            return BDO+"incarnation"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "kin":
             return BDR+"Kin"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
 	    default:
@@ -199,8 +199,6 @@ public class PersonMigration {
 	}
 	
 	public static void addIncarnation(Model m, Resource r, Element e, int i) {
-		Resource incarnationOf = m.createResource();
-		m.add(r, m.getProperty(BDO, "personIsIncarnation"), incarnationOf);
 		String value = e.getAttribute("being").trim();
 		if (value.isEmpty()) {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "incarnationOf", "no RID for incarnation, text reads: `"+e.getTextContent()+"`");
@@ -209,24 +207,21 @@ public class PersonMigration {
 		    value = BDR+value;
 		}
         Resource being = m.createResource(value);
-        Property prop = m.getProperty(BDO, "personIncarnationOf");
-        m.add(incarnationOf, prop, being);
         
 		value = e.getAttribute("relation");
-		prop = m.getProperty(BDO, "personIncarnationOfType");
 		if (value != null && !value.isEmpty()) {
 		    if (value.equals("yangsi")) value = "yangtse";
 			String uri = getUriFromTypeSubtype("incarnationOf", value);
-			m.add(incarnationOf, prop, m.getResource(uri));
+			r.addProperty(m.getProperty(uri), being);
 		} else {
 		    String uri = getUriFromTypeSubtype("incarnationOf", "general");
-            m.add(incarnationOf, prop, m.getResource(uri));
+		    r.addProperty(m.getProperty(uri), being);
 		}
 		value = e.getAttribute("secondary");
 		if (value != null && !value.isEmpty()) {
 		    if (value.equals("yangsi")) value = "yangtse";
             String uri = getUriFromTypeSubtype("incarnationOf", value);
-            m.add(incarnationOf, prop, m.getResource(uri));
+            r.addProperty(m.getProperty(uri), being);
 		}
 	}
 	
