@@ -13,12 +13,15 @@
 bdr:G844  a                       :Place ;
     skos:altLabel                 "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"@bo , "bya pa khri dpon gyi mnga' khongs"@bo-x-ewts ;
     skos:prefLabel                "bya yul"@bo-x-ewts ;
-    :note                         [ :noteText
-              "the region of the rulers of the bya principality in southern tibet"@en ] , 
+    :note                         [ :noteLocationStatement  "V.3, p.47" ;
+                                    :noteText               "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo ;
+                                    :noteWork               bdr:W23847
+                                  ] , 
             [ :noteLocationStatement  "p.1467-1468" ;
-              :noteText               "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"@en ;
+              :noteText               "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"@bo ;
               :noteWork               bdr:W26372
-            ] ;
+            ] , 
+            [ :noteText  "the region of the rulers of the bya principality in southern tibet"@en ] ;
     :placeAddress                 [ vcard:country-name    "India" ;
                                     vcard:locality        "Chauntra" ;
                                     vcard:postal-code     "175032" ;

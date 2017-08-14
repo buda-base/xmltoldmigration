@@ -940,15 +940,13 @@ public class CommonMigration  {
 	    }
 
     private static boolean isAllTibetanUnicode(String input) {
-        boolean isTibetan = true;
         for (int i = 0; i < input.length(); i++) {
             int c = input.charAt(i);
             if ((c < 0x0F00 || c > 0x0FFF) && c != ' ') {
-                isTibetan = false;
-                break;
+                return false;
             }
         }
-        return isTibetan;
+        return true;
     }
     
     private static boolean isAllChineseUnicode(String input) {
@@ -986,10 +984,10 @@ public class CommonMigration  {
 		if (res != null && res.equals("bo") && isAllASCII(value)) {
 			res = EWTS_TAG;// could be loc?
 		}
-		if (res != null && !res.equals("bo") && isAllTibetanUnicode(value)) {
+		if ((res == null || !res.equals("bo")) && isAllTibetanUnicode(value)) {
             res = "bo";
         }
-		if (res != null && !res.equals("zh") && isAllChineseUnicode(value)) {
+		if ((res == null || !res.equals("zh")) && isAllChineseUnicode(value)) {
             res = "zh";
         }
 		if (res != null && res.equals("pi")) {
