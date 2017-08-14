@@ -28,28 +28,14 @@ public class WorkMigration {
 	   private static String getUriFromTypeSubtype(String type, String subtype) {
 	        switch (type) {
 	        case "creator":
-	            return BDR+"CreatorType"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	            System.out.println(subtype);
+	            if (subtype.startsWith("has"))
+	                subtype = subtype.substring(3);
+	            return BDO+"creator"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
 	        default:
 	               return "";
 	        }
 	    }
-	    
-	   private static String getPropertyFromType(Map<String,Resource> typeNodes, String type) {
-	        return "work"+type.substring(0, 1).toUpperCase() + type.substring(1)+"Type";
-	    }
-	    
-	    private static Resource createFromType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
-	        Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
-	        Resource r = m.createResource();
-	        r.addProperty(m.getProperty(BDO+getPropertyFromType(typeNodes, type)), typeIndividual);
-	        main.addProperty(p, r);
-	        return r;
-	    }
-	    
-	    private static Resource getResourceForType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
-	        return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(typeNodes, m, main, p, type, t));
-	    }
-	
 	    
     public static Model MigrateWork(Document xmlDocument) {
         Model m = ModelFactory.createDefaultModel();
@@ -157,9 +143,6 @@ public class WorkMigration {
         
         // creator
         
-        Map<String,Resource> typeNodes = new HashMap<>();
-        Property propWorkCreator = m.getProperty(BDO, "workCreator");
-        
         nodeList = root.getElementsByTagNameNS(WXSDNS, "creator");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
@@ -174,8 +157,8 @@ public class WorkMigration {
                 if (!person.isEmpty())
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
-                Resource r = getResourceForType(typeNodes, m, main, propWorkCreator, "creator", value);
-                r.addProperty(m.getProperty(BDO, "workCreatorWho"), m.createResource(BDR+person));
+                String uri = getUriFromTypeSubtype("creator", value);
+                main.addProperty(m.getProperty(uri), m.createResource(BDR+person));
             }
                 
         }
