@@ -245,9 +245,9 @@ LocationVolPage previousLocVP) {
         
         m.add(r, m.getProperty(BDO, "workHasPart"), node);
         
-        CommonMigration.addNames(m, e, node, OXSDNS);
+        boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS);
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
-        CommonMigration.addTitles(m, node, e, OXSDNS, false);
+        CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded);
         
         CommonMigration.LocationVolPage locVP =
                 CommonMigration.addLocations(m, node, e, OXSDNS, workId);

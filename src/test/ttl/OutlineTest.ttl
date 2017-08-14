@@ -46,6 +46,7 @@ bdr:W30020_0001  a      :Work ;
     adm:workLegacyNode  "O2DB875722DB87582" .
 
 bdr:W30020_0002  a              :Work ;
+    skos:prefLabel              "gleng gzhi/"@bo-x-ewts ;
     :workKaTenSiglaG            "test broken property type" ;
     :workLocation               [ :workLocationEndPage  18 ;
                                   :workLocationPage     11 ;
@@ -69,6 +70,7 @@ bdr:W30020_0003  a      :Work ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
+    skos:prefLabel      "gleng gzhi/"@bo-x-ewts ;
     :workLocation       [ :workLocationEndPage  18 ;
                           :workLocationPage     11 ;
                           :workLocationVolume   2 ;
@@ -80,6 +82,7 @@ bdr:W30020_0004  a      :Work ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
     :workLocation       [ :workLocationEndPage  25 ;
                           :workLocationPage     17 ;
                           :workLocationVolume   2 ;

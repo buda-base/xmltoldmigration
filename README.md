@@ -32,7 +32,6 @@ All args are optional. By default the jsonld files are written to `./tbrc-jsonld
 
 ## TODO
 
-- Outline nodes labels are based on names, but when absent, it may need to be based on titles?
 - make sure the vol info is present in outline locations when a work has more than 1 volume. Maybe consider that default volume value is 1? In outlines, remove locationWork (always the same, obviously)?
 - link the volumes to the work?
 - add name in the volumes? (extracted from outlines)
