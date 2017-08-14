@@ -73,7 +73,7 @@ public class PubinfoMigration {
         addSimpleElement("editionStatement", BDO+"workEditionStatement", CommonMigration.EWTS_TAG, root, m, main);
         
         // TODO: this goes in the item
-        addSimpleElement("tbrcHoldings", BDO+"itemBDRCHoldingStatemeent", null, root, m, main);
+        addSimpleElement("tbrcHoldings", BDO+"itemBDRCHoldingStatement", null, root, m, main);
         
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);

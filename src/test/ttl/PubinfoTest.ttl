@@ -17,7 +17,7 @@ bdr:I12837_002  a   :ItemPhysicalAsset ;
     :itemShelf      "ཇ|ཇ|༣||001278" .
 
 bdr:W12837  a                   :Work ;
-    :itemBDRCHoldingStatemeent  "1" ;
+    :itemBDRCHoldingStatement   "1" ;
     :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan"@bo-x-ewts ;
     :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
     :workEncoding               "In Tibetan" ;
