@@ -712,7 +712,7 @@ public class CommonMigration  {
            }
        }
        
-       private static int addLocationIntOrString(Model m, Resource main, Resource loc, Element current, String attributeName, String propname) {
+       private static int addLocationIntOrString(Model m, Resource main, Resource loc, Element current, String attributeName, String propname, Integer doNotAddIfEquals) {
            String value = current.getAttribute(attributeName).replaceAll(",$", "");
            int res = -1;
            if (!value.isEmpty()) {
@@ -722,7 +722,8 @@ public class CommonMigration  {
                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "location", "`"+propname+"` must be a positive integer, got `"+value+"`");
                        m.add(loc, m.getProperty(BDO, propname), m.createLiteral(value));
                    } else {
-                       m.add(loc, m.getProperty(BDO, propname), m.createTypedLiteral(intval, XSDDatatype.XSDinteger));
+                       if (doNotAddIfEquals == null || intval != doNotAddIfEquals)
+                           m.add(loc, m.getProperty(BDO, propname), m.createTypedLiteral(intval, XSDDatatype.XSDinteger));
                        res = intval;
                    }
                } catch (NumberFormatException e) {
@@ -782,18 +783,18 @@ public class CommonMigration  {
                }
                
                String endString = (i == 0) ? "" : "End";
-               int volume = addLocationIntOrString(m, main, loc, current, "vol", "workLocation"+endString+"Volume");
+               int volume = addLocationIntOrString(m, main, loc, current, "vol", "workLocation"+endString+"Volume", volume1);
                if (i == 0) volume1 = volume;
                if (i == 1 && volume != -1 && volume1 != -1 && volume < volume1) {
                    ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location volume is before beginning location volume");
                }
-               int page = addLocationIntOrString(m, main, loc, current, "page", "workLocation"+endString+"Page");
+               int page = addLocationIntOrString(m, main, loc, current, "page", "workLocation"+endString+"Page", null);
                if (i == 0) page1 = page;
                if (i == 1 && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
                    ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location page is before beginning location");
                }
-               addLocationIntOrString(m, main, loc, current, "phrase", "workLocation"+endString+"Phrase");
-               addLocationIntOrString(m, main, loc, current, "line", "workLocation"+endString+"Line");
+               addLocationIntOrString(m, main, loc, current, "phrase", "workLocation"+endString+"Phrase", null);
+               addLocationIntOrString(m, main, loc, current, "line", "workLocation"+endString+"Line", null);
                
                if (i == 1 && page != -1) {
                    res = new LocationVolPage(volume1, page1, volume, page, null);

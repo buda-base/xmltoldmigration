@@ -47,11 +47,10 @@ bdr:W30020_0001  a      :Work ;
 
 bdr:W30020_0002  a              :Work ;
     :workKaTenSiglaG            "test broken property type" ;
-    :workLocation               [ :workLocationEndPage    18 ;
-                                  :workLocationEndVolume  1 ;
-                                  :workLocationPage       11 ;
-                                  :workLocationVolume     1 ;
-                                  :workLocationWork       bdr:W30020
+    :workLocation               [ :workLocationEndPage  18 ;
+                                  :workLocationPage     11 ;
+                                  :workLocationVolume   1 ;
+                                  :workLocationWork     bdr:W30020
                                 ] ;
     :workTitle                  [ a           :WorkBibliographicalTitle ;
                                   rdfs:label  "gleng gzhi/"@bo-x-ewts
@@ -62,20 +61,18 @@ bdr:W30020_0002  a              :Work ;
 bdr:W30020_0003  a      :Work ;
     skos:prefLabel      "2 (smad cha)"@bo-x-ewts ;
     :workHasPart        bdr:W30020_0004 , bdr:W30020_0005 ;
-    :workLocation       [ :workLocationEndPage    24 ;
-                          :workLocationEndVolume  2 ;
-                          :workLocationPage       12 ;
-                          :workLocationVolume     2 ;
-                          :workLocationWork       bdr:W30020
+    :workLocation       [ :workLocationEndPage  24 ;
+                          :workLocationPage     12 ;
+                          :workLocationVolume   2 ;
+                          :workLocationWork     bdr:W30020
                         ] ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
-    :workLocation       [ :workLocationEndPage    18 ;
-                          :workLocationEndVolume  2 ;
-                          :workLocationPage       11 ;
-                          :workLocationVolume     2 ;
-                          :workLocationWork       bdr:W30020
+    :workLocation       [ :workLocationEndPage  18 ;
+                          :workLocationPage     11 ;
+                          :workLocationVolume   2 ;
+                          :workLocationWork     bdr:W30020
                         ] ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
                           rdfs:label  "gleng gzhi/"@bo-x-ewts
@@ -83,11 +80,10 @@ bdr:W30020_0004  a      :Work ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
-    :workLocation       [ :workLocationEndPage    25 ;
-                          :workLocationEndVolume  2 ;
-                          :workLocationPage       17 ;
-                          :workLocationVolume     2 ;
-                          :workLocationWork       bdr:W30020
+    :workLocation       [ :workLocationEndPage  25 ;
+                          :workLocationPage     17 ;
+                          :workLocationVolume   2 ;
+                          :workLocationWork     bdr:W30020
                         ] ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
                           rdfs:label  "gleng gzhi2/"@bo-x-ewts
