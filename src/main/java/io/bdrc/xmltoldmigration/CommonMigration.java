@@ -539,7 +539,9 @@ public class CommonMigration  {
 			String type = current.getAttribute("type").trim();
 	        if (type.isEmpty()) type = "noType";
 	        Literal l;
-	        if (descriptionTypeNeedsLang(type)) {
+	        // we add some spaghettis for the case of R8LS13081 which has no description type
+	        // but needs to be added as label
+	        if (descriptionTypeNeedsLang(type) || (guessLabel && type.equals("noType"))) {
 	            l = getLiteral(current, "en", m, "description", r.getLocalName(), r.getLocalName());
 	            if (l == null) continue;
 	        } else {
@@ -564,9 +566,10 @@ public class CommonMigration  {
 			if (propUri != null && propUri.equals("__ignore")) continue;
 			if (propUri == null || propUri.isEmpty()) {
 			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "unhandled description type: "+type);
-			    continue;
+			    if (!guessLabel)
+			        continue;
 			}
-			if (propUri.equals("__fpl")) {
+			if (propUri != null && propUri.equals("__fpl")) {
 			    if (fplItem == null) {
 			        String workId = r.getLocalName();
 			        fplItem = m.createResource(BDR+"I"+workId.substring(1)+"_002");
@@ -596,7 +599,7 @@ public class CommonMigration  {
 			    continue;
 			}
 			// for product and office the name is the first description type="contents", and we don't want to keep it in a description
-            if (guessLabel && type.equals("contents")) {
+            if (guessLabel && (type.equals("contents") || type.equals("noType"))) {
                 String lang = l.getLanguage().substring(0, 2);
                 if (!labelDoneForLang.containsKey(lang)) {
                     r.addProperty(m.getProperty(PREFLABEL_URI), l);
