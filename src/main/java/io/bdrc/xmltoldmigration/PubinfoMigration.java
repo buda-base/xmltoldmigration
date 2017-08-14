@@ -136,6 +136,7 @@ public class PubinfoMigration {
             Model itemModel = m;
             if (WorkMigration.splitItems) {
                 itemModel = ModelFactory.createDefaultModel();
+                CommonMigration.setPrefixes(itemModel);
                 itemModels.put(itemName, itemModel);
             }
             Resource holding = itemModel.createResource(BDR+itemName);
