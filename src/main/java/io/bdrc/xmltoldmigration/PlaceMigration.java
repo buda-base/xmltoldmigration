@@ -88,7 +88,7 @@ public class PlaceMigration {
 			addTlm(m, main, current);
 		}
 		
-		SymetricNormalization.insertMissingTriplesInModel(m, BDR + root.getAttribute("RID"));
+		SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
 		
 		return m;
 	}
@@ -126,7 +126,7 @@ public class PlaceMigration {
 			String value = current.getAttribute("place").trim();
 			if (value.isEmpty() || value.equals("NONE"))
 			    return;
-			SymetricNormalization.addSymetricProperty(m, ontoPropName, main.getURI(), BDR+value, null);
+			SymetricNormalization.addSymetricProperty(m, ontoPropName, main.getLocalName(), value, null);
 		}
 	}
 	

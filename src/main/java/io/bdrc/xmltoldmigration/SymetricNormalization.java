@@ -11,6 +11,7 @@ import org.apache.jena.rdf.model.Model;
 public class SymetricNormalization {
 
     public static final String BDO = CommonMigration.BDO;
+    public static final String BDR = CommonMigration.BDR;
     public static final int GENDER_M = 0;
     public static final int GENDER_F = 1;
     public static final int GENDER_U = 2;
@@ -49,21 +50,21 @@ public class SymetricNormalization {
     }
     
     public static void fillMap() {
-        propInfos.put("placeContains", new SymetryInfo(BDO+"placeLocatedIn", 1));
-        propInfos.put("placeLocatedIn", new SymetryInfo(BDO+"placeContains", 0));
-        propInfos.put("placeIsNear", new SymetryInfo(BDO+"placeIsNear", 0));
-        propInfos.put("workExpressionOf", new SymetryInfo(BDO+"workHasExpression", 1));
-        propInfos.put("workHasExpression", new SymetryInfo(BDO+"workExpressionOf", 0));
-        propInfos.put("workExpressionOf", new SymetryInfo(BDO+"workHasExpression", 1));
-        // TODO: should be handled in the code directly:
+        propInfos.put("placeContains", new SymetryInfo("placeLocatedIn", 1));
+        propInfos.put("placeLocatedIn", new SymetryInfo("placeContains", 0));
+        propInfos.put("placeIsNear", new SymetryInfo("placeIsNear", 0));
+        propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", 1));
+        propInfos.put("workHasExpression", new SymetryInfo("workExpressionOf", 0));
+        propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", 1));
+        // TODO: these are handled in the code directly:
         // - workPartOf       vs. workHaspart
         // - workHasItem      vs. itemForWork
         // TODO: create workHasNumber (sym. of workNumberOf)?
-        propInfos.put("personHasIncarnation", new SymetryInfo(BDO+"personIncarnationOf", 1));
-        propInfos.put("incarnationOf", new SymetryInfo(BDO+"hasIncarnation", 0));
-        propInfos.put("personHasConsort", new SymetryInfo(BDO+"personHasConsort", 0));
-        propInfos.put("personTeacherOf", new SymetryInfo(BDO+"personStudentOf", 0));
-        propInfos.put("personStudentOf", new SymetryInfo(BDO+"personTeacherOf", 1));
+        propInfos.put("personHasIncarnation", new SymetryInfo("personIncarnationOf", 1));
+        propInfos.put("incarnationOf", new SymetryInfo("hasIncarnation", 0));
+        propInfos.put("personHasConsort", new SymetryInfo("personHasConsort", 0));
+        propInfos.put("personTeacherOf", new SymetryInfo("personStudentOf", 0));
+        propInfos.put("personStudentOf", new SymetryInfo("personTeacherOf", 1));
     }
     
     public static SymetryInfo getKinSymInfo(String prop, int gender) {
@@ -72,50 +73,50 @@ public class SymetricNormalization {
         case "hasDaughter":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasFather", 0);
+                return new SymetryInfo("hasFather", 0);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasMother", 0);
+                return new SymetryInfo("hasMother", 0);
             default:
-                return new SymetryInfo(BDO+"hasParent", 0);
+                return new SymetryInfo("hasParent", 0);
             }
         case "hasMother":
         case "hasFather":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasSon", 1);
+                return new SymetryInfo("hasSon", 1);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasDaughter", 1);
+                return new SymetryInfo("hasDaughter", 1);
             default:
-                return new SymetryInfo(BDO+"hasChild", 1);
+                return new SymetryInfo("hasChild", 1);
             }
         case "hasWife":
         case "hasHusband":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasHusband", 2);
+                return new SymetryInfo("hasHusband", 2);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasWife", 2);
+                return new SymetryInfo("hasWife", 2);
             default:
-                return new SymetryInfo(BDO+"hasSpouse", 2);
+                return new SymetryInfo("hasSpouse", 2);
             }
         // no inLaw in the database, we just skip
         case "hasSister":
         case "hasBrother":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasBrother", 2);
+                return new SymetryInfo("hasBrother", 2);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasSister", 2);
+                return new SymetryInfo("hasSister", 2);
             default:
-                return new SymetryInfo(BDO+"hasSibling", 2); // this could include younger/older
+                return new SymetryInfo("hasSibling", 2); // this could include younger/older
             }
         case "hasYoungerSister":
         case "hasYoungerBrother":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasOlderBrother", 2);
+                return new SymetryInfo("hasOlderBrother", 2);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasOlderSister", 2);
+                return new SymetryInfo("hasOlderSister", 2);
             default:
                 return null;
             }
@@ -123,9 +124,9 @@ public class SymetricNormalization {
         case "hasOlderBrother":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasYoungerBrother", 2);
+                return new SymetryInfo("hasYoungerBrother", 2);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasYoungerSister", 2);
+                return new SymetryInfo("hasYoungerSister", 2);
             default:
                 return null;
             }
@@ -133,21 +134,21 @@ public class SymetricNormalization {
         case "hasGrandFather":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasGrandSon", 1);
+                return new SymetryInfo("hasGrandSon", 1);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasGrandDaughter", 1);
+                return new SymetryInfo("hasGrandDaughter", 1);
             default:
-                return new SymetryInfo(BDO+"hasGrandChild", 1);
+                return new SymetryInfo("hasGrandChild", 1);
             }
         case "hasGrandDaughter":
         case "hasGrandSon":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasGrandFather", 0);
+                return new SymetryInfo("hasGrandFather", 0);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasGrandMother", 0);
+                return new SymetryInfo("hasGrandMother", 0);
             default:
-                return new SymetryInfo(BDO+"hasGrandParent", 0);
+                return new SymetryInfo("hasGrandParent", 0);
             }
         case "hasAunt":
         case "hasUncle":
@@ -157,24 +158,24 @@ public class SymetricNormalization {
         case "hasPaternalAunt":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasNephew", 0);
+                return new SymetryInfo("hasNephew", 0);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasNiece", 0);
+                return new SymetryInfo("hasNiece", 0);
             default:
-                return new SymetryInfo(BDO+"hasNibling", 0);
+                return new SymetryInfo("hasNibling", 0);
             }
         case "hasNephew":
         case "hasNiece":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo(BDO+"hasUncle", 0);
+                return new SymetryInfo("hasUncle", 0);
             case GENDER_F:
-                return new SymetryInfo(BDO+"hasAunt", 0);
+                return new SymetryInfo("hasAunt", 0);
             default:
-                return new SymetryInfo(BDO+"hasParentSibling", 0);
+                return new SymetryInfo("hasParentSibling", 0);
             }
         case "hasCousin":
-            return new SymetryInfo(BDO+"hasCousin", 2);
+            return new SymetryInfo("hasCousin", 2);
         }
         return null;
     }
@@ -185,7 +186,7 @@ public class SymetricNormalization {
     
     //public static Map<String,Map<String,String>[2]> knownTriples = new HashMap<>();
     
-    public static void addSymetricProperty(Model m, final String propertyName, final String sourceUri, final String destUri, final Integer gender) {
+    public static void addSymetricProperty(Model m, final String propertyName, final String sourceName, final String destName, final Integer gender) {
         SymetryInfo symInfos;
         if (gender != null && !propertyName.equals("personHasConsort")) {
             symInfos = getKinSymInfo(propertyName, gender);
@@ -193,37 +194,39 @@ public class SymetricNormalization {
             symInfos = propInfos.get(propertyName);
         }
         if (symInfos == null) {
-            m.add(m.getResource(sourceUri), m.getProperty(BDO, propertyName), m.getResource(destUri));
+            m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
             return;
         }
-        Map<String,List<String>> docTriples = knownTriples.computeIfAbsent(sourceUri, (x -> new HashMap<String,List<String>>()));
+        Map<String,List<String>> docTriples = knownTriples.computeIfAbsent(sourceName, (x -> new HashMap<String,List<String>>()));
         if (!oneDirection || symInfos.isMain != 1) {
-            m.add(m.getResource(sourceUri), m.getProperty(BDO, propertyName), m.getResource(destUri));
+            m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
             List<String> knownObjects = docTriples.computeIfAbsent(propertyName, (x -> new ArrayList<String>()));
-            if (!knownObjects.contains(destUri))
-                knownObjects.add(destUri);
+            if (!knownObjects.contains(destName))
+                knownObjects.add(destName);
         }
         if (!oneDirection || symInfos.isMain == 1) {
-            Map<String,List<String>> symDocTriples = knownTriples.computeIfAbsent(destUri, (x -> new HashMap<String,List<String>>()));
+            Map<String,List<String>> symDocTriples = knownTriples.computeIfAbsent(destName, (x -> new HashMap<String,List<String>>()));
             List<String> knownSymObjects = symDocTriples.computeIfAbsent(propertyName, (x -> new ArrayList<String>()));
-            if (!knownSymObjects.contains(sourceUri)) {
-                knownSymObjects.add(sourceUri);
-                Map<String,List<String>> triplesToAddForDest = triplesToAdd.computeIfAbsent(destUri, (x -> new HashMap<String,List<String>>()));
+            if (!knownSymObjects.contains(sourceName)) {
+                knownSymObjects.add(sourceName);
+                Map<String,List<String>> triplesToAddForDest = triplesToAdd.computeIfAbsent(destName, (x -> new HashMap<String,List<String>>()));
                 List<String> objectsToAdd = triplesToAddForDest.computeIfAbsent(symInfos.symUri, (x -> new ArrayList<String>()));
-                objectsToAdd.add(sourceUri);
+                objectsToAdd.add(sourceName);
             }
         }
     }
     
-    public static void insertMissingTriplesInModel(final Model m, final String resourceUri) {
-        Map<String,List<String>> docTriplesToAdd = triplesToAdd.get(resourceUri);
+    public static void insertMissingTriplesInModel(final Model m, final String resourceName) {
+        Map<String,List<String>> docTriplesToAdd = triplesToAdd.get(resourceName);
         if (docTriplesToAdd == null)
             return;
-        for (Entry<String,List<String>> e : docTriplesToAdd.entrySet() ) {
+        for (Map.Entry<String,List<String>> e : docTriplesToAdd.entrySet() ) {
+            // no need to add the values in knownTriples
             for (String o : e.getValue() ) {
-                m.add(m.getResource(resourceUri), m.getProperty(BDO, e.getKey()), m.getResource(o));
+                m.add(m.getResource(BDR+resourceName), m.getProperty(BDO, e.getKey()), m.getResource(BDR+o));
             }
         }
+        triplesToAdd.remove(resourceName);
     }
     
     public static void cleanModelFromDups(final Model m, final String type, final String resourceUri) {

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
@@ -112,13 +113,14 @@ public class MigrationApp
             String workId = ScanrequestMigration.getWork(srd);
             if (workId == null || workId.isEmpty()) 
                 return;
-            String itemFileName = OUTPUT_DIR+ITEMS+"/I"+workId.substring(1)+".ttl";
+            String srItemName = "I"+workId.substring(1)+"_001";
+            String itemFileName = OUTPUT_DIR+ITEMS+"/"+srItemName+".ttl";
             itemModel = MigrationHelpers.modelFromFileName(itemFileName);
             if (itemModel == null)
                 return;
             item = itemModel.getResource(BDR+"I"+workId.substring(1)+"_001");
             itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
-            MigrationHelpers.modelToFileName(itemModel, itemFileName, ITEMS, MigrationHelpers.OUTPUT_STTL);
+            MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "item", false);
             break;
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -192,6 +194,8 @@ public class MigrationApp
     
     public static void migrateType(String type, String mustStartWith) {
         createDirIfNotExists(OUTPUT_DIR+type+"s");
+        SymetricNormalization.knownTriples = new HashMap<>();
+        SymetricNormalization.triplesToAdd = new HashMap<>();
         if (type.equals(WORK)) createDirIfNotExists(OUTPUT_DIR+ITEMS);
         if (type.equals(OUTLINE)) createDirIfNotExists(OUTPUT_DIR+WORK+"s");
         File logfile = new File(OUTPUT_DIR+type+"s-migration.log");
@@ -209,6 +213,19 @@ public class MigrationApp
         //Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
         Stream.of(files).forEach(file -> migrateOneFile(file, type, mustStartWith));
         pw.close();
+        if (!SymetricNormalization.triplesToAdd.isEmpty()) {
+            System.out.println("adding missing symetric triples in "+SymetricNormalization.triplesToAdd.size()+" files");
+            for (String s : SymetricNormalization.triplesToAdd.keySet()) {
+//                System.out.println("adding triples in "+s);
+//                System.out.println(SymetricNormalization.triplesToAdd.get(s));
+                String inFileName = OUTPUT_DIR+type+"s/"+s+".ttl";
+                Model m = MigrationHelpers.modelFromFileName(inFileName);
+                if (m == null)
+                    continue;
+                SymetricNormalization.insertMissingTriplesInModel(m, s);
+                MigrationHelpers.outputOneModel(m, s, inFileName, type, false);
+            }
+        }
     }
     
     public static void main( String[] args )
@@ -254,9 +271,9 @@ public class MigrationApp
         migrateType(CORPORATION, "C");
         migrateType(LINEAGE, "L");
         migrateType(TOPIC, "T");
-//        migrateOneFile(new File(DATA_DIR+"tbrc-works/W2046.xml"), "work", "W");
-//        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O00EGS103132.xml"), "outline", "O");
-//        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
+////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W2046.xml"), "work", "W");
+////        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O00EGS103132.xml"), "outline", "O");
+////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
         CommonMigration.speller.close();

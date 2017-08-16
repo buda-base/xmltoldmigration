@@ -31,7 +31,6 @@ public class WorkMigration {
 	   private static String getUriFromTypeSubtype(String type, String subtype) {
 	        switch (type) {
 	        case "creator":
-	            System.out.println(subtype);
 	            if (subtype.startsWith("has"))
 	                subtype = subtype.substring(3);
 	            return BDO+"creator"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
@@ -139,7 +138,7 @@ public class WorkMigration {
                     prop = m.getProperty(BDO, "workNumberOf");
                     m.add(main, prop, m.createResource(BDR+value));
                 } else {
-                    SymetricNormalization.addSymetricProperty(m, "workExpressionOf", main.getURI(), BDR+value, null);
+                    SymetricNormalization.addSymetricProperty(m, "workExpressionOf", main.getLocalName(), value, null);
                 }
             }
         }
@@ -202,7 +201,7 @@ public class WorkMigration {
                 m.add(main, m.getProperty(BDO, "workHasItem"), item);
         }
         
-        SymetricNormalization.insertMissingTriplesInModel(m, BDR + root.getAttribute("RID"));
+        SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
         
 		return m;
 		

@@ -135,10 +135,10 @@ public class PersonMigration {
 			            ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "teacherOf", "cannot parse `"+val+"` correctly");
 			            continue;
 			        }
-			        SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getURI(), BDR+part, null); 
+			        SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getLocalName(), part, null); 
 			    }
 			} else {
-			    SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getURI(), BDR+val, null); 
+			    SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getLocalName(), val, null); 
 			}
 		}
         
@@ -158,10 +158,10 @@ public class PersonMigration {
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "studentOf", "cannot parse `"+val+"` correctly");
                         continue;
                     }
-                    SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getURI(), BDR+part, null);
+                    SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getLocalName(), part, null);
                 }
             } else {
-                SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getURI(), BDR+val, null);
+                SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getLocalName(), val, null);
             }
         }
 		
@@ -196,7 +196,7 @@ public class PersonMigration {
 		
 		CommonMigration.addLog(m, root, main, PXSDNS);
 		
-		SymetricNormalization.insertMissingTriplesInModel(m, BDR + root.getAttribute("RID"));
+		SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
 		
 		return m;
 	}
@@ -278,7 +278,7 @@ public class PersonMigration {
 		    relation = "personHasConsort";
 		String with = e.getAttribute("person");
 		if (!with.isEmpty()) {
-		    SymetricNormalization.addSymetricProperty(m, relation, person.getURI(), BDR+with, gender); 
+		    SymetricNormalization.addSymetricProperty(m, relation, person.getLocalName(), with, gender); 
 		}
 	}
 	

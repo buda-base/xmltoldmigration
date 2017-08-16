@@ -413,6 +413,7 @@ public class MigrationHelpers {
 		    writeLog("error reading "+fname);
 		    return null;
 		}
+		CommonMigration.setPrefixes(model);
 		return model;
 	}
 	
