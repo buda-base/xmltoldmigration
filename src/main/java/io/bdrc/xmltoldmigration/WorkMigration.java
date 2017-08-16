@@ -135,8 +135,7 @@ public class WorkMigration {
             value = current.getAttribute("parent");
             if (!value.isEmpty() && !value.contains("LEGACY")) {
                 if (numbered) {
-                    prop = m.getProperty(BDO, "workNumberOf");
-                    m.add(main, prop, m.createResource(BDR+value));
+                    SymetricNormalization.addSymetricProperty(m, "workNumberOf", main.getLocalName(), value, null);
                 } else {
                     SymetricNormalization.addSymetricProperty(m, "workExpressionOf", main.getLocalName(), value, null);
                 }

@@ -279,6 +279,7 @@ public class MigrationApp
         CommonMigration.speller.close();
         ExceptionHelper.closeAll();
     	long estimatedTime = System.currentTimeMillis() - startTime;
+    	System.out.println("symetry triple changes: +"+SymetricNormalization.addedTriples+"/-"+SymetricNormalization.removedTriples);
     	System.out.println("done in "+estimatedTime+" ms");
     }
 }

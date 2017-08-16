@@ -11,7 +11,6 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:W30020  a        :Work ;
-    :workHasPart     bdr:W30020_0001 , bdr:W30020_0003 ;
     :workPagination  bdr:PaginationAbsolute ;
     adm:outline      [ a                           adm:Outline ;
                        :workLocation               [ :workLocationWork
@@ -34,7 +33,6 @@ bdr:W30020  a        :Work ;
 
 bdr:W30020_0001  a      :Work ;
     skos:prefLabel      "1 (stod cha)"@bo-x-ewts ;
-    :workHasPart        bdr:W30020_0002 ;
     :workHasSite        [ :onOrAbout      "1235" ;
                           :workSitePlace  bdr:G4449 ;
                           :workSiteType   bdr:WorkSiteTypeVolume
@@ -43,6 +41,7 @@ bdr:W30020_0001  a      :Work ;
     :workLocation       [ :workLocationVolume  1 ;
                           :workLocationWork    bdr:W30020
                         ] ;
+    :workPartOf         bdr:W30020 ;
     adm:workLegacyNode  "O2DB875722DB87582" .
 
 bdr:W30020_0002  a              :Work ;
@@ -53,6 +52,7 @@ bdr:W30020_0002  a              :Work ;
                                   :workLocationVolume   1 ;
                                   :workLocationWork     bdr:W30020
                                 ] ;
+    :workPartOf                 bdr:W30020_0001 ;
     :workTitle                  [ a           :WorkBibliographicalTitle ;
                                   rdfs:label  "gleng gzhi/"@bo-x-ewts
                                 ] ;
@@ -61,12 +61,12 @@ bdr:W30020_0002  a              :Work ;
 
 bdr:W30020_0003  a      :Work ;
     skos:prefLabel      "2 (smad cha)"@bo-x-ewts ;
-    :workHasPart        bdr:W30020_0004 , bdr:W30020_0005 ;
     :workLocation       [ :workLocationEndPage  24 ;
                           :workLocationPage     12 ;
                           :workLocationVolume   2 ;
                           :workLocationWork     bdr:W30020
                         ] ;
+    :workPartOf         bdr:W30020 ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
@@ -76,6 +76,7 @@ bdr:W30020_0004  a      :Work ;
                           :workLocationVolume   2 ;
                           :workLocationWork     bdr:W30020
                         ] ;
+    :workPartOf         bdr:W30020_0003 ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
                           rdfs:label  "gleng gzhi/"@bo-x-ewts
                         ] ;
@@ -88,6 +89,7 @@ bdr:W30020_0005  a      :Work ;
                           :workLocationVolume   2 ;
                           :workLocationWork     bdr:W30020
                         ] ;
+    :workPartOf         bdr:W30020_0003 ;
     :workTitle          [ a           :WorkBibliographicalTitle ;
                           rdfs:label  "gleng gzhi2/"@bo-x-ewts
                         ] ;

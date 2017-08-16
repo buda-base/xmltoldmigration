@@ -36,7 +36,7 @@ public class MigrationTest
 	public static void init() {
 	    MigrationHelpers.usecouchdb = false;
 		ontology = MigrationHelpers.ontologymodel;
-		SymetricNormalization.oneDirection = true;
+		SymetricNormalization.normalizeOneDirection(true, false);
 	}
 	
    @AfterClass

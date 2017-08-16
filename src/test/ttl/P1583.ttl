@@ -66,7 +66,7 @@ bdr:P1583  a             :Person ;
               rdfs:label  "bsam yas lung mang ba/"@bo-x-ewts , "klong chen rab 'byams/"@bo-x-ewts
             ] ;
     :personOfSect        bdr:T1234 ;
-    :personTeacherOf     bdr:P0RK1190 , bdr:P0RK1191 , bdr:P0RK1192 , bdr:P0RK783 , bdr:P0RK839 , bdr:P2JM207 , bdr:P314 , bdr:P7091 ;
+    :personStudentOf     bdr:P123 ;
     :status              bdr:StatusReleased ;
     adm:logEntry         [ adm:logDate     "2008-06-30T17:01:56.496Z"^^xsd:dateTime ;
                            adm:logMessage  "added records"@en ;

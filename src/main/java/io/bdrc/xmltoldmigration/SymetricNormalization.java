@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.jena.rdf.model.Model;
 
@@ -16,6 +15,9 @@ public class SymetricNormalization {
     public static final int GENDER_F = 1;
     public static final int GENDER_U = 2;
     
+    public static int addedTriples = 0;
+    public static int removedTriples = 0;
+    
     public static boolean oneDirection = true;
     
     public static class SymetryInfo {
@@ -25,46 +27,54 @@ public class SymetricNormalization {
         // - 1 in case the symetric prop is the main one
         // - 2 in case where both should be kept (ex: hasBrother)
         public final int isMain;
-        // list of the subproperties of the symetric property
-        public List<String> symSubclasses = null;
-        // the superclass of the symetric property
-        public String symSubclassOf = null;
         
         public SymetryInfo(final String symUri, final int isMain) {
             this.symUri = symUri;
             this.isMain = isMain;
         }
-
-        public SymetryInfo(final String symUri, final int isMain, List<String> symSubclasses, String symSubclassOf) {
-            this.symUri = symUri;
-            this.isMain = isMain;
-            this.symSubclasses = symSubclasses;
-            this.symSubclassOf = symSubclassOf;
+    }
+    
+    public static void normalizeOneDirection(boolean oneDirectionArg, boolean preferManyOverOne) {
+        fillMap(preferManyOverOne);
+        oneDirection = oneDirectionArg;
+        if (oneDirectionArg == true) {
+            WorkMigration.addItemForWork = !preferManyOverOne;
+            WorkMigration.addWorkHasItem = preferManyOverOne;
+            OutlineMigration.addWorkHaspart = preferManyOverOne;
+            OutlineMigration.addWorkPartOf = !preferManyOverOne;
+        } else {
+            WorkMigration.addItemForWork = true;
+            WorkMigration.addWorkHasItem = true;
+            OutlineMigration.addWorkHaspart = true;
+            OutlineMigration.addWorkPartOf = true;
         }
     }
     
     public static Map<String,SymetryInfo> propInfos = new HashMap<>();
     
     static {
-        fillMap();
+        normalizeOneDirection(true, true);
     }
     
-    public static void fillMap() {
-        propInfos.put("placeContains", new SymetryInfo("placeLocatedIn", 1));
-        propInfos.put("placeLocatedIn", new SymetryInfo("placeContains", 0));
-        propInfos.put("placeIsNear", new SymetryInfo("placeIsNear", 0));
-        propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", 1));
-        propInfos.put("workHasExpression", new SymetryInfo("workExpressionOf", 0));
-        propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", 1));
+    public static void fillMap(boolean preferManyOverOne) {
+        int manyInt = preferManyOverOne ? 1 : 0;
+        int oneInt = preferManyOverOne ? 0 : 1;
+        propInfos.put("placeContains", new SymetryInfo("placeLocatedIn", manyInt));
+        propInfos.put("placeLocatedIn", new SymetryInfo("placeContains", oneInt));
+        propInfos.put("placeIsNear", new SymetryInfo("placeIsNear", 2));
+        propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", oneInt));
+        propInfos.put("workHasExpression", new SymetryInfo("workExpressionOf", manyInt));
+        propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", oneInt));
+        propInfos.put("workNumberOf", new SymetryInfo("workHasNumber", oneInt));
+        propInfos.put("workHasNumber", new SymetryInfo("workNumberOf", manyInt));
         // TODO: these are handled in the code directly:
         // - workPartOf       vs. workHaspart
         // - workHasItem      vs. itemForWork
-        // TODO: create workHasNumber (sym. of workNumberOf)?
-        propInfos.put("personHasIncarnation", new SymetryInfo("personIncarnationOf", 1));
-        propInfos.put("incarnationOf", new SymetryInfo("hasIncarnation", 0));
-        propInfos.put("personHasConsort", new SymetryInfo("personHasConsort", 0));
-        propInfos.put("personTeacherOf", new SymetryInfo("personStudentOf", 0));
-        propInfos.put("personStudentOf", new SymetryInfo("personTeacherOf", 1));
+        //propInfos.put("personHasIncarnation", new SymetryInfo("personIncarnationOf", 1));
+        //propInfos.put("incarnationOf", new SymetryInfo("hasIncarnation", 0));
+        propInfos.put("personHasConsort", new SymetryInfo("personHasConsort", 2));
+        propInfos.put("personTeacherOf", new SymetryInfo("personStudentOf", manyInt));
+        propInfos.put("personStudentOf", new SymetryInfo("personTeacherOf", oneInt));
     }
     
     public static SymetryInfo getKinSymInfo(String prop, int gender) {
@@ -73,32 +83,26 @@ public class SymetricNormalization {
         case "hasDaughter":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasFather", 0);
+                return new SymetryInfo("hasFather", 1);
             case GENDER_F:
-                return new SymetryInfo("hasMother", 0);
+                return new SymetryInfo("hasMother", 1);
             default:
-                return new SymetryInfo("hasParent", 0);
+                return new SymetryInfo("hasParent", 1);
             }
         case "hasMother":
         case "hasFather":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasSon", 1);
+                return new SymetryInfo("hasSon", 0);
             case GENDER_F:
-                return new SymetryInfo("hasDaughter", 1);
+                return new SymetryInfo("hasDaughter", 0);
             default:
-                return new SymetryInfo("hasChild", 1);
+                return new SymetryInfo("hasChild", 0);
             }
         case "hasWife":
+            return new SymetryInfo("hasHusband", 1);
         case "hasHusband":
-            switch (gender) {
-            case GENDER_M:
-                return new SymetryInfo("hasHusband", 2);
-            case GENDER_F:
-                return new SymetryInfo("hasWife", 2);
-            default:
-                return new SymetryInfo("hasSpouse", 2);
-            }
+            return new SymetryInfo("hasWife", 0);
         // no inLaw in the database, we just skip
         case "hasSister":
         case "hasBrother":
@@ -114,9 +118,9 @@ public class SymetricNormalization {
         case "hasYoungerBrother":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasOlderBrother", 2);
+                return new SymetryInfo("hasOlderBrother", 1);
             case GENDER_F:
-                return new SymetryInfo("hasOlderSister", 2);
+                return new SymetryInfo("hasOlderSister", 1);
             default:
                 return null;
             }
@@ -124,9 +128,9 @@ public class SymetricNormalization {
         case "hasOlderBrother":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasYoungerBrother", 2);
+                return new SymetryInfo("hasYoungerBrother", 0);
             case GENDER_F:
-                return new SymetryInfo("hasYoungerSister", 2);
+                return new SymetryInfo("hasYoungerSister", 0);
             default:
                 return null;
             }
@@ -134,21 +138,21 @@ public class SymetricNormalization {
         case "hasGrandFather":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasGrandSon", 1);
+                return new SymetryInfo("hasGrandSon", 0);
             case GENDER_F:
-                return new SymetryInfo("hasGrandDaughter", 1);
+                return new SymetryInfo("hasGrandDaughter", 0);
             default:
-                return new SymetryInfo("hasGrandChild", 1);
+                return new SymetryInfo("hasGrandChild", 0);
             }
         case "hasGrandDaughter":
         case "hasGrandSon":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasGrandFather", 0);
+                return new SymetryInfo("hasGrandFather", 1);
             case GENDER_F:
-                return new SymetryInfo("hasGrandMother", 0);
+                return new SymetryInfo("hasGrandMother", 1);
             default:
-                return new SymetryInfo("hasGrandParent", 0);
+                return new SymetryInfo("hasGrandParent", 1);
             }
         case "hasAunt":
         case "hasUncle":
@@ -168,11 +172,11 @@ public class SymetricNormalization {
         case "hasNiece":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasUncle", 0);
+                return new SymetryInfo("hasUncle", 1);
             case GENDER_F:
-                return new SymetryInfo("hasAunt", 0);
+                return new SymetryInfo("hasAunt", 1);
             default:
-                return new SymetryInfo("hasParentSibling", 0);
+                return new SymetryInfo("hasParentSibling", 1);
             }
         case "hasCousin":
             return new SymetryInfo("hasCousin", 2);
@@ -198,13 +202,15 @@ public class SymetricNormalization {
             return;
         }
         Map<String,List<String>> docTriples = knownTriples.computeIfAbsent(sourceName, (x -> new HashMap<String,List<String>>()));
-        if (!oneDirection || symInfos.isMain != 1) {
+        if (!oneDirection || symInfos.isMain != 0) {
             m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
             List<String> knownObjects = docTriples.computeIfAbsent(propertyName, (x -> new ArrayList<String>()));
             if (!knownObjects.contains(destName))
                 knownObjects.add(destName);
+        } else {
+            removedTriples += 1;
         }
-        if (!oneDirection || symInfos.isMain == 1) {
+        if (!oneDirection || symInfos.isMain != 1) {
             Map<String,List<String>> symDocTriples = knownTriples.computeIfAbsent(destName, (x -> new HashMap<String,List<String>>()));
             List<String> knownSymObjects = symDocTriples.computeIfAbsent(propertyName, (x -> new ArrayList<String>()));
             if (!knownSymObjects.contains(sourceName)) {
@@ -229,6 +235,7 @@ public class SymetricNormalization {
             for (String o : e.getValue() ) {
                 m.add(m.getResource(BDR+resourceName), m.getProperty(BDO, e.getKey()), m.getResource(BDR+o));
             }
+            addedTriples += e.getValue().size();
         }
         if (removeAtEnd)
             triplesToAdd.remove(resourceName);

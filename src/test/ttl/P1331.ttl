@@ -10,24 +10,23 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:P1331  a          :Person ;
-    skos:prefLabel    "blo gros rnam dag"@bo-x-ewts ;
-    :note             [ :noteLocationStatement  "p. 359" ;
-                        :noteText               "date of death from this source"@en ;
-                        :noteWork               bdr:W20115
-                      ] ;
-    :personEvent      [ a           :PersonEventDeath ;
-                        :onOrAbout  "1322"
-                      ] , 
+bdr:P1331  a        :Person ;
+    skos:prefLabel  "blo gros rnam dag"@bo-x-ewts ;
+    :note           [ :noteLocationStatement  "p. 359" ;
+                      :noteText               "date of death from this source"@en ;
+                      :noteWork               bdr:W20115
+                    ] ;
+    :personEvent    [ a           :PersonEventDeath ;
+                      :onOrAbout  "1322"
+                    ] , 
             [ a                  :PersonEventOccupiesSeat ;
               :personEventPlace  bdr:G844
             ] ;
-    :personGender     bdr:GenderMale ;
-    :personName       [ a           :PersonPrimaryName ;
-                        rdfs:label  "blo gros rnam dag"@bo-x-ewts
-                      ] , 
+    :personGender   bdr:GenderMale ;
+    :personName     [ a           :PersonPrimaryName ;
+                      rdfs:label  "blo gros rnam dag"@bo-x-ewts
+                    ] , 
             [ a           :PersonPrimaryTitle ;
               rdfs:label  "bya yul blo bzang rnam dag"@bo-x-ewts
             ] ;
-    :personTeacherOf  bdr:P1323 ;
-    :status           bdr:StatusReleased .
+    :status         bdr:StatusReleased .
