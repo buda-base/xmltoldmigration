@@ -217,6 +217,10 @@ public class SymetricNormalization {
     }
     
     public static void insertMissingTriplesInModel(final Model m, final String resourceName) {
+        insertMissingTriplesInModel(m, resourceName, true);
+    }
+    
+    public static void insertMissingTriplesInModel(final Model m, final String resourceName, boolean removeAtEnd) {
         Map<String,List<String>> docTriplesToAdd = triplesToAdd.get(resourceName);
         if (docTriplesToAdd == null)
             return;
@@ -226,7 +230,8 @@ public class SymetricNormalization {
                 m.add(m.getResource(BDR+resourceName), m.getProperty(BDO, e.getKey()), m.getResource(BDR+o));
             }
         }
-        triplesToAdd.remove(resourceName);
+        if (removeAtEnd)
+            triplesToAdd.remove(resourceName);
     }
     
     public static void cleanModelFromDups(final Model m, final String type, final String resourceUri) {

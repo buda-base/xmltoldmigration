@@ -222,7 +222,7 @@ public class MigrationApp
                 Model m = MigrationHelpers.modelFromFileName(inFileName);
                 if (m == null)
                     continue;
-                SymetricNormalization.insertMissingTriplesInModel(m, s);
+                SymetricNormalization.insertMissingTriplesInModel(m, s, false);
                 MigrationHelpers.outputOneModel(m, s, inFileName, type, false);
             }
         }
