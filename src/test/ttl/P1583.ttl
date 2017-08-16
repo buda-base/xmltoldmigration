@@ -13,6 +13,8 @@
 bdr:P1583  a             :Person ;
     rdfs:seeAlso         bdr:O1GS392481GS39291 , "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
     skos:prefLabel       "dri med 'od zer/"@bo-x-ewts , "Drime Oser"@en ;
+    :hasMother           bdr:P1585 ;
+    :hasUnknownKinship   bdr:P1584 ;
     :incarnationGeneral  bdr:P561654 ;
     :incarnationMind     bdr:P561654 ;
     :note                [ :noteLocationStatement  "251" ;
@@ -43,12 +45,6 @@ bdr:P1583  a             :Person ;
               :personEventPlace  bdr:G521
             ] ;
     :personGender        bdr:GenderMale ;
-    :personKin           [ :personKinType  bdr:KinHasMother ;
-                           :personKinWho   bdr:P1585
-                         ] , 
-            [ :personKinType  bdr:KinUnspecified ;
-              :personKinWho   bdr:P1584
-            ] ;
     :personName          [ a           :PersonChineseName ;
                            rdfs:label  "隆钦热降巴·赤墨俄色"@zh
                          ] , 

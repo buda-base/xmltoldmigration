@@ -30,8 +30,6 @@ public class PersonMigration {
             return BDO+"PersonEvent"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "incarnationOf":
             return BDO+"incarnation"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
-        case "kin":
-            return BDR+"Kin"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
 	    default:
 	           return "";
 	    }
@@ -265,18 +263,16 @@ public class PersonMigration {
 	}
 	
 	public static void addKinship(Model m, Resource person, Element e) {
-	    Resource subResource = m.createResource();
-	    person.addProperty(m.getProperty(BDO+"personKin"), subResource);
 		String relation = e.getAttribute("relation");
 		if (relation.isEmpty()) {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, person.getLocalName(), person.getLocalName(), "kinship", "missing kinship type");
-		    relation = "unspecified";
+		    relation = "hasUnknownKinship";
 		}
-		relation = getUriFromTypeSubtype("kin", relation);
 		String with = e.getAttribute("person");
-		Resource r = m.createResource(BDR+with);
-		subResource.addProperty(m.getProperty(BDO, "personKinType"), m.createResource(relation));
-		subResource.addProperty(m.getProperty(BDO, "personKinWho"), r);
+		if (!with.isEmpty()) {
+		    Resource r = m.createResource(BDR+with);
+		    person.addProperty(m.getProperty(BDO, relation), r);
+		}
 	}
 	
 	public static void addSeat(Model m, Resource person, Element e) {
