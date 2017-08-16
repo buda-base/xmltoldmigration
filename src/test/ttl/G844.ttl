@@ -29,7 +29,6 @@ bdr:G844  a                       :Place ;
                                     vcard:street-address  "མི་གསལ། Dzongsar Institute"
                                   ] ;
     :placeChgisId                 "854" ;
-    :placeContains                bdr:G1183 , bdr:G229 , bdr:G2CN10883 , bdr:G3478 , bdr:G3JT12502 , bdr:G4885 ;
     :placeEvent                   [ a                       :PlaceFounded ;
                                     :note                   [ :noteLocationStatement  "test" ;
                                                               :noteText               "event note test"@en ;

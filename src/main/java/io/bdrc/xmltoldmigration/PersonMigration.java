@@ -56,6 +56,7 @@ public class PersonMigration {
 		Resource main = m.createResource(BDR + RID);
 		m.add(main, RDF.type, m.createResource(BDO + "Person"));
 		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		int gender = SymetricNormalization.GENDER_U;
 		
 		Map<String,Resource> typeNodes = new HashMap<>();
 		
@@ -89,10 +90,14 @@ public class PersonMigration {
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "info");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            String gender = current.getAttribute("gender");
-            if (!gender.isEmpty()) {
+            String genderval = current.getAttribute("gender");
+            if (!genderval.isEmpty()) {
                 prop = m.getProperty(BDO, "personGender");
-                m.add(main, prop, m.getResource(getUriFromTypeSubtype("gender", gender)));
+                m.add(main, prop, m.getResource(getUriFromTypeSubtype("gender", genderval)));
+                if (genderval.equals("male"))
+                    gender = SymetricNormalization.GENDER_M;
+                else if (genderval.equals("female"))
+                    gender = SymetricNormalization.GENDER_F;
             }
         }
 		
@@ -117,7 +122,6 @@ public class PersonMigration {
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "teacherOf");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			prop = m.getProperty(BDO, "personTeacherOf");
 			String val = current.getAttribute("pid");
 			if (val.isEmpty()) continue;
 			if (val.contains(" ")) {
@@ -131,17 +135,16 @@ public class PersonMigration {
 			            ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "teacherOf", "cannot parse `"+val+"` correctly");
 			            continue;
 			        }
-			        m.add(main, prop, m.createResource(BDR+part));
+			        SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getURI(), BDR+part, null); 
 			    }
 			} else {
-			    m.add(main, prop, m.createResource(BDR+val)); 
+			    SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getURI(), BDR+val, null); 
 			}
 		}
         
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "studentOf");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            prop = m.getProperty(BDO, "studentOf");
             String val = current.getAttribute("pid");
             if (val.isEmpty()) continue;
             if (val.contains(" ")) {
@@ -155,10 +158,10 @@ public class PersonMigration {
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "studentOf", "cannot parse `"+val+"` correctly");
                         continue;
                     }
-                    m.add(main, prop, m.createResource(BDR+part));
+                    SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getURI(), BDR+part, null);
                 }
             } else {
-                m.add(main, prop, m.createResource(BDR+val)); 
+                SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getURI(), BDR+val, null);
             }
         }
 		
@@ -167,7 +170,7 @@ public class PersonMigration {
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "kinship");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			addKinship(m, main, current);
+			addKinship(m, main, current, gender);
 		}
 		
 		// ofSect
@@ -193,6 +196,8 @@ public class PersonMigration {
 		
 		CommonMigration.addLog(m, root, main, PXSDNS);
 		
+		SymetricNormalization.insertMissingTriplesInModel(m, BDR + root.getAttribute("RID"));
+		
 		return m;
 	}
 	
@@ -207,6 +212,7 @@ public class PersonMigration {
         Resource being = m.createResource(value);
         
 		value = e.getAttribute("relation");
+		// Not handling symetry in incarnationOf as I'm not sure how it would work
 		if (value != null && !value.isEmpty()) {
 		    if (value.equals("yangsi")) value = "yangtse";
 			String uri = getUriFromTypeSubtype("incarnationOf", value);
@@ -262,16 +268,17 @@ public class PersonMigration {
 		m.add(person, m.getProperty(BDO+"personEvent"), subResource);
 	}
 	
-	public static void addKinship(Model m, Resource person, Element e) {
+	public static void addKinship(Model m, Resource person, Element e, int gender) {
 		String relation = e.getAttribute("relation");
 		if (relation.isEmpty()) {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, person.getLocalName(), person.getLocalName(), "kinship", "missing kinship type");
 		    relation = "hasUnknownKinship";
 		}
+		if (relation.equals("hasConsort"))
+		    relation = "personHasConsort";
 		String with = e.getAttribute("person");
 		if (!with.isEmpty()) {
-		    Resource r = m.createResource(BDR+with);
-		    person.addProperty(m.getProperty(BDO, relation), r);
+		    SymetricNormalization.addSymetricProperty(m, relation, person.getURI(), BDR+with, gender); 
 		}
 	}
 	

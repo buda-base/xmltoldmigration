@@ -88,6 +88,8 @@ public class PlaceMigration {
 			addTlm(m, main, current);
 		}
 		
+		SymetricNormalization.insertMissingTriplesInModel(m, BDR + root.getAttribute("RID"));
+		
 		return m;
 	}
 
@@ -119,14 +121,12 @@ public class PlaceMigration {
 	
 	public static void addSimpleObjectProp(String propName, String ontoPropName, Model m, Resource main, Element root) {
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, propName);
-		Property prop = m.getProperty(BDO, ontoPropName);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			String value = current.getAttribute("place").trim();
 			if (value.isEmpty() || value.equals("NONE"))
 			    return;
-			Resource sub = m.createResource(BDR+value);
-			m.add(main, prop, sub);
+			SymetricNormalization.addSymetricProperty(m, ontoPropName, main.getURI(), BDR+value, null);
 		}
 	}
 	

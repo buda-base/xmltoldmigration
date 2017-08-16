@@ -141,8 +141,11 @@ public class PubinfoMigration {
             }
             Resource holding = itemModel.createResource(BDR+itemName);
             itemModel.add(holding, RDF.type, itemModel.getResource(BDO+"ItemPhysicalAsset"));
-            itemModel.add(main, itemModel.createProperty(BDO, "workHasItem"), holding);
-            
+            if (WorkMigration.addItemForWork)
+                itemModel.add(holding, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(main.getURI()));
+            if (WorkMigration.addWorkHasItem)
+                m.add(main, m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
+
             addSimpleElement("exception", BDO+"itemException", CommonMigration.EWTS_TAG, current, itemModel, holding);
             String value;
             NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");

@@ -11,7 +11,6 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:I12837_002  a   :ItemPhysicalAsset ;
-    :itemForWork    bdr:W12837 ;
     :itemHasVolume  [ a                           :VolumePhysicalAsset ;
                       :volumeNumber               1 ;
                       :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en

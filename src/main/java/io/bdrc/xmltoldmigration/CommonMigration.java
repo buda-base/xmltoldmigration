@@ -573,11 +573,13 @@ public class CommonMigration  {
 			    if (fplItem == null) {
 			        String workId = r.getLocalName();
 			        fplItem = m.createResource(BDR+"I"+workId.substring(1)+"_002");
-			        fplItem.addProperty(m.getProperty(BDO, "itemForWork"), r);
+			        if (WorkMigration.addItemForWork)
+			            fplItem.addProperty(m.getProperty(BDO, "itemForWork"), r);
 			        addStatus(m, fplItem, "released");
 			        fplItem.addProperty(RDF.type, m.getResource(BDO+"ItemPhysicalAsset"));
 			        fplItem.addProperty(m.getProperty(BDO, "itemLibrary"), m.getResource(BDR+FPL_LIBRARY_ID));
-			        r.addProperty(m.getProperty(BDO+"workHasItem"), fplItem);
+			        if (WorkMigration.addWorkHasItem)
+			            r.addProperty(m.getProperty(BDO+"workHasItem"), fplItem);
 			    }
 			    switch(type) {
 			    case "id":

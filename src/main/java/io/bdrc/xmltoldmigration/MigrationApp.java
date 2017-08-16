@@ -145,6 +145,9 @@ public class MigrationApp
                 String itemName = "I"+baseName.substring(1)+"_001";
                 item = itemModel.createResource(BDR+itemName);
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
+                if (WorkMigration.addItemForWork)
+                    itemModel.add(item, itemModel.getProperty(BDO, "itemForWork"), itemModel.createResource(BDR + baseName));
+                // workHasItem already added in WorkMigration
                 for (Map.Entry<String,String> vol : vols.entrySet()) {
                     String imagegroup = vol.getKey();
                     String imagegroupFileName = DATA_DIR+"tbrc-imagegroups/"+imagegroup+".xml";

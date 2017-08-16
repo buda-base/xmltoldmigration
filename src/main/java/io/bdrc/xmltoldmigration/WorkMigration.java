@@ -25,6 +25,9 @@ public class WorkMigration {
 	
 	public static boolean splitItems = true;
 	
+	public static boolean addItemForWork = false;
+	public static boolean addWorkHasItem = true;
+	
 	   private static String getUriFromTypeSubtype(String type, String subtype) {
 	        switch (type) {
 	        case "creator":
@@ -134,10 +137,10 @@ public class WorkMigration {
             if (!value.isEmpty() && !value.contains("LEGACY")) {
                 if (numbered) {
                     prop = m.getProperty(BDO, "workNumberOf");
+                    m.add(main, prop, m.createResource(BDR+value));
                 } else {
-                    prop = m.getProperty(BDO, "workExpressionOf");
+                    SymetricNormalization.addSymetricProperty(m, "workExpressionOf", main.getURI(), BDR+value, null);
                 }
-                m.add(main, prop, m.createResource(BDR+value));
             }
         }
         
@@ -195,8 +198,11 @@ public class WorkMigration {
         Map<String,String> imageGroupList = getImageGroupList(xmlDocument);
         if (!imageGroupList.isEmpty()) {
             Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+"_001");
-            m.add(main, m.getProperty(BDO, "workHasItem"), item);
+            if (WorkMigration.addWorkHasItem)
+                m.add(main, m.getProperty(BDO, "workHasItem"), item);
         }
+        
+        SymetricNormalization.insertMissingTriplesInModel(m, BDR + root.getAttribute("RID"));
         
 		return m;
 		

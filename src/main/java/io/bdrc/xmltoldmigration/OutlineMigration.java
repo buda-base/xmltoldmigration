@@ -24,6 +24,9 @@ public class OutlineMigration {
 	private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 	
 	public static boolean splitOutlines = false;
+	
+    public static boolean addWorkHaspart = true;
+    public static boolean addWorkPartOf = false;
 
 	public static Map<String,Boolean> ridsToIgnore = new HashMap<>();
 	public static Map<String,String> ridsToConvert = new HashMap<>();
@@ -243,7 +246,10 @@ LocationVolPage previousLocVP) {
 //        if (!value.isEmpty())
 //            m.add(r, m.getProperty(BDO, "workPartOf"), m.createResource(BDR+value));
         
-        m.add(r, m.getProperty(BDO, "workHasPart"), node);
+        if (addWorkHaspart)
+            m.add(r, m.getProperty(BDO, "workHasPart"), node);
+        if (addWorkPartOf)
+            m.add(node, m.getProperty(BDO, "workPartOf"), r);
         
         boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS);
         CommonMigration.addDescriptions(m, e, node, OXSDNS);

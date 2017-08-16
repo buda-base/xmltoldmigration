@@ -31,6 +31,7 @@
     <p:teacherOf pid="P2JM207">sangs rgyas dpal rin </p:teacherOf>
     <p:teacherOf pid="P7091"> bya bral chos rje </p:teacherOf>
     <p:teacherOf pid="P314"> 'jigs med gling pa mkhyen brtse 'od zer </p:teacherOf>
+    <p:studentOf pid="P123">test</p:studentOf>
     <p:kinship person="P1584">bstan pa srung</p:kinship>
     <p:kinship person="P1585" relation="hasMother">'brom bza' bsod nams rgyan</p:kinship>
     <p:external data="http://tbrc.org/link?RID=O1GS39248|O1GS392481GS39291$W23681">External example</p:external>
