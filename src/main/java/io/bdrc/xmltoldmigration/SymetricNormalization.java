@@ -52,10 +52,6 @@ public class SymetricNormalization {
     
     public static Map<String,SymetryInfo> propInfos = new HashMap<>();
     
-    static {
-        normalizeOneDirection(true, true);
-    }
-    
     public static void fillMap(boolean preferManyOverOne) {
         int manyInt = preferManyOverOne ? 1 : 0;
         int oneInt = preferManyOverOne ? 0 : 1;

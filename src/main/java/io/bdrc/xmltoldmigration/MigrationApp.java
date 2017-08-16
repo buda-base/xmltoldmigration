@@ -230,12 +230,27 @@ public class MigrationApp
     
     public static void main( String[] args )
     {
+        boolean oneDirection = true;
+        boolean manyOverOne = false;
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
 			if (arg.equals("-useCouchdb")) {
 				MigrationHelpers.usecouchdb = true;
 				MigrationHelpers.writefiles = true;
 			}
+            if (arg.equals("-preferManyOverOne=1")) {
+                manyOverOne = true;
+            }
+            if (arg.equals("-preferManyOverOne=0")) {
+                manyOverOne = false;
+            }
+            if (arg.equals("-onlyOneSymetricDirection=1")) {
+                oneDirection = true;
+            }
+            if (arg.equals("-onlyOneSymetricDirection=0")) {
+                oneDirection = false;
+            }
+            SymetricNormalization.normalizeOneDirection(oneDirection, manyOverOne);
 		    if (arg.equals("-datadir")) {
                 DATA_DIR = args[i+1];
             }
