@@ -20,6 +20,22 @@ public class PersonMigration {
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
 	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
+	public static final class FoundingEvent {
+	    public String person;
+	    public String circa;
+	    
+	    public FoundingEvent(String person, String circa) {
+	        this.person = person;
+	        this.circa = circa;
+	    }
+	    
+	    public String toString() {
+	        return "person: "+this.person+", circa: "+this.circa;
+	    }
+	}
+	
+	public static Map<String,FoundingEvent> placeEvents = new HashMap<>();
+	
 	private static String getUriFromTypeSubtype(String type, String subtype) {
 	    switch (type) {
 	    case "name":
@@ -230,12 +246,33 @@ public class PersonMigration {
 	}
 	
 	public static void addEvent(Model m, Resource person, Element e, int i) {
-		Resource subResource = m.createResource();
 		String typeValue = e.getAttribute("type");
 		if (typeValue.isEmpty()) {
 		    typeValue = "NotSpecified";
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, person.getLocalName(), person.getLocalName(), "event", "missing type");
 		}
+		if (typeValue.equals("assumeOffice")) // an interesting typo
+		    typeValue = "assumesOffice";
+		if (typeValue.equals("foundsMonastery")) {
+		    // for foundsMonastery, if the event has an office, we transform it into
+		    // assumesOffice, otherwise we just record it into placeEvents
+	        String circa = CommonMigration.normalizeString(e.getAttribute("circa"));
+	        String place = null;
+	        NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
+	        for (int i1 = 0; i1 < nodeList.getLength(); ) {
+	            Element current = (Element) nodeList.item(i1);
+	            place = current.getAttribute("pid").trim();
+	            break;
+	        }
+	        if (place != null && !circa.isEmpty()) {
+	            placeEvents.put(place, new FoundingEvent(person.getLocalName(), circa));
+	        }
+	        // if no office, just return
+            typeValue = "assumesOffice";
+            if (e.getElementsByTagNameNS(PXSDNS, "office").getLength() == 0)
+                return;
+		}
+		Resource subResource = m.createResource();
 		m.add(subResource, RDF.type, 
 		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
 		String circa = CommonMigration.normalizeString(e.getAttribute("circa"));

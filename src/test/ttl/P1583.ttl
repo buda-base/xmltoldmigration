@@ -32,11 +32,16 @@ bdr:P1583  a             :Person ;
             [ :noteLocationStatement  "p. 6" ;
               :noteWork               bdr:W19822
             ] ;
-    :personEvent         [ a                  :PersonEventBirth ;
-                           :onOrAbout         "1308" ;
-                           :personEventPlace  bdr:G967 ;
-                           :personEventRole   bdr:R123
+    :personEvent         [ a                  :PersonEventAssumesOffice ;
+                           :onOrAbout         "1734/1735" ;
+                           :personEventPlace  bdr:G20 ;
+                           :personEventRole   bdr:R10MS14280
                          ] , 
+            [ a                  :PersonEventBirth ;
+              :onOrAbout         "1308" ;
+              :personEventPlace  bdr:G967 ;
+              :personEventRole   bdr:R123
+            ] , 
             [ a           :PersonEventNotSpecified ;
               :onOrAbout  "1364"
             ] , 

@@ -226,11 +226,13 @@ public class MigrationApp
                 MigrationHelpers.outputOneModel(m, s, inFileName, type, false);
             }
         }
+        if (type.equals("person"))
+            System.out.println("recorded "+PersonMigration.placeEvents.size()+" events to migrate to places");
     }
     
     public static void main( String[] args )
     {
-        boolean oneDirection = true;
+        boolean oneDirection = false;
         boolean manyOverOne = false;
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
@@ -272,7 +274,6 @@ public class MigrationApp
 	        ExceptionHelper.closeAll();
 		    return;
 		}
-		    
 		
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();

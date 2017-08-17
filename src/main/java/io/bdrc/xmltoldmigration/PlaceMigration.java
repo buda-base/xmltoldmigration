@@ -88,6 +88,19 @@ public class PlaceMigration {
 			addTlm(m, main, current);
 		}
 		
+		// adding monastery foundation events from persons (should be merged with the current founding event if present)
+		PersonMigration.FoundingEvent fe = PersonMigration.placeEvents.get(main.getLocalName());
+		if (fe != null) {
+		    Resource event = m.createResource();
+	        m.add(event, RDF.type, m.getResource(BDR+"PlaceFounded"));
+	        if (!fe.circa.isEmpty()) {
+	            m.add(event, m.getProperty(BDO, "onOrAbout"), m.createLiteral(fe.circa));
+	        }
+	        m.add(event, m.createProperty(BDO, "placeEventWho"), m.createResource(BDR+fe.person));
+	        Property prop = m.getProperty(BDO+"placeEvent");
+	        m.add(main, prop, event);		    
+		}
+				
 		SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
 		
 		return m;

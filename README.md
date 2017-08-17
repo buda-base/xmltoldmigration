@@ -34,7 +34,7 @@ java -jar target/xmltoldmigration-0.2.0.jar
 -outdir OUTDIR              (defaults to ./tbrc-jsonld/, must end with /)
 -datadir DATADIR            (defaults to ./tbrc/, must end with /)
 -useCouchdb                 (use couchDB, by default it doesn't)
--onlyOneSymetricDirection=X (where X is 0 or 1, defaults to 1, use one direction in symetric statements)
+-onlyOneSymetricDirection=X (where X is 0 or 1, defaults to 0, use one direction in symetric statements)
 -preferManyOverOne=X        (where X is 0 or 1, defaults to 0, when only one symetric direction is taken, prefer things like workHasPart instead of workPartOf)
 ```
 

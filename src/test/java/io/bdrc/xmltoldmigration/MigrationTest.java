@@ -45,6 +45,8 @@ public class MigrationTest
         ExceptionHelper.closeAll();
         System.out.println("finishing with the following triples to be added:");
         System.out.println(SymetricNormalization.triplesToAdd.toString());
+        System.out.println("and the following person events to be added in places:");
+        System.out.println(PersonMigration.placeEvents.toString());
     }
 
 	public void flushLog() {
