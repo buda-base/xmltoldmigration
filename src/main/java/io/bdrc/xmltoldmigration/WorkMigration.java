@@ -79,17 +79,17 @@ public class WorkMigration {
             
             value = current.getAttribute("access").trim();
             switch (value) {
-            case "openAccess": value = BDR+"WorkAccessOpen";
-            case "fairUse": value = BDR+"WorkAccessFairUse";
-            case "restrictedSealed": value = BDR+"WorkAccessRestrictedSealed";
-            case "temporarilyRestricted": value = BDR+"WorkAccessTemporarilyRestricted";
-            case "restrictedByQuality": value = BDR+"WorkAccessRestrictedByQuality";
-            case "restrictedByTbrc": value = BDR+"WorkAccessRestrictedByTbrc";
-            case "restrictedInChina": value = BDR+"WorkAccessRestrictedInChina";
-            default: value = "";
+            case "openAccess": value = "WorkAccessOpen"; break;
+            case "fairUse": value = "WorkAccessFairUse"; break;
+            case "restrictedSealed": value = "WorkAccessRestrictedSealed"; break;
+            case "temporarilyRestricted": value = "WorkAccessTemporarilyRestricted"; break;
+            case "restrictedByQuality": value = "WorkAccessRestrictedByQuality"; break;
+            case "restrictedByTbrc": value = "WorkAccessRestrictedByTbrc"; break;
+            case "restrictedInChina": value = "WorkAccessRestrictedInChina"; break;
+            default: value = ""; break;
             }
             if (!value.isEmpty())
-                m.add(main, m.getProperty(ADM, "workHasAccess"), m.createLiteral(value));
+                m.add(main, m.getProperty(ADM, "workHasAccess"), m.createResource(BDR+value));
 
             try {
                 int nbvols = Integer.parseUnsignedInt(current.getAttribute("vols").trim());
