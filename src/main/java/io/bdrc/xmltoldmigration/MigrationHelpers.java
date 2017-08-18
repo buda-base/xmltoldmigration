@@ -209,7 +209,7 @@ public class MigrationHelpers {
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsPriorities"), nsPrio);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "complexPredicatesPriorities"), predicatesPrio);
-        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "indentBase"), 4);
+        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "indentBase"), 3);
     }
     
 	public static void writeLogsTo(PrintWriter w) {

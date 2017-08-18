@@ -57,7 +57,8 @@ public class SymetricNormalization {
         int oneInt = preferManyOverOne ? 0 : 1;
         propInfos.put("placeContains", new SymetryInfo("placeLocatedIn", manyInt));
         propInfos.put("placeLocatedIn", new SymetryInfo("placeContains", oneInt));
-        propInfos.put("placeIsNear", new SymetryInfo("placeIsNear", 2));
+        // let's not care about placeIsNear
+        //propInfos.put("placeIsNear", new SymetryInfo("placeIsNear", 2));
         propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", oneInt));
         propInfos.put("workHasExpression", new SymetryInfo("workExpressionOf", manyInt));
         propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", oneInt));
