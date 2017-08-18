@@ -41,7 +41,7 @@ public class WorkMigration {
 	    
     public static Model MigrateWork(Document xmlDocument) {
         Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m);
+        CommonMigration.setPrefixes(m, "work");
         return MigrateWork(xmlDocument, m);
     }
 	    

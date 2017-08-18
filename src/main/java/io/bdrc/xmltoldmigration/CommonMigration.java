@@ -193,6 +193,21 @@ public class CommonMigration  {
 		m.setNsPrefix("vcard", VCARD_PREFIX);
 		m.setNsPrefix("xsd", XSD_PREFIX);
 	}
+
+    public static void setPrefixes(Model m, String type) {
+        m.setNsPrefix("", ONTOLOGY_PREFIX);
+        m.setNsPrefix("adm", ADMIN_PREFIX);
+        m.setNsPrefix("bdd", DATA_PREFIX);
+        m.setNsPrefix("bdr", RESOURCE_PREFIX);
+        m.setNsPrefix("tbr", TBR_PREFIX);
+        m.setNsPrefix("owl", OWL_PREFIX);
+        m.setNsPrefix("rdf", RDF_PREFIX);
+        m.setNsPrefix("rdfs", RDFS_PREFIX);
+        m.setNsPrefix("skos", SKOS_PREFIX);
+        m.setNsPrefix("xsd", XSD_PREFIX);
+        if (type.equals("place"))
+            m.setNsPrefix("vcard", VCARD_PREFIX);
+    }
 	
 	public static Literal getLitFromUri(Model m, String uri) {
 		//return m.createLiteral(m.shortForm(uri));

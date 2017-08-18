@@ -141,7 +141,7 @@ public class OutlineMigration {
 	
 	public static Model MigrateOutline(Document xmlDocument) {
 	    Model workModel = ModelFactory.createDefaultModel();
-	    CommonMigration.setPrefixes(workModel);
+	    CommonMigration.setPrefixes(workModel, "work");
 	    String workId = getWorkId(xmlDocument);
 	    if (workId == null || workId.isEmpty())
 	        return null;
@@ -155,7 +155,7 @@ public class OutlineMigration {
 		Model m;
 		if (splitOutlines) {
 		    m = ModelFactory.createDefaultModel();
-		    CommonMigration.setPrefixes(m);
+		    CommonMigration.setPrefixes(m, "work");
 		} else {
 		    m = workModel;
 		}

@@ -19,7 +19,7 @@ public class ScanrequestMigration {
 	// used for testing only
 	public static Model MigrateScanrequest(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m);
+        CommonMigration.setPrefixes(m, "item");
         Element root = xmlDocument.getDocumentElement();
         String value = root.getAttribute("work");
         String rid=root.getAttribute("RID");

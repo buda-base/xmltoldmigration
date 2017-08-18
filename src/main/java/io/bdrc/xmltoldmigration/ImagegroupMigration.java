@@ -22,7 +22,7 @@ public class ImagegroupMigration {
 	// for testing purposes only
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m);
+        CommonMigration.setPrefixes(m, "item");
         Resource item = m.createResource(BDR+"TestItem");
         m.add(item, RDF.type, m.getResource(BDO+"ItemImageAsset"));
         MigrateImagegroup(xmlDocument, m, item, "testItem", "1", "testItem");

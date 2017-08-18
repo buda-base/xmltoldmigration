@@ -34,7 +34,7 @@ public class PlaceMigration {
 	
 	public static Model MigratePlace(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m);
+		CommonMigration.setPrefixes(m, "place");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		Resource main = m.createResource(BDR + root.getAttribute("RID"));

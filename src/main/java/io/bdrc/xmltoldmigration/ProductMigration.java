@@ -21,7 +21,7 @@ public class ProductMigration {
 	
 	public static Model MigrateProduct(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m);
+		CommonMigration.setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		Resource main = m.createResource(BDR + root.getAttribute("RID"));

@@ -65,7 +65,7 @@ public class PersonMigration {
 	
 	public static Model MigratePerson(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m);
+		CommonMigration.setPrefixes(m, "person");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String RID = root.getAttribute("RID");

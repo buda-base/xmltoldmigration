@@ -20,7 +20,7 @@ public class LineageMigration {
 	
 	public static Model MigrateLineage(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m);
+		CommonMigration.setPrefixes(m, "lineage");
 		Element root = xmlDocument.getDocumentElement();
 		String value = getTypeStr(root);
 		String rid = root.getAttribute("RID");

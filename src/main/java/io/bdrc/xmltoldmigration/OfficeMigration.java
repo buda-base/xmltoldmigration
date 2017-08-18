@@ -13,7 +13,7 @@ public class OfficeMigration {
 	
 	public static Model MigrateOffice(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m);
+		CommonMigration.setPrefixes(m, "office");
 		Element root = xmlDocument.getDocumentElement();
 		Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Role"));

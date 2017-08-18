@@ -93,7 +93,7 @@ public class MigrationApp
             Resource work = null;
             if (workModel == null) {
                 workModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(workModel);
+                CommonMigration.setPrefixes(workModel, "work");
                 work = workModel.createResource(BDR+outWorkId);
             } else {
                 work = workModel.getResource(BDR+outWorkId);

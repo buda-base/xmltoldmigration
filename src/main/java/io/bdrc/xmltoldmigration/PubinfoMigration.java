@@ -25,7 +25,7 @@ public class PubinfoMigration {
 	// used for testing only
 	public static Model MigratePubinfo(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m);
+        CommonMigration.setPrefixes(m, "work");
         Element root = xmlDocument.getDocumentElement();
         Resource main = null;
         
@@ -136,7 +136,7 @@ public class PubinfoMigration {
             Model itemModel = m;
             if (WorkMigration.splitItems) {
                 itemModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(itemModel);
+                CommonMigration.setPrefixes(itemModel, "item");
                 itemModels.put(itemName, itemModel);
             }
             Resource holding = itemModel.createResource(BDR+itemName);
