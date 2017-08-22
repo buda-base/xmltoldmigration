@@ -78,6 +78,8 @@ public class WorkMigration {
 		// archiveInfo
 		
 		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
+		boolean hasAccess = false;
+		boolean hasLicense = false;
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("license").trim();
@@ -85,6 +87,7 @@ public class WorkMigration {
                 if (value.equals("ccby")) value = BDR+"WorkLicenseTypeCCBY";
                 else value = BDR+"WorkLicenseTypeCopyrighted";
                 m.add(main, m.getProperty(ADM+"workLicense"), m.createResource(value));
+                hasLicense = true;
             }
             
             value = current.getAttribute("access").trim();
@@ -98,8 +101,10 @@ public class WorkMigration {
             case "restrictedInChina": value = "WorkAccessRestrictedInChina"; break;
             default: value = ""; break;
             }
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
                 m.add(main, m.getProperty(ADM, "workHasAccess"), m.createResource(BDR+value));
+                hasAccess = true;
+            }
 
             try {
                 int nbvols = Integer.parseUnsignedInt(current.getAttribute("vols").trim());
@@ -110,6 +115,11 @@ public class WorkMigration {
                 }
             } catch (NumberFormatException e) {}
         }
+        if (!hasAccess)
+            m.add(main, m.getProperty(ADM, "workHasAccess"), m.createResource(BDR+"WorkAccessOpen"));
+        
+        if (!hasLicense)
+            m.add(main, m.getProperty(ADM+"workLicense"), m.createResource(BDR+"WorkLicenseTypeCCBY"));
 
         // info
         
