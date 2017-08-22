@@ -1,7 +1,9 @@
 package io.bdrc.xmltoldmigration;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
@@ -28,16 +30,18 @@ public class WorkMigration {
 	public static boolean addItemForWork = false;
 	public static boolean addWorkHasItem = true;
 	
-	   private static String getUriFromTypeSubtype(String type, String subtype) {
-	        switch (type) {
-	        case "creator":
-	            if (subtype.startsWith("has"))
-	                subtype = subtype.substring(3);
-	            return BDO+"creator"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
-	        default:
-	               return "";
-	        }
+	public static Map<String,List<String>> productWorks = new HashMap<>();
+
+	private static String getUriFromTypeSubtype(String type, String subtype) {
+	    switch (type) {
+	    case "creator":
+	        if (subtype.startsWith("has"))
+	            subtype = subtype.substring(3);
+	        return BDO+"creator"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	    default:
+	        return "";
 	    }
+	}
 	    
 	// testing only
     public static Model MigrateWork(Document xmlDocument) {
@@ -190,7 +194,9 @@ public class WorkMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("pid").trim();
-            m.add(main, m.getProperty(ADM, "workInProduct"), m.createResource(BDR+value));
+            List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
+            worksForProduct.add(main.getLocalName());
+            //m.add(main, m.getProperty(ADM, "workInProduct"), m.createResource(BDR+value));
         }
         
         // catalogInfo

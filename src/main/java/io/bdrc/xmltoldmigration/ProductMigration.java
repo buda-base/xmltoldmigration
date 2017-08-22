@@ -46,12 +46,19 @@ public class ProductMigration {
 				Element subCurrent = (Element) subNodeList.item(j);
 				String value = subCurrent.getAttribute("RID");
 				Resource included = m.createResource(BDR + value);
-				m.add(main, m.getProperty(ADM+"productInclude"), included);
+				m.add(main, m.getProperty(ADM, "productInclude"), included);
 			}
 			addAllows(m, main, current);
 			addOrgs(m, main, current);
 		}
 		
+		List<String> worksForProduct = WorkMigration.productWorks.get(main.getLocalName());
+		if (worksForProduct != null) {
+		    for (String workId : worksForProduct) {
+		        m.add(main, m.getProperty(ADM, "productHasWork"), m.createResource(BDR+workId));
+		    }
+		}
+
 		return m;
 	}
 	

@@ -39,6 +39,7 @@ public class MigrationApp
     public static final String PLACE = MigrationHelpers.PLACE;
     public static final String SCANREQUEST = MigrationHelpers.SCANREQUEST;
     public static final String TOPIC = MigrationHelpers.TOPIC;
+    public static final String PRODUCT = MigrationHelpers.PRODUCT;
     public static final String VOLUMES = MigrationHelpers.VOLUMES;
     public static final String ITEMS = MigrationHelpers.ITEMS;
     public static final String WORK = MigrationHelpers.WORK;
@@ -282,8 +283,8 @@ public class MigrationApp
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondance, for externals
         migrateType(OUTLINE, "O");
         migrateType(PERSON, "P");
-    	migrateType(PLACE, "G");
-    	migrateType(OFFICE, "R");
+        migrateType(PLACE, "G");
+        migrateType(OFFICE, "R");
         migrateType(CORPORATION, "C");
         migrateType(LINEAGE, "L");
         migrateType(TOPIC, "T");
@@ -292,6 +293,7 @@ public class MigrationApp
 ////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
+        migrateType(PRODUCT, "PR");
         CommonMigration.speller.close();
         ExceptionHelper.closeAll();
     	long estimatedTime = System.currentTimeMillis() - startTime;

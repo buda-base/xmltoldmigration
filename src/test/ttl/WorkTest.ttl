@@ -57,5 +57,4 @@ bdr:W12837  a      :Work ;
            adm:logWho      bdr:U12
          ] ;
    adm:workHasAccess  bdr:WorkAccessOpen ;
-   adm:workInProduct  bdr:PR01UNRESTR , bdr:PRHD03 ;
    adm:workLicense  bdr:WorkLicenseTypeCCBY .
