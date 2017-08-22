@@ -19,6 +19,7 @@ import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.reasoner.ValidityReport;
@@ -540,10 +541,11 @@ public class CommonMigration  {
        }
    }
    
-	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
+	public static Map<String,Model> addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		Resource fplItem = null;
+		Model resModel = null;
 		String fplId = null;
 		String fplRoom = null;
 		String fplDescription = null;
@@ -586,27 +588,29 @@ public class CommonMigration  {
 			}
 			if (propUri != null && propUri.equals("__fpl")) {
 			    if (fplItem == null) {
+			        resModel = ModelFactory.createDefaultModel();
+			        setPrefixes(resModel);
 			        String workId = r.getLocalName();
-			        fplItem = m.createResource(BDR+"I"+workId.substring(1)+"_002");
+			        fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_002");
 			        if (WorkMigration.addItemForWork)
-			            fplItem.addProperty(m.getProperty(BDO, "itemForWork"), r);
-			        addStatus(m, fplItem, "released");
-			        fplItem.addProperty(RDF.type, m.getResource(BDO+"ItemPhysicalAsset"));
-			        fplItem.addProperty(m.getProperty(BDO, "itemLibrary"), m.getResource(BDR+FPL_LIBRARY_ID));
+			            fplItem.addProperty(resModel.getProperty(BDO, "itemForWork"), r);
+			        addStatus(resModel, fplItem, "released");
+			        fplItem.addProperty(RDF.type, resModel.getResource(BDO+"ItemPhysicalAsset"));
+			        fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
 			        if (WorkMigration.addWorkHasItem)
-			            r.addProperty(m.getProperty(BDO+"workHasItem"), fplItem);
+			            r.addProperty(resModel.getProperty(BDO+"workHasItem"), fplItem);
 			    }
 			    switch(type) {
 			    case "id":
 			        fplId = value;
 			        if (fplRoom != null) {
-			            fplItem.addProperty(m.getProperty(BDO, "itemShelf"), m.createLiteral(fplRoom+" | "+fplId));			            
+			            fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+" | "+fplId));			            
 			        }
 			        break;
 			    case "room":
 			        fplRoom = value;
 			        if (fplId != null) {
-                        fplItem.addProperty(m.getProperty(BDO, "itemShelf"), m.createLiteral(fplRoom+" | "+fplId));                     
+                        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+" | "+fplId));                     
                     }
                     break;
 			    case "remarks":
@@ -633,16 +637,23 @@ public class CommonMigration  {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "description", "types `id` and `room` should both be present");
 		}
 		if (fplDescription != null) {
-		    Resource fplVolume = m.createResource();
-		    fplItem.addProperty(m.getProperty(BDO, "itemHasVolume"), fplVolume);
-		    fplVolume.addProperty(RDF.type, m.getProperty(BDO+"VolumePhysicalAsset"));
-		    fplVolume.addProperty(m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(1, XSDDatatype.XSDinteger));
-		    fplVolume.addProperty(m.getProperty(BDO, "volumePhysicalDescription"), m.createLiteral(fplDescription, "en"));
+		    Resource fplVolume = resModel.createResource();
+		    fplItem.addProperty(resModel.getProperty(BDO, "itemHasVolume"), fplVolume);
+		    fplVolume.addProperty(RDF.type, resModel.getProperty(BDO+"VolumePhysicalAsset"));
+		    fplVolume.addProperty(resModel.getProperty(BDO, "volumeNumber"), resModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
+		    fplVolume.addProperty(resModel.getProperty(BDO, "volumePhysicalDescription"), resModel.createLiteral(fplDescription, "en"));
+		}
+		if (resModel != null) {
+		    Map<String,Model> itemModels = new HashMap<>();
+		    itemModels.put(fplItem.getLocalName(), resModel);
+		    return itemModels;
+		} else {
+		    return null;
 		}
 	}
 	
-	public static void addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
-		addDescriptions(m, e, r, XsdPrefix, false);
+	public static Map<String,Model> addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
+		return addDescriptions(m, e, r, XsdPrefix, false);
 	}
 
 	public static String titleUriFromType(String type) {

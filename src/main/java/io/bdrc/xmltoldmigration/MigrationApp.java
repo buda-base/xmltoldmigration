@@ -137,7 +137,8 @@ public class MigrationApp
                 m = ModelFactory.createDefaultModel();
             }
             CommonMigration.setPrefixes(m);
-            m = WorkMigration.MigrateWork(d, m);
+            final Map<String, Model> itemModels = new HashMap<>();
+            m = WorkMigration.MigrateWork(d, m, itemModels);
             
             // migrate items
             Map<String,String> vols = WorkMigration.getImageGroupList(d);
@@ -177,7 +178,6 @@ public class MigrationApp
             }
             d = MigrationHelpers.documentFromFileName(pubinfoFileName);
             
-            final Map<String, Model> itemModels = new HashMap<>();
             m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(BDR+baseName), itemModels);
             //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
             for (Entry<String,Model> e : itemModels.entrySet()){

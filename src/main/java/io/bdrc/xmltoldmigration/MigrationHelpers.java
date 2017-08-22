@@ -322,7 +322,6 @@ public class MigrationHelpers {
     
     public static Map<String,Object> modelToJsonObject(Model m, String type, boolean isOutline) {
         JsonLDWriteContext ctx = new JsonLDWriteContext();
-        boolean frame = true;
         JSONLDVariant variant;
         if (!isOutline) {
             Object frameObj = getFrameObject(type);
@@ -373,7 +372,7 @@ public class MigrationHelpers {
 	        RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
 	        return;
 	    }
-	    Map<String,Object> jsonObject = modelToJsonObject(m, type, false);
+	    Map<String,Object> jsonObject = modelToJsonObject(m, type, type.equals("outline"));
 	    jsonObjectToOutputStream(jsonObject, out);
 	}
 	

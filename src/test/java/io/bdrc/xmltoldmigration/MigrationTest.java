@@ -37,6 +37,7 @@ public class MigrationTest
 	    MigrationHelpers.usecouchdb = false;
 		ontology = MigrationHelpers.ontologymodel;
 		SymetricNormalization.normalizeOneDirection(true, false);
+		WorkMigration.splitItems = false;
 	}
 	
    @AfterClass
@@ -225,7 +226,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", MigrationHelpers.OUTPUT_STTL);
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "outline", MigrationHelpers.OUTPUT_JSONLD);
            //showDifference(fromXml, correctModel);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );

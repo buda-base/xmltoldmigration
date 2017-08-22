@@ -39,13 +39,14 @@ public class WorkMigration {
 	        }
 	    }
 	    
+	// testing only
     public static Model MigrateWork(Document xmlDocument) {
         Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m, "work");
-        return MigrateWork(xmlDocument, m);
+        return MigrateWork(xmlDocument, m, new HashMap<>());
     }
 	    
-	public static Model MigrateWork(Document xmlDocument, Model m) {
+	public static Model MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		Resource main = m.createResource(BDR + root.getAttribute("RID"));
@@ -63,7 +64,16 @@ public class WorkMigration {
 		
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true);
 	    CommonMigration.addSubjects(m, main, root, WXSDNS);
-	    CommonMigration.addDescriptions(m, root, main, WXSDNS);
+	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS);
+	    if (itemModelsFromDesc != null) {
+	        if (splitItems == false) {
+	            for (Model itemModel : itemModelsFromDesc.values()) {
+	                m.add(itemModel);
+	            }
+	        } else {
+	            itemModels.putAll(itemModelsFromDesc);
+	        }
+	    }
 		
 		// archiveInfo
 		

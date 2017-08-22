@@ -63,7 +63,7 @@ public class ImagegroupMigration {
         }
 		
         CommonMigration.addLog(m, root, item, IGXSDNS);
-        CommonMigration.addDescriptions(m, root, main, IGXSDNS, false);
+        CommonMigration.addDescriptions(m, root, main, IGXSDNS);
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
         for (int i = 0; i < nodeList.getLength(); i++) {
