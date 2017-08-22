@@ -1,7 +1,8 @@
-<w:work xmlns:w="http://www.tbrc.org/models/work#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="W12837" status="released" xsi:schemaLocation="http://www.tbrc.org/models/work# http://www.tbrc-dlms.org/tbrc-defs/1/0/work.xsd">
+<w:work xmlns:w="http://www.tbrc.org/models/work#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="W12837FPL" status="released" xsi:schemaLocation="http://www.tbrc.org/models/work# http://www.tbrc-dlms.org/tbrc-defs/1/0/work.xsd">
     <w:title type="bibliographicalTitle">kun rig rnam bshad</w:title>
     <w:title encoding="native" lang="pali" type="otherTitle">test pali title</w:title>
     <w:title encoding="extendedWylie" lang="tibetan" type="titlePageTitle">bcom ldan 'das thams cad rig pa'i rnam bshad</w:title>
+    <w:title lang="pali" encoding="withDiacritics">vinayavinicchaya--vinayavinicchaya pāṭh nisya</w:title>
     <w:hasPubInfo info="MW12837"/>
     <!-- from W1FPL110 : -->
     <w:description type="remarks">Red lac. covers. Gilded leaves with vermilion band.</w:description><w:description type="room">3A</w:description><w:description type="id">110</w:description>

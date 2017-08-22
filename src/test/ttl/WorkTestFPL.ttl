@@ -9,8 +9,8 @@
 @prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:I12837_002  a  :ItemPhysicalAsset ;
-   :itemForWork    bdr:W12837 ;
+bdr:I12837FPL_002  a  :ItemPhysicalAsset ;
+   :itemForWork    bdr:W12837FPL ;
    :itemHasVolume  [ a               :VolumePhysicalAsset ;
                      :volumeNumber   1 ;
                      :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en
@@ -19,8 +19,8 @@ bdr:I12837_002  a  :ItemPhysicalAsset ;
    :itemShelf      "3A | 110" ;
    :status         bdr:StatusReleased .
 
-bdr:W12837  a      :Work ;
-   skos:prefLabel  "kun rig rnam bshad"@bo-x-ewts ;
+bdr:W12837FPL  a   :Work ;
+   skos:prefLabel  "kun rig rnam bshad"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast ;
    :creatorMainAuthor  bdr:P1591 ;
    :note           [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ;
    :status         bdr:StatusReleased ;
@@ -32,7 +32,7 @@ bdr:W12837  a      :Work ;
    :workScanInfo   "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
    :workSeriesNumber  "2" ;
    :workTitle      [ a               :WorkBibliographicalTitle ;
-                     rdfs:label      "kun rig rnam bshad"@bo-x-ewts
+                     rdfs:label      "kun rig rnam bshad"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "vinayavinicchaya pāṭh nisya"@pi-x-iast
                    ] , 
          [ a               :WorkOtherTitle ;
            rdfs:label      "test pali title"@pi-x-iast
