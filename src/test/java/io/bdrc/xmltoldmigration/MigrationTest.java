@@ -205,14 +205,14 @@ public class MigrationTest
 	    public void testWork() throws JsonLdError, JsonParseException, IOException
 	    {
 	        System.out.println("testing work");
-	        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/WorkTest.xml");  
+	        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/WorkTestFPL.xml");  
 	        Validator validator = MigrationHelpers.getValidatorFor("work");
 	        assertFalse(CommonMigration.documentValidates(d, validator));
 	        Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
-	        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTest.ttl");
+	        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
 	        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL);
 	        //showDifference(fromXml, correctModel);
-	        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+	        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
 	        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
 	        flushLog();
 	    }

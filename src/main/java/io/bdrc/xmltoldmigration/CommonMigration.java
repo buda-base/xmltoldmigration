@@ -685,7 +685,16 @@ public class CommonMigration  {
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
                 Literal l = getLiteral(current, EWTS_TAG, m, "description", main.getLocalName(), main.getLocalName());
+                String nextTitle = null;
                 if (l == null) continue;
+                if (main.getLocalName().contains("FPL") && l.getLanguage().equals("pi-x-iast") && l.getString().contains("--")) {
+                    String curName = l.getString();
+                    String[] split = l.getString().split("--");
+                    if (!split[1].isEmpty()) {
+                        nextTitle = split[1];
+                        l = m.createLiteral(split[0], "pi-x-iast");
+                    }
+                }
                 String type = current.getAttribute("type");
                 if (type.isEmpty()) {
                     type = "bibliographicalTitle";
@@ -702,6 +711,9 @@ public class CommonMigration  {
                     typeNodes.put(uri, node);
                 }
                 node.addProperty(m.getProperty(GENLABEL_URI), l);
+                if (nextTitle != null) {
+                    node.addProperty(m.getProperty(GENLABEL_URI), m.createLiteral(nextTitle, "pi-x-iast"));
+                }
                 main.addProperty(m.getProperty(BDO, "workTitle"), node);
                 if (guessLabel) {
                     String lang = l.getLanguage().substring(0, 2);
