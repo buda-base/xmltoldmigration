@@ -106,6 +106,7 @@ public class MigrationHelpers {
 	public static boolean writefiles = false;
 	public static boolean checkagainstOwl = false;
 	public static boolean checkagainstXsd = false;
+	public static boolean deleteDbBeforeInsert = true;
 	
 	private static ObjectMapper objectMapper = new ObjectMapper();
     private static final TypeReference<HashMap<String,Object>> hashMapTypeRef = new TypeReference<HashMap<String,Object>>() {};
@@ -144,7 +145,10 @@ public class MigrationHelpers {
     public static Hashtable<String, CouchDbConnector> dbs = new Hashtable<>();
     
     public static void putDB(String type) {
-        dbs.put(type, new StdCouchDbConnector(DB_PREFIX + type, dbInstance));
+        dbInstance.deleteDatabase(DB_PREFIX+type);
+        dbInstance.createDatabase(DB_PREFIX+type);
+        CouchDbConnector db = new StdCouchDbConnector(DB_PREFIX + type, dbInstance);
+        dbs.put(type, db);
     }
 
     static {
@@ -326,11 +330,11 @@ public class MigrationHelpers {
             return;
         }
         jsonObject.put("_id", documentName);
+        if (deleteDbBeforeInsert) {
+            db.create(jsonObject);
+            return;
+        }
         try {
-            final InputStream oldDocStream = db.getAsStream(documentName);
-            final Map<String, Object> res = objectMapper.readValue(oldDocStream, hashMapTypeRef);
-            String oldVersion = (String) res.get("_rev");
-            jsonObject.put("_rev", oldVersion);
             String uri = "/bdrc_"+type+"/_design/jsonld/_show/revOnly/" + documentName;
             HttpResponse r = db.getConnection().get(uri);
             InputStream stuff = r.getContent();
@@ -343,9 +347,7 @@ public class MigrationHelpers {
             jsonObject.put("_rev", result);
             db.update(jsonObject);
         } catch (DocumentNotFoundException e) {
-            
-        } catch (IOException e) {
-            System.err.println(e);
+            db.create(jsonObject);
         }
     }
     
