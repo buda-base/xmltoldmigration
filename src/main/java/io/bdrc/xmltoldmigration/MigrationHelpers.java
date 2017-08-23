@@ -105,7 +105,7 @@ public class MigrationHelpers {
 	public static boolean usecouchdb = false;
 	public static boolean writefiles = false;
 	public static boolean checkagainstOwl = false;
-	public static boolean checkagainstXsd = true;
+	public static boolean checkagainstXsd = false;
 	
 	private static ObjectMapper objectMapper = new ObjectMapper();
     private static final TypeReference<HashMap<String,Object>> hashMapTypeRef = new TypeReference<HashMap<String,Object>>() {};
