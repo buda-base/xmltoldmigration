@@ -148,6 +148,16 @@ public class MigrationHelpers {
         dbInstance.deleteDatabase(DB_PREFIX+type);
         dbInstance.createDatabase(DB_PREFIX+type);
         CouchDbConnector db = new StdCouchDbConnector(DB_PREFIX + type, dbInstance);
+        ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("design-jsonld.json");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> jsonMap;
+        try {
+            jsonMap = mapper.readValue(inputStream, Map.class);
+            db.create(jsonMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         dbs.put(type, db);
     }
 
@@ -330,17 +340,13 @@ public class MigrationHelpers {
             return;
         }
         jsonObject.put("_id", documentName);
-        if (deleteDbBeforeInsert) {
-            db.create(jsonObject);
-            return;
-        }
         try {
             String uri = "/bdrc_"+type+"/_design/jsonld/_show/revOnly/" + documentName;
             HttpResponse r = db.getConnection().get(uri);
             InputStream stuff = r.getContent();
             String result = inputStreamToString(stuff);
             if (result.charAt(0) == '{') {
-                System.err.println("cannot transfer document, _design document not updated with latest revision");
+                db.create(jsonObject);
                 return;
             }
             result = result.substring(1, result.length()-1);
