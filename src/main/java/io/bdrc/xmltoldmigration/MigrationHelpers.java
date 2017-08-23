@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
@@ -55,6 +56,7 @@ import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.DocumentNotFoundException;
 import org.ektorp.http.HttpClient;
+import org.ektorp.http.HttpResponse;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbConnector;
 import org.ektorp.impl.StdCouchDbInstance;
@@ -159,6 +161,7 @@ public class MigrationHelpers {
             putDB(OUTLINE);
             putDB(PERSON);
             putDB(PLACE);
+            putDB(PRODUCT);
             putDB(TOPIC);
             putDB(ITEM);
             putDB(WORK);
@@ -295,6 +298,27 @@ public class MigrationHelpers {
         return res;
     }
     
+    public static String inputStreamToString(InputStream s) {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        try {
+            while ((length = s.read(buffer)) != -1) {
+                result.write(buffer, 0, length);
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            return null;
+        }
+        // StandardCharsets.UTF_8.name() > JDK 7
+        try {
+            return result.toString("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public static void couchUpdateOrCreate(Map<String,Object> jsonObject, String documentName, String type) {
         CouchDbConnector db = dbs.get(type);
         if (db == null) {
@@ -307,9 +331,19 @@ public class MigrationHelpers {
             final Map<String, Object> res = objectMapper.readValue(oldDocStream, hashMapTypeRef);
             String oldVersion = (String) res.get("_rev");
             jsonObject.put("_rev", oldVersion);
+            String uri = "/bdrc_"+type+"/_design/jsonld/_show/revOnly/" + documentName;
+            HttpResponse r = db.getConnection().get(uri);
+            InputStream stuff = r.getContent();
+            String result = inputStreamToString(stuff);
+            if (result.charAt(0) == '{') {
+                System.err.println("cannot transfer document, _design document not updated with latest revision");
+                return;
+            }
+            result = result.substring(1, result.length()-1);
+            jsonObject.put("_rev", result);
             db.update(jsonObject);
         } catch (DocumentNotFoundException e) {
-            db.create(jsonObject);
+            
         } catch (IOException e) {
             System.err.println(e);
         }
