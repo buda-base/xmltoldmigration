@@ -450,8 +450,8 @@ public class MigrationHelpers {
 		    // workaround for https://github.com/jsonld-java/jsonld-java/issues/199
 		    RDFParserBuilder pb = RDFParser.create()
 		             .source(fname)
-		             .lang(RDFLanguages.JSONLD)
-		             .canonicalLiterals(true);
+		             .lang(RDFLanguages.JSONLD);
+		             //.canonicalLiterals(true);
 		    pb.parse(StreamRDFLib.graph(g));
 		} catch (RiotException e) {
 		    writeLog("error reading "+fname);

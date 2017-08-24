@@ -10,19 +10,19 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:C11MS170  a            :Corporation ;
-    skos:prefLabel         "bran ka"@bo-x-tbrc , "Dranka"@en-x-mixed ;
-    :corporationHasMember  [ a                   :CorporationMemberNotSpecified ;
-                             :corporationMember  bdr:P1856
-                           ] , 
-            [ a                   :CorporationMemberUnknown ;
-              :corporationMember  bdr:P1857
-            ] ;
-    :corporationRegion     bdr:G934 ;
-    :note                  [ :noteText  "associated w / 11th cent. master, P4CZ15480 ?"@en ] , 
-            [ :noteText  "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en ] ;
-    :status                bdr:StatusReleased ;
-    adm:logEntry           [ adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
-                             adm:logMessage  "created new corp."@en ;
-                             adm:logWho      bdr:U20
-                           ] .
+bdr:C11MS170  a    :Corporation ;
+   skos:prefLabel  "bran ka"@bo-x-phon-en-m-tbrc , "Dranka"@en-x-mixed ;
+   :corporationHasMember  [ a               :CorporationMemberNotSpecified ;
+                            :corporationMember  bdr:P1856
+                          ] , 
+         [ a               :CorporationMemberUnknown ;
+           :corporationMember  bdr:P1857
+         ] ;
+   :corporationRegion  bdr:G934 ;
+   :note           [ :noteText  "associated w / 11th cent. master, P4CZ15480 ?"@en ] , 
+         [ :noteText    "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en ] ;
+   :status         bdr:StatusReleased ;
+   adm:logEntry    [ adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
+                     adm:logMessage  "created new corp."@en ;
+                     adm:logWho      bdr:U20
+                   ] .
