@@ -57,6 +57,7 @@ public class CommonMigration  {
 	public static final String GENLABEL_URI = RDFS_PREFIX+"label";
 	
 	public static final String EWTS_TAG = "bo-x-ewts";
+	public static final boolean lowerCaseLangTags = true;
 	
 	public static final String BDO = ONTOLOGY_PREFIX;
     public static final String BDD = DATA_PREFIX;
@@ -874,9 +875,9 @@ public class CommonMigration  {
 		    // transliteration of Chinese
 			return "-x-wade";
 		case "pinyin":
-			return "-Latn-pinyin";
+			return lowerCaseLangTags ? "-latn-pinyin" : "-Latn-pinyin";
 		case "libraryOfCongress":
-			return "-x-alaloc";
+			return "-alalc97"; // could also be -t-m0-alaloc
 		case "native":
 			return "";
 		case "none":
@@ -888,16 +889,16 @@ public class CommonMigration  {
 		case "withDiacritics":
 			return "-x-iast";
 		case "transliteration":
-			return "-x-trans";
+			return "-x-trans"; // not sure...
 		case "acip":
 			return "-x-acip";
 		case "tbrcPhonetic":
-			return "-x-tbrc";
+			return "-x-phon-en-m-tbrc";
 		case "alternatePhonetic":
-			return "-x-alt";
+			return "-x-phon-en"; // not sure about this one...
 		case "syllables":
 		    // the cases we have are essentially town_syl, which is a
-		    // romanization that doesn't seem standard, a kind of phonetic
+		    // romanization that doesn't seem standard, a kind of phonetic?
 			return "-x-syx";
 		case "":
 			return "";
@@ -951,7 +952,7 @@ public class CommonMigration  {
 		if (language == null || language.isEmpty()) {
 			if (encoding != null && !encoding.isEmpty()) {
 			    if (encoding.equals("extendedWylie")) return EWTS_TAG;
-			    if (encoding.equals("tbrcPhonetic")) return "bo-Latn-x-tbrc";
+			    if (encoding.equals("tbrcPhonetic")) return "bo-x-phon-en-m-tbrc";
 				throw new IllegalArgumentException("encoding with no language!");
 			}
 			return null;
