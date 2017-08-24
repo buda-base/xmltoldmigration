@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
@@ -102,10 +101,10 @@ public class MigrationApp
             Model outlineModel = OutlineMigration.MigrateOutline(outd, workModel, work);
             if (OutlineMigration.splitOutlines) {
                 String outlineFileName = OUTPUT_DIR+"works/"+outWorkId+"_O01.ttl";
-                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "work", true);                
+                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "work");                
             } else {
                 String workFileName = OUTPUT_DIR+"works/"+outWorkId+".ttl";
-                MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "work", true);
+                MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "work");
                 workCreatedByOutline.put(outWorkId, true);
             }
             break;
@@ -121,7 +120,7 @@ public class MigrationApp
                 return;
             item = itemModel.getResource(BDR+"I"+workId.substring(1)+"_001");
             itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
-            MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "item", false);
+            MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "item");
             break;
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -129,10 +128,8 @@ public class MigrationApp
             if (!MigrationHelpers.mustBeMigrated(root, "work"))
                 return;
             Model m = null;
-            boolean containsOutline = false;
             if (workCreatedByOutline.containsKey(baseName)) {
                 m = MigrationHelpers.modelFromFileName(OUTPUT_DIR+"works/"+baseName+".ttl");
-                containsOutline = true;
             }
             if (m == null) {
                 m = ModelFactory.createDefaultModel();
@@ -165,7 +162,7 @@ public class MigrationApp
                 }
                 String volOutfileName = OUTPUT_DIR+ITEMS+"/"+itemName+".ttl";
                 //MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", MigrationHelpers.OUTPUT_STTL);
-                MigrationHelpers.outputOneModel(itemModel, itemName, volOutfileName, "item", false);
+                MigrationHelpers.outputOneModel(itemModel, itemName, volOutfileName, "item");
             }
             
             // migrate pubinfo
@@ -174,7 +171,7 @@ public class MigrationApp
             if (!pubinfoFile.exists()) {
                 MigrationHelpers.writeLog("missing "+pubinfoFileName);
                 //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
-                MigrationHelpers.outputOneModel(m, baseName, outfileName, "work", containsOutline);
+                MigrationHelpers.outputOneModel(m, baseName, outfileName, "work");
                 return;
             }
             d = MigrationHelpers.documentFromFileName(pubinfoFileName);
@@ -183,12 +180,12 @@ public class MigrationApp
             //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
             for (Entry<String,Model> e : itemModels.entrySet()){
                 //iterate over the pairs
-                MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), OUTPUT_DIR+ITEMS+"/"+e.getKey()+".ttl", "item", false);
+                MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), OUTPUT_DIR+ITEMS+"/"+e.getKey()+".ttl", "item");
             }
-            MigrationHelpers.outputOneModel(m, baseName, outfileName, "work", containsOutline);
+            MigrationHelpers.outputOneModel(m, baseName, outfileName, "work");
             break;
         default:
-            MigrationHelpers.convertOneFile(file.getAbsolutePath(), baseName, outfileName, type, MigrationHelpers.OUTPUT_STTL, fileName, false);
+            MigrationHelpers.convertOneFile(file.getAbsolutePath(), baseName, outfileName, type, MigrationHelpers.OUTPUT_STTL, fileName);
             break;
         }
     }
@@ -224,7 +221,7 @@ public class MigrationApp
                 if (m == null)
                     continue;
                 SymetricNormalization.insertMissingTriplesInModel(m, s, false);
-                MigrationHelpers.outputOneModel(m, s, inFileName, type, false);
+                MigrationHelpers.outputOneModel(m, s, inFileName, type);
             }
         }
         if (type.equals("person"))
@@ -240,6 +237,7 @@ public class MigrationApp
 			if (arg.equals("-useCouchdb")) {
 				MigrationHelpers.usecouchdb = true;
 				MigrationHelpers.writefiles = true;
+				MigrationHelpers.initCouchdb();
 			}
             if (arg.equals("-preferManyOverOne=1")) {
                 manyOverOne = true;

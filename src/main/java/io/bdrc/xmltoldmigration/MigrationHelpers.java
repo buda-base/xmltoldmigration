@@ -114,7 +114,7 @@ public class MigrationHelpers {
 	public static OntModel ontologymodelSimple = MigrationHelpers.getOntologyModel();
 	public static OntModel ontologymodel = MigrationHelpers.getInferredModel(ontologymodelSimple);
 	public static PrefixMap prefixMap = getPrefixMap();
-	public static Map<String,Object> jsonldcontext = ContextGenerator.generateContextObject(ontologymodelSimple, prefixMap, "bdo");
+	public static final Map<String,Object> jsonldcontext = ContextGenerator.generateContextObject(ontologymodelSimple, prefixMap, "bdo");
 	
 	public static final String DB_PREFIX = "bdrc_";
 	// types in target DB
@@ -163,7 +163,18 @@ public class MigrationHelpers {
 
     static {
         ontologymodel = MigrationHelpers.getOntologyModel();
-    	try {
+        try {
+            logWriter = new PrintWriter(new OutputStreamWriter(System.err, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            // Well, that's a stupid try/catch...
+            e.printStackTrace();
+        }
+
+        setupSTTL();
+    }
+
+    public static void initCouchdb() {
+        try {
             httpClient = new StdHttpClient.Builder()
                     .url("http://localhost:13598")
                     .build();
@@ -183,16 +194,7 @@ public class MigrationHelpers {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-	    try {
-            logWriter = new PrintWriter(new OutputStreamWriter(System.err, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            // Well, that's a stupid try/catch...
-            e.printStackTrace();
-        }
-	    
-	    setupSTTL();
-	}
+    }
 	
     public static PrefixMap getPrefixMap() {
         PrefixMap pm = PrefixMapFactory.create();
@@ -255,14 +257,19 @@ public class MigrationHelpers {
 		typeToRootShortUri.put(OFFICE, "Role");
     }
 	
-	public static Object getFrameObject(String type) {
-	    if (typeToFrameObject.containsKey(type))
+	public static Object getFrameObject(String type, String mainResourceName) {
+	    // for works, we frame by @id, for cases with outlines.
+	    if (!type.equals("work") && typeToFrameObject.containsKey(type))
 	        return typeToFrameObject.get(type);
-		Map<String,Object> jsonObject = new HashMap<String,Object>();
-		jsonObject.put("@type", typeToRootShortUri.get(type));
-		jsonObject.put("@context", jsonldcontext);
-		typeToFrameObject.put(type, jsonObject);
-		return jsonObject;
+	    Map<String,Object> jsonObject = new HashMap<String,Object>();
+	    if (type.equals("work"))
+	        jsonObject.put("@id", CommonMigration.BDR+mainResourceName);
+	    else
+	        jsonObject.put("@type", typeToRootShortUri.get(type));
+	    jsonObject.put("@context", jsonldcontext);
+	    if (!type.equals("work"))
+	        typeToFrameObject.put(type, jsonObject);
+	    return jsonObject;
 	}
 	
 	 static class MigrationComparator implements Comparator<String>
@@ -362,22 +369,17 @@ public class MigrationHelpers {
         couchUpdateOrCreate(jsonObject, documentName, type);
     }
     
-    public static Map<String,Object> modelToJsonObject(Model m, String type, boolean isOutline) {
+    public static Map<String,Object> modelToJsonObject(Model m, String type, String mainResourceName) {
         JsonLDWriteContext ctx = new JsonLDWriteContext();
         JSONLDVariant variant;
-        if (!isOutline) {
-            Object frameObj = getFrameObject(type);
-            ctx.setFrame(frameObj);
-            variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_FRAME_PRETTY.getVariant();
-        } else {
-            variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_COMPACT_PRETTY.getVariant();
-        }
-        // https://issues.apache.org/jira/browse/JENA-1292
+        Object frameObj = getFrameObject(type, mainResourceName);
+        ctx.setFrame(frameObj);
+        variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_FRAME_PRETTY.getVariant();
         ctx.setJsonLDContext(jsonldcontext);
         JsonLdOptions opts = new JsonLdOptions();
         opts.setUseNativeTypes(true);
+        opts.setCompactArrays(true);
         opts.setPruneBlankNodeIdentifiers(true);
-        //opts.setProcessingMode("json-ld-1.1");
         ctx.setOptions(opts);
         DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
         PrefixMap pm = RiotLib.prefixMap(g);
@@ -385,6 +387,7 @@ public class MigrationHelpers {
         Map<String,Object> tm;
         try {
             tm = (Map<String,Object>) JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
+            // replacing context with URI
             tm.replace("@context", "http://purl.bdrc.io/context.jsonld");
             tm = orderEntries(tm);
         } catch (JsonLdError | IOException e) {
@@ -406,7 +409,7 @@ public class MigrationHelpers {
     }
     
 	// these annotations don't work, for some reason
-    public static void modelToOutputStream (Model m, OutputStream out, String type, int outputType) throws IllegalArgumentException {
+    public static void modelToOutputStream (Model m, OutputStream out, String type, int outputType, String mainResourceName) throws IllegalArgumentException {
 	    if (m==null) 
 	        throw new IllegalArgumentException("null model returned");
 	    if (out == null && !usecouchdb) return;
@@ -414,7 +417,7 @@ public class MigrationHelpers {
 	        RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
 	        return;
 	    }
-	    Map<String,Object> jsonObject = modelToJsonObject(m, type, type.equals("outline"));
+	    Map<String,Object> jsonObject = modelToJsonObject(m, type, mainResourceName);
 	    jsonObjectToOutputStream(jsonObject, out);
 	}
 	
@@ -462,7 +465,7 @@ public class MigrationHelpers {
 	    FileOutputStream s = null;
 	    try {
 		    s = new FileOutputStream(fname);
-		    modelToOutputStream(m, s, type, outputType);
+		    modelToOutputStream(m, s, type, outputType, fname);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return;
@@ -551,11 +554,11 @@ public class MigrationHelpers {
         return m;
 	}
 	
-	public static void convertOneFile(String src, String mainId, String dst, String type, int outputType, String fileName, boolean isOutline) {
+	public static void convertOneFile(String src, String mainId, String dst, String type, int outputType, String fileName) {
         Model m = getModelFromFile(src, type, fileName);
         if (m == null) return;
         if (usecouchdb) {
-            Map<String,Object> o = modelToJsonObject(m, type, isOutline);
+            Map<String,Object> o = modelToJsonObject(m, type, mainId);
             if (o != null) {
                 jsonObjectToCouch(o, mainId, type);
             }
@@ -565,10 +568,10 @@ public class MigrationHelpers {
         }
     }
 	
-	public static void outputOneModel(Model m, String mainId, String dst, String type, boolean isOutline) {
+	public static void outputOneModel(Model m, String mainId, String dst, String type) {
 	    if (m == null) return;
         if (usecouchdb) {
-            Map<String,Object> o = modelToJsonObject(m, type, isOutline);
+            Map<String,Object> o = modelToJsonObject(m, type, mainId);
             if (o != null) {
                 jsonObjectToCouch(o, mainId, type);
             }
