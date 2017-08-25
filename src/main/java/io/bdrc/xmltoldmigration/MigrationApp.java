@@ -3,9 +3,12 @@ package io.bdrc.xmltoldmigration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.apache.jena.ontology.OntModel;
@@ -26,6 +29,8 @@ public class MigrationApp
     // extract tbrc/ folder of exist-db backup here:
     public static String DATA_DIR = "tbrc/";
     public static String OUTPUT_DIR = "tbrc-ttl/";
+    public static String commitMessage = "xmltold automatic migration";
+    public static boolean firstMigration = false;
 
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
@@ -50,19 +55,6 @@ public class MigrationApp
     
     public static void init() {
         ontology = MigrationHelpers.getOntologyModel();
-    }
-    
-    public static void createDirIfNotExists(String dir) {
-        File theDir = new File(dir);
-        if (!theDir.exists()) {
-            System.out.println("creating directory: " + dir);
-            try{
-                theDir.mkdir();
-            } 
-            catch(SecurityException se){
-                System.err.println("could not create directory, please fasten your seat belt");
-            }        
-        }
     }
 
     public static void migrateOneFile(File file, String type, String mustStartWith) {
@@ -185,17 +177,23 @@ public class MigrationApp
             MigrationHelpers.outputOneModel(m, baseName, outfileName, "work");
             break;
         default:
-            MigrationHelpers.convertOneFile(file.getAbsolutePath(), baseName, outfileName, type, MigrationHelpers.OUTPUT_STTL, fileName);
+            Model defaultM = MigrationHelpers.getModelFromFile(file.getAbsolutePath(), type, fileName);
+            MigrationHelpers.outputOneModel(defaultM, baseName, outfileName, type);
             break;
         }
     }
     
     public static void migrateType(String type, String mustStartWith) {
-        createDirIfNotExists(OUTPUT_DIR+type+"s");
+        if (type.equals("outline"))
+            GitHelpers.ensureGitRepo("works");
+        else if (type.equals("work")) {
+            GitHelpers.ensureGitRepo("works");
+            GitHelpers.ensureGitRepo("items");
+        } else {
+            GitHelpers.ensureGitRepo(type+'s');
+        }
         SymetricNormalization.knownTriples = new HashMap<>();
         SymetricNormalization.triplesToAdd = new HashMap<>();
-        if (type.equals(WORK)) createDirIfNotExists(OUTPUT_DIR+ITEMS);
-        if (type.equals(OUTLINE)) createDirIfNotExists(OUTPUT_DIR+WORK+"s");
         File logfile = new File(OUTPUT_DIR+type+"s-migration.log");
         PrintWriter pw;
         try {
@@ -228,6 +226,20 @@ public class MigrationApp
             System.out.println("recorded "+PersonMigration.placeEvents.size()+" events to migrate to places");
     }
     
+    public static void finishType(String type) {
+        if (firstMigration)
+            return;
+        Set<String> modifiedFiles = GitHelpers.getChanges(type);
+        // TODO: send each to couchDB and commit
+    }
+    
+    public static void finishType() {
+        List<String> types = Arrays.asList("work", "item", "place", "person", "product", "corporation", "office", "lineage", "topic");
+        for (String type : types) {
+            finishType(type);
+        }
+    }
+    
     public static void main( String[] args )
     {
         boolean oneDirection = false;
@@ -254,9 +266,18 @@ public class MigrationApp
             SymetricNormalization.normalizeOneDirection(oneDirection, manyOverOne);
 		    if (arg.equals("-datadir")) {
                 DATA_DIR = args[i+1];
+                if (!DATA_DIR.endsWith("/")) {
+                    DATA_DIR = DATA_DIR+'/';
+                }
             }
 		    if (arg.equals("-outdir")) {
                 OUTPUT_DIR = args[i+1];
+                if (!OUTPUT_DIR.endsWith("/")) {
+                    OUTPUT_DIR = OUTPUT_DIR+'/';
+                }
+            }
+            if (arg.equals("-commitMessage")) {
+                commitMessage = args[i+1];
             }
 		    if (arg.equals("-writefiles")) {
 		        MigrationHelpers.writefiles = true;
@@ -273,8 +294,12 @@ public class MigrationApp
 	        ExceptionHelper.closeAll();
 		    return;
 		}
-		
-        createDirIfNotExists(OUTPUT_DIR);
+
+        File theDir = new File(OUTPUT_DIR);
+        if (!theDir.exists()) {
+            firstMigration = true;
+        }
+        GitHelpers.createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
 //        MigrationHelpers.usecouchdb = true;
 //        migrateOneFile(new File(DATA_DIR+"tbrc-persons/P1KG16739.xml"), "person", "P");
@@ -294,7 +319,8 @@ public class MigrationApp
         migrateType(PRODUCT, "PR");
         CommonMigration.speller.close();
         ExceptionHelper.closeAll();
-    	long estimatedTime = System.currentTimeMillis() - startTime;
+        long fileMigrationEndTime = System.currentTimeMillis();
+    	long estimatedTime = fileMigrationEndTime - startTime;
     	System.out.println("symetry triple changes: +"+SymetricNormalization.addedTriples+"/-"+SymetricNormalization.removedTriples);
     	System.out.println("done in "+estimatedTime+" ms");
     }

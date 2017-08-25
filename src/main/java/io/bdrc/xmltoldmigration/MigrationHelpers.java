@@ -411,7 +411,6 @@ public class MigrationHelpers {
         IO.flush(wr) ;
     }
     
-	// these annotations don't work, for some reason
     public static void modelToOutputStream (Model m, OutputStream out, String type, int outputType, String mainResourceName) throws IllegalArgumentException {
 	    if (m==null) 
 	        throw new IllegalArgumentException("null model returned");
@@ -557,23 +556,9 @@ public class MigrationHelpers {
         return m;
 	}
 	
-	public static void convertOneFile(String src, String mainId, String dst, String type, int outputType, String fileName) {
-        Model m = getModelFromFile(src, type, fileName);
-        if (m == null) return;
-        if (usecouchdb) {
-            Map<String,Object> o = modelToJsonObject(m, type, mainId);
-            if (o != null) {
-                jsonObjectToCouch(o, mainId, type);
-            }
-        }
-        if (writefiles) {
-            modelToFileName(m, dst, type, outputType);
-        }
-    }
-	
 	public static void outputOneModel(Model m, String mainId, String dst, String type) {
 	    if (m == null) return;
-        if (usecouchdb) {
+        if (usecouchdb && MigrationApp.firstMigration) {
             Map<String,Object> o = modelToJsonObject(m, type, mainId);
             if (o != null) {
                 jsonObjectToCouch(o, mainId, type);
