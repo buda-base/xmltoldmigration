@@ -93,6 +93,9 @@ public class MigrationTest
         assertTrue(CommonMigration.normalizeTibetan("དྷ་དཹ་").equals("དྷ་དླཱྀ་"));
         assertTrue(CommonMigration.normalizeTibetan("\u0F81").equals("\u0F71\u0F80"));
         assertTrue(CommonMigration.normalizeTibetan("\u0F76").equals("\u0FB2\u0F80"));
+        assertTrue(CommonMigration.isMostLikelyEwts("myang stod khu le'i rgya rigs"));
+        assertFalse(CommonMigration.isMostLikelyEwts("my tailor is rich"));
+        assertFalse(CommonMigration.isMostLikelyEwts("associated w / 11th cent. master, P4CZ15480 ?"));
 	}
 	
 	@Test

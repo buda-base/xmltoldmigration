@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.transform.Source;
@@ -1004,6 +1005,22 @@ public class CommonMigration  {
         }
         return isChinese;
     }
+
+    private static Pattern p = Pattern.compile("[\u0F40-\u0FBC]+");
+    public static boolean isMostLikelyEwts(String input) {
+        if (!isAllASCII(input))
+            return false;
+        List<String> warns = new ArrayList<>();
+        String uni = converter.toUnicode(input, warns, true);
+        if (warns.size() > 0)
+            return false;
+        Matcher m = p.matcher(uni);
+        while (m.find()) {
+           if (!speller.isCorrect(m.group(0)))
+               return false;
+        }
+        return true;
+    }
 	
 	public static String getBCP47(Element e, String propertyHint, String RID, String subRID) {
 	    String lang = e.getAttribute("lang");
@@ -1034,6 +1051,9 @@ public class CommonMigration  {
 		if ((res == null || !res.equals("zh")) && isAllChineseUnicode(value)) {
             res = "zh";
         }
+		if ((res == null || res == "en") && isMostLikelyEwts(value)) {
+		    res = EWTS_TAG;
+		}
 		if (res != null && res.equals("pi")) {
 		    if (isAllLatn(value)) {
 		        res = "pi-x-iast";
