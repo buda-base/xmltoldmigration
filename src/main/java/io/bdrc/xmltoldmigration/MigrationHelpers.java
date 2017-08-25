@@ -191,7 +191,6 @@ public class MigrationHelpers {
             putDB(ITEM);
             putDB(WORK);
         } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -276,14 +275,17 @@ public class MigrationHelpers {
 	 {
 	     public int compare(String s1, String s2)
 	     {
-	         if(s1.equals("log_entry")) return 1;
-	         if(s2.equals("log_entry")) return -1;
+	         if(s1.equals("adm:logEntry")) return 1;
+	         if(s2.equals("adm:logEntry")) return -1;
+	         if(s1.startsWith("adm:")) return 1;
+	         if(s1.startsWith("tbr:")) return 1;
+	         if(s2.startsWith("adm:")) return -1;
+             if(s2.startsWith("tbr:")) return -1;
 	         if(s1.equals("@context")) return 1;
 	         if(s1.equals("@graph")) return -1;
 	         if(s1.equals("rdfs:label")) return -1;
 	         if(s1.equals("skos:prefLabel")) return -1;
 	         if(s1.equals("skos:altLabel")) return -1;
-	         if(s1.equals("status")) return -1;
 	         return s1.compareTo(s2);
 	     }
 	 }
@@ -315,6 +317,7 @@ public class MigrationHelpers {
     protected static Map<String,Object> orderEntries(Map<String,Object> input) throws IllegalArgumentException
     {
         SortedMap<String,Object> res = new TreeMap<String,Object>(new MigrationComparator());
+        // TODO: maybe it should be recursive? at least for outlines...
         input.forEach( (k,v) ->  insertRec(k, v, res) );
         return res;
     }
@@ -632,7 +635,9 @@ public class MigrationHelpers {
 	}
 	
 	public static OntModel getInferredModel(OntModel m) {
-	    return ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, m);
+	    OntModel ontoModelInferred = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, m);
+	    ontoModelInferred.setStrictMode(false);
+	    return ontoModelInferred;
 	}
 	
 	public static Map<String,Validator> validators = new HashMap<String,Validator>();
