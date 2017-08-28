@@ -33,24 +33,26 @@ public class GitHelpers {
             return;
         String dirpath = MigrationApp.OUTPUT_DIR+type;
         MigrationApp.createDirIfNotExists(dirpath);
-//        FileRepositoryBuilder builder = new FileRepositoryBuilder();
-//        File dir = new File(dirpath);
-//        try {
-//            Repository repository = builder.setGitDir(dir)
-//              .readEnvironment() // scan environment GIT_* variables
-//              .findGitDir() // scan up the file system tree
-//              .build();
-//            if (!repository.getObjectDatabase().exists()) {
-//                System.out.println("create git repository in "+dirpath);
-//                repository.create();
-//                PrintWriter out = new PrintWriter(dirpath+".gitignore");
-//                out.println(gitignore);
-//                out.close();
-//            }
-//            typeRepo.put(type, repository);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+        File gitDir = new File(dirpath+"/.git");
+        File wtDir = new File(dirpath);
+        try {
+            Repository repository = builder.setGitDir(gitDir)
+              .setWorkTree(wtDir)
+              //.setMustExist( true )
+              .readEnvironment() // scan environment GIT_* variables
+              .build();
+            if (!repository.getObjectDatabase().exists()) {
+                System.out.println("create git repository in "+dirpath);
+                repository.create();
+                PrintWriter out = new PrintWriter(dirpath+".gitignore");
+                out.println(gitignore);
+                out.close();
+            }
+            typeRepo.put(type, repository);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public static Set<String> getChanges(String type) {
