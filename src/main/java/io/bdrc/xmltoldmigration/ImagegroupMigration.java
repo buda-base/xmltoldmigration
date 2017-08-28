@@ -29,6 +29,20 @@ public class ImagegroupMigration {
         return m;
 	}
 	
+	public static String getVolumeOf(Document xmlDocument) {
+	    Element root = xmlDocument.getDocumentElement();
+        String volumeOf = null;
+        
+        // adding the ondisk/onDisk description as vol:imageList
+        NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "isVolumeOf");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            volumeOf = current.getAttribute("work").trim();
+            break;
+        }
+        return volumeOf;
+	}
+	
 	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource item, String volumeName, String volumeNumber, String volumesName) {
 		
 		Element root = xmlDocument.getDocumentElement();
@@ -98,7 +112,6 @@ public class ImagegroupMigration {
             addSimpleElement("qcdate", "volumeQcDate", current, m, main);
             addSimpleElement("qcnotes", "volumeQcNote", current, m, main);
         }
-
 	}
 
 	public static void addSimpleElement(String elementName, String propName, Element root, Model m, Resource main) {

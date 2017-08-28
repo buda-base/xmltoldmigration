@@ -53,6 +53,8 @@ public class MigrationApp
     public static final String ITEMS = MigrationHelpers.ITEMS;
     public static final String WORK = MigrationHelpers.WORK;
     
+    public static final Map<String,String> imageGroupWork = new HashMap<>();
+    
     private static Map<String,Boolean> workCreatedByOutline = new HashMap<>();
     static MessageDigest md;
     private static final int hashNbChars = 2;
@@ -67,7 +69,7 @@ public class MigrationApp
     public static void createDirIfNotExists(String dir) {
         File theDir = new File(dir);
         if (!theDir.exists()) {
-            System.out.println("creating directory: " + dir);
+            //System.out.println("creating directory: " + dir);
             try{
                 theDir.mkdir();
             }
@@ -78,7 +80,7 @@ public class MigrationApp
     }
 
     public static String getDstFileName(String type, String baseName) {
-        final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("products");
+        final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product");
         String res = OUTPUT_DIR+type+"s/";
         if (needsHash) {
             try {
@@ -193,6 +195,15 @@ public class MigrationApp
                         continue;
                     }
                     d = MigrationHelpers.documentFromFileName(imagegroupFileName);
+                    if (imageGroupWork.containsKey(imagegroup)) {
+                        final String oldvalue = imageGroupWork.get(imagegroup);
+                        final String indicatedWork = ImagegroupMigration.getVolumeOf(d);
+                        final String exceptionMessage = "is referrenced in both ["+oldvalue+"](https://www.tbrc.org/#!rid="+oldvalue+") and ["+baseName+"](https://www.tbrc.org/#!rid="+baseName+") (indicates "+indicatedWork+")";
+                        ExceptionHelper.logException(ExceptionHelper.ET_IMAGEGROUP, imagegroup, imagegroup, exceptionMessage);
+                        return;
+                    } else {
+                        imageGroupWork.put(imagegroup, baseName);
+                    }
                     ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getValue(), itemName);
                 }
                 String itemOutfileName = getDstFileName("item", itemName);
@@ -279,6 +290,7 @@ public class MigrationApp
         if (firstMigration)
             return;
         Set<String> modifiedFiles = GitHelpers.getChanges(type);
+        System.out.println(modifiedFiles.size()+" "+type+"s changed");
         // TODO: send each to couchDB and commit
     }
     
