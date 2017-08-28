@@ -3,6 +3,10 @@ package io.bdrc.xmltoldmigration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +35,7 @@ public class MigrationApp
     public static String OUTPUT_DIR = "tbrc-ttl/";
     public static String commitMessage = "xmltold automatic migration";
     public static boolean firstMigration = false;
+    public static boolean useHash = true;
 
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
@@ -49,12 +54,52 @@ public class MigrationApp
     public static final String WORK = MigrationHelpers.WORK;
     
     private static Map<String,Boolean> workCreatedByOutline = new HashMap<>();
-    
+    static MessageDigest md;
+    private static final int hashNbChars = 2;
+
     public static OntModel ontology = null;
-    
-    
+
+
     public static void init() {
         ontology = MigrationHelpers.getOntologyModel();
+    }
+
+    public static void createDirIfNotExists(String dir) {
+        File theDir = new File(dir);
+        if (!theDir.exists()) {
+            System.out.println("creating directory: " + dir);
+            try{
+                theDir.mkdir();
+            }
+            catch(SecurityException se){
+                System.err.println("could not create directory, please fasten your seat belt");
+            }
+        }
+    }
+
+    public static String getDstFileName(String type, String baseName) {
+        final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("products");
+        String res = OUTPUT_DIR+type+"s/";
+        if (needsHash) {
+            try {
+                // keeping files from the same work together:
+                final int underscoreIndex = baseName.indexOf('_');
+                String message = baseName;
+                if (underscoreIndex != -1)
+                    message = baseName.substring(0, underscoreIndex);
+                final byte[] bytesOfMessage = message.getBytes("UTF-8");
+                final byte[] hashBytes = md.digest(bytesOfMessage);
+                BigInteger bigInt = new BigInteger(1,hashBytes);
+                String hashtext = bigInt.toString(16).substring(0, hashNbChars);
+                res = res+hashtext.toString()+"/";
+                createDirIfNotExists(res);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        res = res + baseName + ".ttl";
+        return res;
     }
 
     public static void migrateOneFile(File file, String type, String mustStartWith) {
@@ -63,8 +108,6 @@ public class MigrationApp
         if (!fileName.startsWith(mustStartWith)) return;
         if (!fileName.endsWith(".xml")) return;
         String baseName = fileName.substring(0, fileName.length()-4);
-        String outfileName = baseName+".ttl";
-        outfileName = OUTPUT_DIR+type+"s/"+outfileName;
         Resource item;
         Model itemModel;
         switch(type) {
@@ -92,10 +135,10 @@ public class MigrationApp
             }
             Model outlineModel = OutlineMigration.MigrateOutline(outd, workModel, work);
             if (OutlineMigration.splitOutlines) {
-                String outlineFileName = OUTPUT_DIR+"works/"+outWorkId+"_O01.ttl";
+                String outlineFileName = getDstFileName("work", outWorkId+"_001");
                 MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "work");                
             } else {
-                String workFileName = OUTPUT_DIR+"works/"+outWorkId+".ttl";
+                String workFileName = getDstFileName("work", outWorkId);
                 MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "work");
                 workCreatedByOutline.put(outWorkId, true);
             }
@@ -106,7 +149,7 @@ public class MigrationApp
             if (workId == null || workId.isEmpty()) 
                 return;
             String srItemName = "I"+workId.substring(1)+"_001";
-            String itemFileName = OUTPUT_DIR+ITEMS+"/"+srItemName+".ttl";
+            String itemFileName = getDstFileName("item", srItemName);
             itemModel = MigrationHelpers.modelFromFileName(itemFileName);
             if (itemModel == null)
                 return;
@@ -121,7 +164,7 @@ public class MigrationApp
                 return;
             Model m = null;
             if (workCreatedByOutline.containsKey(baseName)) {
-                m = MigrationHelpers.modelFromFileName(OUTPUT_DIR+"works/"+baseName+".ttl");
+                m = MigrationHelpers.modelFromFileName(getDstFileName("work", baseName));
             }
             if (m == null) {
                 m = ModelFactory.createDefaultModel();
@@ -152,18 +195,18 @@ public class MigrationApp
                     d = MigrationHelpers.documentFromFileName(imagegroupFileName);
                     ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getValue(), itemName);
                 }
-                String volOutfileName = OUTPUT_DIR+ITEMS+"/"+itemName+".ttl";
+                String itemOutfileName = getDstFileName("item", itemName);
                 //MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", MigrationHelpers.OUTPUT_STTL);
-                MigrationHelpers.outputOneModel(itemModel, itemName, volOutfileName, "item");
+                MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "item");
             }
-            
+            String workOutFileName = getDstFileName("work", baseName);
             // migrate pubinfo
             String pubinfoFileName = DATA_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
             File pubinfoFile = new File(pubinfoFileName);
             if (!pubinfoFile.exists()) {
                 MigrationHelpers.writeLog("missing "+pubinfoFileName);
                 //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
-                MigrationHelpers.outputOneModel(m, baseName, outfileName, "work");
+                MigrationHelpers.outputOneModel(m, baseName, workOutFileName, "work");
                 return;
             }
             d = MigrationHelpers.documentFromFileName(pubinfoFileName);
@@ -172,11 +215,12 @@ public class MigrationApp
             //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
             for (Entry<String,Model> e : itemModels.entrySet()){
                 //iterate over the pairs
-                MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), OUTPUT_DIR+ITEMS+"/"+e.getKey()+".ttl", "item");
+                MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), getDstFileName("item", e.getKey()), "item");
             }
-            MigrationHelpers.outputOneModel(m, baseName, outfileName, "work");
+            MigrationHelpers.outputOneModel(m, baseName, workOutFileName, "work");
             break;
         default:
+            String outfileName = getDstFileName(type, baseName);
             Model defaultM = MigrationHelpers.getModelFromFile(file.getAbsolutePath(), type, fileName);
             MigrationHelpers.outputOneModel(defaultM, baseName, outfileName, type);
             break;
@@ -184,13 +228,18 @@ public class MigrationApp
     }
     
     public static void migrateType(String type, String mustStartWith) {
-        if (type.equals("outline"))
+        switch (type) {
+        case "outline":
+        case "scanrequest":
             GitHelpers.ensureGitRepo("works");
-        else if (type.equals("work")) {
+            break;
+        case "work":
             GitHelpers.ensureGitRepo("works");
             GitHelpers.ensureGitRepo("items");
-        } else {
+            break;
+        default:
             GitHelpers.ensureGitRepo(type+'s');
+            break;
         }
         SymetricNormalization.knownTriples = new HashMap<>();
         SymetricNormalization.triplesToAdd = new HashMap<>();
@@ -240,7 +289,7 @@ public class MigrationApp
         }
     }
     
-    public static void main( String[] args )
+    public static void main( String[] args ) throws NoSuchAlgorithmException
     {
         boolean oneDirection = false;
         boolean manyOverOne = false;
@@ -279,11 +328,13 @@ public class MigrationApp
             if (arg.equals("-commitMessage")) {
                 commitMessage = args[i+1];
             }
-		    if (arg.equals("-writefiles")) {
-		        MigrationHelpers.writefiles = true;
-		    }
+            if (arg.equals("-writefiles")) {
+                MigrationHelpers.writefiles = true;
+            }
 		}
-		
+
+		md = MessageDigest.getInstance("MD5");
+
 		if (MigrationHelpers.usecouchdb)
 		    System.out.println("sending JSON documents to CouchDB");
 		if (MigrationHelpers.usecouchdb)
@@ -299,7 +350,7 @@ public class MigrationApp
         if (!theDir.exists()) {
             firstMigration = true;
         }
-        GitHelpers.createDirIfNotExists(OUTPUT_DIR);
+        createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
 //        MigrationHelpers.usecouchdb = true;
 //        migrateOneFile(new File(DATA_DIR+"tbrc-persons/P1KG16739.xml"), "person", "P");

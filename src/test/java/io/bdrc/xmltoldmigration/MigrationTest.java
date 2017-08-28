@@ -17,6 +17,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.validation.Validator;
@@ -32,11 +34,12 @@ public class MigrationTest
 	public static final EwtsConverter converter = new EwtsConverter();
 	
 	@BeforeClass
-	public static void init() {
+	public static void init() throws NoSuchAlgorithmException {
 	    MigrationHelpers.usecouchdb = false;
 		ontology = MigrationHelpers.ontologymodel;
 		SymetricNormalization.normalizeOneDirection(true, false);
 		WorkMigration.splitItems = false;
+		MigrationApp.md = MessageDigest.getInstance("MD5");
 	}
 	
    @AfterClass

@@ -26,44 +26,31 @@ public class GitHelpers {
             "!*.ttl\n" + 
             "";
     
-    public static void createDirIfNotExists(String dir) {
-        File theDir = new File(dir);
-        if (!theDir.exists()) {
-            System.out.println("creating directory: " + dir);
-            try{
-                theDir.mkdir();
-            } 
-            catch(SecurityException se){
-                System.err.println("could not create directory, please fasten your seat belt");
-            }        
-        }
-    }
-    
     public static Map<String,Repository> typeRepo = new HashMap<>();
     
     public static void ensureGitRepo(String type) {
         if (typeRepo.containsKey(type))
             return;
         String dirpath = MigrationApp.OUTPUT_DIR+type;
-        createDirIfNotExists(dirpath);
-        FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        File dir = new File(dirpath);
-        try {
-            Repository repository = builder.setGitDir(dir)
-              .readEnvironment() // scan environment GIT_* variables
-              .findGitDir() // scan up the file system tree
-              .build();
-            if (!repository.getObjectDatabase().exists()) {
-                System.out.println("create git repository in "+dirpath);
-                repository.create();
-                PrintWriter out = new PrintWriter(dirpath+".gitignore");
-                out.println(gitignore);
-                out.close();
-            }
-            typeRepo.put(type, repository);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        MigrationApp.createDirIfNotExists(dirpath);
+//        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+//        File dir = new File(dirpath);
+//        try {
+//            Repository repository = builder.setGitDir(dir)
+//              .readEnvironment() // scan environment GIT_* variables
+//              .findGitDir() // scan up the file system tree
+//              .build();
+//            if (!repository.getObjectDatabase().exists()) {
+//                System.out.println("create git repository in "+dirpath);
+//                repository.create();
+//                PrintWriter out = new PrintWriter(dirpath+".gitignore");
+//                out.println(gitignore);
+//                out.close();
+//            }
+//            typeRepo.put(type, repository);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
     
     public static Set<String> getChanges(String type) {

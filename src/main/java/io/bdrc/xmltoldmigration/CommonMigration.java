@@ -690,7 +690,6 @@ public class CommonMigration  {
                 String nextTitle = null;
                 if (l == null) continue;
                 if (main.getLocalName().contains("FPL") && l.getLanguage().equals("pi-x-iast") && l.getString().contains("--")) {
-                    String curName = l.getString();
                     String[] split = l.getString().split("--");
                     if (!split[1].isEmpty()) {
                         nextTitle = split[1];
