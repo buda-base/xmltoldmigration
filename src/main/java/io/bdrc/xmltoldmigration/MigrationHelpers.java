@@ -223,11 +223,14 @@ public class MigrationHelpers {
         predicatesPrio.add(CommonMigration.BDO+"noteText");
         predicatesPrio.add(CommonMigration.BDO+"noteWork");
         predicatesPrio.add(CommonMigration.BDO+"noteLocationStatement");
+        predicatesPrio.add(CommonMigration.BDO+"volumeNumber");
+        predicatesPrio.add(CommonMigration.BDO+"workSitePlace");
         ctx = new Context();
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsPriorities"), nsPrio);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "complexPredicatesPriorities"), predicatesPrio);
-        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "indentBase"), 3);
+        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "indentBase"), 4);
+        ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "predicateBaseWidth"), 18);
     }
     
 	public static void writeLogsTo(PrintWriter w) {
