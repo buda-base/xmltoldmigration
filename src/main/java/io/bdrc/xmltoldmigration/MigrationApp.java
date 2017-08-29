@@ -198,9 +198,11 @@ public class MigrationApp
                     if (imageGroupWork.containsKey(imagegroup)) {
                         final String oldvalue = imageGroupWork.get(imagegroup);
                         final String indicatedWork = ImagegroupMigration.getVolumeOf(d);
+                        //final boolean hasOnDisk = ImagegroupMigration.getOnDisk(d);
                         final String exceptionMessage = "is referrenced in both ["+oldvalue+"](https://www.tbrc.org/#!rid="+oldvalue+") and ["+baseName+"](https://www.tbrc.org/#!rid="+baseName+") (indicates "+indicatedWork+")";
+                        //System.out.println(imagegroup+","+oldvalue+","+baseName+","+indicatedWork+","+(hasOnDisk?"true":"false"));
                         ExceptionHelper.logException(ExceptionHelper.ET_IMAGEGROUP, imagegroup, imagegroup, exceptionMessage);
-                        return;
+                        continue;
                     } else {
                         imageGroupWork.put(imagegroup, baseName);
                     }
@@ -242,14 +244,14 @@ public class MigrationApp
         switch (type) {
         case "outline":
         case "scanrequest":
-            GitHelpers.ensureGitRepo("works");
+            GitHelpers.ensureGitRepo("work");
             break;
         case "work":
-            GitHelpers.ensureGitRepo("works");
-            GitHelpers.ensureGitRepo("items");
+            GitHelpers.ensureGitRepo("work");
+            GitHelpers.ensureGitRepo("item");
             break;
         default:
-            GitHelpers.ensureGitRepo(type+'s');
+            GitHelpers.ensureGitRepo(type);
             break;
         }
         SymetricNormalization.knownTriples = new HashMap<>();
@@ -286,15 +288,33 @@ public class MigrationApp
             System.out.println("recorded "+PersonMigration.placeEvents.size()+" events to migrate to places");
     }
     
-    public static void finishType(String type) {
-        if (firstMigration)
-            return;
-        Set<String> modifiedFiles = GitHelpers.getChanges(type);
-        System.out.println(modifiedFiles.size()+" "+type+"s changed");
-        // TODO: send each to couchDB and commit
+    public static void sendChangesToCouch(Set<String> modifiedFiles, String type) {
+        System.out.println("sending to CouchDB");
+        for (String modifiedFile : modifiedFiles) {
+            String mainId = modifiedFile;
+            int slashIdx = mainId.lastIndexOf('/');
+            if (slashIdx != -1)
+                mainId = mainId.substring(slashIdx+1, mainId.length());
+            mainId = mainId.substring(0, mainId.length()-4);
+            modifiedFile = OUTPUT_DIR+type+"s/"+modifiedFile;
+            MigrationHelpers.sendTTLToCouchDB(modifiedFile, type, mainId);
+        }
     }
     
-    public static void finishType() {
+    public static void finishType(String type) {
+        Set<String> modifiedFiles = GitHelpers.getChanges(type);
+        if (modifiedFiles == null)
+            return;
+        System.out.println(modifiedFiles.size()+" "+type+"s changed");
+        if (MigrationHelpers.usecouchdb)
+            sendChangesToCouch(modifiedFiles, type);
+        GitHelpers.commitChanges(type, commitMessage);
+    }
+    
+    public static void finishTypes() {
+        if (firstMigration)
+            return;
+        System.out.println("sending modified files to CouchDB");
         List<String> types = Arrays.asList("work", "item", "place", "person", "product", "corporation", "office", "lineage", "topic");
         for (String type : types) {
             finishType(type);
@@ -360,6 +380,7 @@ public class MigrationApp
 
         File theDir = new File(OUTPUT_DIR);
         if (!theDir.exists()) {
+            System.out.println("considering that this is the first migration");
             firstMigration = true;
         }
         createDirIfNotExists(OUTPUT_DIR);
@@ -374,9 +395,9 @@ public class MigrationApp
         migrateType(CORPORATION, "C");
         migrateType(LINEAGE, "L");
         migrateType(TOPIC, "T");
-////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W2046.xml"), "work", "W");
-////        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O00EGS103132.xml"), "outline", "O");
-////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
+////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W3CN570.xml"), "work", "W");
+//////        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O00EGS103132.xml"), "outline", "O");
+//////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
         migrateType(PRODUCT, "PR");
@@ -385,6 +406,7 @@ public class MigrationApp
         long fileMigrationEndTime = System.currentTimeMillis();
     	long estimatedTime = fileMigrationEndTime - startTime;
     	System.out.println("symetry triple changes: +"+SymetricNormalization.addedTriples+"/-"+SymetricNormalization.removedTriples);
+    	finishTypes();
     	System.out.println("done in "+estimatedTime+" ms");
     }
 }

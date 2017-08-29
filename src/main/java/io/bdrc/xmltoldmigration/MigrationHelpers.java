@@ -225,6 +225,7 @@ public class MigrationHelpers {
         predicatesPrio.add(CommonMigration.BDO+"noteLocationStatement");
         predicatesPrio.add(CommonMigration.BDO+"volumeNumber");
         predicatesPrio.add(CommonMigration.BDO+"workSitePlace");
+        predicatesPrio.add(CommonMigration.BDO+"lineageWho");
         ctx = new Context();
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsPriorities"), nsPrio);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);
@@ -455,7 +456,7 @@ public class MigrationHelpers {
 		    // workaround for https://github.com/jsonld-java/jsonld-java/issues/199
 		    RDFParserBuilder pb = RDFParser.create()
 		             .source(fname)
-		             .lang(RDFLanguages.JSONLD);
+		             .lang(RDFLanguages.TTL);
 		             //.canonicalLiterals(true);
 		    pb.parse(StreamRDFLib.graph(g));
 		} catch (RiotException e) {
@@ -483,6 +484,12 @@ public class MigrationHelpers {
             e.printStackTrace();
         }
 	}
+	
+    public static void sendTTLToCouchDB(String fileName, String type, String mainId) {
+        Model m = modelFromFileName(fileName);
+        Map<String,Object> jsonObject = modelToJsonObject(m, type, mainId);
+        jsonObjectToCouch(jsonObject, mainId, type);
+    }
 	
 	public static Model xmlToRdf(Document d, String type) {
 		Model m = null;
@@ -539,6 +546,7 @@ public class MigrationHelpers {
 	    return res;
 	}
 	
+	// model from XML
 	public static Model getModelFromFile(String src, String type, String fileName) {
 	    Document d = documentFromFileName(src);
 	    if (checkagainstXsd) {

@@ -42,6 +42,19 @@ public class ImagegroupMigration {
         }
         return volumeOf;
 	}
+
+    public static boolean getOnDisk(Document d) {
+        // adding the ondisk/onDisk description as vol:imageList
+        Element root = d.getDocumentElement();
+        NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "description");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String type = current.getAttribute("type").trim();
+            if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
+            return true;
+        }
+        return false;
+    }
 	
 	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource item, String volumeName, String volumeNumber, String volumesName) {
 		

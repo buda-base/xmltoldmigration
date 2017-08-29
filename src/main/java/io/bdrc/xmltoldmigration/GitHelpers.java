@@ -31,7 +31,7 @@ public class GitHelpers {
     public static void ensureGitRepo(String type) {
         if (typeRepo.containsKey(type))
             return;
-        String dirpath = MigrationApp.OUTPUT_DIR+type;
+        String dirpath = MigrationApp.OUTPUT_DIR+type+'s';
         MigrationApp.createDirIfNotExists(dirpath);
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
         File gitDir = new File(dirpath+"/.git");
@@ -56,7 +56,10 @@ public class GitHelpers {
     }
     
     public static Set<String> getChanges(String type) {
-        Git git = new Git(typeRepo.get(type));
+        Repository r = typeRepo.get(type); 
+        if (r == null)
+            return null;
+        Git git = new Git(r);
         Status status;
         Set<String> res = new HashSet<>();
         try {
@@ -70,6 +73,20 @@ public class GitHelpers {
         res.addAll(status.getAdded());
         git.close();
         return res;
+    }
+
+    public static void commitChanges(String type, String commitMessage) {
+        Repository r = typeRepo.get(type); 
+        if (r == null)
+            return;
+        Git git = new Git(r);
+        try {
+            git.add().addFilepattern(".").call();
+            git.commit().setMessage(commitMessage).call();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+        git.close();
     }
     
 }
