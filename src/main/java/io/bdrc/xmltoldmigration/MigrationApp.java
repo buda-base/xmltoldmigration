@@ -203,9 +203,8 @@ public class MigrationApp
                         //System.out.println(imagegroup+","+oldvalue+","+baseName+","+indicatedWork+","+(hasOnDisk?"true":"false"));
                         ExceptionHelper.logException(ExceptionHelper.ET_IMAGEGROUP, imagegroup, imagegroup, exceptionMessage);
                         continue;
-                    } else {
-                        imageGroupWork.put(imagegroup, baseName);
                     }
+                    imageGroupWork.put(imagegroup, baseName);
                     ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getValue(), itemName);
                 }
                 String itemOutfileName = getDstFileName("item", itemName);

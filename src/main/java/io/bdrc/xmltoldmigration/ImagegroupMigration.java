@@ -1,5 +1,9 @@
 package io.bdrc.xmltoldmigration;
 
+import java.math.BigInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -18,6 +22,53 @@ public class ImagegroupMigration {
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
 
+    private static Pattern imageP = Pattern.compile("^(.+)(\\d{4})(\\..+)$");
+    private static Pattern basicP = Pattern.compile("[^|]+");
+    public static String getImageListString(String src, String mainId, String volNum) {
+        Matcher basicM = basicP.matcher(src);
+        String prefix = "";
+        String suffix = "";
+        int i = -1;
+        boolean first = true;
+        StringBuilder dst = new StringBuilder();
+        String lastOkInSeq = null;
+        while (basicM.find()) {
+            Matcher m = imageP.matcher(basicM.group(0));
+            if (!m.find()) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, "volume"+volNum, "cannot understand image string "+basicM.group(0));
+                if (lastOkInSeq != null)
+                    dst.append("--"+lastOkInSeq);
+                if (!first)
+                    dst.append("|");
+                dst.append(basicM.group(0));
+                prefix = "";
+                i = -1;
+                suffix = "";
+                lastOkInSeq = null;
+                first = false;
+                continue;
+            }
+            final int newInt = Integer.parseInt(m.group(2));
+            if (!m.group(1).equals(prefix) || !m.group(3).equals(suffix) || newInt != i+1) {
+                if (lastOkInSeq != null)
+                    dst.append("--"+lastOkInSeq);
+                if (!first)
+                    dst.append("|");
+                dst.append(m.group(0));
+                prefix = m.group(1);
+                i = newInt;
+                suffix = m.group(3);
+                lastOkInSeq = null;
+            } else {
+                i = i +1;
+                lastOkInSeq = m.group(0);
+            }
+            first = false;
+        }
+        if (lastOkInSeq != null)
+            dst.append("--"+lastOkInSeq);
+        return dst.toString();
+    }
 	
 	// for testing purposes only
 	public static Model MigrateImagegroup(Document xmlDocument) {
@@ -85,7 +136,8 @@ public class ImagegroupMigration {
             Element current = (Element) nodeList.item(i);
             String type = current.getAttribute("type").trim();
             if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
-            Literal value = m.createLiteral(current.getTextContent().trim()); 
+            String val = getImageListString(current.getTextContent().trim(), item.getLocalName(), volumeNumber);
+            Literal value = m.createLiteral(val);
             m.add(main, m.getProperty(BDO+"volumeImageList"), value);
         }
 		
