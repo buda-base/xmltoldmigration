@@ -63,7 +63,6 @@ public class ExceptionHelper {
     public static void logException(int type, String RID, String subRID, String propIndication, String error) {
         //System.out.println(error);
         FileWriter f = getFileWriter(type);
-        String subRIDStr = (subRID == null) ? "" : "|"+subRID;
         try {
             f.write("- [ ] ["+subRID+"]("+getUri(type, RID, subRID)+") ");
             f.write("on property `"+propIndication+"`:"+error+"\n");
@@ -75,9 +74,19 @@ public class ExceptionHelper {
     public static void logException(int type, String RID, String subRID, String rawError) {
         //System.out.println(error);
         FileWriter f = getFileWriter(type);
-        String subRIDStr = (subRID == null) ? "" : "|"+subRID;
         try {
             f.write("- [ ] ["+subRID+"]("+getUri(type, RID, subRID)+") "+rawError+"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void logOutlineException(int type, String workRID, String outlineRID, String nodeRID, String rawError) {
+        //System.out.println(error);
+        FileWriter f = getFileWriter(type);
+        try {
+            f.write("- [ ] ["+nodeRID+"]("+getUri(type, workRID, nodeRID)+") in "+outlineRID+" "+rawError+"\n");
+            //f.write("- [ ] ["+outlineRID+"]("+getUri(ET_GEN, workRID, workRID)+") "+rawError+"\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

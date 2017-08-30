@@ -168,9 +168,10 @@ public class OutlineMigration {
 		curNodeInt.i = 0;
 		Resource mainOutline = null;
 		String value;
+		String legacyOutlineRID = root.getAttribute("RID");
 
         mainOutline = m.createResource();
-        mainOutline.addProperty(m.getProperty(ADM, "workLegacyNode"), root.getAttribute("RID"));
+        mainOutline.addProperty(m.getProperty(ADM, "workLegacyNode"), legacyOutlineRID);
         mainOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
         workInOutlineModel.addProperty(m.getProperty(ADM, "outline"), mainOutline);
         NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
@@ -199,11 +200,11 @@ public class OutlineMigration {
 		CommonMigration.addExternals(m, root, mainOutline, OXSDNS);
 		CommonMigration.addLog(m, root, mainOutline, OXSDNS);
 		CommonMigration.addDescriptions(m, root, mainOutline, OXSDNS);
-		CommonMigration.addLocations(m, mainOutline, root, OXSDNS, work.getLocalName());
+		CommonMigration.addLocations(m, mainOutline, root, OXSDNS, work.getLocalName(), legacyOutlineRID, legacyOutlineRID);
 		
 		addCreators(m, mainOutline, root);
 		
-		addNodes(m, work, root, work.getLocalName(), curNodeInt, null, null);
+		addNodes(m, work, root, work.getLocalName(), curNodeInt, null, null, legacyOutlineRID);
 		
 		return m;
 	}
@@ -220,8 +221,8 @@ public class OutlineMigration {
         }
 	}
 	
-	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, CommonMigration.
-LocationVolPage previousLocVP) {
+	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
+LocationVolPage previousLocVP, String legacyOutlineRID) {
 	    curNode.i = curNode.i+1;
 	    String value = String.format("%04d", curNode.i);	    
         Resource node = m.createResource(BDR+workId+"_"+value);
@@ -256,14 +257,14 @@ LocationVolPage previousLocVP) {
         CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded);
         
         CommonMigration.LocationVolPage locVP =
-                CommonMigration.addLocations(m, node, e, OXSDNS, workId);
+                CommonMigration.addLocations(m, node, e, OXSDNS, workId, legacyOutlineRID, RID);
         if (locVP != null) locVP.RID = RID;
         
         // check if outlines cross
         if (locVP != null && previousLocVP != null) {
             if (previousLocVP.endVolNum > locVP.beginVolNum
                     || (previousLocVP.endVolNum == locVP.beginVolNum && previousLocVP.endPageNum > locVP.beginPageNum)) {
-                ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, RID, "starts (vol. "+locVP.beginVolNum+", p. "+locVP.beginPageNum+") before the end of previous node ["+
+                ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, "starts (vol. "+locVP.beginVolNum+", p. "+locVP.beginPageNum+") before the end of previous node ["+
                         previousLocVP.RID+"]("+ExceptionHelper.getUri(ExceptionHelper.ET_OUTLINE, workId, previousLocVP.RID)+") (vol. "+previousLocVP.endVolNum+", p. "+previousLocVP.endPageNum+")");
             }
         }
@@ -297,7 +298,10 @@ LocationVolPage previousLocVP) {
         addCreators(m, node, e);
         
         // sub nodes
-        addNodes(m, node, e, workId, curNode, locVP, RID);
+        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID);
+        
+        if (!hasChildren && (locVP == null))
+            ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, " has no page indication");
         
         return locVP;
         
@@ -305,17 +309,19 @@ LocationVolPage previousLocVP) {
 	
 
 	
-	public static void addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID) {
+	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID) {
 	    CommonMigration.LocationVolPage endLocVP = null;
+	    boolean res = false;
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
         for (int i = 0; i < nodeList.size(); i++) {
+            res = true;
             Element current = (Element) nodeList.get(i);
-            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP);
+            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID);
             if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {
                 // check if beginning of child node is before beginning of parent
                 if (parentLocVP.beginVolNum > endLocVP.beginVolNum
                         || (parentLocVP.beginVolNum == endLocVP.beginVolNum && parentLocVP.beginPageNum > endLocVP.beginPageNum)) {
-                    ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, endLocVP.RID, "starts (vol. "+endLocVP.beginVolNum+", p. "+endLocVP.beginPageNum+") before the beginning of parent node ["+
+                    ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, endLocVP.RID, "starts (vol. "+endLocVP.beginVolNum+", p. "+endLocVP.beginPageNum+") before the beginning of parent node ["+
                             parentLocVP.RID+"]("+ExceptionHelper.getUri(ExceptionHelper.ET_OUTLINE, workId, parentLocVP.RID)+") (vol. "+parentLocVP.endVolNum+", p. "+parentLocVP.endPageNum+")");
                 }
             }
@@ -324,10 +330,11 @@ LocationVolPage previousLocVP) {
             // check if beginning of child node is before beginning of parent
             if (parentLocVP.endVolNum < endLocVP.endVolNum
                     || (parentLocVP.endVolNum == endLocVP.endVolNum && parentLocVP.endPageNum < endLocVP.endPageNum)) {
-                ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, endLocVP.RID, "ends (vol. "+endLocVP.endVolNum+", p. "+endLocVP.endPageNum+") after the end of parent node ["+
+                ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, endLocVP.RID, "ends (vol. "+endLocVP.endVolNum+", p. "+endLocVP.endPageNum+") after the end of parent node ["+
                         parentLocVP.RID+"]("+ExceptionHelper.getUri(ExceptionHelper.ET_OUTLINE, workId, parentLocVP.RID)+") (vol. "+parentLocVP.endVolNum+", p. "+parentLocVP.endPageNum+")");
             }
         }
+        return res;
 	}
 
    public static void addSimpleAttr(String attrValue, String propUrl, Model m, Resource r) {

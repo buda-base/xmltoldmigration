@@ -762,7 +762,7 @@ public class CommonMigration  {
        }
        
        private static int addLocationIntOrString(Model m, Resource main, Resource loc, Element current, String attributeName, String propname, Integer doNotAddIfEquals) {
-           String value = current.getAttribute(attributeName).replaceAll(",$", "");
+           String value = current.getAttribute(attributeName).replaceAll(",$", "").trim();
            int res = -1;
            if (!value.isEmpty()) {
                try {
@@ -803,7 +803,7 @@ public class CommonMigration  {
            }
        }
        
-       public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId) {
+       public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId, String outlineId, String outlineNode) {
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
            int i;
            int volume1 = -1;
@@ -812,7 +812,7 @@ public class CommonMigration  {
            LocationVolPage res = null;
            for (i = 0; i < nodeList.size(); i++) {
                if (i > 1) {
-                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "too many locations, it should only have 2");
+                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, outlineId, outlineNode, "location", "too many locations, it should only have 2");
                    break;
                }
                Element current = (Element) nodeList.get(i);
@@ -825,11 +825,14 @@ public class CommonMigration  {
                    }    
                }
                
+               String value = current.getAttribute("work").trim();
                if (workId.isEmpty()) {
-                   String value = current.getAttribute("work");
-                   if (!value.isEmpty()) {
+                   if (!value.isEmpty())
                        m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
-                   }
+               } else if (!value.isEmpty() && !value.equals(workId)) {
+                   String error = "has locations in work "+value+" instead of "+workId;
+                   //System.out.println("- [ ] "+outlineId+" "+error);
+                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, outlineId, outlineNode, "location", error);
                }
                
                String endString = (i == 0) ? "" : "End";
@@ -845,20 +848,24 @@ public class CommonMigration  {
                }
                addLocationIntOrString(m, main, loc, current, "phrase", "workLocation"+endString+"Phrase", null);
                addLocationIntOrString(m, main, loc, current, "line", "workLocation"+endString+"Line", null);
-               
+
                if (i == 1 && page != -1) {
                    res = new LocationVolPage(volume1, page1, volume, page, null);
                }
                
-               String value = current.getAttribute("side");
+               value = current.getAttribute("side");
                if (!value.isEmpty())
                    m.add(loc, m.getProperty(BDO, "workLocation"+endString+"Side"), m.createLiteral(value));
                
            }
            // only add locations with statements
            StmtIterator locProps = loc.listProperties();
-           if (locProps.hasNext())
+           if (locProps.hasNext()) {
                m.add(main, m.getProperty(BDO, "workLocation"), loc);
+               // comment to remove workLocationWork in outline nodes
+               if (!workId.isEmpty())
+                   m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+workId));
+           }
            return res;
        }
        

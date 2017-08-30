@@ -35,8 +35,9 @@ bdr:W30020_0001  a      :Work ;
                           :workSiteType       bdr:WorkSiteTypeVolume
                         ] ;
     :workIsAbout        bdr:T208 ;
-    :workLocation       [ :workLocationVolume
-              1 ] ;
+    :workLocation       [ :workLocationVolume  1 ;
+                          :workLocationWork   bdr:W30020
+                        ] ;
     :workPartOf         bdr:W30020 ;
     adm:workLegacyNode  "O2DB875722DB87582" .
 
@@ -45,7 +46,8 @@ bdr:W30020_0002  a      :Work ;
     :workKaTenSiglaG    "test broken property type" ;
     :workLocation       [ :workLocationEndPage  18 ;
                           :workLocationPage   11 ;
-                          :workLocationVolume  1
+                          :workLocationVolume  1 ;
+                          :workLocationWork   bdr:W30020
                         ] ;
     :workPartOf         bdr:W30020_0001 ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
@@ -58,7 +60,8 @@ bdr:W30020_0003  a      :Work ;
     skos:prefLabel      "2 (smad cha)"@bo-x-ewts ;
     :workLocation       [ :workLocationEndPage  24 ;
                           :workLocationPage   12 ;
-                          :workLocationVolume  2
+                          :workLocationVolume  2 ;
+                          :workLocationWork   bdr:W30020
                         ] ;
     :workPartOf         bdr:W30020 ;
     adm:workLegacyNode  "O2DB875722DB87583" .
@@ -67,7 +70,8 @@ bdr:W30020_0004  a      :Work ;
     skos:prefLabel      "gleng gzhi/"@bo-x-ewts ;
     :workLocation       [ :workLocationEndPage  18 ;
                           :workLocationPage   11 ;
-                          :workLocationVolume  2
+                          :workLocationVolume  2 ;
+                          :workLocationWork   bdr:W30020
                         ] ;
     :workPartOf         bdr:W30020_0003 ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
@@ -79,7 +83,8 @@ bdr:W30020_0005  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
     :workLocation       [ :workLocationEndPage  25 ;
                           :workLocationPage   17 ;
-                          :workLocationVolume  2
+                          :workLocationVolume  2 ;
+                          :workLocationWork   bdr:W30020
                         ] ;
     :workPartOf         bdr:W30020_0003 ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;

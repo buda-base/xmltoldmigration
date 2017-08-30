@@ -395,7 +395,7 @@ public class MigrationApp
         migrateType(LINEAGE, "L");
         migrateType(TOPIC, "T");
 ////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W3CN570.xml"), "work", "W");
-//////        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O00EGS103132.xml"), "outline", "O");
+//        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
 //////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
@@ -405,7 +405,7 @@ public class MigrationApp
         long fileMigrationEndTime = System.currentTimeMillis();
     	long estimatedTime = fileMigrationEndTime - startTime;
     	System.out.println("symetry triple changes: +"+SymetricNormalization.addedTriples+"/-"+SymetricNormalization.removedTriples);
-    	finishTypes();
+    	//finishTypes();
     	System.out.println("done in "+estimatedTime+" ms");
     }
 }
