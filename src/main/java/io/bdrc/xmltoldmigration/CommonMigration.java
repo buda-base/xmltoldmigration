@@ -23,6 +23,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
@@ -821,13 +822,14 @@ public class CommonMigration  {
                    String value = current.getAttribute("type");
                    if (value.equals("folio")) {
                        loc.addProperty(m.getProperty(BDO, "workLocationByFolio"), m.createTypedLiteral(true));
-                   }
-                   m.add(main, m.getProperty(BDO, "workLocation"), loc);    
+                   }    
                }
                
-               String value = current.getAttribute("work");
-               if (!value.isEmpty()) {
-                   m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
+               if (workId.isEmpty()) {
+                   String value = current.getAttribute("work");
+                   if (!value.isEmpty()) {
+                       m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
+                   }
                }
                
                String endString = (i == 0) ? "" : "End";
@@ -848,11 +850,15 @@ public class CommonMigration  {
                    res = new LocationVolPage(volume1, page1, volume, page, null);
                }
                
-               value = current.getAttribute("side");
+               String value = current.getAttribute("side");
                if (!value.isEmpty())
                    m.add(loc, m.getProperty(BDO, "workLocation"+endString+"Side"), m.createLiteral(value));
                
            }
+           // only add locations with statements
+           StmtIterator locProps = loc.listProperties();
+           if (locProps.hasNext())
+               m.add(main, m.getProperty(BDO, "workLocation"), loc);
            return res;
        }
        
