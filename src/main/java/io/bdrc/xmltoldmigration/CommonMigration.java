@@ -234,6 +234,8 @@ public class CommonMigration  {
 	public static String getDescriptionUriFromType(String type) {
 	    String res = normalizePropName(type, "description");
 	       switch (res) {
+	        case "note":                  return BDO+"note";
+	        case "notes":                 return BDO+"note";
 	        case "chapter":               return BDO+"work_desc_chapters";
 	        case "chapters":              return BDO+"work_desc_chapters";
 	        case "content":               return RDFS_PREFIX+"comment";
@@ -299,6 +301,8 @@ public class CommonMigration  {
 	        case "ondisk":
 	        case "onDisk":
 	        case "dld":
+	        case "icon":
+	        case "text": // TODO: migrate? how? https://github.com/BuddhistDigitalResourceCenter/xmltoldmigration/issues/22
 	        case "dpl480":
 	        case "featured":
 	            return "__ignore";
@@ -557,7 +561,8 @@ public class CommonMigration  {
 			String value = current.getTextContent().trim();
 			if (value.isEmpty()) continue;
 			String type = current.getAttribute("type").trim();
-	        if (type.isEmpty()) type = "noType";
+	        if (type.isEmpty())
+	            type = "noType";
 	        Literal l;
 	        // we add some spaghettis for the case of R8LS13081 which has no description type
 	        // but needs to be added as label

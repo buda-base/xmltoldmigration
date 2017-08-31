@@ -499,6 +499,9 @@ If the data attribute is present the web-client will use it to display a link th
 			<xsd:enumeration value="location"/>
 			<xsd:enumeration value="incipit"/>
 			<xsd:enumeration value="note"/>
+			<xsd:enumeration value="notes"/>
+			<xsd:enumeration value="text"/>
+			<xsd:enumeration value="icon"/>
 			<xsd:enumeration value="bon bka' 'gyur number"/>
 			<xsd:enumeration value="SheyNumber"/>
 			<xsd:enumeration value="rKTsReference"/>

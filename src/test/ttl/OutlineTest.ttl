@@ -68,6 +68,7 @@ bdr:W30020_0003  a      :Work ;
 
 bdr:W30020_0004  a      :Work ;
     skos:prefLabel      "gleng gzhi/"@bo-x-ewts ;
+    :note               "p. 1 (1st group)" ;
     :workLocation       [ :workLocationEndPage  18 ;
                           :workLocationPage   11 ;
                           :workLocationVolume  2 ;
@@ -81,6 +82,7 @@ bdr:W30020_0004  a      :Work ;
 
 bdr:W30020_0005  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :note               "p. 1 (1st group)" ;
     :workLocation       [ :workLocationEndPage  25 ;
                           :workLocationPage   17 ;
                           :workLocationVolume  2 ;
