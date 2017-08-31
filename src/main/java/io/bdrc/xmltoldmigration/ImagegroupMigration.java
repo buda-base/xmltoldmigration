@@ -31,42 +31,42 @@ public class ImagegroupMigration {
         int i = -1;
         boolean first = true;
         StringBuilder dst = new StringBuilder();
-        String lastOkInSeq = null;
+        int lastOkInSeq = -1;
         while (basicM.find()) {
             Matcher m = imageP.matcher(basicM.group(0));
             if (!m.find()) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, "volume"+volNum, "cannot understand image string "+basicM.group(0));
-                if (lastOkInSeq != null)
-                    dst.append("--"+lastOkInSeq);
+                if (lastOkInSeq != -1)
+                    dst.append(":"+lastOkInSeq);
                 if (!first)
                     dst.append("|");
                 dst.append(basicM.group(0));
                 prefix = "";
                 i = -1;
                 suffix = "";
-                lastOkInSeq = null;
+                lastOkInSeq = -1;
                 first = false;
                 continue;
             }
             final int newInt = Integer.parseInt(m.group(2));
             if (!m.group(1).equals(prefix) || !m.group(3).equals(suffix) || newInt != i+1) {
-                if (lastOkInSeq != null)
-                    dst.append("--"+lastOkInSeq);
+                if (lastOkInSeq != -1)
+                    dst.append(":"+lastOkInSeq);
                 if (!first)
                     dst.append("|");
                 dst.append(m.group(0));
                 prefix = m.group(1);
                 i = newInt;
                 suffix = m.group(3);
-                lastOkInSeq = null;
+                lastOkInSeq = -1;
             } else {
                 i = i +1;
-                lastOkInSeq = m.group(0);
+                lastOkInSeq = newInt;
             }
             first = false;
         }
-        if (lastOkInSeq != null)
-            dst.append("--"+lastOkInSeq);
+        if (lastOkInSeq != -1)
+            dst.append(":"+lastOkInSeq);
         return dst.toString();
     }
 	
