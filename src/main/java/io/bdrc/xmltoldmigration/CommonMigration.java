@@ -1127,7 +1127,13 @@ public class CommonMigration  {
 	            List<String> conversionWarnings = new ArrayList<String>();
 	            converter.toUnicode(value, conversionWarnings, true);
 	            if (conversionWarnings.size() > 0) {
-	                ExceptionHelper.logEwtsException(RID, subRID, propertyHint, value, conversionWarnings);
+	                String fixed = EwtsFixer.getFixedStr(RID, value);
+	                if (fixed == null)
+	                    ExceptionHelper.logEwtsException(RID, subRID, propertyHint, value, conversionWarnings);
+	                else if ("LNG".equals(fixed))
+	                    tag = EwtsFixer.guessLang(value);
+	                else
+	                    value = fixed;
 	            }
 	        }
 	        return m.createLiteral(value, tag);
