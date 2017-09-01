@@ -60,10 +60,18 @@ public class MigrationApp
     private static final int hashNbChars = 2;
 
     public static OntModel ontology = null;
+    static {
+        init();
+    }
 
 
     public static void init() {
         ontology = MigrationHelpers.getOntologyModel();
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void createDirIfNotExists(String dir) {
@@ -92,7 +100,7 @@ public class MigrationApp
                 final byte[] bytesOfMessage = message.getBytes("UTF-8");
                 final byte[] hashBytes = md.digest(bytesOfMessage);
                 BigInteger bigInt = new BigInteger(1,hashBytes);
-                String hashtext = bigInt.toString(16).substring(0, hashNbChars);
+                String hashtext = String.format("%032x", bigInt).substring(0, hashNbChars);
                 res = res+hashtext.toString()+"/";
                 createDirIfNotExists(res);
             } catch (UnsupportedEncodingException e) {
@@ -363,8 +371,6 @@ public class MigrationApp
                 MigrationHelpers.writefiles = true;
             }
 		}
-
-		md = MessageDigest.getInstance("MD5");
 
 		if (MigrationHelpers.usecouchdb)
 		    System.out.println("sending JSON documents to CouchDB");
