@@ -23,6 +23,9 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.GitHelpers;
+import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
@@ -312,7 +315,6 @@ public class MigrationApp
                 mainId = mainId.substring(slashIdx+1, mainId.length());
             mainId = mainId.substring(0, mainId.length()-4);
             modifiedFile = OUTPUT_DIR+type+"s/"+modifiedFile;
-            MigrationHelpers.sendTTLToCouchDB(modifiedFile, type, mainId);
         }
     }
     
@@ -321,8 +323,6 @@ public class MigrationApp
         if (modifiedFiles == null)
             return;
         System.out.println(modifiedFiles.size()+" "+type+"s changed");
-        if (MigrationHelpers.usecouchdb)
-            sendChangesToCouch(modifiedFiles, type);
         GitHelpers.commitChanges(type, commitMessage);
     }
     
@@ -343,9 +343,7 @@ public class MigrationApp
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
 			if (arg.equals("-useCouchdb")) {
-				MigrationHelpers.usecouchdb = true;
 				MigrationHelpers.writefiles = true;
-				MigrationHelpers.initCouchdb();
 			}
             if (arg.equals("-preferManyOverOne=1")) {
                 manyOverOne = true;
@@ -375,20 +373,6 @@ public class MigrationApp
             if (arg.equals("-commitMessage")) {
                 commitMessage = args[i+1];
             }
-            if (arg.equals("-writefiles")) {
-                MigrationHelpers.writefiles = true;
-            }
-		}
-
-		if (MigrationHelpers.usecouchdb)
-		    System.out.println("sending JSON documents to CouchDB");
-		if (MigrationHelpers.usecouchdb)
-            System.out.println("writing files in "+OUTPUT_DIR);
-		if (!MigrationHelpers.usecouchdb && !MigrationHelpers.writefiles) {
-		    System.err.println("nothing to do, please pass -useCouchdb or -writefiles arguments");
-	        CommonMigration.speller.close();
-	        ExceptionHelper.closeAll();
-		    return;
 		}
 
         File theDir = new File(OUTPUT_DIR);

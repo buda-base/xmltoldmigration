@@ -10,7 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
 public class LineageMigration {

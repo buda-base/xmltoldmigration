@@ -1,4 +1,4 @@
-package io.bdrc.xmltoldmigration;
+package io.bdrc.xmltoldmigration.helpers;
 
 import java.util.ArrayList;
 import java.util.HashMap;

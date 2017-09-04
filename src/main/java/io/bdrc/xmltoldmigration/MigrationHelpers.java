@@ -11,33 +11,21 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
-
-import org.apache.jena.atlas.io.IO;
-import org.apache.jena.atlas.lib.Chars;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.Restriction;
-import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFFormat;
-import org.apache.jena.riot.RDFFormat.JSONLDVariant;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RDFParser;
 import org.apache.jena.riot.RDFParserBuilder;
@@ -45,22 +33,10 @@ import org.apache.jena.riot.RDFWriter;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.PrefixMapFactory;
-import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.riot.system.StreamRDFLib;
-import org.apache.jena.riot.writer.JsonLDWriter;
-import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import org.ektorp.CouchDbConnector;
-import org.ektorp.CouchDbInstance;
-import org.ektorp.DocumentNotFoundException;
-import org.ektorp.http.HttpClient;
-import org.ektorp.http.HttpResponse;
-import org.ektorp.http.StdHttpClient;
-import org.ektorp.impl.StdCouchDbConnector;
-import org.ektorp.impl.StdCouchDbInstance;
-
 import openllet.jena.PelletReasonerFactory;
 
 import org.w3c.dom.Document;
@@ -76,15 +52,10 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.jsonldjava.core.JsonLdError;
-import com.github.jsonldjava.core.JsonLdOptions;
-import com.github.jsonldjava.utils.JsonUtils;
-
 import io.bdrc.jena.sttl.CompareComplex;
 import io.bdrc.jena.sttl.ComparePredicates;
 import io.bdrc.jena.sttl.STTLWriter;
+import io.bdrc.xmltoldmigration.helpers.ContextGenerator;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.CorporationMigration;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
@@ -111,18 +82,10 @@ public class MigrationHelpers {
 	
 	public static Writer logWriter;
 	
-	public static HttpClient httpClient;
-	public static CouchDbInstance dbInstance;
-//	public static CouchDbConnector db = null;
-	
-	public static boolean usecouchdb = false;
 	public static boolean writefiles = false;
 	public static boolean checkagainstOwl = false;
 	public static boolean checkagainstXsd = false;
 	public static boolean deleteDbBeforeInsert = true;
-	
-	private static ObjectMapper objectMapper = new ObjectMapper();
-    private static final TypeReference<HashMap<String,Object>> hashMapTypeRef = new TypeReference<HashMap<String,Object>>() {};
 	
 	public static OntModel ontologymodelSimple = MigrationHelpers.getOntologyModel();
 	public static OntModel ontologymodel = MigrationHelpers.getInferredModel(ontologymodelSimple);
@@ -154,25 +117,6 @@ public class MigrationHelpers {
     
     public static Lang sttl;
     public static Context ctx;
-	
-    public static Hashtable<String, CouchDbConnector> dbs = new Hashtable<>();
-    
-    public static void putDB(String type) {
-        dbInstance.deleteDatabase(DB_PREFIX+type);
-        dbInstance.createDatabase(DB_PREFIX+type);
-        CouchDbConnector db = new StdCouchDbConnector(DB_PREFIX + type, dbInstance);
-        ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("design-jsonld.json");
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> jsonMap;
-        try {
-            jsonMap = mapper.readValue(inputStream, Map.class);
-            db.create(jsonMap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        dbs.put(type, db);
-    }
 
     static {
         ontologymodel = MigrationHelpers.getOntologyModel();
@@ -184,28 +128,6 @@ public class MigrationHelpers {
         }
 
         setupSTTL();
-    }
-
-    public static void initCouchdb() {
-        try {
-            httpClient = new StdHttpClient.Builder()
-                    .url("http://localhost:13598")
-                    .build();
-            dbInstance = new StdCouchDbInstance(httpClient);
-
-            putDB(CORPORATION);
-            putDB(LINEAGE);
-            putDB(OFFICE);
-            putDB(OUTLINE);
-            putDB(PERSON);
-            putDB(PLACE);
-            putDB(PRODUCT);
-            putDB(TOPIC);
-            putDB(ITEM);
-            putDB(WORK);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
     }
 	
     public static PrefixMap getPrefixMap() {
@@ -258,86 +180,6 @@ public class MigrationHelpers {
             e.printStackTrace();
         }
     }
-
-	public static Map<String,String> typeToRootShortUri = new HashMap<String,String>();
-	static {
-		typeToRootShortUri.put(PERSON, "Person");
-		typeToRootShortUri.put(WORK, "Work");
-		typeToRootShortUri.put(OUTLINE, "Work");
-		typeToRootShortUri.put(PLACE, "Place");
-		typeToRootShortUri.put(TOPIC, "Topic");
-		typeToRootShortUri.put(LINEAGE, "Lineage");
-		typeToRootShortUri.put(CORPORATION, "Corporation");
-		typeToRootShortUri.put(PRODUCT, "adm:Product");
-		typeToRootShortUri.put(ITEM, "ItemImageAsset");
-		typeToRootShortUri.put(OFFICE, "Role");
-    }
-	
-	public static Object getFrameObject(String type, String mainResourceName) {
-	    // for works, we frame by @id, for cases with outlines.
-	    if (!type.equals("work") && typeToFrameObject.containsKey(type))
-	        return typeToFrameObject.get(type);
-	    Map<String,Object> jsonObject = new HashMap<String,Object>();
-	    if (type.equals("work"))
-	        jsonObject.put("@id", CommonMigration.BDR+mainResourceName);
-	    else
-	        jsonObject.put("@type", typeToRootShortUri.get(type));
-	    jsonObject.put("@context", jsonldcontext);
-	    if (!type.equals("work"))
-	        typeToFrameObject.put(type, jsonObject);
-	    return jsonObject;
-	}
-	
-	 static class MigrationComparator implements Comparator<String>
-	 {
-	     public int compare(String s1, String s2)
-	     {
-	         if(s1.equals("adm:logEntry")) return 1;
-	         if(s2.equals("adm:logEntry")) return -1;
-	         if(s1.startsWith("adm:")) return 1;
-	         if(s1.startsWith("tbr:")) return 1;
-	         if(s2.startsWith("adm:")) return -1;
-             if(s2.startsWith("tbr:")) return -1;
-	         if(s1.equals("@context")) return 1;
-	         if(s1.equals("@graph")) return -1;
-	         if(s1.equals("rdfs:label")) return -1;
-	         if(s1.equals("skos:prefLabel")) return -1;
-	         if(s1.equals("skos:altLabel")) return -1;
-	         return s1.compareTo(s2);
-	     }
-	 }
-	
-	@SuppressWarnings("unchecked")
-    protected static void insertRec(String k, Object v, SortedMap<String,Object> tm) throws IllegalArgumentException {
-	    if (k.equals("@graph")) {
-	        if (v instanceof ArrayList) {
-	            if (((ArrayList<Object>) v).size() == 0) {
-	                tm.put(k,v);
-	                //throw new IllegalArgumentException("empty graph, shouldn't happen!");
-	                return;
-	            }
-	            Object o = ((ArrayList<Object>) v).get(0);
-	            if (o instanceof Map) {
-                    Map<String,Object> orderedo = orderEntries((Map<String,Object>) o);
-                    ((ArrayList<Object>) v).set(0, orderedo);
-	            }
-	            tm.put(k, v);
-	        } else {// supposing v instance of Map
-	            tm.put(k, orderEntries( (Map<String,Object>) v));
-	        }
-	    } else {
-	        tm.put(k, v);
-	    }
-	}
-	
-	// reorder list
-    protected static Map<String,Object> orderEntries(Map<String,Object> input) throws IllegalArgumentException
-    {
-        SortedMap<String,Object> res = new TreeMap<String,Object>(new MigrationComparator());
-        // TODO: maybe it should be recursive? at least for outlines...
-        input.forEach( (k,v) ->  insertRec(k, v, res) );
-        return res;
-    }
     
     public static String inputStreamToString(InputStream s) {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -359,85 +201,15 @@ public class MigrationHelpers {
             return null;
         }
     }
-    
-    public static void couchUpdateOrCreate(Map<String,Object> jsonObject, String documentName, String type) {
-        CouchDbConnector db = dbs.get(type);
-        if (db == null) {
-            System.err.println("cannot get couch connector for type "+type);
-            return;
-        }
-        jsonObject.put("_id", documentName);
-        try {
-            String uri = "/bdrc_"+type+"/_design/jsonld/_show/revOnly/" + documentName;
-            HttpResponse r = db.getConnection().get(uri);
-            InputStream stuff = r.getContent();
-            String result = inputStreamToString(stuff);
-            if (result.charAt(0) == '{') {
-                db.create(jsonObject);
-                return;
-            }
-            result = result.substring(1, result.length()-1);
-            jsonObject.put("_rev", result);
-            db.update(jsonObject);
-        } catch (DocumentNotFoundException e) {
-            db.create(jsonObject);
-        }
-    }
-    
-    public static void jsonObjectToCouch(Map<String,Object> jsonObject, String mainId, String type) {
-        String documentName = "bdr:"+mainId;
-        couchUpdateOrCreate(jsonObject, documentName, type);
-    }
-    
-    public static Map<String,Object> modelToJsonObject(Model m, String type, String mainResourceName) {
-        JsonLDWriteContext ctx = new JsonLDWriteContext();
-        JSONLDVariant variant;
-        Object frameObj = getFrameObject(type, mainResourceName);
-        ctx.setFrame(frameObj);
-        variant = (RDFFormat.JSONLDVariant) RDFFormat.JSONLD_FRAME_PRETTY.getVariant();
-        ctx.setJsonLDContext(jsonldcontext);
-        JsonLdOptions opts = new JsonLdOptions();
-        opts.setUseNativeTypes(true);
-        opts.setCompactArrays(true);
-        opts.setPruneBlankNodeIdentifiers(true);
-        ctx.setOptions(opts);
-        DatasetGraph g = DatasetFactory.create(m).asDatasetGraph();
-        PrefixMap pm = RiotLib.prefixMap(g);
-        String base = null;
-        Map<String,Object> tm;
-        try {
-            tm = (Map<String,Object>) JsonLDWriter.toJsonLDJavaAPI(variant, g, pm, base, ctx);
-            // replacing context with URI
-            tm.replace("@context", "http://purl.bdrc.io/context.jsonld");
-            tm = orderEntries(tm);
-        } catch (JsonLdError | IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return tm;
-    }
-    
-    public static void jsonObjectToOutputStream(Object jsonObject, OutputStream out) {
-        Writer wr = new OutputStreamWriter(out, Chars.charsetUTF8) ;
-        try {
-            JsonUtils.writePrettyPrint(wr, jsonObject) ;
-            wr.write("\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        IO.flush(wr) ;
-    }
-    
+
     public static void modelToOutputStream (Model m, OutputStream out, String type, int outputType, String mainResourceName) throws IllegalArgumentException {
 	    if (m==null) 
 	        throw new IllegalArgumentException("null model returned");
-	    if (out == null && !usecouchdb) return;
+	    if (out == null) return;
 	    if (outputType == OUTPUT_STTL) {
 	        RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
 	        return;
 	    }
-	    Map<String,Object> jsonObject = modelToJsonObject(m, type, mainResourceName);
-	    jsonObjectToOutputStream(jsonObject, out);
 	}
 	
 	public static boolean isSimilarTo(Model src, Model dst) {
@@ -497,12 +269,6 @@ public class MigrationHelpers {
             e.printStackTrace();
         }
 	}
-	
-    public static void sendTTLToCouchDB(String fileName, String type, String mainId) {
-        Model m = modelFromFileName(fileName);
-        Map<String,Object> jsonObject = modelToJsonObject(m, type, mainId);
-        jsonObjectToCouch(jsonObject, mainId, type);
-    }
 	
 	public static Model xmlToRdf(Document d, String type) {
 		Model m = null;
@@ -582,12 +348,6 @@ public class MigrationHelpers {
 	
 	public static void outputOneModel(Model m, String mainId, String dst, String type) {
 	    if (m == null) return;
-        if (usecouchdb && MigrationApp.firstMigration) {
-            Map<String,Object> o = modelToJsonObject(m, type, mainId);
-            if (o != null) {
-                jsonObjectToCouch(o, mainId, type);
-            }
-        }
         if (writefiles) {
             modelToFileName(m, dst, type, OUTPUT_STTL);
         }

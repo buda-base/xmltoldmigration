@@ -1,4 +1,4 @@
-package io.bdrc.xmltoldmigration;
+package io.bdrc.xmltoldmigration.helpers;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,9 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+
+import io.bdrc.xmltoldmigration.MigrationApp;
+
 import org.eclipse.jgit.api.Status;
 
 public class GitHelpers {

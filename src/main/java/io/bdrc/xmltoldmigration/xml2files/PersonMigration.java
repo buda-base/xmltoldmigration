@@ -13,8 +13,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.ExceptionHelper;
-import io.bdrc.xmltoldmigration.SymetricNormalization;
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
 
 public class PersonMigration {

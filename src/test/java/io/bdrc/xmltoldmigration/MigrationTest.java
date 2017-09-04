@@ -9,6 +9,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.github.jsonldjava.core.JsonLdError;
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
@@ -39,7 +41,6 @@ public class MigrationTest
 	
 	@BeforeClass
 	public static void init() throws NoSuchAlgorithmException {
-	    MigrationHelpers.usecouchdb = false;
 		ontology = MigrationHelpers.ontologymodel;
 		SymetricNormalization.normalizeOneDirection(true, false);
 		WorkMigration.splitItems = false;

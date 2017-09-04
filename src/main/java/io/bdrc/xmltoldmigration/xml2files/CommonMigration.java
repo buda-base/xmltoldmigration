@@ -36,9 +36,9 @@ import org.xml.sax.SAXException;
 import com.atlascopco.hunspell.Hunspell;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
-import io.bdrc.xmltoldmigration.EwtsFixer;
-import io.bdrc.xmltoldmigration.ExceptionHelper;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
+import io.bdrc.xmltoldmigration.helpers.EwtsFixer;
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {

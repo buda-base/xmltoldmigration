@@ -7,7 +7,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import io.bdrc.xmltoldmigration.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
 public class ScanrequestMigration {

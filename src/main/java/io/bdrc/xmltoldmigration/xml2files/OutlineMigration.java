@@ -11,13 +11,11 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.ExceptionHelper;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.LocationVolPage;
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
 public class OutlineMigration {

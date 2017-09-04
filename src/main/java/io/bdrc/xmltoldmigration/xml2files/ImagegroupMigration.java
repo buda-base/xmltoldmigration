@@ -1,6 +1,5 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
 public class ImagegroupMigration {
