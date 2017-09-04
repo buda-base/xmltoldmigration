@@ -7,6 +7,10 @@ import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
+import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
+
 public class SymetricNormalization {
 
     public static final String BDO = CommonMigration.BDO;

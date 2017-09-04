@@ -15,10 +15,12 @@ public class ExceptionHelper {
     public static final int ET_OUTLINE = 4;
     public static final int ET_MISSING = 5;
     public static final int ET_IMAGEGROUP = 6;
+    private static final int ET_EWTS_CSV = 100;
     
     public static final Map<Integer, String> logNames = new HashMap<Integer, String>();
     static {
         logNames.put(ET_EWTS, "errors-ewts.log");
+        logNames.put(ET_EWTS_CSV, "errors-ewts.csv");
         logNames.put(ET_LANG, "errors-lang.log");
         logNames.put(ET_DESC, "errors-desc.log");
         logNames.put(ET_GEN, "errors-gen.log");
@@ -104,5 +106,16 @@ public class ExceptionHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        f = getFileWriter(ET_EWTS_CSV);
+//        try {
+//            f.write("\""+RID+"\",");
+//            f.write("\""+original+"\",,\"");
+//            for (String warning : warnings) {
+//                f.write(warning.replace('"', '`').replace("line1: ", "")+",");
+//            }
+//            f.write("\"\n");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

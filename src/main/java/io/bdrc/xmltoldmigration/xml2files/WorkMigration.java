@@ -1,4 +1,4 @@
-package io.bdrc.xmltoldmigration;
+package io.bdrc.xmltoldmigration.xml2files;
 
 
 import java.util.ArrayList;
@@ -16,6 +16,9 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import io.bdrc.xmltoldmigration.ExceptionHelper;
+import io.bdrc.xmltoldmigration.SymetricNormalization;
 
 
 public class WorkMigration {

@@ -1,4 +1,4 @@
-package io.bdrc.xmltoldmigration;
+package io.bdrc.xmltoldmigration.xml2files;
 
 import java.util.List;
 import org.apache.jena.rdf.model.Model;

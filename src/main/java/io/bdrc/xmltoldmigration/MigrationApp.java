@@ -23,6 +23,14 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
+import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
+import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
+import io.bdrc.xmltoldmigration.xml2files.PubinfoMigration;
+import io.bdrc.xmltoldmigration.xml2files.ScanrequestMigration;
+import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
+
 /**
  * Hello world!
  *

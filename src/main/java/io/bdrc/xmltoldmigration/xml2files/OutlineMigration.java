@@ -1,4 +1,4 @@
-package io.bdrc.xmltoldmigration;
+package io.bdrc.xmltoldmigration.xml2files;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,10 +9,15 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import io.bdrc.xmltoldmigration.ExceptionHelper;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.LocationVolPage;
 
 
 public class OutlineMigration {
@@ -300,8 +305,14 @@ LocationVolPage previousLocVP, String legacyOutlineRID) {
         // sub nodes
         boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID);
         
-        if (!hasChildren && (locVP == null))
-            ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, " has no page indication");
+        if (!hasChildren && (locVP == null)) {
+            Statement labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
+            String label = null;
+            if (labelSta != null)
+                label = labelSta.getLiteral().getString();
+            ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, " has no page indication, title `"+
+                    label+"`");
+        }
         
         return locVP;
         

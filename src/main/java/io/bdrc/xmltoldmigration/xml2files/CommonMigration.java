@@ -1,4 +1,4 @@
-package io.bdrc.xmltoldmigration;
+package io.bdrc.xmltoldmigration.xml2files;
 
 import java.io.IOException;
 import java.text.Normalizer;
@@ -36,6 +36,9 @@ import org.xml.sax.SAXException;
 import com.atlascopco.hunspell.Hunspell;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
+import io.bdrc.xmltoldmigration.EwtsFixer;
+import io.bdrc.xmltoldmigration.ExceptionHelper;
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
@@ -1116,6 +1119,8 @@ public class CommonMigration  {
 	        String value = e.getTextContent();
 	        value = normalize ? normalizeString(value) : value.trim();
 	        if (value.isEmpty()) return null;
+	        if (value.indexOf('\ufffd') != -1)
+	            ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "string contains invalid replacement character: `"+value+"`");
 	        String tag = getBCP47(e, dflt, propertyHint, RID, subRID);
 	        if (tag.equals("bo") && !value.isEmpty()) {
 	            value = normalizeTibetan(value);

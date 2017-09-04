@@ -1,4 +1,4 @@
-package io.bdrc.xmltoldmigration;
+package io.bdrc.xmltoldmigration.xml2files;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -9,6 +9,10 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import io.bdrc.xmltoldmigration.ExceptionHelper;
+import io.bdrc.xmltoldmigration.SymetricNormalization;
+import io.bdrc.xmltoldmigration.xml2files.PersonMigration.FoundingEvent;
 
 
 public class PlaceMigration {
