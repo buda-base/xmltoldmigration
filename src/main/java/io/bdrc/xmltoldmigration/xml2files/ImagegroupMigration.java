@@ -37,13 +37,14 @@ public class ImagegroupMigration {
         StringBuilder dst = new StringBuilder();
         int lastOkInSeq = -1;
         List<String> missingPages = new ArrayList<>();
+        boolean hasSlash = false;
         while (basicM.find()) {
             if (basicM.group(0).indexOf('/') != -1)
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, "volume"+volNum, "string contains invalid character `/`: "+basicM.group(0));
+                hasSlash = true;
             total = total +1;
             Matcher m = imageP.matcher(basicM.group(0));
             if (!m.find()) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, "volume"+volNum, "cannot understand image string "+basicM.group(0));
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "cannot understand image string "+basicM.group(0));
                 if (lastOkInSeq != -1)
                     dst.append(":"+lastOkInSeq);
                 if (!first)
@@ -83,6 +84,8 @@ public class ImagegroupMigration {
         }
         if (lastOkInSeq != -1)
             dst.append(":"+lastOkInSeq);
+        if (hasSlash)
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "image list contains invalid character `/`");
         Literal value = model.createLiteral(dst.toString());
         model.add(main, model.getProperty(BDO+"volumeImageList"), value);
         model.add(main, model.getProperty(BDO+"volumeImageCount"), model.createTypedLiteral(total, XSDDatatype.XSDinteger));
@@ -133,7 +136,9 @@ public class ImagegroupMigration {
 		
 		Resource main = m.createResource();
 		
-		main.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(root.getAttribute("RID").trim()));
+		String imageGroupRID = root.getAttribute("RID").trim();
+		
+		main.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
         try {
             int intval = Integer.parseInt(volumeNumber);
@@ -156,7 +161,7 @@ public class ImagegroupMigration {
             Element current = (Element) nodeList.item(i);
             String type = current.getAttribute("type").trim();
             if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
-            addImageList(current.getTextContent().trim(), item.getLocalName(), volumeNumber, m, main);
+            addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, main);
         }
 		
         CommonMigration.addLog(m, root, item, IGXSDNS);
