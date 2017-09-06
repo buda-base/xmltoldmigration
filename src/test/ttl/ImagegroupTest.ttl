@@ -10,7 +10,9 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:TestItem  a         :ItemImageAsset ;
-    :itemHasVolume      [ :volumeImageList    "41580001.tif:54|41580055.jpg|41580056.tif:107|42580108.tif|41580109.tif:196|garbage|41580198.tif:251|41580253.tif:356" ;
+    :itemHasVolume      [ :volumeImageCount   355 ;
+                          :volumeImageList    "41580001.tif:54|41580055.jpg|41580056.tif:107|42580108.tif|41580109.tif:196|garbage|41580198.tif:251|41580253.tif:356" ;
+                          :volumeMissingImages  "252" ;
                           :volumeNumber       1 ;
                           :volumePagesIntro   0 ;
                           :volumePagesTbrcIntro  1 ;

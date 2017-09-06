@@ -1,5 +1,7 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,17 +25,22 @@ public class ImagegroupMigration {
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
 
-    private static Pattern imageP = Pattern.compile("^(.+)(\\d{4})(\\..+)$");
+    private static Pattern imageP = Pattern.compile("^(.+)(\\d{4})( ?\\..+)$");
     private static Pattern basicP = Pattern.compile("[^|]+");
-    public static String getImageListString(String src, String mainId, String volNum) {
+    public static void addImageList(String src, String mainId, String volNum, Model model, Resource main) {
         Matcher basicM = basicP.matcher(src);
         String prefix = "";
         String suffix = "";
         int i = -1;
+        int total = 0;
         boolean first = true;
         StringBuilder dst = new StringBuilder();
         int lastOkInSeq = -1;
+        List<String> missingPages = new ArrayList<>();
         while (basicM.find()) {
+            if (basicM.group(0).indexOf('/') != -1)
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, "volume"+volNum, "string contains invalid character `/`: "+basicM.group(0));
+            total = total +1;
             Matcher m = imageP.matcher(basicM.group(0));
             if (!m.find()) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, "volume"+volNum, "cannot understand image string "+basicM.group(0));
@@ -50,6 +57,14 @@ public class ImagegroupMigration {
                 continue;
             }
             final int newInt = Integer.parseInt(m.group(2));
+            if (i != -1 && newInt > i+1) {
+                int rangeB = i+1;
+                int rangeE = newInt-1;
+                if (rangeB == rangeE)
+                    missingPages.add(Integer.toString(rangeB));
+                else
+                    missingPages.add(rangeB+"-"+rangeE);
+            }
             if (!m.group(1).equals(prefix) || !m.group(3).equals(suffix) || newInt != i+1) {
                 if (lastOkInSeq != -1)
                     dst.append(":"+lastOkInSeq);
@@ -68,7 +83,11 @@ public class ImagegroupMigration {
         }
         if (lastOkInSeq != -1)
             dst.append(":"+lastOkInSeq);
-        return dst.toString();
+        Literal value = model.createLiteral(dst.toString());
+        model.add(main, model.getProperty(BDO+"volumeImageList"), value);
+        model.add(main, model.getProperty(BDO+"volumeImageCount"), model.createTypedLiteral(total, XSDDatatype.XSDinteger));
+        String missingImages = String.join(",", missingPages);
+        model.add(main, model.getProperty(BDO+"volumeMissingImages"), model.createLiteral(missingImages));
     }
 	
 	// for testing purposes only
@@ -137,9 +156,7 @@ public class ImagegroupMigration {
             Element current = (Element) nodeList.item(i);
             String type = current.getAttribute("type").trim();
             if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
-            String val = getImageListString(current.getTextContent().trim(), item.getLocalName(), volumeNumber);
-            Literal value = m.createLiteral(val);
-            m.add(main, m.getProperty(BDO+"volumeImageList"), value);
+            addImageList(current.getTextContent().trim(), item.getLocalName(), volumeNumber, m, main);
         }
 		
         CommonMigration.addLog(m, root, item, IGXSDNS);
