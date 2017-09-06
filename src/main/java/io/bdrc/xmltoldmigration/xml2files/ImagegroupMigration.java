@@ -131,9 +131,9 @@ public class ImagegroupMigration {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
-		//Resource main = m.createResource(VP+volumesName+"_"+volumeName);
 		Resource main = m.createResource();
-        //m.add(main, RDF.type, m.getResource(BDO+"Volume"));
+		
+		main.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(root.getAttribute("RID").trim()));
         
         try {
             int intval = Integer.parseInt(volumeNumber);

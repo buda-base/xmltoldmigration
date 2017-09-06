@@ -18,6 +18,7 @@ bdr:TestItem  a         :ItemImageAsset ;
                           :volumePagesTbrcIntro  1 ;
                           :volumePagesText    2 ;
                           :volumePagesTotal   356 ;
+                          adm:legacyImageGroupRID  "I4158" ;
                           adm:volumeQcDate    "12/03" ;
                           adm:volumeQcNote    "qc notes" ;
                           adm:volumeQcPerson  "khedup"
