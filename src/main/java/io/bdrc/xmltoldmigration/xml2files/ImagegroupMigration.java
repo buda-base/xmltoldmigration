@@ -87,10 +87,10 @@ public class ImagegroupMigration {
         if (hasSlash)
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "image list contains invalid character `/`");
         Literal value = model.createLiteral(dst.toString());
-        model.add(main, model.getProperty(BDO+"volumeImageList"), value);
-        model.add(main, model.getProperty(BDO+"volumeImageCount"), model.createTypedLiteral(total, XSDDatatype.XSDinteger));
+        model.add(main, model.getProperty(BDO+"imageList"), value);
+        model.add(main, model.getProperty(BDO+"imageCount"), model.createTypedLiteral(total, XSDDatatype.XSDinteger));
         String missingImages = String.join(",", missingPages);
-        model.add(main, model.getProperty(BDO+"volumeMissingImages"), model.createLiteral(missingImages));
+        model.add(main, model.getProperty(BDO+"imagesMissing"), model.createLiteral(missingImages));
     }
 	
 	// for testing purposes only
