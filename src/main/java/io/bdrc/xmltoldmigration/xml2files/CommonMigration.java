@@ -674,7 +674,6 @@ public class CommonMigration  {
 
 	public static String titleUriFromType(String type) {
 	    switch (type) {
-	    case "bibliographicalTitle":
 	    case "titlePageTitle":
 	    case "fullTitle":
 	    case "subtitle":
@@ -685,9 +684,15 @@ public class CommonMigration  {
 	    case "halfTitle":
 	    case "otherTitle":
 	    case "spineTitle":
-	    case "portion":
+	    case "sectionTitle":
+	    case "captionTitle":
 	    case "copyrightPageTitle":
 	        return BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1);
+        case "bibliographicalTitle":
+            // ic vs. ical
+            return BDO+"WorkBibliographicTitle";
+        case "portion":
+            return BDO+"WorkTitlePortion";
 	    default:
 	        return null;
 	    }

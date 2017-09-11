@@ -50,7 +50,7 @@ bdr:W30020_0002  a      :Work ;
                           :workLocationWork   bdr:W30020
                         ] ;
     :workPartOf         bdr:W30020_0001 ;
-    :workTitle          [ a                   :WorkBibliographicalTitle ;
+    :workTitle          [ a                   :WorkBibliographicTitle ;
                           rdfs:label          "gleng gzhi/"@bo-x-ewts
                         ] ;
     adm:outlineAuthorStatement  "Another scribe"@en ;
@@ -75,7 +75,7 @@ bdr:W30020_0004  a      :Work ;
                           :workLocationWork   bdr:W30020
                         ] ;
     :workPartOf         bdr:W30020_0003 ;
-    :workTitle          [ a                   :WorkBibliographicalTitle ;
+    :workTitle          [ a                   :WorkBibliographicTitle ;
                           rdfs:label          "gleng gzhi/"@bo-x-ewts
                         ] ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
@@ -89,7 +89,7 @@ bdr:W30020_0005  a      :Work ;
                           :workLocationWork   bdr:W30020
                         ] ;
     :workPartOf         bdr:W30020_0003 ;
-    :workTitle          [ a                   :WorkBibliographicalTitle ;
+    :workTitle          [ a                   :WorkBibliographicTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
     adm:workLegacyNode  "O2DB875722DB875732DB87600" .
