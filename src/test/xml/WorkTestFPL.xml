@@ -6,6 +6,7 @@
     <w:hasPubInfo info="MW12837"/>
     <!-- from W1FPL110 : -->
     <w:description type="remarks">Red lac. covers. Gilded leaves with vermilion band.</w:description><w:description type="room">3A</w:description><w:description type="id">110</w:description>
+    <w:description type="incipit">lamentatio Jeremiæ Prophetæ</w:description>
     <w:archiveInfo distribution="physical" restriction="none" status="scanned" vols="1" license="ccby" access="openAccess"/>
     <w:info nodeType="publishedWork" parent="W12345" seriesType="monographic" number="2" numbered="true" edition="this is the edition"/>
     <w:creator person="P1591" type="hasMainAuthor">grags pa rgyal mtshan</w:creator>

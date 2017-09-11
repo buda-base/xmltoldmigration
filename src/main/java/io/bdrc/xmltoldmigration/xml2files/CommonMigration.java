@@ -237,6 +237,7 @@ public class CommonMigration  {
 	public static String getDescriptionUriFromType(String type) {
 	    String res = normalizePropName(type, "description");
 	       switch (res) {
+	        case "incipit":               return BDO+"workIncipit";
 	        case "note":                  return BDO+"note";
 	        case "notes":                 return BDO+"note";
 	        case "chapter":               return BDO+"work_desc_chapters";
@@ -535,19 +536,22 @@ public class CommonMigration  {
        return addNames(m, e, r, XsdPrefix, true);
     }
 	
-   public static boolean descriptionTypeNeedsLang(String type) {
+   public static String descriptionTypeNeedsLang(String type) {
        switch (type) {
-       case "authorship":
+       
+       case "incipit":
        case "colophon":
        case "colopho":
        case "colophn":
        case "colophone":
+           return EWTS_TAG;
+       case "authorship":
        case "summary":
        case "content":
        case "contents": // for office, corporation, etc., maybe not for works
-           return true;
+           return "en";
        default:
-           return false;
+           return null;
        }
    }
    
@@ -569,8 +573,9 @@ public class CommonMigration  {
 	        Literal l;
 	        // we add some spaghettis for the case of R8LS13081 which has no description type
 	        // but needs to be added as label
-	        if (descriptionTypeNeedsLang(type) || (guessLabel && type.equals("noType"))) {
-	            l = getLiteral(current, "en", m, "description", r.getLocalName(), r.getLocalName());
+	        String lang = descriptionTypeNeedsLang(type);
+	        if (lang != null || (guessLabel && type.equals("noType"))) {
+	            l = getLiteral(current, lang, m, "description", r.getLocalName(), r.getLocalName());
 	            if (l == null) continue;
 	        } else {
 	            l = m.createLiteral(normalizeString(value));
@@ -632,7 +637,7 @@ public class CommonMigration  {
 			}
 			// for product and office the name is the first description type="contents", and we don't want to keep it in a description
             if (guessLabel && (type.equals("contents") || type.equals("noType"))) {
-                String lang = l.getLanguage().substring(0, 2);
+                lang = l.getLanguage().substring(0, 2);
                 if (!labelDoneForLang.containsKey(lang)) {
                     r.addProperty(m.getProperty(PREFLABEL_URI), l);
                     labelDoneForLang.put(lang, true);
@@ -680,12 +685,12 @@ public class CommonMigration  {
 	    case "halfTitle":
 	    case "otherTitle":
 	    case "spineTitle":
-	    case "incipit":
 	    case "portion":
 	    case "copyrightPageTitle":
 	        return BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1);
+	    default:
+	        return null;
 	    }
-	    return null;
 	}
 	
        public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel) {
@@ -811,7 +816,7 @@ public class CommonMigration  {
            }
        }
        
-       public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId, String outlineId, String outlineNode) {
+       public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId, String outlineId, String outlineNode/*, String outlineNodeTitle*/) {
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
            int i;
            int volume1 = -1;
@@ -838,9 +843,8 @@ public class CommonMigration  {
                    if (!value.isEmpty())
                        m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
                } else if (!value.isEmpty() && !value.equals(workId)) {
-                   String error = "has locations in work "+value+" instead of "+workId;
-                   //System.out.println("- [ ] "+outlineId+" "+error);
-                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, outlineId, outlineNode, "location", error);
+                   String error = "has locations in work "+value+" instead of "+workId;//+", title: "+outlineNodeTitle;
+                   ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, error);
                }
                
                String endString = (i == 0) ? "" : "End";

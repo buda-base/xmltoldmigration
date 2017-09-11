@@ -93,7 +93,7 @@ public class WorkMigration {
             if (!value.isEmpty()) {
                 if (value.equals("ccby")) value = BDR+"WorkLicenseTypeCCBY";
                 else value = BDR+"WorkLicenseTypeCopyrighted";
-                m.add(main, m.getProperty(ADM+"workLicense"), m.createResource(value));
+                m.add(main, m.getProperty(ADM+"license"), m.createResource(value));
                 hasLicense = true;
             }
             
@@ -109,7 +109,7 @@ public class WorkMigration {
             default: value = ""; break;
             }
             if (!value.isEmpty()) {
-                m.add(main, m.getProperty(ADM, "workHasAccess"), m.createResource(BDR+value));
+                m.add(main, m.getProperty(ADM, "access"), m.createResource(BDR+value));
                 hasAccess = true;
             }
 
