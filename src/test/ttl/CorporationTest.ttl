@@ -11,6 +11,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:C11MS170  a    :Corporation ;
+   rdfs:comment        "some description" ;
    skos:prefLabel  "bran ka"@bo-x-phon-en-m-tbrc , "Dranka"@en-x-mixed ;
    :corporationHasMember  [ a               :CorporationMemberNotSpecified ;
                             :corporationMember  bdr:P1856

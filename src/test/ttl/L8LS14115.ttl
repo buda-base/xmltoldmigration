@@ -20,7 +20,7 @@ bdr:L8LS14115  a        :Lineage ;
                                     ] ;
                 :lineageWho         bdr:P1018 ;
                 :lineageWork        bdr:WTest ;
-                :note               "test description"
+                :note               [ :noteText  "test description" ]
               ] ] ;
     :lineageHolder      [ a                   :LineageHolder ;
                           :lineageReceived    [ :lineageFrom        bdr:P1132 ;

@@ -9,27 +9,28 @@
 @prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:T3CN2023  a    :Topic ;
-   rdfs:seeAlso    bdr:T1129 ;
-   skos:altLabel   "bstan bcos 'gyur ro 'tshal/"@bo-x-ewts , "Tenjur"@en-x-mixed , "丹珠尔大藏经"@zh , "dan zhu er"@zh-latn-pinyin , "dan zhu er da zang jing"@zh-latn-pinyin ;
-   skos:prefLabel  "bstan 'gyur/"@bo-x-ewts , "Tengyur"@en-x-mixed , "丹珠尔"@zh ;
-   :status         bdr:StatusReleased ;
-   adm:logEntry    [ adm:logDate     "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
-                     adm:logMessage  "created record"@en ;
-                     adm:logWho      bdr:U7
-                   ] , 
-         [ adm:logDate     "2015-08-31T16:55:02.487Z"^^xsd:dateTime ;
-           adm:logMessage  "added description"@en ;
-           adm:logWho      bdr:U7
-         ] , 
-         [ adm:logDate     "2015-08-31T16:58:10.553Z"^^xsd:dateTime ;
-           adm:logMessage  "added description"@en ;
-           adm:logWho      bdr:U7
-         ] , 
-         [ adm:logDate     "2015-09-04T13:13:26.221Z"^^xsd:dateTime ;
-           adm:logMessage  "added see also"@en ;
-           adm:logWho      bdr:U7
-         ] , 
-         [ adm:logMessage  "added description: Tenjur Canonical Text"@en ;
-           adm:logWho      bdr:U7
-         ] .
+bdr:T3CN2023  a         :Topic ;
+    rdfs:comment        "bde bar gshegs pa'i bka'i dgongs 'grel bstan bcos 'gyur ro cog te/ rgya gar mkhas pa'i bstan bcos bod skad du 'gyur ba glegs bam brgya phrag lhag tsam bzhugs pa rnams so/ de rnams kyi khrod du nang don rig pa kho na gsungs pa glegs bam 170 lhag bzhugs pa grub cha gtso bo yin cing / da dung tshad ma'i bstan bcos kyi glegs bam po ti 21 tsam dang / sgra rig pa po ti 4/ gso ba rig pa po ti 5/ bzo rig pa po ti 1/ sna tshogs glegs bam po ti 9tsam bcas bzhugs pa yin no//" , "Tenjur Canonical Text" ;
+    rdfs:seeAlso        bdr:T1129 ;
+    skos:altLabel       "bstan bcos 'gyur ro 'tshal/"@bo-x-ewts , "Tenjur"@en-x-mixed , "丹珠尔大藏经"@zh , "dan zhu er"@zh-latn-pinyin , "dan zhu er da zang jing"@zh-latn-pinyin ;
+    skos:prefLabel      "bstan 'gyur/"@bo-x-ewts , "Tengyur"@en-x-mixed , "丹珠尔"@zh ;
+    :status             bdr:StatusReleased ;
+    adm:logEntry        [ adm:logDate         "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
+                          adm:logMessage      "created record"@en ;
+                          adm:logWho          bdr:U7
+                        ] ,
+            [ adm:logDate         "2015-08-31T16:55:02.487Z"^^xsd:dateTime ;
+              adm:logMessage      "added description"@en ;
+              adm:logWho          bdr:U7
+            ] ,
+            [ adm:logDate         "2015-08-31T16:58:10.553Z"^^xsd:dateTime ;
+              adm:logMessage      "added description"@en ;
+              adm:logWho          bdr:U7
+            ] ,
+            [ adm:logDate         "2015-09-04T13:13:26.221Z"^^xsd:dateTime ;
+              adm:logMessage      "added see also"@en ;
+              adm:logWho          bdr:U7
+            ] ,
+            [ adm:logMessage      "added description: Tenjur Canonical Text"@en ;
+              adm:logWho          bdr:U7
+            ] .

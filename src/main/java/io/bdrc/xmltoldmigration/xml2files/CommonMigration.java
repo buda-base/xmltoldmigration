@@ -93,6 +93,7 @@ public class CommonMigration  {
         logWhoToUri.put("Chris Tomlinson", prefix+"6");
         logWhoToUri.put("ct", prefix+"6");
         logWhoToUri.put("Code Ferret", prefix+"6");
+        logWhoToUri.put("Code Feret", prefix+"6");
         logWhoToUri.put("chris", prefix+"6");
         logWhoToUri.put("CodeFerret", prefix+"6");
         logWhoToUri.put("Chungdak Nangpa", prefix+"7");
@@ -185,6 +186,7 @@ public class CommonMigration  {
         logWhoToUri.put("Tsering Dhondup", prefix+"65");
         logWhoToUri.put("Tsering Dondrup", prefix+"65");
         logWhoToUri.put("Tserings Wangdag and Dhondup", prefix+"65"); // same ?
+        logWhoToUri.put("Travis DeTour", prefix+"66"); // same ?
     }
     
 	public static void setPrefixes(Model m) {
@@ -237,6 +239,8 @@ public class CommonMigration  {
 	public static String getDescriptionUriFromType(String type) {
 	    String res = normalizePropName(type, "description");
 	       switch (res) {
+	        case "noType":                return RDFS_PREFIX+"comment";
+	        case "authorship":            return ADM+"outlineAuthorStatement";
 	        case "incipit":               return BDO+"workIncipit";
 	        case "note":                  return BDO+"note";
 	        case "notes":                 return BDO+"note";
@@ -278,19 +282,19 @@ public class CommonMigration  {
 	        case "lhasa_number":          return BDO+"workKaTenSiglaH";
 	        case "stog_numbe":            return BDO+"workKaTenSiglaS";
 	        case "stog_unmber":           return BDO+"workKaTenSiglaS";
-	        case "StogNumber":            return BDO+"workKaTenSiglaS";
 	        case "stog_number":           return BDO+"workKaTenSiglaS";
+	        case "stogNumber":            return BDO+"workKaTenSiglaS";
 	        case "toh_number":            return BDO+"workKaTenRefToh";
 	        case "toh":                   return BDO+"workKaTenRefToh";
 	        case "otani_number":          return BDO+"workKaTenSiglaQ";
 	        case "otani":                 return BDO+"workKaTenSiglaQ";
 	        case "otani_beijing":         return BDO+"workKaTenSiglaQ";
-	        case "SheyNumber":            return BDO+"workKaTenSiglaZ";
+	        case "sheyNumber":            return BDO+"workKaTenSiglaZ";
 	        case "shey_number":           return BDO+"workKaTenSiglaZ";
 	        case "rKTsReference":         return BDO+"workKaTenRefrKTs";
 	        case "bon_bka_gyur_number":   return BDO+"workKaTenSiglaBon";
 	        case "urga_number":           return BDO+"workKaTenSiglaU";
-	        case "IsIAO":                 return BDO+"workRefIsIAO";
+	        case "isIAO":                 return BDO+"workRefIsIAO";
 	        case "catalogue_number":      return BDO+"workRefChokLing";
             case "gonpaPerEcumen":        return BDO+"placeGonpaPerEcumen";
 	        case "nameLex":               return TBR+"place_name_lex";
@@ -538,7 +542,6 @@ public class CommonMigration  {
 	
    public static String descriptionTypeNeedsLang(String type) {
        switch (type) {
-       
        case "incipit":
        case "colophon":
        case "colopho":
@@ -575,6 +578,8 @@ public class CommonMigration  {
 	        // but needs to be added as label
 	        String lang = descriptionTypeNeedsLang(type);
 	        if (lang != null || (guessLabel && type.equals("noType"))) {
+	            if (lang == null)
+	                lang = "en";
 	            l = getLiteral(current, lang, m, "description", r.getLocalName(), r.getLocalName());
 	            if (l == null) continue;
 	        } else {
@@ -584,24 +589,26 @@ public class CommonMigration  {
                 String placeId = r.getLocalName();
                 current.setTextContent(current.getTextContent().replace(placeId, ""));
             }
-			if (type.equals(BDO+"date")) { 
+			if (type.equals("date")) { 
                 ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "a description of type date should be changed into something meaningful");
                 continue;
             }
-            if (type.equals(BDO+"note")) {
+            if (type.equals("note")) {
                 Resource note = m.createResource();
-                m.add(note, RDF.type, m.createProperty(BDO+"Note"));
                 m.add(r, m.getProperty(BDO+"note"), note);
                 m.add(note, m.getProperty(BDO+"noteText"), l);
                 continue;
             }
 			String propUri = getDescriptionUriFromType(type);
-			if (propUri != null && propUri.equals("__ignore")) continue;
-			if (propUri == null || propUri.isEmpty()) {
+			if (propUri != null && propUri.equals("__ignore")) 
+			    continue;
+			if (propUri == null) {
 			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "unhandled description type: "+type);
 			    if (!guessLabel)
 			        continue;
 			}
+//			if (!guessLabel && type.equals("noType"))
+//			    l = m.createLiteral(l.getString()+" - was description with no type", l.getLanguage());
 			if (propUri != null && propUri.equals("__fpl")) {
 			    if (fplItem == null) {
 			        resModel = ModelFactory.createDefaultModel();
@@ -620,13 +627,13 @@ public class CommonMigration  {
 			    case "id":
 			        fplId = value;
 			        if (fplRoom != null) {
-			            fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+" | "+fplId));			            
+			            fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+"|"+fplId));
 			        }
 			        break;
 			    case "room":
 			        fplRoom = value;
 			        if (fplId != null) {
-                        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+" | "+fplId));                     
+                        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+"|"+fplId));
                     }
                     break;
 			    case "remarks":
@@ -687,10 +694,8 @@ public class CommonMigration  {
 	    case "sectionTitle":
 	    case "captionTitle":
 	    case "copyrightPageTitle":
+	    case "bibliographicalTitle":
 	        return BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1);
-        case "bibliographicalTitle":
-            // ic vs. ical
-            return BDO+"WorkBibliographicTitle";
         case "portion":
             return BDO+"WorkTitlePortion";
 	    default:
@@ -705,7 +710,7 @@ public class CommonMigration  {
             String typeUsedForLabel = null;
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
-                Literal l = getLiteral(current, EWTS_TAG, m, "description", main.getLocalName(), main.getLocalName());
+                Literal l = getLiteral(current, EWTS_TAG, m, "title", main.getLocalName(), main.getLocalName());
                 String nextTitle = null;
                 if (l == null) continue;
                 if (main.getLocalName().contains("FPL") && l.getLanguage().equals("pi-x-iast") && l.getString().contains("--")) {
@@ -719,9 +724,14 @@ public class CommonMigration  {
                 if (type.isEmpty()) {
                     type = "bibliographicalTitle";
                 }
+                ;
+                if (type.equals("incipit")) {
+                    main.addProperty(m.getProperty(BDO, "workIncipit"), l);
+                    continue;
+                }
                 String uri = titleUriFromType(type);
                 if (uri == null) {
-                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "title", "unknown title type `"+type+"` correctly");
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "title", "unknown title type `"+type+"`");
                     uri = BDO+"WorkBibliographicalTitle";
                 }
                 Resource node = typeNodes.get(uri);
