@@ -591,7 +591,7 @@ public class CommonMigration  {
             }
 			if (type.equals("date")) { 
                 ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "a description of type date should be changed into something meaningful");
-                continue;
+                type = "noType";
             }
             if (type.equals("note")) {
                 Resource note = m.createResource();
