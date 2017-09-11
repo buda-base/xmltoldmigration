@@ -67,7 +67,7 @@ public class ExceptionHelper {
         FileWriter f = getFileWriter(type);
         try {
             f.write("- [ ] ["+subRID+"]("+getUri(type, RID, subRID)+") ");
-            f.write("on property `"+propIndication+"`:"+error+"\n");
+            f.write("on property `"+propIndication+"`: "+error+"\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

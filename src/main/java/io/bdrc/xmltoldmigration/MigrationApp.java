@@ -15,10 +15,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,6 +36,7 @@ import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
 import io.bdrc.xmltoldmigration.xml2files.PubinfoMigration;
 import io.bdrc.xmltoldmigration.xml2files.ScanrequestMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
+import io.bdrc.xmltoldmigration.xml2files.WorkMigration.ImageGroupInfo;
 
 /**
  * Hello world!
@@ -194,14 +198,24 @@ public class MigrationApp
             final Map<String, Model> itemModels = new HashMap<>();
             m = WorkMigration.MigrateWork(d, m, itemModels);
             
+            int nbVolsTotal = -1;
+            Statement s = m.getResource(BDR+baseName).getProperty(m.getProperty(BDO, "workNumberOfVolumes"));
+            if (s != null)
+                nbVolsTotal = s.getObject().asLiteral().getInt();
+            
             // migrate items
-            Map<String,String> vols = WorkMigration.getImageGroupList(d);
+            ImageGroupInfo imageGroups = WorkMigration.getImageGroupList(d, nbVolsTotal);
+            Map<String,String> vols = imageGroups.imageGroupList;
             if (vols.size() > 0) {
+                String itemName = "I"+baseName.substring(1)+"_001";
+                if (WorkMigration.addWorkHasItem)
+                    m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
                 itemModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(itemModel);
-                String itemName = "I"+baseName.substring(1)+"_001";
                 item = itemModel.createResource(BDR+itemName);
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
+                if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
+                    item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
                 if (WorkMigration.addItemForWork)
                     itemModel.add(item, itemModel.getProperty(BDO, "itemForWork"), itemModel.createResource(BDR + baseName));
                 // workHasItem already added in WorkMigration
@@ -382,7 +396,6 @@ public class MigrationApp
         }
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
-//        MigrationHelpers.usecouchdb = true;
 //        migrateOneFile(new File(DATA_DIR+"tbrc-persons/P1KG16739.xml"), "person", "P");
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondance, for externals
         migrateType(OUTLINE, "O");

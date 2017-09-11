@@ -87,6 +87,7 @@ public class WorkMigration {
 		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
 		boolean hasAccess = false;
 		boolean hasLicense = false;
+		int nbvols = -1;
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("license").trim();
@@ -113,14 +114,20 @@ public class WorkMigration {
                 hasAccess = true;
             }
 
+            String nbVolsStr = current.getAttribute("vols").trim();
+            if (nbVolsStr.isEmpty())
+                continue;
+            
             try {
-                int nbvols = Integer.parseUnsignedInt(current.getAttribute("vols").trim());
+                nbvols = Integer.parseUnsignedInt(nbVolsStr);
                 if (nbvols != 0) {
                     prop = m.getProperty(BDO, "workNumberOfVolumes");
                     lit = m.createTypedLiteral(nbvols, XSDDatatype.XSDinteger);
                     m.add(main, prop, lit);
                 }
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "archiveInfo/vols", "cannot parse number of volumes `"+current.getAttribute("vols").trim()+"`");
+            }
         }
         if (!hasAccess)
             m.add(main, m.getProperty(ADM, "workHasAccess"), m.createResource(BDR+"WorkAccessOpen"));
@@ -222,35 +229,128 @@ public class WorkMigration {
             main.addProperty(m.getProperty(BDO, "workScanInfo"), l);
         }
         
-        Map<String,String> imageGroupList = getImageGroupList(xmlDocument);
-        if (!imageGroupList.isEmpty()) {
-            Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+"_001");
-            if (WorkMigration.addWorkHasItem)
-                m.add(main, m.getProperty(BDO, "workHasItem"), item);
+        Map<String,String> res = new HashMap<String,String>(); 
+        
+        NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
+        int lastVolume = 0;
+        List<String> missingVolumes = new ArrayList<>();
+        for (int j = 0; j < volumes.getLength(); j++) {
+            // just adding an item if we have a volume list
+            if (j == 0) {
+                Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+"_001");
+                if (WorkMigration.addWorkHasItem)
+                    m.add(main, m.getProperty(BDO, "workHasItem"), item);
+            }
+            // then curate the volume list to add missing volumes
+            Element volume = (Element) volumes.item(j);
+            String igId = volume.getAttribute("imagegroup").trim();
+            if (igId.isEmpty()) continue;
+            if (!igId.startsWith("I")) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "volume", "image group `"+igId+"` does not start with `I`");
+                continue;
+            }
+            String num = volume.getAttribute("num").trim();
+            if (num.isEmpty()) {
+                ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "missing volume number for image group `"+igId+"`");
+                continue;
+            }
+            int thisVol;
+            try {
+                thisVol = Integer.parseUnsignedInt(num);
+            } catch (NumberFormatException e) {
+                ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "cannot parse volume number `"+num+"` for image group `"+igId+"`");
+                continue;
+            }
+            if (thisVol <= lastVolume) {
+                ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "volume list is not in the correct order (`"+lastVolume+"` before for image group `"+thisVol+"`)");
+                continue;
+            }
+            if (thisVol != lastVolume+1) {
+                int rangeB = lastVolume+1;
+                int rangeE = thisVol-1;
+                if (rangeB == rangeE)
+                    missingVolumes.add(Integer.toString(rangeB));
+                else
+                    missingVolumes.add(rangeB+"-"+rangeE);
+            }
         }
+        
         
         SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
         
 		return m;
-		
 	}
 	
-	public static Map<String,String> getImageGroupList(Document d) {
-	    Map<String,String> res = new HashMap<String,String>(); 
+	public static class ImageGroupInfo {
+	    public String missingVolumes;
+	    public Map<String,String> imageGroupList;
 	    
+	    public ImageGroupInfo(String missingVolumes, Map<String,String> imageGroupList) {
+	        this.missingVolumes = missingVolumes;
+	        this.imageGroupList = imageGroupList;
+	    }
+	}
+	
+	public static ImageGroupInfo getImageGroupList(Document d, int nbVolsTotal) {
+	    Map<String,String> res = new HashMap<String,String>(); 
 	    Element root = d.getDocumentElement();
-        NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
+	    String rid = root.getAttribute("RID");
+	    NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
+        int lastVolume = 0;
+        List<String> missingVolumes = new ArrayList<>();
         for (int j = 0; j < volumes.getLength(); j++) {
+            // then curate the volume list to add missing volumes
             Element volume = (Element) volumes.item(j);
-            String value = volume.getAttribute("imagegroup").trim();
-            if (value.isEmpty()) continue;
-            if (!value.startsWith("I")) {
-                System.err.println("Image group doesn't start with I! "+value);
+            String igId = volume.getAttribute("imagegroup").trim();
+            if (igId.isEmpty()) continue;
+            if (!igId.startsWith("I")) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "image group `"+igId+"` does not start with `I`");
                 continue;
             }
-            res.put(value, volume.getAttribute("num").trim());
+            String num = volume.getAttribute("num").trim();
+            if (num.isEmpty()) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "missing volume number for image group `"+igId+"`");
+                continue;
+            }
+            int thisVol;
+            try {
+                thisVol = Integer.parseUnsignedInt(num);
+            } catch (NumberFormatException e) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "cannot parse volume number `"+num+"` for image group `"+igId+"`");
+                continue;
+            }
+            if (thisVol == lastVolume) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "volume list has two or more image groups for volume `"+thisVol+"`");
+                continue;
+            }
+            if (thisVol < lastVolume) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "volume list is not in the correct order (`"+lastVolume+"` before `"+thisVol+"`)");
+                continue;
+            }
+            if (thisVol != lastVolume+1) {
+                int rangeB = lastVolume+1;
+                int rangeE = thisVol-1;
+                if (rangeB == rangeE)
+                    missingVolumes.add(Integer.toString(rangeB));
+                else
+                    missingVolumes.add(rangeB+"-"+rangeE);
+            }
+            lastVolume = thisVol;
         }
-	    return res;
+        if (nbVolsTotal != -1 && lastVolume != 0) {
+            if (lastVolume > nbVolsTotal) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "archiveInfo/vols", "work claims it has `"+nbVolsTotal+"` volumes while referencing volumes up to `"+lastVolume+"` in image groups");
+            } else if (lastVolume < nbVolsTotal) {
+                int rangeB = lastVolume+1;
+                int rangeE = nbVolsTotal;
+                if (rangeB == rangeE)
+                    missingVolumes.add(Integer.toString(rangeB));
+                else
+                    missingVolumes.add(rangeB+"-"+rangeE);
+            }
+        }
+        String missingVols = String.join(",", missingVolumes);
+        return new ImageGroupInfo(missingVols, res);
 	}
 	
 }
