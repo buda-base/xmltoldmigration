@@ -510,7 +510,7 @@ public class CommonMigration  {
 	}
 	
 	// returns true if a PREFLABEL was added
-	public static boolean addNames(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
+	public static boolean addNames(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel, String additionalNameProp) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "name");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		boolean res = false;
@@ -531,6 +531,9 @@ public class CommonMigration  {
                 } else {
                     r.addProperty(m.getProperty(GENLABEL_URI), l);
                 }
+                if (additionalNameProp != null) {
+                    r.addProperty(m.getProperty(additionalNameProp), l);
+                }
                 res = true;
             }
 		}
@@ -538,7 +541,7 @@ public class CommonMigration  {
 	}
 	
    public static boolean addNames(Model m, Element e, Resource r, String XsdPrefix) {
-       return addNames(m, e, r, XsdPrefix, true);
+       return addNames(m, e, r, XsdPrefix, true, null);
     }
 	
    public static String descriptionTypeNeedsLang(String type) {
