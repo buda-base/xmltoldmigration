@@ -347,8 +347,6 @@ public class MigrationApp
     }
     
     public static void finishTypes() {
-        if (firstMigration)
-            return;
         System.out.println("committing modifications");
         List<String> types = Arrays.asList("work", "item", "place", "person", "product", "corporation", "office", "lineage", "topic");
         for (String type : types) {
