@@ -218,8 +218,10 @@ public class PlaceMigration {
         case "placeTypes:rgyalKhams":
             return "NotSpecified";
         case "placeTypes:traditionalPlaceName":
-            return "srolRgyunSaMing";
+            return "NotSpecified";
         case "placeTypes:residentialHouse":
+            return "NotSpecified";
+        case "placeTypes:notSpecified":
             return "NotSpecified";
 	    }
 	    // starts with "placeTypes:"

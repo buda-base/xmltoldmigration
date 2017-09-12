@@ -67,17 +67,14 @@ bdr:W30020_0003  a      :Work ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
-    skos:prefLabel      "gleng gzhi/"@bo-x-ewts ;
     :note               [ :noteText  "p. 1 (1st group)" ] ;
+    :workIncipit        "gleng gzhi/"@bo-x-ewts ;
     :workLocation       [ :workLocationEndPage  18 ;
                           :workLocationPage   11 ;
                           :workLocationVolume  2 ;
                           :workLocationWork   bdr:W30020
                         ] ;
     :workPartOf         bdr:W30020_0003 ;
-    :workTitle          [ a                   :WorkBibliographicalTitle ;
-                          rdfs:label          "gleng gzhi/"@bo-x-ewts
-                        ] ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;

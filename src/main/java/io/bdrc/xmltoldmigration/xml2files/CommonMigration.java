@@ -240,6 +240,7 @@ public class CommonMigration  {
 	    String res = normalizePropName(type, "description");
 	       switch (res) {
 	        case "noType":                return RDFS_PREFIX+"comment";
+	        case "status":                return RDFS_PREFIX+"comment";
 	        case "authorship":            return ADM+"outlineAuthorStatement";
 	        case "incipit":               return BDO+"workIncipit";
 	        case "note":                  return BDO+"note";
@@ -658,6 +659,10 @@ public class CommonMigration  {
 		if ((fplId == null && fplRoom != null) ||
 		        (fplId != null && fplRoom == null)) {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "description", "types `id` and `room` should both be present");
+		    if (fplId == null)
+		        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+"|"));
+		    else
+		        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral("|"+fplId));
 		}
 		if (fplDescription != null) {
 		    Resource fplVolume = resModel.createResource();

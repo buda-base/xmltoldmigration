@@ -23,7 +23,7 @@
         <outline:location vol="2" page="12" work="W30020"/>
         <outline:location vol="2" page="24" work="W30020"/>
         <outline:node RID="O2DB875722DB875732DB87599" class="T977" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi/</outline:title>
+            <outline:title encoding="extendedWylie" lang="tibetan" type="incipit">gleng gzhi/</outline:title>
             <outline:location page="11" vol="2" work="W30020"/>
             <outline:location page="18" vol="2" work="W30020"/>
             <outline:description encoding="native" lang="english" type="note">p. 1 (1st group)</outline:description>
