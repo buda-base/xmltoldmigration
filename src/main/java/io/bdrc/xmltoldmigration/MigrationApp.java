@@ -415,6 +415,7 @@ public class MigrationApp
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
         migrateType(PRODUCT, "PR");
         CommonMigration.speller.close();
+        finishTypes();
         ExceptionHelper.closeAll();
         long fileMigrationEndTime = System.currentTimeMillis();
     	long estimatedTime = fileMigrationEndTime - startTime;
