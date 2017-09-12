@@ -54,6 +54,7 @@ public class MigrationApp
 
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String ADM = CommonMigration.ADM;
     
     public static final String CORPORATION = MigrationHelpers.CORPORATION;
     public static final String LINEAGE = MigrationHelpers.LINEAGE;
@@ -125,6 +126,16 @@ public class MigrationApp
         }
         res = res + baseName + ".ttl";
         return res;
+    }
+    
+    public static void adjustAccess(Model workM, Model itemM, String workName, String itemName) {
+        Resource work = workM.getResource(BDR+workName);
+        Resource access = work.getPropertyResourceValue(workM.getProperty(ADM, "access"));
+        if (access == null || !access.getLocalName().equals("WorkAccessRestrictedByQuality"))
+            return;
+        work.removeAll(workM.getProperty(ADM, "access"));
+        work.addProperty(workM.getProperty(ADM, "access"), workM.createResource(BDR+"WorkAccessOpen"));
+        itemM.add(itemM.getResource(BDR+itemName), itemM.getProperty(ADM, "access"), itemM.createResource(BDR+"WorkAccessRestrictedByQuality"));
     }
 
     public static void migrateOneFile(File file, String type, String mustStartWith) {
@@ -211,6 +222,7 @@ public class MigrationApp
                 if (WorkMigration.addWorkHasItem)
                     m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
                 itemModel = ModelFactory.createDefaultModel();
+                adjustAccess(m, itemModel, baseName, itemName);
                 CommonMigration.setPrefixes(itemModel);
                 item = itemModel.createResource(BDR+itemName);
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
@@ -248,16 +260,12 @@ public class MigrationApp
             // migrate pubinfo
             String pubinfoFileName = DATA_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
             File pubinfoFile = new File(pubinfoFileName);
-            if (!pubinfoFile.exists()) {
+            if (pubinfoFile.exists()) {
+                d = MigrationHelpers.documentFromFileName(pubinfoFileName);
+                m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(BDR+baseName), itemModels);
+            } else {
                 MigrationHelpers.writeLog("missing "+pubinfoFileName);
-                //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
-                MigrationHelpers.outputOneModel(m, baseName, workOutFileName, "work");
-                return;
             }
-            d = MigrationHelpers.documentFromFileName(pubinfoFileName);
-            
-            m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(BDR+baseName), itemModels);
-            //MigrationHelpers.modelToFileName(m, outfileName, type, MigrationHelpers.OUTPUT_STTL);
             for (Entry<String,Model> e : itemModels.entrySet()){
                 //iterate over the pairs
                 MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), getDstFileName("item", e.getKey()), "item");
@@ -356,9 +364,6 @@ public class MigrationApp
         boolean manyOverOne = false;
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
-			if (arg.equals("-useCouchdb")) {
-				MigrationHelpers.writefiles = true;
-			}
             if (arg.equals("-preferManyOverOne=1")) {
                 manyOverOne = true;
             }
@@ -405,7 +410,7 @@ public class MigrationApp
         migrateType(CORPORATION, "C");
         migrateType(LINEAGE, "L");
         migrateType(TOPIC, "T");
-////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W3CN570.xml"), "work", "W");
+//        migrateOneFile(new File(DATA_DIR+"tbrc-works/W8LS17217.xml"), "work", "W");
 //        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
 //////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType(WORK, "W"); // also does pubinfos and imagegroups

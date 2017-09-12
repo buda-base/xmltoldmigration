@@ -130,10 +130,10 @@ public class WorkMigration {
             }
         }
         if (!hasAccess)
-            m.add(main, m.getProperty(ADM, "workHasAccess"), m.createResource(BDR+"WorkAccessOpen"));
+            m.add(main, m.getProperty(ADM, "access"), m.createResource(BDR+"WorkAccessOpen"));
         
         if (!hasLicense)
-            m.add(main, m.getProperty(ADM+"workLicense"), m.createResource(BDR+"WorkLicenseTypeCCBY"));
+            m.add(main, m.getProperty(ADM+"license"), m.createResource(BDR+"WorkLicenseTypeCCBY"));
 
         // info
         
@@ -308,6 +308,7 @@ public class WorkMigration {
                 continue;
             }
             String num = volume.getAttribute("num").trim();
+            res.put(igId, num);
             if (num.isEmpty()) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "missing volume number for image group `"+igId+"`");
                 continue;

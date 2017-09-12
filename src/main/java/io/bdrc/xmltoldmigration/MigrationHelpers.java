@@ -82,7 +82,7 @@ public class MigrationHelpers {
 	
 	public static Writer logWriter;
 	
-	public static boolean writefiles = false;
+	public static boolean writefiles = true;
 	public static boolean checkagainstOwl = false;
 	public static boolean checkagainstXsd = false;
 	public static boolean deleteDbBeforeInsert = true;
