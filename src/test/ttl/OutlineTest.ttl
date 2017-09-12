@@ -38,6 +38,7 @@ bdr:W30020_0001  a      :Work ;
     :workLocation       [ :workLocationVolume  1 ;
                           :workLocationWork   bdr:W30020
                         ] ;
+    :workPartLabel      "1 (stod cha)"@bo-x-ewts ;
     :workPartOf         bdr:W30020 ;
     adm:workLegacyNode  "O2DB875722DB87582" .
 
@@ -63,6 +64,7 @@ bdr:W30020_0003  a      :Work ;
                           :workLocationVolume  2 ;
                           :workLocationWork   bdr:W30020
                         ] ;
+    :workPartLabel      "2 (smad cha)"@bo-x-ewts ;
     :workPartOf         bdr:W30020 ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 

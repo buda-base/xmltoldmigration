@@ -9,7 +9,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -255,9 +254,14 @@ LocationVolPage previousLocVP, String legacyOutlineRID) {
         if (addWorkPartOf)
             m.add(node, m.getProperty(BDO, "workPartOf"), r);
         
-        boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS);
+        boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, BDO+"workPartLabel");
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
         CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded);
+        
+//        Statement labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
+//        String label = null;
+//        if (labelSta != null)
+//            label = labelSta.getLiteral().getString();
         
         CommonMigration.LocationVolPage locVP =
                 CommonMigration.addLocations(m, node, e, OXSDNS, workId, legacyOutlineRID, RID);
@@ -304,12 +308,12 @@ LocationVolPage previousLocVP, String legacyOutlineRID) {
         boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID);
         
         if (!hasChildren && (locVP == null)) {
-            Statement labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
-            String label = null;
-            if (labelSta != null)
-                label = labelSta.getLiteral().getString();
-            ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, " has no page indication, title `"+
-                    label+"`");
+//            labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
+//            label = null;
+//            if (labelSta != null)
+//                label = labelSta.getLiteral().getString();
+            ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, " has no page indication");/*, title `"+
+                    label+"`");*/
         }
         
         return locVP;
