@@ -43,7 +43,7 @@ public class PlaceMigration {
 		Resource main = m.createResource(BDR + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(BDO + "Place"));
 		String value = getTypeStr(root, m, main);
-		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + value));
+		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + "PlaceType"+value));
 		
 		CommonMigration.addStatus(m, main, root.getAttribute("status"));
 
@@ -211,16 +211,18 @@ public class PlaceMigration {
 	        return "Khul";
 	    case "placeTypes:townshipSeats":
 	        return "Shang";
-	    case "placeTypes:srolRgyunGyiSaMing":
-            return "SrolRgyunSaMing";
+//	    case "placeTypes:srolRgyunGyiSaMing":
+//            return "SrolRgyunGyiSaMing";
+	    case "placeTypes:srolRgyunSaMing":
+            return "SrolRgyunGyiSaMing";
 	    case "placeTypes:tshoPa":
             return "TshoBa";
         case "placeTypes:rgyalKhams":
-            return "NotSpecified";
+            return "RgyalKhab";
         case "placeTypes:traditionalPlaceName":
-            return "NotSpecified";
+            return "SrolRgyunGyiSaMing";
         case "placeTypes:residentialHouse":
-            return "NotSpecified";
+            return "GzimsKhang";
         case "placeTypes:notSpecified":
             return "NotSpecified";
 	    }
