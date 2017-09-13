@@ -317,7 +317,8 @@ public class MigrationHelpers {
 	}
 	
 	public static boolean mustBeMigrated(Element root, String type) {
-	    boolean res = (!root.getAttribute("status").equals("withdrawn") && !root.getAttribute("status").equals("onHold"));
+	    final String status = root.getAttribute("status");
+	    boolean res = (!status.isEmpty() && !status.equals("withdrawn") && !status.equals("onHold"));
 	    if (res == false) return false;
 	    if (type.equals("outline")) {
 	        res = res && !OutlineMigration.ridsToIgnore.containsKey(root.getAttribute("RID"));   
