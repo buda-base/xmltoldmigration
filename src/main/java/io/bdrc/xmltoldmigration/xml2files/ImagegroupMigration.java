@@ -90,7 +90,8 @@ public class ImagegroupMigration {
         model.add(main, model.getProperty(BDO+"imageList"), value);
         model.add(main, model.getProperty(BDO+"imageCount"), model.createTypedLiteral(total, XSDDatatype.XSDinteger));
         String missingImages = String.join(",", missingPages);
-        model.add(main, model.getProperty(BDO+"imagesMissing"), model.createLiteral(missingImages));
+        if (!missingImages.isEmpty())
+            model.add(main, model.getProperty(BDO+"imagesMissing"), model.createLiteral(missingImages));
     }
 	
 	// for testing purposes only
