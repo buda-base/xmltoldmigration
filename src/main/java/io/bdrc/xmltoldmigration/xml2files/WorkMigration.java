@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
@@ -284,15 +286,17 @@ public class WorkMigration {
 	public static class ImageGroupInfo {
 	    public String missingVolumes;
 	    public Map<String,String> imageGroupList;
+	    public int totalVolumes;
 	    
-	    public ImageGroupInfo(String missingVolumes, Map<String,String> imageGroupList) {
+	    public ImageGroupInfo(String missingVolumes, Map<String,String> imageGroupList, int totalVolumes) {
 	        this.missingVolumes = missingVolumes;
 	        this.imageGroupList = imageGroupList;
+	        this.totalVolumes = totalVolumes;
 	    }
 	}
 	
 	public static ImageGroupInfo getImageGroupList(Document d, int nbVolsTotal) {
-	    Map<String,String> res = new HashMap<String,String>(); 
+	    Map<String,String> res = new TreeMap<String,String>(); 
 	    Element root = d.getDocumentElement();
 	    String rid = root.getAttribute("RID");
 	    NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
@@ -308,24 +312,20 @@ public class WorkMigration {
                 continue;
             }
             String num = volume.getAttribute("num").trim();
-            res.put(igId, num);
             if (num.isEmpty()) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "missing volume number for image group `"+igId+"`");
                 continue;
             }
+            if (res.containsKey(num))
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "volume list has two or more image groups for volume `"+num+"`");
+            res.put(num, igId);
+        }
+        for (Entry<String,String> e : res.entrySet()) {
             int thisVol;
             try {
-                thisVol = Integer.parseUnsignedInt(num);
-            } catch (NumberFormatException e) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "cannot parse volume number `"+num+"` for image group `"+igId+"`");
-                continue;
-            }
-            if (thisVol == lastVolume) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "volume list has two or more image groups for volume `"+thisVol+"`");
-                continue;
-            }
-            if (thisVol < lastVolume) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "volume list is not in the correct order (`"+lastVolume+"` before `"+thisVol+"`)");
+                thisVol = Integer.parseUnsignedInt(e.getKey());
+            } catch (NumberFormatException ex) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "cannot parse volume number `"+e.getKey()+"` for image group `"+e.getValue()+"`");
                 continue;
             }
             if (thisVol != lastVolume+1) {
@@ -338,9 +338,11 @@ public class WorkMigration {
             }
             lastVolume = thisVol;
         }
-        if (nbVolsTotal != -1 && lastVolume != 0) {
+        if (nbVolsTotal != 0 && lastVolume != 0) {
             if (lastVolume > nbVolsTotal) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "archiveInfo/vols", "work claims it has `"+nbVolsTotal+"` volumes while referencing volumes up to `"+lastVolume+"` in image groups");
+                if (res.size() > nbVolsTotal)
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "archiveInfo/vols", "work claims it has `"+nbVolsTotal+"` volumes while referencing `"+res.size()+"` volumes in image groups");
+                lastVolume = nbVolsTotal;
             } else if (lastVolume < nbVolsTotal) {
                 int rangeB = lastVolume+1;
                 int rangeE = nbVolsTotal;
@@ -351,7 +353,7 @@ public class WorkMigration {
             }
         }
         String missingVols = String.join(",", missingVolumes);
-        return new ImageGroupInfo(missingVols, res);
+        return new ImageGroupInfo(missingVols, res, lastVolume);
 	}
 	
 }

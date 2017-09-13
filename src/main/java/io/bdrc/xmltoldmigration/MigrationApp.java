@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -207,7 +208,7 @@ public class MigrationApp
             final Map<String, Model> itemModels = new HashMap<>();
             m = WorkMigration.MigrateWork(d, m, itemModels);
             
-            int nbVolsTotal = -1;
+            int nbVolsTotal = 0;
             Statement s = m.getResource(BDR+baseName).getProperty(m.getProperty(BDO, "workNumberOfVolumes"));
             if (s != null)
                 nbVolsTotal = s.getObject().asLiteral().getInt();
@@ -216,6 +217,12 @@ public class MigrationApp
             ImageGroupInfo imageGroups = WorkMigration.getImageGroupList(d, nbVolsTotal);
             Map<String,String> vols = imageGroups.imageGroupList;
             if (vols.size() > 0) {
+                // replace workNumberOfVolumes by the corrected value
+                if (imageGroups.totalVolumes > nbVolsTotal) {
+                    Resource w = m.getResource(BDR+baseName);
+                    w.removeAll(m.getProperty(BDO, "workNumberOfVolumes"));
+                    w.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
+                }
                 String itemName = "I"+baseName.substring(1)+"_001";
                 if (WorkMigration.addWorkHasItem)
                     m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
@@ -224,13 +231,14 @@ public class MigrationApp
                 CommonMigration.setPrefixes(itemModel);
                 item = itemModel.createResource(BDR+itemName);
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
+                itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
                 if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                     item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
                 if (WorkMigration.addItemForWork)
                     itemModel.add(item, itemModel.getProperty(BDO, "itemForWork"), itemModel.createResource(BDR + baseName));
                 // workHasItem already added in WorkMigration
                 for (Map.Entry<String,String> vol : vols.entrySet()) {
-                    String imagegroup = vol.getKey();
+                    String imagegroup = vol.getValue();
                     String imagegroupFileName = DATA_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
                     File imagegroupFile = new File(imagegroupFileName);
                     if (!imagegroupFile.exists()) {
@@ -248,7 +256,7 @@ public class MigrationApp
                         continue;
                     }
                     imageGroupWork.put(imagegroup, baseName);
-                    ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getValue(), itemName);
+                    ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getKey(), itemName);
                 }
                 String itemOutfileName = getDstFileName("item", itemName);
                 //MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", MigrationHelpers.OUTPUT_STTL);
