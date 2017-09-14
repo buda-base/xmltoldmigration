@@ -302,6 +302,7 @@ public class WorkMigration {
 	    NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
         int lastVolume = 0;
         List<String> missingVolumes = new ArrayList<>();
+        Map<String,Boolean> hasImageGroup = new HashMap<String,Boolean>();
         for (int j = 0; j < volumes.getLength(); j++) {
             // then curate the volume list to add missing volumes
             Element volume = (Element) volumes.item(j);
@@ -311,6 +312,9 @@ public class WorkMigration {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "image group `"+igId+"` does not start with `I`");
                 continue;
             }
+            if (hasImageGroup.containsKey(igId))
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "image group `"+igId+"` used twice in the volume map");
+            hasImageGroup.put(igId, true);
             String num = volume.getAttribute("num").trim();
             if (num.isEmpty()) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "missing volume number for image group `"+igId+"`");
