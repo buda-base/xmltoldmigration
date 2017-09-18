@@ -242,7 +242,7 @@ public class MigrationApp
                 // workHasItem already added in WorkMigration
                 for (Map.Entry<String,String> vol : vols.entrySet()) {
                     String imagegroup = vol.getValue();
-                    String imagegroupFileName = DATA_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
+                    String imagegroupFileName = XML_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
                     File imagegroupFile = new File(imagegroupFileName);
                     if (!imagegroupFile.exists()) {
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "imagegroup", "image group `"+imagegroupFileName+"` referenced but absent from database");
@@ -267,7 +267,7 @@ public class MigrationApp
             }
             String workOutFileName = getDstFileName("work", baseName);
             // migrate pubinfo
-            String pubinfoFileName = DATA_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
+            String pubinfoFileName = XML_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
             File pubinfoFile = new File(pubinfoFileName);
             if (pubinfoFile.exists()) {
                 d = MigrationHelpers.documentFromFileName(pubinfoFileName);
@@ -314,7 +314,7 @@ public class MigrationApp
             return;
         }
         MigrationHelpers.writeLogsTo(pw);
-        String dirName = DATA_DIR+"tbrc-"+type+"s";
+        String dirName = XML_DIR+"tbrc-"+type+"s";
         File[] files = new File(dirName).listFiles();
         System.out.println("converting "+files.length+" "+type+" files");
         //Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));

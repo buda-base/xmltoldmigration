@@ -31,6 +31,7 @@ import org.w3c.dom.NodeList;
 import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 
 public class EtextMigration {
 
@@ -47,9 +48,17 @@ public class EtextMigration {
     
     public static void initDistributorToUri() {
         String prefix = CommonMigration.BDR+"CP"; // ?
-        distributorToUri.put("Dharma Download", prefix+"1");
-        distributorToUri.put("Vajra Vidya", prefix+"2");
-        distributorToUri.put("Tulku Sangag", prefix+"3");
+        distributorToUri.put("DharmaDownload", prefix+"001");
+        distributorToUri.put("DrikungChetsang", prefix+"002");
+        distributorToUri.put("eKangyur", prefix+"003");
+        distributorToUri.put("GuruLamaWorks", prefix+"004");
+        distributorToUri.put("KarmaDelek", prefix+"005");
+        distributorToUri.put("PalriParkhang", prefix+"006");
+        distributorToUri.put("Shechen", prefix+"007");
+        distributorToUri.put("TulkuSangag", prefix+"008");
+        distributorToUri.put("UCB-OCR", prefix+"009");
+        distributorToUri.put("VajraVidya", prefix+"010");
+        distributorToUri.put("Various", prefix+"011");
     }
     
     public static XPath initXpath() {
@@ -65,12 +74,14 @@ public class EtextMigration {
     
     public static void migrateEtexts() {
         MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts");
+        GitHelpers.ensureGitRepo("etext");
         String dirName = MigrationApp.ETEXT_DIR;
         File[] filesL1 = new File(dirName).listFiles();
         for (File fl1 : filesL1) {
             if (!fl1.isDirectory())
                 continue;
-            String provider = fl1.getName();
+            String distributor = fl1.getName();
+            String distributorUri = distributorToUri.get(distributor);
             File[] filesL2 = fl1.listFiles();
             for (File fl2 : filesL2) {
                 if (!fl2.isDirectory())
@@ -92,8 +103,12 @@ public class EtextMigration {
                        EtextInfos ei = migrateOneEtext(fl4.getAbsolutePath());
                        if (itemId != null && !ei.itemId.equals(itemId))
                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, fl2.getName(), fl2.getName(), "got two different itemIds: "+itemId+" and "+ei.itemId);
-                       if (itemId == null)
+                       if (itemId == null) {
                            itemId = ei.itemId;
+                           itemModel.add(itemModel.createResource(BDR+itemId),
+                                   itemModel.getProperty(BDO, "eTextDistributor"),
+                                   itemModel.createResource(distributorUri));
+                       }
                        itemModel.add(ei.itemModel);
                        String dst = MigrationApp.getDstFileName("etext", ei.etextId);
                        MigrationHelpers.outputOneModel(ei.etextModel, ei.etextId, dst, "etext");
