@@ -186,12 +186,12 @@ public class MigrationApp
             String workId = ScanrequestMigration.getWork(srd);
             if (workId == null || workId.isEmpty()) 
                 return;
-            String srItemName = "I"+workId.substring(1)+"_001";
+            String srItemName = "I"+workId.substring(1)+"_I001";
             String itemFileName = getDstFileName("item", srItemName);
             itemModel = MigrationHelpers.modelFromFileName(itemFileName);
             if (itemModel == null)
                 return;
-            item = itemModel.getResource(BDR+"I"+workId.substring(1)+"_001");
+            item = itemModel.getResource(BDR+srItemName);
             itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
             MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "item");
             break;
@@ -226,7 +226,7 @@ public class MigrationApp
                     w.removeAll(m.getProperty(BDO, "workNumberOfVolumes"));
                     w.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                 }
-                String itemName = "I"+baseName.substring(1)+"_001";
+                String itemName = "I"+baseName.substring(1)+"_I001";
                 if (WorkMigration.addWorkHasItem)
                     m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
                 itemModel = ModelFactory.createDefaultModel();
@@ -412,19 +412,19 @@ public class MigrationApp
         long startTime = System.currentTimeMillis();
 //        migrateOneFile(new File(DATA_DIR+"tbrc-persons/P1KG16739.xml"), "person", "P");
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondance, for externals
-//        migrateType(OUTLINE, "O");
-//        migrateType(PERSON, "P");
-//        migrateType(PLACE, "G");
-//        migrateType(OFFICE, "R");
-//        migrateType(CORPORATION, "C");
-//        migrateType(LINEAGE, "L");
-//        migrateType(TOPIC, "T");
-////        migrateOneFile(new File(DATA_DIR+"tbrc-works/W8LS17217.xml"), "work", "W");
-////        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
-////////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
-//        migrateType(WORK, "W"); // also does pubinfos and imagegroups
-//        migrateType(SCANREQUEST, "SR"); // requires works to be finished
-//        migrateType(PRODUCT, "PR");
+        migrateType(OUTLINE, "O");
+        migrateType(PERSON, "P");
+        migrateType(PLACE, "G");
+        migrateType(OFFICE, "R");
+        migrateType(CORPORATION, "C");
+        migrateType(LINEAGE, "L");
+        migrateType(TOPIC, "T");
+//        migrateOneFile(new File(DATA_DIR+"tbrc-works/W8LS17217.xml"), "work", "W");
+//        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
+//////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
+        migrateType(WORK, "W"); // also does pubinfos and imagegroups
+        migrateType(SCANREQUEST, "SR"); // requires works to be finished
+        migrateType(PRODUCT, "PR");
         EtextMigration.migrateEtexts();
         CommonMigration.speller.close();
         finishTypes();

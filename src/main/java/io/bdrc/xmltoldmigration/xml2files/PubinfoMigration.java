@@ -134,7 +134,7 @@ public class PubinfoMigration {
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "holding");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            String itemName = "I"+main.getLocalName().substring(1)+"_"+String.format("%03d", i+2);
+            String itemName = "I"+main.getLocalName().substring(1)+"_P"+String.format("%03d", i+1);
             Model itemModel = m;
             if (WorkMigration.splitItems) {
                 itemModel = ModelFactory.createDefaultModel();

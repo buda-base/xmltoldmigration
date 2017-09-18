@@ -75,7 +75,7 @@ public class EtextMigration {
             for (File fl2 : filesL2) {
                 if (!fl2.isDirectory())
                     continue;
-                System.out.println("migrating "+provider+"/"+fl2.getName());
+                //System.out.println("migrating "+provider+"/"+fl2.getName());
                 String itemId = null;
                 Model itemModel = ModelFactory.createDefaultModel();
                 File[] filesL3 = fl2.listFiles();
@@ -95,11 +95,11 @@ public class EtextMigration {
                        if (itemId == null)
                            itemId = ei.itemId;
                        itemModel.add(ei.itemModel);
-                       String dst = MigrationApp.OUTPUT_DIR+"etexts/"+ei.etextId+".ttl";
+                       String dst = MigrationApp.getDstFileName("etext", ei.etextId);
                        MigrationHelpers.outputOneModel(ei.etextModel, ei.etextId, dst, "etext");
                     }
                 }
-                String dst = MigrationApp.OUTPUT_DIR+"items/"+itemId+".ttl";
+                String dst = MigrationApp.getDstFileName("item", itemId);
                 MigrationHelpers.outputOneModel(itemModel, itemId, dst, "item");
                 // TODO: write work->item link
             }
@@ -138,11 +138,10 @@ public class EtextMigration {
     }
 
     public static Pattern p = Pattern.compile("^UT[^_]+_([^_]+)_(\\d+)$");
-    public static int[] fillInfosFromId(String etextId, Model model) {
-        Matcher m = p.matcher(etextId);
+    public static int[] fillInfosFromId(String eTextId, Model model) {
+        Matcher m = p.matcher(eTextId);
         if (!m.find()) {
-            System.out.println("arg! "+etextId);
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot parse etext id "+etextId);
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot parse etext id "+eTextId);
             return new int[] {1, 0};
         }
         int seqNum = Integer.parseInt(m.group(2));
@@ -153,14 +152,14 @@ public class EtextMigration {
             vol = 1;
         }
         if (seqNum == 0) {
-            model.add(model.getResource(BDR+"eTextId"),
+            model.add(model.getResource(BDR+eTextId),
                 model.getProperty(BDO+"eTextIsVolume"),
                 model.createTypedLiteral(vol, XSDDatatype.XSDinteger));
         } else {
-            model.add(model.getResource(BDR+"eTextId"),
+            model.add(model.getResource(BDR+eTextId),
                     model.getProperty(BDO+"eTextInVolume"),
                     model.createTypedLiteral(vol, XSDDatatype.XSDinteger));
-            model.add(model.getResource(BDR+"eTextId"),
+            model.add(model.getResource(BDR+eTextId),
                     model.getProperty(BDO+"eTextVolumeIndex"),
                     model.createTypedLiteral(seqNum, XSDDatatype.XSDinteger));
         }
@@ -251,7 +250,7 @@ public class EtextMigration {
         int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel);
         itemModel.add(getItemEtextPart(itemModel, itemId, volSeqNumInfos[0], volSeqNumInfos[1]),
                 itemModel.getProperty(BDO, "eTextResource"),
-                itemModel.createResource(BDR+"etextId"));
+                itemModel.createResource(BDR+etextId));
         
         final NodeList titles = titleStmt.getElementsByTagNameNS(TEI_PREFIX, "title");
         final List<String> titlesList = new ArrayList<String>();
