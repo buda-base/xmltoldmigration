@@ -35,7 +35,7 @@ bdr:L8LS14115  a        :Lineage ;
     :lineageObject      bdr:T1613 ;
     :lineageRef         bdr:L1RKL2042 ;
     :lineageType        bdr:LineageDbang ;
-    :status             bdr:StatusReleased ;
+    adm:status          bdr:StatusReleased ;
     :workLocation       [ :workLocationPage   236 ;
                           :workLocationVolume  1 ;
                           :workLocationWork   bdr:W1PD107937

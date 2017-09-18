@@ -12,7 +12,7 @@
 
 bdr:R8LS12811  a    :Role ;
     skos:prefLabel  "bon po lung bla ma'i skye brgyud/"@bo-x-ewts , "Bonpo Lung Lama Tulku Line"@en ;
-    :status         bdr:StatusReleased ;
+    adm:status      bdr:StatusReleased ;
     adm:logEntry    [ adm:logDate     "2012-12-20T16:34:48.895Z"^^xsd:dateTime ;
                       adm:logMessage  "created new office"@en ;
                       adm:logWho      bdr:U19

@@ -47,7 +47,7 @@ bdr:G844  a             :Place ;
     :placeRegionPoly    "Some polygon coordinates" ;
     :placeType          bdr:PlaceTypeGzimsKhang ;
     :placeWBArea        "test" ;
-    :status             bdr:StatusReleased ;
+    adm:status          bdr:StatusReleased ;
     adm:logEntry        [ adm:logDate         "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
                           adm:logMessage      "added contain"@en ;
                           adm:logWho          bdr:U7

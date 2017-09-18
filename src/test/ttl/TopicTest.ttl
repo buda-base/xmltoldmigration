@@ -14,7 +14,7 @@ bdr:T3CN2023  a         :Topic ;
     rdfs:seeAlso        bdr:T1129 ;
     skos:altLabel       "bstan bcos 'gyur ro 'tshal/"@bo-x-ewts , "Tenjur"@en-x-mixed , "丹珠尔大藏经"@zh , "dan zhu er"@zh-latn-pinyin , "dan zhu er da zang jing"@zh-latn-pinyin ;
     skos:prefLabel      "bstan 'gyur/"@bo-x-ewts , "Tengyur"@en-x-mixed , "丹珠尔"@zh ;
-    :status             bdr:StatusReleased ;
+    adm:status          bdr:StatusReleased ;
     adm:logEntry        [ adm:logDate         "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
                           adm:logMessage      "created record"@en ;
                           adm:logWho          bdr:U7

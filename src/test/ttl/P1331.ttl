@@ -29,4 +29,4 @@ bdr:P1331  a        :Person ;
             [ a           :PersonPrimaryTitle ;
               rdfs:label  "bya yul blo bzang rnam dag"@bo-x-ewts
             ] ;
-    :status         bdr:StatusReleased .
+    adm:status      bdr:StatusReleased .

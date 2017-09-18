@@ -12,7 +12,7 @@
 
 bdr:PR99NCUL01  a           adm:Product ;
     skos:prefLabel          "This or that"@en ;
-    :status                 bdr:StatusReleased ;
+    adm:status              bdr:StatusReleased ;
     adm:logEntry            [ adm:logMessage  "added entry for NCCU Taiwan"@en ;
                               adm:logDate     "2014-09-22T19:39:47.382Z"^^xsd:dateTime ;
                               adm:logWho      bdr:U6
