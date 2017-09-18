@@ -45,7 +45,9 @@ public class MigrationApp
 {
     
     // extract tbrc/ folder of exist-db backup here:
-    public static String DATA_DIR = "tbrc/";
+    public static String DATA_DIR = "../../data/db/";
+    public static String ETEXT_DIR = DATA_DIR+"eTextsChunked/";
+    public static String XML_DIR = DATA_DIR+"tbrc/";
     public static String OUTPUT_DIR = "tbrc-ttl/";
     public static String commitMessage = "xmltold automatic migration";
     public static boolean firstMigration = false;
@@ -386,6 +388,8 @@ public class MigrationApp
                 if (!DATA_DIR.endsWith("/")) {
                     DATA_DIR = DATA_DIR+'/';
                 }
+                ETEXT_DIR = DATA_DIR+"eTextsChunked/";
+                XML_DIR = DATA_DIR+"tbrc/";
             }
 		    if (arg.equals("-outdir")) {
                 OUTPUT_DIR = args[i+1];

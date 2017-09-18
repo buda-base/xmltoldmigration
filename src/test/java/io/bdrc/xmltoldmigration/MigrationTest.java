@@ -12,6 +12,8 @@ import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.EtextMigration;
+import io.bdrc.xmltoldmigration.xml2files.EtextMigration.EtextInfos;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
@@ -28,6 +30,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.validation.Validator;
+import javax.xml.xpath.XPathExpressionException;
 
 
 /**
@@ -330,6 +333,19 @@ public class MigrationTest
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", MigrationHelpers.OUTPUT_STTL, "");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
+    }
+	
+    @Test
+    public void testEtext() throws XPathExpressionException
+    {
+        System.out.println("testing etext");
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml");
+        assertTrue(ei.itemId.equals("I1CZ2485_E001"));
+        assertTrue(ei.workId.equals("W1CZ2485"));
+        assertTrue(ei.etextId.equals("UT1CZ2485_001_0000"));
+        MigrationHelpers.modelToOutputStream(ei.etextModel, System.out, "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
+        MigrationHelpers.modelToOutputStream(ei.itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, ei.itemId);
         flushLog();
     }
 }

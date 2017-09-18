@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tei:TEI xmlns:tei="http://www.tei-c.org/ns/1.0">
+	<tei:teiHeader>
+		<tei:fileDesc>
+			<tei:titleStmt>
+				<tei:title type="derived">༄༅།  །ཕྱག་རྒྱ་ཆེན་པོ་ལྷན་ཅིག་སྐྱེས་སྦྱོར་ཟབ་དོན་དོན་གྱི་ཆུ་བོ་སྐལ་ལྡན་གྱི་གདུལ་བྱའི་</tei:title>
+				<tei:author/>
+				<tei:title>༄༅།  །ཕྱག་རྒྱ་ཆེན་པོ་ལྷན་ཅིག་སྐྱེས་སྦྱོར་ཟབ་དོན་དོན་གྱི་ཆུ་བོ་སྐལ་ལྡན་གྱི་གདུལ་བྱའི་</tei:title>
+			</tei:titleStmt>
+			<tei:publicationStmt>
+				<tei:distributor>Dharma Download</tei:distributor>
+				<tei:availability status="free">
+					<tei:licence target="http://creativecommons.org/licenses/by/3.0/" when="2014-01-01">
+                                    The Creative Commons Attribution 3.0 Unported (CC BY 3.0) Licence
+                                        applies to this document.
+                                    The licence was added on January 1, 2014.
+                    </tei:licence>
+                </tei:availability>
+                <tei:date when="2014">2014</tei:date>
+                <tei:idno type="TBRC_TEXT_RID">UT1CZ2485-001-0000</tei:idno>
+            </tei:publicationStmt>
+            <tei:sourceDesc>
+            	<tei:bibl>
+            		<tei:idno type="TBRC_RID">W1CZ2485</tei:idno>
+            		<tei:idno type="SRC_PATH">DharmaDownload/Mahamudra/rtfs/06_Chakchen-Drupthob-Judpai-Zhalung/06_Chakchen-Drupthob-Judpai-Zhalung.rtf</tei:idno>
+            	</tei:bibl>
+            </tei:sourceDesc>
+        </tei:fileDesc>
+    </tei:teiHeader>
+	<tei:text>
+		<tei:body>
+			<tei:div>
+				<tei:p n="1" unit="page">page1</tei:p>
+			</tei:div>
+		</tei:body>
+	</tei:text>
+</tei:TEI>
