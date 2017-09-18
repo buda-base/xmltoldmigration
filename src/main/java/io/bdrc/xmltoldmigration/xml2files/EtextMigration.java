@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
@@ -62,11 +64,45 @@ public class EtextMigration {
     }
     
     public static void migrateEtexts() {
-        try {
-            migrateOneEtext("xml/EtextTest.xml");
-        } catch (XPathExpressionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts");
+        String dirName = MigrationApp.ETEXT_DIR;
+        File[] filesL1 = new File(dirName).listFiles();
+        for (File fl1 : filesL1) {
+            if (!fl1.isDirectory())
+                continue;
+            String provider = fl1.getName();
+            File[] filesL2 = fl1.listFiles();
+            for (File fl2 : filesL2) {
+                if (!fl2.isDirectory())
+                    continue;
+                System.out.println("migrating "+provider+"/"+fl2.getName());
+                String itemId = null;
+                Model itemModel = ModelFactory.createDefaultModel();
+                File[] filesL3 = fl2.listFiles();
+                for (File fl3 : filesL3) {
+                    if (!fl3.isDirectory())
+                        continue;
+                    File[] filesL4 = fl3.listFiles();
+                    for (File fl4 : filesL4) {
+                       if (!fl4.isFile())
+                           continue;
+                       String name = fl4.getName();
+                       if (name.startsWith("_") || !name.endsWith(".xml"))
+                           continue;
+                       EtextInfos ei = migrateOneEtext(fl4.getAbsolutePath());
+                       if (itemId != null && !ei.itemId.equals(itemId))
+                           ExceptionHelper.logException(ExceptionHelper.ET_GEN, fl2.getName(), fl2.getName(), "got two different itemIds: "+itemId+" and "+ei.itemId);
+                       if (itemId == null)
+                           itemId = ei.itemId;
+                       itemModel.add(ei.itemModel);
+                       String dst = MigrationApp.OUTPUT_DIR+"etexts/"+ei.etextId+".ttl";
+                       MigrationHelpers.outputOneModel(ei.etextModel, ei.etextId, dst, "etext");
+                    }
+                }
+                String dst = MigrationApp.OUTPUT_DIR+"items/"+itemId+".ttl";
+                MigrationHelpers.outputOneModel(itemModel, itemId, dst, "item");
+                // TODO: write work->item link
+            }
         }
     }
     
@@ -101,15 +137,21 @@ public class EtextMigration {
         return m.createLiteral(s);
     }
 
-    public static Pattern p = Pattern.compile("^UT[^_]+_(\\d+)_(\\d+)$");
+    public static Pattern p = Pattern.compile("^UT[^_]+_([^_]+)_(\\d+)$");
     public static int[] fillInfosFromId(String etextId, Model model) {
         Matcher m = p.matcher(etextId);
         if (!m.find()) {
+            System.out.println("arg! "+etextId);
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot parse etext id "+etextId);
-            return null;
+            return new int[] {1, 0};
         }
         int seqNum = Integer.parseInt(m.group(2));
-        int vol = Integer.parseInt(m.group(1));
+        int vol;
+        try {
+            vol = Integer.parseInt(m.group(1));
+        } catch (NumberFormatException e) {
+            vol = 1;
+        }
         if (seqNum == 0) {
             model.add(model.getResource(BDR+"eTextId"),
                 model.getProperty(BDO+"eTextIsVolume"),
@@ -154,10 +196,17 @@ public class EtextMigration {
         return seqRes;
     }
     
-    public static EtextInfos migrateOneEtext(final String path) throws XPathExpressionException {
+    public static EtextInfos migrateOneEtext(final String path) {
         final Document d = MigrationHelpers.documentFromFileName(path);
-        final Element fileDesc = (Element) ((NodeList)xPath.evaluate("/tei:TEI/tei:teiHeader/tei:fileDesc",
-                d.getDocumentElement(), XPathConstants.NODESET)).item(0);
+        Element fileDesc;
+        try {
+            fileDesc = (Element) ((NodeList)xPath.evaluate("/tei:TEI/tei:teiHeader/tei:fileDesc",
+                    d.getDocumentElement(), XPathConstants.NODESET)).item(0);
+        } catch (XPathExpressionException e1) {
+            // Having to catch this is utter stupidity
+            e1.printStackTrace();
+            return null;
+        }
         final Element titleStmt = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "titleStmt").item(0);
         final Element publicationStmt = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "publicationStmt").item(0);
         final Element sourceDesc = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "sourceDesc").item(0);
@@ -167,8 +216,14 @@ public class EtextMigration {
         final Model etextModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(etextModel);
         
-        Element e = (Element) ((NodeList)xPath.evaluate("tei:bibl/tei:idno[@type='TBRC_RID']",
-                sourceDesc, XPathConstants.NODESET)).item(0);
+        Element e;
+        try {
+            e = (Element) ((NodeList)xPath.evaluate("tei:bibl/tei:idno[@type='TBRC_RID']",
+                    sourceDesc, XPathConstants.NODESET)).item(0);
+        } catch (XPathExpressionException e1) {
+            e1.printStackTrace();
+            return null;
+        }
         final String workId = e.getTextContent().trim();
         final String itemId = itemIdFromWorkId(workId);
 
@@ -176,8 +231,13 @@ public class EtextMigration {
                 RDF.type,
                 etextModel.getResource(BDR+"ItemEtextInput"));
         
-        e = (Element) ((NodeList)xPath.evaluate("tei:idno[@type='TBRC_TEXT_RID']",
-                publicationStmt, XPathConstants.NODESET)).item(0);
+        try {
+            e = (Element) ((NodeList)xPath.evaluate("tei:idno[@type='TBRC_TEXT_RID']",
+                    publicationStmt, XPathConstants.NODESET)).item(0);
+        } catch (XPathExpressionException e1) {
+            e1.printStackTrace();
+            return null;
+        }
         final String etextId = e.getTextContent().trim().replace('-', '_');
         
         etextModel.add(etextModel.getResource(BDR+etextId),
@@ -189,7 +249,6 @@ public class EtextMigration {
                 etextModel.getResource(BDR+"EtextInput"));
         
         int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel);
-        
         itemModel.add(getItemEtextPart(itemModel, itemId, volSeqNumInfos[0], volSeqNumInfos[1]),
                 itemModel.getProperty(BDO, "eTextResource"),
                 itemModel.createResource(BDR+"etextId"));
@@ -208,8 +267,13 @@ public class EtextMigration {
                     getLiteral(s, etextModel, etextId));
         }
         
-        e = (Element) ((NodeList)xPath.evaluate("tei:bibl/tei:idno[@type='SRC_PATH']",
-                sourceDesc, XPathConstants.NODESET)).item(0);
+        try {
+            e = (Element) ((NodeList)xPath.evaluate("tei:bibl/tei:idno[@type='SRC_PATH']",
+                    sourceDesc, XPathConstants.NODESET)).item(0);
+        } catch (XPathExpressionException e1) {
+            e1.printStackTrace();
+            return null;
+        }
         etextModel.add(etextModel.getResource(BDR+etextId),
                 etextModel.getProperty(BDO, "eTextSourcePath"),
                 etextModel.createLiteral(e.getTextContent().trim()));
