@@ -313,6 +313,8 @@ public class EtextMigration {
                 etextModel.getProperty(BDO, "eTextSourcePath"),
                 etextModel.createLiteral(e.getTextContent().trim()));
         
+        EtextBodyMigration.MigrateBody(d, System.out, etextModel, etextId);
+        
         return new EtextInfos(itemModel, etextModel, workId, itemId, etextId);
     }
     
