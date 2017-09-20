@@ -36,13 +36,13 @@ bdr:W12837  a                   :Work ;
     :workSourcePrintery_string  "test sourcePrintery with no place" ;
     adm:logEntry                [ adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
                                   adm:logMessage  "added print type and source printery"@en ;
-                                  adm:logWho      bdr:U13
+                                  adm:logWho      bdr:U00013
                                 ] , 
             [ adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
               adm:logMessage  "normalize encoding field for pub info"@en ;
-              adm:logWho      bdr:U12
+              adm:logWho      bdr:U00012
             ] , 
             [ adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
               adm:logMessage  "added hollis field to pub info"@en ;
-              adm:logWho      bdr:U6
+              adm:logWho      bdr:U00006
             ] .

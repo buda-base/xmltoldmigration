@@ -48,17 +48,17 @@ bdr:W12837FPL  a        :Work ;
     adm:license         bdr:LicenseTypeCCBY ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;
-                          adm:logWho          bdr:U1
+                          adm:logWho          bdr:U00001
                         ] ,
             [ adm:logDate         "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
               adm:logMessage      "added print type and source printery"@en ;
-              adm:logWho          bdr:U13
+              adm:logWho          bdr:U00013
             ] ,
             [ adm:logDate         "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
               adm:logMessage      "normalized catalog info"@en ;
-              adm:logWho          bdr:U12
+              adm:logWho          bdr:U00012
             ] ,
             [ adm:logDate         "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
               adm:logMessage      "normalized catalog info"@en ;
-              adm:logWho          bdr:U12
+              adm:logWho          bdr:U00012
             ] .

@@ -81,112 +81,114 @@ public class CommonMigration  {
         fillLogWhoToUri();
     }
     
+    public static final String userNumFormat = "%05d";
+    
     public static void fillLogWhoToUri() {
         String prefix = RESOURCE_PREFIX+"U"; // ?
-        logWhoToUri.put("Gene Smith", prefix+"1");
-        logWhoToUri.put("agardner@sdrubin.org", prefix+"2");
-        logWhoToUri.put("Alex Gardner", prefix+"2");
-        logWhoToUri.put("Alexander Gardner", prefix+"2");
-        logWhoToUri.put("Bumu Dega", prefix+"3");
-        logWhoToUri.put("Dega Bumu", prefix+"3");
-        logWhoToUri.put("Catherine Tsuji", prefix+"4");
-        logWhoToUri.put("Chris Tomlinson", prefix+"6");
-        logWhoToUri.put("ct", prefix+"6");
-        logWhoToUri.put("Code Ferret", prefix+"6");
-        logWhoToUri.put("Code Feret", prefix+"6");
-        logWhoToUri.put("chris", prefix+"6");
-        logWhoToUri.put("CodeFerret", prefix+"6");
-        logWhoToUri.put("Chungdak Nangpa", prefix+"7");
-        logWhoToUri.put("Chungdak Ngagpa", prefix+"7");// is it the same name?
-        logWhoToUri.put("Chungdak Ngakpa", prefix+"7");
-        logWhoToUri.put("cnakpa", prefix+"7");
-        logWhoToUri.put("Cuilan Liu", prefix+"8");
-        logWhoToUri.put("Gabi Coura", prefix+"9");
-        logWhoToUri.put("Harry Einhorn", prefix+"10");
-        logWhoToUri.put("Jann Ronis", prefix+"11");
-        logWhoToUri.put("jann ronis", prefix+"11");
-        logWhoToUri.put("Jeff Wallman", prefix+"12");
-        logWhoToUri.put("Jigme Namgyal", prefix+"13");
-        logWhoToUri.put("jm", prefix+"14"); // ?
-        logWhoToUri.put("Joe McClellan", prefix+"15");
-        logWhoToUri.put("Joseph McClellan", prefix+"15");
-        logWhoToUri.put("Karma Gongde", prefix+"16");
-        logWhoToUri.put("kgongde", prefix+"16");
-        logWhoToUri.put("Chozin", prefix+"17");
-        logWhoToUri.put("chozin", prefix+"17");
-        logWhoToUri.put("Kelsang Lhamo", prefix+"17");
-        logWhoToUri.put("kelsang", prefix+"17");
-        logWhoToUri.put("Kelsang", prefix+"17");
-        logWhoToUri.put("klhamo", prefix+"17");
-        logWhoToUri.put("Konchok Tsering", prefix+"18");
-        logWhoToUri.put("Lobsang Shastri", prefix+"19");
-        logWhoToUri.put("lshastri", prefix+"19");
-        logWhoToUri.put("Michael R. Sheehy", prefix+"20");
-        logWhoToUri.put("Michael Sheehy", prefix+"20");
-        logWhoToUri.put("msheehy", prefix+"20");
-        logWhoToUri.put("paldor", prefix+"21");
-        logWhoToUri.put("Paldor", prefix+"21");
-        logWhoToUri.put("pal dor", prefix+"21");
-        logWhoToUri.put("Penghao Sun", prefix+"22");
-        logWhoToUri.put("Ralf Kramer", prefix+"23");
-        logWhoToUri.put("Ramon Prats", prefix+"24");
-        logWhoToUri.put("Rory Lindsay", prefix+"25");
-        logWhoToUri.put("Tendzin Parsons", prefix+"26");
-        logWhoToUri.put("Tenzin Dickyi", prefix+"27");
-        logWhoToUri.put("Arya Moallem", prefix+"28");
-        logWhoToUri.put("Awang Ciren", prefix+"29");
-        logWhoToUri.put("Chen Lai", prefix+"30");
-        logWhoToUri.put("Dennis Johnson", prefix+"31");
-        logWhoToUri.put("Dorjee Choden", prefix+"32");
-        logWhoToUri.put("dorjee choden", prefix+"32");
-        logWhoToUri.put("dzongsarlibrary", prefix+"33");
-        logWhoToUri.put("Erdene Baatar", prefix+"34");
-        logWhoToUri.put("Gyurmed Chodrak", prefix+"35");
-        logWhoToUri.put("Gyurme Chograg", prefix+"35");
-        logWhoToUri.put("Hachuluu", prefix+"36");
-        logWhoToUri.put("Haschuluu", prefix+"36");
-        logWhoToUri.put("Jamyang Lodoe", prefix+"37");
-        logWhoToUri.put("Jamyang.Lodoe", prefix+"37");
-        logWhoToUri.put("Jigme Tashi", prefix+"38");
-        logWhoToUri.put("John Canti", prefix+"39");
-        logWhoToUri.put("Khedup Gyatso", prefix+"40");
-        logWhoToUri.put("Legacy Converter", prefix+"41");
-        logWhoToUri.put("mangaram", prefix+"42");
-        logWhoToUri.put("Mara Canizzaro", prefix+"43");
-        logWhoToUri.put("mara canizzaro", prefix+"43");
-        logWhoToUri.put("Morris Hopkins", prefix+"44");
-        logWhoToUri.put("Ngawang Trinley", prefix+"45");
-        logWhoToUri.put("tenzang", prefix+"45");// to be checked
-        logWhoToUri.put("pbaduo", prefix+"46");
-        logWhoToUri.put("topic reclassify", prefix+"47");
-        logWhoToUri.put("zhangning", prefix+"48");
-        logWhoToUri.put("Arthur McKeown", prefix+"49");
-        logWhoToUri.put("Bruno Laine", prefix+"50");
-        logWhoToUri.put("chengdu", prefix+"51");
-        logWhoToUri.put("Chengdu", prefix+"51");
-        logWhoToUri.put("Chojor Radha", prefix+"52");
-        logWhoToUri.put("Elie Roux", prefix+"53");
-        logWhoToUri.put("Gelek Gyatso", prefix+"54");
-        logWhoToUri.put("Gelek.Gyatso", prefix+"54");
-        logWhoToUri.put("Georgia Kashnig", prefix+"55");
-        logWhoToUri.put("jw", prefix+"56");
-        logWhoToUri.put("monastery import", prefix+"57");
-        logWhoToUri.put("mongol import", prefix+"58");
-        logWhoToUri.put("Palri", prefix+"59");
-        logWhoToUri.put("Palri Nepal", prefix+"59");
-        logWhoToUri.put("Palri Parkhang", prefix+"59");
-        logWhoToUri.put("Palri Parkhang Nepal", prefix+"59");
-        logWhoToUri.put("Palris", prefix+"59");
-        logWhoToUri.put("palris", prefix+"59");
-        logWhoToUri.put("places-ensure-contains-has-name", prefix+"60");
-        logWhoToUri.put("Shallima Dellefant", prefix+"61");
-        logWhoToUri.put("sherabling", prefix+"62"); // maybe NT?
-        logWhoToUri.put("Shoko Mekata", prefix+"63");
-        logWhoToUri.put("Stacey Van Vleet", prefix+"64");
-        logWhoToUri.put("Tsering Dhondup", prefix+"65");
-        logWhoToUri.put("Tsering Dondrup", prefix+"65");
-        logWhoToUri.put("Tserings Wangdag and Dhondup", prefix+"65"); // same ?
-        logWhoToUri.put("Travis DeTour", prefix+"66"); // same ?
+        logWhoToUri.put("Gene Smith", prefix+String.format(userNumFormat, 1));
+        logWhoToUri.put("agardner@sdrubin.org", prefix+String.format(userNumFormat, 2));
+        logWhoToUri.put("Alex Gardner", prefix+String.format(userNumFormat, 2));
+        logWhoToUri.put("Alexander Gardner", prefix+String.format(userNumFormat, 2));
+        logWhoToUri.put("Bumu Dega", prefix+String.format(userNumFormat, 3));
+        logWhoToUri.put("Dega Bumu", prefix+String.format(userNumFormat, 3));
+        logWhoToUri.put("Catherine Tsuji", prefix+String.format(userNumFormat, 4));
+        logWhoToUri.put("Chris Tomlinson", prefix+String.format(userNumFormat, 6));
+        logWhoToUri.put("ct", prefix+String.format(userNumFormat, 6));
+        logWhoToUri.put("Code Ferret", prefix+String.format(userNumFormat, 6));
+        logWhoToUri.put("Code Feret", prefix+String.format(userNumFormat, 6));
+        logWhoToUri.put("chris", prefix+String.format(userNumFormat, 6));
+        logWhoToUri.put("CodeFerret", prefix+String.format(userNumFormat, 6));
+        logWhoToUri.put("Chungdak Nangpa", prefix+String.format(userNumFormat, 7));
+        logWhoToUri.put("Chungdak Ngagpa", prefix+String.format(userNumFormat, 7));// is it the same name?
+        logWhoToUri.put("Chungdak Ngakpa", prefix+String.format(userNumFormat, 7));
+        logWhoToUri.put("cnakpa", prefix+String.format(userNumFormat, 7));
+        logWhoToUri.put("Cuilan Liu", prefix+String.format(userNumFormat, 8));
+        logWhoToUri.put("Gabi Coura", prefix+String.format(userNumFormat, 9));
+        logWhoToUri.put("Harry Einhorn", prefix+String.format(userNumFormat, 10));
+        logWhoToUri.put("Jann Ronis", prefix+String.format(userNumFormat, 11));
+        logWhoToUri.put("jann ronis", prefix+String.format(userNumFormat, 11));
+        logWhoToUri.put("Jeff Wallman", prefix+String.format(userNumFormat, 12));
+        logWhoToUri.put("Jigme Namgyal", prefix+String.format(userNumFormat, 13));
+        logWhoToUri.put("jm", prefix+String.format(userNumFormat, 14)); // ?
+        logWhoToUri.put("Joe McClellan", prefix+String.format(userNumFormat, 15));
+        logWhoToUri.put("Joseph McClellan", prefix+String.format(userNumFormat, 15));
+        logWhoToUri.put("Karma Gongde", prefix+String.format(userNumFormat, 16));
+        logWhoToUri.put("kgongde", prefix+String.format(userNumFormat, 16));
+        logWhoToUri.put("Chozin", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("chozin", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("Kelsang Lhamo", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("kelsang", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("Kelsang", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("klhamo", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("Konchok Tsering", prefix+String.format(userNumFormat, 18));
+        logWhoToUri.put("Lobsang Shastri", prefix+String.format(userNumFormat, 19));
+        logWhoToUri.put("lshastri", prefix+String.format(userNumFormat, 19));
+        logWhoToUri.put("Michael R. Sheehy", prefix+String.format(userNumFormat, 20));
+        logWhoToUri.put("Michael Sheehy", prefix+String.format(userNumFormat, 20));
+        logWhoToUri.put("msheehy", prefix+String.format(userNumFormat, 20));
+        logWhoToUri.put("paldor", prefix+String.format(userNumFormat, 21));
+        logWhoToUri.put("Paldor", prefix+String.format(userNumFormat, 21));
+        logWhoToUri.put("pal dor", prefix+String.format(userNumFormat, 21));
+        logWhoToUri.put("Penghao Sun", prefix+String.format(userNumFormat, 22));
+        logWhoToUri.put("Ralf Kramer", prefix+String.format(userNumFormat, 23));
+        logWhoToUri.put("Ramon Prats", prefix+String.format(userNumFormat, 24));
+        logWhoToUri.put("Rory Lindsay", prefix+String.format(userNumFormat, 25));
+        logWhoToUri.put("Tendzin Parsons", prefix+String.format(userNumFormat, 26));
+        logWhoToUri.put("Tenzin Dickyi", prefix+String.format(userNumFormat, 27));
+        logWhoToUri.put("Arya Moallem", prefix+String.format(userNumFormat, 28));
+        logWhoToUri.put("Awang Ciren", prefix+String.format(userNumFormat, 29));
+        logWhoToUri.put("Chen Lai", prefix+String.format(userNumFormat, 30));
+        logWhoToUri.put("Dennis Johnson", prefix+String.format(userNumFormat, 31));
+        logWhoToUri.put("Dorjee Choden", prefix+String.format(userNumFormat, 32));
+        logWhoToUri.put("dorjee choden", prefix+String.format(userNumFormat, 32));
+        logWhoToUri.put("dzongsarlibrary", prefix+String.format(userNumFormat, 33));
+        logWhoToUri.put("Erdene Baatar", prefix+String.format(userNumFormat, 34));
+        logWhoToUri.put("Gyurmed Chodrak", prefix+String.format(userNumFormat, 35));
+        logWhoToUri.put("Gyurme Chograg", prefix+String.format(userNumFormat, 35));
+        logWhoToUri.put("Hachuluu", prefix+String.format(userNumFormat, 36));
+        logWhoToUri.put("Haschuluu", prefix+String.format(userNumFormat, 36));
+        logWhoToUri.put("Jamyang Lodoe", prefix+String.format(userNumFormat, 37));
+        logWhoToUri.put("Jamyang.Lodoe", prefix+String.format(userNumFormat, 37));
+        logWhoToUri.put("Jigme Tashi", prefix+String.format(userNumFormat, 38));
+        logWhoToUri.put("John Canti", prefix+String.format(userNumFormat, 39));
+        logWhoToUri.put("Khedup Gyatso", prefix+String.format(userNumFormat, 40));
+        logWhoToUri.put("Legacy Converter", prefix+String.format(userNumFormat, 41));
+        logWhoToUri.put("mangaram", prefix+String.format(userNumFormat, 42));
+        logWhoToUri.put("Mara Canizzaro", prefix+String.format(userNumFormat, 43));
+        logWhoToUri.put("mara canizzaro", prefix+String.format(userNumFormat, 43));
+        logWhoToUri.put("Morris Hopkins", prefix+String.format(userNumFormat, 44));
+        logWhoToUri.put("Ngawang Trinley", prefix+String.format(userNumFormat, 45));
+        logWhoToUri.put("tenzang", prefix+String.format(userNumFormat, 45));// to be checked
+        logWhoToUri.put("pbaduo", prefix+String.format(userNumFormat, 46));
+        logWhoToUri.put("topic reclassify", prefix+String.format(userNumFormat, 47));
+        logWhoToUri.put("zhangning", prefix+String.format(userNumFormat, 48));
+        logWhoToUri.put("Arthur McKeown", prefix+String.format(userNumFormat, 49));
+        logWhoToUri.put("Bruno Laine", prefix+String.format(userNumFormat, 50));
+        logWhoToUri.put("chengdu", prefix+String.format(userNumFormat, 51));
+        logWhoToUri.put("Chengdu", prefix+String.format(userNumFormat, 51));
+        logWhoToUri.put("Chojor Radha", prefix+String.format(userNumFormat, 52));
+        logWhoToUri.put("Elie Roux", prefix+String.format(userNumFormat, 53));
+        logWhoToUri.put("Gelek Gyatso", prefix+String.format(userNumFormat, 54));
+        logWhoToUri.put("Gelek.Gyatso", prefix+String.format(userNumFormat, 54));
+        logWhoToUri.put("Georgia Kashnig", prefix+String.format(userNumFormat, 55));
+        logWhoToUri.put("jw", prefix+String.format(userNumFormat, 56));
+        logWhoToUri.put("monastery import", prefix+String.format(userNumFormat, 57));
+        logWhoToUri.put("mongol import", prefix+String.format(userNumFormat, 58));
+        logWhoToUri.put("Palri", prefix+String.format(userNumFormat, 59));
+        logWhoToUri.put("Palri Nepal", prefix+String.format(userNumFormat, 59));
+        logWhoToUri.put("Palri Parkhang", prefix+String.format(userNumFormat, 59));
+        logWhoToUri.put("Palri Parkhang Nepal", prefix+String.format(userNumFormat, 59));
+        logWhoToUri.put("Palris", prefix+String.format(userNumFormat, 59));
+        logWhoToUri.put("palris", prefix+String.format(userNumFormat, 59));
+        logWhoToUri.put("places-ensure-contains-has-name", prefix+String.format(userNumFormat, 60));
+        logWhoToUri.put("Shallima Dellefant", prefix+String.format(userNumFormat, 61));
+        logWhoToUri.put("sherabling", prefix+String.format(userNumFormat, 62)); // maybe NT?
+        logWhoToUri.put("Shoko Mekata", prefix+String.format(userNumFormat, 63));
+        logWhoToUri.put("Stacey Van Vleet", prefix+String.format(userNumFormat, 64));
+        logWhoToUri.put("Tsering Dhondup", prefix+String.format(userNumFormat, 65));
+        logWhoToUri.put("Tsering Dondrup", prefix+String.format(userNumFormat, 65));
+        logWhoToUri.put("Tserings Wangdag and Dhondup", prefix+String.format(userNumFormat, 65)); // same ?
+        logWhoToUri.put("Travis DeTour", prefix+String.format(userNumFormat, 66)); // same ?
     }
     
 	public static void setPrefixes(Model m) {

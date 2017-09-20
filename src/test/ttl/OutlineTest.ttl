@@ -13,15 +13,15 @@ bdr:W30020  a           :Work ;
     :workPagination     bdr:PaginationAbsolute ;
     adm:outline         [ a                   adm:Outline ;
                           adm:logEntry        [ adm:logDate         "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
-                                                adm:logWho          bdr:U3
+                                                adm:logWho          bdr:U00003
                                               ] ,
                                   [ adm:logDate         "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
                                     adm:logMessage      "zhu dag byas"@en ;
-                                    adm:logWho          bdr:U21
+                                    adm:logWho          bdr:U00021
                                   ] ,
                                   [ adm:logDate         "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
                                     adm:logMessage      "vol. 1 outline images fixed"@en ;
-                                    adm:logWho          bdr:U19
+                                    adm:logWho          bdr:U00019
                                   ] ;
                           adm:outlineAuthorStatement  "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en ;
                           adm:outlineType     bdr:OutlineTypePartialCollectedWorks ;

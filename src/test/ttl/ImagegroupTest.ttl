@@ -25,17 +25,17 @@ bdr:TestItem  a         :ItemImageAsset ;
                         ] ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;
-                          adm:logWho          bdr:U1
+                          adm:logWho          bdr:U00001
                         ] ,
             [ adm:logDate         "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
               adm:logMessage      "Updated total pages"@en ;
-              adm:logWho          bdr:U6
+              adm:logWho          bdr:U00006
             ] ,
             [ adm:logDate         "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
               adm:logMessage      "Added ondisk"@en ;
-              adm:logWho          bdr:U6
+              adm:logWho          bdr:U00006
             ] ,
             [ adm:logDate         "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
               adm:logMessage      "Updated total pages and added page list"@en ;
-              adm:logWho          bdr:U6
+              adm:logWho          bdr:U00006
             ] .

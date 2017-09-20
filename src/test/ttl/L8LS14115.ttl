@@ -41,24 +41,24 @@ bdr:L8LS14115  a        :Lineage ;
                           :workLocationWork   bdr:W1PD107937
                         ] ;
     adm:logEntry        [ adm:logDate         "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
-                          adm:logWho          bdr:U19
+                          adm:logWho          bdr:U00019
                         ] ,
             [ adm:logDate         "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
               adm:logMessage      "added location"@en ;
-              adm:logWho          bdr:U19
+              adm:logWho          bdr:U00019
             ] ,
             [ adm:logDate         "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
               adm:logMessage      "changed type"@en ;
-              adm:logWho          bdr:U19
+              adm:logWho          bdr:U00019
             ] ,
             [ adm:logDate         "2014-07-28T11:30:18.879Z"^^xsd:dateTime ;
-              adm:logWho          bdr:U19
+              adm:logWho          bdr:U00019
             ] ,
             [ adm:logDate         "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
               adm:logMessage      "normalized names of who and received elements"@en ;
-              adm:logWho          bdr:U6
+              adm:logWho          bdr:U00006
             ] ,
             [ adm:logDate         "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
               adm:logMessage      "normalized names of who and received elements - yet again"@en ;
-              adm:logWho          bdr:U6
+              adm:logWho          bdr:U00006
             ] .

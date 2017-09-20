@@ -25,5 +25,5 @@ bdr:C11MS170  a    :Corporation ;
    adm:status      bdr:StatusReleased ;
    adm:logEntry    [ adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
                      adm:logMessage  "created new corp."@en ;
-                     adm:logWho      bdr:U20
+                     adm:logWho      bdr:U00020
                    ] .

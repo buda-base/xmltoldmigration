@@ -50,35 +50,35 @@ bdr:G844  a             :Place ;
     adm:status          bdr:StatusReleased ;
     adm:logEntry        [ adm:logDate         "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
                           adm:logMessage      "added contain"@en ;
-                          adm:logWho          bdr:U7
+                          adm:logWho          bdr:U00007
                         ] ,
             [ adm:logDate         "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
               adm:logMessage      "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
-              adm:logWho          bdr:U20
+              adm:logWho          bdr:U00020
             ] ,
             [ adm:logDate         "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
               adm:logMessage      "added byams pa chos gling gzhis ka'i par khang"@en ;
-              adm:logWho          bdr:U13
+              adm:logWho          bdr:U00013
             ] ,
             [ adm:logDate         "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
               adm:logMessage      "added contain"@en ;
-              adm:logWho          bdr:U7
+              adm:logWho          bdr:U00007
             ] ,
             [ adm:logDate         "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
               adm:logMessage      "added type & location & contains"@en ;
-              adm:logWho          bdr:U7
+              adm:logWho          bdr:U00007
             ] ,
             [ adm:logDate         "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
               adm:logMessage      "added place contained"@en ;
-              adm:logWho          bdr:U20
+              adm:logWho          bdr:U00020
             ] ,
             [ adm:logDate         "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
               adm:logMessage      "added location"@en ;
-              adm:logWho          bdr:U7
+              adm:logWho          bdr:U00007
             ] ,
             [ adm:logDate         "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
               adm:logMessage      "added name & note"@en ;
-              adm:logWho          bdr:U7
+              adm:logWho          bdr:U00007
             ] ;
     adm:place_TLM_accession  "004476" ;
     adm:place_TLM_admin  "tgaAdmin" ;

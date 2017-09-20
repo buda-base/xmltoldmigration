@@ -340,7 +340,7 @@ public class MigrationTest
     public void testEtext() throws XPathExpressionException
     {
         System.out.println("testing etext");
-        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml");
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false);
         assertTrue(ei.itemId.equals("I1CZ2485_E001"));
         assertTrue(ei.workId.equals("W1CZ2485"));
         assertTrue(ei.etextId.equals("UT1CZ2485_001_0000"));
