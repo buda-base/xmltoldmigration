@@ -94,21 +94,21 @@ public class WorkMigration {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("license").trim();
             if (!value.isEmpty()) {
-                if (value.equals("ccby")) value = BDR+"WorkLicenseTypeCCBY";
-                else value = BDR+"WorkLicenseTypeCopyrighted";
+                if (value.equals("ccby")) value = BDR+"LicenseTypeCCBY";
+                else value = BDR+"LicenseTypeCopyrighted";
                 m.add(main, m.getProperty(ADM+"license"), m.createResource(value));
                 hasLicense = true;
             }
             
             value = current.getAttribute("access").trim();
             switch (value) {
-            case "openAccess": value = "WorkAccessOpen"; break;
-            case "fairUse": value = "WorkAccessFairUse"; break;
-            case "restrictedSealed": value = "WorkAccessRestrictedSealed"; break;
-            case "temporarilyRestricted": value = "WorkAccessTemporarilyRestricted"; break;
-            case "restrictedByQuality": value = "WorkAccessRestrictedByQuality"; break;
-            case "restrictedByTbrc": value = "WorkAccessRestrictedByTbrc"; break;
-            case "restrictedInChina": value = "WorkAccessRestrictedInChina"; break;
+            case "openAccess": value = "AccessOpen"; break;
+            case "fairUse": value = "AccessFairUse"; break;
+            case "restrictedSealed": value = "AccessRestrictedSealed"; break;
+            case "temporarilyRestricted": value = "AccessTemporarilyRestricted"; break;
+            case "restrictedByQuality": value = "AccessRestrictedByQuality"; break;
+            case "restrictedByTbrc": value = "AccessRestrictedByTbrc"; break;
+            case "restrictedInChina": value = "AccessRestrictedInChina"; break;
             default: value = ""; break;
             }
             if (!value.isEmpty()) {
@@ -132,10 +132,10 @@ public class WorkMigration {
             }
         }
         if (!hasAccess)
-            m.add(main, m.getProperty(ADM, "access"), m.createResource(BDR+"WorkAccessOpen"));
+            m.add(main, m.getProperty(ADM, "access"), m.createResource(BDR+"AccessOpen"));
         
         if (!hasLicense)
-            m.add(main, m.getProperty(ADM+"license"), m.createResource(BDR+"WorkLicenseTypeCCBY"));
+            m.add(main, m.getProperty(ADM+"license"), m.createResource(BDR+"LicenseTypeCCBY"));
 
         // info
         
