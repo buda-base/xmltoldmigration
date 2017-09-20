@@ -82,6 +82,7 @@ public class EtextMigration {
                 continue;
             String distributor = fl1.getName();
             String distributorUri = distributorToUri.get(distributor);
+            boolean isOcr = distributor.equals("UCB-OCR");
             File[] filesL2 = fl1.listFiles();
             for (File fl2 : filesL2) {
                 if (!fl2.isDirectory())
@@ -100,7 +101,7 @@ public class EtextMigration {
                        String name = fl4.getName();
                        if (name.startsWith("_") || !name.endsWith(".xml"))
                            continue;
-                       EtextInfos ei = migrateOneEtext(fl4.getAbsolutePath());
+                       EtextInfos ei = migrateOneEtext(fl4.getAbsolutePath(), isOcr);
                        if (itemId != null && !ei.itemId.equals(itemId))
                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, fl2.getName(), fl2.getName(), "got two different itemIds: "+itemId+" and "+ei.itemId);
                        if (itemId == null) {
@@ -156,6 +157,26 @@ public class EtextMigration {
     public static int[] fillInfosFromId(String eTextId, Model model) {
         Matcher m = p.matcher(eTextId);
         if (!m.find()) {
+            switch (eTextId) {
+            case "UT1KG6007_WPHWEQ_G_0000":
+                return new int[] {1, 0};
+            case "UT1KG6008_WEOAOB_D_0000":
+                return new int[] {1, 0};
+            case "UT1KG6085_W6JHPF_L_0000":
+                return new int[] {1, 0};
+            case "UT1KG6086_WWKP15_8_0000":
+                return new int[] {1, 0};
+            case "UT1KG6109_WXCTRH_H_0000":
+                return new int[] {1, 0};
+            case "UT1KG6132_WOBC5A_0_0000":
+                return new int[] {1, 0};
+            case "UT1KG6161_WI9IWD_U_0000":
+                return new int[] {1, 0};
+            case "UT1KG6330_W54ZNX_U_0000":
+                return new int[] {1, 0};
+            case "UT1KG8475_WCSDT8_B_0000":
+                return new int[] {1, 0}; // TODO: strange case
+            }
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot parse etext id "+eTextId);
             return new int[] {1, 0};
         }
@@ -210,7 +231,7 @@ public class EtextMigration {
         return seqRes;
     }
     
-    public static EtextInfos migrateOneEtext(final String path) {
+    public static EtextInfos migrateOneEtext(final String path, boolean isOcr) {
         final Document d = MigrationHelpers.documentFromFileName(path);
         Element fileDesc;
         try {
@@ -243,7 +264,7 @@ public class EtextMigration {
 
         itemModel.add(itemModel.getResource(BDR+itemId),
                 RDF.type,
-                etextModel.getResource(BDR+"ItemEtextInput"));
+                etextModel.getResource(BDR+"ItemEtext"+(isOcr?"OCR":"Input")));
         
         try {
             e = (Element) ((NodeList)xPath.evaluate("tei:idno[@type='TBRC_TEXT_RID']",
@@ -260,7 +281,7 @@ public class EtextMigration {
         // TODO: discriminate between OCR and input
         etextModel.add(etextModel.getResource(BDR+etextId),
                 RDF.type,
-                etextModel.getResource(BDR+"EtextInput"));
+                etextModel.getResource(BDR+"Etext"+(isOcr?"OCR":"Input")));
         
         int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel);
         itemModel.add(getItemEtextPart(itemModel, itemId, volSeqNumInfos[0], volSeqNumInfos[1]),
