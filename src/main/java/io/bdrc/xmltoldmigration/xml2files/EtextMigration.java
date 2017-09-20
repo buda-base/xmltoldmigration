@@ -272,13 +272,13 @@ public class EtextMigration {
         for (int i = 0; i < titles.getLength(); i++) {
             Element title = (Element) titles.item(i);
             String titleStr = CommonMigration.normalizeString(title.getTextContent());
-            if (!titlesList.contains(titleStr))
-                titlesList.add(titleStr);
-        }
-        for (String s : titlesList) {
-            etextModel.add(etextModel.getResource(BDR+etextId),
-                    etextModel.getProperty(BDO, "eTextTitle"),
-                    getLiteral(s, etextModel, etextId));
+            if (titleStr.isEmpty())
+                continue;
+            if (!titlesList.contains(titleStr)) {
+                etextModel.add(etextModel.getResource(BDR+etextId),
+                        etextModel.getProperty(BDO, "eTextTitle"),
+                        getLiteral(titleStr, etextModel, etextId));
+            }
         }
         
         try {
