@@ -1,4 +1,3 @@
-@prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
@@ -12,6 +11,130 @@
 
 bdr:UT1CZ2485_001_0000
     a                   bdr:EtextInput ;
+    :eTextHasPage       [ :pageHasLine        [ :seqNum             0 ;
+                                                :sliceEnd           25 ;
+                                                :sliceStart         0
+                                              ] ;
+                          :seqNum             "1" ;
+                          :sliceEnd           25 ;
+                          :sliceStart         0
+                        ] ,
+            [ :pageHasLine        [ :seqNum             1 ;
+                                    :sliceEnd           2052 ;
+                                    :sliceStart         1839
+                                  ] ,
+                      [ :seqNum             2 ;
+                        :sliceEnd           2269 ;
+                        :sliceStart         2052
+                      ] ,
+                      [ :seqNum             3 ;
+                        :sliceEnd           2485 ;
+                        :sliceStart         2269
+                      ] ,
+                      [ :seqNum             4 ;
+                        :sliceEnd           2700 ;
+                        :sliceStart         2485
+                      ] ,
+                      [ :seqNum             5 ;
+                        :sliceEnd           2908 ;
+                        :sliceStart         2700
+                      ] ,
+                      [ :seqNum             6 ;
+                        :sliceEnd           3152 ;
+                        :sliceStart         2908
+                      ] ,
+                      [ :seqNum             7 ;
+                        :sliceEnd           3376 ;
+                        :sliceStart         3152
+                      ] ;
+              :seqNum             "4" ;
+              :sliceEnd           3376 ;
+              :sliceStart         1839
+            ] ,
+            [ :pageHasLine        [ :seqNum             1 ;
+                                    :sliceEnd           138 ;
+                                    :sliceStart         25
+                                  ] ,
+                      [ :seqNum             2 ;
+                        :sliceEnd           265 ;
+                        :sliceStart         138
+                      ] ,
+                      [ :seqNum             3 ;
+                        :sliceEnd           400 ;
+                        :sliceStart         265
+                      ] ,
+                      [ :seqNum             4 ;
+                        :sliceEnd           536 ;
+                        :sliceStart         400
+                      ] ,
+                      [ :seqNum             5 ;
+                        :sliceEnd           671 ;
+                        :sliceStart         536
+                      ] ;
+              :seqNum             "2" ;
+              :sliceEnd           671 ;
+              :sliceStart         25
+            ] ,
+            [ :pageHasLine        [ :seqNum             1 ;
+                                    :sliceEnd           849 ;
+                                    :sliceStart         671
+                                  ] ,
+                      [ :seqNum             2 ;
+                        :sliceEnd           1041 ;
+                        :sliceStart         849
+                      ] ,
+                      [ :seqNum             3 ;
+                        :sliceEnd           1251 ;
+                        :sliceStart         1041
+                      ] ,
+                      [ :seqNum             4 ;
+                        :sliceEnd           1458 ;
+                        :sliceStart         1251
+                      ] ,
+                      [ :seqNum             5 ;
+                        :sliceEnd           1642 ;
+                        :sliceStart         1458
+                      ] ,
+                      [ :seqNum             6 ;
+                        :sliceEnd           1839 ;
+                        :sliceStart         1642
+                      ] ;
+              :seqNum             "3" ;
+              :sliceEnd           1839 ;
+              :sliceStart         671
+            ] ,
+            [ :pageHasLine        [ :seqNum             1 ;
+                                    :sliceEnd           3576 ;
+                                    :sliceStart         3376
+                                  ] ,
+                      [ :seqNum             2 ;
+                        :sliceEnd           3803 ;
+                        :sliceStart         3576
+                      ] ,
+                      [ :seqNum             3 ;
+                        :sliceEnd           4013 ;
+                        :sliceStart         3803
+                      ] ,
+                      [ :seqNum             4 ;
+                        :sliceEnd           4254 ;
+                        :sliceStart         4013
+                      ] ,
+                      [ :seqNum             5 ;
+                        :sliceEnd           4478 ;
+                        :sliceStart         4254
+                      ] ,
+                      [ :seqNum             6 ;
+                        :sliceEnd           4679 ;
+                        :sliceStart         4478
+                      ] ,
+                      [ :seqNum             7 ;
+                        :sliceEnd           4913 ;
+                        :sliceStart         4679
+                      ] ;
+              :seqNum             "5" ;
+              :sliceEnd           4913 ;
+              :sliceStart         3376
+            ] ;
     :eTextInItem        bdr:I1CZ2485_E001 ;
     :eTextIsVolume      1 ;
     :eTextSourcePath    "DharmaDownload/Mahamudra/rtfs/06_Chakchen-Drupthob-Judpai-Zhalung/06_Chakchen-Drupthob-Judpai-Zhalung.rtf" ;
