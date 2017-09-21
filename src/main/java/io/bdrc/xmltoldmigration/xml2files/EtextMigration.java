@@ -149,6 +149,7 @@ public class EtextMigration {
             return m.createLiteral(s, "bo");
         if (c <= 0x36F)
             return m.createLiteral(s, "bo-x-ewts");
+        // TODO: replace q with ' ?
         ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot determine language of "+s);
         return m.createLiteral(s);
     }
