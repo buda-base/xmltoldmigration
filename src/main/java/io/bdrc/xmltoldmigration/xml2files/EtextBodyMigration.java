@@ -27,10 +27,6 @@ public class EtextBodyMigration {
     public static boolean oneLongString = false;
     private static final XPath xPath = EtextMigration.initXpath();
     private static final String TEI_PREFIX = EtextMigration.TEI_PREFIX;
-    //private static final Charset charset = Charset.forName("UTF-8");
-    private static final int meanChunkSizeAim = 300;
-    private static final int maxChunkSizeAim = 500;
-    private static final int minChunkSize = 30;
     public static final String BDR = CommonMigration.BDR;
     public static final String BDO = CommonMigration.BDO;
     public static final String ADM = CommonMigration.ADM;
@@ -129,7 +125,7 @@ public class EtextBodyMigration {
     }
     
     public static void chunkString(final String totalStr, final Map<Resource,int[]> resourcesCoords, final PrintStream out, final Model m, final String eTextId, final int totalPoints) {
-        final List<Integer>[] breaks = getBreakingCharsIndexes(totalStr);
+        final List<Integer>[] breaks = TibetanStringChunker.getAllBreakingCharsIndexes(totalStr);
         final List<Integer> charBreaks = breaks[0];
         final List<Integer> pointBreaks = breaks[1];
         int previousIndex = 0;
@@ -152,66 +148,6 @@ public class EtextBodyMigration {
         }
     }
     
-    public static List<Integer>[] getBreakingCharsIndexes(final String totalStr) {
-        final List<Integer> resChars = new ArrayList<Integer>();
-        final List<Integer> resPoints = new ArrayList<Integer>();
-        int lastDecidedIndex = -1; // in terms of points
-        int lastSpaceIndex = -1;
-        int curCharIndex = 0;
-        int curPointIndex = 0;
-        final int len = totalStr.length(); 
-        List<Integer> candidates = new ArrayList<Integer>();
-        while (curCharIndex < len) {
-            // only break on spaces or \n:
-            final int curPoint = totalStr.codePointAt(curCharIndex);
-            boolean doBreak = false;
-            if (curPoint == '\n') {
-                lastSpaceIndex = -1;
-                doBreak = true;
-                candidates = new ArrayList<Integer>();
-            }
-            else if (curPoint != ' ') {
-            }
-            else if (totalStr.codePointBefore(curCharIndex) != '\u0F0D') {
-                System.out.println("strange space detected");
-            }
-            else if (totalStr.codePointAt(curCharIndex+1) == '\u0F04' || totalStr.codePointAt(curCharIndex+2) == '\u0F04') {
-                lastSpaceIndex = -1;
-                doBreak = true;
-                candidates = new ArrayList<Integer>();
-            }
-            else if (totalStr.codePointAt(curCharIndex-2) == '\u0F05') {
-            }
-            else if (curPointIndex - lastDecidedIndex > maxChunkSizeAim) {
-                lastSpaceIndex = -1;
-                doBreak = true;
-                candidates = new ArrayList<Integer>();
-            }
-            else if (curPointIndex - lastDecidedIndex > maxChunkSizeAim) {
-                lastSpaceIndex = -1;
-                doBreak = true;
-                candidates = new ArrayList<Integer>();
-            }
-            else if (lastSpaceIndex != -1 && curPointIndex - lastSpaceIndex < minChunkSize) {
-                lastSpaceIndex = curPointIndex;
-            }
-            else if (curPointIndex - lastDecidedIndex >= meanChunkSizeAim) {
-                lastSpaceIndex = -1;
-                doBreak = true;
-                candidates = new ArrayList<Integer>();
-            }
-            if (doBreak) {
-                resChars.add(curCharIndex);
-                resPoints.add(curPointIndex);
-                lastDecidedIndex = curPointIndex;
-            }
-            curCharIndex += Character.charCount(curPoint);
-            curPointIndex += 1;
-        }
-        List<Integer>[] res = new List[2];
-        res[0] = resChars;
-        res[1] = resPoints;
-        return res;
-    }
+
 
 }
