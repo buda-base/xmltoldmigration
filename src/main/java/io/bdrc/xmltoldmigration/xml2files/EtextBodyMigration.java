@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -14,6 +15,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,7 +24,7 @@ import org.w3c.dom.NodeList;
 
 public class EtextBodyMigration {
 
-    public static boolean oneLongString = true;
+    public static boolean oneLongString = false;
     private static final XPath xPath = EtextMigration.initXpath();
     private static final String TEI_PREFIX = EtextMigration.TEI_PREFIX;
     //private static final Charset charset = Charset.forName("UTF-8");
@@ -87,8 +89,8 @@ public class EtextBodyMigration {
                 lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
                 final int strLen = s.codePointCount(0, s.length()); 
                 if (oneLongString) {
-                    lineR.addProperty(m.createProperty(BDO, "sliceStart"), m.createTypedLiteral(currentTotalPoints, XSDDatatype.XSDinteger));
-                    lineR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createTypedLiteral(currentTotalPoints+strLen, XSDDatatype.XSDinteger));
+                    lineR.addProperty(m.createProperty(BDO, "sliceStart"), m.createLiteral("1-"+currentTotalPoints));
+                    lineR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createLiteral("1-"+currentTotalPoints+strLen));
                 } else {
                     resourcesCoords.put(lineR, new int[] {currentTotalPoints, currentTotalPoints+strLen});
                 }
@@ -102,7 +104,7 @@ public class EtextBodyMigration {
               }
            }
            if (oneLongString) {
-               pageR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createTypedLiteral(currentTotalPoints, XSDDatatype.XSDinteger));
+               pageR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createLiteral("1-"+currentTotalPoints));
            } else {
                resourcesCoords.put(pageR, new int[] {pageBeginChar, currentTotalPoints});
            }
@@ -113,76 +115,103 @@ public class EtextBodyMigration {
         }
     }
     
-    public static void chunkString(final String totalStr, final Map<Resource,int[]> resourcesCoords, final PrintStream out, final Model m, final String eTextId, final int totalPoints) {
-        final List<Integer> charbreaks = getBreakingCharsIndexes(totalStr, totalPoints);
+    public static String translatePoint(List<Integer> pointBreaks, int pointIndex) {
+        int curLine = 1;
+        int toSubstract = 0;
+        for (final int pointBreak : pointBreaks) {
+            if (pointBreak > pointIndex) {
+                break;
+            }
+            toSubstract = pointBreak;
+            curLine += 1;
+        }
+        return curLine+"-"+(pointIndex-toSubstract);
     }
     
-    public static List<Integer> getBreakingCharsIndexes(final String totalStr, final int totalPoints) {
-        final List<Integer> res = new ArrayList<Integer>();
-        int lastDecidedIndex = -1;
-        int lastSpaceIndex = -1;
-        int curCharIndex = minChunkSize;
-        List<Integer> candidates = new ArrayList<Integer>();
-        while (curCharIndex < totalPoints-minChunkSize) {
-            // only break on spaces or \n:
-            final int curChar = totalStr.codePointAt(curCharIndex);
-            if (curChar == '\n') {
-                res.add(curCharIndex);
-                lastDecidedIndex = curCharIndex;
-                lastSpaceIndex = -1;
-                curCharIndex += minChunkSize;
-                candidates = new ArrayList<Integer>();
-                continue;
-            }
-            if (curChar != ' ') {
-                curCharIndex += 1;
-                continue;
-            }
-            if (totalStr.codePointAt(curCharIndex+1) == '\u0F04' || totalStr.codePointAt(curCharIndex+2) == '\u0F04') {
-                res.add(curCharIndex);
-                lastDecidedIndex = curCharIndex;
-                lastSpaceIndex = -1;
-                curCharIndex += minChunkSize; // 20 is a bit random here...
-                candidates = new ArrayList<Integer>();
-                continue;
-            }
-            if (totalStr.codePointAt(curCharIndex-2) == '\u0F05') {
-                curCharIndex += minChunkSize;
-                continue;
-            }
-            if (curCharIndex - lastDecidedIndex > maxChunkSizeAim) {
-                res.add(curCharIndex);
-                lastDecidedIndex = curCharIndex;
-                lastSpaceIndex = -1;
-                curCharIndex += minChunkSize; // 20 is a bit random here...
-                candidates = new ArrayList<Integer>();
-                continue;
-            }
-            if (curCharIndex - lastDecidedIndex > maxChunkSizeAim) {
-                res.add(curCharIndex);
-                lastDecidedIndex = curCharIndex;
-                lastSpaceIndex = -1;
-                curCharIndex += minChunkSize; // 20 is a bit random here...
-                candidates = new ArrayList<Integer>();
-                continue;
-            }
-            if (lastSpaceIndex != -1 && curCharIndex - lastSpaceIndex < minChunkSize) {
-                curCharIndex += 2; // not +minChunkSize so that we're sure not to cut trails of small chunks
-                lastSpaceIndex = curCharIndex;
-                continue;
-            }
-            if (curCharIndex - lastDecidedIndex >= meanChunkSizeAim) {
-                res.add(curCharIndex);
-                lastDecidedIndex = curCharIndex;
-                lastSpaceIndex = -1;
-                curCharIndex += minChunkSize; // 20 is a bit random here...
-                candidates = new ArrayList<Integer>();
-                continue;
-            }
-            
+    public static void chunkString(final String totalStr, final Map<Resource,int[]> resourcesCoords, final PrintStream out, final Model m, final String eTextId, final int totalPoints) {
+        final List<Integer>[] breaks = getBreakingCharsIndexes(totalStr);
+        final List<Integer> charBreaks = breaks[0];
+        final List<Integer> pointBreaks = breaks[1];
+        int previousIndex = 0;
+        //final int nbBreaks = charBreaks.size();
+        for (final int charBreakIndex : charBreaks) { 
+            out.print(totalStr.substring(previousIndex, charBreakIndex)+'\n');
+            previousIndex = charBreakIndex+1;// because we don't typeset the space
         }
+        if (previousIndex != totalStr.length()) {
+            out.print(totalStr.substring(previousIndex));
+        }
+        final Property sliceStart = m.getProperty(BDO, "sliceStart");
+        final Property sliceEnd = m.getProperty(BDO, "sliceEnd");
+        for (final Entry<Resource,int[]> e : resourcesCoords.entrySet()) {
+            final int[] oldSet = e.getValue();
+            final String start = translatePoint(pointBreaks, oldSet[0]);
+            final String end = translatePoint(pointBreaks, oldSet[1]);
+            m.add(e.getKey(), sliceStart, m.createLiteral(start));
+            m.add(e.getKey(), sliceEnd, m.createLiteral(end));
+        }
+    }
+    
+    public static List<Integer>[] getBreakingCharsIndexes(final String totalStr) {
+        final List<Integer> resChars = new ArrayList<Integer>();
+        final List<Integer> resPoints = new ArrayList<Integer>();
+        int lastDecidedIndex = -1; // in terms of points
+        int lastSpaceIndex = -1;
+        int curCharIndex = 0;
+        int curPointIndex = 0;
+        final int len = totalStr.length(); 
+        List<Integer> candidates = new ArrayList<Integer>();
+        while (curCharIndex < len) {
+            // only break on spaces or \n:
+            final int curPoint = totalStr.codePointAt(curCharIndex);
+            boolean doBreak = false;
+            if (curPoint == '\n') {
+                lastSpaceIndex = -1;
+                doBreak = true;
+                candidates = new ArrayList<Integer>();
+            }
+            else if (curPoint != ' ') {
+            }
+            else if (totalStr.codePointBefore(curCharIndex) != '\u0F0D') {
+                System.out.println("strange space detected");
+            }
+            else if (totalStr.codePointAt(curCharIndex+1) == '\u0F04' || totalStr.codePointAt(curCharIndex+2) == '\u0F04') {
+                lastSpaceIndex = -1;
+                doBreak = true;
+                candidates = new ArrayList<Integer>();
+            }
+            else if (totalStr.codePointAt(curCharIndex-2) == '\u0F05') {
+            }
+            else if (curPointIndex - lastDecidedIndex > maxChunkSizeAim) {
+                lastSpaceIndex = -1;
+                doBreak = true;
+                candidates = new ArrayList<Integer>();
+            }
+            else if (curPointIndex - lastDecidedIndex > maxChunkSizeAim) {
+                lastSpaceIndex = -1;
+                doBreak = true;
+                candidates = new ArrayList<Integer>();
+            }
+            else if (lastSpaceIndex != -1 && curPointIndex - lastSpaceIndex < minChunkSize) {
+                lastSpaceIndex = curPointIndex;
+            }
+            else if (curPointIndex - lastDecidedIndex >= meanChunkSizeAim) {
+                lastSpaceIndex = -1;
+                doBreak = true;
+                candidates = new ArrayList<Integer>();
+            }
+            if (doBreak) {
+                resChars.add(curCharIndex);
+                resPoints.add(curPointIndex);
+                lastDecidedIndex = curPointIndex;
+            }
+            curCharIndex += Character.charCount(curPoint);
+            curPointIndex += 1;
+        }
+        List<Integer>[] res = new List[2];
+        res[0] = resChars;
+        res[1] = resPoints;
         return res;
     }
-   
-    
+
 }
