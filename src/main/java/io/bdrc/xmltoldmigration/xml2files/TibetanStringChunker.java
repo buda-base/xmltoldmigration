@@ -5,6 +5,8 @@ import java.util.List;
 
 public class TibetanStringChunker {
 
+    public static final boolean fix0F7F = true;
+    
     public static enum CharType {
         HEAD, // characters always at the front of a chunk
         SOFTHEAD, // same for emergency cases
@@ -99,9 +101,20 @@ public class TibetanStringChunker {
         while (curCharIndex < len) {
             // only break on spaces or \n:
             final int curPoint = totalStr.codePointAt(curCharIndex);
-            System.out.println(totalStr.charAt(curCharIndex));
             boolean doBreak = false;
-            final CharType ct = getCharType(curPoint);
+            CharType ct = getCharType(curPoint);
+            if (ct == CharType.COMPLEX) {
+                // if surrounded by space, then HEAD, else TAIL
+                if ((previousPoint == -1 || previousPoint == 0x0020) && curCharIndex < len && totalStr.codePointAt(curCharIndex+1) == 0x0020) {
+                    ct = CharType.HEAD;
+                } else {
+                    ct = CharType.TAIL;
+                }
+            }
+            // case where 0F7F is used instead of 0F14, with a space afterwards
+            if (curPoint == 0x0F7F && fix0F7F && curCharIndex < len && totalStr.codePointAt(curCharIndex+1) == 0x0020) {
+                ct = CharType.TAIL;
+            }
             switch (curMode) {
             case MODE_TAIL:
                 switch(ct) {
@@ -119,15 +132,6 @@ public class TibetanStringChunker {
                 case SHAD_LIKE_LETTER:
                     doBreak = true;
                     curMode = MODE_AFTER_SHAD_LIKE;
-                    break;
-                case COMPLEX:
-                    // this is always handled in the same way:
-                    if ((previousPoint == -1 || previousPoint == 0x0020) && curCharIndex < len && totalStr.codePointAt(curCharIndex+1) == 0x0020) {
-                        doBreak = true;
-                        curMode = MODE_HEAD;
-                    } else {
-                        curMode = MODE_TAIL;
-                    }
                     break;
                 default:
                     break;
@@ -163,14 +167,6 @@ public class TibetanStringChunker {
                     curMode = MODE_HEAD;
                     doBreak = true;
                     break;
-                case COMPLEX:
-                    if ((previousPoint == -1 || previousPoint == 0x0020) && curCharIndex < len && totalStr.codePointAt(curCharIndex+1) == 0x0020) {
-                        doBreak = true;
-                        curMode = MODE_HEAD;
-                    } else {
-                        curMode = MODE_TAIL;
-                    }
-                    break;
                 default:
                     break;
                 }
@@ -194,20 +190,12 @@ public class TibetanStringChunker {
                     curMode = MODE_HEAD;
                     doBreak = true;
                     break;
-                case COMPLEX:
-                    if ((previousPoint == -1 || previousPoint == 0x0020) && curCharIndex < len && totalStr.codePointAt(curCharIndex+1) == 0x0020) {
-                        doBreak = true;
-                        curMode = MODE_HEAD;
-                    } else {
-                        curMode = MODE_TAIL;
-                    }
-                    break;
                 default:
                     break;
                 }
                 break;
             }
-            if (doBreak && curCharIndex != 0) {
+            if (doBreak) {
                 resChars.add(curCharIndex);
                 resPoints.add(curPointIndex);
             }

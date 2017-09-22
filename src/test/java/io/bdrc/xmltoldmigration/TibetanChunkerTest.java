@@ -25,6 +25,10 @@ public class TibetanChunkerTest {
         assertTrue(res[0].isEmpty());
         res = TibetanStringChunker.getAllBreakingCharsIndexes("x ༑x");
         assertThat(res[0], contains(3));
+        res = TibetanStringChunker.getAllBreakingCharsIndexes("x\u0f14x");
+        assertThat(res[0], contains(2));
+        res = TibetanStringChunker.getAllBreakingCharsIndexes("x\u0f7f x");
+        assertThat(res[0], contains(3));
         res = TibetanStringChunker.getAllBreakingCharsIndexes("xxx།། །། ༆ ། །xxx");
         assertThat(res[0], contains(9));
         res = TibetanStringChunker.getAllBreakingCharsIndexes("xxx༎ ༎༆ ༎xxx");
@@ -34,7 +38,6 @@ public class TibetanChunkerTest {
         res = TibetanStringChunker.getAllBreakingCharsIndexes("བཀྲིས་ ༼བཀྲ་ཤིས༽ ངའི་གྲོགས་པོ་རེད།");
         assertTrue(res[0].isEmpty());
         res = TibetanStringChunker.getAllBreakingCharsIndexes("ག གི གྲ ཀ ཤ པ མ");
-        System.out.println(Arrays.toString(res[0].toArray()));
         assertThat(res[0], contains(2, 5, 10, 12));
     }
 }
