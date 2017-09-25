@@ -106,6 +106,10 @@ public class MigrationApp
     }
 
     public static String getDstFileName(String type, String baseName) {
+        return getDstFileName(type, baseName, ".ttl");
+    }
+    
+    public static String getDstFileName(String type, String baseName, String extension) {
         final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product");
         String res = OUTPUT_DIR+type+"s/";
         if (needsHash) {
@@ -126,7 +130,7 @@ public class MigrationApp
                 return null;
             }
         }
-        res = res + baseName + ".ttl";
+        res = res + baseName + extension;
         return res;
     }
     

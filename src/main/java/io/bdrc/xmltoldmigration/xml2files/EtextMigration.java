@@ -1,6 +1,10 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -75,6 +79,7 @@ public class EtextMigration {
     public static void migrateEtexts() {
         MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts");
         GitHelpers.ensureGitRepo("etext");
+        GitHelpers.ensureGitRepo("etextcontent");
         String dirName = MigrationApp.ETEXT_DIR;
         File[] filesL1 = new File(dirName).listFiles();
         for (File fl1 : filesL1) {
@@ -101,7 +106,20 @@ public class EtextMigration {
                        String name = fl4.getName();
                        if (name.startsWith("_") || !name.endsWith(".xml"))
                            continue;
-                       EtextInfos ei = migrateOneEtext(fl4.getAbsolutePath(), isOcr);
+                       String id = name.substring(0, name.length()-4);
+                       String dstName = MigrationApp.getDstFileName("etextcontent", id, ".txt");
+                       File dstFile = new File(dstName);
+                       EtextInfos ei;
+                       try {
+                           if (!dstFile.exists())
+                               dstFile.createNewFile();
+                           FileOutputStream dst = new FileOutputStream(dstFile);
+                           ei = migrateOneEtext(fl4.getAbsolutePath(), isOcr, dst);
+                           dst.close();
+                       } catch (IOException e1) {
+                           e1.printStackTrace();
+                           return;
+                       }
                        if (itemId != null && !ei.itemId.equals(itemId))
                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, fl2.getName(), fl2.getName(), "got two different itemIds: "+itemId+" and "+ei.itemId);
                        if (itemId == null) {
@@ -232,7 +250,7 @@ public class EtextMigration {
         return seqRes;
     }
     
-    public static EtextInfos migrateOneEtext(final String path, boolean isOcr) {
+    public static EtextInfos migrateOneEtext(final String path, final boolean isOcr, final OutputStream contentOut) {
         final Document d = MigrationHelpers.documentFromFileName(path);
         Element fileDesc;
         try {
@@ -284,7 +302,7 @@ public class EtextMigration {
                 RDF.type,
                 etextModel.getResource(BDR+"Etext"+(isOcr?"OCR":"Input")));
         
-        int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel);
+        final int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel);
         itemModel.add(getItemEtextPart(itemModel, itemId, volSeqNumInfos[0], volSeqNumInfos[1]),
                 itemModel.getProperty(BDO, "eTextResource"),
                 itemModel.createResource(BDR+etextId));
@@ -314,7 +332,7 @@ public class EtextMigration {
                 etextModel.getProperty(BDO, "eTextSourcePath"),
                 etextModel.createLiteral(e.getTextContent().trim()));
         
-        EtextBodyMigration.MigrateBody(d, System.out, etextModel, etextId);
+        EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId);
         
         return new EtextInfos(itemModel, etextModel, workId, itemId, etextId);
     }

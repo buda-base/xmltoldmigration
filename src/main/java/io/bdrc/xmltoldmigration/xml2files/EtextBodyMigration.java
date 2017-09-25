@@ -58,10 +58,13 @@ public class EtextBodyMigration {
         int pageBeginChar = 0;
         for (int i = 0; i < pars.getLength(); i++) {
             Element par = (Element) pars.item(i);
-            String pageNum = par.getAttribute("n");
             Resource pageR = m.createResource();
             etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
-            pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createLiteral(pageNum)); // TODO: convert to int, but what about image ref?
+            String pageNum = par.getAttribute("n");
+            if (!pageNum.isEmpty()) {
+                // TODO: translate image file name into number
+                pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(Integer.valueOf(pageNum), XSDDatatype.XSDinteger));
+            }
             if (oneLongString) {
                 pageR.addProperty(m.createProperty(BDO, "sliceStart"), m.createLiteral("1-"+currentTotalPoints));
             } else {
@@ -79,6 +82,8 @@ public class EtextBodyMigration {
                       System.out.println("cannot parse line number string: "+milestone.getAttribute("n"));
                   }
               } else {
+                if (linenum == 0)
+                    linenum = 1;
                 final String s = normalizeString(child.getTextContent(), Integer.toString(linenum), pageNum);
                 Resource lineR = m.createResource();
                 pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
@@ -111,17 +116,24 @@ public class EtextBodyMigration {
         }
     }
     
-    public static String translatePoint(List<Integer> pointBreaks, int pointIndex) {
+    public static String translatePoint(List<Integer> pointBreaks, int pointIndex, boolean isEnd) {
+        // pointIndex depends on the context, 
+        // if it's about the starting point (isEnd == false):
+        //     it's the index of the starting char: ab|cd -> pointIndex 2 for the beginning of the second segment (cd)
+        // else 
+        //     it's the index after the end char: ab|cd -> pointIndex 2 for the end of the first segment (ab)
         int curLine = 1;
         int toSubstract = 0;
         for (final int pointBreak : pointBreaks) {
-            if (pointBreak > pointIndex) {
+            // pointBreak is the index at which the break occurs, for instance
+            // a|bc|d will have pointBreaks of 1 and 3
+            if (pointBreak > pointIndex || (isEnd && pointBreak == pointIndex)) {
                 break;
             }
             toSubstract = pointBreak;
             curLine += 1;
         }
-        return curLine+"-"+(pointIndex-toSubstract);
+        return curLine+"-"+(pointIndex-toSubstract+1); // +1 so that characters start at 1
     }
     
     public static void chunkString(final String totalStr, final Map<Resource,int[]> resourcesCoords, final PrintStream out, final Model m, final String eTextId, final int totalPoints) {
@@ -132,7 +144,7 @@ public class EtextBodyMigration {
         //final int nbBreaks = charBreaks.size();
         for (final int charBreakIndex : charBreaks) { 
             out.print(totalStr.substring(previousIndex, charBreakIndex)+'\n');
-            previousIndex = charBreakIndex+1;// because we don't typeset the space
+            previousIndex = charBreakIndex;
         }
         if (previousIndex != totalStr.length()) {
             out.print(totalStr.substring(previousIndex));
@@ -141,8 +153,8 @@ public class EtextBodyMigration {
         final Property sliceEnd = m.getProperty(BDO, "sliceEnd");
         for (final Entry<Resource,int[]> e : resourcesCoords.entrySet()) {
             final int[] oldSet = e.getValue();
-            final String start = translatePoint(pointBreaks, oldSet[0]);
-            final String end = translatePoint(pointBreaks, oldSet[1]);
+            final String start = translatePoint(pointBreaks, oldSet[0], false);
+            final String end = translatePoint(pointBreaks, oldSet[1], true);
             m.add(e.getKey(), sliceStart, m.createLiteral(start));
             m.add(e.getKey(), sliceEnd, m.createLiteral(end));
         }

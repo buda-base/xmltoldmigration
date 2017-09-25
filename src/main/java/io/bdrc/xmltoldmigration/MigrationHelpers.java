@@ -154,6 +154,7 @@ public class MigrationHelpers {
         nsPrio.put("http://purl.bdrc.io/ontology/toberemoved/", 6);
         List<String> predicatesPrio = CompareComplex.getDefaultPropUris();
         predicatesPrio.add(CommonMigration.ADM+"logDate");
+        predicatesPrio.add(CommonMigration.BDO+"seqNum");
         predicatesPrio.add(CommonMigration.BDO+"onOrAbout");
         predicatesPrio.add(CommonMigration.BDO+"noteText");
         predicatesPrio.add(CommonMigration.BDO+"noteWork");

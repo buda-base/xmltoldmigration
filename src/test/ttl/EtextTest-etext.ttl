@@ -12,129 +12,129 @@
 
 bdr:UT1CZ2485_001_0000
     a                   bdr:EtextInput ;
-    :eTextHasPage       [ :pageHasLine        [ :seqNum             0 ;
-                                                :sliceEnd           25 ;
-                                                :sliceStart         0
+    :eTextHasPage       [ :pageHasLine        [ :seqNum             1 ;
+                                                :sliceEnd           "1-26" ;
+                                                :sliceStart         "1-1"
                                               ] ;
-                          :seqNum             "1" ;
-                          :sliceEnd           25 ;
-                          :sliceStart         0
+                          :seqNum             1 ;
+                          :sliceEnd           "1-26" ;
+                          :sliceStart         "1-1"
                         ] ,
             [ :pageHasLine        [ :seqNum             1 ;
-                                    :sliceEnd           2052 ;
-                                    :sliceStart         1839
+                                    :sliceEnd           "8-13" ;
+                                    :sliceStart         "2-1"
                                   ] ,
                       [ :seqNum             2 ;
-                        :sliceEnd           2269 ;
-                        :sliceStart         2052
+                        :sliceEnd           "11-24" ;
+                        :sliceStart         "8-13"
                       ] ,
                       [ :seqNum             3 ;
-                        :sliceEnd           2485 ;
-                        :sliceStart         2269
+                        :sliceEnd           "14-32" ;
+                        :sliceStart         "11-24"
                       ] ,
                       [ :seqNum             4 ;
-                        :sliceEnd           2700 ;
-                        :sliceStart         2485
+                        :sliceEnd           "18-21" ;
+                        :sliceStart         "14-32"
                       ] ,
                       [ :seqNum             5 ;
-                        :sliceEnd           2908 ;
-                        :sliceStart         2700
+                        :sliceEnd           "23-14" ;
+                        :sliceStart         "18-21"
+                      ] ;
+              :seqNum             2 ;
+              :sliceEnd           "23-14" ;
+              :sliceStart         "2-1"
+            ] ,
+            [ :pageHasLine        [ :seqNum             1 ;
+                                    :sliceEnd           "29-8" ;
+                                    :sliceStart         "23-14"
+                                  ] ,
+                      [ :seqNum             2 ;
+                        :sliceEnd           "35-48" ;
+                        :sliceStart         "29-8"
+                      ] ,
+                      [ :seqNum             3 ;
+                        :sliceEnd           "39-35" ;
+                        :sliceStart         "36-1"
+                      ] ,
+                      [ :seqNum             4 ;
+                        :sliceEnd           "42-50" ;
+                        :sliceStart         "39-35"
+                      ] ,
+                      [ :seqNum             5 ;
+                        :sliceEnd           "48-57" ;
+                        :sliceStart         "42-50"
                       ] ,
                       [ :seqNum             6 ;
-                        :sliceEnd           3152 ;
-                        :sliceStart         2908
+                        :sliceEnd           "54-35" ;
+                        :sliceStart         "48-57"
+                      ] ;
+              :seqNum             3 ;
+              :sliceEnd           "54-35" ;
+              :sliceStart         "23-14"
+            ] ,
+            [ :pageHasLine        [ :seqNum             1 ;
+                                    :sliceEnd           "60-6" ;
+                                    :sliceStart         "55-1"
+                                  ] ,
+                      [ :seqNum             2 ;
+                        :sliceEnd           "64-12" ;
+                        :sliceStart         "60-6"
+                      ] ,
+                      [ :seqNum             3 ;
+                        :sliceEnd           "69-21" ;
+                        :sliceStart         "64-12"
+                      ] ,
+                      [ :seqNum             4 ;
+                        :sliceEnd           "75-16" ;
+                        :sliceStart         "70-1"
+                      ] ,
+                      [ :seqNum             5 ;
+                        :sliceEnd           "83-13" ;
+                        :sliceStart         "75-16"
+                      ] ,
+                      [ :seqNum             6 ;
+                        :sliceEnd           "87-13" ;
+                        :sliceStart         "83-13"
                       ] ,
                       [ :seqNum             7 ;
-                        :sliceEnd           3376 ;
-                        :sliceStart         3152
+                        :sliceEnd           "91-24" ;
+                        :sliceStart         "87-13"
                       ] ;
-              :seqNum             "4" ;
-              :sliceEnd           3376 ;
-              :sliceStart         1839
+              :seqNum             4 ;
+              :sliceEnd           "91-24" ;
+              :sliceStart         "55-1"
             ] ,
             [ :pageHasLine        [ :seqNum             1 ;
-                                    :sliceEnd           138 ;
-                                    :sliceStart         25
+                                    :sliceEnd           "97-29" ;
+                                    :sliceStart         "91-24"
                                   ] ,
                       [ :seqNum             2 ;
-                        :sliceEnd           265 ;
-                        :sliceStart         138
+                        :sliceEnd           "103-52" ;
+                        :sliceStart         "98-1"
                       ] ,
                       [ :seqNum             3 ;
-                        :sliceEnd           400 ;
-                        :sliceStart         265
+                        :sliceEnd           "106-18" ;
+                        :sliceStart         "103-52"
                       ] ,
                       [ :seqNum             4 ;
-                        :sliceEnd           536 ;
-                        :sliceStart         400
+                        :sliceEnd           "107-75" ;
+                        :sliceStart         "106-18"
                       ] ,
                       [ :seqNum             5 ;
-                        :sliceEnd           671 ;
-                        :sliceStart         536
-                      ] ;
-              :seqNum             "2" ;
-              :sliceEnd           671 ;
-              :sliceStart         25
-            ] ,
-            [ :pageHasLine        [ :seqNum             1 ;
-                                    :sliceEnd           849 ;
-                                    :sliceStart         671
-                                  ] ,
-                      [ :seqNum             2 ;
-                        :sliceEnd           1041 ;
-                        :sliceStart         849
-                      ] ,
-                      [ :seqNum             3 ;
-                        :sliceEnd           1251 ;
-                        :sliceStart         1041
-                      ] ,
-                      [ :seqNum             4 ;
-                        :sliceEnd           1458 ;
-                        :sliceStart         1251
-                      ] ,
-                      [ :seqNum             5 ;
-                        :sliceEnd           1642 ;
-                        :sliceStart         1458
+                        :sliceEnd           "110-59" ;
+                        :sliceStart         "108-1"
                       ] ,
                       [ :seqNum             6 ;
-                        :sliceEnd           1839 ;
-                        :sliceStart         1642
-                      ] ;
-              :seqNum             "3" ;
-              :sliceEnd           1839 ;
-              :sliceStart         671
-            ] ,
-            [ :pageHasLine        [ :seqNum             1 ;
-                                    :sliceEnd           3576 ;
-                                    :sliceStart         3376
-                                  ] ,
-                      [ :seqNum             2 ;
-                        :sliceEnd           3803 ;
-                        :sliceStart         3576
-                      ] ,
-                      [ :seqNum             3 ;
-                        :sliceEnd           4013 ;
-                        :sliceStart         3803
-                      ] ,
-                      [ :seqNum             4 ;
-                        :sliceEnd           4254 ;
-                        :sliceStart         4013
-                      ] ,
-                      [ :seqNum             5 ;
-                        :sliceEnd           4478 ;
-                        :sliceStart         4254
-                      ] ,
-                      [ :seqNum             6 ;
-                        :sliceEnd           4679 ;
-                        :sliceStart         4478
+                        :sliceEnd           "112-40" ;
+                        :sliceStart         "110-59"
                       ] ,
                       [ :seqNum             7 ;
-                        :sliceEnd           4913 ;
-                        :sliceStart         4679
+                        :sliceEnd           "115-28" ;
+                        :sliceStart         "112-40"
                       ] ;
-              :seqNum             "5" ;
-              :sliceEnd           4913 ;
-              :sliceStart         3376
+              :seqNum             5 ;
+              :sliceEnd           "115-28" ;
+              :sliceStart         "91-24"
             ] ;
     :eTextInItem        bdr:I1CZ2485_E001 ;
     :eTextIsVolume      1 ;

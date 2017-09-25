@@ -12,6 +12,7 @@ import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.EtextBodyMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextMigration.EtextInfos;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
@@ -24,10 +25,15 @@ import org.junit.BeforeClass;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.validation.Validator;
 import javax.xml.xpath.XPathExpressionException;
@@ -337,19 +343,26 @@ public class MigrationTest
     }
 	
     @Test
-    public void testEtext() throws XPathExpressionException
+    public void testEtext() throws XPathExpressionException, IOException
     {
         System.out.println("testing etext");
-        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false);
+        assertTrue(EtextBodyMigration.translatePoint(Arrays.asList(2), 1, true).equals("1-2"));
+        assertTrue(EtextBodyMigration.translatePoint(Arrays.asList(2), 2, false).equals("2-1"));
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out);
+        String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.itemId.equals("I1CZ2485_E001"));
         assertTrue(ei.workId.equals("W1CZ2485"));
         assertTrue(ei.etextId.equals("UT1CZ2485_001_0000"));
-        MigrationHelpers.modelToOutputStream(ei.etextModel, System.out, "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
+        //MigrationHelpers.modelToOutputStream(ei.etextModel, System.out, "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
         //MigrationHelpers.modelToOutputStream(ei.itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, ei.itemId);
+        //System.out.println(computedContent);
         Model correctEtextModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-etext.ttl");
         Model correctItemModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-item.ttl");
+        String correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content.txt")));
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
         assertTrue( MigrationHelpers.isSimilarTo(ei.itemModel, correctItemModel) );
+        assertTrue(computedContent.equals(correctContent));
         flushLog();
     }
 }
