@@ -1,7 +1,9 @@
 package io.bdrc.xmltoldmigration;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import static org.junit.Assert.assertThat;
@@ -49,5 +51,16 @@ public class TibetanChunkerTest {
     
     @Test
     public void testSelection() {
+        // building fake entries
+        List<Integer>[] allIndexes = new List[3];
+        allIndexes[0] = Arrays.asList(1, 2, 3, 4, 5, 6);
+        allIndexes[1] = Arrays.asList(1, 2, 3, 4, 5, 6);
+        allIndexes[2] = Arrays.asList(1, 9, 9, 9, 9, 6, 7);
+        Map<Integer,Boolean> breakIndexes = new HashMap<Integer,Boolean>();
+        for (int i = 0; i < 6; i++) {
+            breakIndexes.put(i, true);
+        }
+        TibetanStringChunker.filterQuatrains(breakIndexes, allIndexes);
+        assertThat(breakIndexes.values(), contains(true, false, false, false, true, true));
     }
 }

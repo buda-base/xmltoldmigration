@@ -1,11 +1,17 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class TibetanStringChunker {
 
-    public static final boolean fix0F7F = true;
+    public static boolean fix0F7F = true;
+    public static int maxQuatrainNbSylls = 15;
+    public static int minQuatrainNbSylls = 7;
+    public static int maxSmallGroupSize = 8; // multiple of 4 to avoid side effect with quatrain grouping
     
     public static enum CharType {
         HEAD, // characters always at the front of a chunk
@@ -236,13 +242,127 @@ public class TibetanStringChunker {
         return res;
     }
     
-    public static List<Integer>[] selectBreakingCharsIndexes(final List<Integer>[] allIndexes, final int meanChunkSizeAim, final int maxChunkSizeAim, final int minChunkSize) {
+    public static List<Integer>[] selectBreakingCharsIndexes(final List<Integer>[] allIndexes, final int meanChunkPointsAim, final int maxChunkPointsAim, final int minChunkNbSylls) {
         final List<Integer> resChars = new ArrayList<Integer>();
         final List<Integer> resPoints = new ArrayList<Integer>();
+        
+        Map<Integer,Boolean> breakIndexes = new HashMap<Integer,Boolean>();
+        for (int i = 0; i < allIndexes[0].size(); i++) {
+            breakIndexes.put(i, true);
+        }
+
+        filterQuatrains(breakIndexes, allIndexes);
+        filterSmalls(breakIndexes, allIndexes, minChunkNbSylls);
+        filterRegroup(breakIndexes, allIndexes, meanChunkPointsAim, maxChunkPointsAim);
+
+        for (int i = 0; i < allIndexes[0].size(); i++) {
+            if (breakIndexes.get(i)) {
+                resChars.add(allIndexes[0].get(i));
+                resPoints.add(allIndexes[1].get(i));
+            }
+        }
         
         List<Integer>[] res = new List[2];
         res[0] = resChars;
         res[1] = resPoints;
         return res;
+    }
+
+    public static void filterRegroup(Map<Integer, Boolean> breakIndexes, List<Integer>[] allIndexes,
+            int meanChunkPointsAim, int maxChunkPointsAim) {
+        int lastBreakPointIndex = 0;
+        int curIndex = 0;
+        int lastPossibleBreakPointIndex = 0;
+        int lastPossibleBreakIndex = 0;
+        for (Integer nbPoints : allIndexes[1]) {
+            final int totalPointsBeforeThis = nbPoints - lastBreakPointIndex;
+            if (totalPointsBeforeThis < meanChunkPointsAim) {
+                if (breakIndexes.get(curIndex)) {
+                    // we fill it with false, but the last one may be set to true afterwards
+                    breakIndexes.put(curIndex, false);
+                    lastPossibleBreakPointIndex = nbPoints;
+                    lastPossibleBreakIndex = curIndex;
+                }
+            } else if (totalPointsBeforeThis >  maxChunkPointsAim) {
+                if (nbPoints - lastPossibleBreakPointIndex < maxChunkPointsAim) {
+                    breakIndexes.put(lastPossibleBreakIndex, true);
+                    breakIndexes.put(curIndex, false);
+                    lastBreakPointIndex = lastPossibleBreakPointIndex;
+                } else if (curIndex != 0) {
+                    // we force a break even if there should not be one:
+                    breakIndexes.put(curIndex -1, true);
+                    breakIndexes.put(curIndex, false);
+                    lastBreakPointIndex = curIndex -1;
+                }
+                lastPossibleBreakIndex = 0;
+                lastPossibleBreakPointIndex = 0;
+            } else {
+                if (lastPossibleBreakIndex == 0) {
+                    lastBreakPointIndex = nbPoints;
+                } else {
+                    final int totalPointsBeforeLast = lastPossibleBreakPointIndex - lastBreakPointIndex;
+                    if (meanChunkPointsAim - totalPointsBeforeLast < totalPointsBeforeThis - meanChunkPointsAim) {
+                        // mean chunk size is closer to the break before:
+                        breakIndexes.put(lastPossibleBreakIndex, true);
+                        breakIndexes.put(curIndex, false);
+                        lastBreakPointIndex = lastPossibleBreakPointIndex;
+                    } else {
+                        // this index is already set to true
+                        lastBreakPointIndex = nbPoints;
+                    }
+                    lastPossibleBreakIndex = 0;
+                    lastPossibleBreakPointIndex = 0;
+                }
+            }
+            curIndex += 1;
+        }
+    }
+
+    public static void filterSmalls(Map<Integer, Boolean> breakIndexes, List<Integer>[] allIndexes, int minChunkNbSylls) {
+        int curIndex = 0;
+        int nbInCurGroup = 0;
+        //maxSmallGroupSize
+        for (Integer nbSyllables : allIndexes[2]) {
+            if (nbSyllables < minChunkNbSylls) {
+                if (nbInCurGroup >= maxSmallGroupSize) {
+                    nbInCurGroup = 0;
+                } else {
+                    nbInCurGroup += 1;
+                    breakIndexes.put(curIndex-1, false);
+                }
+            } else {
+                nbInCurGroup = 0;
+            }
+            curIndex += 1;
+        }
+    }
+
+    public static void filterQuatrains(Map<Integer, Boolean> breakIndexes, List<Integer>[] allIndexes) {
+        int curIndex = 0;
+        int lineOfQuatrain = 0;
+        int quatrainNbSylls = 0;
+        for (Integer nbSyllables : allIndexes[2]) {
+            if (lineOfQuatrain == 0) {
+                if (nbSyllables <= maxQuatrainNbSylls && nbSyllables >= minQuatrainNbSylls) {
+                    lineOfQuatrain = 1;
+                    quatrainNbSylls = nbSyllables;
+                }
+            } else {
+                if (quatrainNbSylls == nbSyllables) {
+                    lineOfQuatrain += 1;
+                    if (lineOfQuatrain == 4) {
+                        lineOfQuatrain = 0;
+                        quatrainNbSylls = 0;
+                        breakIndexes.put(curIndex-1, false);
+                        breakIndexes.put(curIndex-2, false);
+                        breakIndexes.put(curIndex-3, false);
+                    }
+                } else {
+                    lineOfQuatrain = 0;
+                    quatrainNbSylls = 0;
+                }
+            }
+            curIndex += 1;
+        }
     }
 }
