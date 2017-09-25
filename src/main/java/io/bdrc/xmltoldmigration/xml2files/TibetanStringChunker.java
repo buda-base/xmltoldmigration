@@ -1,6 +1,7 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,12 @@ public class TibetanStringChunker {
     public static final int MODE_TAIL = 1;
     public static final int MODE_HEAD = 2;
     public static final int MODE_AFTER_SHAD_LIKE = 3;
+    
+    public static List<Integer>[] getBreakingIndexes(final String totalStr, final int meanChunkPointsAim, final int maxChunkPointsAim, final int minChunkNbSylls) {
+        final List<Integer>[] allIndexes = getAllBreakingCharsIndexes(totalStr);
+        final List<Integer>[] res = selectBreakingCharsIndexes(allIndexes, meanChunkPointsAim, maxChunkPointsAim, minChunkNbSylls);
+        return res;
+    }
     
     public static List<Integer>[] getAllBreakingCharsIndexes(final String totalStr) {
         final List<Integer> resChars = new ArrayList<Integer>();
@@ -236,10 +243,11 @@ public class TibetanStringChunker {
             lastIsDelimiter = (ct == CharType.SYLLABLE_DELIMITER); 
         }
         resNbSylls.add(curNbSylls); // adding the final chunk's number of syllables 
-        List<Integer>[] res = new List[3];
+        List<Integer>[] res = new List[4];
         res[0] = resChars;
         res[1] = resPoints;
         res[2] = resNbSylls;
+        res[3] = Arrays.asList(curPointIndex); // to get the string length in terms of points
         return res;
     }
     
@@ -269,54 +277,66 @@ public class TibetanStringChunker {
         return res;
     }
 
-    public static void filterRegroup(Map<Integer, Boolean> breakIndexes, List<Integer>[] allIndexes,
-            int meanChunkPointsAim, int maxChunkPointsAim) {
-        int lastBreakPointIndex = 0;
+    public static void filterRegroup(final Map<Integer, Boolean> breakIndexes, final List<Integer>[] allIndexes,
+            final int meanChunkPointsAim, final int maxChunkPointsAim) {
+        int lastBreakPointIndex = -1;
         int curIndex = 0;
-        int lastPossibleBreakPointIndex = 0;
-        int lastPossibleBreakIndex = 0;
+        int lastPossibleBreakPointIndex = -1;
+        int lastPossibleBreakIndex = -1;
+        final int totalpoints = allIndexes[3].get(0);
+        // we add the total number of points in string at the end of allIndexes[1] in a temporary way:
+        allIndexes[1].add(totalpoints);
+        final int lastIndex = allIndexes[1].size()-1;
         for (Integer nbPoints : allIndexes[1]) {
             final int totalPointsBeforeThis = nbPoints - lastBreakPointIndex;
             if (totalPointsBeforeThis < meanChunkPointsAim) {
                 if (breakIndexes.get(curIndex)) {
                     // we fill it with false, but the last one may be set to true afterwards
-                    breakIndexes.put(curIndex, false);
+                    // each time we set breakIndexes[curIndex] we make sure we don't add a spurious
+                    // entry due to the additional entry at the end
+                    if (curIndex != lastIndex)
+                        breakIndexes.put(curIndex, false);
                     lastPossibleBreakPointIndex = nbPoints;
                     lastPossibleBreakIndex = curIndex;
                 }
             } else if (totalPointsBeforeThis >  maxChunkPointsAim) {
                 if (nbPoints - lastPossibleBreakPointIndex < maxChunkPointsAim) {
                     breakIndexes.put(lastPossibleBreakIndex, true);
-                    breakIndexes.put(curIndex, false);
+                    if (curIndex != lastIndex)
+                        breakIndexes.put(curIndex, false);
                     lastBreakPointIndex = lastPossibleBreakPointIndex;
                 } else if (curIndex != 0) {
                     // we force a break even if there should not be one:
                     breakIndexes.put(curIndex -1, true);
-                    breakIndexes.put(curIndex, false);
+                    if (curIndex != lastIndex)
+                        breakIndexes.put(curIndex, false);
                     lastBreakPointIndex = curIndex -1;
                 }
-                lastPossibleBreakIndex = 0;
-                lastPossibleBreakPointIndex = 0;
+                lastPossibleBreakIndex = -1;
+                lastPossibleBreakPointIndex = -1;
             } else {
-                if (lastPossibleBreakIndex == 0) {
+                if (lastPossibleBreakIndex == -1) {
                     lastBreakPointIndex = nbPoints;
                 } else {
                     final int totalPointsBeforeLast = lastPossibleBreakPointIndex - lastBreakPointIndex;
                     if (meanChunkPointsAim - totalPointsBeforeLast < totalPointsBeforeThis - meanChunkPointsAim) {
                         // mean chunk size is closer to the break before:
                         breakIndexes.put(lastPossibleBreakIndex, true);
-                        breakIndexes.put(curIndex, false);
+                        if (curIndex != lastIndex)
+                            breakIndexes.put(curIndex, false);
                         lastBreakPointIndex = lastPossibleBreakPointIndex;
                     } else {
                         // this index is already set to true
                         lastBreakPointIndex = nbPoints;
                     }
-                    lastPossibleBreakIndex = 0;
-                    lastPossibleBreakPointIndex = 0;
+                    lastPossibleBreakIndex = -1;
+                    lastPossibleBreakPointIndex = -1;
                 }
             }
             curIndex += 1;
         }
+        // we remove the final index we added at the beginning:
+        allIndexes[1].remove(curIndex-1);
     }
 
     public static void filterSmalls(Map<Integer, Boolean> breakIndexes, List<Integer>[] allIndexes, int minChunkNbSylls) {

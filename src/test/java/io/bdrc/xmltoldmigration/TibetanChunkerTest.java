@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -49,29 +50,33 @@ public class TibetanChunkerTest {
         assertThat(res[2], contains(6, 3));
     }
     
+    public static Map<Integer,Boolean> getNewBreakIndexes(int size) {
+        Map<Integer,Boolean> breakIndexes = new HashMap<Integer,Boolean>();
+        for (int i = 0; i < size; i++) {
+            breakIndexes.put(i, true);
+        }
+        return breakIndexes;
+    }
+    
     @Test
     public void testSelection() {
         // test quatrain grouping
-        List<Integer>[] allIndexes = new List[3];
-        allIndexes[0] = Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25);
-        allIndexes[1] = allIndexes[0];
+        List<Integer>[] allIndexes = new List[4];
         allIndexes[2] = Arrays.asList(7,7,7,7, 1, 9,9,9,9, 1, 7,7,7, 6, 7,7,7,7, 8,8,8,8,8, 7,7,7,7);
-        Map<Integer,Boolean> breakIndexes = new HashMap<Integer,Boolean>();
-        for (int i = 0; i < allIndexes[0].size(); i++) {
-            breakIndexes.put(i, true);
-        }
+        Map<Integer,Boolean> breakIndexes = getNewBreakIndexes(allIndexes[2].size()-1);
         TibetanStringChunker.filterQuatrains(breakIndexes, allIndexes);
         assertThat(breakIndexes.values(), contains(false, false, false, true, true, false, false, false, true, true, true, true, true, true, false, false, false, true, false, false, false, true, true, false, false, false));
         // test small grouping
-        allIndexes = new List[3];
-        allIndexes[0] = Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17);
-        allIndexes[1] = allIndexes[0];
         allIndexes[2] = Arrays.asList(2,2, 3, 2,1,2, 4, 4, 2,2,2,2,2,2,2,2, 2,2,2);
-        breakIndexes = new HashMap<Integer,Boolean>();
-        for (int i = 0; i < allIndexes[0].size(); i++) {
-            breakIndexes.put(i, true);
-        }
+        breakIndexes = getNewBreakIndexes(allIndexes[2].size()-1);
         TibetanStringChunker.filterSmalls(breakIndexes, allIndexes, 3);
         assertThat(breakIndexes.values(), contains(false, true, true, false, false, true, true, true, false, false, false, false, false, false, false, true, false, false));
+        // test chunk grouping to build chunks of approximate equal size, no max
+        // we need a mutable list for the test:
+        allIndexes[1] = new ArrayList<>(Arrays.asList(49, 100, 151, 200, 225, 275, 325, 349, 399, 440));
+        allIndexes[3] = Arrays.asList(490);
+        breakIndexes = getNewBreakIndexes(allIndexes[1].size());
+        TibetanStringChunker.filterRegroup(breakIndexes, allIndexes, 50, 5000);
+        assertThat(breakIndexes.values(), contains(true, true, true, true, false, true, true, false, true, true));
     }
 }
