@@ -51,16 +51,27 @@ public class TibetanChunkerTest {
     
     @Test
     public void testSelection() {
-        // building fake entries
+        // test quatrain grouping
         List<Integer>[] allIndexes = new List[3];
-        allIndexes[0] = Arrays.asList(1, 2, 3, 4, 5, 6);
-        allIndexes[1] = Arrays.asList(1, 2, 3, 4, 5, 6);
-        allIndexes[2] = Arrays.asList(1, 9, 9, 9, 9, 6, 7);
+        allIndexes[0] = Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25);
+        allIndexes[1] = allIndexes[0];
+        allIndexes[2] = Arrays.asList(7,7,7,7, 1, 9,9,9,9, 1, 7,7,7, 6, 7,7,7,7, 8,8,8,8,8, 7,7,7,7);
         Map<Integer,Boolean> breakIndexes = new HashMap<Integer,Boolean>();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < allIndexes[0].size(); i++) {
             breakIndexes.put(i, true);
         }
         TibetanStringChunker.filterQuatrains(breakIndexes, allIndexes);
-        assertThat(breakIndexes.values(), contains(true, false, false, false, true, true));
+        assertThat(breakIndexes.values(), contains(false, false, false, true, true, false, false, false, true, true, true, true, true, true, false, false, false, true, false, false, false, true, true, false, false, false));
+        // test small grouping
+        allIndexes = new List[3];
+        allIndexes[0] = Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17);
+        allIndexes[1] = allIndexes[0];
+        allIndexes[2] = Arrays.asList(2,2, 3, 2,1,2, 4, 4, 2,2,2,2,2,2,2,2, 2,2,2);
+        breakIndexes = new HashMap<Integer,Boolean>();
+        for (int i = 0; i < allIndexes[0].size(); i++) {
+            breakIndexes.put(i, true);
+        }
+        TibetanStringChunker.filterSmalls(breakIndexes, allIndexes, 3);
+        assertThat(breakIndexes.values(), contains(false, true, true, false, false, true, true, true, false, false, false, false, false, false, false, true, false, false));
     }
 }

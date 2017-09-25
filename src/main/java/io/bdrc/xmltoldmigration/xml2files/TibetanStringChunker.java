@@ -12,6 +12,7 @@ public class TibetanStringChunker {
     public static int maxQuatrainNbSylls = 15;
     public static int minQuatrainNbSylls = 7;
     public static int maxSmallGroupSize = 8; // multiple of 4 to avoid side effect with quatrain grouping
+    public static boolean smallsGroupedWithPreceding = false; // group trail of small chunks with preceding chunk
     
     public static enum CharType {
         HEAD, // characters always at the front of a chunk
@@ -321,14 +322,14 @@ public class TibetanStringChunker {
     public static void filterSmalls(Map<Integer, Boolean> breakIndexes, List<Integer>[] allIndexes, int minChunkNbSylls) {
         int curIndex = 0;
         int nbInCurGroup = 0;
-        //maxSmallGroupSize
         for (Integer nbSyllables : allIndexes[2]) {
             if (nbSyllables < minChunkNbSylls) {
                 if (nbInCurGroup >= maxSmallGroupSize) {
-                    nbInCurGroup = 0;
+                    nbInCurGroup = 1;
                 } else {
+                    if (curIndex > 0 && (smallsGroupedWithPreceding || nbInCurGroup > 0))
+                        breakIndexes.put(curIndex-1, false);
                     nbInCurGroup += 1;
-                    breakIndexes.put(curIndex-1, false);
                 }
             } else {
                 nbInCurGroup = 0;
@@ -358,8 +359,13 @@ public class TibetanStringChunker {
                         breakIndexes.put(curIndex-3, false);
                     }
                 } else {
-                    lineOfQuatrain = 0;
-                    quatrainNbSylls = 0;
+                    if (nbSyllables <= maxQuatrainNbSylls && nbSyllables >= minQuatrainNbSylls) {
+                        lineOfQuatrain = 1;
+                        quatrainNbSylls = nbSyllables;
+                    } else {
+                        lineOfQuatrain = 0;
+                        quatrainNbSylls = 0;
+                    }
                 }
             }
             curIndex += 1;
