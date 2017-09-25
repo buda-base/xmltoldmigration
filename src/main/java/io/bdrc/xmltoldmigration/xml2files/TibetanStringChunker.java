@@ -17,7 +17,8 @@ public class TibetanStringChunker {
         COMPLEX, // characters that are at the front of a chunk when surrounded by space, or at the end otherwise
         SHAD_LIKE_LETTER,
         VOWEL,
-        SPACE
+        SPACE,
+        SYLLABLE_DELIMITER
         ;  
       }
     
@@ -51,13 +52,15 @@ public class TibetanStringChunker {
         case 0x0f3c:
         case 0x0fd9:
             return CharType.SOFTHEAD;
-//        case 0x0f0b:
-//        case 0x0f0c:
         case 0x0f14:
         case 0x0f34: // ?
         case 0x0f3b:
-//        case 0x0fd2:
             return CharType.TAIL;
+        case 0x0f0b:
+        case 0x0f0c:
+        case 0x0fd2:
+        case 0x0f7f:
+            return CharType.SYLLABLE_DELIMITER;
         case 0x0fda:
         case 0x0f3e:
         case 0x0f3d:
@@ -93,11 +96,14 @@ public class TibetanStringChunker {
     public static List<Integer>[] getAllBreakingCharsIndexes(final String totalStr) {
         final List<Integer> resChars = new ArrayList<Integer>();
         final List<Integer> resPoints = new ArrayList<Integer>();
+        final List<Integer> resNbSylls = new ArrayList<Integer>();
         int curCharIndex = 0;
         int curPointIndex = 0;
+        int curNbSylls = 0;
         int previousPoint = -1;
         final int len = totalStr.length();
         int curMode = MODE_HEAD;
+        boolean lastIsDelimiter = false;
         while (curCharIndex < len) {
             // only break on spaces or \n:
             final int curPoint = totalStr.codePointAt(curCharIndex);
@@ -143,9 +149,11 @@ public class TibetanStringChunker {
                 case CHAR:
                 case VOWEL:
                     curMode = MODE_CHAR;
+                    curNbSylls = 1;
                     break;
                 case SHAD_LIKE_LETTER:
                     curMode = MODE_AFTER_SHAD_LIKE;
+                    curNbSylls = 1;
                     break;
                 default:
                     break;
@@ -158,6 +166,11 @@ public class TibetanStringChunker {
                 switch (ct) {
                 case SHAD_LIKE_LETTER:
                     curMode = MODE_AFTER_SHAD_LIKE;
+                    // no break
+                case CHAR:
+                case VOWEL:
+                    if (lastIsDelimiter)
+                        curNbSylls += 1;
                     break;
                 case SHAD:
                 case TAIL:
@@ -179,7 +192,13 @@ public class TibetanStringChunker {
                 case CHAR:
                 case SOFTHEAD:
                 case SOFTTAIL:
+                case SYLLABLE_DELIMITER:
                     curMode = MODE_CHAR;
+                    // no break
+                case VOWEL:
+                case SHAD_LIKE_LETTER:
+                    if (lastIsDelimiter)
+                        curNbSylls += 1;
                     break;
                 case SPACE:
                 case SHAD:
@@ -198,11 +217,29 @@ public class TibetanStringChunker {
             if (doBreak) {
                 resChars.add(curCharIndex);
                 resPoints.add(curPointIndex);
+                resNbSylls.add(curNbSylls);
+                if (ct == CharType.SHAD_LIKE_LETTER || ct == CharType.VOWEL || ct == CharType.CHAR)
+                    curNbSylls = 1;
+                else
+                    curNbSylls = 0;
             }
             curCharIndex += Character.charCount(curPoint);
             curPointIndex += 1;
             previousPoint = curPoint;
+            lastIsDelimiter = (ct == CharType.SYLLABLE_DELIMITER); 
         }
+        resNbSylls.add(curNbSylls); // adding the final chunk's number of syllables 
+        List<Integer>[] res = new List[3];
+        res[0] = resChars;
+        res[1] = resPoints;
+        res[2] = resNbSylls;
+        return res;
+    }
+    
+    public static List<Integer>[] selectBreakingCharsIndexes(final List<Integer>[] allIndexes, final int meanChunkSizeAim, final int maxChunkSizeAim, final int minChunkSize) {
+        final List<Integer> resChars = new ArrayList<Integer>();
+        final List<Integer> resPoints = new ArrayList<Integer>();
+        
         List<Integer>[] res = new List[2];
         res[0] = resChars;
         res[1] = resPoints;

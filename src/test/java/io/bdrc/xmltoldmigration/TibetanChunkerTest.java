@@ -12,7 +12,7 @@ import io.bdrc.xmltoldmigration.xml2files.TibetanStringChunker;
 public class TibetanChunkerTest {
 
     @Test
-    public void test1() {
+    public void testAllIndexes() {
         List<Integer>[]res = TibetanStringChunker.getAllBreakingCharsIndexes("x། xx");
         assertThat(res[0], contains(3));
         res = TibetanStringChunker.getAllBreakingCharsIndexes("x། །xx");
@@ -39,5 +39,15 @@ public class TibetanChunkerTest {
         assertTrue(res[0].isEmpty());
         res = TibetanStringChunker.getAllBreakingCharsIndexes("ག གི གྲ ཀ ཤ པ མ");
         assertThat(res[0], contains(2, 5, 10, 12));
+    }
+    
+    @Test
+    public void testNbSylls() {
+        List<Integer>[]res = TibetanStringChunker.getAllBreakingCharsIndexes("༄༅། ཀ༌ཀོ་ཀཿཀ࿒ཀ་ཀ ཀ་རང་ཀ།་");
+        assertThat(res[2], contains(6, 3));
+    }
+    
+    @Test
+    public void testSelection() {
     }
 }
