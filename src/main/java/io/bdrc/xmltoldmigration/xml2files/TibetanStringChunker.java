@@ -290,6 +290,8 @@ public class TibetanStringChunker {
         for (Integer nbPoints : allIndexes[1]) {
             final int totalPointsBeforeThis = nbPoints - lastBreakPointIndex;
             if (totalPointsBeforeThis < meanChunkPointsAim) {
+                if (curIndex == lastIndex)
+                    continue;
                 if (breakIndexes.get(curIndex)) {
                     // we fill it with false, but the last one may be set to true afterwards
                     // each time we set breakIndexes[curIndex] we make sure we don't add a spurious
