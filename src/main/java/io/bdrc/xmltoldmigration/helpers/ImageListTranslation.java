@@ -65,8 +65,8 @@ public class ImageListTranslation {
                     return res;
                 }
                 final int times = Integer.valueOf(imageListM.group(2));
-                final String firstPart = imageNumM.group(1);
-                final String lastPart = imageNumM.group(3);
+                final String firstPart = imageNumM.group(1).toLowerCase();
+                final String lastPart = imageNumM.group(3).toLowerCase();
                 final int initialNum = Integer.valueOf(imageNumM.group(2));
                 for (int i = initialNum ; i <= times ; i++) {
                     final int thisNum = i;
@@ -74,7 +74,7 @@ public class ImageListTranslation {
                     curPageNum += 1;
                 }
             } else {
-                res.put(imageListM.group(1), curPageNum);
+                res.put(imageListM.group(1).toLowerCase(), curPageNum);
                 curPageNum += 1;
             }
         }

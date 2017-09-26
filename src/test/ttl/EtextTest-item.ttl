@@ -10,7 +10,7 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:I1CZ2485_E001  a    bdr:ItemEtextInput ;
+bdr:I1CZ2485_E001  a    bdr:ItemEtextNonPaginated ;
     :itemHasVolume      [ :volumeHasEtext     [ :eTextResource      bdr:UT1CZ2485_001_0000 ;
                                                 :seqNum             0
                                               ] ;

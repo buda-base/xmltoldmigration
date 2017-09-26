@@ -102,7 +102,7 @@ public class EtextMigration {
                 Model itemModel = ModelFactory.createDefaultModel();
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
-                    if (!fl3.isDirectory() || fl3.getName().equals("UT1KG8475_WCSDT8_B_0000")) // blacklisting this file which looks erroneous
+                    if (!fl3.isDirectory() || fl3.getName().equals("UT1KG8475-WCSDT8_B") || fl3.getName().equals("UT1GS53494-I1GS53496")) // blacklisting these which looks erroneous
                         continue;
                     File[] filesL4 = fl3.listFiles();
                     for (File fl4 : filesL4) {
@@ -136,13 +136,20 @@ public class EtextMigration {
                                    itemModel.getProperty(BDO, "eTextDistributor"),
                                    itemModel.createResource(distributorUri));
                        }
+                       if (itemId == null) {
+                           System.err.println("arg!");
+                           System.err.println(ei.toString());
+                           continue;
+                       }
                        itemModel.add(ei.itemModel);
                        String dst = MigrationApp.getDstFileName("etext", ei.etextId);
                        MigrationHelpers.outputOneModel(ei.etextModel, ei.etextId, dst, "etext");
                     }
                 }
-                String dst = MigrationApp.getDstFileName("item", itemId);
-                MigrationHelpers.outputOneModel(itemModel, itemId, dst, "item");
+                if (itemId != null) { // null in the case of blacklisted works
+                    String dst = MigrationApp.getDstFileName("item", itemId);
+                    MigrationHelpers.outputOneModel(itemModel, itemId, dst, "item");
+                }
                 // TODO: write work->item link
             }
         }
@@ -180,19 +187,53 @@ public class EtextMigration {
         return m.createLiteral(s);
     }
 
+    public static int getVolumeNumber(String imageGroupId, Model m, String eTextId) {
+        if (imageGroupId.startsWith("i")) // UT1KG14557_i1KG14561_0000
+            imageGroupId = "I"+imageGroupId.substring(1);
+        if (!imageGroupId.startsWith("I")) // UT30012_5742_0000
+            imageGroupId = "I"+imageGroupId;
+        final Literal oldId = m.createLiteral(imageGroupId);
+        final Property volumeNumberP = m.getProperty(CommonMigration.BDO, "volumeNumber");
+        final Property legacyIdP = m.getProperty(CommonMigration.ADM, "legacyImageGroupRID");
+        final List<Statement> sl = m.listStatements(null, legacyIdP, oldId).toList();
+        if (sl.size() == 0) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot find volume with legacy RID "+imageGroupId);
+            return 1;
+        }
+        if (sl.size() > 1)
+            System.err.println("two volumes have the legacy ID!");
+        Resource volume = sl.get(0).getSubject().asResource();
+        Statement s = volume.getProperty(volumeNumberP);
+        if (s == null) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "volume with legacy RID "+imageGroupId+" has no volume number");
+            return 1;
+        }
+        return s.getInt();
+    }
+    
     public static Pattern p = Pattern.compile("^UT[^_]+_([^_]+)_(\\d+)$");
-    public static int[] fillInfosFromId(String eTextId, Model model) {
+    public static int[] fillInfosFromId(String eTextId, Model model, Model itemModel) {
         Matcher m = p.matcher(eTextId);
         if (!m.find()) {
             return new int[] {1, 0}; // always the case, only a few cases
-            // UT1KG8475_WCSDT8_B_0000
         }
         int seqNum = Integer.parseInt(m.group(2));
-        int vol;
+        int vol = 1;
+        boolean volumeIsImageGroup = false;
         try {
             vol = Integer.parseInt(m.group(1));
+            if (vol > 900) {
+                volumeIsImageGroup = true; // case of UT21871_4205_0000 : 4205 is not volume 4205, it's I4205
+            }
         } catch (NumberFormatException e) {
-            vol = 1;
+            volumeIsImageGroup = true;
+        }
+        if (volumeIsImageGroup) {
+            if (itemModel == null) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot understand volume name "+m.group(2));
+            } else {
+                vol = getVolumeNumber(m.group(1), itemModel, eTextId);
+        }
         }
         if (seqNum == 0) {
             model.add(model.getResource(BDR+eTextId),
@@ -236,6 +277,24 @@ public class EtextMigration {
                 itemModel.createTypedLiteral(seqNum, XSDDatatype.XSDinteger));
         // TODO: check for duplicates
         return seqRes;
+    }
+    
+    private static Model lastModel = null;
+    private static String lastModelId = null;
+    public static Model getItemModel(String workId, String etextId) {
+        String imageItemId = "I"+workId.substring(1)+"_I001";
+        if (lastModelId != null && lastModelId.equals(imageItemId)) {
+            return lastModel;
+        }
+        String imageItemPath = MigrationApp.getDstFileName("item", imageItemId);
+        Model imageItemModel = MigrationHelpers.modelFromFileName(imageItemPath);
+        if (imageItemModel == null) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+imageItemPath);
+            return null;
+        }
+        lastModelId = imageItemId;
+        lastModel = imageItemModel;
+        return imageItemModel;
     }
     
     public static EtextInfos migrateOneEtext(final String path, final boolean isPaginated, final OutputStream contentOut, final boolean needsPageNameTranslation) {
@@ -291,20 +350,22 @@ public class EtextMigration {
                 RDF.type,
                 etextModel.getResource(BDR+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
-        final int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel);
+        Model imageItemModel = null;
+        if (needsPageNameTranslation) {
+            imageItemModel = getItemModel(workId, etextId);
+            if (imageItemModel == null) {
+                System.err.println("error: cannot retrieve item model for "+workId);
+                return null;
+            }
+        }
+        
+        final int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel, imageItemModel);
         itemModel.add(getItemEtextPart(itemModel, itemId, volSeqNumInfos[0], volSeqNumInfos[1]),
                 itemModel.getProperty(BDO, "eTextResource"),
                 itemModel.createResource(BDR+etextId));
         
         Map<String,Integer> imageNumPageNum = null;
         if (needsPageNameTranslation) {
-            String imageItemId = "I"+workId.substring(1)+"_I001";
-            String imageItemPath = MigrationApp.getDstFileName("item", imageItemId);
-            Model imageItemModel = MigrationHelpers.modelFromFileName(imageItemPath);
-            if (imageItemModel == null) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+imageItemPath);
-                return null;
-            }
             imageNumPageNum = ImageListTranslation.getImageNums(imageItemModel, volSeqNumInfos[0]);
         }
         

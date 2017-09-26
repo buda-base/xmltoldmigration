@@ -65,11 +65,12 @@ public class EtextBodyMigration {
             final String pageNum = par.getAttribute("n");
             if (!pageNum.isEmpty()) {
                 if (imageNumPageNum != null) {
-                    Integer pageNumI = imageNumPageNum.get(pageNum);
-                    if (pageNumI == null && pageNum.startsWith("I1GS66377")) {
-                        pageNumI = imageNumPageNum.get(pageNum.replace(".tif", ".jpg"));
+                    Integer pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
+                    if (pageNumI == null) { // TODO: are there some cases in which this breaks?
+                        pageNumI = imageNumPageNum.get(pageNum.replace(".tif", ".jpg").toLowerCase());
                     }
                     if (pageNumI == null) {
+                        //System.out.println(imageNumPageNum);
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot find image "+pageNum);
                     } else {
                         pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(pageNumI, XSDDatatype.XSDinteger));

@@ -11,7 +11,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:UT1CZ2485_001_0000
-    a                   bdr:EtextInput ;
+    a                   bdr:EtextNonPaginated ;
     :eTextHasPage       [ :pageHasLine        [ :seqNum             1 ;
                                                 :sliceEnd           "1-26" ;
                                                 :sliceStart         "1-1"

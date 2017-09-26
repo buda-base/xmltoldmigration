@@ -425,7 +425,7 @@ public class MigrationApp
         migrateType(TOPIC, "T");
 //        migrateOneFile(new File(DATA_DIR+"tbrc-works/W8LS17217.xml"), "work", "W");
 //        migrateOneFile(new File(DATA_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
-//////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
+////        //migrateOneFile(new File(DATA_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
         migrateType(PRODUCT, "PR");
