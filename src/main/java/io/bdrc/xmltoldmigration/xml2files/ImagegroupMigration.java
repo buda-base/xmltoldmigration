@@ -25,8 +25,8 @@ public class ImagegroupMigration {
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
 
-    private static Pattern imageP = Pattern.compile("^(.+)(\\d{4})( ?\\..+)$");
-    private static Pattern basicP = Pattern.compile("[^|]+");
+    private static final Pattern imageP = Pattern.compile("^(.+)(\\d{4})( ?\\..+)$");
+    private static final Pattern basicP = Pattern.compile("[^|]+");
     public static void addImageList(String src, String mainId, String volNum, Model model, Resource main) {
         Matcher basicM = basicP.matcher(src);
         String prefix = "";

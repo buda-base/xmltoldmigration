@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,7 @@ import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.GitHelpers;
+import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 
 public class EtextMigration {
 
@@ -76,6 +78,8 @@ public class EtextMigration {
         return xPath;
     }
     
+    public static final List<String> paginatedProviders = Arrays.asList("UCB-OCR", "eKangyur");
+    
     public static void migrateEtexts() {
         MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts");
         GitHelpers.ensureGitRepo("etext");
@@ -87,7 +91,8 @@ public class EtextMigration {
                 continue;
             String distributor = fl1.getName();
             String distributorUri = distributorToUri.get(distributor);
-            boolean isOcr = distributor.equals("UCB-OCR");
+            boolean isPaginated = paginatedProviders.contains(distributor);
+            boolean needsPageNameTranslation = distributor.equals("UCB-OCR");
             File[] filesL2 = fl1.listFiles();
             for (File fl2 : filesL2) {
                 if (!fl2.isDirectory())
@@ -97,7 +102,7 @@ public class EtextMigration {
                 Model itemModel = ModelFactory.createDefaultModel();
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
-                    if (!fl3.isDirectory())
+                    if (!fl3.isDirectory() || fl3.getName().equals("UT1KG8475_WCSDT8_B_0000")) // blacklisting this file which looks erroneous
                         continue;
                     File[] filesL4 = fl3.listFiles();
                     for (File fl4 : filesL4) {
@@ -114,8 +119,11 @@ public class EtextMigration {
                            if (!dstFile.exists())
                                dstFile.createNewFile();
                            FileOutputStream dst = new FileOutputStream(dstFile);
-                           ei = migrateOneEtext(fl4.getAbsolutePath(), isOcr, dst);
+                           ei = migrateOneEtext(fl4.getAbsolutePath(), isPaginated, dst, needsPageNameTranslation);
                            dst.close();
+                           if (ei == null) {
+                               continue;
+                           }
                        } catch (IOException e1) {
                            e1.printStackTrace();
                            return;
@@ -176,28 +184,8 @@ public class EtextMigration {
     public static int[] fillInfosFromId(String eTextId, Model model) {
         Matcher m = p.matcher(eTextId);
         if (!m.find()) {
-            switch (eTextId) {
-            case "UT1KG6007_WPHWEQ_G_0000":
-                return new int[] {1, 0};
-            case "UT1KG6008_WEOAOB_D_0000":
-                return new int[] {1, 0};
-            case "UT1KG6085_W6JHPF_L_0000":
-                return new int[] {1, 0};
-            case "UT1KG6086_WWKP15_8_0000":
-                return new int[] {1, 0};
-            case "UT1KG6109_WXCTRH_H_0000":
-                return new int[] {1, 0};
-            case "UT1KG6132_WOBC5A_0_0000":
-                return new int[] {1, 0};
-            case "UT1KG6161_WI9IWD_U_0000":
-                return new int[] {1, 0};
-            case "UT1KG6330_W54ZNX_U_0000":
-                return new int[] {1, 0};
-            case "UT1KG8475_WCSDT8_B_0000":
-                return new int[] {1, 0}; // TODO: strange case
-            }
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot parse etext id "+eTextId);
-            return new int[] {1, 0};
+            return new int[] {1, 0}; // always the case, only a few cases
+            // UT1KG8475_WCSDT8_B_0000
         }
         int seqNum = Integer.parseInt(m.group(2));
         int vol;
@@ -250,7 +238,7 @@ public class EtextMigration {
         return seqRes;
     }
     
-    public static EtextInfos migrateOneEtext(final String path, final boolean isOcr, final OutputStream contentOut) {
+    public static EtextInfos migrateOneEtext(final String path, final boolean isPaginated, final OutputStream contentOut, final boolean needsPageNameTranslation) {
         final Document d = MigrationHelpers.documentFromFileName(path);
         Element fileDesc;
         try {
@@ -261,6 +249,7 @@ public class EtextMigration {
             e1.printStackTrace();
             return null;
         }
+        
         final Element titleStmt = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "titleStmt").item(0);
         final Element publicationStmt = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "publicationStmt").item(0);
         final Element sourceDesc = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "sourceDesc").item(0);
@@ -280,10 +269,10 @@ public class EtextMigration {
         }
         final String workId = e.getTextContent().trim();
         final String itemId = itemIdFromWorkId(workId);
-
+        
         itemModel.add(itemModel.getResource(BDR+itemId),
                 RDF.type,
-                etextModel.getResource(BDR+"ItemEtext"+(isOcr?"OCR":"Input")));
+                etextModel.getResource(BDR+"ItemEtext"+(isPaginated?"Paginated":"NonPaginated")));
         
         try {
             e = (Element) ((NodeList)xPath.evaluate("tei:idno[@type='TBRC_TEXT_RID']",
@@ -300,12 +289,24 @@ public class EtextMigration {
         // TODO: discriminate between OCR and input
         etextModel.add(etextModel.getResource(BDR+etextId),
                 RDF.type,
-                etextModel.getResource(BDR+"Etext"+(isOcr?"OCR":"Input")));
+                etextModel.getResource(BDR+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
         final int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel);
         itemModel.add(getItemEtextPart(itemModel, itemId, volSeqNumInfos[0], volSeqNumInfos[1]),
                 itemModel.getProperty(BDO, "eTextResource"),
                 itemModel.createResource(BDR+etextId));
+        
+        Map<String,Integer> imageNumPageNum = null;
+        if (needsPageNameTranslation) {
+            String imageItemId = "I"+workId.substring(1)+"_I001";
+            String imageItemPath = MigrationApp.getDstFileName("item", imageItemId);
+            Model imageItemModel = MigrationHelpers.modelFromFileName(imageItemPath);
+            if (imageItemModel == null) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+imageItemPath);
+                return null;
+            }
+            imageNumPageNum = ImageListTranslation.getImageNums(imageItemModel, volSeqNumInfos[0]);
+        }
         
         final NodeList titles = titleStmt.getElementsByTagNameNS(TEI_PREFIX, "title");
         final List<String> titlesList = new ArrayList<String>();
@@ -332,7 +333,7 @@ public class EtextMigration {
                 etextModel.getProperty(BDO, "eTextSourcePath"),
                 etextModel.createLiteral(e.getTextContent().trim()));
         
-        EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId);
+        EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId, imageNumPageNum);
         
         return new EtextInfos(itemModel, etextModel, workId, itemId, etextId);
     }

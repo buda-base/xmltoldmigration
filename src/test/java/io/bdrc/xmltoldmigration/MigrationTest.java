@@ -10,6 +10,7 @@ import com.github.jsonldjava.core.JsonLdError;
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextBodyMigration;
@@ -35,6 +36,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
 import javax.xml.validation.Validator;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -321,6 +324,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ImagegroupTest.ttl");
+           //System.out.println(ImageListTranslation.getImageNums(correctModel, 1));
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", MigrationHelpers.OUTPUT_STTL, "");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
@@ -349,7 +353,7 @@ public class MigrationTest
         assertTrue(EtextBodyMigration.translatePoint(Arrays.asList(2), 1, true).equals("1-2"));
         assertTrue(EtextBodyMigration.translatePoint(Arrays.asList(2), 2, false).equals("2-1"));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out);
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false);
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.itemId.equals("I1CZ2485_E001"));
         assertTrue(ei.workId.equals("W1CZ2485"));

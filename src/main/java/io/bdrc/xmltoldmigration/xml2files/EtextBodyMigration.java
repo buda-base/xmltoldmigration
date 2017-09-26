@@ -22,6 +22,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+
 public class EtextBodyMigration {
 
     public static boolean oneLongString = false;
@@ -40,7 +42,7 @@ public class EtextBodyMigration {
         return res;
     }
     
-    public static void MigrateBody(Document d, OutputStream strOutput, Model m, String eTextId) {
+    public static void MigrateBody(Document d, OutputStream strOutput, Model m, String eTextId, Map<String,Integer> imageNumPageNum) {
         final PrintStream ps = new PrintStream(strOutput);
         Element body;
         Resource etextR = m.getResource(BDR+eTextId);
@@ -57,13 +59,29 @@ public class EtextBodyMigration {
         final Map<Resource,int[]> resourcesCoords = new HashMap<Resource,int[]>();
         int pageBeginChar = 0;
         for (int i = 0; i < pars.getLength(); i++) {
-            Element par = (Element) pars.item(i);
-            Resource pageR = m.createResource();
+            final Element par = (Element) pars.item(i);
+            final Resource pageR = m.createResource();
             etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
-            String pageNum = par.getAttribute("n");
+            final String pageNum = par.getAttribute("n");
             if (!pageNum.isEmpty()) {
-                // TODO: translate image file name into number
-                pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(Integer.valueOf(pageNum), XSDDatatype.XSDinteger));
+                if (imageNumPageNum != null) {
+                    Integer pageNumI = imageNumPageNum.get(pageNum);
+                    if (pageNumI == null && pageNum.startsWith("I1GS66377")) {
+                        pageNumI = imageNumPageNum.get(pageNum.replace(".tif", ".jpg"));
+                    }
+                    if (pageNumI == null) {
+                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot find image "+pageNum);
+                    } else {
+                        pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(pageNumI, XSDDatatype.XSDinteger));
+                    }
+                } else {
+                    try {
+                        final Integer pageNumI = Integer.valueOf(pageNum);
+                        pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(pageNumI, XSDDatatype.XSDinteger));
+                    } catch (NumberFormatException e) {
+                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot convert image to int "+pageNum);
+                    }
+                }
             }
             if (oneLongString) {
                 pageR.addProperty(m.createProperty(BDO, "sliceStart"), m.createLiteral("1-"+currentTotalPoints));
