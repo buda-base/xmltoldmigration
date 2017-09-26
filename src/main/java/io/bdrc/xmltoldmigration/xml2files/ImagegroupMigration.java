@@ -38,9 +38,16 @@ public class ImagegroupMigration {
         int lastOkInSeq = -1;
         List<String> missingPages = new ArrayList<>();
         boolean hasSlash = false;
+        String mixedCase = null;
+        String notSorted = null;
+        String previous = null;
         while (basicM.find()) {
             if (basicM.group(0).indexOf('/') != -1)
                 hasSlash = true;
+            if (notSorted == null && previous != null && previous.compareTo(basicM.group(0)) > 0) {
+                notSorted = previous+"|"+basicM.group(0);
+            }
+            previous = basicM.group(0);
             total = total +1;
             Matcher m = imageP.matcher(basicM.group(0));
             if (!m.find()) {
@@ -66,7 +73,11 @@ public class ImagegroupMigration {
                 else
                     missingPages.add(rangeB+"-"+rangeE);
             }
-            if (!m.group(1).equals(prefix) || !m.group(3).equals(suffix) || newInt != i+1) {
+            final String newSuffix = m.group(3);
+            if (mixedCase == null && !newSuffix.equals(suffix) && newSuffix.toLowerCase().equals(suffix.toLowerCase())) {
+                mixedCase = suffix+" and "+newSuffix;
+            }
+            if (!m.group(1).equals(prefix) || !newSuffix.equals(suffix) || newInt != i+1) {
                 if (lastOkInSeq != -1)
                     dst.append(":"+lastOkInSeq);
                 if (!first)
@@ -74,7 +85,7 @@ public class ImagegroupMigration {
                 dst.append(m.group(0));
                 prefix = m.group(1);
                 i = newInt;
-                suffix = m.group(3);
+                suffix = newSuffix;
                 lastOkInSeq = -1;
             } else {
                 i = i +1;
@@ -86,6 +97,10 @@ public class ImagegroupMigration {
             dst.append(":"+lastOkInSeq);
         if (hasSlash)
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "image list contains invalid character `/`");
+        if (mixedCase != null)
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "image list contains a mix of upper and lower case extensions: "+mixedCase);
+        if (notSorted != null)
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "image list is not sorted alphabetically, for example: "+notSorted);
         Literal value = model.createLiteral(dst.toString());
         model.add(main, model.getProperty(BDO+"imageList"), value);
         model.add(main, model.getProperty(BDO+"imageCount"), model.createTypedLiteral(total, XSDDatatype.XSDinteger));
