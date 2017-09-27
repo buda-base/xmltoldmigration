@@ -48,6 +48,8 @@ public class EtextMigration {
     private static XPath xPath = initXpath();
     public static final Map<String, String> distributorToUri = new HashMap<>();
     
+    public static boolean addEtextInItem = true;
+    
     static {
         initDistributorToUri();
     }
@@ -270,6 +272,22 @@ public class EtextMigration {
         return new int[] {vol, seqNum};
     }
     
+    private static String lastWorkId = null;
+    public static void addItemToWork(String workId, String itemId, String etextId) {
+        if (workId.equals(lastWorkId))
+            return;
+        final String workPath = MigrationApp.getDstFileName("work", workId);
+        final Model workModel = MigrationHelpers.modelFromFileName(workPath);
+        if (workModel == null) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+workPath);
+            return;
+        }
+        final Resource workR = workModel.getResource(BDR+workId);
+        workR.addProperty(workModel.getProperty(BDO, "workHasItem"), workModel.createResource(BDR+itemId));
+        MigrationHelpers.outputOneModel(workModel, workId, workPath, "work");
+        lastWorkId = workId;
+    }
+    
     public static Resource getItemEtextPart(Model itemModel, String itemId, int volume, int seqNum) {
         final Resource item = itemModel.getResource(BDR+itemId);
         final Property itemHasVolume = itemModel.getProperty(BDO, "itemHasVolume");
@@ -334,9 +352,9 @@ public class EtextMigration {
         final Element sourceDesc = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "sourceDesc").item(0);
         
         final Model itemModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(itemModel);
+        CommonMigration.setPrefixes(itemModel, "item");
         final Model etextModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(etextModel);
+        CommonMigration.setPrefixes(etextModel, "etext");
         
         Element e;
         try {
@@ -362,10 +380,19 @@ public class EtextMigration {
         }
         final String etextId = e.getTextContent().trim().replace('-', '_');
         
-        etextModel.add(etextModel.getResource(BDR+etextId),
-                etextModel.getProperty(BDO, "eTextInItem"),
-                etextModel.getResource(BDR+itemId));
-        // TODO: discriminate between OCR and input
+        if (WorkMigration.addWorkHasItem)
+            addItemToWork(workId, itemId, etextId);
+        
+        if (WorkMigration.addItemForWork)
+            itemModel.add(itemModel.getResource(BDR+itemId),
+                    etextModel.getProperty(BDO, "itemForWork"),
+                    etextModel.getResource(BDR+workId));
+        
+        if (addEtextInItem)
+            etextModel.add(etextModel.getResource(BDR+etextId),
+                    etextModel.getProperty(BDO, "eTextInItem"),
+                    etextModel.getResource(BDR+itemId));
+
         etextModel.add(etextModel.getResource(BDR+etextId),
                 RDF.type,
                 etextModel.getResource(BDR+"Etext"+(isPaginated?"Paginated":"NonPaginated")));

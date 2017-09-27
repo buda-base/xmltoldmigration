@@ -194,10 +194,10 @@ public class CommonMigration  {
 	public static void setPrefixes(Model m) {
 		m.setNsPrefix("", ONTOLOGY_PREFIX);
 		m.setNsPrefix("adm", ADMIN_PREFIX);
-		m.setNsPrefix("bdd", DATA_PREFIX);
+		//m.setNsPrefix("bdd", DATA_PREFIX);
 		m.setNsPrefix("bdr", RESOURCE_PREFIX);
 		m.setNsPrefix("tbr", TBR_PREFIX);
-		m.setNsPrefix("owl", OWL_PREFIX);
+		//m.setNsPrefix("owl", OWL_PREFIX);
 		m.setNsPrefix("rdf", RDF_PREFIX);
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
 		m.setNsPrefix("skos", SKOS_PREFIX);
@@ -208,10 +208,10 @@ public class CommonMigration  {
     public static void setPrefixes(Model m, String type) {
         m.setNsPrefix("", ONTOLOGY_PREFIX);
         m.setNsPrefix("adm", ADMIN_PREFIX);
-        m.setNsPrefix("bdd", DATA_PREFIX);
+        //m.setNsPrefix("bdd", DATA_PREFIX);
         m.setNsPrefix("bdr", RESOURCE_PREFIX);
         m.setNsPrefix("tbr", TBR_PREFIX);
-        m.setNsPrefix("owl", OWL_PREFIX);
+        //m.setNsPrefix("owl", OWL_PREFIX);
         m.setNsPrefix("rdf", RDF_PREFIX);
         m.setNsPrefix("rdfs", RDFS_PREFIX);
         m.setNsPrefix("skos", SKOS_PREFIX);
@@ -618,7 +618,7 @@ public class CommonMigration  {
 			if (propUri != null && propUri.equals("__fpl")) {
 			    if (fplItem == null) {
 			        resModel = ModelFactory.createDefaultModel();
-			        setPrefixes(resModel);
+			        setPrefixes(resModel, "item");
 			        String workId = r.getLocalName();
 			        fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_002");
 			        if (WorkMigration.addItemForWork)
