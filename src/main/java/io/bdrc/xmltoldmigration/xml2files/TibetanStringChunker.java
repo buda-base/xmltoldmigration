@@ -132,7 +132,7 @@ public class TibetanStringChunker {
                 }
             }
             // case where 0F7F is used instead of 0F14, with a space afterwards
-            if (curPoint == 0x0F7F && fix0F7F && curCharIndex < len && totalStr.codePointAt(curCharIndex+1) == 0x0020) {
+            if (curPoint == 0x0F7F && fix0F7F && curCharIndex < len-1 && totalStr.codePointAt(curCharIndex+1) == 0x0020) {
                 ct = CharType.TAIL;
             }
             switch (curMode) {

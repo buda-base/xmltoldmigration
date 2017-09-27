@@ -429,6 +429,7 @@ public class MigrationApp
         migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
         migrateType(PRODUCT, "PR");
+        //EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT00KG03612/UT00KG03612-I00KG03631/UT00KG03612-I00KG03631-0000.xml", false, System.out, false);
         EtextMigration.migrateEtexts();
         CommonMigration.speller.close();
         finishTypes();

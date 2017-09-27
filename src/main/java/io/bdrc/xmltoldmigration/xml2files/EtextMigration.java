@@ -80,7 +80,27 @@ public class EtextMigration {
     
     public static final List<String> paginatedProviders = Arrays.asList("UCB-OCR", "eKangyur");
     
+    public static final Map<String,Boolean> blackList = new HashMap<>();
+    static {
+        blackList.put("UT1KG8475-WCSDT8_B", true); // nonsensical
+        blackList.put("UT1GS53494-I1GS53496", true); // image file names changed too much
+        blackList.put("UT00KG0552-I1PD35566", true); // rest: work is withdrawn
+        blackList.put("UT00KG0549-I1PD35560", true);
+        blackList.put("UT00KG0553-I1PD35568", true);
+        blackList.put("UT00KG0550-I1PD35562", true);
+        blackList.put("UT00KG0554-I1PD35570", true);
+        blackList.put("UT1KG4237-I1PD97704", true);
+        blackList.put("UT1KG4239-I1PD97684", true);
+        blackList.put("UT1KG4239-I1PD97685", true);
+        blackList.put("UT1KG4239-I1PD97686", true);
+        blackList.put("UT1KG4239-I1PD97687", true);
+        blackList.put("UT1KG4239-I1PD97688", true);
+        blackList.put("UT1KG4239-I1PD97689", true);
+        blackList.put("UT1KG4239-I1PD97690", true);
+    }
+    
     public static void migrateEtexts() {
+        System.out.println("migrate etexts");
         MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts");
         GitHelpers.ensureGitRepo("etext");
         GitHelpers.ensureGitRepo("etextcontent");
@@ -102,7 +122,7 @@ public class EtextMigration {
                 Model itemModel = ModelFactory.createDefaultModel();
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
-                    if (!fl3.isDirectory() || fl3.getName().equals("UT1KG8475-WCSDT8_B") || fl3.getName().equals("UT1GS53494-I1GS53496")) // blacklisting these which looks erroneous
+                    if (!fl3.isDirectory() || blackList.containsKey(fl3.getName())) // blacklisting these which looks erroneous 
                         continue;
                     File[] filesL4 = fl3.listFiles();
                     for (File fl4 : filesL4) {
