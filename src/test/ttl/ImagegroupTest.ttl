@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
@@ -10,8 +8,8 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:TestItem  a         :ItemImageAsset ;
-    :itemHasVolume      [ :imageCount   352 ;
-                          :imageList    "41580001.tif:54|41580055.jpg|41580056.tif:78|41580082.tif:107|42580108.tif|41580109.tif:196|garbage|41580198.tif:251|41580253.tif:356" ;
+    :itemHasVolume      [ :imageCount         352 ;
+                          :imageList          "41580001.tif:54|41580055.jpg|41580056.tif:23|41580082.tif:26|42580108.tif|41580109.tif:88|garbage|41580198.tif:54|41580253.tif:104" ;
                           :imagesMissing      "79-81,252" ;
                           :volumeNumber       1 ;
                           :volumePagesIntro   0 ;

@@ -16,6 +16,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 
 
 public class ImagegroupMigration {
@@ -25,89 +26,7 @@ public class ImagegroupMigration {
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
 
-    private static final Pattern imageP = Pattern.compile("^(.+)(\\d{4})( ?\\..+)$");
-    private static final Pattern basicP = Pattern.compile("[^|]+");
-    public static void addImageList(String src, String mainId, String volNum, Model model, Resource main) {
-        Matcher basicM = basicP.matcher(src);
-        String prefix = "";
-        String suffix = "";
-        int i = -1;
-        int total = 0;
-        boolean first = true;
-        StringBuilder dst = new StringBuilder();
-        int lastOkInSeq = -1;
-        List<String> missingPages = new ArrayList<>();
-        boolean hasSlash = false;
-        String mixedCase = null;
-        String notSorted = null;
-        String previous = null;
-        while (basicM.find()) {
-            if (basicM.group(0).indexOf('/') != -1)
-                hasSlash = true;
-            if (notSorted == null && previous != null && previous.compareTo(basicM.group(0)) > 0) {
-                notSorted = previous+"|"+basicM.group(0);
-            }
-            previous = basicM.group(0);
-            total = total +1;
-            Matcher m = imageP.matcher(basicM.group(0));
-            if (!m.find()) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "cannot understand image string "+basicM.group(0));
-                if (lastOkInSeq != -1)
-                    dst.append(":"+lastOkInSeq);
-                if (!first)
-                    dst.append("|");
-                dst.append(basicM.group(0));
-                prefix = "";
-                i = -1;
-                suffix = "";
-                lastOkInSeq = -1;
-                first = false;
-                continue;
-            }
-            final int newInt = Integer.parseInt(m.group(2));
-            if (i != -1 && newInt > i+1) {
-                int rangeB = i+1;
-                int rangeE = newInt-1;
-                if (rangeB == rangeE)
-                    missingPages.add(Integer.toString(rangeB));
-                else
-                    missingPages.add(rangeB+"-"+rangeE);
-            }
-            final String newSuffix = m.group(3);
-            if (mixedCase == null && !newSuffix.equals(suffix) && newSuffix.toLowerCase().equals(suffix.toLowerCase())) {
-                mixedCase = suffix+" and "+newSuffix;
-            }
-            if (!m.group(1).equals(prefix) || !newSuffix.equals(suffix) || newInt != i+1) {
-                if (lastOkInSeq != -1)
-                    dst.append(":"+lastOkInSeq);
-                if (!first)
-                    dst.append("|");
-                dst.append(m.group(0));
-                prefix = m.group(1);
-                i = newInt;
-                suffix = newSuffix;
-                lastOkInSeq = -1;
-            } else {
-                i = i +1;
-                lastOkInSeq = newInt;
-            }
-            first = false;
-        }
-        if (lastOkInSeq != -1)
-            dst.append(":"+lastOkInSeq);
-        if (hasSlash)
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "image list contains invalid character `/`");
-        if (mixedCase != null)
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "image list contains a mix of upper and lower case extensions: "+mixedCase);
-        if (notSorted != null)
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainId, mainId, "image list is not sorted alphabetically, for example: "+notSorted);
-        Literal value = model.createLiteral(dst.toString());
-        model.add(main, model.getProperty(BDO+"imageList"), value);
-        model.add(main, model.getProperty(BDO+"imageCount"), model.createTypedLiteral(total, XSDDatatype.XSDinteger));
-        String missingImages = String.join(",", missingPages);
-        if (!missingImages.isEmpty())
-            model.add(main, model.getProperty(BDO+"imagesMissing"), model.createLiteral(missingImages));
-    }
+
 	
 	// for testing purposes only
 	public static Model MigrateImagegroup(Document xmlDocument) {
@@ -177,7 +96,7 @@ public class ImagegroupMigration {
             Element current = (Element) nodeList.item(i);
             String type = current.getAttribute("type").trim();
             if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
-            addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, main);
+            ImageListTranslation.addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, main);
         }
 		
         CommonMigration.addLog(m, root, item, IGXSDNS);
