@@ -441,7 +441,7 @@ public class EtextMigration {
                 etextModel.getProperty(BDO, "eTextSourcePath"),
                 etextModel.createLiteral(e.getTextContent().trim()));
         
-        EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId, imageNumPageNum);
+        EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId, imageNumPageNum, needsPageNameTranslation, isPaginated);
         
         return new EtextInfos(itemModel, etextModel, workId, itemId, etextId);
     }

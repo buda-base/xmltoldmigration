@@ -264,7 +264,7 @@ public class MigrationTest
            //assertTrue(CommonMigration.documentValidates(d, pubinfoValidator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "pubinfo");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
-           MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
@@ -353,7 +353,7 @@ public class MigrationTest
         assertTrue(EtextBodyMigration.translatePoint(Arrays.asList(2), 1, true).equals("1-2"));
         assertTrue(EtextBodyMigration.translatePoint(Arrays.asList(2), 2, false).equals("2-1"));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false);
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false);
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.itemId.equals("I1CZ2485_E001"));
         assertTrue(ei.workId.equals("W1CZ2485"));
@@ -367,6 +367,10 @@ public class MigrationTest
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
         assertTrue( MigrationHelpers.isSimilarTo(ei.itemModel, correctItemModel) );
         assertTrue(computedContent.equals(correctContent));
+        assertFalse(EtextBodyMigration.rtfP.matcher(" 9 ").find());
+        assertTrue(EtextBodyMigration.rtfP.matcher("1$0000270").find());
+        assertTrue(EtextBodyMigration.rtfP.matcher("PAGE -PAGE 2--PAGE 1-").find());
+        assertTrue(EtextBodyMigration.rtfP.matcher("PAGE \\* MERGEFORMAT 2").find());
         flushLog();
     }
 }

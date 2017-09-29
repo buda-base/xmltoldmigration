@@ -15,6 +15,7 @@ public class ExceptionHelper {
     public static final int ET_OUTLINE = 4;
     public static final int ET_MISSING = 5;
     public static final int ET_IMAGEGROUP = 6;
+    public static final int ET_ETEXT = 7;
     private static final int ET_EWTS_CSV = 100;
     
     public static final Map<Integer, String> logNames = new HashMap<Integer, String>();
@@ -27,6 +28,7 @@ public class ExceptionHelper {
         logNames.put(ET_OUTLINE, "errors-outline.log");
         logNames.put(ET_MISSING, "errors-missing.log");
         logNames.put(ET_IMAGEGROUP, "errors-imagegroup.log");
+        logNames.put(ET_ETEXT, "errors-etexts.log");
     }
     
     public static final Map<Integer, FileWriter> writers = new HashMap<Integer, FileWriter>();

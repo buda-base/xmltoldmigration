@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -33,16 +35,24 @@ public class EtextBodyMigration {
     public static final String BDO = CommonMigration.BDO;
     public static final String ADM = CommonMigration.ADM;
     
-    public static String normalizeString(final String src, final String page, final String lineNum) {
+    public static final Pattern rtfP = Pattern.compile("(\\s*\\d*(PAGE|\\$)[\u0000-\u0127]+)+");
+    public static String normalizeString(final String src, final String page, final String lineNum, final boolean fromRTF, final String eTextId) {
         String res = CommonMigration.normalizeTibetan(src);
         // I don't think we want non-breakable spaces, just normal spaces
         res = res.replace('\u00A0', ' ');
+        if (fromRTF) {
+            Matcher rtfM = rtfP.matcher(res);
+            while(rtfM.find()) {
+                ExceptionHelper.logException(ExceptionHelper.ET_ETEXT, eTextId, eTextId, "removed RTF string `"+rtfM.group(0)+"`");
+            }
+            rtfM.replaceAll("");
+        }
         //res = res.replaceAll("\\s+", " "); // not sure it's necessary
         // TODO: replace \r, \n, etc. with space ?
         return res;
     }
     
-    public static void MigrateBody(Document d, OutputStream strOutput, Model m, String eTextId, Map<String,Integer> imageNumPageNum) {
+    public static void MigrateBody(final Document d, final OutputStream strOutput, final Model m, final String eTextId, final Map<String,Integer> imageNumPageNum, final boolean needsPageNameTranslation, final boolean keepPages) {
         final PrintStream ps = new PrintStream(strOutput);
         Element body;
         Resource etextR = m.getResource(BDR+eTextId);
@@ -58,12 +68,16 @@ public class EtextBodyMigration {
         final StringBuilder totalStr = new StringBuilder();
         final Map<Resource,int[]> resourcesCoords = new HashMap<Resource,int[]>();
         int pageBeginChar = 0;
+        System.out.println(keepPages);
         for (int i = 0; i < pars.getLength(); i++) {
             final Element par = (Element) pars.item(i);
-            final Resource pageR = m.createResource();
-            etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
+            Resource pageR = null;
+            if (keepPages) {
+                pageR = m.createResource();
+                etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
+            }
             final String pageNum = par.getAttribute("n");
-            if (!pageNum.isEmpty()) {
+            if (!pageNum.isEmpty() && keepPages) {
                 if (imageNumPageNum != null) {
                     Integer pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
                     if (pageNumI == null) { // TODO: are there some cases in which this breaks?
@@ -80,13 +94,13 @@ public class EtextBodyMigration {
                         final Integer pageNumI = Integer.valueOf(pageNum);
                         pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(pageNumI, XSDDatatype.XSDinteger));
                     } catch (NumberFormatException e) {
-                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot convert image to int "+pageNum);
+                        ExceptionHelper.logException(ExceptionHelper.ET_ETEXT, eTextId, eTextId, "cannot convert image to int "+pageNum);
                     }
                 }
             }
-            if (oneLongString) {
+            if (oneLongString && keepPages) {
                 pageR.addProperty(m.createProperty(BDO, "sliceStart"), m.createLiteral("1-"+currentTotalPoints));
-            } else {
+            } else if (keepPages) {
                 pageBeginChar = currentTotalPoints;
             }
             final NodeList children = par.getChildNodes();
@@ -94,6 +108,8 @@ public class EtextBodyMigration {
             for (int j = 0; j < children.getLength(); j++) {
               final Node child = children.item(j);
               if (child instanceof Element) {
+                  if (!keepPages)
+                      continue;
                   final Element milestone = (Element) child;
                   try {
                       linenum = Integer.parseInt(milestone.getAttribute("n"));
@@ -103,16 +119,18 @@ public class EtextBodyMigration {
               } else {
                 if (linenum == 0)
                     linenum = 1;
-                final String s = normalizeString(child.getTextContent(), Integer.toString(linenum), pageNum);
-                Resource lineR = m.createResource();
-                pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
-                lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
+                final String s = normalizeString(child.getTextContent(), Integer.toString(linenum), pageNum, !needsPageNameTranslation, eTextId);
                 final int strLen = s.codePointCount(0, s.length()); 
-                if (oneLongString) {
-                    lineR.addProperty(m.createProperty(BDO, "sliceStart"), m.createLiteral("1-"+currentTotalPoints));
-                    lineR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createLiteral("1-"+currentTotalPoints+strLen));
-                } else {
-                    resourcesCoords.put(lineR, new int[] {currentTotalPoints, currentTotalPoints+strLen});
+                if (keepPages) {
+                    Resource lineR = m.createResource();
+                    pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
+                    lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
+                    if (oneLongString) {
+                        lineR.addProperty(m.createProperty(BDO, "sliceStart"), m.createLiteral("1-"+currentTotalPoints));
+                        lineR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createLiteral("1-"+currentTotalPoints+strLen));
+                    } else {
+                        resourcesCoords.put(lineR, new int[] {currentTotalPoints, currentTotalPoints+strLen});
+                    }
                 }
                 currentTotalPoints += strLen;
                 
@@ -125,7 +143,7 @@ public class EtextBodyMigration {
            }
            if (oneLongString) {
                pageR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createLiteral("1-"+currentTotalPoints));
-           } else {
+           } else if (keepPages) {
                resourcesCoords.put(pageR, new int[] {pageBeginChar, currentTotalPoints});
            }
         }
