@@ -363,7 +363,7 @@ public class MigrationApp
     
     public static void finishTypes() {
         System.out.println("committing modifications");
-        List<String> types = Arrays.asList("work", "item", "place", "person", "product", "corporation", "office", "lineage", "topic");
+        List<String> types = Arrays.asList("work", "item", "place", "person", "product", "corporation", "office", "lineage", "topic", "etext", "etextcontent");
         for (String type : types) {
             finishType(type);
         }
