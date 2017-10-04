@@ -24,7 +24,7 @@ public class ImageListTranslation {
     
     private static final Pattern imageP = Pattern.compile("^(.+)(\\d{4})( ?\\..+)$");
     private static final Pattern basicP = Pattern.compile("[^|]+");
-    public static void addImageList(String src, String mainId, String volNum, Model model, Resource main) {
+    public static void addImageList(String src, String mainId, Integer volNum, Model model, Resource main) {
         Matcher basicM = basicP.matcher(src);
         String prefix = "";
         String suffix = "";

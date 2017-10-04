@@ -285,10 +285,10 @@ public class WorkMigration {
 	
 	public static class ImageGroupInfo {
 	    public String missingVolumes;
-	    public Map<String,String> imageGroupList;
+	    public Map<Integer,String> imageGroupList;
 	    public int totalVolumes;
 	    
-	    public ImageGroupInfo(String missingVolumes, Map<String,String> imageGroupList, int totalVolumes) {
+	    public ImageGroupInfo(String missingVolumes, Map<Integer,String> imageGroupList, int totalVolumes) {
 	        this.missingVolumes = missingVolumes;
 	        this.imageGroupList = imageGroupList;
 	        this.totalVolumes = totalVolumes;
@@ -296,7 +296,7 @@ public class WorkMigration {
 	}
 	
 	public static ImageGroupInfo getImageGroupList(Document d, int nbVolsTotal) {
-	    Map<String,String> res = new TreeMap<String,String>(); 
+	    Map<Integer,String> res = new TreeMap<>(); 
 	    Element root = d.getDocumentElement();
 	    String rid = root.getAttribute("RID");
 	    NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
@@ -315,23 +315,19 @@ public class WorkMigration {
             if (hasImageGroup.containsKey(igId))
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "image group `"+igId+"` used twice in the volume map");
             hasImageGroup.put(igId, true);
-            String num = volume.getAttribute("num").trim();
-            if (num.isEmpty()) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "missing volume number for image group `"+igId+"`");
+            final Integer num;
+            try {
+                num = Integer.parseUnsignedInt(volume.getAttribute("num").trim());
+            } catch (NumberFormatException ex) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "cannot parse volume number `"+volume.getAttribute("num").trim()+"` for image group `"+igId+"`");
                 continue;
             }
             if (res.containsKey(num))
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "volume list has two or more image groups for volume `"+num+"`");
             res.put(num, igId);
         }
-        for (Entry<String,String> e : res.entrySet()) {
-            int thisVol;
-            try {
-                thisVol = Integer.parseUnsignedInt(e.getKey());
-            } catch (NumberFormatException ex) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "cannot parse volume number `"+e.getKey()+"` for image group `"+e.getValue()+"`");
-                continue;
-            }
+        for (Entry<Integer,String> e : res.entrySet()) {
+            int thisVol = e.getKey();
             if (thisVol != lastVolume+1) {
                 int rangeB = lastVolume+1;
                 int rangeE = thisVol-1;

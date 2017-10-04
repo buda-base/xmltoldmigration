@@ -222,7 +222,7 @@ public class MigrationApp
             
             // migrate items
             ImageGroupInfo imageGroups = WorkMigration.getImageGroupList(d, nbVolsTotal);
-            Map<String,String> vols = imageGroups.imageGroupList;
+            Map<Integer,String> vols = imageGroups.imageGroupList;
             if (vols.size() > 0) {
                 // replace workNumberOfVolumes by the corrected value
                 if (imageGroups.totalVolumes > nbVolsTotal) {
@@ -244,7 +244,7 @@ public class MigrationApp
                 if (WorkMigration.addItemForWork)
                     itemModel.add(item, itemModel.getProperty(BDO, "itemForWork"), itemModel.createResource(BDR + baseName));
                 // workHasItem already added in WorkMigration
-                for (Map.Entry<String,String> vol : vols.entrySet()) {
+                for (Map.Entry<Integer,String> vol : vols.entrySet()) {
                     String imagegroup = vol.getValue();
                     String imagegroupFileName = XML_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
                     File imagegroupFile = new File(imagegroupFileName);
@@ -423,13 +423,13 @@ public class MigrationApp
         migrateType(CORPORATION, "C");
         migrateType(LINEAGE, "L");
         migrateType(TOPIC, "T");
-//        migrateOneFile(new File(XML_DIR+"tbrc-works/W1PD105852.xml"), "work", "W");
+//        migrateOneFile(new File(XML_DIR+"tbrc-works/W12827.xml"), "work", "W");
 //        migrateOneFile(new File(XML_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
 //        //migrateOneFile(new File(XML_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
         migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
         migrateType(PRODUCT, "PR");
-//        EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT00KG03612/UT00KG03612-I00KG03631/UT00KG03612-I00KG03631-0000.xml", false, System.out, false);
+        //EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT00KG03612/UT00KG03612-I00KG03631/UT00KG03612-I00KG03631-0000.xml", false, System.out, false);
         EtextMigration.migrateEtexts();
         CommonMigration.speller.close();
         finishTypes();

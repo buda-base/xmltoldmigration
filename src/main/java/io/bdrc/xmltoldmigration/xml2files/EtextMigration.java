@@ -81,24 +81,49 @@ public class EtextMigration {
     
     public static final List<String> paginatedProviders = Arrays.asList("UCB-OCR", "eKangyur");
     
-    public static final Map<String,Boolean> blackList = new HashMap<>();
+    public static final Map<String,Boolean> blackListL2 = new HashMap<>();
+    public static final Map<String,Boolean> blackListL3 = new HashMap<>();
+    public static final Map<String,Boolean> blackListL4 = new HashMap<>();
     static {
-        blackList.put("UT1KG8475-WCSDT8_B", true); // nonsensical
-        blackList.put("UT1GS53494-I1GS53496", true); // image file names changed too much
-        blackList.put("UT00KG0552-I1PD35566", true); // rest: work is withdrawn
-        blackList.put("UT00KG0549-I1PD35560", true);
-        blackList.put("UT00KG0553-I1PD35568", true);
-        blackList.put("UT00KG0550-I1PD35562", true);
-        blackList.put("UT00KG0554-I1PD35570", true);
-        blackList.put("UT1KG4237-I1PD97704", true);
-        blackList.put("UT1KG4239-I1PD97684", true);
-        blackList.put("UT1KG4239-I1PD97685", true);
-        blackList.put("UT1KG4239-I1PD97686", true);
-        blackList.put("UT1KG4239-I1PD97687", true);
-        blackList.put("UT1KG4239-I1PD97688", true);
-        blackList.put("UT1KG4239-I1PD97689", true);
-        blackList.put("UT1KG4239-I1PD97690", true);
-    }
+        blackListL3.put("UT1KG8475-WCSDT8_B", true); // nonsensical
+        blackListL3.put("UT1PD45495-012", true);
+        blackListL3.put("UT3JT13306-329", true);
+        blackListL4.put("UT22082_007_0014.xml", true); // empty
+        blackListL4.put("UT1KG14_008_0014.xml", true);
+        blackListL4.put("UT1KG14_036_0026.xml", true);
+        blackListL4.put("UT1KG14_053_0038.xml", true);
+        blackListL3.put("UT1GS53494-I1GS53496", true); // image file names changed too much
+        blackListL3.put("UT00KG0552-I1PD35566", true); // rest: work is withdrawn
+        blackListL3.put("UT00KG0549-I1PD35560", true);
+        blackListL3.put("UT00KG0553-I1PD35568", true);
+        blackListL3.put("UT00KG0550-I1PD35562", true);
+        blackListL3.put("UT00KG0554-I1PD35570", true);
+        blackListL3.put("UT1KG4237-I1PD97704", true);
+        blackListL2.put("UT1KG4239", true);
+        blackListL4.put("UT1PD45495-011-0002.xml", true);
+        blackListL4.put("UT1PD45495-011-0003.xml", true);
+        blackListL4.put("UT1PD45495-011-0004.xml", true);
+        blackListL4.put("UT1PD45495-011-0005.xml", true);
+        blackListL4.put("UT1PD45495-011-0007.xml", true);
+        blackListL4.put("UT1PD45495-011-0008.xml", true);
+        blackListL4.put("UT1PD45495-011-0009.xml", true);
+        blackListL4.put("UT1PD45495-011-00010.xml", true);
+        blackListL4.put("UT1PD45495-011-00011.xml", true);
+        blackListL4.put("UT1PD45495-011-00012.xml", true);
+        blackListL4.put("UT1PD45495-011-00013.xml", true);
+        blackListL4.put("UT1PD45495-011-00014.xml", true);
+        blackListL4.put("UT1PD45495-011-00015.xml", true);
+        blackListL4.put("UT1PD45495-011-00015.xml", true);
+        blackListL4.put("UT1KG4884-017-0001.xml", true);
+        blackListL4.put("UT1KG4884-017-0002.xml", true);
+        blackListL4.put("UT1KG4884-017-0003.xml", true);
+        blackListL4.put("UT1KG4884-017-0005.xml", true);
+        blackListL4.put("UT1KG4884-017-0007.xml", true);
+        blackListL4.put("UT1KG4884-018-0001.xml", true);
+        blackListL4.put("UT1KG4884-017-0002.xml", true);
+        blackListL4.put("UT1KG4884-017-0003.xml", true);
+        blackListL4.put("UT1KG4884-017-0008.xml", true);
+    }   
     
     public static void migrateEtexts() {
         System.out.println("migrate etexts");
@@ -116,21 +141,21 @@ public class EtextMigration {
             boolean needsPageNameTranslation = distributor.equals("UCB-OCR");
             File[] filesL2 = fl1.listFiles();
             for (File fl2 : filesL2) {
-                if (!fl2.isDirectory())
+                if (!fl2.isDirectory() || blackListL2.containsKey(fl2.getName()))
                     continue;
                 //System.out.println("migrating "+provider+"/"+fl2.getName());
                 String itemId = null;
                 Model itemModel = ModelFactory.createDefaultModel();
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
-                    if (!fl3.isDirectory() || blackList.containsKey(fl3.getName())) // blacklisting these which looks erroneous 
+                    if (!fl3.isDirectory() || blackListL3.containsKey(fl3.getName())) // blacklisting these which looks erroneous 
                         continue;
                     File[] filesL4 = fl3.listFiles();
                     for (File fl4 : filesL4) {
                        if (!fl4.isFile())
                            continue;
                        String name = fl4.getName();
-                       if (name.startsWith("_") || !name.endsWith(".xml"))
+                       if (name.startsWith("_") || !name.endsWith(".xml") || blackListL4.containsKey(name))
                            continue;
                        String id = name.substring(0, name.length()-4);
                        String dstName = MigrationApp.getDstFileName("etextcontent", id, ".txt");

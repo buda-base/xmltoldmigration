@@ -28,7 +28,7 @@ public class ImagegroupMigration {
         CommonMigration.setPrefixes(m, "item");
         Resource item = m.createResource(BDR+"TestItem");
         m.add(item, RDF.type, m.getResource(BDO+"ItemImageAsset"));
-        MigrateImagegroup(xmlDocument, m, item, "testItem", "1", "testItem");
+        MigrateImagegroup(xmlDocument, m, item, "testItem", 1, "testItem");
         return m;
 	}
 	
@@ -59,7 +59,7 @@ public class ImagegroupMigration {
         return false;
     }
 	
-	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource item, String volumeName, String volumeNumber, String volumesName) {
+	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource item, String volumeName, Integer volumeNumber, String volumesName) {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
@@ -69,18 +69,9 @@ public class ImagegroupMigration {
 		
 		main.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
-        try {
-            int intval = Integer.parseInt(volumeNumber);
-            if (intval < 1) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
-                m.add(main, m.getProperty(BDO, "volumeNumber"), m.createLiteral(volumeNumber));
-            } else {
-                m.add(main, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(intval, XSDDatatype.XSDinteger));
-            }
-        } catch (NumberFormatException e) {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
-            m.add(main, m.getProperty(BDO, "volumeNumber"), m.createLiteral(volumeNumber));
-        }
+        if (volumeNumber < 1)
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");      
+        m.add(main, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(volumeNumber, XSDDatatype.XSDinteger));
         
         m.add(item, m.getProperty(BDO+"itemHasVolume"), main);
         
