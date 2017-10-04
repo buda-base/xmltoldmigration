@@ -152,10 +152,11 @@ public class EtextBodyMigration {
                resourcesCoords.put(pageR, new int[] {pageBeginChar, currentTotalPoints});
            }
         }
+        if (totalStr.length() == 0)
+            ExceptionHelper.logException(ExceptionHelper.ET_ETEXT, eTextId, eTextId, "is empty");
         // at that point the processing is done if we're in one long string mode
-        if (!oneLongString) {
+        if (!oneLongString)
             chunkString(totalStr.toString(), resourcesCoords, ps, m, eTextId, currentTotalPoints);
-        }
     }
     
     public static int[] translatePoint(List<Integer> pointBreaks, int pointIndex, boolean isStart) {
