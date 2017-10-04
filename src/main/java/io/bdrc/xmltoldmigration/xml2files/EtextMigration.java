@@ -146,6 +146,8 @@ public class EtextMigration {
                 //System.out.println("migrating "+provider+"/"+fl2.getName());
                 String itemId = null;
                 Model itemModel = ModelFactory.createDefaultModel();
+                CommonMigration.setPrefixes(itemModel, "item");
+                boolean firstItemModel = true;
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
                     if (!fl3.isDirectory() || blackListL3.containsKey(fl3.getName())) // blacklisting these which looks erroneous 
@@ -165,7 +167,8 @@ public class EtextMigration {
                            if (!dstFile.exists())
                                dstFile.createNewFile();
                            FileOutputStream dst = new FileOutputStream(dstFile);
-                           ei = migrateOneEtext(fl4.getAbsolutePath(), isPaginated, dst, needsPageNameTranslation);
+                           ei = migrateOneEtext(fl4.getAbsolutePath(), isPaginated, dst, needsPageNameTranslation, itemModel, firstItemModel);
+                           firstItemModel = false;
                            dst.close();
                            if (ei == null) {
                                continue;
@@ -187,7 +190,6 @@ public class EtextMigration {
                            System.err.println(ei.toString());
                            continue;
                        }
-                       itemModel.add(ei.itemModel);
                        String dst = MigrationApp.getDstFileName("etext", ei.etextId);
                        MigrationHelpers.outputOneModel(ei.etextModel, ei.etextId, dst, "etext");
                     }
@@ -202,14 +204,12 @@ public class EtextMigration {
     }
     
     public static class EtextInfos {
-        public Model itemModel;
         public Model etextModel;
         public String workId;
         public String itemId;
         public String etextId;
         
-        public EtextInfos(Model itemModel, Model etextModel, String workId, String itemId, String etextId) {
-            this.itemModel = itemModel;
+        public EtextInfos(Model etextModel, String workId, String itemId, String etextId) {
             this.etextModel = etextModel;
             this.workId = workId;
             this.itemId = itemId;
@@ -359,7 +359,7 @@ public class EtextMigration {
         return imageItemModel;
     }
     
-    public static EtextInfos migrateOneEtext(final String path, final boolean isPaginated, final OutputStream contentOut, final boolean needsPageNameTranslation) {
+    public static EtextInfos migrateOneEtext(final String path, final boolean isPaginated, final OutputStream contentOut, final boolean needsPageNameTranslation, final Model itemModel, final boolean firstItemModel) {
         final Document d = MigrationHelpers.documentFromFileName(path);
         Element fileDesc;
         try {
@@ -374,9 +374,7 @@ public class EtextMigration {
         final Element titleStmt = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "titleStmt").item(0);
         final Element publicationStmt = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "publicationStmt").item(0);
         final Element sourceDesc = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "sourceDesc").item(0);
-        
-        final Model itemModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(itemModel, "item");
+
         final Model etextModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(etextModel, "etext");
         
@@ -404,18 +402,20 @@ public class EtextMigration {
         }
         final String etextId = e.getTextContent().trim().replace('-', '_');
         
-        if (WorkMigration.addWorkHasItem)
-            addItemToWork(workId, itemId, etextId);
-        
-        if (WorkMigration.addItemForWork)
-            itemModel.add(itemModel.getResource(BDR+itemId),
-                    etextModel.getProperty(BDO, "itemForWork"),
-                    etextModel.getResource(BDR+workId));
-        
-        if (addEtextInItem)
-            etextModel.add(etextModel.getResource(BDR+etextId),
-                    etextModel.getProperty(BDO, "eTextInItem"),
-                    etextModel.getResource(BDR+itemId));
+        if (firstItemModel) {
+            if (WorkMigration.addWorkHasItem)
+                addItemToWork(workId, itemId, etextId);
+            
+            if (WorkMigration.addItemForWork)
+                itemModel.add(itemModel.getResource(BDR+itemId),
+                        etextModel.getProperty(BDO, "itemForWork"),
+                        etextModel.getResource(BDR+workId));
+            
+            if (addEtextInItem)
+                etextModel.add(etextModel.getResource(BDR+etextId),
+                        etextModel.getProperty(BDO, "eTextInItem"),
+                        etextModel.getResource(BDR+itemId));
+        }
 
         etextModel.add(etextModel.getResource(BDR+etextId),
                 RDF.type,
@@ -467,7 +467,7 @@ public class EtextMigration {
         
         EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId, imageNumPageNum, needsPageNameTranslation, isPaginated);
         
-        return new EtextInfos(itemModel, etextModel, workId, itemId, etextId);
+        return new EtextInfos(etextModel, workId, itemId, etextId);
     }
     
     // https://stackoverflow.com/a/6392700/2560906

@@ -2,6 +2,7 @@ package io.bdrc.xmltoldmigration;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -220,21 +221,21 @@ public class MigrationTest
         flushLog();
     }
 	
-	   @Test
-	    public void testWork() throws JsonLdError, JsonParseException, IOException
-	    {
-	        System.out.println("testing work");
-	        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/WorkTestFPL.xml");  
-	        Validator validator = MigrationHelpers.getValidatorFor("work");
-	        assertFalse(CommonMigration.documentValidates(d, validator));
-	        Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
-	        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
-	        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
-	        //showDifference(fromXml, correctModel);
-	        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-	        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
-	        flushLog();
-	    }
+   @Test
+    public void testWork() throws JsonLdError, JsonParseException, IOException
+    {
+        System.out.println("testing work");
+        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/WorkTestFPL.xml");  
+        Validator validator = MigrationHelpers.getValidatorFor("work");
+        assertFalse(CommonMigration.documentValidates(d, validator));
+        Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
+        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
+        //showDifference(fromXml, correctModel);
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
+    }
 	   
        @Test
        public void testOutline() throws JsonParseException, IOException, JsonLdError
@@ -350,7 +351,9 @@ public class MigrationTest
         assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(Arrays.asList(2), 1, false), new int[] {1, 2}));
         assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(Arrays.asList(2), 2, true), new int[] {2, 1}));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false);
+        Model itemModel = ModelFactory.createDefaultModel();
+        CommonMigration.setPrefixes(itemModel, "item");
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true);
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.itemId.equals("I1CZ2485_E001"));
         assertTrue(ei.workId.equals("W1CZ2485"));
@@ -362,7 +365,7 @@ public class MigrationTest
         Model correctItemModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-item.ttl");
         String correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content.txt")));
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
-        assertTrue( MigrationHelpers.isSimilarTo(ei.itemModel, correctItemModel) );
+        assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctItemModel) );
         assertTrue(computedContent.equals(correctContent));
         assertFalse(EtextBodyMigration.rtfP.matcher(" 9 ").find());
         assertTrue(EtextBodyMigration.rtfP.matcher("1$0000270").find());
@@ -370,7 +373,9 @@ public class MigrationTest
         assertTrue(EtextBodyMigration.rtfP.matcher("PAGE \\* MERGEFORMAT 2").find());
         // test with different options:
         out = new ByteArrayOutputStream();
-        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false);
+        itemModel = ModelFactory.createDefaultModel();
+        CommonMigration.setPrefixes(itemModel, "item");
+        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false, itemModel, true);
         computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         //System.out.println(computedContent);
         // this one is a bit bogus because it adds spaces in line milestones, but in real life data there is no lines when we must
