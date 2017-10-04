@@ -2,8 +2,6 @@ package io.bdrc.xmltoldmigration.xml2files;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +50,14 @@ public class EtextBodyMigration {
         return res;
     }
     
+    public static final boolean LOC_START = true;
+    public static final boolean LOC_END = false;
+    public static void addChunkLocation(Model m, Resource r, int chunkNum, int charNum, boolean start) {
+        final String startEndString = (start ? "Start" : "End");
+        r.addProperty(m.getProperty(BDO, "slice"+startEndString+"Chunk"), m.createTypedLiteral(chunkNum, XSDDatatype.XSDinteger));
+        r.addProperty(m.getProperty(BDO, "slice"+startEndString+"Char"), m.createTypedLiteral(charNum, XSDDatatype.XSDinteger));
+    }
+    
     public static void MigrateBody(final Document d, final OutputStream strOutput, final Model m, final String eTextId, final Map<String,Integer> imageNumPageNum, final boolean needsPageNameTranslation, final boolean keepPages) {
         final PrintStream ps = new PrintStream(strOutput);
         Element body;
@@ -67,8 +73,7 @@ public class EtextBodyMigration {
         int currentTotalPoints = 0;
         final StringBuilder totalStr = new StringBuilder();
         final Map<Resource,int[]> resourcesCoords = new HashMap<Resource,int[]>();
-        int pageBeginChar = 0;
-        System.out.println(keepPages);
+        boolean first = true;
         for (int i = 0; i < pars.getLength(); i++) {
             final Element par = (Element) pars.item(i);
             Resource pageR = null;
@@ -98,11 +103,7 @@ public class EtextBodyMigration {
                     }
                 }
             }
-            if (oneLongString && keepPages) {
-                pageR.addProperty(m.createProperty(BDO, "sliceStart"), m.createLiteral("1-"+currentTotalPoints));
-            } else if (keepPages) {
-                pageBeginChar = currentTotalPoints;
-            }
+            final int pageBeginChar = currentTotalPoints;
             final NodeList children = par.getChildNodes();
             int linenum = 0;
             for (int j = 0; j < children.getLength(); j++) {
@@ -119,15 +120,17 @@ public class EtextBodyMigration {
               } else {
                 if (linenum == 0)
                     linenum = 1;
-                final String s = normalizeString(child.getTextContent(), Integer.toString(linenum), pageNum, !needsPageNameTranslation, eTextId);
+                String s = normalizeString(child.getTextContent(), Integer.toString(linenum), pageNum, !needsPageNameTranslation, eTextId);
+                if (!first && !keepPages)
+                    s = ' '+s;
                 final int strLen = s.codePointCount(0, s.length()); 
                 if (keepPages) {
                     Resource lineR = m.createResource();
                     pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
                     lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
                     if (oneLongString) {
-                        lineR.addProperty(m.createProperty(BDO, "sliceStart"), m.createLiteral("1-"+currentTotalPoints));
-                        lineR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createLiteral("1-"+currentTotalPoints+strLen));
+                        addChunkLocation(m, lineR, 1, currentTotalPoints, LOC_START);
+                        addChunkLocation(m, lineR, 1, currentTotalPoints+strLen, LOC_END);
                     } else {
                         resourcesCoords.put(lineR, new int[] {currentTotalPoints, currentTotalPoints+strLen});
                     }
@@ -140,9 +143,11 @@ public class EtextBodyMigration {
                 else
                     totalStr.append(s);
               }
+              first = false;
            }
-           if (oneLongString) {
-               pageR.addProperty(m.createProperty(BDO, "sliceEnd"), m.createLiteral("1-"+currentTotalPoints));
+           if (oneLongString && keepPages) {
+               addChunkLocation(m, pageR, 1, pageBeginChar, true);
+               addChunkLocation(m, pageR, 1, currentTotalPoints, false);
            } else if (keepPages) {
                resourcesCoords.put(pageR, new int[] {pageBeginChar, currentTotalPoints});
            }
@@ -153,7 +158,7 @@ public class EtextBodyMigration {
         }
     }
     
-    public static String translatePoint(List<Integer> pointBreaks, int pointIndex, boolean isEnd) {
+    public static int[] translatePoint(List<Integer> pointBreaks, int pointIndex, boolean isStart) {
         // pointIndex depends on the context, 
         // if it's about the starting point (isEnd == false):
         //     it's the index of the starting char: ab|cd -> pointIndex 2 for the beginning of the second segment (cd)
@@ -164,13 +169,13 @@ public class EtextBodyMigration {
         for (final int pointBreak : pointBreaks) {
             // pointBreak is the index at which the break occurs, for instance
             // a|bc|d will have pointBreaks of 1 and 3
-            if (pointBreak > pointIndex || (isEnd && pointBreak == pointIndex)) {
+            if (pointBreak > pointIndex || (!isStart && pointBreak == pointIndex)) {
                 break;
             }
             toSubstract = pointBreak;
             curLine += 1;
         }
-        return curLine+"-"+(pointIndex-toSubstract+1); // +1 so that characters start at 1
+        return new int[] {curLine, pointIndex-toSubstract+1}; // +1 so that characters start at 1
     }
     
     public static void chunkString(final String totalStr, final Map<Resource,int[]> resourcesCoords, final PrintStream out, final Model m, final String eTextId, final int totalPoints) {
@@ -186,17 +191,13 @@ public class EtextBodyMigration {
         if (previousIndex != totalStr.length()) {
             out.print(totalStr.substring(previousIndex));
         }
-        final Property sliceStart = m.getProperty(BDO, "sliceStart");
-        final Property sliceEnd = m.getProperty(BDO, "sliceEnd");
         for (final Entry<Resource,int[]> e : resourcesCoords.entrySet()) {
             final int[] oldSet = e.getValue();
-            final String start = translatePoint(pointBreaks, oldSet[0], false);
-            final String end = translatePoint(pointBreaks, oldSet[1], true);
-            m.add(e.getKey(), sliceStart, m.createLiteral(start));
-            m.add(e.getKey(), sliceEnd, m.createLiteral(end));
+            final int[] start = translatePoint(pointBreaks, oldSet[0], LOC_START);
+            final int[] end = translatePoint(pointBreaks, oldSet[1], LOC_END);
+            addChunkLocation(m, e.getKey(), start[0], start[1], LOC_START);
+            addChunkLocation(m, e.getKey(), end[0], end[1], LOC_END);
         }
     }
-    
-
 
 }

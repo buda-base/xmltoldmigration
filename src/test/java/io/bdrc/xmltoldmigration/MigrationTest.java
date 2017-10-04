@@ -10,7 +10,6 @@ import com.github.jsonldjava.core.JsonLdError;
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
-import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextBodyMigration;
@@ -36,8 +35,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
 import javax.xml.validation.Validator;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -350,8 +347,8 @@ public class MigrationTest
     public void testEtext() throws XPathExpressionException, IOException
     {
         System.out.println("testing etext");
-        assertTrue(EtextBodyMigration.translatePoint(Arrays.asList(2), 1, true).equals("1-2"));
-        assertTrue(EtextBodyMigration.translatePoint(Arrays.asList(2), 2, false).equals("2-1"));
+        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(Arrays.asList(2), 1, false), new int[] {1, 2}));
+        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(Arrays.asList(2), 2, true), new int[] {2, 1}));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false);
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
@@ -371,6 +368,15 @@ public class MigrationTest
         assertTrue(EtextBodyMigration.rtfP.matcher("1$0000270").find());
         assertTrue(EtextBodyMigration.rtfP.matcher("PAGE -PAGE 2--PAGE 1-").find());
         assertTrue(EtextBodyMigration.rtfP.matcher("PAGE \\* MERGEFORMAT 2").find());
+        // test with different options:
+        out = new ByteArrayOutputStream();
+        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false);
+        computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
+        //System.out.println(computedContent);
+        // this one is a bit bogus because it adds spaces in line milestones, but in real life data there is no lines when we must
+        // no keep the pagination
+        correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content-noPages.txt")));
+        assertTrue(computedContent.equals(correctContent.trim()));
         flushLog();
     }
 }
