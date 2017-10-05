@@ -366,7 +366,7 @@ public class MigrationTest
         String correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content.txt")));
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctItemModel) );
-        assertTrue(computedContent.equals(correctContent));
+        assertTrue(computedContent.equals(correctContent.trim()));
         assertFalse(EtextBodyMigration.rtfP.matcher(" 9 ").find());
         assertTrue(EtextBodyMigration.rtfP.matcher("1$0000270").find());
         assertTrue(EtextBodyMigration.rtfP.matcher("PAGE -PAGE 2--PAGE 1-").find());

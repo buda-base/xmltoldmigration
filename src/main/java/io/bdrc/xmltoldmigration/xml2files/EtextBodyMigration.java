@@ -76,6 +76,8 @@ public class EtextBodyMigration {
         boolean first = true;
         for (int i = 0; i < pars.getLength(); i++) {
             final Element par = (Element) pars.item(i);
+            if (!par.hasChildNodes())
+                continue;
             Resource pageR = null;
             if (keepPages) {
                 pageR = m.createResource();
@@ -116,15 +118,17 @@ public class EtextBodyMigration {
                       linenum = Integer.parseInt(milestone.getAttribute("n"));
                   } catch (NumberFormatException ex) {
                       System.out.println("cannot parse line number string: "+milestone.getAttribute("n"));
+                      linenum = 0;
                   }
               } else {
-                if (linenum == 0)
-                    linenum = 1;
-                String s = normalizeString(child.getTextContent(), Integer.toString(linenum), pageNum, !needsPageNameTranslation, eTextId);
+                String s = child.getTextContent();
+                if (s.isEmpty())
+                    continue;
+                s = normalizeString(s, Integer.toString(linenum), pageNum, !needsPageNameTranslation, eTextId);
                 if (!first && !keepPages)
                     s = ' '+s;
                 final int strLen = s.codePointCount(0, s.length()); 
-                if (keepPages) {
+                if (keepPages && linenum != 0) {
                     Resource lineR = m.createResource();
                     pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
                     lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
