@@ -159,7 +159,7 @@ public class EtextMigration {
                        String name = fl4.getName();
                        if (name.startsWith("_") || !name.endsWith(".xml") || blackListL4.containsKey(name))
                            continue;
-                       String id = name.substring(0, name.length()-4);
+                       String id = name.substring(0, name.length()-4).replace('-', '_');
                        String dstName = MigrationApp.getDstFileName("etextcontent", id, ".txt");
                        File dstFile = new File(dstName);
                        EtextInfos ei;
