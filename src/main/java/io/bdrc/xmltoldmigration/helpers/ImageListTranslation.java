@@ -159,8 +159,8 @@ public class ImageListTranslation {
                 final String firstPart = imageNumM.group(1).toLowerCase();
                 final String lastPart = imageNumM.group(3).toLowerCase();
                 final int initialNum = Integer.valueOf(imageNumM.group(2));
-                for (int i = 0 ; i <= times-1 ; i++) {
-                    final int thisNum = i;
+                for (int i = 0 ; i < times ; i++) {
+                    final int thisNum = i+initialNum;
                     res.put(firstPart+String.format("%04d", thisNum)+lastPart, curPageNum);
                     curPageNum += 1;
                 }

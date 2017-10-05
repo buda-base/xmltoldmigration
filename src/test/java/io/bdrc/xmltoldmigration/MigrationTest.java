@@ -11,6 +11,7 @@ import com.github.jsonldjava.core.JsonLdError;
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextBodyMigration;
@@ -23,6 +24,7 @@ import org.junit.Test;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -35,7 +37,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.xml.validation.Validator;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -343,6 +348,30 @@ public class MigrationTest
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
+	
+	@Test
+	public void testImageList() {
+	    System.out.println("testing image list");
+	    Map<String,Integer> imageNums = ImageListTranslation.getImageNums("49050001.tif:3", null);
+	    Map<String,Integer> expected = new HashMap<>();
+	    expected.put("49050001.tif", 1);
+	    expected.put("49050002.tif", 2);
+	    expected.put("49050003.tif", 3);
+        assertEquals(expected, imageNums);
+        imageNums = ImageListTranslation.getImageNums("49050025.tif:3", null);
+        expected = new HashMap<>();
+        expected.put("49050025.tif", 1);
+        expected.put("49050026.tif", 2);
+        expected.put("49050027.tif", 3);
+        assertEquals(expected, imageNums);
+        imageNums = ImageListTranslation.getImageNums("49050025.tif:2|49050028.tif:2", "1-24,27");
+        expected = new HashMap<>();
+        expected.put("49050025.tif", 25);
+        expected.put("49050026.tif", 26);
+        expected.put("49050028.tif", 28);
+        expected.put("49050029.tif", 29);
+        assertEquals(expected, imageNums);
+	}
 	
     @Test
     public void testEtext() throws XPathExpressionException, IOException

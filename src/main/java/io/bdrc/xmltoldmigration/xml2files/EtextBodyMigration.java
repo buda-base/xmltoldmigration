@@ -15,7 +15,6 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -87,6 +86,7 @@ public class EtextBodyMigration {
             if (!pageNum.isEmpty() && keepPages) {
                 if (imageNumPageNum != null) {
                     Integer pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
+                    System.out.println(pageNum + " -> "+pageNumI);
                     if (pageNumI == null) { // TODO: are there some cases in which this breaks?
                         pageNumI = imageNumPageNum.get(pageNum.replace(".tif", ".jpg").toLowerCase());
                     }

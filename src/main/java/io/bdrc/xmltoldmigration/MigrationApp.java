@@ -2,6 +2,9 @@ package io.bdrc.xmltoldmigration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -369,7 +372,13 @@ public class MigrationApp
         }
     }
     
-    public static void main( String[] args ) throws NoSuchAlgorithmException
+    public static class NullOutputStream extends OutputStream {
+        @Override
+        public void write(int b) throws IOException {
+        }
+      }
+    
+    public static void main( String[] args ) throws NoSuchAlgorithmException, IllegalArgumentException, FileNotFoundException
     {
         boolean oneDirection = false;
         boolean manyOverOne = false;
@@ -429,7 +438,8 @@ public class MigrationApp
         migrateType(WORK, "W"); // also does pubinfos and imagegroups
         migrateType(SCANREQUEST, "SR"); // requires works to be finished
         migrateType(PRODUCT, "PR");
-        //EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT00KG03612/UT00KG03612-I00KG03631/UT00KG03612-I00KG03631-0000.xml", false, System.out, false, ModelFactory.createDefaultModel(), true);
+        //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
+        //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
         EtextMigration.migrateEtexts();
         CommonMigration.speller.close();
         finishTypes();
