@@ -10,97 +10,97 @@
 bdr:UT1CZ2485_001_0000
     a                   bdr:EtextPaginated ;
     :eTextHasPage       [ :seqNum             2 ;
-                          :sliceEndChar       14 ;
+                          :sliceEndChar       13 ;
                           :sliceEndChunk      19 ;
                           :sliceStartChar     1 ;
                           :sliceStartChunk    1
                         ] ,
             [ :pageHasLine        [ :seqNum             1 ;
-                                    :sliceEndChar       8 ;
+                                    :sliceEndChar       7 ;
                                     :sliceEndChunk      25 ;
                                     :sliceStartChar     14 ;
                                     :sliceStartChunk    19
                                   ] ,
                       [ :seqNum             2 ;
-                        :sliceEndChar       48 ;
+                        :sliceEndChar       47 ;
                         :sliceEndChunk      31 ;
                         :sliceStartChar     8 ;
                         :sliceStartChunk    25
                       ] ,
                       [ :seqNum             3 ;
-                        :sliceEndChar       35 ;
+                        :sliceEndChar       34 ;
                         :sliceEndChunk      35 ;
                         :sliceStartChar     1 ;
                         :sliceStartChunk    32
                       ] ,
                       [ :seqNum             4 ;
-                        :sliceEndChar       50 ;
+                        :sliceEndChar       49 ;
                         :sliceEndChunk      38 ;
                         :sliceStartChar     35 ;
                         :sliceStartChunk    35
                       ] ,
                       [ :seqNum             5 ;
-                        :sliceEndChar       57 ;
+                        :sliceEndChar       56 ;
                         :sliceEndChunk      44 ;
                         :sliceStartChar     50 ;
                         :sliceStartChunk    38
                       ] ,
                       [ :seqNum             6 ;
-                        :sliceEndChar       35 ;
+                        :sliceEndChar       34 ;
                         :sliceEndChunk      50 ;
                         :sliceStartChar     57 ;
                         :sliceStartChunk    44
                       ] ;
               :seqNum             3 ;
-              :sliceEndChar       35 ;
+              :sliceEndChar       34 ;
               :sliceEndChunk      50 ;
               :sliceStartChar     14 ;
               :sliceStartChunk    19
             ] ,
             [ :pageHasLine        [ :seqNum             1 ;
-                                    :sliceEndChar       6 ;
+                                    :sliceEndChar       5 ;
                                     :sliceEndChunk      56 ;
                                     :sliceStartChar     1 ;
                                     :sliceStartChunk    51
                                   ] ,
                       [ :seqNum             2 ;
-                        :sliceEndChar       12 ;
+                        :sliceEndChar       11 ;
                         :sliceEndChunk      60 ;
                         :sliceStartChar     6 ;
                         :sliceStartChunk    56
                       ] ,
                       [ :seqNum             3 ;
-                        :sliceEndChar       21 ;
+                        :sliceEndChar       20 ;
                         :sliceEndChunk      65 ;
                         :sliceStartChar     12 ;
                         :sliceStartChunk    60
                       ] ,
                       [ :seqNum             4 ;
-                        :sliceEndChar       16 ;
+                        :sliceEndChar       15 ;
                         :sliceEndChunk      71 ;
                         :sliceStartChar     1 ;
                         :sliceStartChunk    66
                       ] ,
                       [ :seqNum             5 ;
-                        :sliceEndChar       13 ;
+                        :sliceEndChar       12 ;
                         :sliceEndChunk      79 ;
                         :sliceStartChar     16 ;
                         :sliceStartChunk    71
                       ] ,
                       [ :seqNum             6 ;
-                        :sliceEndChar       13 ;
+                        :sliceEndChar       12 ;
                         :sliceEndChunk      83 ;
                         :sliceStartChar     13 ;
                         :sliceStartChunk    79
                       ] ,
                       [ :seqNum             7 ;
-                        :sliceEndChar       24 ;
+                        :sliceEndChar       23 ;
                         :sliceEndChunk      87 ;
                         :sliceStartChar     13 ;
                         :sliceStartChunk    83
                       ] ;
               :seqNum             4 ;
-              :sliceEndChar       24 ;
+              :sliceEndChar       23 ;
               :sliceEndChunk      87 ;
               :sliceStartChar     1 ;
               :sliceStartChunk    51

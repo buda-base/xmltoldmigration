@@ -373,12 +373,20 @@ public class MigrationTest
         assertEquals(expected, imageNums);
 	}
 	
+	@Test
+	public void testEtextIndexTranslation() {
+	    List<Integer> breaks = Arrays.asList(2);
+	    assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 2, true), new int[] {1,2}));
+        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 2, false), new int[] {1,2}));
+        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 3, true), new int[] {2,1}));
+        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 3, false), new int[] {2,1}));
+        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 4, false), new int[] {2,2}));
+	}
+	
     @Test
     public void testEtext() throws XPathExpressionException, IOException
     {
         System.out.println("testing etext");
-        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(Arrays.asList(2), 1, false), new int[] {1, 2}));
-        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(Arrays.asList(2), 2, true), new int[] {2, 1}));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel, "item");
@@ -387,7 +395,7 @@ public class MigrationTest
         assertTrue(ei.itemId.equals("I1CZ2485_E001"));
         assertTrue(ei.workId.equals("W1CZ2485"));
         assertTrue(ei.etextId.equals("UT1CZ2485_001_0000"));
-        //MigrationHelpers.modelToOutputStream(ei.etextModel, System.out, "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
+        MigrationHelpers.modelToOutputStream(ei.etextModel, System.out, "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
         //MigrationHelpers.modelToOutputStream(ei.itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, ei.itemId);
         //System.out.println(computedContent);
         Model correctEtextModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-etext.ttl");

@@ -86,7 +86,6 @@ public class EtextBodyMigration {
             if (!pageNum.isEmpty() && keepPages) {
                 if (imageNumPageNum != null) {
                     Integer pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
-                    System.out.println(pageNum + " -> "+pageNumI);
                     if (pageNumI == null) { // TODO: are there some cases in which this breaks?
                         pageNumI = imageNumPageNum.get(pageNum.replace(".tif", ".jpg").toLowerCase());
                     }
@@ -105,7 +104,7 @@ public class EtextBodyMigration {
                     }
                 }
             }
-            final int pageBeginChar = currentTotalPoints;
+            final int pageBeginPointIndex = currentTotalPoints+1;
             final NodeList children = par.getChildNodes();
             int linenum = 0;
             for (int j = 0; j < children.getLength(); j++) {
@@ -133,10 +132,10 @@ public class EtextBodyMigration {
                     pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
                     lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
                     if (oneLongString) {
-                        addChunkLocation(m, lineR, 1, currentTotalPoints, LOC_START);
+                        addChunkLocation(m, lineR, 1, currentTotalPoints+1, LOC_START);
                         addChunkLocation(m, lineR, 1, currentTotalPoints+strLen, LOC_END);
                     } else {
-                        resourcesCoords.put(lineR, new int[] {currentTotalPoints, currentTotalPoints+strLen});
+                        resourcesCoords.put(lineR, new int[] {currentTotalPoints+1, currentTotalPoints+strLen});
                     }
                 }
                 currentTotalPoints += strLen;
@@ -149,11 +148,12 @@ public class EtextBodyMigration {
               }
               first = false;
            }
+           final int pageEndPointIndex = currentTotalPoints;
            if (oneLongString && keepPages) {
-               addChunkLocation(m, pageR, 1, pageBeginChar, true);
-               addChunkLocation(m, pageR, 1, currentTotalPoints, false);
+               addChunkLocation(m, pageR, 1, pageBeginPointIndex, true);
+               addChunkLocation(m, pageR, 1, pageEndPointIndex, false);
            } else if (keepPages) {
-               resourcesCoords.put(pageR, new int[] {pageBeginChar, currentTotalPoints});
+               resourcesCoords.put(pageR, new int[] {pageBeginPointIndex, pageEndPointIndex});
            }
         }
         if (totalStr.length() == 0)
@@ -163,28 +163,29 @@ public class EtextBodyMigration {
             chunkString(totalStr.toString(), resourcesCoords, ps, m, eTextId, currentTotalPoints);
     }
     
-    public static int[] translatePoint(List<Integer> pointBreaks, int pointIndex, boolean isStart) {
+    public static int[] translatePoint(final List<Integer> pointBreaks, final int pointIndex, final boolean isStart) {
         // pointIndex depends on the context, 
-        // if it's about the starting point (isEnd == false):
+        // if it's about the starting point (isStart == true):
         //     it's the index of the starting char: ab|cd -> pointIndex 2 for the beginning of the second segment (cd)
         // else 
         //     it's the index after the end char: ab|cd -> pointIndex 2 for the end of the first segment (ab)
         int curLine = 1;
         int toSubstract = 0;
         for (final int pointBreak : pointBreaks) {
-            // pointBreak is the index at which the break occurs, for instance
+            // pointBreak is the index of the char after which the break occurs, for instance
             // a|bc|d will have pointBreaks of 1 and 3
-            if (pointBreak > pointIndex || (!isStart && pointBreak == pointIndex)) {
+            if (pointBreak >= pointIndex) {
                 break;
             }
             toSubstract = pointBreak;
             curLine += 1;
         }
-        return new int[] {curLine, pointIndex-toSubstract+1}; // +1 so that characters start at 1
+        return new int[] {curLine, pointIndex-toSubstract};
     }
     
     public static void chunkString(final String totalStr, final Map<Resource,int[]> resourcesCoords, final PrintStream out, final Model m, final String eTextId, final int totalPoints) {
         final List<Integer>[] breaks = TibetanStringChunker.getAllBreakingCharsIndexes(totalStr);
+        
         final List<Integer> charBreaks = breaks[0];
         final List<Integer> pointBreaks = breaks[1];
         int previousIndex = 0;
