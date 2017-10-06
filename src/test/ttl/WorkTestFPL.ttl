@@ -1,16 +1,13 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
-@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:I12837FPL_002  a    :ItemPhysicalAsset ;
+bdr:I12837FPL_P001  a   :ItemPhysicalAsset ;
     :itemForWork        bdr:W12837FPL ;
     :itemHasVolume      [ a                   :VolumePhysicalAsset ;
                           :volumeNumber       1 ;
@@ -24,9 +21,8 @@ bdr:W12837FPL  a        :Work ;
     rdfs:comment        "description with no type" , "description with type date" ;
     skos:prefLabel      "kun rig rnam bshad"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast ;
     :creatorMainAuthor  bdr:P1591 ;
-    :note               [ :noteText  "description with type note" ] ,
-            [ :noteText       "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ;
-    adm:status          bdr:StatusReleased ;
+    :note               [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ,
+            [ :noteText       "description with type note" ] ;
     :workCatalogInfo    "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
     :workIncipit        "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
     :workIsAbout        bdr:G844 , bdr:T61 , bdr:W976 ;
@@ -61,4 +57,5 @@ bdr:W12837FPL  a        :Work ;
             [ adm:logDate         "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
               adm:logMessage      "normalized catalog info"@en ;
               adm:logWho          bdr:U00012
-            ] .
+            ] ;
+    adm:status          bdr:StatusReleased .
