@@ -620,7 +620,7 @@ public class CommonMigration  {
 			        resModel = ModelFactory.createDefaultModel();
 			        setPrefixes(resModel, "item");
 			        String workId = r.getLocalName();
-			        fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_002");
+			        fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
 			        if (WorkMigration.addItemForWork)
 			            fplItem.addProperty(resModel.getProperty(BDO, "itemForWork"), r);
 			        addStatus(resModel, fplItem, "released");
