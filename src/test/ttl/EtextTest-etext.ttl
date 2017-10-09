@@ -8,7 +8,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:UT1CZ2485_001_0000
-    a                   bdr:EtextPaginated ;
+    a                   :EtextPaginated ;
     :eTextHasPage       [ :seqNum             2 ;
                           :sliceEndChar       13 ;
                           :sliceEndChunk      19 ;

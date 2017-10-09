@@ -391,7 +391,7 @@ public class EtextMigration {
         
         itemModel.add(itemModel.getResource(BDR+itemId),
                 RDF.type,
-                etextModel.getResource(BDR+"ItemEtext"+(isPaginated?"Paginated":"NonPaginated")));
+                etextModel.getResource(BDO+"ItemEtext"+(isPaginated?"Paginated":"NonPaginated")));
         
         try {
             e = (Element) ((NodeList)xPath.evaluate("tei:idno[@type='TBRC_TEXT_RID']",
@@ -419,7 +419,7 @@ public class EtextMigration {
 
         etextModel.add(etextModel.getResource(BDR+etextId),
                 RDF.type,
-                etextModel.getResource(BDR+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
+                etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
         Model imageItemModel = null;
         if (needsPageNameTranslation) {
