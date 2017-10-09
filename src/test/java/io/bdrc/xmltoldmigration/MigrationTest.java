@@ -60,6 +60,7 @@ public class MigrationTest
 		SymetricNormalization.normalizeOneDirection(true, false);
 		WorkMigration.splitItems = false;
 		MigrationApp.md = MessageDigest.getInstance("MD5");
+		EtextMigration.testMode = true;
 	}
 	
    @AfterClass

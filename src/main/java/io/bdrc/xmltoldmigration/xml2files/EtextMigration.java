@@ -44,6 +44,7 @@ public class EtextMigration {
     public static final String BDR = CommonMigration.BDR;
     public static final String BDO = CommonMigration.BDO;
     public static final String ADM = CommonMigration.ADM;
+    public static boolean testMode = false;
     private static XPath xPath = initXpath();
     public static final Map<String, String> distributorToUri = new HashMap<>();
     
@@ -423,7 +424,7 @@ public class EtextMigration {
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
         Model imageItemModel = null;
-        if (isPaginated) {
+        if (isPaginated && !testMode) {
             imageItemModel = getItemModel(workId, etextId);
             if (imageItemModel == null) {
                 System.err.println("error: cannot retrieve item model for "+workId);
