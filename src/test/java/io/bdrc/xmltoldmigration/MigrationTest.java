@@ -396,7 +396,7 @@ public class MigrationTest
         assertTrue(ei.workId.equals("W1CZ2485"));
         assertTrue(ei.etextId.equals("UT1CZ2485_001_0000"));
         //MigrationHelpers.modelToOutputStream(ei.etextModel, System.out, "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
-        //MigrationHelpers.modelToOutputStream(ei.itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, ei.itemId);
+        //MigrationHelpers.modelToOutputStream(itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, ei.itemId);
         //System.out.println(computedContent);
         Model correctEtextModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-etext.ttl");
         Model correctItemModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-item.ttl");

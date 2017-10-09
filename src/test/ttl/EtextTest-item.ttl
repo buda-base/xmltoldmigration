@@ -9,8 +9,6 @@
 
 bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
     :itemForWork        bdr:W1CZ2485 ;
-    :itemHasVolume      [ :volumeHasEtext     [ :eTextResource      bdr:UT1CZ2485_001_0000 ;
-                                                :seqNum             0
-                                              ] ;
+    :itemHasVolume      [ :volumeHasEtext     [ :eTextResource  bdr:UT1CZ2485_001_0000 ] ;
                           :volumeNumber       1
                         ] .
