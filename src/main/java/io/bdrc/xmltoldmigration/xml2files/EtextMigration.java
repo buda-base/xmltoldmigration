@@ -276,7 +276,7 @@ public class EtextMigration {
         }
         if (volumeIsImageGroup) {
             if (itemModel == null) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot understand volume name "+m.group(2));
+                ExceptionHelper.logException(ExceptionHelper.ET_ETEXT, eTextId, eTextId, "cannot understand volume name "+m.group(1));
             } else {
                 vol = getVolumeNumber(m.group(1), itemModel, eTextId);
         }
@@ -335,7 +335,8 @@ public class EtextMigration {
         }
         Resource seqRes = itemModel.createResource();
         volumeRes.addProperty(volumeHasEtext, seqRes);
-        seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
+        if (seqNum != 0)
+            seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
                 itemModel.createTypedLiteral(seqNum, XSDDatatype.XSDinteger));
         // TODO: check for duplicates
         return seqRes;
@@ -422,7 +423,7 @@ public class EtextMigration {
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
         Model imageItemModel = null;
-        if (needsPageNameTranslation) {
+        if (isPaginated) {
             imageItemModel = getItemModel(workId, etextId);
             if (imageItemModel == null) {
                 System.err.println("error: cannot retrieve item model for "+workId);
