@@ -298,7 +298,7 @@ public class EtextMigration {
     }
     
     private static String lastWorkId = null;
-    public static void addItemToWork(String workId, String itemId, String etextId) {
+    public static void addItemToWork(String workId, String itemId, String etextId, boolean isPaginated) {
         if (workId.equals(lastWorkId))
             return;
         final String workPath = MigrationApp.getDstFileName("work", workId);
@@ -308,7 +308,8 @@ public class EtextMigration {
             return;
         }
         final Resource workR = workModel.getResource(BDR+workId);
-        workR.addProperty(workModel.getProperty(BDO, "workHasItem"), workModel.createResource(BDR+itemId));
+        final Property p = workModel.getProperty(BDO, "workHasItemEtext"+(isPaginated?"":"Non")+"Paginated");
+        workR.addProperty(p, workModel.createResource(BDR+itemId));
         MigrationHelpers.outputOneModel(workModel, workId, workPath, "work");
         lastWorkId = workId;
     }
@@ -330,12 +331,14 @@ public class EtextMigration {
         }
         if (volumeRes == null) {
             volumeRes = itemModel.createResource();
+            volumeRes.addProperty(RDF.type, itemModel.getResource(BDO+"VolumeEtextAsset"));
             item.addProperty(itemHasVolume, volumeRes);
             volumeRes.addProperty(itemModel.getProperty(BDO, "volumeNumber"), 
                     itemModel.createTypedLiteral(volume, XSDDatatype.XSDinteger));
         }
         Resource seqRes = itemModel.createResource();
         volumeRes.addProperty(volumeHasEtext, seqRes);
+        seqRes.addProperty(RDF.type, itemModel.getResource(BDO+"EtextRef"));
         if (seqNum != 0)
             seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
                 itemModel.createTypedLiteral(seqNum, XSDDatatype.XSDinteger));
@@ -406,7 +409,7 @@ public class EtextMigration {
         
         if (firstItemModel) {
             if (WorkMigration.addWorkHasItem)
-                addItemToWork(workId, itemId, etextId);
+                addItemToWork(workId, itemId, etextId, isPaginated);
             
             if (WorkMigration.addItemForWork)
                 itemModel.add(itemModel.getResource(BDR+itemId),

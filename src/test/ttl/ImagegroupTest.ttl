@@ -8,7 +8,8 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:TestItem  a         :ItemImageAsset ;
-    :itemHasVolume      [ :imageCount         352 ;
+    :itemHasVolume      [ a                   :VolumeImageAsset ;
+                          :imageCount         352 ;
                           :imageList          "41580001.tif:54|41580055.jpg|41580056.tif:23|41580082.tif:26|42580108.tif|41580109.tif:88|garbage|41580198.tif:54|41580253.tif:104" ;
                           :imagesMissing      "79-81,252" ;
                           :volumeNumber       1 ;

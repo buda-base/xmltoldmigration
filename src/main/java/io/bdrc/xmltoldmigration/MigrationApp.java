@@ -235,7 +235,7 @@ public class MigrationApp
                 }
                 String itemName = "I"+baseName.substring(1)+"_I001";
                 if (WorkMigration.addWorkHasItem)
-                    m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
+                    m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItemImageAsset"), m.createResource(BDR+itemName));
                 itemModel = ModelFactory.createDefaultModel();
                 adjustAccess(m, itemModel, baseName, itemName);
                 CommonMigration.setPrefixes(itemModel);

@@ -75,6 +75,8 @@ public class ImagegroupMigration {
         
         m.add(item, m.getProperty(BDO+"itemHasVolume"), main);
         
+        main.addProperty(RDF.type, m.getResource(BDO+"VolumeImageAsset"));
+        
 		// adding the ondisk/onDisk description as vol:imageList
 		NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "description");
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -106,8 +108,6 @@ public class ImagegroupMigration {
                 }
                 m.add(main, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             }
-                
-            
             value = current.getAttribute("total").trim();
             if (!value.isEmpty())
                 m.add(main, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));

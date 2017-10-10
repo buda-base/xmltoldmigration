@@ -627,7 +627,7 @@ public class CommonMigration  {
 			        fplItem.addProperty(RDF.type, resModel.getResource(BDO+"ItemPhysicalAsset"));
 			        fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
 			        if (WorkMigration.addWorkHasItem)
-			            r.addProperty(resModel.getProperty(BDO+"workHasItem"), fplItem);
+			            r.addProperty(resModel.getProperty(BDO+"workHasItemPhysicalAsset"), fplItem);
 			    }
 			    switch(type) {
 			    case "id":
