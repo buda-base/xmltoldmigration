@@ -234,8 +234,10 @@ public class MigrationApp
                     w.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                 }
                 String itemName = "I"+baseName.substring(1)+"_I001";
-                if (WorkMigration.addWorkHasItem)
+                if (WorkMigration.addWorkHasItem) {
                     m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItemImageAsset"), m.createResource(BDR+itemName));
+                    m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
+                }
                 itemModel = ModelFactory.createDefaultModel();
                 adjustAccess(m, itemModel, baseName, itemName);
                 CommonMigration.setPrefixes(itemModel);
@@ -244,8 +246,10 @@ public class MigrationApp
                 itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
                 if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                     item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
-                if (WorkMigration.addItemForWork)
+                if (WorkMigration.addItemForWork) {
+                    itemModel.add(item, itemModel.getProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR + baseName));
                     itemModel.add(item, itemModel.getProperty(BDO, "itemForWork"), itemModel.createResource(BDR + baseName));
+                }
                 // workHasItem already added in WorkMigration
                 for (Map.Entry<Integer,String> vol : vols.entrySet()) {
                     String imagegroup = vol.getValue();
