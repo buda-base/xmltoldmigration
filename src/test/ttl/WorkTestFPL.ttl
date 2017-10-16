@@ -8,12 +8,12 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:I12837FPL_P001  a   :ItemPhysicalAsset ;
-    :itemPhysicalAssetForWork        bdr:W12837FPL ;
     :itemHasVolume      [ a                   :VolumePhysicalAsset ;
                           :volumeNumber       1 ;
                           :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en
                         ] ;
     :itemLibrary        bdr:G1TLMFPL000001 ;
+    :itemPhysicalAssetForWork  bdr:W12837FPL ;
     :itemShelf          "3A|110" ;
     adm:status          bdr:StatusReleased .
 
@@ -24,8 +24,9 @@ bdr:W12837FPL  a        :Work ;
     :note               [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ,
             [ :noteText       "description with type note" ] ;
     :workCatalogInfo    "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
+    :workGenre          bdr:T61 ;
     :workIncipit        "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
-    :workIsAbout        bdr:G844 , bdr:T61 , bdr:W976 ;
+    :workIsAbout        bdr:G844 , bdr:W976 ;
     :workIsNumbered     true ;
     :workNumberOf       bdr:W12345 ;
     :workNumberOfVolumes  1 ;

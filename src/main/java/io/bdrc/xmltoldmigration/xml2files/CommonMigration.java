@@ -783,16 +783,21 @@ public class CommonMigration  {
                case "isAboutSect":
                case "isAboutText":
                    value = BDO+"workIsAbout";
+                   break;
                case "isAboutControlled":
                case "isAboutUncontrolled":
                    value = BDO+"workIsAbout";  // TODO: ?
+                   break;
                case "isInstanceOfGenre":
                case "isInstanceOf":
                    value = BDO+"workGenre"; // TODO: ?
+                   break;
                case "isCommentaryOn":
                    value = BDO+"workIsAbout"; // TODO: ?
+                   break;
                default:
                    value = BDO+"workIsAbout";
+                   break;
                }
                String rid = current.getAttribute("class").trim();
                if (!rid.isEmpty()) {
