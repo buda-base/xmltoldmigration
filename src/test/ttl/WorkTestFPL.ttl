@@ -8,7 +8,6 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:I12837FPL_P001  a   :ItemPhysicalAsset ;
-    :itemForWork        bdr:W12837FPL ;
     :itemPhysicalAssetForWork        bdr:W12837FPL ;
     :itemHasVolume      [ a                   :VolumePhysicalAsset ;
                           :volumeNumber       1 ;

@@ -147,7 +147,6 @@ public class PubinfoMigration {
                 itemModel.add(holding, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(main.getURI()));
             if (WorkMigration.addWorkHasItem) {
                 m.add(main, m.getProperty(BDO, "workHasItemPhysicalAsset"), m.createResource(BDR+itemName));
-                m.add(main, m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
             }
 
             addSimpleElement("exception", BDO+"itemException", CommonMigration.EWTS_TAG, current, itemModel, holding);

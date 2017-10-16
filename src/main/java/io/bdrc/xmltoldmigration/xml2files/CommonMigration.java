@@ -623,14 +623,12 @@ public class CommonMigration  {
 			        fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
 			        if (WorkMigration.addItemForWork) {
                         fplItem.addProperty(resModel.getProperty(BDO, "itemPhysicalAssetForWork"), r);
-                        fplItem.addProperty(resModel.getProperty(BDO, "itemForWork"), r);
 			        }
 			        addStatus(resModel, fplItem, "released");
 			        fplItem.addProperty(RDF.type, resModel.getResource(BDO+"ItemPhysicalAsset"));
 			        fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
 			        if (WorkMigration.addWorkHasItem) {
 			            r.addProperty(resModel.getProperty(BDO+"workHasItemPhysicalAsset"), fplItem);
-                        r.addProperty(resModel.getProperty(BDO+"workHasItem"), fplItem);
 			        }
 			    }
 			    switch(type) {

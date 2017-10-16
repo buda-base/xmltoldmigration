@@ -8,9 +8,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
-    :itemForWork        bdr:W1CZ2485 ;
-    :itemEtextForWork        bdr:W1CZ2485 ;
-    :itemEtextPaginatedForWork        bdr:W1CZ2485 ;
+    :itemEtextPaginatedForWork  bdr:W1CZ2485 ;
     :itemHasVolume      [ a                   :VolumeEtextAsset ;
                           :volumeHasEtext     [ a                   :EtextRef ;
                                                 :eTextResource      bdr:UT1CZ2485_001_0000
