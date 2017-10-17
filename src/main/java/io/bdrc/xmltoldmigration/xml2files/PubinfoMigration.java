@@ -53,7 +53,7 @@ public class PubinfoMigration {
 		
         addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
         addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
-        addSimpleElement("printery", BDO+"pubinfo_printery", "bo-x-ewts", root, m, main); //???
+        addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
         addSimpleElement("publisherDate", BDO+"workPublisherDate", null, root, m, main);
         addSimpleElement("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
         addSimpleElement("lccn", BDO+"workLccn", null, root, m, main);
