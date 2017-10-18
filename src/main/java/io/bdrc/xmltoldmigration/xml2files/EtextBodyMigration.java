@@ -58,6 +58,11 @@ public class EtextBodyMigration {
     }
     
     public static void MigrateBody(final Document d, final OutputStream strOutput, final Model m, final String eTextId, final Map<String,Integer> imageNumPageNum, final boolean needsPageNameTranslation, final boolean keepPages) {
+        final int pageShift;
+        if (!needsPageNameTranslation && keepPages) // for eKangyur, we need to shift page numbers by 2
+            pageShift = 2;
+        else
+            pageShift = 0;
         final PrintStream ps = new PrintStream(strOutput);
         Element body;
         Resource etextR = m.getResource(BDR+eTextId);
@@ -97,7 +102,7 @@ public class EtextBodyMigration {
                     }
                 } else {
                     try {
-                        final Integer pageNumI = Integer.valueOf(pageNum);
+                        final Integer pageNumI = Integer.valueOf(pageNum)+pageShift;
                         pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(pageNumI, XSDDatatype.XSDinteger));
                     } catch (NumberFormatException e) {
                         ExceptionHelper.logException(ExceptionHelper.ET_ETEXT, eTextId, eTextId, "cannot convert image to int "+pageNum);
