@@ -42,7 +42,7 @@ bdr:W12837FPL  a        :Work ;
               rdfs:label          "bcom ldan 'das thams cad rig pa'i rnam bshad"@bo-x-ewts
             ] ;
     adm:access          bdr:AccessOpen ;
-    adm:license         bdr:LicenseTypeCCBY ;
+    adm:license         bdr:LicenseCCBY ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;
                           adm:logWho          bdr:U00001
