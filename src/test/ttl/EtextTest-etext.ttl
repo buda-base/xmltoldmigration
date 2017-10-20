@@ -9,7 +9,7 @@
 
 bdr:UT1CZ2485_001_0000
     a                   :EtextPaginated ;
-    :eTextHasPage       [ :seqNum             2 ;
+    :eTextHasPage       [ :seqNum             4 ;
                           :sliceEndChar       13 ;
                           :sliceEndChunk      19 ;
                           :sliceStartChar     1 ;
@@ -51,7 +51,7 @@ bdr:UT1CZ2485_001_0000
                         :sliceStartChar     57 ;
                         :sliceStartChunk    44
                       ] ;
-              :seqNum             3 ;
+              :seqNum             5 ;
               :sliceEndChar       34 ;
               :sliceEndChunk      50 ;
               :sliceStartChar     14 ;
@@ -99,7 +99,7 @@ bdr:UT1CZ2485_001_0000
                         :sliceStartChar     13 ;
                         :sliceStartChunk    83
                       ] ;
-              :seqNum             4 ;
+              :seqNum             6 ;
               :sliceEndChar       23 ;
               :sliceEndChunk      87 ;
               :sliceStartChar     1 ;
