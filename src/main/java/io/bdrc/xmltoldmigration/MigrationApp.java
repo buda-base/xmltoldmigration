@@ -28,6 +28,10 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.bdrc.xmltoldmigration.helpers.ContextGenerator;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -417,6 +421,9 @@ public class MigrationApp
                 commitMessage = args[i+1];
             }
 		}
+		
+//		Map<String, Object> context = ContextGenerator.generateContextObject(MigrationHelpers.ontologymodel, MigrationHelpers.prefixMap, "bdo");
+//		System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(context));
 
         File theDir = new File(OUTPUT_DIR);
         if (!theDir.exists()) {
@@ -449,7 +456,6 @@ public class MigrationApp
         long fileMigrationEndTime = System.currentTimeMillis();
     	long estimatedTime = fileMigrationEndTime - startTime;
     	System.out.println("symetry triple changes: +"+SymetricNormalization.addedTriples+"/-"+SymetricNormalization.removedTriples);
-    	//finishTypes();
     	System.out.println("done in "+estimatedTime+" ms");
     }
 }
