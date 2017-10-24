@@ -417,6 +417,8 @@ public class EtextMigration {
                         etextModel.getResource(BDR+workId));
             }
             
+            CommonMigration.addStatus(itemModel, itemModel.getResource(BDR+itemId), "released");
+            
             if (addEtextInItem)
                 etextModel.add(etextModel.getResource(BDR+etextId),
                         etextModel.getProperty(BDO, "eTextInItem"),
@@ -426,6 +428,8 @@ public class EtextMigration {
         etextModel.add(etextModel.getResource(BDR+etextId),
                 RDF.type,
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
+        
+        CommonMigration.addStatus(etextModel, etextModel.getResource(BDR+etextId), "released");
         
         Model imageItemModel = null;
         if (isPaginated && !testMode) {
