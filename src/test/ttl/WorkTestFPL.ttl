@@ -24,7 +24,7 @@ bdr:W12837FPL  a        :Work ;
     :note               [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ,
             [ :noteText       "description with type note" ] ;
     :workCatalogInfo    "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
-    :workGenre          bdr:T61 ;
+    :workGenre          bdr:T132 , bdr:T62 ;
     :workIncipit        "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
     :workIsAbout        bdr:G844 , bdr:W976 ;
     :workIsNumbered     true ;

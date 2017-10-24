@@ -769,10 +769,31 @@ public class CommonMigration  {
             }
         }
        
+       public static boolean isCommentaryTopic(String rid) {
+           switch (rid) {
+           case "T304":
+           case "T3JT5054":
+           case "T61":
+           case "T4JW5424":
+           case "T10MS12837":
+           case "T132":
+           case "T1488":
+           case "T1491":
+           case "T2397":
+               return true;
+           }
+           return false;
+       }
+       
        public static void addSubjects(Model m, Resource main, Element root, String XsdPrefix) {
            List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "subject");
+           boolean needsCommentaryTopic = false;
+           boolean hasCommentaryTopic = false;
            for (int i = 0; i < nodeList.size(); i++) {
                Element current = (Element) nodeList.get(i);
+               String rid = current.getAttribute("class").trim();
+               if (rid.isEmpty())
+                   continue;
                String value = current.getAttribute("type").trim();
                switch (value) {
                case "isAboutPerson":
@@ -786,23 +807,26 @@ public class CommonMigration  {
                    break;
                case "isAboutControlled":
                case "isAboutUncontrolled":
-                   value = BDO+"workIsAbout";  // TODO: ?
+                   value = BDO+"workIsAbout";
                    break;
                case "isInstanceOfGenre":
                case "isInstanceOf":
-                   value = BDO+"workGenre"; // TODO: ?
+                   value = BDO+"workGenre";
+                   if (isCommentaryTopic(rid))
+                       hasCommentaryTopic = true;
                    break;
                case "isCommentaryOn":
-                   value = BDO+"workIsAbout"; // TODO: ?
+                   value = BDO+"workIsAbout";
+                   needsCommentaryTopic = true;
                    break;
                default:
                    value = BDO+"workIsAbout";
                    break;
                }
-               String rid = current.getAttribute("class").trim();
-               if (!rid.isEmpty()) {
-                   m.add(main, m.getProperty(value), m.createResource(BDR+rid));
-               }
+               m.add(main, m.getProperty(value), m.createResource(BDR+rid));
+           }
+           if (needsCommentaryTopic && !hasCommentaryTopic) {
+               m.add(main, m.getProperty(BDO, "workGenre"), m.createResource(BDR+"T132"));
            }
        }
        
