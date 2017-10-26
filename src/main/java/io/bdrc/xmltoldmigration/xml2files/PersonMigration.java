@@ -46,7 +46,9 @@ public class PersonMigration {
         case "gender":
             return BDR+"Gender"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "event":
-            return BDO+"PersonEvent"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+            if (subtype.equals("NotSpecified"))
+                return BDO+"PersonEventNotSpecified"; 
+            return BDO+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "incarnationOf":
             return BDO+"incarnation"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
 	    default:

@@ -16,10 +16,10 @@ bdr:P1331  a        :Person ;
                       :noteText               "date of death from this source"@en ;
                       :noteWork               bdr:W20115
                     ] ;
-    :personEvent    [ a           :PersonEventDeath ;
+    :personEvent    [ a           :PersonDeath ;
                       :onOrAbout  "1322"
                     ] , 
-            [ a                  :PersonEventOccupiesSeat ;
+            [ a                  :PersonOccupiesSeat ;
               :personEventPlace  bdr:G844
             ] ;
     :personGender   bdr:GenderMale ;
