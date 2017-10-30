@@ -62,7 +62,6 @@ public class PubinfoMigration {
         addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
         addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
         addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", CommonMigration.EWTS_TAG, root, m, main);
-        addSimpleElement("encoding", BDO+"workEncoding", null, root, m, main);
         addSimpleElement("dateOfWriting", BDO+"workDateOfWriting", null, root, m, main);
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);
@@ -105,14 +104,252 @@ public class PubinfoMigration {
         }
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");
+        boolean langTibetanDone = false;
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("type").trim();
-            if (!value.isEmpty()) {
-                value = BDR+"PrintType"+value.substring(0, 1).toUpperCase() + value.substring(1);
-                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(value));
+            switch(value) {
+            case "dbuMed":
+                langTibetanDone = true;
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
+                break;
+            case "dbuCan":
+                langTibetanDone = true;
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
+                break;
+            case "blockprint":
+                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeBlockprint"));
+                break;
+            case "computerInput":
+                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeComputerInput"));
+                break;
+            case "OCR":
+                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeOCR"));
+                break;
+            case "typeSet":
+                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeTypeSet"));
+                break;
+            case "facsimile":
+                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeFacsimile"));
+                break;
+            default:
+                break;
             }
-                
+        }
+        
+        nodeList = root.getElementsByTagNameNS(WPXSDNS, "encoding");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String value = current.getTextContent().trim();
+            if (value.isEmpty()) continue;
+            value = value.trim().toLowerCase();
+            switch (value) {
+            case "in tibetan":
+            case "in tibetan.":
+            case "བོད་ཡིག":
+            case "ྦོབོད་ཡིག":
+            case "ྦབོད་ཡིག":
+            case " ྐབོད་ཡིག":
+            case "ྦོོབོད་ཡིག":
+            case "བོ་དཡིག":
+            case "ཡིག":
+            case "ྐབོད་ཡིག":
+            case "བོད་ཡི":
+            case "བོད་ཡིངག":
+            case "ྦོད་ཡིག":
+            case "བོད་སྐད།":
+            case "བིད་ཡིག":
+            case "བོད་ཡིབ":
+            case "བོད་ཡོག":
+            case "བོདཡིག":
+            case "བོད":
+            case "བོད་":
+            case "བོད་ཡིག་":
+            case "བ་ོད་ཡིག":
+            case "བོག་ཡིག":
+            case "ྦིབོད་ཡིག":
+            case "བོད་ཡིག༌":
+            case "ོབོད་ཡིག":
+            case "བོད་རིགས།":
+            case "བོང་ཡིག":
+            case "in tibetab":
+            case "inntibetan":
+            case "intibetan":
+            case "in tibet":
+            case "inn tibetan":
+            case "in tibatan":
+            case "ln tibetan":
+            case "in tibean":
+            case "in tibeta":
+            case "in tibetabn":
+            case "in toibetan":
+            case "in tbetan":
+            case "in tibetyan":
+            case "in ttibetan":
+            case "in tibeatan":
+            case "in tebe":
+            case "in tibetan;":
+            case "in tibeatn":
+            case "tibetan":
+            case "in tibtan":
+            case "im tibetan":
+            case "in tiibetan":
+            case "in titeian":
+            case "in  tibetan":
+            case "in་tibetan":
+            case "in tibat":
+            case "in tietan":
+            case "oin tibetan":
+            case "in tobetan":
+            case "in ti betan":
+            case "in tidetan":
+            case "un tibetan":
+            case "in tiobetan":
+            case "ni tibetan":
+            case "in tibtatan":
+                if (!langTibetanDone)
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                break;
+            case "extendedwylie":
+            case "estended wylie":
+            case "extended wylie":
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoEwts"));
+                break;
+            case "in dzongkha":
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"DzTibt"));
+                break;
+            case "བོད་དབྱིན།":
+            case "དབྱིན་ཡིག":
+            case "བོད་ཡིག  དབྱིན་ཡིག":
+            case "བོད་དབྱིན":
+            case "དབྱིན་བོད།":
+            case "བོད་ཡིག english":
+            case "in tibetan & english":
+            case "in tibetan and english":
+            case "in english and tibetan":
+            case "in tibean & english":
+            case "tibetan and english":
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn")); // TODO
+                if (!langTibetanDone)
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                break;
+            case "in chinese":
+            case "in chinece":
+            case "chinese":
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn")); // TODO
+                break;
+            case "in chinese & tibetan":
+            case "in tibetan and chinese":
+            case "in chinese and tibetan":
+            case "in tibetan & chinese":
+            case "in tibetan and chinise":
+            case "in tibetan with chinese":
+            case "in tibetan and chinece":
+            case "in tibetan and chinses":
+            case "in tibetan with chinece":
+            case "in chinese，tibetan":
+            case "in chinese in tibetan":
+            case "in tibetan chinese":
+            case "tobetan with chinece":
+            case "in tibetab with chinece":
+                if (!langTibetanDone)
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"ZhUnknown"));
+                break;
+            case "in sanskrit":
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"SaUnknown"));
+                break;
+            case "བོད་ཡིག་དང་རྒྱ་ཡིག།":
+            case "in sanskrit & tibetan":
+            case "in sanskrit and tibetan":
+            case "in tibetan and sanskrit":
+            case "in tibetan & sanskrit":
+                if (!langTibetanDone)
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"SaUnknown"));
+                break;
+            case "in mongolian":
+            case "mongolian":
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"MnUnknown"));
+                break;
+            case "in tibetan and mongol":
+            case "in tibetan and mongolian":
+            case "in mongolian and tibetan":
+                if (!langTibetanDone)
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"MnUnknown"));
+                break;
+            case "english":
+            case "in english":
+            case "en":
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
+                break;
+            case "in tibetan, english and chinese":
+            case "in chinese, tibetan and english":
+            case "in tibetan, chinese & english":
+            case "in tibetan, chinece and english":
+            case "tibetan, english and chinese":
+            case "in tibetan chinese english":
+            case "in tibetan, chinese and english":
+            case "in chinese, english and tibetan":
+            case "in english, tibetan and chinese":
+                if (!langTibetanDone)
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"ZhUnknown"));
+                break;
+            case "in tibetan; an excerpt in english":
+            case "in tibetan; notes in english":
+            case "in tibetan; preface in english":
+            case "in tibetan; pref. in english":
+            case "in tibetan, preface in english":
+            case "in tibetan; prefatory in english":
+            case "in tibetan; publisher's note in english":
+            case "in tibetan; includes english terms":
+            case "in tibetan; introduction in english":
+            case "introduction in english":
+            case "in tibetan; brief biography of author in english":
+            case "in tibetan; preface and acknowledge in english":
+            case "in tibetan; prologue and acknowledgements in tibetan and english":
+                if (!langTibetanDone)
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                m.add(main, m.getProperty(BDO, "workOtherLangScript"), m.createResource(BDR+"EnLatn"));
+                break;
+            default:
+                boolean langFound = false;
+                if (value.contains("chinese")) {
+                    langFound = true;
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"ZhUnknown"));
+                }
+                if (value.contains("english") || value.contains("དབྱིན") || value.contains("ཨིན")) {
+                    langFound = true;
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
+                }
+                if (value.contains("mongol")) {
+                    langFound = true;
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"MnUnknown"));
+                }
+                if (value.contains("tibet") || value.contains("བོད")) {
+                    langFound = true;
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                }
+                if (value.contains("sanskrit") || value.contains("རྒྱ")) {
+                    langFound = true;
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"SaUnknown"));
+                }
+                if (value.contains("dzongkha")) {
+                    langFound = true;
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"DzTibt"));
+                }
+                if (value.contains("hindi")) {
+                    langFound = true;
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"HiUnknown"));
+                }
+//                if (!langFound)
+//                    System.out.println(main.getLocalName()+" "+value);
+                // TODO: migration exception: add initial string
+                break;
+            }
         }
 
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "sourcePrintery");
