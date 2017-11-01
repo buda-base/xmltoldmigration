@@ -111,11 +111,11 @@ public class PubinfoMigration {
             switch(value) {
             case "dbuMed":
                 langTibetanDone = true;
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
                 break;
             case "dbuCan":
                 langTibetanDone = true;
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
                 break;
             case "blockprint":
                 m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeBlockprint"));
