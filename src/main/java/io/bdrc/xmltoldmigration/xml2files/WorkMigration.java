@@ -94,7 +94,7 @@ public class WorkMigration {
             current = (Element) nodeList.item(i);
             value = current.getAttribute("license").trim();
             if (!value.isEmpty()) {
-                if (value.equals("ccby")) value = BDR+"LicenseCCBY";
+                if (value.equals("ccby")) value = BDR+"LicensePublicDomain";
                 else value = BDR+"LicenseCopyrighted";
                 m.add(main, m.getProperty(ADM+"license"), m.createResource(value));
                 hasLicense = true;
@@ -135,7 +135,7 @@ public class WorkMigration {
             m.add(main, m.getProperty(ADM, "access"), m.createResource(BDR+"AccessOpen"));
         
         if (!hasLicense)
-            m.add(main, m.getProperty(ADM+"license"), m.createResource(BDR+"LicenseCCBY"));
+            m.add(main, m.getProperty(ADM+"license"), m.createResource(BDR+"LicensePublicDomain"));
 
         // info
         
