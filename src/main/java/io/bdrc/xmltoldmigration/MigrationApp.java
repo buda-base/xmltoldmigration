@@ -150,6 +150,16 @@ public class MigrationApp
         work.addProperty(workM.getProperty(ADM, "access"), workM.createResource(BDR+"WorkAccessOpen"));
         itemM.add(itemM.getResource(BDR+itemName), itemM.getProperty(ADM, "access"), itemM.createResource(BDR+"WorkAccessRestrictedByQuality"));
     }
+    
+    // checking RID discrepancies (seem to only happen in outlines)
+    public static boolean checkRID(String baseName, Element root) {
+        String rid = root.getAttribute("RID");
+        if (!rid.equals(baseName)) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, baseName, baseName, "`"+baseName+".xml` has RID `"+rid+"`");
+            return false;
+        }
+        return true;
+    }
 
     public static void migrateOneFile(File file, String type, String mustStartWith) {
         if (file.isDirectory()) return;
@@ -162,6 +172,8 @@ public class MigrationApp
         switch(type) {
         case OUTLINE:
             Document outd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
+            if (!checkRID(baseName, outd.getDocumentElement()))
+                return;
             if (!MigrationHelpers.mustBeMigrated(outd.getDocumentElement(), "outline"))
                 return;
             String outWorkId = OutlineMigration.getWorkId(outd);
