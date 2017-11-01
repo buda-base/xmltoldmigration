@@ -209,8 +209,14 @@ public class MigrationApp
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();
-            if (!MigrationHelpers.mustBeMigrated(root, "work"))
+            final String workOutFileName = getDstFileName("work", baseName);
+            if (!MigrationHelpers.mustBeMigrated(root, "work")) {
+                // case of released outlines of withdrawn works (ex: O1GS129876 / W18311)
+                File outWorkFile = new File(workOutFileName);
+                if (outWorkFile.exists())
+                    outWorkFile.delete();
                 return;
+            }
             Model m = null;
             if (workCreatedByOutline.containsKey(baseName)) {
                 m = MigrationHelpers.modelFromFileName(getDstFileName("work", baseName));
@@ -279,7 +285,6 @@ public class MigrationApp
                 //MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", MigrationHelpers.OUTPUT_STTL);
                 MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "item");
             }
-            String workOutFileName = getDstFileName("work", baseName);
             // migrate pubinfo
             String pubinfoFileName = XML_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
             File pubinfoFile = new File(pubinfoFileName);
