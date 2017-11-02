@@ -46,6 +46,25 @@ public class PubinfoMigration {
         return m;
 	}
 	
+	public static boolean isComputerInputDbuMed(String RID) {
+	    switch(RID) {
+	    case "W8LS25451":
+	    case "W8LS25572":
+	    case "W8LS25575":
+	    case "W8LS25578":
+	    case "W8LS25590":
+	    case "W8LS25593":
+	    case "W8LS26096":
+	    case "W8LS26099":
+	    case "W8LS26102":
+	    case "W8LS26105":
+	    case "W8LS26182":
+	    case "W8LS26185":
+	        return true;
+	    }
+	    return false;
+	}
+	
 	// use this giving a wkr:Work as main argument to fill the work data
 	public static Model MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels) {
 		
@@ -112,6 +131,10 @@ public class PubinfoMigration {
             case "dbuMed":
                 langTibetanDone = true;
                 m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
+                if (isComputerInputDbuMed(main.getLocalName()))
+                    m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeComputerInput"));
+                else
+                    m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeManuscript"));
                 break;
             case "dbuCan":
                 langTibetanDone = true;

@@ -3,7 +3,7 @@
     <mw:publisherName>[zhol par khang]</mw:publisherName>
     <mw:publisherLocation>[lha sa]</mw:publisherLocation>
     <mw:publisherDate>[2000?]</mw:publisherDate>
-    <mw:printType type="blockprint"/>
+    <mw:printType type="dbuMed"/>
     <mw:sourcePrintery place="G1PD129184">zhol bka' 'gyur par khang / </mw:sourcePrintery>
     <mw:sourcePrintery>test sourcePrintery with no place</mw:sourcePrintery>
     <mw:authorshipStatement>'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan</mw:authorshipStatement>
