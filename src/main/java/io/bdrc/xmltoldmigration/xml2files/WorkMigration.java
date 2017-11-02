@@ -92,18 +92,22 @@ public class WorkMigration {
 		int nbvols = -1;
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            value = current.getAttribute("license").trim();
-            if (!value.isEmpty()) {
-                if (value.equals("ccby")) value = BDR+"LicensePublicDomain";
-                else value = BDR+"LicenseCopyrighted";
-                m.add(main, m.getProperty(ADM+"license"), m.createResource(value));
-                hasLicense = true;
-            }
+            String licenseValue = current.getAttribute("license").trim();
+            if (!licenseValue.equals("copyright")) licenseValue = BDR+"LicensePublicDomain";
+            else licenseValue = BDR+"LicenseCopyrighted";
+            hasLicense = true;
             
             value = current.getAttribute("access").trim();
             switch (value) {
-            case "openAccess": value = "AccessOpen"; break;
-            case "fairUse": value = "AccessFairUse"; break;
+            case "openAccess":
+                value = "AccessOpen"; 
+                break;
+            case "fairUse": 
+                // just in case...
+                // https://github.com/BuddhistDigitalResourceCenter/library-issues/issues/59
+                licenseValue = BDR+"LicenseCopyrighted"; 
+                value = "AccessOpen";
+                break;
             case "restrictedSealed": value = "AccessRestrictedSealed"; break;
             case "temporarilyRestricted": value = "AccessTemporarilyRestricted"; break;
             case "restrictedByQuality": value = "AccessRestrictedByQuality"; break;
@@ -115,6 +119,7 @@ public class WorkMigration {
                 m.add(main, m.getProperty(ADM, "access"), m.createResource(BDR+value));
                 hasAccess = true;
             }
+            m.add(main, m.getProperty(ADM+"license"), m.createResource(licenseValue));
 
             String nbVolsStr = current.getAttribute("vols").trim();
             if (nbVolsStr.isEmpty())
