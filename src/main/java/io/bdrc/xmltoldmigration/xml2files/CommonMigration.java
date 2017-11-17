@@ -1078,7 +1078,7 @@ public class CommonMigration  {
         boolean isChinese = true;
         for (int i = 0; i < input.length(); i++) {
             int c = input.charAt(i);
-            if (c < 0x2E00 && c != '·') {
+            if (c < 0x2E00 && c != 0x00B7) {
                 isChinese = false;
                 break;
             }
