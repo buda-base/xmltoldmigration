@@ -174,6 +174,8 @@ public class MigrationApp
             Document outd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             if (!checkRID(baseName, outd.getDocumentElement()))
                 return;
+            Element outroot = outd.getDocumentElement();
+            MigrationHelpers.resourceHasStatus(outroot.getAttribute("RID"), outroot.getAttribute("status"));
             if (!MigrationHelpers.mustBeMigrated(outd.getDocumentElement(), "outline"))
                 return;
             String outWorkId = OutlineMigration.getWorkId(outd);
@@ -221,6 +223,7 @@ public class MigrationApp
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();
+            MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
             final String workOutFileName = getDstFileName("work", baseName);
             if (!MigrationHelpers.mustBeMigrated(root, "work")) {
                 // case of released outlines of withdrawn works (ex: O1GS129876 / W18311)
@@ -281,6 +284,8 @@ public class MigrationApp
                         continue;
                     }
                     d = MigrationHelpers.documentFromFileName(imagegroupFileName);
+                    root = d.getDocumentElement(); // necessary?
+                    MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
                     if (imageGroupWork.containsKey(imagegroup)) {
                         final String oldvalue = imageGroupWork.get(imagegroup);
                         final String indicatedWork = ImagegroupMigration.getVolumeOf(d);
@@ -470,6 +475,7 @@ public class MigrationApp
         EtextMigration.migrateEtexts();
         CommonMigration.speller.close();
         finishTypes();
+        MigrationHelpers.reportMissing();
         ExceptionHelper.closeAll();
         long fileMigrationEndTime = System.currentTimeMillis();
     	long estimatedTime = fileMigrationEndTime - startTime;

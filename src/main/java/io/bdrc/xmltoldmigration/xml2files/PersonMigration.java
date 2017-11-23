@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
@@ -156,9 +157,11 @@ public class PersonMigration {
 			            ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "teacherOf", "cannot parse `"+val+"` correctly");
 			            continue;
 			        }
+			        MigrationHelpers.recordLinkTo(main.getLocalName(), "teacherOf", part);
 			        SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getLocalName(), part, null); 
 			    }
 			} else {
+			    MigrationHelpers.recordLinkTo(main.getLocalName(), "teacherOf", val);
 			    SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getLocalName(), val, null); 
 			}
 		}
@@ -179,9 +182,11 @@ public class PersonMigration {
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "studentOf", "cannot parse `"+val+"` correctly");
                         continue;
                     }
+                    MigrationHelpers.recordLinkTo(main.getLocalName(), "studentOf", part);
                     SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getLocalName(), part, null);
                 }
             } else {
+                MigrationHelpers.recordLinkTo(main.getLocalName(), "studentOf", val);
                 SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getLocalName(), val, null);
             }
         }
@@ -242,10 +247,13 @@ public class PersonMigration {
 		    String uri = getUriFromTypeSubtype("incarnationOf", "general");
 		    r.addProperty(m.getProperty(uri), being);
 		}
+		// TODO: inspect: in the case of a secondary incarnation, wouldn't we have two triples instead of one?
+		MigrationHelpers.recordLinkTo(r.getLocalName(), "incarnationOf", e.getAttribute("being"));
 		value = e.getAttribute("secondary");
 		if (value != null && !value.isEmpty()) {
 		    if (value.equals("yangsi")) value = "yangtse";
             String uri = getUriFromTypeSubtype("incarnationOf", value);
+            MigrationHelpers.recordLinkTo(r.getLocalName(), "incarnationOf/secondary", e.getAttribute("being"));
             r.addProperty(m.getProperty(uri), being);
 		}
 	}
@@ -291,6 +299,7 @@ public class PersonMigration {
             Element current = (Element) nodeList.item(i1);
             Property prop = m.getProperty(BDO, "personEventPlace");
             Resource r = m.createResource(BDR+current.getAttribute("pid").trim());
+            MigrationHelpers.recordLinkTo(person.getLocalName(), "event/place", current.getAttribute("pid"));
             m.add(subResource, prop, r);
         }
         nodeList = e.getElementsByTagNameNS(PXSDNS, "office");
@@ -298,6 +307,7 @@ public class PersonMigration {
             Element current = (Element) nodeList.item(i1);
             Property prop = m.getProperty(BDO, "personEventRole");
             Resource r = m.createResource(BDR+current.getAttribute("pid").trim());
+            MigrationHelpers.recordLinkTo(person.getLocalName(), "event/office", current.getAttribute("pid"));
             m.add(subResource, prop, r);
         }
         nodeList = e.getElementsByTagNameNS(PXSDNS, "corporation");
@@ -305,6 +315,7 @@ public class PersonMigration {
             Element current = (Element) nodeList.item(i1);
             Property prop = m.getProperty(BDO, "personEventCorporation");
             Resource r = m.createResource(BDR+current.getAttribute("pid").trim());
+            MigrationHelpers.recordLinkTo(person.getLocalName(), "event/corporation", current.getAttribute("pid"));
             m.add(subResource, prop, r);
         }
 		m.add(person, m.getProperty(BDO+"personEvent"), subResource);
@@ -320,6 +331,7 @@ public class PersonMigration {
 		    relation = "personHasConsort";
 		String with = e.getAttribute("person");
 		if (!with.isEmpty()) {
+		    MigrationHelpers.recordLinkTo(person.getLocalName(), relation, with);
 		    SymetricNormalization.addSymetricProperty(m, relation, person.getLocalName(), with, gender); 
 		}
 	}
@@ -339,6 +351,7 @@ public class PersonMigration {
 			Element current = (Element) nodeList.item(i);
 			Property prop = m.getProperty(BDO, "personEventPlace");
 			Resource r = m.createResource(BDR+current.getAttribute("pid"));
+			MigrationHelpers.recordLinkTo(person.getLocalName(), "seat", current.getAttribute("pid"));
 			m.add(subResource, prop, r);
 		}
 	}

@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
@@ -142,6 +143,7 @@ public class PlaceMigration {
 			String value = current.getAttribute("place").trim();
 			if (value.isEmpty() || value.equals("NONE"))
 			    return;
+	        MigrationHelpers.recordLinkTo(main.getLocalName(), propName, value);
 			SymetricNormalization.addSymetricProperty(m, ontoPropName, main.getLocalName(), value, null);
 		}
 	}

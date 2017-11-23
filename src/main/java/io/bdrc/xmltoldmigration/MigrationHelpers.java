@@ -14,6 +14,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.ontology.DatatypeProperty;
@@ -56,6 +57,7 @@ import io.bdrc.jena.sttl.CompareComplex;
 import io.bdrc.jena.sttl.ComparePredicates;
 import io.bdrc.jena.sttl.STTLWriter;
 import io.bdrc.xmltoldmigration.helpers.ContextGenerator;
+import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.CorporationMigration;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
@@ -130,6 +132,51 @@ public class MigrationHelpers {
         setupSTTL();
     }
 	
+    public static class ResourceInfo {
+        public Map<String,String> links = null;
+        public String status = "absent";
+        
+        public ResourceInfo() {
+            this.links = null;
+            this.status = "absent";
+        }
+    }
+    
+    public static Map<String,ResourceInfo> resourceInfos = new HashMap<>();
+    
+    public static void resourceHasStatus(String res, String status) {
+        if (res.startsWith("G9GBX") || res.contains("TLM")) return;
+        ResourceInfo ri = resourceInfos.computeIfAbsent(res, x -> new ResourceInfo());
+        ri.status = status;
+        if (status.equals("released"))
+            ri.links = null;
+    }
+    
+    public static void recordLinkTo(String orig, String prop, String to) {
+        if (orig.startsWith("G9GBX") || orig.contains("TLM")) return;
+        ResourceInfo ri = resourceInfos.computeIfAbsent(to, x -> new ResourceInfo());
+        if (!ri.status.equals("released")) {
+            if (ri.links == null)
+                ri.links = new HashMap<String,String>();
+            ri.links.put(orig, prop);
+        }
+    }
+    
+    public static void reportMissing() {
+        for (Entry<String,ResourceInfo> e : resourceInfos.entrySet()) {
+            final ResourceInfo ri = e.getValue();
+            if (ri.status.equals("released") || ri.links == null)
+                continue;
+            StringBuilder sb = new StringBuilder();
+            sb.append("resource in status `"+ri.status+"` linked from ");
+            for (Entry<String,String> e2 : ri.links.entrySet()) {
+                sb.append("`"+e2.getKey()+"` (prop. `"+e2.getValue()+"`) ");
+            }
+            ExceptionHelper.logException(ExceptionHelper.ET_MISSING, e.getKey(), e.getKey(), e.getKey(), sb.toString());
+        }
+        resourceInfos = null;
+    }
+    
     public static PrefixMap getPrefixMap() {
         PrefixMap pm = PrefixMapFactory.create();
         pm.add("", CommonMigration.ONTOLOGY_PREFIX);
@@ -335,6 +382,7 @@ public class MigrationHelpers {
 	        CommonMigration.documentValidates(d, v, src);
 	    }
         Element root = d.getDocumentElement();
+        MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
         if (!mustBeMigrated(root, type)) return null;
         Model m = null;
         try {

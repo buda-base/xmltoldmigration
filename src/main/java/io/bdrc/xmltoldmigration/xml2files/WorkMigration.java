@@ -19,6 +19,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
@@ -200,6 +201,7 @@ public class WorkMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
                 String uri = getUriFromTypeSubtype("creator", value);
+                MigrationHelpers.recordLinkTo(main.getLocalName(), value, person);
                 main.addProperty(m.getProperty(uri), m.createResource(BDR+person));
             }
                 
