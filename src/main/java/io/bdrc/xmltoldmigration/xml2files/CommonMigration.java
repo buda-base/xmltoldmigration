@@ -1163,6 +1163,29 @@ public class CommonMigration  {
 	    return res;
 	}
 	
+	public static String addEwtsShad(final String s) {
+	    // we suppose that there is no space at the end
+        if (s == null)
+            return s;
+        final int sLen = s.length();
+        if (sLen < 2)
+            return s;
+        int last = s.codePointAt(sLen-1);
+        if (last == 'a' || last == 'i' || last == 'e' || last == 'o')
+            last = s.codePointAt(sLen-2);
+        if (sLen > 2 && last == 'g' && s.codePointAt(sLen -3) == 'n')
+            return s+" /";
+        if (last == 'g' || last == 'k' || (sLen > 2 && last == 'h' && s.codePointAt(sLen -3) == 's'))
+            return s;
+        if (last < 'A' || last > 'z' || (last > 'Z' && last < 'a'))  // string doesn't end with tibetan letter
+            return s;
+	    return s+"/";
+	}
+	
+	public static String normalizeEwts(final String s) {
+	    return addEwtsShad(s);
+	}
+	
 	public static boolean isStandardTibetan(String s) {
 	    String[] words = s.split("[ \u0F04-\u0F14\u0F20-\u0F34\u0F3A-\u0F3F]");
 	    for (String word: words) {
@@ -1189,6 +1212,7 @@ public class CommonMigration  {
 	            }
 	        }
 	        if (tag.equals(EWTS_TAG)) {
+	            value = normalizeEwts(value);
 	            List<String> conversionWarnings = new ArrayList<String>();
 	            converter.toUnicode(value, conversionWarnings, true);
 	            if (conversionWarnings.size() > 0) {

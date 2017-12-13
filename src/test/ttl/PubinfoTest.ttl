@@ -16,7 +16,7 @@ bdr:I12837_P001  a      :ItemPhysicalAsset ;
 
 bdr:W12837  a           :Work ;
     :itemBDRCHoldingStatement  "1" ;
-    :workAuthorshipStatement  "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan"@bo-x-ewts ;
+    :workAuthorshipStatement  "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
     :workBiblioNote     "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
     :workExtentStatement  "177 ff." ;
     :workHasSourcePrintery  bdr:G1PD129184 ;
@@ -27,7 +27,7 @@ bdr:W12837  a           :Work ;
     :workPublisherDate  "[2000?]" ;
     :workPublisherLocation  "[lha sa]"@en ;
     :workPublisherName  "[zhol par khang]"@en ;
-    :workSeriesContent  "test series content"@bo-x-ewts ;
+    :workSeriesContent  "test series content/"@bo-x-ewts ;
     :workSeriesName     "oral history series" ;
     :workSeriesNumber   "no. 16" ;
     :workSourcePrintery_string  "test sourcePrintery with no place" ;

@@ -101,6 +101,18 @@ public class MigrationTest
 	}
 	
 	@Test
+	public void testEwtsShad() {
+	    assertTrue("bla ma/".equals(CommonMigration.addEwtsShad("bla ma")));
+	    assertTrue("ngo /".equals(CommonMigration.addEwtsShad("ngo")));
+	    assertTrue("nga /".equals(CommonMigration.addEwtsShad("nga")));
+	    assertTrue("ngag".equals(CommonMigration.addEwtsShad("ngag")));
+	    assertTrue("ga".equals(CommonMigration.addEwtsShad("ga")));
+	    assertTrue("gi".equals(CommonMigration.addEwtsShad("gi")));
+	    assertTrue("she".equals(CommonMigration.addEwtsShad("she")));
+	    assertTrue("ko".equals(CommonMigration.addEwtsShad("ko")));
+	}
+	
+	@Test
 	public void textEwts() {
 	    List<String> conversionWarnings = new ArrayList<String>();
 	    String res = toUnicode("pa'ng", conversionWarnings);

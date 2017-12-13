@@ -246,7 +246,7 @@ public class WorkMigration {
         for (int j = 0; j < volumes.getLength(); j++) {
             // just adding an item if we have a volume list
             if (j == 0) {
-                Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+"_001");
+                Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+"_I001");
                 if (WorkMigration.addWorkHasItem)
                     m.add(main, m.getProperty(BDO, "workHasItem"), item);
             }
