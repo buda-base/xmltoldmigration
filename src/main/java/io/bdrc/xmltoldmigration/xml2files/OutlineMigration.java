@@ -14,6 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
@@ -216,13 +217,31 @@ public class OutlineMigration {
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
         for (int j = 0; j < nodeList.size(); j++) {
             Element current = (Element) nodeList.get(j);
-            Property prop = m.createProperty(ADM+"outlineAuthorStatement");
-            Literal l = CommonMigration.getLiteral(current, "en", m, "catalogInfo", r.getLocalName(), null);
-            if (l == null) continue;
-            r.addProperty(prop,  l);
+            String value = current.getAttribute("type").trim();
+            if (value.isEmpty()) {
+                value = "hasMainAuthor";
+            }
+            if (value.equals("hasScribe")) {
+                Property prop = m.createProperty(ADM+"outlineAuthorStatement");
+                Literal l = CommonMigration.getLiteral(current, "en", m, "hasScribe", r.getLocalName(), null);
+                if (l == null) continue;
+                r.addProperty(prop,  l);
+                continue;
+            }
+            String person = current.getAttribute("person").trim(); // required
+            if (person.isEmpty()) continue;
+            if (person.equals("Add to DLMS")) {
+                person = current.getTextContent().trim();
+                if (!person.isEmpty())
+                    ExceptionHelper.logException(ExceptionHelper.ET_MISSING, r.getLocalName(), r.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
+            } else {
+                String uri = CommonMigration.getCreatorUri(value);
+                //MigrationHelpers.recordLinkTo(main.getLocalName(), value, person);
+                r.addProperty(m.getProperty(uri), m.createResource(BDR+person));
+            }
         }
 	}
-	
+
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
 LocationVolPage previousLocVP, String legacyOutlineRID) {
 	    curNode.i = curNode.i+1;

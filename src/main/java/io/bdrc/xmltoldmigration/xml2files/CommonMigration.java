@@ -937,6 +937,12 @@ public class CommonMigration  {
            return res;
        }
        
+       static String getCreatorUri(String type) {
+           if (type.startsWith("has"))
+               type = type.substring(3);
+           return BDO+"creator"+type.substring(0, 1).toUpperCase() + type.substring(1);
+       }
+       
        public static void addStatus(Model m, Resource r, String status) {
            if (status == null || status.isEmpty()) return;
            String statusName = "Status"+status.substring(0, 1).toUpperCase() + status.substring(1);

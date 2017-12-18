@@ -33,6 +33,10 @@
             <outline:location page="17" vol="2" work="W30020"/>
             <outline:location page="25" vol="2" work="W30020"/>
             <outline:description encoding="native" lang="english" type="note">p. 1 (1st group)</outline:description>
+            <outline:creator person="P4CZ10507" type="hasMainAuthor"> mtho btsun grub rje/ </outline:creator>
+            <outline:creator person="P8262" type="hasPandita"> sarvajnadeva</outline:creator>
+            <outline:creator person="P20" type="hasTranslator"> rin chen mchog </outline:creator>
+            <outline:creator person="P21" type="hasReviserOfTranslation">P21</outline:creator>
         </outline:node>
     </outline:node>
     <!-- from O2MS4765 --><outline:viewIn label="rituals"  list="subjects">Rituals | cho ga | 仪轨</outline:viewIn>

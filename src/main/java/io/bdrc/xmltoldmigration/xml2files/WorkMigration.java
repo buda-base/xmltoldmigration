@@ -41,9 +41,7 @@ public class WorkMigration {
 	private static String getUriFromTypeSubtype(String type, String subtype) {
 	    switch (type) {
 	    case "creator":
-	        if (subtype.startsWith("has"))
-	            subtype = subtype.substring(3);
-	        return BDO+"creator"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	        return CommonMigration.getCreatorUri(subtype);
 	    default:
 	        return "";
 	    }
@@ -204,7 +202,6 @@ public class WorkMigration {
                 MigrationHelpers.recordLinkTo(main.getLocalName(), value, person);
                 main.addProperty(m.getProperty(uri), m.createResource(BDR+person));
             }
-                
         }
         
         // inProduct
@@ -248,7 +245,7 @@ public class WorkMigration {
             if (j == 0) {
                 Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+"_I001");
                 if (WorkMigration.addWorkHasItem)
-                    m.add(main, m.getProperty(BDO, "workHasItem"), item);
+                    m.add(main, m.getProperty(BDO, "workHasItemImageAsset"), item);
             }
             // then curate the volume list to add missing volumes
             Element volume = (Element) volumes.item(j);
