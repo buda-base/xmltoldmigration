@@ -148,11 +148,11 @@ public class WorkMigration {
             current = (Element) nodeList.item(i);
             String nodeType = current.getAttribute("nodeType");
             switch (nodeType) {
-            case "unicodeText": value = BDR+"WorkTypeUnicodeText";
-            case "conceptualWork": value = BDR+"WorkTypeConceptualWork";
-            case "publishedWork": value = BDR+"WorkTypePublishedWork";
-            case "series": value = BDR+"WorkTypeSeries";
-            default: value = "";
+            case "unicodeText": value = BDR+"WorkTypeUnicodeText"; break;
+            case "conceptualWork": value = BDR+"WorkTypeConceptualWork"; break;
+            case "publishedWork": value = BDR+"WorkTypePublishedWork"; break;
+            case "series": value = BDR+"WorkTypeSeries"; break;
+            default: value = ""; break;
             }
             if (!value.isEmpty()) {
                 main.addProperty(m.getProperty(BDO, "workType"), m.getResource(value));
