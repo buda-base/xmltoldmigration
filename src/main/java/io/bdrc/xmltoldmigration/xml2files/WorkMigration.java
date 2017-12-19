@@ -172,8 +172,12 @@ public class WorkMigration {
                 prop = m.getProperty(BDO, "workIsNumbered");
                 m.add(main, prop, m.createTypedLiteral(true));
             }
-            value = current.getAttribute("parent");
+            value = current.getAttribute("parent").trim();
             if (!value.isEmpty() && !value.contains("LEGACY")) {
+                if (value.equals(main.getLocalName())) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info", "parent set to the resource RID");
+                    continue;
+                }
                 if (numbered) {
                     SymetricNormalization.addSymetricProperty(m, "workNumberOf", main.getLocalName(), value, null);
                 } else {
