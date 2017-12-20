@@ -1,6 +1,9 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,11 +80,27 @@ public class CommonMigration  {
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
     
     public static final Map<String, String> logWhoToUri = new HashMap<>();
+    public static final Map<String, Boolean> genreTopics = new HashMap<>();
     static {
         fillLogWhoToUri();
+        fillGenreTopics();
     }
     
     public static final String userNumFormat = "%05d";
+    
+    public static void fillGenreTopics() {
+        final ClassLoader classLoader = CommonMigration.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("topics-genres.txt");
+        final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        String line = null;
+        try {
+            while((line = in.readLine()) != null) {
+                genreTopics.put(line, true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static void fillLogWhoToUri() {
         String prefix = RESOURCE_PREFIX+"U"; // ?
@@ -794,6 +813,8 @@ public class CommonMigration  {
                String rid = current.getAttribute("class").trim();
                if (rid.isEmpty())
                    continue;
+               if (isCommentaryTopic(rid))
+                   hasCommentaryTopic = true;
                String value = current.getAttribute("type").trim();
                switch (value) {
                case "isAboutPerson":
@@ -812,8 +833,6 @@ public class CommonMigration  {
                case "isInstanceOfGenre":
                case "isInstanceOf":
                    value = BDO+"workGenre";
-                   if (isCommentaryTopic(rid))
-                       hasCommentaryTopic = true;
                    break;
                case "isCommentaryOn":
                    value = BDO+"workIsAbout";
@@ -822,6 +841,9 @@ public class CommonMigration  {
                default:
                    value = BDO+"workIsAbout";
                    break;
+               }
+               if (genreTopics.containsKey(rid)) {
+                   value = BDO+"workGenre"; 
                }
                m.add(main, m.getProperty(value), m.createResource(BDR+rid));
            }
