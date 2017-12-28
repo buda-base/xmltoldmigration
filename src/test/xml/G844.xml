@@ -1,5 +1,5 @@
 <g:place xmlns:g="http://www.tbrc.org/models/place#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="G844" status="released" xsi:schemaLocation="http://www.tbrc.org/models/place# http://www.tbrc-dlms.org/tbrc-defs/1/0/place.xsd">
-    <g:name encoding="native" lang="tibetan">bya yul</g:name>
+    <g:name lang="tibetan">sman ri’i gling /</g:name>
     <g:name encoding="extendedWylie" lang="tibetan">འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།</g:name>
     <g:name encoding="native" lang="tibetan">bya pa khri dpon gyi mnga' khongs</g:name>
     <g:info type="placeTypes:residentialHouse"/>

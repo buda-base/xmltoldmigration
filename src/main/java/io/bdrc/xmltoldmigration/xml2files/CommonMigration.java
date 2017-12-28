@@ -1070,16 +1070,16 @@ public class CommonMigration  {
 	}
 	
 	// from http://stackoverflow.com/a/14066594/2560906
-	private static boolean isAllASCII(String input) {
-	    boolean isASCII = true;
+	private static boolean isAllEwtsChars(String input) {
+	    boolean res = true;
 	    for (int i = 0; i < input.length(); i++) {
 	        int c = input.charAt(i);
-	        if (c > 0x7F) {
-	            isASCII = false;
+	        if (c > 0x7F && c != 0x2019) { // ’ is sometimes used instead of '
+	            res = false;
 	            break;
 	        }
 	    }
-	    return isASCII;
+	    return res;
 	}
 	
 	   private static boolean isAllLatn(String input) {
@@ -1116,7 +1116,7 @@ public class CommonMigration  {
 
     private static Pattern p = Pattern.compile("[\u0F40-\u0FBC]+");
     public static boolean isMostLikelyEwts(String input) {
-        if (!isAllASCII(input))
+        if (!isAllEwtsChars(input))
             return false;
         List<String> warns = new ArrayList<>();
         String uni = converter.toUnicode(input, warns, true);
@@ -1150,7 +1150,7 @@ public class CommonMigration  {
 	    }
 		String value = e.getTextContent().trim();
 		// some values are wrongly marked as native instead of extendedWylie
-		if (res != null && res.equals("bo") && isAllASCII(value)) {
+		if (res != null && res.equals("bo") && isAllEwtsChars(value)) {
 			res = EWTS_TAG;// could be loc?
 		}
 		if ((res == null || !res.equals("bo")) && isAllTibetanUnicode(value)) {
@@ -1211,7 +1211,7 @@ public class CommonMigration  {
 	}
 	
 	public static String normalizeEwts(final String s) {
-	    return addEwtsShad(s);
+	    return addEwtsShad(s.replace((char)0x2019, (char)0x27));
 	}
 	
 	public static boolean isStandardTibetan(String s) {
