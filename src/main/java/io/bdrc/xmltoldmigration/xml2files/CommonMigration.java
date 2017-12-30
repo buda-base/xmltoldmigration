@@ -76,6 +76,7 @@ public class CommonMigration  {
 	public static final int ET_LANG = ExceptionHelper.ET_LANG;
 	
 	public static final EwtsConverter converter = new EwtsConverter();
+	public static final EwtsConverter converterAlalc = new EwtsConverter(true, true, false, false, EwtsConverter.Mode.ALALC);
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
     
@@ -1222,6 +1223,13 @@ public class CommonMigration  {
 	    return words.length > 0;
 	}
 	
+	public static boolean isDeva(String s) {
+	    int c = s.charAt(0);
+        if (c < 0x0900 || c > 0x097F)
+            return false;
+        return true;
+	}
+	
 	public static Literal getLiteral(Element e, String dflt, Model m, String propertyHint, String RID, String subRID) {
 	    return getLiteral(e, dflt, m, propertyHint, RID, subRID, true);
 	}
@@ -1233,11 +1241,19 @@ public class CommonMigration  {
 	        if (value.indexOf('\ufffd') != -1)
 	            ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "string contains invalid replacement character: `"+value+"`");
 	        String tag = getBCP47(e, dflt, propertyHint, RID, subRID);
-	        if (tag.equals("bo") && !value.isEmpty()) {
+	        if (tag.equals("bo")) {
 	            value = normalizeTibetan(value);
 	            if (EwtsConverter.isCombining(value.charAt(0))) {
 	                ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "Unicode string `"+value+"` starts with combining character");
 	            }
+	        }
+	        if (tag.equals("sa")) {
+	            if (value.contains("+"))
+	                tag = "sa-x-ewts";
+	            else if (isDeva(value))
+	                tag = "sa-Deva";
+	            else
+	                tag = "sa-x-ndia";
 	        }
 	        if (tag.equals(EWTS_TAG)) {
 	            value = normalizeEwts(value);
@@ -1252,6 +1268,12 @@ public class CommonMigration  {
 	                else
 	                    value = fixed;
 	            }
+	        }
+	        if (tag.equals("bo-alalc97")) {
+	            List<String> conversionWarnings = new ArrayList<String>();
+                converterAlalc.toUnicode(value, conversionWarnings, true);
+                if (conversionWarnings.size() > 0)
+                    ExceptionHelper.logEwtsException(RID, subRID, propertyHint, value, conversionWarnings);
 	        }
 	        return m.createLiteral(value, tag);
 	}
