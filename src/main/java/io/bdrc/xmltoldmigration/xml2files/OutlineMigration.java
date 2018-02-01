@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -14,7 +15,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
@@ -243,7 +243,7 @@ public class OutlineMigration {
 	}
 
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
-LocationVolPage previousLocVP, String legacyOutlineRID) {
+LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex) {
 	    curNode.i = curNode.i+1;
 	    String value = String.format("%04d", curNode.i);	    
         Resource node = m.createResource(BDR+workId+"_"+value);
@@ -260,6 +260,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID) {
         }
         value = "OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
         m.add(node, RDF.type, m.getResource(BDO+"Work"));
+        m.add(node, m.getProperty(BDO, "workPartIndex"), m.createTypedLiteral(partIndex, XSDDatatype.XSDinteger));
         // there should be no such monstruosity
         //m.add(node, m.getProperty(ADM, "outlineType"), m.getResource(BDR+value));
         
@@ -348,7 +349,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID) {
         for (int i = 0; i < nodeList.size(); i++) {
             res = true;
             Element current = (Element) nodeList.get(i);
-            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID);
+            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1);
             if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {
                 // check if beginning of child node is before beginning of parent
                 if (parentLocVP.beginVolNum > endLocVP.beginVolNum

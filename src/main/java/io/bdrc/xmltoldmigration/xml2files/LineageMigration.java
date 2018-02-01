@@ -131,7 +131,7 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(j);
             //value = CommonMigration.getSubResourceName(r, LP, "Received", j+1);
             Resource received = m.createResource();
-            //m.add(received, RDF.type, m.getResource(BDO+"LineageReceived"));
+            //m.add(received, RDF.type, m.getResource(BDO+"LineageEvent"));
             m.add(holder, m.getProperty(BDO, "lineageReceived"), received);
             value = current.getAttribute("RID");
             if (!value.isEmpty()) {

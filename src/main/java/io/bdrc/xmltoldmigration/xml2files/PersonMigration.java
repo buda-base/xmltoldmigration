@@ -343,7 +343,7 @@ public class PersonMigration {
                 m.createProperty(getUriFromTypeSubtype("event", "occupiesSeat")));
         String circa = CommonMigration.normalizeString(e.getAttribute("circa"));
         if (circa != null && !circa.isEmpty()) {
-            m.add(subResource, m.getProperty(BDO, "onOrAbout"), 
+            m.add(subResource, m.getProperty(BDO, "onOrAbout"),
                     m.createLiteral(circa));
         }
 		NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
