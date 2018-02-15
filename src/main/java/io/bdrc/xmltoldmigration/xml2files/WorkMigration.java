@@ -105,7 +105,7 @@ public class WorkMigration {
                 // just in case...
                 // https://github.com/BuddhistDigitalResourceCenter/library-issues/issues/59
                 licenseValue = BDR+"LicenseCopyrighted"; 
-                value = "AccessOpen";
+                value = "AccessFairUse";
                 break;
             case "restrictedSealed": value = "AccessRestrictedSealed"; break;
             case "temporarilyRestricted": value = "AccessTemporarilyRestricted"; break;
