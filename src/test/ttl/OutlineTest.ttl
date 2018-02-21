@@ -39,6 +39,7 @@ bdr:W30020_0001  a      :Work ;
     :workPartIndex      1 ;
     :workPartLabel      "1 (stod cha)"@bo-x-ewts ;
     :workPartOf         bdr:W30020 ;
+    :workPartTreeIndex  "1" ;
     adm:workLegacyNode  "O2DB875722DB87582" .
 
 bdr:W30020_0002  a      :Work ;
@@ -51,6 +52,7 @@ bdr:W30020_0002  a      :Work ;
                         ] ;
     :workPartIndex      1 ;
     :workPartOf         bdr:W30020_0001 ;
+    :workPartTreeIndex  "1.1" ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi/"@bo-x-ewts
                         ] ;
@@ -67,6 +69,7 @@ bdr:W30020_0003  a      :Work ;
     :workPartIndex      2 ;
     :workPartLabel      "2 (smad cha)"@bo-x-ewts ;
     :workPartOf         bdr:W30020 ;
+    :workPartTreeIndex  "2" ;
     adm:workLegacyNode  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
@@ -79,6 +82,7 @@ bdr:W30020_0004  a      :Work ;
                         ] ;
     :workPartIndex      1 ;
     :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.1" ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
@@ -95,6 +99,7 @@ bdr:W30020_0005  a      :Work ;
                         ] ;
     :workPartIndex      2 ;
     :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.2" ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;

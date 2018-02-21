@@ -216,7 +216,7 @@ public class OutlineMigration {
 		
 		addCreators(m, mainOutline, root);
 		
-		addNodes(m, work, root, work.getLocalName(), curNodeInt, null, null, legacyOutlineRID);
+		addNodes(m, work, root, work.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "");
 		
 		return m;
 	}
@@ -252,10 +252,11 @@ public class OutlineMigration {
 	}
 
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
-LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex) {
+LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex) {
 	    curNode.i = curNode.i+1;
 	    String value = String.format("%04d", curNode.i);	    
         Resource node = m.createResource(BDR+workId+"_"+value);
+        node.addProperty(m.createProperty(BDO, "workPartTreeIndex"), thisPartTreeIndex);
         String RID = e.getAttribute("RID").trim();
         if (!value.isEmpty()) {
             node.addProperty(m.getProperty(ADM, "workLegacyNode"), RID);
@@ -334,7 +335,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex) {
         addCreators(m, node, e);
         
         // sub nodes
-        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID);
+        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex);
         
         if (!hasChildren && (locVP == null)) {
 //            labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
@@ -351,14 +352,20 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex) {
 	
 
 	
-	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID) {
+	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex) {
 	    CommonMigration.LocationVolPage endLocVP = null;
 	    boolean res = false;
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
         for (int i = 0; i < nodeList.size(); i++) {
             res = true;
             Element current = (Element) nodeList.get(i);
-            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1);
+            final String thisPartTreeIndex;
+            if (curPartTreeIndex.isEmpty()) {
+                thisPartTreeIndex = Integer.toString(i+1);
+            } else {
+                thisPartTreeIndex = curPartTreeIndex+"."+Integer.toString(i+1);
+            }
+            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex);
             if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {
                 // check if beginning of child node is before beginning of parent
                 if (parentLocVP.beginVolNum > endLocVP.beginVolNum
