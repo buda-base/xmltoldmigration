@@ -23,7 +23,7 @@ bdr:W12837  a           :Work ;
     :workHollis         "014254679" ;
     :workIsNumbered     true ;
     :workLangScript     bdr:BoDbuMed ;
-    :workPrintType      bdr:PrintTypeManuscript ;
+    :workObjectType     bdr:ObjectTypeManuscript ;
     :workPublisherDate  "[2000?]" ;
     :workPublisherLocation  "[lha sa]"@en ;
     :workPublisherName  "[zhol par khang]"@en ;

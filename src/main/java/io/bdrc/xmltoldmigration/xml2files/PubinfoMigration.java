@@ -132,28 +132,28 @@ public class PubinfoMigration {
                 langTibetanDone = true;
                 m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
                 if (isComputerInputDbuMed(main.getLocalName()))
-                    m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeComputerInput"));
+                    m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
                 else
-                    m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeManuscript"));
+                    m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeManuscript"));
                 break;
             case "dbuCan":
                 langTibetanDone = true;
                 m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
                 break;
             case "blockprint":
-                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeBlockprint"));
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeBlockprint"));
                 break;
             case "computerInput":
-                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeComputerInput"));
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
                 break;
             case "OCR":
-                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeOCR"));
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeOCR"));
                 break;
             case "typeSet":
-                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeTypeSet"));
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeTypeSet"));
                 break;
             case "facsimile":
-                m.add(main, m.getProperty(BDO, "workPrintType"), m.createResource(BDR+"PrintTypeFacsimile"));
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeFacsimile"));
                 break;
             default:
                 break;
