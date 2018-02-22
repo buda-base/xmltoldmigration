@@ -54,11 +54,13 @@ public class MigrationApp
     
     // extract tbrc/ folder of exist-db backup here:
     public static String DATA_DIR = "../../data/db/";
+    public static String RKTS_DIR = null;
     public static String ETEXT_DIR = DATA_DIR+"eTextsChunked/";
     public static String XML_DIR = DATA_DIR+"tbrc/";
     public static String OUTPUT_DIR = "tbrc-ttl/";
     public static String commitMessage = "xmltold automatic migration";
     public static boolean firstMigration = false;
+    public static boolean noXmlMigration = false;
     public static boolean useHash = true;
 
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
@@ -413,6 +415,12 @@ public class MigrationApp
         boolean manyOverOne = false;
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
+            if (arg.equals("-noXmlMigration")) {
+                noXmlMigration = true;
+            }
+            if (arg.equals("-rKTsDir")) {
+                RKTS_DIR = args[i+1];
+            }
             if (arg.equals("-preferManyOverOne=1")) {
                 manyOverOne = true;
             }
@@ -446,7 +454,12 @@ public class MigrationApp
 		}
 		
 //		Map<String, Object> context = ContextGenerator.generateContextObject(MigrationHelpers.ontologymodel, MigrationHelpers.prefixMap, "bdo");
-//		System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(context));
+//		try {
+//            System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(context));
+//        } catch (JsonProcessingException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
         File theDir = new File(OUTPUT_DIR);
         if (!theDir.exists()) {
@@ -457,22 +470,27 @@ public class MigrationApp
         long startTime = System.currentTimeMillis();
 //        migrateOneFile(new File(DATA_DIR+"tbrc-persons/P1KG16739.xml"), "person", "P");
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondance, for externals
-        migrateType(OUTLINE, "O");
-        migrateType(PERSON, "P");
-        migrateType(PLACE, "G");
-        migrateType(OFFICE, "R");
-        migrateType(CORPORATION, "C");
-        migrateType(LINEAGE, "L");
-        migrateType(TOPIC, "T");
-//        migrateOneFile(new File(XML_DIR+"tbrc-works/W12827.xml"), "work", "W");
-//        migrateOneFile(new File(XML_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
-//        //migrateOneFile(new File(XML_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
-        migrateType(WORK, "W"); // also does pubinfos and imagegroups
-        migrateType(SCANREQUEST, "SR"); // requires works to be finished
-        migrateType(PRODUCT, "PR");
-        //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
-        //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
-        EtextMigration.migrateEtexts();
+        if (!noXmlMigration) {
+            migrateType(OUTLINE, "O");
+            migrateType(PERSON, "P");
+            migrateType(PLACE, "G");
+            migrateType(OFFICE, "R");
+            migrateType(CORPORATION, "C");
+            migrateType(LINEAGE, "L");
+            migrateType(TOPIC, "T");
+////        migrateOneFile(new File(XML_DIR+"tbrc-works/W12827.xml"), "work", "W");
+////        migrateOneFile(new File(XML_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
+////        //migrateOneFile(new File(XML_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");
+            migrateType(WORK, "W"); // also does pubinfos and imagegroups
+            migrateType(SCANREQUEST, "SR"); // requires works to be finished
+            migrateType(PRODUCT, "PR");
+            //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
+            //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
+            EtextMigration.migrateEtexts();     
+        }
+        if (RKTS_DIR != null) {
+            rKTsTransfer.doTransfer();
+        }
         CommonMigration.speller.close();
         finishTypes();
         MigrationHelpers.reportMissing();

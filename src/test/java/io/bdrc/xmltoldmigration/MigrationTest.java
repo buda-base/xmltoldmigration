@@ -203,7 +203,7 @@ public class MigrationTest
         assertFalse(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G844.ttl");
-    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", MigrationHelpers.OUTPUT_STTL);
+    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", MigrationHelpers.OUTPUT_STTL, null);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
