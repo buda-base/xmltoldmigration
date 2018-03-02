@@ -8,20 +8,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:TestItem  a         :ItemImageAsset ;
-    :itemHasVolume      [ a                   :VolumeImageAsset ;
-                          :imageCount         352 ;
-                          :imageList          "41580001.tif:54|41580055.jpg|41580056.tif:23|41580082.tif:26|42580108.tif|41580109.tif:88|garbage|41580198.tif:54|41580253.tif:104" ;
-                          :imagesMissing      "79-81,252" ;
-                          :volumeNumber       1 ;
-                          :volumePagesIntro   0 ;
-                          :volumePagesTbrcIntro  1 ;
-                          :volumePagesText    2 ;
-                          :volumePagesTotal   356 ;
-                          adm:legacyImageGroupRID  "I4158" ;
-                          adm:volumeQcDate    "12/03" ;
-                          adm:volumeQcNote    "qc notes" ;
-                          adm:volumeQcPerson  "khedup"
-                        ] ;
+    :itemHasVolume      bdr:VestItem_I4158 ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;
                           adm:logWho          bdr:U00001
@@ -38,3 +25,17 @@ bdr:TestItem  a         :ItemImageAsset ;
               adm:logMessage      "Updated total pages and added page list"@en ;
               adm:logWho          bdr:U00006
             ] .
+
+bdr:VestItem_I4158  a   :VolumeImageAsset ;
+    :imageCount         352 ;
+    :imageList          "41580001.tif:54|41580055.jpg|41580056.tif:23|41580082.tif:26|42580108.tif|41580109.tif:88|garbage|41580198.tif:54|41580253.tif:104" ;
+    :imagesMissing      "79-81,252" ;
+    :volumeNumber       1 ;
+    :volumePagesIntro   0 ;
+    :volumePagesTbrcIntro  1 ;
+    :volumePagesText    2 ;
+    :volumePagesTotal   356 ;
+    adm:legacyImageGroupRID  "I4158" ;
+    adm:volumeQcDate    "12/03" ;
+    adm:volumeQcNote    "qc notes" ;
+    adm:volumeQcPerson  "khedup" .

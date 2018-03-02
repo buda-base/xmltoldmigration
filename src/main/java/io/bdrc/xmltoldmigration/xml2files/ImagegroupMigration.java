@@ -63,10 +63,13 @@ public class ImagegroupMigration {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
-		Resource main = m.createResource();
+		final String imageGroupRID = root.getAttribute("RID").trim();
 		
-		String imageGroupRID = root.getAttribute("RID").trim();
+		final String itemId = item.getLocalName();
+		final String volumeId = "V"+itemId.substring(1)+"_"+imageGroupRID;
 		
+		Resource main = m.createResource(BDR+volumeId);
+
 		main.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
         if (volumeNumber < 1)
