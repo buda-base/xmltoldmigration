@@ -66,6 +66,7 @@ public class CommonMigration  {
 	
 	public static final String EWTS_TAG = "bo-x-ewts";
 	public static final boolean lowerCaseLangTags = true;
+	public static final String IMAGE_ITEM_SUFFIX = "";
 	
 	public static final String BDO = ONTOLOGY_PREFIX;
     public static final String BDD = DATA_PREFIX;

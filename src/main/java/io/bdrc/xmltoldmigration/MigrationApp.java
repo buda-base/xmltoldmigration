@@ -213,7 +213,7 @@ public class MigrationApp
             String workId = ScanrequestMigration.getWork(srd);
             if (workId == null || workId.isEmpty()) 
                 return;
-            String srItemName = "I"+workId.substring(1)+"_I001";
+            String srItemName = "I"+workId.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
             String itemFileName = getDstFileName("item", srItemName);
             itemModel = MigrationHelpers.modelFromFileName(itemFileName);
             if (itemModel == null)
@@ -260,7 +260,7 @@ public class MigrationApp
                     w.removeAll(m.getProperty(BDO, "workNumberOfVolumes"));
                     w.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                 }
-                String itemName = "I"+baseName.substring(1)+"_I001";
+                String itemName = "I"+baseName.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                 if (WorkMigration.addWorkHasItem) {
                     m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItemImageAsset"), m.createResource(BDR+itemName));
                 }
