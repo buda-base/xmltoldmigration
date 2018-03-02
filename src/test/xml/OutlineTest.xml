@@ -38,6 +38,36 @@
             <outline:creator person="P20" type="hasTranslator"> rin chen mchog </outline:creator>
             <outline:creator person="P21" type="hasReviserOfTranslation">P21</outline:creator>
         </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87601" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87602" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87603" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87604" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87605" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87606" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87607" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87608" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87609" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
+        <outline:node RID="O2DB875722DB875732DB87610" type="class">
+            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
+        </outline:node>
     </outline:node>
     <!-- from O2MS4765 --><outline:viewIn label="rituals"  list="subjects">Rituals | cho ga | 仪轨</outline:viewIn>
     <outline:log>

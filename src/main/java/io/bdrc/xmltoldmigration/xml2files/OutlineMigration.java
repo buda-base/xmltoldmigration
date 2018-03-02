@@ -351,20 +351,27 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         
 	}
 	
-
+	static String getPartTreeIndexStr(final int index, final int nbSiblings) {
+	    if (nbSiblings < 10)
+	        return Integer.toString(index);
+	    if (nbSiblings < 100)
+	        return String.format("%02d", index);
+	    return String.format("%03d", index);
+	}
 	
 	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex) {
 	    CommonMigration.LocationVolPage endLocVP = null;
 	    boolean res = false;
-	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
-        for (int i = 0; i < nodeList.size(); i++) {
+	    final List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
+	    final int nbChildren = nodeList.size();
+        for (int i = 0; i < nbChildren; i++) {
             res = true;
             Element current = (Element) nodeList.get(i);
             final String thisPartTreeIndex;
             if (curPartTreeIndex.isEmpty()) {
-                thisPartTreeIndex = Integer.toString(i+1);
+                thisPartTreeIndex = getPartTreeIndexStr(i+1, nbChildren);
             } else {
-                thisPartTreeIndex = curPartTreeIndex+"."+Integer.toString(i+1);
+                thisPartTreeIndex = curPartTreeIndex+"."+getPartTreeIndexStr(i+1, nbChildren);
             }
             endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex);
             if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {

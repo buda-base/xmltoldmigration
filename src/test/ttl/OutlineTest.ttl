@@ -82,7 +82,7 @@ bdr:W30020_0004  a      :Work ;
                         ] ;
     :workPartIndex      1 ;
     :workPartOf         bdr:W30020_0003 ;
-    :workPartTreeIndex  "2.1" ;
+    :workPartTreeIndex  "2.01" ;
     adm:workLegacyNode  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
@@ -99,8 +99,108 @@ bdr:W30020_0005  a      :Work ;
                         ] ;
     :workPartIndex      2 ;
     :workPartOf         bdr:W30020_0003 ;
-    :workPartTreeIndex  "2.2" ;
+    :workPartTreeIndex  "2.02" ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
     adm:workLegacyNode  "O2DB875722DB875732DB87600" .
+
+bdr:W30020_0006  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      3 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.03" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87601" .
+
+bdr:W30020_0007  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      4 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.04" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87602" .
+
+bdr:W30020_0008  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      5 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.05" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87603" .
+
+bdr:W30020_0009  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      6 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.06" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87604" .
+
+bdr:W30020_0010  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      7 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.07" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87605" .
+
+bdr:W30020_0011  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      8 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.08" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87606" .
+
+bdr:W30020_0012  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      9 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.09" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87607" .
+
+bdr:W30020_0013  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      10 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.10" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87608" .
+
+bdr:W30020_0014  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      11 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.11" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87609" .
+
+bdr:W30020_0015  a      :Work ;
+    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    :workPartIndex      12 ;
+    :workPartOf         bdr:W30020_0003 ;
+    :workPartTreeIndex  "2.12" ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                        ] ;
+    adm:workLegacyNode  "O2DB875722DB875732DB87610" .
