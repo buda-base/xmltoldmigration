@@ -42,10 +42,6 @@ public class ContextGenerator {
                 || datatype.equals(RDF.langString.getURI())
                 // for legacy RDF 1.0
                 || datatype.equals(RDF.getURI()+"PlainLiteral")
-                // messes with the useNativeTypes if these are not here, 
-                // certainly a bug in jsonld-java, but cannot test before
-                // https://github.com/jsonld-java/jsonld-java/issues/208
-                // gets fixed
                 || datatype.equals(XSDDatatype.XSDboolean.getURI())
                 || datatype.equals(XSDDatatype.XSDinteger.getURI())
                 || datatype.equals(XSDDatatype.XSDfloat.getURI()))
@@ -68,11 +64,12 @@ public class ContextGenerator {
         
         // first prefixes, then predicates with no prefix, then predicates with a prefix
         private Integer getPriority(String arg0) {
-            if (prefixMapList != null && prefixMapList.containsKey(arg0))
+            if (prefixMapList.containsKey(arg0))
                 return 0;
-            if (arg0.indexOf(':') != -1) {
+            if (arg0.equals("type") || arg0.equals("id"))
+                return -1;
+            if (arg0.indexOf(':') != -1)
                 return 2;
-            }
             return 1;
         }
         
@@ -104,7 +101,7 @@ public class ContextGenerator {
      * file, a general document or a frame document
      */
     public static Map<String, Object> generateContextObject(final OntModel m, final PrefixMap prefixMap, final String defaultPrefixRenaming) {
-        Map<String,String> prefixMapStr = prefixMap.getMappingCopyStr();
+        final Map<String,String> prefixMapStr = prefixMap.getMappingCopyStr();
         if (prefixMapStr.containsKey("")) {
             prefixMapStr.put(defaultPrefixRenaming, prefixMapStr.get(""));
             prefixMapStr.put("@vocab", prefixMapStr.get(""));
@@ -112,6 +109,8 @@ public class ContextGenerator {
         }
         final SortedMap<String, Object> context = new TreeMap<>(new ContextKeyComparator(prefixMapStr));
         context.putAll(prefixMapStr);
+        context.put("type", "@type"); // following trends...
+        context.put("id", "@id");
         final Map<String,String> typemap = new HashMap<>();
         typemap.put("@type", "@id");
         // we iterate on all properties and figure out the type
@@ -133,11 +132,15 @@ public class ContextGenerator {
             final OntResource range = p.getRange();
             if (range != null && range.isURIResource()) {
                 final Resource r = range.getPropertyResourceValue(RDF.type);
-                if (r != null && r.equals(OWL.Class)) {
+                if (r != null && (r.equals(OWL.Class))) {
                     context.put(abbr, typemap);
                     continue;
                 }
                 final String typeUri = range.getURI();
+                if ("http://www.w3.org/2002/07/owl#ObjectProperty".equals(typeUri) || "http://www.w3.org/2002/07/owl#Thing".equals(typeUri)) {
+                    context.put(abbr, typemap);
+                    continue;
+                }
                 if (datatypeNeedsContext(typeUri)) {
                     String abbrType = prefixMap.abbreviate(typeUri);
                     if (abbrType == null || abbrType.isEmpty())
@@ -156,7 +159,9 @@ public class ContextGenerator {
                 }
             }
         }
-        return context;
+        final Map<String,Object> res = new HashMap<>();
+        res.put("@context", context);
+        return res;
     }
 
 }
