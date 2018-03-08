@@ -110,7 +110,9 @@ public class ContextGenerator {
         final SortedMap<String, Object> context = new TreeMap<>(new ContextKeyComparator(prefixMapStr));
         context.putAll(prefixMapStr);
         context.put("type", "@type"); // following trends...
-        context.put("id", "@id");
+        // not aliasing @id because of
+        // https://github.com/jsonld-java/jsonld-java/issues/226
+        //context.put("id", "@id");
         final Map<String,String> typemap = new HashMap<>();
         typemap.put("@type", "@id");
         // we iterate on all properties and figure out the type
