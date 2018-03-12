@@ -418,12 +418,12 @@ public class EtextMigration {
             }
             
             CommonMigration.addStatus(itemModel, itemModel.getResource(BDR+itemId), "released");
-            
-            if (addEtextInItem)
-                etextModel.add(etextModel.getResource(BDR+etextId),
-                        etextModel.getProperty(BDO, "eTextInItem"),
-                        etextModel.getResource(BDR+itemId));
         }
+
+        if (addEtextInItem)
+            etextModel.add(etextModel.getResource(BDR+etextId),
+                    etextModel.getProperty(BDO, "eTextInItem"),
+                    etextModel.getResource(BDR+itemId));
 
         etextModel.add(etextModel.getResource(BDR+etextId),
                 RDF.type,
