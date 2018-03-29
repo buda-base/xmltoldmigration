@@ -2,6 +2,8 @@
     <g:name lang="tibetan">sman ri’i gling /</g:name>
     <g:name encoding="extendedWylie" lang="tibetan">འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།</g:name>
     <g:name encoding="native" lang="tibetan">bya pa khri dpon gyi mnga' khongs</g:name>
+    <g:name encoding="pinyin"  lang="chinese">guan zi feng</g:name>
+    <g:name encoding="pinyin"  lang="chinese">guán zǐ feng2</g:name>
     <g:info type="placeTypes:residentialHouse"/>
     <g:event circa="13uu/17uu" type="placeEventTypes:founded"/>
     <g:isLocatedIn place="G843">byar yul</g:isLocatedIn>

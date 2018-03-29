@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1094,6 +1095,33 @@ public class CommonMigration  {
 	        return true;
 	    }
 
+	    private static final List<Character> unihanPinyinDiacritics = Arrays.asList(
+	            'Ā', 'Á', 'Ǎ', 'À', 
+	            'ā', 'á', 'ǎ', 'à', 
+	            'Ē', 'É', 'Ě', 'È', 
+	            'ē', 'é', 'ě', 'è', 
+	            'Ī', 'Í', 'Ǐ', 'Ì', 
+	            'ī', 'í', 'ǐ', 'ì', 
+	            'Ō', 'Ó', 'Ǒ', 'Ò', 
+	            'ō', 'ó', 'ǒ', 'ò', 
+	            'Ū', 'Ú', 'Ǔ', 'Ù', 
+	            'ū', 'ú', 'ǔ', 'ù', 
+	            'Ǖ', 'Ǘ', 'Ǚ', 'Ǜ', 'Ü',
+	            'ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü');
+	   // test if the Pinyin has diacritics
+       private static boolean isPinyinNDia(String input) {
+           for (int i = 0; i < input.length(); i++) {
+               int c = input.charAt(i);
+               // if we encounter a number, it has diacritics:
+               if (c > '0' && c < '9') {
+                   return false;
+               }
+               if (unihanPinyinDiacritics.contains(c))
+                   return false;
+           }
+           return true;
+       }
+	   
     private static boolean isAllTibetanUnicode(String input) {
         for (int i = 0; i < input.length(); i++) {
             int c = input.charAt(i);
@@ -1161,6 +1189,9 @@ public class CommonMigration  {
 		if ((res == null || !res.equals("zh")) && isAllChineseUnicode(value)) {
             res = "zh";
         }
+		if (res != null && res.toLowerCase().equals("zh-latn-pinyin") && isPinyinNDia(value)) {
+		    res = res+"-x-ndia";
+		}
 		if ((res == null || res == "en") && isMostLikelyEwts(value)) {
 		    res = EWTS_TAG;
 		}
