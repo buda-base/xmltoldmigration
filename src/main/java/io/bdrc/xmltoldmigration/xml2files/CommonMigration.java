@@ -84,9 +84,25 @@ public class CommonMigration  {
     
     public static final Map<String, String> logWhoToUri = new HashMap<>();
     public static final Map<String, Boolean> genreTopics = new HashMap<>();
+    public static final Map<Integer, Boolean> isTraditional = new HashMap<>();
     static {
         fillLogWhoToUri();
         fillGenreTopics();
+        getTcList();
+    }
+    
+    public static void getTcList() {
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("tclist.txt");
+        final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        String line = null;
+        try {
+            while((line = in.readLine()) != null) {
+                isTraditional.put(line.codePointAt(0), true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public static final String userNumFormat = "%05d";
@@ -1144,6 +1160,21 @@ public class CommonMigration  {
         return isChinese;
     }
 
+    // check for traditional characters.
+    // TODO: some strings, such as 阿毘達磨文献における思想の展開
+    // are a mix of Hans and Hant (mostly Hant except 献 which is simplified for 獻)
+    private static boolean isHant(String input) {
+        final int length = input.length();
+        for (int offset = 0; offset < length; ) {
+           final int codepoint = input.codePointAt(offset);
+           if (isTraditional.containsKey(codepoint)) {
+               return true;
+           }
+           offset += Character.charCount(codepoint);
+        }
+        return false;
+    }
+
     private static Pattern p = Pattern.compile("[\u0F40-\u0FBC]+");
     public static boolean isMostLikelyEwts(String input) {
         if (!isAllEwtsChars(input))
@@ -1189,6 +1220,13 @@ public class CommonMigration  {
 		if ((res == null || !res.equals("zh")) && isAllChineseUnicode(value)) {
             res = "zh";
         }
+		if (res != null && res.equals("zh")) {
+		    if (isHant(value)) {
+		        res = "zh-Hant";
+		    } else {
+		        res = "zh-Hans";
+		    }
+		}
 		if (res != null && res.toLowerCase().equals("zh-latn-pinyin") && isPinyinNDia(value)) {
 		    res = res+"-x-ndia";
 		}
