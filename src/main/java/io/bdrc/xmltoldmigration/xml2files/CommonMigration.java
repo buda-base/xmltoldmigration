@@ -1222,9 +1222,9 @@ public class CommonMigration  {
         }
 		if (res != null && res.equals("zh")) {
 		    if (isHant(value)) {
-		        res = "zh-Hant";
+		        res = lowerCaseLangTags ? "zh-hant" : "zh-Hant";
 		    } else {
-		        res = "zh-Hans";
+		        res = lowerCaseLangTags ? "zh-hans" : "zh-Hans";
 		    }
 		}
 		if (res != null && res.toLowerCase().equals("zh-latn-pinyin") && isPinyinNDia(value)) {

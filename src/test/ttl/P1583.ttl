@@ -47,7 +47,7 @@ bdr:P1583  a            :Person ;
             ] ;
     :personGender       bdr:GenderMale ;
     :personName         [ a                   :PersonChineseName ;
-                          rdfs:label          "隆钦热降巴·赤墨俄色"@zh-Hans
+                          rdfs:label          "隆钦热降巴·赤墨俄色"@zh-hans
                         ] ,
             [ a                   :PersonCommonName ;
               rdfs:label          "klong chen pa/"@bo-x-ewts
