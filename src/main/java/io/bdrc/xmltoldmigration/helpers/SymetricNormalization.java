@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.jena.rdf.model.Model;
 
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
@@ -44,9 +45,13 @@ public class SymetricNormalization {
         if (oneDirectionArg == true) {
             WorkMigration.addItemForWork = !preferManyOverOne;
             WorkMigration.addWorkHasItem = preferManyOverOne;
+            ImagegroupMigration.addVolumeOf = !preferManyOverOne;
+            ImagegroupMigration.addItemHasVolume = preferManyOverOne;
             OutlineMigration.addWorkHaspart = preferManyOverOne;
             OutlineMigration.addWorkPartOf = !preferManyOverOne;
         } else {
+            ImagegroupMigration.addVolumeOf = true;
+            ImagegroupMigration.addItemHasVolume = true;
             WorkMigration.addItemForWork = true;
             WorkMigration.addWorkHasItem = true;
             OutlineMigration.addWorkHaspart = true;

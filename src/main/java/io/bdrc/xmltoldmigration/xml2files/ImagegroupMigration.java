@@ -20,6 +20,8 @@ public class ImagegroupMigration {
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
 
+    public static boolean addVolumeOf = false;
+    public static boolean addItemHasVolume = true;
 
 	
 	// for testing purposes only
@@ -76,8 +78,12 @@ public class ImagegroupMigration {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");      
         m.add(main, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(volumeNumber, XSDDatatype.XSDinteger));
         
-        m.add(item, m.getProperty(BDO+"itemHasVolume"), main);
+        if (addItemHasVolume)
+            m.add(item, m.getProperty(BDO+"itemHasVolume"), main);
         
+        if (addVolumeOf)
+            m.add(main, m.getProperty(BDO+"volumeOf"), item);
+
         main.addProperty(RDF.type, m.getResource(BDO+"VolumeImageAsset"));
         
 		// adding the ondisk/onDisk description as vol:imageList
