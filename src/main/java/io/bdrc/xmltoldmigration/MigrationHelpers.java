@@ -69,6 +69,7 @@ import io.bdrc.xmltoldmigration.xml2files.PlaceMigration;
 import io.bdrc.xmltoldmigration.xml2files.ProductMigration;
 import io.bdrc.xmltoldmigration.xml2files.PubinfoMigration;
 import io.bdrc.xmltoldmigration.xml2files.ScanrequestMigration;
+import io.bdrc.xmltoldmigration.xml2files.TaxonomyMigration;
 import io.bdrc.xmltoldmigration.xml2files.TopicMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
@@ -113,6 +114,7 @@ public class MigrationHelpers {
     public static final String PUBINFO = "pubinfo";
     public static final String SCANREQUEST = "scanrequest";
     public static final String VOLUME = "volume";
+    public static final String TAXONOMY = "taxonomy";
     
     public static final int OUTPUT_STTL = 0;
     public static final int OUTPUT_JSONLD = 1;
@@ -353,6 +355,9 @@ public class MigrationHelpers {
             break;
         case TOPIC:
             m = TopicMigration.MigrateTopic(d);
+            break;
+        case TAXONOMY:
+            m = TaxonomyMigration.MigrateTaxonomy(d);
             break;
 	    case WORK:
 	        m = WorkMigration.MigrateWork(d);

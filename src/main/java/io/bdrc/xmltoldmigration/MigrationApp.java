@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,7 @@ import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
 import io.bdrc.xmltoldmigration.xml2files.PubinfoMigration;
 import io.bdrc.xmltoldmigration.xml2files.ScanrequestMigration;
+import io.bdrc.xmltoldmigration.xml2files.TaxonomyMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration.ImageGroupInfo;
 
@@ -174,12 +176,14 @@ public class MigrationApp
         switch(type) {
         case OUTLINE:
             Document outd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
-            if (!checkRID(baseName, outd.getDocumentElement()))
+            if (!checkRID(baseName, outd.getDocumentElement())) {
                 return;
+            }
             Element outroot = outd.getDocumentElement();
             MigrationHelpers.resourceHasStatus(outroot.getAttribute("RID"), outroot.getAttribute("status"));
-            if (!MigrationHelpers.mustBeMigrated(outd.getDocumentElement(), "outline"))
+            if (!MigrationHelpers.mustBeMigrated(outd.getDocumentElement(), "outline")){
                 return;
+            }
             String outWorkId = OutlineMigration.getWorkId(outd);
             if (outWorkId == null || outWorkId.isEmpty()) {
                 //ExceptionHelper.logException(ExceptionHelper.ET_GEN, baseName, baseName, "outlineFor", "outline does not reference its main work");
@@ -325,6 +329,16 @@ public class MigrationApp
             MigrationHelpers.outputOneModel(defaultM, baseName, outfileName, type);
             break;
         }
+    }
+    
+    public static void migrateTaxonomies() {
+        String fileName = XML_DIR+"tbrc-outlines/O9TAXTBRC201605.xml";
+        String baseName = "O9TAXTBRC201605";
+        Document d = MigrationHelpers.documentFromFileName(fileName);
+        Model m = TaxonomyMigration.MigrateTaxonomy(d);
+        String outfileName = OUTPUT_DIR+baseName+".ttl";
+        MigrationHelpers.outputOneModel(m, baseName, outfileName, "taxonomy");
+        System.out.println("created taxonomy on "+outfileName);
     }
     
     public static void migrateType(String type, String mustStartWith) {
@@ -491,6 +505,7 @@ public class MigrationApp
         if (RKTS_DIR != null) {
             rKTsTransfer.doTransfer();
         }
+        migrateTaxonomies();
         CommonMigration.speller.close();
         finishTypes();
         MigrationHelpers.reportMissing();
