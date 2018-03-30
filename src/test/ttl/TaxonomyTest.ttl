@@ -1,0 +1,53 @@
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+bdr:O9TAXTBRC201605  adm:logEntry  [ adm:logDate         "2016-05-23T10:58:27.909Z"^^xsd:dateTime ;
+                                     adm:logMessage      "added topics"@en ;
+                                     adm:logWho          bdr:U00016
+                                   ] .
+
+bdr:O9TAXTBRC201605_0001
+    skos:prefLabel      "dkar chag"@bo-x-ewts , "Catalogs and Bibliographies"@en , "目录"@zh-hans ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605 .
+
+bdr:O9TAXTBRC201605_0002
+    skos:prefLabel      "spyir btang dkar chag"@bo-x-ewts , "General Bibliographies"@en , "一般书目"@zh-hans ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0001 .
+
+bdr:O9TAXTBRC201605_0010
+    skos:prefLabel      "bka' bstan/"@bo-x-ewts , "Buddhist Canonical Texts"@en , "大藏经"@zh-hans ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605 .
+
+bdr:O9TAXTBRC201605_0011
+    skos:prefLabel      "bka' 'gyur/"@bo-x-ewts , "Kajur"@en , "甘珠尔"@zh-hans ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0010 .
+
+bdr:T00KG02662  skos:prefLabel  "chos skor dkar chag"@bo-x-ewts ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0002 .
+
+bdr:T13  skos:prefLabel  "dkar chag"@bo-x-ewts , "notice of contents"@en , "目录"@zh-hans ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0002 .
+
+bdr:T1485  skos:prefLabel  "kha byang /"@bo-x-ewts , "mtshan byang /"@bo-x-ewts , "title, list"@en , "标题｜单子"@zh-hans ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0002 .
+
+bdr:T2123  skos:prefLabel  "gsung 'bum dkar chag"@bo-x-ewts , "contents of collected writings"@en ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0002 .
+
+bdr:T2196  skos:prefLabel  "dpe mdzod khang gi dkar chag"@bo-x-ewts , "library catalogs"@en ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0002 .
+
+bdr:T2423  skos:prefLabel  "bka' 'gyur/"@bo-x-ewts , "bka' 'gyur ro 'tshal/"@bo-x-ewts , "rgyal ba'i bka' 'gyur ro cog"@bo-x-ewts , "Kagyur"@en-x-mixed , "Kanjur"@en-x-mixed , "甘珠尔"@zh-hans , "甘珠尔大藏经"@zh-hans ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0011 .
+
+bdr:T298  skos:prefLabel  "dpe tho/"@bo-x-ewts , "bibliography"@en , "书目"@zh-hans ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0002 .
+
+bdr:T4CZ2366  skos:prefLabel  "them byang /"@bo-x-ewts , "them yig"@bo-x-ewts ;
+    :taxSubclassOf      bdr:O9TAXTBRC201605_0002 .

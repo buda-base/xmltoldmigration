@@ -1,0 +1,80 @@
+<o:outline xmlns:o="http://www.tbrc.org/models/outline#" RID="O9TAXTBRC201605" status="provisional">
+    <o:name encoding="extendedWylie" lang="tibetan">dkar chag</o:name>
+    <o:name encoding="native" lang="tibetan">དཀར་ཆག</o:name>
+    <o:name encoding="native" lang="english">Catalog</o:name>
+    <o:name encoding="native" lang="chinese">目录</o:name>
+    <o:isOutlineOf type="taxonomy"/>
+    <o:creator type="hasScribe">chris via TBRC Convert2TBRC_Taxonomy version: 1.0.1</o:creator>
+    <o:node RID="O9TAXTBRC201605N0001" type="class" value="ka">
+        <o:name encoding="extendedWylie" lang="tibetan">dkar chag</o:name>
+        <o:name encoding="native" lang="tibetan">དཀར་ཆག</o:name>
+        <o:name encoding="native" lang="english">Catalogs and Bibliographies</o:name>
+        <o:name encoding="native" lang="chinese">目录</o:name>
+        <o:description type="thumbnail">catalog/Catalogs.jpg</o:description>
+        <o:node RID="O9TAXTBRC201605N0002" type="class" value="1">
+            <o:name encoding="extendedWylie" lang="tibetan">spyir btang dkar chag</o:name>
+            <o:name encoding="native" lang="tibetan">སྤྱིར་བཏང་དཀར་ཆག</o:name>
+            <o:name encoding="native" lang="english">General Bibliographies</o:name>
+            <o:name encoding="native" lang="chinese">一般书目</o:name>
+            <o:node RID="O9TAXTBRC201605N0003" class="T13" type="class">
+                <o:name encoding="extendedWylie" lang="tibetan">dkar chag</o:name>
+                <o:name encoding="native" lang="english">notice of contents</o:name>
+                <o:name encoding="native" lang="chinese">目录</o:name>
+            </o:node>
+            <o:node RID="O9TAXTBRC201605N0004" class="T298" type="class">
+                <o:name encoding="extendedWylie" lang="tibetan">dpe tho/</o:name>
+                <o:name encoding="native" lang="english">bibliography</o:name>
+                <o:name encoding="native" lang="chinese">书目</o:name>
+            </o:node>
+            <o:node RID="O9TAXTBRC201605N0005" class="T1485" type="class">
+                <o:name encoding="extendedWylie" lang="tibetan">kha byang /</o:name>
+                <o:name lang="tibetan">mtshan byang /</o:name>
+                <o:name encoding="native" lang="english">title, list</o:name>
+                <o:name encoding="native" lang="chinese">标题｜单子</o:name>
+            </o:node>
+            <o:node RID="O9TAXTBRC201605N0006" class="T4CZ2366" type="class">
+                <o:name>them byang /</o:name>
+                <o:name>them yig</o:name>
+            </o:node>
+            <o:node RID="O9TAXTBRC201605N0007" class="T2123" type="class">
+                <o:name encoding="extendedWylie" lang="tibetan">gsung 'bum dkar chag</o:name>
+                <o:name encoding="native" lang="english">contents of collected writings</o:name>
+            </o:node>
+            <o:node RID="O9TAXTBRC201605N0008" class="T00KG02662" type="class">
+                <o:name encoding="extendedWylie" lang="tibetan">chos skor dkar chag</o:name>
+            </o:node>
+            <o:node RID="O9TAXTBRC201605N0009" class="T2196" type="class">
+                <o:name encoding="extendedWylie" lang="tibetan">dpe mdzod khang gi dkar chag</o:name>
+                <o:name encoding="native" lang="english">library catalogs</o:name>
+            </o:node>
+        </o:node>
+    </o:node>
+    <o:node RID="O9TAXTBRC201605N0048" type="class" value="kha">
+        <o:name encoding="extendedWylie" lang="tibetan">bka' bstan/</o:name>
+        <o:name encoding="native" lang="tibetan">བཀའ་བསྟན།</o:name>
+        <o:name encoding="native" lang="english">Buddhist Canonical Texts</o:name>
+        <o:name encoding="native" lang="chinese">大藏经</o:name>
+        <o:note>Buddhist Canon</o:note>
+        <o:description type="thumbnail">catalog/Canon.jpg</o:description>
+        <o:node RID="O9TAXTBRC201605N0049" type="class" value="1">
+            <o:name encoding="extendedWylie" lang="tibetan">bka' 'gyur/</o:name>
+            <o:name encoding="native" lang="tibetan">བཀའ་འགྱུར།</o:name>
+            <o:name encoding="native" lang="english">Kajur</o:name>
+            <o:name encoding="native" lang="chinese">甘珠尔</o:name>
+            <o:node RID="O9TAXTBRC201605N0050" class="T2423" type="class">
+                <o:name lang="tibetan">bka' 'gyur/</o:name>
+                <o:name lang="tibetan">bka' 'gyur ro 'tshal/</o:name>
+                <o:name lang="tibetan">rgyal ba'i bka' 'gyur ro cog</o:name>
+                <o:name encoding="tbrcPhonetic" lang="english">Kagyur</o:name>
+                <o:name encoding="alternatePhonetic" lang="english">Kanjur</o:name>
+                <o:name encoding="native" lang="chinese">甘珠尔</o:name>
+                <o:name encoding="native" lang="chinese">甘珠尔大藏经</o:name>
+                <o:name encoding="pinyin" lang="chinese">gan zhu er</o:name>
+                <o:name encoding="pinyin" lang="chinese">gan zhu er da zang jing</o:name>
+            </o:node>
+        </o:node>
+    </o:node>
+    <o:log>
+        <entry when="2016-05-23T10:58:27.909Z" who="Karma Gongde">added topics</entry>
+    </o:log>
+</o:outline>

@@ -315,6 +315,21 @@ public class MigrationTest
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
+
+       @Test
+       public void testTaxonomy()
+       {
+           System.out.println("testing taxonomy");
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/TaxonomyTest.xml");
+           Validator validator = MigrationHelpers.getValidatorFor("outline");
+           assertTrue(CommonMigration.documentValidates(d, validator));
+           Model fromXml = MigrationHelpers.xmlToRdf(d, "taxonomy");
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/TaxonomyTest.ttl");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", MigrationHelpers.OUTPUT_STTL, null);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+           flushLog();
+       }
        
        @Test
        public void testScanrequest()
