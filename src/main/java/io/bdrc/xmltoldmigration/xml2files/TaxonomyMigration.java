@@ -8,6 +8,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -61,6 +62,7 @@ public class TaxonomyMigration {
         if (value.isEmpty()) {
             value = String.format("%04d", curNode.i);
             node = m.createResource(BDR+workId+"_"+value);
+            node.addProperty(RDF.type, m.createResource(BDO+"Taxonomy"));
         } else {
             node = m.createResource(BDR+value.trim());
         }
