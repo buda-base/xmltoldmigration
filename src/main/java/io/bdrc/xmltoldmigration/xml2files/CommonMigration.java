@@ -835,6 +835,7 @@ public class CommonMigration  {
                if (isCommentaryTopic(rid))
                    hasCommentaryTopic = true;
                String value = current.getAttribute("type").trim();
+               String prop = null;
                switch (value) {
                case "isAboutPerson":
                case "isAboutCorporation":
@@ -843,28 +844,29 @@ public class CommonMigration  {
                case "isAboutClan":
                case "isAboutSect":
                case "isAboutText":
-                   value = BDO+"workIsAbout";
+                   prop = BDO+"workIsAbout";
                    break;
                case "isAboutControlled":
                case "isAboutUncontrolled":
-                   value = BDO+"workIsAbout";
+                   prop = BDO+"workIsAbout";
                    break;
                case "isInstanceOfGenre":
                case "isInstanceOf":
-                   value = BDO+"workGenre";
+                   prop = BDO+"workGenre";
                    break;
                case "isCommentaryOn":
-                   value = BDO+"workIsAbout";
+                   prop = BDO+"workIsAbout";
                    needsCommentaryTopic = true;
                    break;
                default:
-                   value = BDO+"workIsAbout";
+                   prop = BDO+"workIsAbout";
                    break;
                }
                if (genreTopics.containsKey(rid)) {
-                   value = BDO+"workGenre"; 
+                   prop = BDO+"workGenre"; 
                }
-               m.add(main, m.getProperty(value), m.createResource(BDR+rid));
+               MigrationHelpers.recordLinkTo(main.getLocalName(), value, rid);
+               m.add(main, m.getProperty(prop), m.createResource(BDR+rid));
            }
            if (needsCommentaryTopic && !hasCommentaryTopic) {
                m.add(main, m.getProperty(BDO, "workGenre"), m.createResource(BDR+"T132"));
