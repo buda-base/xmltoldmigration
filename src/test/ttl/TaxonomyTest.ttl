@@ -13,18 +13,22 @@ bdr:O9TAXTBRC201605  adm:logEntry  [ adm:logDate         "2016-05-23T10:58:27.90
                                    ] .
 
 bdr:O9TAXTBRC201605_0001
+    a                   :Taxonomy ;
     skos:prefLabel      "dkar chag"@bo-x-ewts , "Catalogs and Bibliographies"@en , "目录"@zh-hans ;
     :taxSubclassOf      bdr:O9TAXTBRC201605 .
 
 bdr:O9TAXTBRC201605_0002
+    a                   :Taxonomy ;
     skos:prefLabel      "spyir btang dkar chag"@bo-x-ewts , "General Bibliographies"@en , "一般书目"@zh-hans ;
     :taxSubclassOf      bdr:O9TAXTBRC201605_0001 .
 
 bdr:O9TAXTBRC201605_0010
+    a                   :Taxonomy ;
     skos:prefLabel      "bka' bstan/"@bo-x-ewts , "Buddhist Canonical Texts"@en , "大藏经"@zh-hans ;
     :taxSubclassOf      bdr:O9TAXTBRC201605 .
 
 bdr:O9TAXTBRC201605_0011
+    a                   :Taxonomy ;
     skos:prefLabel      "bka' 'gyur/"@bo-x-ewts , "Kajur"@en , "甘珠尔"@zh-hans ;
     :taxSubclassOf      bdr:O9TAXTBRC201605_0010 .
 

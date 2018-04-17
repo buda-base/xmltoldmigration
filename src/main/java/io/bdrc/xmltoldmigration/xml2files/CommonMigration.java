@@ -823,6 +823,15 @@ public class CommonMigration  {
            return false;
        }
        
+       // list of topics associated with languages. We simply remove them as the
+       // the data already contains a language indication for the very large majority
+       public static final Map<String,Boolean> langTopics = new HashMap<>();
+       static {
+           langTopics.put("T3CN1331", true); // Chinese
+           langTopics.put("T2411", true); // Sanskrit
+           langTopics.put("T3CN2027", true); // Mongolian
+       }
+       
        public static void addSubjects(Model m, Resource main, Element root, String XsdPrefix) {
            List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "subject");
            boolean needsCommentaryTopic = false;
@@ -834,6 +843,8 @@ public class CommonMigration  {
                    continue;
                if (isCommentaryTopic(rid))
                    hasCommentaryTopic = true;
+               if (langTopics.containsKey(rid))
+                   continue;
                String value = current.getAttribute("type").trim();
                String prop = null;
                switch (value) {
