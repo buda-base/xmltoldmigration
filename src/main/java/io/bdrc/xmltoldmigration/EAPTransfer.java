@@ -103,7 +103,7 @@ public class EAPTransfer {
         final List<Model> res = new ArrayList<>();
         res.add(workModel);
         CommonMigration.setPrefixes(workModel);
-        String RID = line[1].replace('/', '_');
+        String RID = line[2].replace('/', '_');
         Resource work = workModel.createResource(BDR+RID);
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
         String title = line[12];
@@ -132,6 +132,17 @@ public class EAPTransfer {
                 copyEventR.addLiteral(workModel.createProperty(BDO, "notAfter"), endDate);
             }
         }
+        final StringBuilder note = new StringBuilder();
+        note.append(line[8]);
+        if (!line[13].isEmpty()) {
+            note.append(", date: "+line[13]);
+        }
+        note.append(", recordID: "+line[0]);
+        note.append(", MDARK: "+line[7]);
+        Resource noteR = workModel.createResource();
+        //workModel.add(noteR, RDF.type, workModel.createResource(BDO+"Note"));
+        noteR.addLiteral(workModel.createProperty(BDO, "noteText"), note.toString());
+        workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
         final String langCode = line[5];
         final String scriptCode = line[6];
         switch(langCode) {
