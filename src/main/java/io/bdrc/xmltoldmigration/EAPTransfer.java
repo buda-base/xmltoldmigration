@@ -81,7 +81,7 @@ public class EAPTransfer {
         // ignoring first line
         line = reader.readNext();
         while (line != null) {
-            List<Model> models = getModelsFromLine(line);
+            List<Resource> resources = getResourcesFromLine(line);
             line = reader.readNext();
         }
     }
@@ -99,13 +99,13 @@ public class EAPTransfer {
     }
     
     
-    public static final List<Model> getModelsFromLine(String[] line) {
+    public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
-        final List<Model> res = new ArrayList<>();
-        res.add(workModel);
+        final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
-        String RID = line[2].replace('/', '_');
+        String RID = 'W'+line[2].replace('/', '_');
         Resource work = workModel.createResource(BDR+RID);
+        res.add(work);
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
         String title = line[12];
         String titleLang = "sa-x-iast";
@@ -184,25 +184,36 @@ public class EAPTransfer {
         }
         // Topics and Genres, they should go with the abstract text
         if (linelen > 16 && !line[16].isEmpty()) {
-            String[] topics = line[16].split(",");
+            final String[] topics = line[16].split(",");
             for (int i = 0; i < topics.length; i++)
             {
                 work.addProperty(workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+topics[i]));
             }
         }
         if (linelen > 17 && !line[17].isEmpty()) {
-            String[] genres = line[17].split(",");
+            final String[] genres = line[17].split(",");
             for (int i = 0; i < genres.length; i++)
             {
                 work.addProperty(workModel.createProperty(BDO, "workGenre"), workModel.createResource(BDR+genres[i]));
             }
         }
-        
-        String abstractWorkRID = rKTsToBDR(line[15]);
+        workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createProperty(BDR+"PublicDomain")); // ?
+        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createProperty(BDR+"OpenAccess"));
+        workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createProperty(BDR+"MaterialPaper"));
+        workModel.add(work, workModel.createProperty(BDO, "workObjectType"), workModel.createProperty(BDR+"ObjectTypeManuscript"));
+        final String abstractWorkRID = rKTsToBDR(line[15]);
         if (abstractWorkRID != null) {
             //workModel.add(work, workModel.createProperty(BDO, "workExpressionOf"), workModel.createResource(BDR+abstractWorkRID));
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", RID, abstractWorkRID, null);
         }
+        final String iiifManifestUrl = "https://eap.bl.uk/archive-file/"+line[2].replace('/', '-')+"/manifest";
+        final Model itemModel = ModelFactory.createDefaultModel();
+        CommonMigration.setPrefixes(itemModel);
+        final String itemRID = 'I'+line[2].replace('/', '_');
+        workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
+        Resource item = itemModel.createResource(BDR+itemRID);
+        res.add(item);
+        itemModel.add(item, RDF.type, workModel.createResource(BDO+"ItemImageAsset"));
         
         return res;
     }

@@ -1,17 +1,22 @@
 package io.bdrc.xmltoldmigration;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Resource;
 import org.junit.Test;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 
 public class EAPTest {
 
@@ -24,8 +29,12 @@ public class EAPTest {
                     .withCSVParser(parser)
                     .build();
         String[] line = reader.readNext();
-        List<Model> models = EAPTransfer.getModelsFromLine(line);
-        MigrationHelpers.modelToOutputStream(models.get(0), System.out, "work", MigrationHelpers.OUTPUT_STTL, null);
+        List<Resource> resources = EAPTransfer.getResourcesFromLine(line);
+        Model workModel = resources.get(0).getModel();
+        MigrationHelpers.modelToOutputStream(workModel, System.out, "work", MigrationHelpers.OUTPUT_STTL, null);
+        Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest.ttl");
+        assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.ontologymodel) );
     }
     
 }

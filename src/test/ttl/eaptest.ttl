@@ -1,0 +1,31 @@
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+bdr:WEAP676_1_10  a     :Work ;
+    skos:prefLabel      "Namastāre Saptaka Viṁśatī"@sa-x-iast ;
+    :note               [ :noteText  "This test is an eulogy of goddess Tārā. It praises her. Devotees recite it while praying her. It has 4 folios written in Sanskrit. It is in Sanskrit  language. Its paper content looks old. This is the complete text., recordID: 040-002851178, MDARK: ark:/81055/vdc_100023625596.0x00000b" ] ;
+    :workDimHeight      10.5 ;
+    :workDimWidth       "21"^^xsd:decimal ;
+    :workEvent          [ a                   :CopyEvent ;
+                          :notAfter           1999 ;
+                          :notBefore          1600
+                        ] ;
+    :workExpressionOf   bdr:W22003 ;
+    :workGenre          bdr:T123 , bdr:T321 ;
+    :workHasItemImageAsset  bdr:IEAP676_1_10 ;
+    :workIsAbout        bdr:T619 ;
+    :workLangScript     bdr:SaNewa ;
+    :workMaterial       bdr:MaterialPaper ;
+    :workObjectType     bdr:ObjectTypeManuscript ;
+    :workTitle          [ a                   :WorkBibliographicalTitle ;
+                          rdfs:label          "Namastāre Saptaka Viṁśatī"@sa-x-iast
+                        ] ;
+    adm:access          bdr:OpenAccess ;
+    adm:license         bdr:PublicDomain .
