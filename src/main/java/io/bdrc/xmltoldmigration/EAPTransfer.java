@@ -1,8 +1,11 @@
 package io.bdrc.xmltoldmigration;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 
 public class EAPTransfer {
@@ -35,15 +39,12 @@ public class EAPTransfer {
         final CSVReader reader;
         final CSVParser parser = new CSVParserBuilder().build();
         final Map<String,String> res = new HashMap<>();
-        try {
-            reader = new CSVReaderBuilder(new FileReader("abstract-rkts.csv"))
-                    .withCSVParser(parser)
-                    .build();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("abstract-rkts.csv");
+        final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        reader = new CSVReaderBuilder(in)
+                .withCSVParser(parser)
+                .build();
         String[] line = null;
         try {
             line = reader.readNext();
@@ -86,7 +87,7 @@ public class EAPTransfer {
     }
     
     public static final String rKTsToBDR(String rKTs) {
-        if (rKTs.contains("?") || rKTs.contains(" "))
+        if (rKTs == null || rKTs.isEmpty() || rKTs.contains("?") || rKTs.contains(" "))
             return null;
         if (rKTsRIDMap.containsKey(rKTs)) {
             return rKTsRIDMap.get(rKTs);
@@ -126,10 +127,10 @@ public class EAPTransfer {
             workModel.add(work, workModel.createProperty(BDO, "workEvent"), copyEventR);
             workModel.add(copyEventR, RDF.type, workModel.createResource(BDO+"CopyEvent"));
             if (startDate == endDate) {
-                copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), startDate);
+                copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(startDate, XSDDatatype.XSDinteger));
             } else {
-                copyEventR.addLiteral(workModel.createProperty(BDO, "notBefore"), startDate);
-                copyEventR.addLiteral(workModel.createProperty(BDO, "notAfter"), endDate);
+                copyEventR.addLiteral(workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(startDate, XSDDatatype.XSDinteger));
+                copyEventR.addLiteral(workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(endDate, XSDDatatype.XSDinteger));
             }
         }
         final StringBuilder note = new StringBuilder();
@@ -196,6 +197,13 @@ public class EAPTransfer {
                 work.addProperty(workModel.createProperty(BDO, "workGenre"), workModel.createResource(BDR+genres[i]));
             }
         }
+        
+        String abstractWorkRID = rKTsToBDR(line[15]);
+        if (abstractWorkRID != null) {
+            //workModel.add(work, workModel.createProperty(BDO, "workExpressionOf"), workModel.createResource(BDR+abstractWorkRID));
+            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", RID, abstractWorkRID, null);
+        }
+        
         return res;
     }
     
