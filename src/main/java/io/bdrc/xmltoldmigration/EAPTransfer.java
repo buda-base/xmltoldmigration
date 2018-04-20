@@ -1,8 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,6 +24,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class EAPTransfer {
 
@@ -65,37 +64,54 @@ public class EAPTransfer {
         return res;
     }
     
-    public static final void transferCsvFile(String filename) throws IOException {
+    public static final void transferEAP() {
+        System.out.println("Transfering EAP works");
+        SymetricNormalization.reinit();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("eap.csv");
+        final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         final CSVReader reader;
         final CSVParser parser = new CSVParserBuilder().build();
+        reader = new CSVReaderBuilder(in)
+                .withCSVParser(parser)
+                .build();
+        String[] line;
         try {
-            reader = new CSVReaderBuilder(new FileReader(filename))
-                    .withCSVParser(parser)
-                    .build();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return;
-        }
-        String[] line = reader.readNext();
-        // ignoring first line
-        line = reader.readNext();
-        while (line != null) {
-            List<Resource> resources = getResourcesFromLine(line);
             line = reader.readNext();
+            // ignoring first line
+            line = reader.readNext();
+            while (line != null) {
+                List<Resource> resources = getResourcesFromLine(line);
+                writeEAPFiles(resources);
+                line = reader.readNext();
+            }
+            MigrationApp.insertMissingSymetricTriples("work");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     
+    public static final void writeEAPFiles(List<Resource> resources) {
+        final Resource work = resources.get(0);
+        final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
+        MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
+        final Resource item = resources.get(0);
+        final String itemOutfileName = MigrationApp.getDstFileName("item", item.getLocalName());
+        MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "item");
+    }
+    
     public static final String rKTsToBDR(String rKTs) {
-        if (rKTs == null || rKTs.isEmpty() || rKTs.contains("?") || rKTs.contains(" "))
+        if (rKTs == null || rKTs.isEmpty() || rKTs.contains("?") || rKTs.contains("&"))
             return null;
+        rKTs = rKTs.trim();
         if (rKTsRIDMap.containsKey(rKTs)) {
             return rKTsRIDMap.get(rKTs);
         }
+        final String rktsid = String.format("%04d", Integer.parseInt(rKTs.substring(1)));
         if (rKTs.startsWith("K")) {
-            return "W0RKA"+rKTs.substring(1);
+            return "W0RKA"+rktsid;
         }
-        return "W0RTA"+rKTs.substring(1);
+        return "W0RTA"+rktsid;
     }
     
     
@@ -203,18 +219,22 @@ public class EAPTransfer {
         workModel.add(work, workModel.createProperty(BDO, "workObjectType"), workModel.createProperty(BDR+"ObjectTypeManuscript"));
         final String abstractWorkRID = rKTsToBDR(line[15]);
         if (abstractWorkRID != null) {
-            //workModel.add(work, workModel.createProperty(BDO, "workExpressionOf"), workModel.createResource(BDR+abstractWorkRID));
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", RID, abstractWorkRID, null);
         }
         final String iiifManifestUrl = "https://eap.bl.uk/archive-file/"+line[2].replace('/', '-')+"/manifest";
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = 'I'+line[2].replace('/', '_');
-        workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
+        if (WorkMigration.addWorkHasItem) {
+            workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
+        }
         Resource item = itemModel.createResource(BDR+itemRID);
         res.add(item);
         itemModel.add(item, RDF.type, workModel.createResource(BDO+"ItemImageAsset"));
-        
+        itemModel.add(item, itemModel.createProperty(BDO, "hasManifest"), itemModel.createResource(iiifManifestUrl));
+        if (WorkMigration.addItemForWork) {
+            itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(RID));
+        }
         return res;
     }
     

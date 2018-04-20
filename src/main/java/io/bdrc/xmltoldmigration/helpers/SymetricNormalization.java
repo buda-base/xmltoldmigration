@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
@@ -192,8 +193,13 @@ public class SymetricNormalization {
     
     public static Map<String,Map<String,List<String>>> knownTriples = new HashMap<>();
     
-    public static Map<String,Map<String,List<String>>> triplesToAdd = new HashMap<>(); 
+    public static Map<String,Map<String,List<String>>> triplesToAdd = new HashMap<>();
     
+    public static void reinit() {
+        knownTriples = new HashMap<>();
+        triplesToAdd = new HashMap<>();
+    }
+
     //public static Map<String,Map<String,String>[2]> knownTriples = new HashMap<>();
     
     public static void addSymetricProperty(Model m, final String propertyName, final String sourceName, final String destName, final Integer gender) {

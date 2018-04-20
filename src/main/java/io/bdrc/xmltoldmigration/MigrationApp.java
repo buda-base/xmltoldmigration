@@ -205,7 +205,7 @@ public class MigrationApp
             Model outlineModel = OutlineMigration.MigrateOutline(outd, workModel, work);
             if (OutlineMigration.splitOutlines) {
                 String outlineFileName = getDstFileName("work", outWorkId+"_001");
-                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "work");                
+                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "work");
             } else {
                 String workFileName = getDstFileName("work", outWorkId);
                 MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "work");
@@ -341,6 +341,24 @@ public class MigrationApp
         System.out.println("created taxonomy on "+outfileName);
     }
     
+    public static void insertMissingSymetricTriples(String type) {
+        if (!SymetricNormalization.triplesToAdd.isEmpty()) {
+            System.out.println("adding missing symetric triples in "+SymetricNormalization.triplesToAdd.size()+" files");
+            for (String s : SymetricNormalization.triplesToAdd.keySet()) {
+//                System.out.println("adding triples in "+s);
+//                System.out.println(SymetricNormalization.triplesToAdd.get(s));
+                String inFileName = getDstFileName(type, s);
+                Model m = MigrationHelpers.modelFromFileName(inFileName);
+                if (m == null) {
+                    System.out.println("cannot open "+inFileName);
+                    continue;
+                }
+                SymetricNormalization.insertMissingTriplesInModel(m, s, false);
+                MigrationHelpers.outputOneModel(m, s, inFileName, type);
+            }
+        }
+    }
+    
     public static void migrateType(String type, String mustStartWith) {
         switch (type) {
         case "outline":
@@ -355,8 +373,7 @@ public class MigrationApp
             GitHelpers.ensureGitRepo(type);
             break;
         }
-        SymetricNormalization.knownTriples = new HashMap<>();
-        SymetricNormalization.triplesToAdd = new HashMap<>();
+        SymetricNormalization.reinit();
         File logfile = new File(OUTPUT_DIR+type+"s-migration.log");
         PrintWriter pw;
         try {
@@ -372,19 +389,7 @@ public class MigrationApp
         //Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
         Stream.of(files).forEach(file -> migrateOneFile(file, type, mustStartWith));
         pw.close();
-        if (!SymetricNormalization.triplesToAdd.isEmpty()) {
-            System.out.println("adding missing symetric triples in "+SymetricNormalization.triplesToAdd.size()+" files");
-            for (String s : SymetricNormalization.triplesToAdd.keySet()) {
-//                System.out.println("adding triples in "+s);
-//                System.out.println(SymetricNormalization.triplesToAdd.get(s));
-                String inFileName = OUTPUT_DIR+type+"s/"+s+".ttl";
-                Model m = MigrationHelpers.modelFromFileName(inFileName);
-                if (m == null)
-                    continue;
-                SymetricNormalization.insertMissingTriplesInModel(m, s, false);
-                MigrationHelpers.outputOneModel(m, s, inFileName, type);
-            }
-        }
+        insertMissingSymetricTriples(type);
         if (type.equals("person"))
             System.out.println("recorded "+PersonMigration.placeEvents.size()+" events to migrate to places");
     }
@@ -505,11 +510,12 @@ public class MigrationApp
         if (RKTS_DIR != null) {
             rKTsTransfer.doTransfer();
         }
+        EAPTransfer.transferEAP();
         migrateTaxonomies();
         CommonMigration.speller.close();
-        finishTypes();
         MigrationHelpers.reportMissing();
         ExceptionHelper.closeAll();
+        finishTypes();
         long fileMigrationEndTime = System.currentTimeMillis();
     	long estimatedTime = fileMigrationEndTime - startTime;
     	System.out.println("symetry triple changes: +"+SymetricNormalization.addedTriples+"/-"+SymetricNormalization.removedTriples);
