@@ -68,6 +68,7 @@ public class rKTsTransfer {
         initLists();
         final File dir = new File(MigrationApp.RKTS_DIR);
         final File[] directoryListing = dir.listFiles();
+        System.out.println("transfering "+directoryListing.length+" works produced by rKTs migration");
         if (directoryListing != null) {
           for (File child : directoryListing) {
             final String fileBaseName = child.getName();
@@ -116,6 +117,7 @@ public class rKTsTransfer {
                 if (!workName.startsWith("W0R")) {
                     Model existingM = MigrationHelpers.modelFromFileName(workOutFileName);
                     if (existingM != null) {
+                        // maybe the sa-x-ndia strings should be removed?
                         m.add(existingM);
                     }
                 }
