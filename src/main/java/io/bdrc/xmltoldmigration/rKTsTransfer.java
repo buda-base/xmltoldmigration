@@ -30,6 +30,22 @@ public class rKTsTransfer {
         initListsForRID("W22084");
         initListsForRID("W30532");
         initListsForRID("W4CZ5369");
+        initListsForRID("W1PD96682");
+        initListsForRID("W4CZ7445");
+        initListsForRID("W22703");
+        initListsForRID("W26071");
+        initListsForRID("W29468");
+        initListsForRID("W1PD96685");
+        initListsForRID("W22083");
+        initListsForRID("W1GS66030");
+        initListsForRID("W23703");
+        initListsForRID("W22704");
+        initListsForRID("W1KG13126");
+        initListsForRID("W1PD95844");
+        initListsForRID("W23702");
+        initListsForRID("W1PD96684");
+        initListsForRID("W1PD127393");
+        initListsForRID("W1KG14700");
     }
     
     public static void initListsForRID(String rid) {

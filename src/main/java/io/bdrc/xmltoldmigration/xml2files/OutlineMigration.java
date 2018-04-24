@@ -100,7 +100,7 @@ public class OutlineMigration {
         ridsToIgnore.put("O5TAX008", true);
         ridsToIgnore.put("O4JW5431", true);
         
-        // Kangyurs
+        // Kangyurs & Tengyurs
         ridsToIgnore.put("O1GS12980", true);
         ridsToIgnore.put("O1PD112371", true);
         ridsToIgnore.put("O1PD185519", true);
@@ -109,6 +109,9 @@ public class OutlineMigration {
         ridsToIgnore.put("O1PD19510", true);
         ridsToIgnore.put("O4CZ3720", true);
         ridsToIgnore.put("O01CT0007", true);
+        ridsToIgnore.put("O1GS6011", true);
+        ridsToIgnore.put("O1VI2", true);
+        ridsToIgnore.put("O4CZ5369", true);
         
         ridsToConvert.put("O1AT3081AT374", null);
         ridsToConvert.put("O1AT3081AT380", null);
