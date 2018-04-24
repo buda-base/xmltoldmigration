@@ -51,22 +51,7 @@ public class rKTsTransfer {
     public static void initListsForRID(String rid) {
         RIDList.add(rid);
         final String workFileName = MigrationApp.getDstFileName("work", rid);
-        Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m);
-        final InputStream in;
-        try {
-            in = new FileInputStream(new File(workFileName));
-        } catch (FileNotFoundException e) {
-            System.err.println("can't read from "+workFileName);
-            return;
-        }
-        m.read(in, null, "TTL");
-        try {
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+        Model m = MigrationHelpers.modelFromFileName(workFileName);
         RidModels.put(rid, m);
     }
     
@@ -107,7 +92,6 @@ public class rKTsTransfer {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             } else {
@@ -129,6 +113,12 @@ public class rKTsTransfer {
                 }
                 final String workName = fileBaseName.substring(0, fileBaseName.length()-4);
                 final String workOutFileName = MigrationApp.getDstFileName("work", workName);
+                if (!workName.startsWith("W0R")) {
+                    Model existingM = MigrationHelpers.modelFromFileName(workOutFileName);
+                    if (existingM != null) {
+                        m.add(existingM);
+                    }
+                }
                 MigrationHelpers.outputOneModel(m, workName, workOutFileName, "work");
             }
             
