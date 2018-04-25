@@ -1,5 +1,9 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +27,7 @@ public class PubinfoMigration {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
-	
+
 	// used for testing only
 	public static Model MigratePubinfo(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
@@ -67,13 +71,12 @@ public class PubinfoMigration {
 	
 	// use this giving a wkr:Work as main argument to fill the work data
 	public static Model MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels) {
-		
 		Element root = xmlDocument.getDocumentElement();
 		
         addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
         addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
         addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
-        addSimpleElement("publisherDate", BDO+"workPublisherDate", null, root, m, main);
+        addSimpleDateElement("publisherDate", "PublishedEvent", root, m, main);
         addSimpleElement("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
         addSimpleElement("lccn", BDO+"workLccn", null, root, m, main);
         addSimpleElement("hollis", BDO+"workHollis", null, root, m, main);
@@ -81,7 +84,7 @@ public class PubinfoMigration {
         addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
         addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
         addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", CommonMigration.EWTS_TAG, root, m, main);
-        addSimpleElement("dateOfWriting", BDO+"workDateOfWriting", null, root, m, main);
+        addSimpleDateElement("dateOfWriting", "CompletionEvent", root, m, main);
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"workDimensions", null, root, m, main);
@@ -435,7 +438,6 @@ public class PubinfoMigration {
                 // ignore @code and content
             }
         }
-        
 		return m;
 	}
 
@@ -455,6 +457,17 @@ public class PubinfoMigration {
                 if (value.isEmpty()) return;
                 m.add(main, m.createProperty(propName), m.createLiteral(value));
             }
+        }
+    }
+
+    public static void addSimpleDateElement(String elementName, String eventType, Element root, Model m, Resource main) {
+        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String value = null;
+            value = current.getTextContent().trim();
+            if (value.isEmpty()) return;
+            CommonMigration.addDatesToEvent(value, main, "workEvent", eventType);
         }
     }
 	

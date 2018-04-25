@@ -18,13 +18,15 @@ bdr:W12837  a           :Work ;
     :itemBDRCHoldingStatement  "1" ;
     :workAuthorshipStatement  "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
     :workBiblioNote     "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
+    :workEvent          [ a                   :PublishedEvent ;
+                          :onYear             2000
+                        ] ;
     :workExtentStatement  "177 ff." ;
     :workHasSourcePrintery  bdr:G1PD129184 ;
     :workHollis         "014254679" ;
     :workIsNumbered     true ;
     :workLangScript     bdr:BoDbuMed ;
     :workObjectType     bdr:ObjectTypeManuscript ;
-    :workPublisherDate  "[2000?]" ;
     :workPublisherLocation  "[lha sa]"@en ;
     :workPublisherName  "[zhol par khang]"@en ;
     :workSeriesContent  "test series content/"@bo-x-ewts ;

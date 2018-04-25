@@ -27,6 +27,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.OWL2;
@@ -121,6 +122,29 @@ public class CommonMigration  {
         }
     }
     
+    public static Resource getEvent(Resource r, String eventType, String eventProp) {
+        Model m = r.getModel();
+        Property prop = m.createProperty(BDO, eventProp);
+        StmtIterator it = r.listProperties(prop);
+        while (it.hasNext()) {
+            Statement s = it.next();
+            Resource event = s.getObject().asResource();
+            Resource eventTypeR = event.getPropertyResourceValue(RDF.type);
+            if (eventTypeR != null && eventTypeR.getLocalName().equals(eventType)) {
+                return event;
+            }
+        }
+        Resource event = m.createResource();
+        m.add(event, RDF.type, m.createProperty(BDO+eventType));
+        m.add(r, prop, event);
+        return event;
+    }
+    
+    public static void addDatesToEvent(String dateStr, Resource r, String eventProp, String eventType) {
+        Resource event = getEvent(r, eventType, eventProp);
+        addDates(dateStr, event, r);
+    }
+    
     public static void addDates(String dateStr, final Resource event) {
         addDates(dateStr, event, null);
     }
@@ -130,6 +154,8 @@ public class CommonMigration  {
             return;
         dateStr = normalizeString(dateStr);
         dateStr = dateStr.replaceAll(" ", "");
+        dateStr = dateStr.replaceAll("\\[", "");
+        dateStr = dateStr.replaceAll("\\]", "");
         if (dateStr.length() < 4)
             return;
         final Model m = event.getModel();
