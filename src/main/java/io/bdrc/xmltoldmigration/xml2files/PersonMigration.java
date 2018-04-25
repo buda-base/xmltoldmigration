@@ -288,16 +288,11 @@ public class PersonMigration {
 		Resource subResource = m.createResource();
 		m.add(subResource, RDF.type, 
 		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
-		String circa = CommonMigration.normalizeString(e.getAttribute("circa"));
-		if (!circa.isEmpty()) {
-		    Literal value = m.createLiteral(circa);
-	        Property prop = m.getProperty(BDO, "onOrAbout");
-	        m.add(subResource, prop, value);		    
-		}
+	    CommonMigration.addDates(e.getAttribute("circa"), subResource, person);
         NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
         for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
             Element current = (Element) nodeList.item(i1);
-            Property prop = m.getProperty(BDO, "personEventPlace");
+            Property prop = m.getProperty(BDO, "eventWhere");
             Resource r = m.createResource(BDR+current.getAttribute("pid").trim());
             MigrationHelpers.recordLinkTo(person.getLocalName(), "event/place", current.getAttribute("pid"));
             m.add(subResource, prop, r);
@@ -341,15 +336,11 @@ public class PersonMigration {
         m.add(person, m.getProperty(BDO+"personEvent"), subResource);
         m.add(subResource, RDF.type, 
                 m.createProperty(getUriFromTypeSubtype("event", "occupiesSeat")));
-        String circa = CommonMigration.normalizeString(e.getAttribute("circa"));
-        if (circa != null && !circa.isEmpty()) {
-            m.add(subResource, m.getProperty(BDO, "onOrAbout"),
-                    m.createLiteral(circa));
-        }
+        CommonMigration.addDates(e.getAttribute("circa"), subResource, person);
 		NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			Property prop = m.getProperty(BDO, "personEventPlace");
+			Property prop = m.getProperty(BDO, "eventWhere");
 			Resource r = m.createResource(BDR+current.getAttribute("pid"));
 			MigrationHelpers.recordLinkTo(person.getLocalName(), "seat", current.getAttribute("pid"));
 			m.add(subResource, prop, r);

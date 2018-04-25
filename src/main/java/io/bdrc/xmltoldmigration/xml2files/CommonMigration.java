@@ -121,6 +121,77 @@ public class CommonMigration  {
         }
     }
     
+    public static void addDates(String dateStr, final Resource event) {
+        addDates(dateStr, event, null);
+    }
+    
+    public static void addDates(String dateStr, final Resource event, final Resource mainResource) {
+        if (dateStr == null || dateStr.isEmpty())
+            return;
+        dateStr = normalizeString(dateStr);
+        dateStr = dateStr.replaceAll(" ", "");
+        if (dateStr.length() < 4)
+            return;
+        final Model m = event.getModel();
+        if (dateStr.endsWith("?")) {
+            dateStr = dateStr.substring(0, dateStr.length()-1);
+        }
+        if (dateStr.charAt(1) == '.') { // for b., d. and c. 
+            dateStr = dateStr.substring(2);
+        }
+        try {
+            final int exact = Integer.parseInt(dateStr);
+            m.add(event, m.getProperty(BDO, "onYear"), m.createTypedLiteral(exact, XSDDatatype.XSDinteger));    
+            return;
+        } catch (NumberFormatException e) {}
+        int slashidx = dateStr.indexOf('/');
+        if (slashidx == -1) {
+            slashidx = dateStr.indexOf('-');
+        }
+        if (slashidx != -1) {
+            String firstDate = dateStr.substring(0, slashidx);
+            String secondDate = dateStr.substring(slashidx+1, dateStr.length());
+            firstDate = firstDate.replace('u', '0');
+            secondDate = secondDate.replace('u', '9');
+            try {
+                final int notBefore = Integer.parseInt(firstDate);
+                m.add(event, m.getProperty(BDO, "notBefore"), m.createTypedLiteral(notBefore, XSDDatatype.XSDinteger));    
+                return;
+            } catch (NumberFormatException e) { 
+                System.out.println("couldn't parse date "+firstDate+" (in "+dateStr+")");
+            }
+            try {
+                final int notAfter = Integer.parseInt(secondDate);
+                m.add(event, m.getProperty(BDO, "notAfter"), m.createTypedLiteral(notAfter, XSDDatatype.XSDinteger));    
+                return;
+            } catch (NumberFormatException e) { 
+                System.out.println("couldn't parse date "+secondDate+" (in "+dateStr+")");
+            }
+        }
+        if (dateStr.indexOf('u') != -1) {
+            String firstDate = dateStr.replace('u', '0');
+            String secondDate = dateStr.replace('u', '9');
+            try {
+                final int notBefore = Integer.parseInt(firstDate);
+                m.add(event, m.getProperty(BDO, "notBefore"), m.createTypedLiteral(notBefore, XSDDatatype.XSDinteger));    
+                return;
+            } catch (NumberFormatException e) { 
+                System.out.println("couldn't parse date "+firstDate+" (in "+dateStr+")");
+            }
+            try {
+                final int notAfter = Integer.parseInt(secondDate);
+                m.add(event, m.getProperty(BDO, "notAfter"), m.createTypedLiteral(notAfter, XSDDatatype.XSDinteger));    
+                return;
+            } catch (NumberFormatException e) { 
+                System.out.println("couldn't parse date "+secondDate+" (in "+dateStr+")");
+            }
+        }
+        m.add(event, m.getProperty(BDO, "onOrAbout"), m.createLiteral(dateStr));
+        if (mainResource != null) {
+            System.out.println("couldn't parse "+dateStr+" in "+mainResource.getLocalName());
+        }
+    }
+    
     public static void fillLogWhoToUri() {
         String prefix = RESOURCE_PREFIX+"U"; // ?
         logWhoToUri.put("Gene Smith", prefix+String.format(userNumFormat, 1));

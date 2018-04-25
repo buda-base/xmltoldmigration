@@ -318,20 +318,41 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             
             //value = CommonMigration.getSubResourceName(node, OP, "Site");
             Resource site = m.createResource();
-            value = e.getAttribute("type");
-            if (value.isEmpty()) 
-                value = "Site";// TODO: ?
-            else {
-                value = "WorkSiteType" + value.substring(0, 1).toUpperCase() + value.substring(1);
-                m.add(site, m.getProperty(BDO, "workSiteType"), m.getResource(BDR+value));
+            value = e.getAttribute("type").trim().toLowerCase();
+            if (!value.isEmpty())  {
+                String type = null;
+                switch(value) {
+                case "started":
+                    type = "OriginatedEvent";
+                    break;
+                case "completed":
+                    type = "CompletedEvent";
+                    break;
+                case "edited":
+                    type = "EditedEvent";
+                    break;
+                case "revealed":
+                    type = "RevealedEvent";
+                    break;
+                case "written":
+                    type = "OriginatedEvent";
+                    break;
+                case "printedAt":
+                    type = "PrintedEvent";
+                    break;  
+                default:
+                    System.out.println("unknown site type: "+value);
+                }
+                if (type != null)
+                    m.add(site, RDF.type, m.getResource(BDO+type));
             }
-            m.add(node, m.getProperty(BDO, "workHasSite"), site);
+            m.add(node, m.getProperty(BDO, "workEvent"), site);
             
-            addSimpleAttr(current.getAttribute("circa"), BDO+"onOrAbout", m, site);
+            CommonMigration.addDates(current.getAttribute("circa"), site, r);
             
             value = current.getAttribute("place").trim();
             if (!value.isEmpty())
-                m.add(site, m.getProperty(BDO, "workSitePlace"), m.getResource(BDR+value));
+                m.add(site, m.getProperty(BDO, "eventWhere"), m.getResource(BDR+value));
 
             // TODO: what about current.getTextContent()?
         }

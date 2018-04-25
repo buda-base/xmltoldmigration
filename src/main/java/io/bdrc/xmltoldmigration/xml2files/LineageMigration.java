@@ -151,11 +151,8 @@ public class LineageMigration {
 
             value = current.getAttribute("site");
             if (!value.isEmpty())
-                m.add(received, m.getProperty(BDO, "lineageSite"), m.getResource(BDR+value));
-
-            value = current.getAttribute("circa");
-            if (!value.isEmpty() && !value.equals("?"))
-                m.add(received, m.getProperty(BDO+"onOrAbout"), m.createLiteral(value));
+                m.add(received, m.getProperty(BDO, "eventWhere"), m.getResource(BDR+value));
+            CommonMigration.addDates(current.getAttribute("circa"), received);
         }
 	}
 

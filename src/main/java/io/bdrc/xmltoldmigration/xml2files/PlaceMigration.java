@@ -97,10 +97,8 @@ public class PlaceMigration {
 		if (fe != null) {
 		    Resource event = m.createResource();
 	        m.add(event, RDF.type, m.getResource(BDR+"PlaceFounded"));
-	        if (!fe.circa.isEmpty()) {
-	            m.add(event, m.getProperty(BDO, "onOrAbout"), m.createLiteral(fe.circa));
-	        }
-	        m.add(event, m.createProperty(BDO, "placeEventWho"), m.createResource(BDR+fe.person));
+	        CommonMigration.addDates(fe.circa, event, main);
+	        m.add(event, m.createProperty(BDO, "eventWho"), m.createResource(BDR+fe.person));
 	        Property prop = m.getProperty(BDO+"placeEvent");
 	        m.add(main, prop, event);		    
 		}
@@ -266,10 +264,8 @@ public class PlaceMigration {
 	        }
 			Resource event = m.createResource();
 			m.add(event, RDF.type, m.getResource(value));
+			CommonMigration.addDates(current.getAttribute("circa"), event, main);
 			value = current.getAttribute("circa").trim();
-			if (!value.isEmpty()) {
-				m.add(event, m.createProperty(BDO+"onOrAbout"), m.createLiteral(value));
-			}
 			Property prop = m.getProperty(BDO+"placeEvent");
 			m.add(main, prop, event);
 			addAffiliations(m, current, event, main);
