@@ -741,6 +741,11 @@ public class CommonMigration  {
                 m.add(note, m.getProperty(BDO+"noteText"), l);
                 continue;
             }
+            if (type.equals("completionDate")) {
+                Resource event = getEvent(r, "CompletedEvent", "workEvent");
+                addDates(value, event, r);
+                continue;
+            }
 			String propUri = getDescriptionUriFromType(type);
 			if (propUri != null && propUri.equals("__ignore")) 
 			    continue;
