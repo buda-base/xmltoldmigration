@@ -32,11 +32,12 @@ bdr:G844  a             :Place ;
                                                 :noteText           "event note test"@en ;
                                                 :noteWork           bdr:Wtest
                                               ] ;
-                          :onOrAbout          "1187" ;
+                          :onYear             1187 ;
                           :placeEventAffiliation  bdr:TraditionKagyu , bdr:TraditionTest
                         ] ,
             [ a                   :PlaceFounded ;
-              :onOrAbout          "13uu/17uu"
+              :notAfter           1799 ;
+              :notBefore          1300
             ] ;
     :placeGonpaPerEcumen  "7.51" ;
     :placeLat           "29.63984" ;

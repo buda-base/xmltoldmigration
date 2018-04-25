@@ -318,7 +318,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             
             //value = CommonMigration.getSubResourceName(node, OP, "Site");
             Resource site = m.createResource();
-            value = e.getAttribute("type").trim().toLowerCase();
+            value = current.getAttribute("type").trim().toLowerCase();
             if (!value.isEmpty())  {
                 String type = null;
                 switch(value) {
@@ -326,6 +326,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                     type = "OriginatedEvent";
                     break;
                 case "completed":
+                case "written":
                     type = "CompletedEvent";
                     break;
                 case "edited":
@@ -334,10 +335,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                 case "revealed":
                     type = "RevealedEvent";
                     break;
-                case "written":
-                    type = "OriginatedEvent";
-                    break;
-                case "printedAt":
+                case "printedat":
                     type = "PrintedEvent";
                     break;  
                 default:

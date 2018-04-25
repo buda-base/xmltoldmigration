@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix bdd:   <http://purl.bdrc.io/data/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
@@ -15,8 +13,8 @@ bdr:L8LS14115  a        :Lineage ;
     :lineageAltnernative  [ :lineageHolder
               [ a                   :LineageHolder ;
                 :lineageDownFrom    bdr:L8LS15610 ;
-                :lineageReceived    [ :lineageFrom        bdr:P8LS15618 ;
-                                      :lineageSite        bdr:G844
+                :lineageReceived    [ :eventWhere         bdr:G844 ;
+                                      :lineageFrom        bdr:P8LS15618
                                     ] ;
                 :lineageWho         bdr:P1018 ;
                 :lineageWork        bdr:WTest ;
@@ -24,7 +22,7 @@ bdr:L8LS14115  a        :Lineage ;
               ] ] ;
     :lineageHolder      [ a                   :LineageHolder ;
                           :lineageReceived    [ :lineageFrom        bdr:P1132 ;
-                                                :onOrAbout          "test circa"
+                                                :onOrAbout          "testcirca"
                                               ] ;
                           :lineageWho         bdr:P1040
                         ] ,
@@ -35,7 +33,6 @@ bdr:L8LS14115  a        :Lineage ;
     :lineageObject      bdr:T1613 ;
     :lineageRef         bdr:L1RKL2042 ;
     :lineageType        bdr:LineageDbang ;
-    adm:status          bdr:StatusReleased ;
     :workLocation       [ :workLocationPage   236 ;
                           :workLocationVolume  1 ;
                           :workLocationWork   bdr:W1PD107937
@@ -61,4 +58,5 @@ bdr:L8LS14115  a        :Lineage ;
             [ adm:logDate         "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
               adm:logMessage      "normalized names of who and received elements - yet again"@en ;
               adm:logWho          bdr:U00006
-            ] .
+            ] ;
+    adm:status          bdr:StatusReleased .

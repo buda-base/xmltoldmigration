@@ -139,6 +139,9 @@ public class CommonMigration  {
         if (dateStr.charAt(1) == '.') { // for b., d. and c. 
             dateStr = dateStr.substring(2);
         }
+        if (dateStr.endsWith(".000000")) {
+            dateStr = dateStr.substring(0, dateStr.length()-7);
+        }
         try {
             final int exact = Integer.parseInt(dateStr);
             m.add(event, m.getProperty(BDO, "onYear"), m.createTypedLiteral(exact, XSDDatatype.XSDinteger));    
@@ -156,17 +159,16 @@ public class CommonMigration  {
             try {
                 final int notBefore = Integer.parseInt(firstDate);
                 m.add(event, m.getProperty(BDO, "notBefore"), m.createTypedLiteral(notBefore, XSDDatatype.XSDinteger));    
-                return;
             } catch (NumberFormatException e) { 
                 System.out.println("couldn't parse date "+firstDate+" (in "+dateStr+")");
             }
             try {
                 final int notAfter = Integer.parseInt(secondDate);
                 m.add(event, m.getProperty(BDO, "notAfter"), m.createTypedLiteral(notAfter, XSDDatatype.XSDinteger));    
-                return;
             } catch (NumberFormatException e) { 
                 System.out.println("couldn't parse date "+secondDate+" (in "+dateStr+")");
             }
+            return;
         }
         if (dateStr.indexOf('u') != -1) {
             String firstDate = dateStr.replace('u', '0');
@@ -174,17 +176,16 @@ public class CommonMigration  {
             try {
                 final int notBefore = Integer.parseInt(firstDate);
                 m.add(event, m.getProperty(BDO, "notBefore"), m.createTypedLiteral(notBefore, XSDDatatype.XSDinteger));    
-                return;
             } catch (NumberFormatException e) { 
                 System.out.println("couldn't parse date "+firstDate+" (in "+dateStr+")");
             }
             try {
                 final int notAfter = Integer.parseInt(secondDate);
                 m.add(event, m.getProperty(BDO, "notAfter"), m.createTypedLiteral(notAfter, XSDDatatype.XSDinteger));    
-                return;
             } catch (NumberFormatException e) { 
                 System.out.println("couldn't parse date "+secondDate+" (in "+dateStr+")");
             }
+            return;
         }
         m.add(event, m.getProperty(BDO, "onOrAbout"), m.createLiteral(dateStr));
         if (mainResource != null) {

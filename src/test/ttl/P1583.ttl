@@ -30,20 +30,21 @@ bdr:P1583  a            :Person ;
               :noteWork           bdr:W19822
             ] ;
     :personEvent        [ a                   :PersonAssumesOffice ;
-                          :onOrAbout          "1734/1735" ;
-                          :personEventPlace   bdr:G20 ;
+                          :eventWhere         bdr:G20 ;
+                          :notAfter           1735 ;
+                          :notBefore          1734 ;
                           :personEventRole    bdr:R10MS14280
                         ] ,
             [ a                   :PersonBirth ;
-              :onOrAbout          "1308" ;
-              :personEventPlace   bdr:G967 ;
+              :eventWhere         bdr:G967 ;
+              :onYear             1308 ;
               :personEventRole    bdr:R123
             ] ,
             [ a                   :PersonEventNotSpecified ;
-              :onOrAbout          "1364"
+              :onYear             1364
             ] ,
             [ a                   :PersonOccupiesSeat ;
-              :personEventPlace   bdr:G521
+              :eventWhere         bdr:G521
             ] ;
     :personGender       bdr:GenderMale ;
     :personName         [ a                   :PersonChineseName ;
