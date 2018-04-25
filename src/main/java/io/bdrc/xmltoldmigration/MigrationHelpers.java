@@ -1,11 +1,13 @@
 package io.bdrc.xmltoldmigration;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -121,6 +123,8 @@ public class MigrationHelpers {
     
     public static Lang sttl;
     public static Context ctx;
+    
+    public static final Map<String, Boolean> disconnectedRIds;
 
     static {
         ontologymodel = MigrationHelpers.getOntologyModel();
@@ -130,10 +134,30 @@ public class MigrationHelpers {
             // Well, that's a stupid try/catch...
             e.printStackTrace();
         }
-
+        disconnectedRIds = setupDisconnectedRIDs();
         setupSTTL();
     }
+    
+    public static boolean isDisconnected(String RID) {
+        return disconnectedRIds.containsKey(RID);
+    }
 	
+    public static Map<String, Boolean> setupDisconnectedRIDs() {
+        final Map<String,Boolean> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("disconnectedRIDs.txt");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while(reader.ready()) {
+                 String line = reader.readLine();
+                 res.put(line, true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
     public static class ResourceInfo {
         public Map<String,String> links = null;
         public String status = "absent";
@@ -155,7 +179,8 @@ public class MigrationHelpers {
     }
     
     public static void recordLinkTo(String orig, String prop, String to) {
-        if (orig.startsWith("G9GBX") || orig.contains("TLM")) return;
+        if (orig == null || orig.startsWith("G9GBX") || orig.contains("TLM")) return;
+        if (isDisconnected(to)) return;
         ResourceInfo ri = resourceInfos.computeIfAbsent(to, x -> new ResourceInfo());
         if (!ri.status.equals("released")) {
             if (ri.links == null)

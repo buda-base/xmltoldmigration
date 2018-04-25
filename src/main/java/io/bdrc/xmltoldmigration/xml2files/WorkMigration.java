@@ -204,7 +204,8 @@ public class WorkMigration {
             } else {
                 String uri = getUriFromTypeSubtype("creator", value);
                 MigrationHelpers.recordLinkTo(main.getLocalName(), value, person);
-                main.addProperty(m.getProperty(uri), m.createResource(BDR+person));
+                if (!MigrationHelpers.isDisconnected(person))
+                    main.addProperty(m.getProperty(uri), m.createResource(BDR+person));
             }
         }
         

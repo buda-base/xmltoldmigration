@@ -142,7 +142,8 @@ public class PlaceMigration {
 			if (value.isEmpty() || value.equals("NONE"))
 			    return;
 	        MigrationHelpers.recordLinkTo(main.getLocalName(), propName, value);
-			SymetricNormalization.addSymetricProperty(m, ontoPropName, main.getLocalName(), value, null);
+	        if (!MigrationHelpers.isDisconnected(value))
+	            SymetricNormalization.addSymetricProperty(m, ontoPropName, main.getLocalName(), value, null);
 		}
 	}
 	

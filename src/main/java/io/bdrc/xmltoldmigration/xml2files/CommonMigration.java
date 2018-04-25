@@ -186,13 +186,13 @@ public class CommonMigration  {
                 final int notBefore = Integer.parseInt(firstDate);
                 m.add(event, m.getProperty(BDO, "notBefore"), m.createTypedLiteral(notBefore, XSDDatatype.XSDinteger));    
             } catch (NumberFormatException e) { 
-                System.out.println("couldn't parse date "+firstDate+" (in "+dateStr+")");
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
             try {
                 final int notAfter = Integer.parseInt(secondDate);
                 m.add(event, m.getProperty(BDO, "notAfter"), m.createTypedLiteral(notAfter, XSDDatatype.XSDinteger));    
             } catch (NumberFormatException e) { 
-                System.out.println("couldn't parse date "+secondDate+" (in "+dateStr+")");
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
             return;
         }
@@ -203,19 +203,19 @@ public class CommonMigration  {
                 final int notBefore = Integer.parseInt(firstDate);
                 m.add(event, m.getProperty(BDO, "notBefore"), m.createTypedLiteral(notBefore, XSDDatatype.XSDinteger));    
             } catch (NumberFormatException e) { 
-                System.out.println("couldn't parse date "+firstDate+" (in "+dateStr+")");
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
             try {
                 final int notAfter = Integer.parseInt(secondDate);
                 m.add(event, m.getProperty(BDO, "notAfter"), m.createTypedLiteral(notAfter, XSDDatatype.XSDinteger));    
             } catch (NumberFormatException e) { 
-                System.out.println("couldn't parse date "+secondDate+" (in "+dateStr+")");
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
             return;
         }
         m.add(event, m.getProperty(BDO, "onOrAbout"), m.createLiteral(dateStr));
         if (mainResource != null) {
-            System.out.println("couldn't parse "+dateStr+" in "+mainResource.getLocalName());
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
         }
     }
     
@@ -499,10 +499,12 @@ public class CommonMigration  {
 		    axiom.addProperty(OWL2.annotatedTarget, l);
 		    axiom.addLiteral(prop, note);
 		}
-		String value = e.getAttribute("work");
+		String value = e.getAttribute("work").trim();
 		if (!value.isEmpty()) {
 			prop = m.getProperty(BDO, "noteWork");
-			m.add(note, prop, m.createResource(BDR+value));
+			MigrationHelpers.recordLinkTo(r.getLocalName(), "noteWork", value);
+			if (!MigrationHelpers.isDisconnected(value))
+			    m.add(note, prop, m.createResource(BDR+value));
 		}
 		value = e.getAttribute("location");
 		if (!value.isEmpty()) {
@@ -980,7 +982,8 @@ public class CommonMigration  {
                    prop = BDO+"workGenre"; 
                }
                MigrationHelpers.recordLinkTo(main.getLocalName(), value, rid);
-               m.add(main, m.getProperty(prop), m.createResource(BDR+rid));
+               if (!MigrationHelpers.isDisconnected(rid))
+                   m.add(main, m.getProperty(prop), m.createResource(BDR+rid));
            }
            if (needsCommentaryTopic && !hasCommentaryTopic) {
                m.add(main, m.getProperty(BDO, "workGenre"), m.createResource(BDR+"T132"));

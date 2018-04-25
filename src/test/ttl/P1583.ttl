@@ -32,8 +32,7 @@ bdr:P1583  a            :Person ;
     :personEvent        [ a                   :PersonAssumesOffice ;
                           :eventWhere         bdr:G20 ;
                           :notAfter           1735 ;
-                          :notBefore          1734 ;
-                          :personEventRole    bdr:R10MS14280
+                          :notBefore          1734
                         ] ,
             [ a                   :PersonBirth ;
               :eventWhere         bdr:G967 ;
