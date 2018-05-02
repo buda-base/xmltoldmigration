@@ -73,8 +73,8 @@ public class TaxonomyMigration {
 //        }
 
         addNames(m, e, node);
-        m.add(node, m.createProperty(BDO, "taxSubclassOf"), r);
-        //m.add(r, m.createProperty(BDO, "taxSubclassOf"), node);
+        //m.add(node, m.createProperty(BDO, "taxSubClassOf"), r);
+        m.add(r, m.createProperty(BDO, "taxHasSubClass"), node);
 
         // sub nodes
         addNodes(m, node, e, workId, curNode, outlineRID, legacyOutlineRID, thisPartTreeIndex);
