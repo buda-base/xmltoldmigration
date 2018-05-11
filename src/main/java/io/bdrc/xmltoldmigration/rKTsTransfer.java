@@ -69,16 +69,19 @@ public class rKTsTransfer {
         initLists();
         final File dir = new File(MigrationApp.RKTS_DIR);
         final File[] directoryListing = dir.listFiles();
-        System.out.println("transfering "+directoryListing.length+" works produced by rKTs migration");
+        System.out.println("transfering "+directoryListing.length+" works produced by rKTs migration from "+MigrationApp.RKTS_DIR);
         if (directoryListing != null) {
           for (File child : directoryListing) {
             final String fileBaseName = child.getName();
             if (!fileBaseName.endsWith(".ttl"))
                 continue;
-            final int underIndex = fileBaseName.indexOf('_'); 
-            if (underIndex != -1) {
-                final String rid = fileBaseName.substring(0, underIndex);
-                final Model m =  RidModels.get(rid);
+            final String rid = fileBaseName.substring(0, fileBaseName.length()-4);
+            final int underIndex = rid.indexOf('_');
+            if (underIndex != -1 || RidModels.containsKey(rid)) {
+                String baseRid = rid;
+                if (underIndex != -1)
+                    baseRid = fileBaseName.substring(0, underIndex);
+                final Model m =  RidModels.get(baseRid);
                 if (m == null) {
                     System.err.println("hmm, I think I have a problem here...");
                     continue;
@@ -110,7 +113,6 @@ public class rKTsTransfer {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 final String workName = fileBaseName.substring(0, fileBaseName.length()-4);
