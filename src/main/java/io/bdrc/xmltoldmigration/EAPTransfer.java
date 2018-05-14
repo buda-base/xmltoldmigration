@@ -24,6 +24,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class EAPTransfer {
@@ -230,8 +231,15 @@ public class EAPTransfer {
         }
         Resource item = itemModel.createResource(BDR+itemRID);
         res.add(item);
-        itemModel.add(item, RDF.type, workModel.createResource(BDO+"ItemImageAsset"));
-        itemModel.add(item, itemModel.createProperty(BDO, "hasManifest"), itemModel.createResource(iiifManifestUrl));
+        itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
+        final String volumeRID = 'V'+itemRID.substring(1);
+        Resource volume = itemModel.createResource(BDR+volumeRID);
+        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+        if (ImagegroupMigration.addVolumeOf)
+            itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
+        if (ImagegroupMigration.addItemHasVolume)
+            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
+        itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(iiifManifestUrl));
         if (WorkMigration.addItemForWork) {
             itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(RID));
         }

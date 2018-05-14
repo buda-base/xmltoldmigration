@@ -9,4 +9,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:IEAP676_1_10  a     :ItemImageAsset ;
-    :hasManifest        <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> .
+    :itemHasVolume      bdr:VEAP676_1_10 .
+
+bdr:VEAP676_1_10  a     :VolumeImageAsset ;
+    :hasIIIFManifest    <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> .
