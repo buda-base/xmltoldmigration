@@ -18,13 +18,14 @@ bdr:I12837FPL_P001  a   :ItemPhysicalAsset ;
     adm:status          bdr:StatusReleased .
 
 bdr:W12837FPL  a        :Work ;
-    rdfs:comment        "description with no type" , "description with type date" ;
+    rdfs:comment        "description with no type" ;
     skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast ;
     :creatorMainAuthor  bdr:P1591 ;
     :note               [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ,
             [ :noteText       "description with type note" ] ;
     :workCatalogInfo    "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
     :workEvent          [ a                   :CompletedEvent ;
+                          :onOrAbout          "descriptionwithtypedate" ;
                           :onYear             1232
                         ] ;
     :workGenre          bdr:T132 , bdr:T62 ;

@@ -379,7 +379,7 @@ public class CommonMigration  {
 	       switch (res) {
 	        case "noType":                return RDFS_PREFIX+"comment";
 	        case "status":                return RDFS_PREFIX+"comment";
-	        case "authorship":            return ADM+"outlineAuthorStatement";
+	        case "authorship":            return BDO+"workAuthorshipStatement";
 	        case "incipit":               return BDO+"workIncipit";
 	        case "note":                  return BDO+"note";
 	        case "notes":                 return BDO+"note";
@@ -387,13 +387,13 @@ public class CommonMigration  {
 	        case "chapters":              return BDO+"work_desc_chapters";
 	        case "content":               return RDFS_PREFIX+"comment";
 	        case "contents":              return RDFS_PREFIX+"comment";
-	        case "completionDate":        return BDO+"work_desc_completionDate";
+	        case "completionDate":        return BDO+"work_desc_completionDate"; // this one and the next one are handled separately
 	        case "date":                  return ADM+"work_desc_date";
-	        case "errata":                return BDO+"work_desc_errata";
-	        case "extent":                return BDO+"work_desc_extent";
+	        case "errata":                return BDO+"workErrata";
+	        case "extent":                return BDO+"workExtentStatement";
 	        case "id":                    return "__fpl";
 	        case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
-	        case "location":              return BDO+"work_desc_location";
+	        case "location":              return BDO+"workLocationStatement";
 	        case "remarks":               return "__fpl";
 	        case "room":                  return "__fpl";
 	        case "summary":               return RDFS_PREFIX+"comment";
@@ -733,17 +733,13 @@ public class CommonMigration  {
                 String placeId = r.getLocalName();
                 current.setTextContent(current.getTextContent().replace(placeId, ""));
             }
-			if (type.equals("date")) { 
-                ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "a description of type date should be changed into something meaningful");
-                type = "noType";
-            }
             if (type.equals("note")) {
                 Resource note = m.createResource();
                 m.add(r, m.getProperty(BDO+"note"), note);
                 m.add(note, m.getProperty(BDO+"noteText"), l);
                 continue;
             }
-            if (type.equals("completionDate")) {
+            if (type.equals("completionDate") || type.equals("date")) {
                 Resource event = getEvent(r, "CompletedEvent", "workEvent");
                 addDates(value, event, r);
                 continue;
