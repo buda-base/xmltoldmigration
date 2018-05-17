@@ -308,18 +308,22 @@ public class MigrationApp
                 //MigrationHelpers.modelToFileName(itemModel, volOutfileName, "item", MigrationHelpers.OUTPUT_STTL);
                 MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "item");
             }
-            // migrate pubinfo
-            String pubinfoFileName = XML_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
-            File pubinfoFile = new File(pubinfoFileName);
-            if (pubinfoFile.exists()) {
-                d = MigrationHelpers.documentFromFileName(pubinfoFileName);
-                m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(BDR+baseName), itemModels);
-            } else {
-                MigrationHelpers.writeLog("missing "+pubinfoFileName);
-            }
-            for (Entry<String,Model> e : itemModels.entrySet()){
-                //iterate over the pairs
-                MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), getDstFileName("item", e.getKey()), "item");
+            if (!WorkMigration.isAbstract(m, baseName)) {
+                // migrate pubinfo
+                String pubinfoFileName = XML_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
+                File pubinfoFile = new File(pubinfoFileName);
+                if (pubinfoFile.exists()) {
+                    d = MigrationHelpers.documentFromFileName(pubinfoFileName);
+                    m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(BDR+baseName), itemModels);
+                } else {
+                    MigrationHelpers.writeLog("missing "+pubinfoFileName);
+                }
+                for (Entry<String,Model> e : itemModels.entrySet()){
+                    //iterate over the pairs
+                    MigrationHelpers.outputOneModel(e.getValue(), e.getKey(), getDstFileName("item", e.getKey()), "item");
+                }
+            } else if (!itemModels.isEmpty()) {
+                System.out.println("abstract work "+baseName+" has items!");
             }
             MigrationHelpers.outputOneModel(m, baseName, workOutFileName, "work");
             break;

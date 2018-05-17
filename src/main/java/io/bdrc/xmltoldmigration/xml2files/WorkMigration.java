@@ -53,6 +53,16 @@ public class WorkMigration {
         CommonMigration.setPrefixes(m, "work");
         return MigrateWork(xmlDocument, m, new HashMap<>());
     }
+    
+    public static boolean isAbstract(final Model m, final String baseName) {
+        if (m == null || baseName == null)
+            return false; // ?
+        final Resource r = m.getResource(BDR+baseName);
+        final Resource workType = r.getPropertyResourceValue(m.createProperty(BDO, "workType"));
+        if (workType == null)
+            return false;
+        return workType.getLocalName().equals("WorkTypeAbstractWork");
+    }
 	    
 	public static Model MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
