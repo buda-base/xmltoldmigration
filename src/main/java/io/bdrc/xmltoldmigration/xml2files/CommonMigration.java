@@ -423,8 +423,8 @@ public class CommonMigration  {
 	        case "stog_unmber":           return BDO+"workKaTenSiglaS";
 	        case "stog_number":           return BDO+"workKaTenSiglaS";
 	        case "stogNumber":            return BDO+"workKaTenSiglaS";
-	        case "toh_number":            return BDO+"workKaTenRefToh";
-	        case "toh":                   return BDO+"workKaTenRefToh";
+	        case "toh_number":            return BDO+"workKaTenSiglaD";
+	        case "toh":                   return BDO+"workKaTenSiglaD";
 	        case "otani_number":          return BDO+"workKaTenSiglaQ";
 	        case "otani":                 return BDO+"workKaTenSiglaQ";
 	        case "otani_beijing":         return BDO+"workKaTenSiglaQ";
