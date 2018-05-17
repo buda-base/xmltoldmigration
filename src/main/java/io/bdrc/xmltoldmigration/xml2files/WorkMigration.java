@@ -149,7 +149,7 @@ public class WorkMigration {
             String nodeType = current.getAttribute("nodeType");
             switch (nodeType) {
             case "unicodeText": value = BDR+"WorkTypeUnicodeText"; break;
-            case "conceptualWork": value = BDR+"WorkTypeConceptualWork"; break;
+            case "conceptualWork": value = BDR+"WorkTypeAbstractWork"; break;
             case "publishedWork": value = BDR+"WorkTypePublishedWork"; break;
             case "series": value = BDR+"WorkTypeSeries"; break;
             default: value = ""; break;
