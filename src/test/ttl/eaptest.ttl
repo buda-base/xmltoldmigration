@@ -19,7 +19,7 @@ bdr:WEAP676_1_10  a     :Work ;
                         ] ;
     :workExpressionOf   bdr:W22003 ;
     :workGenre          bdr:T123 , bdr:T321 ;
-    :workHasItemImageAsset  bdr:IEAP676_1_10 ;
+    :workHasItemImageAsset  bdr:IEAP676-1-10 ;
     :workIsAbout        bdr:T619 ;
     :workLangScript     bdr:SaNewa ;
     :workMaterial       bdr:MaterialPaper ;

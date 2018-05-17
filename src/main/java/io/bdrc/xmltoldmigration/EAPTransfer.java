@@ -96,7 +96,7 @@ public class EAPTransfer {
         final Resource work = resources.get(0);
         final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
         MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
-        final Resource item = resources.get(0);
+        final Resource item = resources.get(1);
         final String itemOutfileName = MigrationApp.getDstFileName("item", item.getLocalName());
         MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "item");
     }
@@ -120,7 +120,8 @@ public class EAPTransfer {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
-        String RID = 'W'+line[2].replace('/', '_');
+        final String baseRid = line[2].replace('/', '-'); 
+        final String RID = 'W'+baseRid;
         Resource work = workModel.createResource(BDR+RID);
         res.add(work);
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
@@ -225,7 +226,7 @@ public class EAPTransfer {
         final String iiifManifestUrl = "https://eap.bl.uk/archive-file/"+line[2].replace('/', '-')+"/manifest";
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
-        final String itemRID = 'I'+line[2].replace('/', '_');
+        final String itemRID = 'I'+baseRid;
         if (WorkMigration.addWorkHasItem) {
             workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
         }
