@@ -242,7 +242,7 @@ public class EAPTransfer {
             itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(iiifManifestUrl));
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(RID));
+            itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+RID));
         }
         return res;
     }
