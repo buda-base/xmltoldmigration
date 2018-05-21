@@ -241,6 +241,7 @@ public class EAPTransfer {
         if (ImagegroupMigration.addItemHasVolume)
             itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(iiifManifestUrl));
+        itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
             itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+RID));
         }
