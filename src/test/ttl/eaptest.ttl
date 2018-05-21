@@ -27,5 +27,6 @@ bdr:WEAP676-1-10  a     :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "Namastāre Saptaka Viṁśatī"@sa-x-iast
                         ] ;
-    adm:access          bdr:OpenAccess ;
-    adm:license         bdr:PublicDomain .
+    adm:access          bdr:AccessOpen ;
+    adm:license         bdr:PublicDomain ;
+    adm:status          bdr:StatusReleased .

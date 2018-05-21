@@ -216,7 +216,8 @@ public class EAPTransfer {
             }
         }
         workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createProperty(BDR+"PublicDomain")); // ?
-        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createProperty(BDR+"OpenAccess"));
+        workModel.add(work, workModel.getProperty(ADM+"status"), workModel.getResource(BDR+"StatusReleased"));
+        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createProperty(BDR+"AccessOpen"));
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createProperty(BDR+"MaterialPaper"));
         workModel.add(work, workModel.createProperty(BDO, "workObjectType"), workModel.createProperty(BDR+"ObjectTypeManuscript"));
         final String abstractWorkRID = rKTsToBDR(line[15]);
