@@ -10,22 +10,21 @@
 bdr:L8LS14115  a        :Lineage ;
     rdfs:comment        "initiation transmission of clear light blessing of rakta yamari"@en ;
     skos:prefLabel      "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"@bo-x-ewts ;
-    :lineageAltnernative  [ :lineageHolder
-              [ a                   :LineageHolder ;
-                :lineageDownFrom    bdr:L8LS15610 ;
-                :lineageReceived    [ :eventWhere         bdr:G844 ;
-                                      :lineageFrom        bdr:P8LS15618
-                                    ] ;
-                :lineageWho         bdr:P1018 ;
-                :lineageWork        bdr:WTest ;
-                :note               [ :noteText  "test description" ]
-              ] ] ;
     :lineageHolder      [ a                   :LineageHolder ;
-                          :lineageReceived    [ :lineageFrom        bdr:P1132 ;
-                                                :onOrAbout          "testcirca"
+                          :lineageDownFrom    bdr:L8LS15610 ;
+                          :lineageReceived    [ :eventWhere         bdr:G844 ;
+                                                :lineageFrom        bdr:P8LS15618
                                               ] ;
-                          :lineageWho         bdr:P1040
+                          :lineageWho         bdr:P1018 ;
+                          :lineageWork        bdr:WTest ;
+                          :note               [ :noteText  "test description" ]
                         ] ,
+            [ a                   :LineageHolder ;
+              :lineageReceived    [ :lineageFrom        bdr:P1132 ;
+                                    :onOrAbout          "testcirca"
+                                  ] ;
+              :lineageWho         bdr:P1040
+            ] ,
             [ a                   :LineageHolder ;
               :lineageDownTo      bdr:L8LS15728 ;
               :lineageWho         bdr:P1132

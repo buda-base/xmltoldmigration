@@ -71,12 +71,12 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(i);
             elList = CommonMigration.getChildrenByTagName(current, LXSDNS, "holder");
             if (elList.isEmpty()) continue;
-            Resource alternative = m.createResource();
-            //m.add(alternative, RDF.type, m.getResource(BDO+"LineageAlternative"));
-            m.add(main, m.getProperty(BDO, "lineageAltnernative"), alternative);
+//            Resource alternative = m.createResource();
+//            //m.add(alternative, RDF.type, m.getResource(BDO+"LineageAlternative"));
+//            m.add(main, m.getProperty(BDO, "lineageAlternative"), alternative);
             for (int j = 0; j < elList.size(); j++) {
                 Element holderElement = (Element) elList.get(j);
-                addHolder(m, alternative, holderElement, j);
+                addHolder(m, main, holderElement, j);
             }
         }
 		
