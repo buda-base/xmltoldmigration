@@ -110,6 +110,7 @@ public class OutlineMigration {
         ridsToIgnore.put("O4CZ3720", true);
         ridsToIgnore.put("O01CT0007", true);
         ridsToIgnore.put("O1GS6011", true);
+        ridsToIgnore.put("O1JC7630", true);
         ridsToIgnore.put("O1VI2", true);
         ridsToIgnore.put("O4CZ5369", true);
         
