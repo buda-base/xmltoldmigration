@@ -291,7 +291,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         
         boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, BDO+"workPartLabel");
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
-        CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded);
+        CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true);
         
 //        Statement labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
 //        String label = null;
