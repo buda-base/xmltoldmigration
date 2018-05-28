@@ -861,6 +861,7 @@ public class CommonMigration  {
        public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel, boolean outlineMode) {
             List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
             Map<String,Boolean> labelDoneForLang = new HashMap<>();
+            Map<String,Boolean> titleSeen = new HashMap<>();
             Map<String,Resource> typeNodes = new HashMap<>();
             String typeUsedForLabel = null;
             for (int i = 0; i < nodeList.size(); i++) {
@@ -875,11 +876,14 @@ public class CommonMigration  {
                         l = m.createLiteral(split[0], "pi-x-iast");
                     }
                 }
+                final String litStr = l.getString()+"@"+l.getLanguage();
+                if (titleSeen.containsKey(litStr))
+                    continue;
+                titleSeen.put(litStr, true);
                 String type = current.getAttribute("type");
                 if (type.isEmpty()) {
                     type = "bibliographicalTitle";
                 }
-                ;
                 if (type.equals("incipit")) {
                     main.addProperty(m.getProperty(BDO, "workIncipit"), l);
                     continue;

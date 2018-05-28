@@ -90,7 +90,7 @@ bdr:W30020_0004  a      :Work ;
     adm:legacyImageGroupRID  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
-    skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
+    skos:prefLabel      "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts ;
     :creatorMainAuthor  bdr:P4CZ10507 ;
     :creatorPandita     bdr:P8262 ;
     :creatorReviserOfTranslation  bdr:P21 ;
@@ -105,7 +105,7 @@ bdr:W30020_0005  a      :Work ;
     :workPartOf         bdr:W30020_0003 ;
     :workPartTreeIndex  "2.02" ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
-                          rdfs:label          "gleng gzhi2/"@bo-x-ewts
+                          rdfs:label          "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts
                         ] ;
     adm:legacyImageGroupRID  "O2DB875722DB875732DB87600" .
 
