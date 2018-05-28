@@ -830,7 +830,7 @@ public class CommonMigration  {
 		return addDescriptions(m, e, r, XsdPrefix, false);
 	}
 
-	public static String titleUriFromType(String type) {
+	public static String titleUriFromType(String type, boolean outlineMode) {
 	    switch (type) {
 	    case "titlePageTitle":
 	    case "fullTitle":
@@ -842,11 +842,15 @@ public class CommonMigration  {
 	    case "halfTitle":
 	    case "otherTitle":
 	    case "spineTitle":
-	    case "sectionTitle":
-	    case "captionTitle":
 	    case "copyrightPageTitle":
 	    case "bibliographicalTitle":
 	        return BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1);
+        case "sectionTitle":
+        case "captionTitle":
+            if (outlineMode)
+                return BDO+"WorkRunningTitle";
+            else
+                return BDO+"OtherTitle";
         case "portion":
             return BDO+"WorkTitlePortion";
 	    default:
@@ -854,7 +858,7 @@ public class CommonMigration  {
 	    }
 	}
 	
-       public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel) {
+       public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel, boolean outlineMode) {
             List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
             Map<String,Boolean> labelDoneForLang = new HashMap<>();
             Map<String,Resource> typeNodes = new HashMap<>();
@@ -880,7 +884,7 @@ public class CommonMigration  {
                     main.addProperty(m.getProperty(BDO, "workIncipit"), l);
                     continue;
                 }
-                String uri = titleUriFromType(type);
+                String uri = titleUriFromType(type, outlineMode);
                 if (uri == null) {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "title", "unknown title type `"+type+"`");
                     uri = BDO+"WorkBibliographicalTitle";

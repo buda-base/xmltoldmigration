@@ -36,9 +36,12 @@ bdr:W12837FPL  a        :Work ;
     :workNumberOfVolumes  1 ;
     :workScanInfo       "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
     :workSeriesNumber   "2" ;
-    :workTitle          [ a                   :WorkBibliographicalTitle ;
-                          rdfs:label          "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "vinayavinicchaya pāṭh nisya"@pi-x-iast
+    :workTitle          [ a                   :OtherTitle ;
+                          rdfs:label          "testcap/"@bo-x-ewts
                         ] ,
+            [ a                   :WorkBibliographicalTitle ;
+              rdfs:label          "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "vinayavinicchaya pāṭh nisya"@pi-x-iast
+            ] ,
             [ a                   :WorkOtherTitle ;
               rdfs:label          "test pali title"@pi-x-iast
             ] ,

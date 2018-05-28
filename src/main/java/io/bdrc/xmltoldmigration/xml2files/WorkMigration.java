@@ -80,7 +80,7 @@ public class WorkMigration {
 	    CommonMigration.addExternals(m, root, main, WXSDNS);
 	    CommonMigration.addLog(m, root, main, WXSDNS);
 		
-	    CommonMigration.addTitles(m, main, root, WXSDNS, true);
+	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false);
 	    CommonMigration.addSubjects(m, main, root, WXSDNS);
 	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS);
 	    if (itemModelsFromDesc != null) {

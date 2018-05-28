@@ -73,6 +73,7 @@ bdr:W30020_0003  a      :Work ;
     adm:legacyImageGroupRID  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
+    skos:prefLabel      "testsec/"@bo-x-ewts ;
     :note               [ :noteText  "p. 1 (1st group)" ] ;
     :workIncipit        "gleng gzhi/"@bo-x-ewts ;
     :workLocation       [ :workLocationEndPage  18 ;
@@ -83,6 +84,9 @@ bdr:W30020_0004  a      :Work ;
     :workPartIndex      1 ;
     :workPartOf         bdr:W30020_0003 ;
     :workPartTreeIndex  "2.01" ;
+    :workTitle          [ a                   :WorkRunningTitle ;
+                          rdfs:label          "testsec/"@bo-x-ewts
+                        ] ;
     adm:legacyImageGroupRID  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;

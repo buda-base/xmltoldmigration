@@ -2,6 +2,7 @@
     <w:title type="bibliographicalTitle">kun rig rnam bshad</w:title>
     <w:title encoding="native" lang="pali" type="otherTitle">test pali title</w:title>
     <w:title encoding="extendedWylie" lang="tibetan" type="titlePageTitle">bcom ldan 'das thams cad rig pa'i rnam bshad</w:title>
+    <w:title encoding="extendedWylie" lang="tibetan" type="captionTitle">testcap</w:title>
     <w:title lang="pali" encoding="withDiacritics">vinayavinicchaya--vinayavinicchaya pāṭh nisya</w:title>
     <w:hasPubInfo info="MW12837"/>
     <w:description>description with no type</w:description>
