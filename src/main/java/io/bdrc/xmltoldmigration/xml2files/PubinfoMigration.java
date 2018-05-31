@@ -1,9 +1,5 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -255,14 +251,14 @@ public class PubinfoMigration {
             case "in english and tibetan":
             case "in tibean & english":
             case "tibetan and english":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn")); // TODO
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
                 if (!langTibetanDone)
                     m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
                 break;
             case "in chinese":
             case "in chinece":
             case "chinese":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn")); // TODO
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh")); // TODO
                 break;
             case "in chinese & tibetan":
             case "in tibetan and chinese":
@@ -280,10 +276,10 @@ public class PubinfoMigration {
             case "in tibetab with chinece":
                 if (!langTibetanDone)
                     m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"ZhUnknown"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh"));
                 break;
             case "in sanskrit":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"SaUnknown"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Sa"));
                 break;
             case "བོད་ཡིག་དང་རྒྱ་ཡིག།":
             case "in sanskrit & tibetan":
@@ -292,18 +288,18 @@ public class PubinfoMigration {
             case "in tibetan & sanskrit":
                 if (!langTibetanDone)
                     m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"SaUnknown"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Sa"));
                 break;
             case "in mongolian":
             case "mongolian":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"MnUnknown"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Mn"));
                 break;
             case "in tibetan and mongol":
             case "in tibetan and mongolian":
             case "in mongolian and tibetan":
                 if (!langTibetanDone)
                     m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"MnUnknown"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Mn"));
                 break;
             case "english":
             case "in english":
@@ -322,7 +318,7 @@ public class PubinfoMigration {
                 if (!langTibetanDone)
                     m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
                 m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"ZhUnknown"));
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh"));
                 break;
             case "in tibetan; an excerpt in english":
             case "in tibetan; notes in english":
@@ -345,7 +341,7 @@ public class PubinfoMigration {
                 boolean langFound = false;
                 if (value.contains("chinese")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"ZhUnknown"));
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh"));
                 }
                 if (value.contains("english") || value.contains("དབྱིན") || value.contains("ཨིན")) {
                     langFound = true;
@@ -353,7 +349,7 @@ public class PubinfoMigration {
                 }
                 if (value.contains("mongol")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"MnUnknown"));
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Mn"));
                 }
                 if (value.contains("tibet") || value.contains("བོད")) {
                     langFound = true;
@@ -361,7 +357,7 @@ public class PubinfoMigration {
                 }
                 if (value.contains("sanskrit") || value.contains("རྒྱ")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"SaUnknown"));
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Sa"));
                 }
                 if (value.contains("dzongkha")) {
                     langFound = true;
@@ -369,7 +365,7 @@ public class PubinfoMigration {
                 }
                 if (value.contains("hindi")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"HiUnknown"));
+                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Hi"));
                 }
 //                if (!langFound)
 //                    System.out.println(main.getLocalName()+" "+value);
