@@ -229,13 +229,16 @@ public class MigrationHelpers {
         List<String> predicatesPrio = CompareComplex.getDefaultPropUris();
         predicatesPrio.add(CommonMigration.ADM+"logDate");
         predicatesPrio.add(CommonMigration.BDO+"seqNum");
-        predicatesPrio.add(CommonMigration.BDO+"onOrAbout");
+        predicatesPrio.add(CommonMigration.BDO+"onYear");
+        predicatesPrio.add(CommonMigration.BDO+"notBefore");
+        predicatesPrio.add(CommonMigration.BDO+"notAfter");
         predicatesPrio.add(CommonMigration.BDO+"noteText");
         predicatesPrio.add(CommonMigration.BDO+"noteWork");
         predicatesPrio.add(CommonMigration.BDO+"noteLocationStatement");
         predicatesPrio.add(CommonMigration.BDO+"volumeNumber");
         predicatesPrio.add(CommonMigration.BDO+"workSitePlace");
-        predicatesPrio.add(CommonMigration.BDO+"lineageWho");
+        predicatesPrio.add(CommonMigration.BDO+"eventWho");
+        predicatesPrio.add(CommonMigration.BDO+"eventWhere");
         ctx = new Context();
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsPriorities"), nsPrio);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);
