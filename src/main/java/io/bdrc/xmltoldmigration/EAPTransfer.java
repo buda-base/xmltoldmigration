@@ -125,6 +125,7 @@ public class EAPTransfer {
         Resource work = workModel.createResource(BDR+RID);
         res.add(work);
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
+        workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"CPEAP"));
         String title = line[12];
         String titleLang = "sa-x-iast";
         if (title.endsWith("@en")) {
