@@ -156,7 +156,7 @@ public class CommonMigration  {
         dateStr = dateStr.replaceAll(" ", "");
         dateStr = dateStr.replaceAll("\\[", "");
         dateStr = dateStr.replaceAll("\\]", "");
-        if (dateStr.length() < 4)
+        if (dateStr.length() < 3)
             return;
         final Model m = event.getModel();
         if (dateStr.endsWith("?")) {
@@ -176,6 +176,9 @@ public class CommonMigration  {
         int slashidx = dateStr.indexOf('/');
         if (slashidx == -1) {
             slashidx = dateStr.indexOf('-');
+            // if the date starts with -, it's not a separator
+            if (slashidx == 0)
+                slashidx = -1;
         }
         if (slashidx != -1) {
             String firstDate = dateStr.substring(0, slashidx);

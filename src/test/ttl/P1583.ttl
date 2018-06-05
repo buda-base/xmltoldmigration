@@ -39,6 +39,10 @@ bdr:P1583  a            :Person ;
               :onYear             1308 ;
               :personEventRole    bdr:R123
             ] ,
+            [ a                   :PersonBirth ;
+              :notAfter           999 ;
+              :notBefore          900
+            ] ,
             [ a                   :PersonEventNotSpecified ;
               :onYear             1364
             ] ,
