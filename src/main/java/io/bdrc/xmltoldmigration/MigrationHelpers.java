@@ -236,7 +236,6 @@ public class MigrationHelpers {
         predicatesPrio.add(CommonMigration.BDO+"noteWork");
         predicatesPrio.add(CommonMigration.BDO+"noteLocationStatement");
         predicatesPrio.add(CommonMigration.BDO+"volumeNumber");
-        predicatesPrio.add(CommonMigration.BDO+"workSitePlace");
         predicatesPrio.add(CommonMigration.BDO+"eventWho");
         predicatesPrio.add(CommonMigration.BDO+"eventWhere");
         ctx = new Context();
