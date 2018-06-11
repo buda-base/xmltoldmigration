@@ -216,16 +216,18 @@ public class EAPTransfer {
                 work.addProperty(workModel.createProperty(BDO, "workGenre"), workModel.createResource(BDR+genres[i]));
             }
         }
-        workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createProperty(BDR+"PublicDomain")); // ?
-        workModel.add(work, workModel.getProperty(ADM+"status"), workModel.getResource(BDR+"StatusReleased"));
-        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createProperty(BDR+"AccessOpen"));
-        workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createProperty(BDR+"MaterialPaper"));
-        workModel.add(work, workModel.createProperty(BDO, "workObjectType"), workModel.createProperty(BDR+"ObjectTypeManuscript"));
+        workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createResource(BDR+"PublicDomain")); // ?
+        workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
+        workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+"MaterialPaper"));
+        workModel.add(work, workModel.createProperty(BDO, "workObjectType"), workModel.createResource(BDR+"ObjectTypeManuscript"));
         final String abstractWorkRID = rKTsToBDR(line[15]);
         if (abstractWorkRID != null) {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", RID, abstractWorkRID, null);
         }
-        final String iiifManifestUrl = "https://eap.bl.uk/archive-file/"+line[2].replace('/', '-')+"/manifest";
+        final String baseOrigUrl = "https://eap.bl.uk/archive-file/"+line[2].replace('/', '-');
+        workModel.add(work, workModel.createProperty(BDO, "originalRecord"), workModel.createTypedLiteral(baseOrigUrl, XSDDatatype.XSDanyURI));
+        final String iiifManifestUrl = baseOrigUrl+"/manifest";
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = 'I'+baseRid;
