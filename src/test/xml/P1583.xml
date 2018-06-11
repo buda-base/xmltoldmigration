@@ -17,6 +17,7 @@
 </p:name>
     <p:name type="secretInitiatoryName">rgyal sras thugs mchog rtsal/</p:name>
     <p:name encoding="native" lang="chinese" type="chineseName">隆钦热降巴·赤墨俄色</p:name>
+    <p:name encoding="rma" lang="sanskrit" type="sanskrit">shantideva</p:name>
     <p:info gender="male"/>
     <p:event circa="9uu" pid="E50" type="birth"/>
     <p:event circa="1308" pid="E1988" type="birth">

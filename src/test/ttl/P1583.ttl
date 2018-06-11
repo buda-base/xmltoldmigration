@@ -50,11 +50,14 @@ bdr:P1583  a            :Person ;
               :eventWhere         bdr:G521
             ] ;
     :personGender       bdr:GenderMale ;
-    :personName         [ a                   :PersonChineseName ;
-                          rdfs:label          "隆钦热降巴·赤墨俄色"@zh-hans
+    :personName         [ a                   :PersonCommonName ;
+                          rdfs:label          "klong chen pa/"@bo-x-ewts
                         ] ,
-            [ a                   :PersonCommonName ;
-              rdfs:label          "klong chen pa/"@bo-x-ewts
+            [ a                   :PersonOtherName ;
+              rdfs:label          "shantideva"@sa-x-rma
+            ] ,
+            [ a                   :PersonOtherName ;
+              rdfs:label          "隆钦热降巴·赤墨俄色"@zh-hans
             ] ,
             [ a                   :PersonPersonalName ;
               rdfs:label          "tshul khrims blo gros/"@bo-x-ewts

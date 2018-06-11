@@ -43,7 +43,13 @@ public class PersonMigration {
 	private static String getUriFromTypeSubtype(String type, String subtype) {
 	    switch (type) {
 	    case "name":
-	        return BDO+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	        switch(subtype) {
+	        case "chineseName":
+	        case "sanskrit":
+	            return BDO+"PersonOtherName";
+	        default:
+	            return BDO+"Person"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
+	        }
         case "gender":
             return BDR+"Gender"+subtype.substring(0, 1).toUpperCase() + subtype.substring(1);
         case "event":
