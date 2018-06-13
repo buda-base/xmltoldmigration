@@ -169,6 +169,8 @@ public class EAPTransfer {
         case "san":
             if (scriptCode.equals("Newa")) {
                 workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaNewa"));
+            } else if (scriptCode.equals("Ranj")) {
+                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaRanj"));
             } else if (scriptCode.equals("Beng")) {
                 workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaBeng"));
             } else {
