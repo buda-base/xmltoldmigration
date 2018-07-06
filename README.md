@@ -7,7 +7,7 @@ This repository contains code that will be used to migrate from TBRC XML files t
 Simple run:
 
 ```
-mvn compile exec:java -Dexec.args=-useCouchdb
+mvn compile exec:java
 ```
 
 Compiling and generating jar file:
@@ -33,7 +33,6 @@ java -jar target/xmltoldmigration-0.2.0.jar
 ```
 -outdir OUTDIR              (defaults to ./tbrc-jsonld/, must end with /)
 -datadir DATADIR            (defaults to ./tbrc/, must end with /)
--useCouchdb                 (use couchDB, by default it doesn't)
 -onlyOneSymetricDirection=X (where X is 0 or 1, defaults to 0, use one direction in symetric statements)
 -preferManyOverOne=X        (where X is 0 or 1, defaults to 0, when only one symetric direction is taken, prefer things like workHasPart instead of workPartOf)
 ```
