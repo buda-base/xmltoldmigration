@@ -164,10 +164,12 @@ public class PubinfoMigration {
             Element current = (Element) nodeList.item(i);
             String value = current.getTextContent().trim();
             if (value.isEmpty()) continue;
-            value = value.trim().toLowerCase();
+            value = value.toLowerCase();
+            if (value.endsWith(".")) {
+                value = value.substring(0, value.length()-1);
+            }
             switch (value) {
             case "in tibetan":
-            case "in tibetan.":
             case "བོད་ཡིག":
             case "ྦོབོད་ཡིག":
             case "ྦབོད་ཡིག":
