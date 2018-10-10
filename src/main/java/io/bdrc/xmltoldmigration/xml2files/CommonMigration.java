@@ -471,7 +471,7 @@ public class CommonMigration  {
 		return res;
 	}
 	
-	public static Pattern whiteSpacePattern = Pattern.compile("[\\s\\p{Cntrl}]+", Pattern.UNICODE_CHARACTER_CLASS);
+	public static Pattern whiteSpacePattern = Pattern.compile("[\u180E\\s\\p{Cntrl}]+", Pattern.UNICODE_CHARACTER_CLASS);
 	
 	public static String normalizeString(String toNormalize, boolean keepSpaces) {
 	    if (keepSpaces)
