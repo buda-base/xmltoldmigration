@@ -7,14 +7,14 @@
 @prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:I12837_P001  a      :ItemPhysicalAsset ;
+bdr:I1FPL1_P001  a      :ItemPhysicalAsset ;
     :itemCopies         "1" ;
     :itemException      "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo-x-ewts ;
-    :itemForWork        bdr:W12837 ;
+    :itemForWork        bdr:W1FPL1 ;
     :itemLibrary        bdr:G1TLMTGA000001 ;
     :itemShelf          "ཇ|ཇ|༣||001278" .
 
-bdr:W12837  a           :Work ;
+bdr:W1FPL1  a           :Work ;
     :itemBDRCHoldingStatement  "1" ;
     :workAuthorshipStatement  "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
     :workBiblioNote     "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
