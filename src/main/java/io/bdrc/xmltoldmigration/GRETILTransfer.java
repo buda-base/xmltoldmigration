@@ -94,7 +94,6 @@ public class GRETILTransfer {
             }
         }
         String author=line[5];
-        System.out.println("AUTHOR >> "+author);
         if(author!=null && !"".equals(author)) {
             workModel.add(work, workModel.createProperty(BDO, "creatorMainAuthor"), workModel.createResource(BDR+author));
         }

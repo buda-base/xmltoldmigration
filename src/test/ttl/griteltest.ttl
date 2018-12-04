@@ -1,0 +1,23 @@
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+
+bdr:W0GR0001  a             :Work ;
+        adm:access          bdr:AccessOpen ;
+        adm:license         bdr:PublicDomain ;
+        adm:status          bdr:StatusReleased ;
+        :contentProvider    bdr:GRETIL ;
+        :creatorMainAuthor  bdr:P4004 ;
+        :note               "Based on the edition by R.O. Meisezahl: \"Akṣobhya-Mañjuvajra, Ikonographie und Ikonologie des Ekonaviṃśadātmakamañjuvajramaṇḍala\", Oriens 25-26 (1976), pp. 190-274. = Am" , "Input by Klaus Wille (Göttingen, Germany)" ;
+        :workExpressionOf   bdr:W0RTA1961 ;
+        :workTitle          [ a           :WorkBibliographicalTitle ;
+                              rdfs:label  "Niṣpannayogāvali"@sa-x-iast
+                            ] ;
+        :workType           bdr:WorkTypeUnicodeText ;
+        skos:prefLabel      "Niṣpannayogāvali"@sa-x-iast , "Abhayakaragupta: Nispannayogavali, chapter 1"@en .

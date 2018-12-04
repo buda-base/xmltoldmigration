@@ -1,9 +1,16 @@
 package io.bdrc.xmltoldmigration;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -30,10 +37,13 @@ public class GretilTest {
                     .withCSVParser(parser)
                     .build();
         String[] line = reader.readNext();
-        while(line!=null) {
-            GRETILTransfer.getResourcesFromLine(line);
-            line = reader.readNext();
-        }
+        List<Resource> res= GRETILTransfer.getResourcesFromLine(line);
+        reader.close();
+        Model workModel = res.get(0).getModel();
+        Model model = ModelFactory.createDefaultModel();
+        model.read(new FileInputStream("src/test/ttl/griteltest.ttl"), null,"TTL");
+        assertTrue( workModel.isIsomorphicWith(model) );
+
     }
 
 }
