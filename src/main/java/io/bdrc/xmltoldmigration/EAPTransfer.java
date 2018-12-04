@@ -32,9 +32,9 @@ public class EAPTransfer {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
-    
+
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
-    
+
     public static final Map<String,String> getrKTsRIDMap() {
         final CSVReader reader;
         final CSVParser parser = new CSVParserBuilder().build();
@@ -64,7 +64,7 @@ public class EAPTransfer {
         }
         return res;
     }
-    
+
     public static final void transferEAP() {
         System.out.println("Transfering EAP works");
         SymetricNormalization.reinit();
@@ -91,7 +91,7 @@ public class EAPTransfer {
             e.printStackTrace();
         }
     }
-    
+
     public static final void writeEAPFiles(List<Resource> resources) {
         final Resource work = resources.get(0);
         final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
@@ -100,7 +100,7 @@ public class EAPTransfer {
         final String itemOutfileName = MigrationApp.getDstFileName("item", item.getLocalName());
         MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "item");
     }
-    
+
     public static final String rKTsToBDR(String rKTs) {
         if (rKTs == null || rKTs.isEmpty() || rKTs.contains("?") || rKTs.contains("&"))
             return null;
@@ -114,13 +114,13 @@ public class EAPTransfer {
         }
         return "W0RTA"+rktsid;
     }
-    
-    
+
+
     public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
-        final String baseRid = line[2].replace('/', '-'); 
+        final String baseRid = line[2].replace('/', '-');
         final String RID = 'W'+baseRid;
         Resource work = workModel.createResource(BDR+RID);
         res.add(work);
@@ -137,7 +137,7 @@ public class EAPTransfer {
             workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
             workModel.add(titleR, RDFS.label, workModel.createLiteral(title, titleLang)); // ?
         }
-        int linelen = line.length; 
+        int linelen = line.length;
         work.addLiteral(SKOS.prefLabel, workModel.createLiteral(title, titleLang));
         if (!line[3].isEmpty()) {
             int startDate = Integer.parseInt(line[3]);
@@ -253,5 +253,5 @@ public class EAPTransfer {
         }
         return res;
     }
-    
+
 }
