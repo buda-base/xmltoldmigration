@@ -2,7 +2,6 @@ package io.bdrc.xmltoldmigration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -10,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +27,6 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.bdrc.xmltoldmigration.helpers.ContextGenerator;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -51,9 +45,9 @@ import io.bdrc.xmltoldmigration.xml2files.WorkMigration.ImageGroupInfo;
  * Hello world!
  *
  */
-public class MigrationApp 
+public class MigrationApp
 {
-    
+
     // extract tbrc/ folder of exist-db backup here:
     public static String DATA_DIR = "../../data/db/";
     public static String RKTS_DIR = null;
@@ -68,7 +62,7 @@ public class MigrationApp
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADM;
-    
+
     public static final String CORPORATION = MigrationHelpers.CORPORATION;
     public static final String LINEAGE = MigrationHelpers.LINEAGE;
     public static final String OFFICE = MigrationHelpers.OFFICE;
@@ -81,9 +75,9 @@ public class MigrationApp
     public static final String VOLUMES = MigrationHelpers.VOLUMES;
     public static final String ITEMS = MigrationHelpers.ITEMS;
     public static final String WORK = MigrationHelpers.WORK;
-    
+
     public static final Map<String,String> imageGroupWork = new HashMap<>();
-    
+
     private static Map<String,Boolean> workCreatedByOutline = new HashMap<>();
     static MessageDigest md;
     private static final int hashNbChars = 2;
@@ -119,7 +113,7 @@ public class MigrationApp
     public static String getDstFileName(String type, String baseName) {
         return getDstFileName(type, baseName, ".ttl");
     }
-    
+
     public static String getDstFileName(String type, String baseName, String extension) {
         final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product");
         String res = OUTPUT_DIR+type+"s/";
@@ -144,7 +138,7 @@ public class MigrationApp
         res = res + baseName + extension;
         return res;
     }
-    
+
     public static void adjustAccess(Model workM, Model itemM, String workName, String itemName) {
         Resource work = workM.getResource(BDR+workName);
         Resource access = work.getPropertyResourceValue(workM.getProperty(ADM, "access"));
@@ -154,7 +148,7 @@ public class MigrationApp
         work.addProperty(workM.getProperty(ADM, "access"), workM.createResource(BDR+"WorkAccessOpen"));
         itemM.add(itemM.getResource(BDR+itemName), itemM.getProperty(ADM, "access"), itemM.createResource(BDR+"WorkAccessRestrictedByQuality"));
     }
-    
+
     // checking RID discrepancies (seem to only happen in outlines)
     public static boolean checkRID(String baseName, Element root) {
         String rid = root.getAttribute("RID");
@@ -215,7 +209,7 @@ public class MigrationApp
         case SCANREQUEST:
             Document srd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             String workId = ScanrequestMigration.getWork(srd);
-            if (workId == null || workId.isEmpty()) 
+            if (workId == null || workId.isEmpty())
                 return;
             String srItemName = "I"+workId.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
             String itemFileName = getDstFileName("item", srItemName);
@@ -248,12 +242,12 @@ public class MigrationApp
             CommonMigration.setPrefixes(m);
             final Map<String, Model> itemModels = new HashMap<>();
             m = WorkMigration.MigrateWork(d, m, itemModels);
-            
+
             int nbVolsTotal = 0;
             Statement s = m.getResource(BDR+baseName).getProperty(m.getProperty(BDO, "workNumberOfVolumes"));
             if (s != null)
                 nbVolsTotal = s.getObject().asLiteral().getInt();
-            
+
             // migrate items
             ImageGroupInfo imageGroups = WorkMigration.getImageGroupList(d, nbVolsTotal);
             Map<Integer,String> vols = imageGroups.imageGroupList;
@@ -300,7 +294,7 @@ public class MigrationApp
                         //System.out.println(imagegroup+","+oldvalue+","+baseName+","+indicatedWork+","+(hasOnDisk?"true":"false"));
                         ExceptionHelper.logException(ExceptionHelper.ET_IMAGEGROUP, imagegroup, imagegroup, exceptionMessage);
                     } else {
-                        imageGroupWork.put(imagegroup, baseName);                        
+                        imageGroupWork.put(imagegroup, baseName);
                     }
                     ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getKey(), itemName);
                 }
@@ -334,7 +328,7 @@ public class MigrationApp
             break;
         }
     }
-    
+
     public static void migrateTaxonomies() {
         String fileName = XML_DIR+"tbrc-outlines/O9TAXTBRC201605.xml";
         String baseName = "O9TAXTBRC201605";
@@ -344,7 +338,7 @@ public class MigrationApp
         MigrationHelpers.outputOneModel(m, baseName, outfileName, "taxonomy");
         System.out.println("created taxonomy on "+outfileName);
     }
-    
+
     public static void insertMissingSymetricTriples(String type) {
         if (!SymetricNormalization.triplesToAdd.isEmpty()) {
             System.out.println("adding missing symetric triples in "+SymetricNormalization.triplesToAdd.size()+" files");
@@ -362,7 +356,7 @@ public class MigrationApp
             }
         }
     }
-    
+
     public static void migrateType(String type, String mustStartWith) {
         switch (type) {
         case "outline":
@@ -397,7 +391,7 @@ public class MigrationApp
         if (type.equals("person"))
             System.out.println("recorded "+PersonMigration.placeEvents.size()+" events to migrate to places");
     }
-    
+
     public static void sendChangesToCouch(Set<String> modifiedFiles, String type) {
         System.out.println("sending to CouchDB");
         for (String modifiedFile : modifiedFiles) {
@@ -409,7 +403,7 @@ public class MigrationApp
             modifiedFile = OUTPUT_DIR+type+"s/"+modifiedFile;
         }
     }
-    
+
     public static void finishType(String type) {
         Set<String> modifiedFiles = GitHelpers.getChanges(type);
         if (modifiedFiles == null)
@@ -417,7 +411,7 @@ public class MigrationApp
         System.out.println(modifiedFiles.size()+" "+type+"s changed");
         GitHelpers.commitChanges(type, commitMessage);
     }
-    
+
     public static void finishTypes() {
         System.out.println("committing modifications");
         List<String> types = Arrays.asList("work", "item", "place", "person", "product", "corporation", "office", "lineage", "topic", "etext", "etextcontent");
@@ -425,14 +419,14 @@ public class MigrationApp
             finishType(type);
         }
     }
-    
+
     public static class NullOutputStream extends OutputStream {
         @Override
         public void write(int b) throws IOException {
         }
       }
-    
-    public static void main( String[] args ) throws NoSuchAlgorithmException, IllegalArgumentException, FileNotFoundException
+
+    public static void main( String[] args ) throws NoSuchAlgorithmException, IllegalArgumentException, IOException
     {
         boolean oneDirection = false;
         boolean manyOverOne = false;
@@ -475,7 +469,7 @@ public class MigrationApp
                 commitMessage = args[i+1];
             }
 		}
-		
+
 //		Map<String, Object> context = ContextGenerator.generateContextObject(MigrationHelpers.ontologymodel, MigrationHelpers.prefixMap, "bdo");
 //		try {
 //            System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(context));
@@ -509,12 +503,14 @@ public class MigrationApp
             migrateType(PRODUCT, "PR");
             //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
             //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
-            EtextMigration.migrateEtexts();     
+            EtextMigration.migrateEtexts();
         }
         if (RKTS_DIR != null) {
             rKTsTransfer.doTransfer();
         }
         EAPTransfer.transferEAP();
+        GRETILTransfer.transferGRETIL();
+        EAPFondsTransfer.EAPFondsDoTransfer();
         migrateTaxonomies();
         CommonMigration.speller.close();
         MigrationHelpers.reportMissing();

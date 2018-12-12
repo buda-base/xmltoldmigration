@@ -24,7 +24,6 @@ import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 public class EAPFondsTransfer {
 
     public static HashMap<String,HashMap<String,String[]>> seriesByCollections;
-    //public static HashMap<String,HashMap<String,String[]>> subSeries;
     public static  List<String[]> lines;
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
@@ -32,7 +31,7 @@ public class EAPFondsTransfer {
     private static final String SKOS = CommonMigration.SKOS_PREFIX;
     private static final String ManifestPREF="https://eap.bl.uk/archive-file/";
 
-    public static void init(String filename) throws IOException {
+    public EAPFondsTransfer(String filename) throws IOException {
         CSVReader reader;
         CSVParser parser = new CSVParserBuilder().build();
         InputStream inputStream = EAPFondsTransfer.class.getClassLoader().getResourceAsStream(filename);
@@ -41,13 +40,13 @@ public class EAPFondsTransfer {
                 .withCSVParser(parser)
                 .build();
         lines=reader.readAll();
+        getSeriesByFonds();
     }
 
-    public static HashMap<String,HashMap<String,String[]>> getSeriesByFonds() throws IOException{
+    public void getSeriesByFonds() throws IOException{
         HashMap<String,HashMap<String,String[]>> map=new HashMap<>();
         for(String[] line:lines) {
             if(line[1].equals("Fonds")) {
-                //System.out.println(line[0]);
                 map.put(line[0], new HashMap<>());
             }
         }
@@ -66,16 +65,13 @@ public class EAPFondsTransfer {
         map=new HashMap<>();
         for(String s:set) {
             HashMap<String,String[]> mp1=seriesByCollections.get(s);
-            //System.out.println("MP >>"+mp1);
             Set<String> seriesKeys=mp1.keySet();
             for(String key:seriesKeys) {
                 System.out.println(key);
             }
         }
-        return map;
     }
-
-    public static HashMap<String, ArrayList<String[]>> getVolumes(String serie){
+    public HashMap<String, ArrayList<String[]>> getVolumes(String serie){
         HashMap<String, ArrayList<String[]>> vols=new HashMap<>();
         ArrayList<String[]> ll=new ArrayList<>();
         String key="";
@@ -83,14 +79,13 @@ public class EAPFondsTransfer {
             key=line[3];
             if(line[3].equals(serie)) {
                 ll.add(line);
-                //System.out.println("VOL >>"+line[0]);
             }
         }
         vols.put(key, ll);
         return vols;
     }
 
-    public static final void writeEAPFiles(List<Resource> resources) {
+    public final void writeEAPFiles(List<Resource> resources) {
         for(Resource r: resources) {
             String uri=r.getProperty(RDF.type).getObject().asResource().getURI();
             System.out.println(r.getProperty(RDF.type).getObject().asResource().getURI());
@@ -111,7 +106,7 @@ public class EAPFondsTransfer {
         }
     }
 
-    public static List<Resource> getResources(){
+    public List<Resource> getResources(){
         Set<String> keys=seriesByCollections.keySet();
         List<Resource> res = new ArrayList<>();
         for(String key:keys) {
@@ -136,7 +131,7 @@ public class EAPFondsTransfer {
                 noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(seriesByCollections.get(key).get(serie)[36],"en"));
                 workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
                 workModel.add(work, workModel.createProperty(SKOS, "prefLabel"), workModel.createLiteral(seriesByCollections.get(key).get(serie)[39],"en"));
-                HashMap<String, ArrayList<String[]>> vols=EAPFondsTransfer.getVolumes(serie);
+                HashMap<String, ArrayList<String[]>> vols=getVolumes(serie);
                 Set<String> serVol=vols.keySet();
                 int numVol=0;
                 for(String ser:serVol) {
@@ -156,8 +151,6 @@ public class EAPFondsTransfer {
                         volModel.add(vol, volModel.createProperty(BDO,"volumeName"),volModel.createLiteral(name));
                         volModel.add(vol, volModel.createProperty(BDO,"volumeNumber"),volModel.createTypedLiteral(Integer.parseInt(volume.get(x)[37])));
                         volModel.add(vol, volModel.createProperty(BDO,"volumeOf"),volModel.createResource(BDR+"I"+ser));
-                        //volModel.write(System.out, "TURTLE");
-                        //System.out.println("*****************************");
                         res.add(vol);
                         numVol++;
                     }
@@ -166,20 +159,16 @@ public class EAPFondsTransfer {
                 workModel.add(work, workModel.createProperty(BDO, "workNumberOfVolumes"), workModel.createTypedLiteral(numVol));
                 res.add(item);
                 res.add(work);
-                //itemModel.write(System.out, "TURTLE");
-                //workModel.write(System.out, "TURTLE");
             }
         }
         return res;
     }
 
-
-    public static void main(String[] args) throws IOException {
-        EAPFondsTransfer.init("EAP310.csv");
-        EAPFondsTransfer.getSeriesByFonds();
-        System.out.println("SERIES >>"+EAPFondsTransfer.seriesByCollections);
-        System.out.println("VOLUMES >>"+EAPFondsTransfer.getVolumes("036-002360570"));
-        writeEAPFiles(EAPFondsTransfer.getResources());
+    public static void EAPFondsDoTransfer() throws IOException {
+        EAPFondsTransfer tr = new EAPFondsTransfer("EAP310.csv");
+        tr.writeEAPFiles(tr.getResources());
+        tr= new EAPFondsTransfer("EAP039.csv");
+        tr.writeEAPFiles(tr.getResources());
     }
 
 }
