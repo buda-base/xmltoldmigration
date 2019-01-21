@@ -35,6 +35,7 @@ public class CUDLTransfer {
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
     public static final HashMap<String,String> scripts = getScripts();
+    public static final HashMap<String,String> materials = getMaterials();
 
     public static void CUDLDoTransfer() throws IOException {
         CSVReader reader;
@@ -58,6 +59,17 @@ public class CUDLTransfer {
         res.put("sinhala","SaSinh");
         res.put("Hooked Nepālākṣarā (Bhujimol)","SaNepaleseHooked");
         res.put("bengali","SaBeng");
+        return res;
+    }
+
+    public static final HashMap<String,String> getMaterials() {
+
+        final HashMap<String,String> res = new HashMap<>();
+        res.put("palm_leaf","MaterialPalmLeaf");
+        res.put("paper","MaterialPaper");
+        res.put("nep_multi_layered_paper","MaterialMultiLayerPaper");
+        res.put("corypha_palm_leaf","MaterialCoryphaPalmLeaf");
+        res.put("mixed","MaterialMixed");
         return res;
     }
 
@@ -145,7 +157,7 @@ public class CUDLTransfer {
         workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createResource(BDR+"PublicDomain")); // ?
         workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
         workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
-        workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+line[9]));
+        workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+materials.get(line[9])));
         if(!line[14].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
         }

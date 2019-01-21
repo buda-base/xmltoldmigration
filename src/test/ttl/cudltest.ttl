@@ -17,7 +17,7 @@ bdr:W0CDLMS-ADD-01691-00003
         :workDimHeight          "3.5"^^xsd:decimal ;
         :workDimWidth           "27.5"^^xsd:decimal ;
         :workHasItemImageAsset  bdr:I0CDLW0CDLMS-ADD-01691-00003 ;
-        :workMaterial           bdr:palm_leaf ;
+        :workMaterial           bdr:MaterialPalmLeaf ;
         :workTitle              [ :WorkBibliographicalTitle
                           "Abhiṣekavidhi"@sa-x-iast ] ;
         skos:prefLabel          "Abhiṣekavidhi"@sa-x-iast .
