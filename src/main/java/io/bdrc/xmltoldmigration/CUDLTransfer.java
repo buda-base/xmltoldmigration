@@ -155,8 +155,8 @@ public class CUDLTransfer {
             workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.RESOURCE_PREFIX+line[5]));
         }
         workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createResource(BDR+"LicenseCopyrighted")); // ?
-        workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusOnHold"));
-        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessRestrictedByTbrc"));
+        workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+materials.get(line[9])));
         if(!line[14].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
