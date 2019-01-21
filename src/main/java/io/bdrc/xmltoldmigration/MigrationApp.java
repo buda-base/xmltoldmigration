@@ -511,6 +511,7 @@ public class MigrationApp
         EAPTransfer.transferEAP();
         GRETILTransfer.transferGRETIL();
         EAPFondsTransfer.EAPFondsDoTransfer();
+        CUDLTransfer.CUDLDoTransfer();
         migrateTaxonomies();
         CommonMigration.speller.close();
         MigrationHelpers.reportMissing();

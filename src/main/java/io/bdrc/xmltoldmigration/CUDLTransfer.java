@@ -34,16 +34,31 @@ public class CUDLTransfer {
     public static  List<String[]> lines;
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
+    public static final HashMap<String,String> scripts = getScripts();
 
-    public CUDLTransfer(String filename) throws IOException {
+    public static void CUDLDoTransfer() throws IOException {
         CSVReader reader;
         CSVParser parser = new CSVParserBuilder().build();
-        InputStream inputStream = EAPFondsTransfer.class.getClassLoader().getResourceAsStream(filename);
+        InputStream inputStream = EAPFondsTransfer.class.getClassLoader().getResourceAsStream("cudl.csv");
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         reader = new CSVReaderBuilder(in)
                 .withCSVParser(parser)
                 .build();
         lines=reader.readAll();
+        for(int x=1;x<lines.size();x++) {
+            writeCUDLFiles(getResourcesFromLine(lines.get(x)));
+        }
+    }
+
+    public static final HashMap<String,String> getScripts() {
+
+        final HashMap<String,String> res = new HashMap<>();
+        res.put("nepālākṣarā","SaNepaleseHooked");
+        res.put("pāla","SaRanj");
+        res.put("sinhala","SaSinh");
+        res.put("Hooked Nepālākṣarā (Bhujimol)","SaNepaleseHooked");
+        res.put("bengali","SaBeng");
+        return res;
     }
 
     public static final Map<String,String> getrKTsRIDMap() {
@@ -99,7 +114,7 @@ public class CUDLTransfer {
         res.add(work);
         workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));
         workModel.add(work,workModel.createProperty(BDO,"workBiblioNote"),workModel.createLiteral(line[2], "en"));
-
+        workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
         String mainTitle=line[6];
         String title=line[3];
         Literal l=null;
@@ -131,12 +146,15 @@ public class CUDLTransfer {
         workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
         workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+line[9]));
-        /*if(!line[14].equals("")) {
-            workModel.add(work, workModel.createProperty(BDO, "langScript"), workModel.createResource(BDR+line[14]));
+        if(!line[14].equals("")) {
+            workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
         }
-        if(!line[15].equals("")) {
-            workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+line[15]));
-        }*/
+        if (!line[19].isEmpty()) {
+            work.addProperty(workModel.createProperty(BDO, "workDimWidth"), line[19], XSDDatatype.XSDdecimal);
+        }
+        if (!line[18].isEmpty()) {
+            work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[18], XSDDatatype.XSDdecimal);
+        }
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = "I0CDL"+rid;
@@ -170,9 +188,23 @@ public class CUDLTransfer {
         return res;
     }
 
-    public static void main(String[] args) throws IOException {
-        CUDLTransfer cudl= new CUDLTransfer("cudl.csv");
-        CUDLTransfer.getResourcesFromLine(cudl.lines.get(11));
-
+    public static void writeCUDLFiles(List<Resource> resources) {
+        for(Resource r: resources) {
+            String uri=r.getProperty(RDF.type).getObject().asResource().getURI();
+            switch(uri) {
+                case "http://purl.bdrc.io/ontology/core/Work":
+                    final String workOutfileName = MigrationApp.getDstFileName("work", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), workOutfileName, "work");
+                    break;
+                case "http://purl.bdrc.io/ontology/core/VolumeImageAsset":
+                    final String volumeOutfileName = MigrationApp.getDstFileName("volume", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), volumeOutfileName, "volume");
+                    break;
+                case "http://purl.bdrc.io/ontology/core/ItemImageAsset":
+                    final String itemOutfileName = MigrationApp.getDstFileName("item", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), itemOutfileName, "item");
+                    break;
+            }
+        }
     }
 }
