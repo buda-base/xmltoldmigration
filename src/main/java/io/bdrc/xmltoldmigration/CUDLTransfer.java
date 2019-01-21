@@ -150,10 +150,10 @@ public class CUDLTransfer {
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
         }
         if (!line[19].isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workDimWidth"), line[19], XSDDatatype.XSDdecimal);
+            work.addProperty(workModel.createProperty(BDO, "workDimWidth"), line[19].replace(',','.').trim(), XSDDatatype.XSDdecimal);
         }
         if (!line[18].isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[18], XSDDatatype.XSDdecimal);
+            work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[18].replace(',','.').trim(), XSDDatatype.XSDdecimal);
         }
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
@@ -176,7 +176,6 @@ public class CUDLTransfer {
         if (WorkMigration.addItemForWork) {
             itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+rid));
         }
-        workModel.add(itemModel);
         if(!line[10].equals("") && !line[11].equals("")) {
             Resource event = workModel.createResource();
             workModel.add(work, workModel.createProperty(BDO, "workEvent"), event);

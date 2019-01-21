@@ -2,7 +2,6 @@ package io.bdrc.xmltoldmigration;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -27,7 +26,7 @@ public class EAPTest {
     public static void init() throws NoSuchAlgorithmException {
         SymetricNormalization.normalizeOneDirection(false, false);
     }
-    
+
     @Test
     public void testEAP() throws IOException {
         // get the line
@@ -38,11 +37,12 @@ public class EAPTest {
                     .build();
         String[] line = reader.readNext();
         List<Resource> resources = EAPTransfer.getResourcesFromLine(line);
+        System.out.println("RES 0 >>> "+resources);
         // work
         Model workModel = resources.get(0).getModel();
         //MigrationHelpers.modelToOutputStream(workModel, System.out, "work", MigrationHelpers.OUTPUT_STTL, null);
         Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest.ttl");
-        
+
         assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.ontologymodel) );
         //
@@ -52,5 +52,5 @@ public class EAPTest {
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(itemModel, MigrationHelpers.ontologymodel) );
     }
-    
+
 }
