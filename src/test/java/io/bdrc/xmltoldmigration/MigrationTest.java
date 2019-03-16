@@ -109,6 +109,7 @@ public class MigrationTest
 	    assertTrue("ga".equals(CommonMigration.addEwtsShad("ga")));
 	    assertTrue("gi".equals(CommonMigration.addEwtsShad("gi")));
 	    assertTrue("she".equals(CommonMigration.addEwtsShad("she")));
+	    assertTrue("tshe/".equals(CommonMigration.addEwtsShad("tshe")));
 	    assertTrue("ko".equals(CommonMigration.addEwtsShad("ko")));
 	}
 	

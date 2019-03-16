@@ -1400,7 +1400,7 @@ public class CommonMigration  {
             last = s.codePointAt(sLen-2);
         if (sLen > 2 && last == 'g' && s.codePointAt(sLen -3) == 'n')
             return s+" /";
-        if (last == 'g' || last == 'k' || (sLen > 2 && last == 'h' && s.codePointAt(sLen -3) == 's'))
+        if (last == 'g' || last == 'k' || (sLen == 3 && last == 'h' && s.codePointAt(sLen -3) == 's') || (sLen > 3 && last == 'h' && s.codePointAt(sLen -3) == 's' && s.codePointAt(sLen -4) != 't'))
             return s;
         if (last < 'A' || last > 'z' || (last > 'Z' && last < 'a'))  // string doesn't end with tibetan letter
             return s;
