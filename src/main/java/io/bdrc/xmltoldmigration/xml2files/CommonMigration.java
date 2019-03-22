@@ -54,7 +54,6 @@ public class CommonMigration  {
 	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
 	public static final String SKOS_PREFIX = "http://www.w3.org/2004/02/skos/core#";
 	public static final String VCARD_PREFIX = "http://www.w3.org/2006/vcard/ns#";
-	public static final String TBR_PREFIX = "http://purl.bdrc.io/ontology/toberemoved/";
     public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
     public static final String RDF_PREFIX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
     public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
@@ -74,7 +73,6 @@ public class CommonMigration  {
     public static final String BDD = DATA_PREFIX;
     public static final String BDR = RESOURCE_PREFIX;
     public static final String ADM = ADMIN_PREFIX;
-    public static final String TBR = TBR_PREFIX;
 	
 	public static final int ET_LANG = ExceptionHelper.ET_LANG;
 	
@@ -335,7 +333,6 @@ public class CommonMigration  {
 		m.setNsPrefix("adm", ADMIN_PREFIX);
 		//m.setNsPrefix("bdd", DATA_PREFIX);
 		m.setNsPrefix("bdr", RESOURCE_PREFIX);
-		m.setNsPrefix("tbr", TBR_PREFIX);
 		//m.setNsPrefix("owl", OWL_PREFIX);
 		m.setNsPrefix("rdf", RDF_PREFIX);
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
@@ -349,7 +346,6 @@ public class CommonMigration  {
         m.setNsPrefix("adm", ADMIN_PREFIX);
         //m.setNsPrefix("bdd", DATA_PREFIX);
         m.setNsPrefix("bdr", RESOURCE_PREFIX);
-        m.setNsPrefix("tbr", TBR_PREFIX);
         //m.setNsPrefix("owl", OWL_PREFIX);
         m.setNsPrefix("rdf", RDF_PREFIX);
         m.setNsPrefix("rdfs", RDFS_PREFIX);
@@ -439,15 +435,15 @@ public class CommonMigration  {
 	        case "isIAO":                 return BDO+"workRefIsIAO";
 	        case "catalogue_number":      return BDO+"workRefChokLing";
             case "gonpaPerEcumen":        return BDO+"placeGonpaPerEcumen";
-	        case "nameLex":               return TBR+"place_name_lex";
-	        case "nameKR":                return TBR+"place_name_kr";
-	        case "gbdist":                return TBR+"place_gb_dist";
-	        case "town_syl":              return TBR+"place_town_syl";
-	        case "town_py":               return TBR+"place_town_py";
-	        case "town_ch":               return TBR+"place_town_ch";
-	        case "prov_py":               return TBR+"place_prov_py";
-	        case "gonpaPer1000":          return TBR+"place_gonpa_per1000";
-	        case "dist_py":               return TBR+"place_dist_py";
+	        case "nameLex":
+	        case "nameKR":
+	        case "gbdist":
+	        case "town_syl":
+	        case "town_py":
+	        case "town_ch":
+	        case "prov_py":
+	        case "gonpaPer1000":
+	        case "dist_py":
 	        case "ondisk":
 	        case "onDisk":
 	        case "dld":

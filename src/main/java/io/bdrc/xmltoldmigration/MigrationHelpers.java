@@ -210,7 +210,6 @@ public class MigrationHelpers {
         pm.add("adm", CommonMigration.ADMIN_PREFIX);
         pm.add("bdd", CommonMigration.DATA_PREFIX);
         pm.add("bdr", CommonMigration.RESOURCE_PREFIX);
-        pm.add("tbr", CommonMigration.TBR_PREFIX);
         pm.add("owl", CommonMigration.OWL_PREFIX);
         pm.add("rdf", CommonMigration.RDF_PREFIX);
         pm.add("rdfs", CommonMigration.RDFS_PREFIX);

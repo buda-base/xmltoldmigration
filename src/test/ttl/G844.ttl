@@ -4,7 +4,6 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
@@ -88,12 +87,4 @@ bdr:G844  a             :Place ;
     adm:place_TLM_taxonomy  bdr:O1TLMXXX000011 ;
     adm:place_id_TBRC   "540102200:540101145" ;
     adm:place_id_lex    "540102200:540101145" ;
-    adm:status          bdr:StatusReleased ;
-    tbr:place_dist_py   "Lhasa Shi" ;
-    tbr:place_gb_dist   "5401" ;
-    tbr:place_gonpa_per1000  "7.514" ;
-    tbr:place_name_kr   "萨迦·衮噶坚赞｜萨迦班智达" ;
-    tbr:place_name_lex  "tshal gung thang" , "tshal gung thang G844" ;
-    tbr:place_prov_py   "Xizang" ;
-    tbr:place_town_ch   "蔡公堂乡" ;
-    tbr:place_town_syl  "Cai Gong Tang Xiang" .
+    adm:status          bdr:StatusReleased .
