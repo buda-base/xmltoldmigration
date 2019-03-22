@@ -73,7 +73,7 @@ public class PubinfoMigration {
         addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
         addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
         addSimpleDateElement("publisherDate", "PublishedEvent", root, m, main);
-        addSimpleElement("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
+        addSimpleElementUC("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
         addSimpleElement("lccn", BDO+"workLccn", null, root, m, main);
         addSimpleElement("hollis", BDO+"workHollis", null, root, m, main);
         addSimpleElement("seeHarvard", BDO+"workSeeHarvard", null, root, m, main);
@@ -442,6 +442,17 @@ public class PubinfoMigration {
 		return m;
 	}
 
+	   public static void addSimpleElementUC(String elementName, String propName, String defaultLang, Element root, Model m, Resource main) {
+	        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	            Element current = (Element) nodeList.item(i);
+	            String value = null;
+	            value = current.getTextContent().trim();
+	            if (value.isEmpty()) return;
+	            m.add(main, m.createProperty(propName), m.createLiteral(value.toUpperCase()));
+	        }
+	    }
+	
 	public static void addSimpleElement(String elementName, String propName, String defaultLang, Element root, Model m, Resource main) {
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
         String rid = root.getAttribute("RID");

@@ -24,6 +24,7 @@ bdr:W1FPL1  a           :Work ;
     :workExtentStatement  "177 ff." ;
     :workHasSourcePrintery  bdr:G1PD129184 ;
     :workHollis         "014254679" ;
+    :workLcCallNumber   "BQ7662.4 .G77 1979" ;
     :workIsNumbered     true ;
     :workLangScript     bdr:BoDbuMed ;
     :workObjectType     bdr:ObjectTypeManuscript ;
