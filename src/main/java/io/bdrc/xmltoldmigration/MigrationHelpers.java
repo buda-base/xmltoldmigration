@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.jena.graph.Graph;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
@@ -501,6 +504,8 @@ public class MigrationHelpers {
         return m;
 	}
 	
+	private static final Pattern withdrawnPattern = Pattern.compile("(?i:withdrawn in favou?re? of) +([a-zA-Z]+[0-9]+[a-zA-Z0-9]+).*");
+	
 	public static Model migrateWithdrawn(Document xmlDocument, final String type) {
 	    if (type.equals(PUBINFO) || type.equals(SCANREQUEST)) {
 	        return null;
@@ -531,18 +536,13 @@ public class MigrationHelpers {
             }
         }
         if (withdrawnmsg != null) {
-            final String prefix = "withdrawn in favor of ";
-            if (withdrawnmsg.toLowerCase().startsWith(prefix)) {
-                String rid = withdrawnmsg.substring(prefix.length());
-                if (rid.matches("[A-Z0-9]+")) {
-                    main.addProperty(m.createProperty(ADM, "replaceWithIndividual"), m.createResource(BDR+rid));
-                    // TODO
-                    MigrationHelpers.resourceReplacedWith(root.getAttribute("RID"), rid);
-                } else {
-                    System.out.println("possible typo in withdrawing log message in "+main.getLocalName()+": "+withdrawnmsg);
-                }
-            } else {
+            Matcher matcher = withdrawnPattern.matcher(withdrawnmsg);
+            if (!matcher.matches()) {
                 System.out.println("possible typo in withdrawing log message in "+main.getLocalName()+": "+withdrawnmsg);
+            } else {
+                final String rid = matcher.group(1).toUpperCase();
+                main.addProperty(m.createProperty(ADM, "replaceWithIndividual"), m.createResource(BDR+rid));
+                MigrationHelpers.resourceReplacedWith(root.getAttribute("RID"), rid);
             }
         }
         return m;

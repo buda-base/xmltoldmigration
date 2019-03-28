@@ -6,5 +6,5 @@
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:R8LS12811  adm:replaceWithIndividual  bdr:R123 ;
+bdr:R8LS12811  adm:replaceWithIndividual  bdr:R1GS23 ;
     adm:status          bdr:StatusWithdrawn .
