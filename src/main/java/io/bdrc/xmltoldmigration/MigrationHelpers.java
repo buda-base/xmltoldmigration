@@ -483,12 +483,12 @@ public class MigrationHelpers {
         Element root = d.getDocumentElement();
         final String status = root.getAttribute("status");
         MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), status);
-        if (!mustBeMigrated(root, type, status)) {
-            return null;
-        }
         Model m = null;
         if (status.equals("withdrawn")) {
             return migrateWithdrawn(d, type);      
+        }
+        if (!mustBeMigrated(root, type, status)) {
+            return null;
         }
         try {
             m = xmlToRdf(d, type);

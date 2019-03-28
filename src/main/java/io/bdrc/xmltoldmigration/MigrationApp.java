@@ -175,7 +175,7 @@ public class MigrationApp
             }
             Element outroot = outd.getDocumentElement();
             MigrationHelpers.resourceHasStatus(outroot.getAttribute("RID"), outroot.getAttribute("status"));
-            if (!MigrationHelpers.mustBeMigrated(outd.getDocumentElement(), "outline")){
+            if (!MigrationHelpers.mustBeMigrated(outd.getDocumentElement(), "outline", outroot.getAttribute("status"))){
                 return;
             }
             String outWorkId = OutlineMigration.getWorkId(outd);
@@ -225,7 +225,7 @@ public class MigrationApp
             Element root = d.getDocumentElement();
             MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
             final String workOutFileName = getDstFileName("work", baseName);
-            if (!MigrationHelpers.mustBeMigrated(root, "work")) {
+            if (!MigrationHelpers.mustBeMigrated(root, "work", root.getAttribute("status"))) {
                 // case of released outlines of withdrawn works (ex: O1GS129876 / W18311)
                 File outWorkFile = new File(workOutFileName);
                 if (outWorkFile.exists())
