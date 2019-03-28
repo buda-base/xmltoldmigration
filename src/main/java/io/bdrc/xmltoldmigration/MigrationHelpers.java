@@ -541,7 +541,7 @@ public class MigrationHelpers {
                 System.out.println("possible typo in withdrawing log message in "+main.getLocalName()+": "+withdrawnmsg);
             } else {
                 final String rid = matcher.group(1).toUpperCase();
-                main.addProperty(m.createProperty(ADM, "replaceWithIndividual"), m.createResource(BDR+rid));
+                main.addProperty(m.createProperty(ADM, "replaceWith"), m.createResource(BDR+rid));
                 MigrationHelpers.resourceReplacedWith(root.getAttribute("RID"), rid);
             }
         }
