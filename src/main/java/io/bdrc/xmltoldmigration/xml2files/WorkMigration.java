@@ -213,7 +213,7 @@ public class WorkMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
                 String uri = getUriFromTypeSubtype("creator", value);
-                MigrationHelpers.recordLinkTo(main.getLocalName(), value, person);
+                person = MigrationHelpers.sanitizeRID(main.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
                     main.addProperty(m.getProperty(uri), m.createResource(BDR+person));
             }

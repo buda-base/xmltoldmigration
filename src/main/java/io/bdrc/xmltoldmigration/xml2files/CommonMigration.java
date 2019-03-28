@@ -501,7 +501,7 @@ public class CommonMigration  {
 		String value = e.getAttribute("work").trim();
 		if (!value.isEmpty()) {
 			prop = m.getProperty(BDO, "noteWork");
-			MigrationHelpers.recordLinkTo(r.getLocalName(), "noteWork", value);
+			value = MigrationHelpers.sanitizeRID(r.getLocalName(), "noteWork", value);
 			if (!MigrationHelpers.isDisconnected(value))
 			    m.add(note, prop, m.createResource(BDR+value));
 		}
@@ -984,7 +984,7 @@ public class CommonMigration  {
                if (genreTopics.containsKey(rid)) {
                    prop = BDO+"workGenre"; 
                }
-               MigrationHelpers.recordLinkTo(main.getLocalName(), value, rid);
+               rid = MigrationHelpers.sanitizeRID(main.getLocalName(), value, rid);
                if (!MigrationHelpers.isDisconnected(rid))
                    m.add(main, m.getProperty(prop), m.createResource(BDR+rid));
            }

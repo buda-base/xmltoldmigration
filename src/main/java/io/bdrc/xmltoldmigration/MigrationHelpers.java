@@ -133,6 +133,7 @@ public class MigrationHelpers {
     public static final Map<String,String> typeToXsdPrefix = new HashMap<>();
     
     public static final Map<String, Boolean> disconnectedRIds;
+    public static final Map<String, String> ridReplacements;
 
     static {
         ontologymodel = MigrationHelpers.getOntologyModel();
@@ -143,6 +144,7 @@ public class MigrationHelpers {
             e.printStackTrace();
         }
         disconnectedRIds = setupDisconnectedRIDs();
+        ridReplacements = setupRIDReplacements();
         setupSTTL();
         typeToXsdPrefix.put(CORPORATION, CorporationMigration.CXSDNS);
         typeToXsdPrefix.put(LINEAGE, LineageMigration.LXSDNS);
@@ -181,6 +183,36 @@ public class MigrationHelpers {
         }
         return res;
     }
+
+    public static Map<String, String> setupRIDReplacements() {
+        final Map<String,String> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("ridReplacements.csv");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while(reader.ready()) {
+                 String[] line = reader.readLine().split(",");
+                 res.put(line[0], line[1]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public static void writeRIDReplacements(String filename) {
+        PrintWriter writer;
+        try {
+            writer = new PrintWriter(filename, "UTF-8");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return;
+        }
+        for (Entry<String,String> e : ridReplacements.entrySet()) {
+            writer.println(e.getKey()+","+e.getValue());
+        }
+        writer.close();
+    }
     
     public static class ResourceInfo {
         public Map<String,String> links = null;
@@ -201,6 +233,10 @@ public class MigrationHelpers {
         if (status.equals("released"))
             ri.links = null;
     }
+
+    public static void resourceReplacedWith(String res, String rid) {
+        ridReplacements.put(res, rid);
+    }
     
     public static void recordLinkTo(String orig, String prop, String to) {
         if (orig == null || orig.startsWith("G9GBX") || orig.contains("TLM")) return;
@@ -211,6 +247,15 @@ public class MigrationHelpers {
                 ri.links = new HashMap<String,String>();
             ri.links.put(orig, prop);
         }
+    }
+
+    public static String sanitizeRID(String orig, String prop, String to) {
+        String repl = ridReplacements.get(to);
+        if (repl != null) {
+            to = repl;
+        }
+        recordLinkTo(orig, prop, to);
+        return to;
     }
     
     public static void reportMissing() {
@@ -492,7 +537,7 @@ public class MigrationHelpers {
                 if (rid.matches("[A-Z0-9]+")) {
                     main.addProperty(m.createProperty(ADM, "replaceWithIndividual"), m.createResource(BDR+rid));
                     // TODO
-                    //MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), status);
+                    MigrationHelpers.resourceReplacedWith(root.getAttribute("RID"), rid);
                 } else {
                     System.out.println("possible typo in withdrawing log message in "+main.getLocalName()+": "+withdrawnmsg);
                 }

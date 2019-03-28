@@ -141,7 +141,7 @@ public class PlaceMigration {
 			String value = current.getAttribute("place").trim();
 			if (value.isEmpty() || value.equals("NONE"))
 			    return;
-	        MigrationHelpers.recordLinkTo(main.getLocalName(), propName, value);
+	        value = MigrationHelpers.sanitizeRID(main.getLocalName(), propName, value);
 	        if (!MigrationHelpers.isDisconnected(value))
 	            SymetricNormalization.addSymetricProperty(m, ontoPropName, main.getLocalName(), value, null);
 		}

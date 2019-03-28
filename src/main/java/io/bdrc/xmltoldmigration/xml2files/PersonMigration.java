@@ -163,12 +163,12 @@ public class PersonMigration {
 			            ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "teacherOf", "cannot parse `"+val+"` correctly");
 			            continue;
 			        }
-			        MigrationHelpers.recordLinkTo(main.getLocalName(), "teacherOf", part);
+			        part = MigrationHelpers.sanitizeRID(main.getLocalName(), "teacherOf", part);
 			        if (!MigrationHelpers.isDisconnected(part))
 			            SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getLocalName(), part, null); 
 			    }
 			} else {
-			    MigrationHelpers.recordLinkTo(main.getLocalName(), "teacherOf", val);
+			    val = MigrationHelpers.sanitizeRID(main.getLocalName(), "teacherOf", val);
 			    if (!MigrationHelpers.isDisconnected(val))
 			        SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getLocalName(), val, null); 
 			}
@@ -190,12 +190,12 @@ public class PersonMigration {
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, RID, RID, "studentOf", "cannot parse `"+val+"` correctly");
                         continue;
                     }
-                    MigrationHelpers.recordLinkTo(main.getLocalName(), "studentOf", part);
+                    part = MigrationHelpers.sanitizeRID(main.getLocalName(), "studentOf", part);
                     if (!MigrationHelpers.isDisconnected(part))
                         SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getLocalName(), part, null);
                 }
             } else {
-                MigrationHelpers.recordLinkTo(main.getLocalName(), "studentOf", val);
+                val = MigrationHelpers.sanitizeRID(main.getLocalName(), "studentOf", val);
                 if (!MigrationHelpers.isDisconnected(val))
                     SymetricNormalization.addSymetricProperty(m, "personStudentOf", main.getLocalName(), val, null);
             }
@@ -242,10 +242,9 @@ public class PersonMigration {
 		if (value.isEmpty()) {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "incarnationOf", "no RID for incarnation, text reads: `"+e.getTextContent()+"`");
 		    return;
-		} else {
-		    value = BDR+value;
 		}
-		MigrationHelpers.recordLinkTo(r.getLocalName(), "incarnationOf", value);
+		value = MigrationHelpers.sanitizeRID(r.getLocalName(), "incarnationOf", value);
+		value = BDR+value;
         Resource being = m.createResource(value);
         
 		value = e.getAttribute("relation");
@@ -259,13 +258,12 @@ public class PersonMigration {
 		    r.addProperty(m.getProperty(uri), being);
 		}
 		// TODO: inspect: in the case of a secondary incarnation, wouldn't we have two triples instead of one?
-		final String beingAttr = e.getAttribute("being").trim();
-		MigrationHelpers.recordLinkTo(r.getLocalName(), "incarnationOf", beingAttr);
+		String beingAttr = e.getAttribute("being").trim();
+		beingAttr = MigrationHelpers.sanitizeRID(r.getLocalName(), "incarnationOf", beingAttr);
 		value = e.getAttribute("secondary");
 		if (value != null && !value.isEmpty()) {
 		    if (value.equals("yangsi")) value = "yangtse";
             String uri = getUriFromTypeSubtype("incarnationOf", value);
-            MigrationHelpers.recordLinkTo(r.getLocalName(), "incarnationOf/secondary", beingAttr);
             if (!MigrationHelpers.isDisconnected(beingAttr))
                 r.addProperty(m.getProperty(uri), being);
 		}
@@ -306,9 +304,9 @@ public class PersonMigration {
         for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
             Element current = (Element) nodeList.item(i1);
             Property prop = m.getProperty(BDO, "eventWhere");
-            final String pid = current.getAttribute("pid").trim();
+            String pid = current.getAttribute("pid").trim();
+            pid = MigrationHelpers.sanitizeRID(person.getLocalName(), "event/place", pid);
             Resource r = m.createResource(BDR+pid);
-            MigrationHelpers.recordLinkTo(person.getLocalName(), "event/place", pid);
             if (!MigrationHelpers.isDisconnected(pid))
                 m.add(subResource, prop, r);
         }
@@ -316,9 +314,9 @@ public class PersonMigration {
         for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
             Element current = (Element) nodeList.item(i1);
             Property prop = m.getProperty(BDO, "personEventRole");
-            final String pid = current.getAttribute("pid").trim();
+            String pid = current.getAttribute("pid").trim();
+            pid = MigrationHelpers.sanitizeRID(person.getLocalName(), "event/office", pid);
             Resource r = m.createResource(BDR+pid);
-            MigrationHelpers.recordLinkTo(person.getLocalName(), "event/office", pid);
             if (!MigrationHelpers.isDisconnected(pid))
                 m.add(subResource, prop, r);
         }
@@ -326,9 +324,9 @@ public class PersonMigration {
         for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
             Element current = (Element) nodeList.item(i1);
             Property prop = m.getProperty(BDO, "personEventCorporation");
-            final String pid = current.getAttribute("pid").trim();
+            String pid = current.getAttribute("pid").trim();
+            pid = MigrationHelpers.sanitizeRID(person.getLocalName(), "event/corporation", pid);
             Resource r = m.createResource(BDR+pid);
-            MigrationHelpers.recordLinkTo(person.getLocalName(), "event/corporation", pid);
             if (!MigrationHelpers.isDisconnected(pid))
                 m.add(subResource, prop, r);
         }
@@ -345,7 +343,7 @@ public class PersonMigration {
 		    relation = "personHasConsort";
 		String with = e.getAttribute("person");
 		if (!with.isEmpty()) {
-		    MigrationHelpers.recordLinkTo(person.getLocalName(), relation, with);
+		    with = MigrationHelpers.sanitizeRID(person.getLocalName(), relation, with);
 		    if (!MigrationHelpers.isDisconnected(with))
 		        SymetricNormalization.addSymetricProperty(m, relation, person.getLocalName(), with, gender); 
 		}
@@ -361,9 +359,9 @@ public class PersonMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
 			Property prop = m.getProperty(BDO, "eventWhere");
-			final String pid = current.getAttribute("pid").trim();
+			String pid = current.getAttribute("pid").trim();
+			pid = MigrationHelpers.sanitizeRID(person.getLocalName(), "seat", pid);
 			Resource r = m.createResource(BDR+pid);
-			MigrationHelpers.recordLinkTo(person.getLocalName(), "seat", pid);
 			if (!MigrationHelpers.isDisconnected(pid))
 			    m.add(subResource, prop, r);
 		}
