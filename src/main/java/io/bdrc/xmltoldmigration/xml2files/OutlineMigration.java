@@ -220,7 +220,15 @@ public class OutlineMigration {
 		
 		addCreators(m, mainOutline, root);
 		
-		addNodes(m, work, root, work.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "");
+		// case where there's an unnecessary unique top node (ex: W1GS61415 / O1LS4227)
+		final List<Element> nodeList2 = CommonMigration.getChildrenByTagName(root, OXSDNS, "node");
+        final int nbChildren = nodeList2.size();
+        Element node2 = root;
+        if (nbChildren == 1) {
+            node2 = nodeList2.get(0);
+        }
+		
+		addNodes(m, work, node2, work.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "");
 		
 		return m;
 	}
