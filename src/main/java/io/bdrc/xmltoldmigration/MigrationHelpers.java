@@ -44,6 +44,7 @@ import openllet.jena.PelletReasonerFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -76,6 +77,7 @@ import io.bdrc.xmltoldmigration.xml2files.TopicMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 import org.apache.jena.vocabulary.OWL2;
+import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.SKOS;
 
 
@@ -121,8 +123,14 @@ public class MigrationHelpers {
     public static final int OUTPUT_STTL = 0;
     public static final int OUTPUT_JSONLD = 1;
     
+    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    
     public static Lang sttl;
     public static Context ctx;
+    
+    public static final Map<String,String> typeToXsdPrefix = new HashMap<>();
     
     public static final Map<String, Boolean> disconnectedRIds;
 
@@ -136,6 +144,22 @@ public class MigrationHelpers {
         }
         disconnectedRIds = setupDisconnectedRIDs();
         setupSTTL();
+        typeToXsdPrefix.put(CORPORATION, CorporationMigration.CXSDNS);
+        typeToXsdPrefix.put(LINEAGE, LineageMigration.LXSDNS);
+        typeToXsdPrefix.put(OFFICE, OfficeMigration.OXSDNS);
+        typeToXsdPrefix.put(OUTLINE, OutlineMigration.OXSDNS);
+        typeToXsdPrefix.put(PERSON, PersonMigration.PXSDNS);
+        typeToXsdPrefix.put(PLACE, PlaceMigration.PLXSDNS);
+        typeToXsdPrefix.put(TOPIC, TopicMigration.TXSDNS);
+        //typeToXsdPrefix.put(ITEMS, CorporationMigration.CXSDNS);
+        //typeToXsdPrefix.put(ITEM, CorporationMigration.CXSDNS);
+        typeToXsdPrefix.put(WORK, WorkMigration.WXSDNS);
+        typeToXsdPrefix.put(IMAGEGROUP, ImagegroupMigration.IGXSDNS);
+        typeToXsdPrefix.put(PRODUCT, ProductMigration.PRXSDNS);
+        typeToXsdPrefix.put(PUBINFO, PubinfoMigration.WPXSDNS);
+        typeToXsdPrefix.put(SCANREQUEST, ScanrequestMigration.SRXSDNS);
+        //typeToXsdPrefix.put(VOLUME, CorporationMigration.CXSDNS);
+        //typeToXsdPrefix.put(TAXONOMY, CorporationMigration.CXSDNS);
     }
     
     public static boolean isDisconnected(String RID) {
@@ -395,8 +419,7 @@ public class MigrationHelpers {
 		return m;
 	}
 	
-	public static boolean mustBeMigrated(Element root, String type) {
-	    final String status = root.getAttribute("status");
+	public static boolean mustBeMigrated(Element root, String type, String status) {
 	    boolean res = (!status.isEmpty() && !status.equals("withdrawn") && !status.equals("onHold"));
 	    if (res == false) return false;
 	    if (type.equals("outline")) {
@@ -413,9 +436,15 @@ public class MigrationHelpers {
 	        CommonMigration.documentValidates(d, v, src);
 	    }
         Element root = d.getDocumentElement();
-        MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
-        if (!mustBeMigrated(root, type)) return null;
+        final String status = root.getAttribute("status");
+        MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), status);
+        if (!mustBeMigrated(root, type, status)) {
+            return null;
+        }
         Model m = null;
+        if (status.equals("withdrawn")) {
+            return migrateWithdrawn(d, type);      
+        }
         try {
             m = xmlToRdf(d, type);
         } catch (IllegalArgumentException e) {
@@ -427,7 +456,54 @@ public class MigrationHelpers {
         return m;
 	}
 	
-	public static void outputOneModel(Model m, String mainId, String dst, String type) {
+	public static Model migrateWithdrawn(Document xmlDocument, final String type) {
+	    if (type.equals(PUBINFO) || type.equals(SCANREQUEST)) {
+	        return null;
+	    }
+        Model m = ModelFactory.createDefaultModel();
+        CommonMigration.setPrefixes(m, type);
+        Element root = xmlDocument.getDocumentElement();
+        Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
+        CommonMigration.addStatus(m, main, root.getAttribute("status"));
+        final String XsdPrefix = typeToXsdPrefix.get(type);
+        NodeList nodeList = root.getElementsByTagNameNS(XsdPrefix, "log");
+        String withdrawnmsg = null;
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element log = (Element) nodeList.item(i);
+            NodeList logEntriesList = log.getElementsByTagNameNS(XsdPrefix, "entry");
+            for (int j = 0; j < logEntriesList.getLength(); j++) {
+                Element logEntry = (Element) logEntriesList.item(j);
+                final String msg = logEntry.getTextContent();
+                if (msg.toLowerCase().contains("withdrawn in "))
+                    withdrawnmsg = msg.trim();
+            }
+            logEntriesList = log.getElementsByTagName("entry");
+            for (int k = 0; k < logEntriesList.getLength(); k++) {
+                Element logEntry = (Element) logEntriesList.item(k);
+                final String msg = logEntry.getTextContent();
+                if (msg.toLowerCase().contains("withdrawn in "))
+                    withdrawnmsg = msg.trim();
+            }
+        }
+        if (withdrawnmsg != null) {
+            final String prefix = "withdrawn in favor of ";
+            if (withdrawnmsg.toLowerCase().startsWith(prefix)) {
+                String rid = withdrawnmsg.substring(prefix.length());
+                if (rid.matches("[A-Z0-9]+")) {
+                    main.addProperty(m.createProperty(ADM, "replaceWithIndividual"), m.createResource(BDR+rid));
+                    // TODO
+                    //MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), status);
+                } else {
+                    System.out.println("possible typo in withdrawing log message in "+main.getLocalName()+": "+withdrawnmsg);
+                }
+            } else {
+                System.out.println("possible typo in withdrawing log message in "+main.getLocalName()+": "+withdrawnmsg);
+            }
+        }
+        return m;
+    }
+
+    public static void outputOneModel(Model m, String mainId, String dst, String type) {
 	    if (m == null) return;
         if (writefiles) {
             modelToFileName(m, dst, type, OUTPUT_STTL);

@@ -19,7 +19,7 @@ import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 public class PubinfoMigration {
 
-	private static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
+	public static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;

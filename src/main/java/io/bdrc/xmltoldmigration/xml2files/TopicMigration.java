@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 
 public class TopicMigration {
 
-	private static final String TXSDNS = "http://www.tbrc.org/models/topic#";
+	public static final String TXSDNS = "http://www.tbrc.org/models/topic#";
 
 	public static Model MigrateTopic(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();

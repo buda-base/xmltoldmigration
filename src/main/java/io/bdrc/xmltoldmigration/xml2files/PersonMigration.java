@@ -22,7 +22,7 @@ public class PersonMigration {
 
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-	private static final String PXSDNS = "http://www.tbrc.org/models/person#";
+	public static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
 	public static final class FoundingEvent {
 	    public String person;

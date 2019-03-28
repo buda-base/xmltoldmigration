@@ -18,7 +18,7 @@ public class LineageMigration {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
    
-	private static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
+	public static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
 	
 	public static Model MigrateLineage(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();

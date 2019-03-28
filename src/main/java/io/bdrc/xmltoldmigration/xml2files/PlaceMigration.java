@@ -17,7 +17,7 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
 public class PlaceMigration {
 
-	private static final String PLXSDNS = "http://www.tbrc.org/models/place#";
+	public static final String PLXSDNS = "http://www.tbrc.org/models/place#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADM;

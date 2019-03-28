@@ -12,7 +12,7 @@ import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 public class ScanrequestMigration {
 
-	private static final String SRXSDNS = "http://www.tbrc.org/models/scanrequest#";
+	public static final String SRXSDNS = "http://www.tbrc.org/models/scanrequest#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;

@@ -17,7 +17,7 @@ public class ProductMigration {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
-	private static final String PRXSDNS = "http://www.tbrc.org/models/product#";
+	public static final String PRXSDNS = "http://www.tbrc.org/models/product#";
 	
 	public static Model MigrateProduct(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();

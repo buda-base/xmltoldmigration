@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 
 public class OfficeMigration {
 	
-	private static final String OXSDNS = "http://www.tbrc.org/models/office#";
+	public static final String OXSDNS = "http://www.tbrc.org/models/office#";
 	
 	public static Model MigrateOffice(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();

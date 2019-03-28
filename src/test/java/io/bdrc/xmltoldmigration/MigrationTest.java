@@ -234,7 +234,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
-		//MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", MigrationHelpers.OUTPUT_STTL, null);
+		MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", MigrationHelpers.OUTPUT_STTL, null);
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -342,6 +342,19 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "scanrequest");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ScanrequestTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", MigrationHelpers.OUTPUT_STTL);
+           assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+           flushLog();
+       }
+
+       @Test
+       public void testWithdrawn()
+       {
+           System.out.println("testing withdrawn record");
+           Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/withdrawn-test.xml");  
+           Model fromXml = MigrationHelpers.migrateWithdrawn(d, "office");
+           Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/withdrawn-test.ttl");
+           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", MigrationHelpers.OUTPUT_STTL, "");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

@@ -15,7 +15,7 @@ import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 
 public class ImagegroupMigration {
 
-	private static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
+	public static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;

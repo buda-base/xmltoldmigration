@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 
 public class CorporationMigration {
 
-	private static final String CXSDNS = "http://www.tbrc.org/models/corporation#";
+	public static final String CXSDNS = "http://www.tbrc.org/models/corporation#";
 	
 	public static Model MigrateCorporation(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();

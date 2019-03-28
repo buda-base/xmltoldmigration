@@ -1215,7 +1215,7 @@ public class CommonMigration  {
 	    boolean res = true;
 	    for (int i = 0; i < input.length(); i++) {
 	        int c = input.charAt(i);
-	        if (c > 0x7F && c != 0x2019) { // ’ is sometimes used instead of '
+	        if ((c > 0x7F && c != 0x2019) || c == 'x') { // ’ is sometimes used instead of '
 	            res = false;
 	            break;
 	        }
