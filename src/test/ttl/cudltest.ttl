@@ -7,16 +7,18 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 
-bdr:W0CDLMS-ADD-01691-00003
+bdr:W0CDL0MS-ADD-01691-00003
         a                       :Work ;
         adm:access              bdr:AccessOpen ;
         adm:license             bdr:LicenseCopyrighted ;
         adm:status              bdr:StatusReleased ;
+        :contentProvider        bdr:CCDL ;
+        :originalRecord         "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
         :workBiblioNote         "This Nepalese palm-leaf manuscript from the 15th century contains a tantric initiation manual called Abhiṣekavidhi, which"@en ;
         :workCatalogInfo        "This Nepalese palm-leaf manuscript from the 15th century contains a tantric initiation manual called Abhiṣekavidhi, which describes the rituals to be performed at various stages of the consecration procedure (carefully marked with a final rubric for each subsection). This manual is apparently an excerpt from the Vajrāvalī of Abhayākaragupta, a long and complex work on tantric rituals."@en ;
-        :workDimHeight          "3.5"^^xsd:decimal ;
-        :workDimWidth           "27.5"^^xsd:decimal ;
-        :workHasItemImageAsset  bdr:I0CDLW0CDLMS-ADD-01691-00003 ;
+        :workDimHeight          3.5 ;
+        :workDimWidth           27.5 ;
+        :workHasItemImageAsset  bdr:I0CDL0MS-ADD-01691-00003 ;
         :workMaterial           bdr:MaterialPalmLeaf ;
         :workTitle              [ :WorkBibliographicalTitle
                           "Abhiṣekavidhi"@sa-x-iast ] ;
