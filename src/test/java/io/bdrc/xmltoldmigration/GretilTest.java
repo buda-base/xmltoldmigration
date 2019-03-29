@@ -41,9 +41,8 @@ public class GretilTest {
         reader.close();
         Model workModel = res.get(0).getModel();
         Model model = ModelFactory.createDefaultModel();
-        model.read(new FileInputStream("src/test/ttl/griteltest.ttl"), null,"TTL");
+        model.read(new FileInputStream("src/test/ttl/gretiltest.ttl"), null,"TTL");
         assertTrue( workModel.isIsomorphicWith(model) );
-
     }
 
 }

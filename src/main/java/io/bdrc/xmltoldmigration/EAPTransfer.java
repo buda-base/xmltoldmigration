@@ -108,7 +108,12 @@ public class EAPTransfer {
         if (rKTsRIDMap.containsKey(rKTs)) {
             return rKTsRIDMap.get(rKTs);
         }
-        final String rktsid = String.format("%04d", Integer.parseInt(rKTs.substring(1)));
+        String rktsid = null;
+        try {
+            rktsid = String.format("%04d", Integer.parseInt(rKTs.substring(1)));
+        } catch (Exception e) {
+            return null;
+        }
         if (rKTs.startsWith("K")) {
             return "W0RKA"+rktsid;
         }

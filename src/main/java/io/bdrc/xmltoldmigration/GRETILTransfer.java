@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -107,7 +108,7 @@ public class GRETILTransfer {
         }
         String record=line[8];
         if(topic!=null && !"".equals(topic)) {
-            workModel.add(work, workModel.createProperty(BDO, "originalRecord"), workModel.createLiteral(record));
+            workModel.add(work, workModel.createProperty(BDO, "originalRecord"), workModel.createTypedLiteral(record, XSDDatatype.XSDanyURI));
         }
         String note=line[9];
         if(note!=null && !"".equals(note)) {
@@ -117,7 +118,6 @@ public class GRETILTransfer {
         if(note!=null && !"".equals(note)) {
             workModel.add(work, workModel.createProperty(BDO, "note"), "Based on "+note);
         }
-        workModel.write(System.out, "TURTLE");
         return res;
     }
 

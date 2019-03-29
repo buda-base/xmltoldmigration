@@ -110,7 +110,12 @@ public class CUDLTransfer {
         if (rKTsRIDMap.containsKey(rKTs)) {
             return rKTsRIDMap.get(rKTs);
         }
-        final String rktsid = String.format("%04d", Integer.parseInt(rKTs.substring(1)));
+        String rktsid;
+        try {
+            rktsid = String.format("%04d", Integer.parseInt(rKTs.substring(1)));
+        } catch (Exception e) {
+            return null;
+        }
         if (rKTs.startsWith("K")) {
             return "W0RKA"+rktsid;
         }
@@ -121,7 +126,7 @@ public class CUDLTransfer {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
-        String rid="W0CDL"+line[0];
+        String rid="W0CDL0"+line[0];
         Resource work = workModel.createResource(BDR+rid);
         res.add(work);
         workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));
@@ -158,6 +163,8 @@ public class CUDLTransfer {
         workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
         workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+materials.get(line[9])));
+        workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"CCDL"));
+        workModel.add(work, workModel.createProperty(BDO,"originalRecord"), workModel.createTypedLiteral("https://cudl.lib.cam.ac.uk/view/"+line[0], XSDDatatype.XSDanyURI));
         if(!line[14].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
         }
@@ -169,14 +176,14 @@ public class CUDLTransfer {
         }
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
-        final String itemRID = "I0CDL"+rid;
+        final String itemRID = "I0CDL0"+rid;
         if (WorkMigration.addWorkHasItem) {
             workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
         }
         Resource item = itemModel.createResource(BDR+itemRID);
         res.add(item);
         itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
-        final String volumeRID = "V0CDL"+itemRID.substring(1);
+        final String volumeRID = "V0CDL0"+itemRID.substring(1);
         Resource volume = itemModel.createResource(BDR+volumeRID);
         itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
         if (ImagegroupMigration.addVolumeOf)
@@ -195,7 +202,7 @@ public class CUDLTransfer {
             workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(line[11], XSDDatatype.XSDinteger));
             workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(line[10], XSDDatatype.XSDinteger));
         }
-        workModel.write(System.out,"TURTLE");
+        //itemModel.write(System.out,"TURTLE");
         return res;
     }
 
@@ -206,10 +213,6 @@ public class CUDLTransfer {
                 case "http://purl.bdrc.io/ontology/core/Work":
                     final String workOutfileName = MigrationApp.getDstFileName("work", r.getLocalName());
                     MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), workOutfileName, "work");
-                    break;
-                case "http://purl.bdrc.io/ontology/core/VolumeImageAsset":
-                    final String volumeOutfileName = MigrationApp.getDstFileName("volume", r.getLocalName());
-                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), volumeOutfileName, "volume");
                     break;
                 case "http://purl.bdrc.io/ontology/core/ItemImageAsset":
                     final String itemOutfileName = MigrationApp.getDstFileName("item", r.getLocalName());
