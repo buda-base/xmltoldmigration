@@ -126,8 +126,8 @@ public class CUDLTransfer {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
-        String rid="W0CDL0"+line[0];
-        Resource work = workModel.createResource(BDR+rid);
+        String rid=line[0];
+        Resource work = workModel.createResource(BDR+"W0CDL0"+rid);
         res.add(work);
         workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));
         workModel.add(work,workModel.createProperty(BDO,"workBiblioNote"),workModel.createLiteral(line[2], "en"));
@@ -183,7 +183,7 @@ public class CUDLTransfer {
         Resource item = itemModel.createResource(BDR+itemRID);
         res.add(item);
         itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
-        final String volumeRID = "V0CDL0"+itemRID.substring(1);
+        final String volumeRID = "V0CDL0"+rid;
         Resource volume = itemModel.createResource(BDR+volumeRID);
         itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
         if (ImagegroupMigration.addVolumeOf)
