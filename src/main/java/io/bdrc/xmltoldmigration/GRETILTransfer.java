@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,9 @@ public class GRETILTransfer {
                 .build();
         ArrayList<String> processed=new ArrayList<>();
         try {
-            String[] line= reader.readNext();
+            String[] line= reader.readNext();// skip first two lines
+            line= reader.readNext();
+            line= reader.readNext();
             while (line != null) {
                 //avoiding identical originalRecords
                 if(line[8]!=null && !processed.contains(line[8])) {
