@@ -1035,16 +1035,17 @@ public class CommonMigration  {
            }
        }
        
-       public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId, String outlineId, String outlineNode/*, String outlineNodeTitle*/) {
+       public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId, String outlineId, String outlineNode, String outlineNodeTitle) {
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
            int i;
            int volume1 = -1;
            int page1 = -1;
+           int page2 = -1;
            Resource loc = m.createResource();
            LocationVolPage res = null;
            for (i = 0; i < nodeList.size(); i++) {
                if (i > 1) {
-                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, outlineId, outlineNode, "location", "too many locations, it should only have 2");
+                   ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\" too many locations, it should only have 2");
                    break;
                }
                Element current = (Element) nodeList.get(i);
@@ -1062,7 +1063,7 @@ public class CommonMigration  {
                    if (!value.isEmpty())
                        m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
                } else if (!value.isEmpty() && !value.equals(workId)) {
-                   String error = "has locations in work "+value+" instead of "+workId;//+", title: "+outlineNodeTitle;
+                   String error = "title: \""+outlineNodeTitle+"\" has locations in work "+value+" instead of "+workId;
                    ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, error);
                }
                
@@ -1070,12 +1071,16 @@ public class CommonMigration  {
                int volume = addLocationIntOrString(m, main, loc, current, "vol", "workLocation"+endString+"Volume", volume1);
                if (i == 0) volume1 = volume;
                if (i == 1 && volume != -1 && volume1 != -1 && volume < volume1) {
-                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location volume is before beginning location volume");
+                   ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", end location volume is before beginning location volume");
                }
                int page = addLocationIntOrString(m, main, loc, current, "page", "workLocation"+endString+"Page", null);
-               if (i == 0) page1 = page;
+               if (i == 0) {
+                   page1 = page;
+               } else {
+                   page2 = page;
+               }
                if (i == 1 && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
-                   ExceptionHelper.logException(ExceptionHelper.ET_OUTLINE, workId, main.getLocalName(), "location", "end location page is before beginning location");
+                   ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", end location page is before beginning location");
                }
                addLocationIntOrString(m, main, loc, current, "phrase", "workLocation"+endString+"Phrase", null);
                addLocationIntOrString(m, main, loc, current, "line", "workLocation"+endString+"Line", null);
@@ -1096,6 +1101,11 @@ public class CommonMigration  {
                // comment to remove workLocationWork in outline nodes
                if (!workId.isEmpty())
                    m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+workId));
+           }
+           if (volume1 == -1 && (page1 == -1 || page2 == -1)) {
+               ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", missing volume, beginpage or endpage");
+           } else if (volume1 != -1 && (page1 == -1 || page2 == -1)) {
+               ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", vol. "+volume1+", missing beginpage or endpage");
            }
            return res;
        }

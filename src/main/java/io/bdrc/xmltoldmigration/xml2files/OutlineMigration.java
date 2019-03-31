@@ -10,6 +10,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -216,7 +217,7 @@ public class OutlineMigration {
 		CommonMigration.addExternals(m, root, mainOutline, OXSDNS);
 		CommonMigration.addLog(m, root, mainOutline, OXSDNS);
 		CommonMigration.addDescriptions(m, root, mainOutline, OXSDNS);
-		CommonMigration.addLocations(m, mainOutline, root, OXSDNS, work.getLocalName(), legacyOutlineRID, legacyOutlineRID);
+		CommonMigration.addLocations(m, mainOutline, root, OXSDNS, work.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
 		addCreators(m, mainOutline, root);
 		
@@ -300,13 +301,13 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
         CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true);
         
-//        Statement labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
-//        String label = null;
-//        if (labelSta != null)
-//            label = labelSta.getLiteral().getString();
+        Statement labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
+        String label = null;
+        if (labelSta != null)
+            label = labelSta.getLiteral().getString();
         
         CommonMigration.LocationVolPage locVP =
-                CommonMigration.addLocations(m, node, e, OXSDNS, workId, legacyOutlineRID, RID);
+                CommonMigration.addLocations(m, node, e, OXSDNS, workId, legacyOutlineRID, RID, label);
         if (locVP != null) locVP.RID = RID;
         
         // check if outlines cross
@@ -373,8 +374,8 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 //            label = null;
 //            if (labelSta != null)
 //                label = labelSta.getLiteral().getString();
-            ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, " has no page indication");/*, title `"+
-                    label+"`");*/
+            //ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, " has no page indication");/*, title `"+
+            //        label+"`");*/
         }
         
         return locVP;
