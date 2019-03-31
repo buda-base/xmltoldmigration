@@ -374,8 +374,8 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 //            label = null;
 //            if (labelSta != null)
 //                label = labelSta.getLiteral().getString();
-            //ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, " has no page indication");/*, title `"+
-            //        label+"`");*/
+            ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, legacyOutlineRID, RID, "`"+label+"` has no page indication");/*, title `"+
+                    label+"`");*/
         }
         
         return locVP;
