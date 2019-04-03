@@ -118,7 +118,7 @@ public class WorkMigration {
                 value = "AccessFairUse";
                 break;
             case "restrictedSealed": value = "AccessRestrictedSealed"; break;
-            case "temporarilyRestricted": value = "AccessTemporarilyRestricted"; break;
+            case "temporarilyRestricted": value = "AccessRestrictedTemporarily"; break;
             case "restrictedByQuality": value = "AccessRestrictedByQuality"; break;
             case "restrictedByTbrc": value = "AccessRestrictedByTbrc"; break;
             case "restrictedInChina": value = "AccessRestrictedInChina"; break;
