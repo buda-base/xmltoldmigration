@@ -10,7 +10,7 @@
 bdr:W30020  a           :Work ;
     :workPagination     bdr:PaginationAbsolute ;
     adm:outline         [ a                   adm:Outline ;
-                          adm:legacyImageGroupRID  "O2DB87572" ;
+                          adm:legacyOutlineNodeRID  "O2DB87572" ;
                           adm:logEntry        [ adm:logDate         "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
                                                 adm:logWho          bdr:U00003
                                               ] ,
@@ -40,7 +40,7 @@ bdr:W30020_0001  a      :Work ;
     :workPartLabel      "1 (stod cha)"@bo-x-ewts ;
     :workPartOf         bdr:W30020 ;
     :workPartTreeIndex  "1" ;
-    adm:legacyImageGroupRID  "O2DB875722DB87582" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB87582" .
 
 bdr:W30020_0002  a      :Work ;
     skos:prefLabel      "gleng gzhi/"@bo-x-ewts ;
@@ -56,7 +56,7 @@ bdr:W30020_0002  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB87573" ;
+    adm:legacyOutlineNodeRID  "O2DB875722DB87573" ;
     adm:outlineAuthorStatement  "Another scribe"@en .
 
 bdr:W30020_0003  a      :Work ;
@@ -70,7 +70,7 @@ bdr:W30020_0003  a      :Work ;
     :workPartLabel      "2 (smad cha)"@bo-x-ewts ;
     :workPartOf         bdr:W30020 ;
     :workPartTreeIndex  "2" ;
-    adm:legacyImageGroupRID  "O2DB875722DB87583" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB87583" .
 
 bdr:W30020_0004  a      :Work ;
     skos:prefLabel      "testsec/"@bo-x-ewts ;
@@ -87,7 +87,7 @@ bdr:W30020_0004  a      :Work ;
     :workTitle          [ a                   :WorkRunningTitle ;
                           rdfs:label          "testsec/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87599" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
     skos:prefLabel      "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts ;
@@ -107,7 +107,7 @@ bdr:W30020_0005  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87600" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87600" .
 
 bdr:W30020_0006  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -117,7 +117,7 @@ bdr:W30020_0006  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87601" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87601" .
 
 bdr:W30020_0007  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -127,7 +127,7 @@ bdr:W30020_0007  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87602" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87602" .
 
 bdr:W30020_0008  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -137,7 +137,7 @@ bdr:W30020_0008  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87603" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87603" .
 
 bdr:W30020_0009  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -147,7 +147,7 @@ bdr:W30020_0009  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87604" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87604" .
 
 bdr:W30020_0010  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -157,7 +157,7 @@ bdr:W30020_0010  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87605" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87605" .
 
 bdr:W30020_0011  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -167,7 +167,7 @@ bdr:W30020_0011  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87606" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87606" .
 
 bdr:W30020_0012  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -177,7 +177,7 @@ bdr:W30020_0012  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87607" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87607" .
 
 bdr:W30020_0013  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -187,7 +187,7 @@ bdr:W30020_0013  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87608" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87608" .
 
 bdr:W30020_0014  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -197,7 +197,7 @@ bdr:W30020_0014  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87609" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87609" .
 
 bdr:W30020_0015  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
@@ -207,4 +207,4 @@ bdr:W30020_0015  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "gleng gzhi2/"@bo-x-ewts
                         ] ;
-    adm:legacyImageGroupRID  "O2DB875722DB875732DB87610" .
+    adm:legacyOutlineNodeRID  "O2DB875722DB875732DB87610" .

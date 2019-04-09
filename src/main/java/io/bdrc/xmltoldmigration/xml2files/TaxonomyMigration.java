@@ -29,11 +29,10 @@ public class TaxonomyMigration {
 
         CurNodeInt curNodeInt = new CurNodeInt();
         curNodeInt.i = 0;
-        Resource mainTaxonomy = null;
-        String legacyOutlineRID = root.getAttribute("RID");
-
-        mainTaxonomy = m.createResource(BDR+legacyOutlineRID);
         
+        String legacyOutlineRID = root.getAttribute("RID");
+        Resource mainTaxonomy = m.createResource(BDR+legacyOutlineRID);
+
         CommonMigration.addLog(m, root, mainTaxonomy, OXSDNS);
         
         addNodes(m, mainTaxonomy, root, mainTaxonomy.getLocalName(), curNodeInt, null, legacyOutlineRID, "");
@@ -57,16 +56,18 @@ public class TaxonomyMigration {
 
     public static void addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, String legacyOutlineRID, int partIndex, String thisPartTreeIndex) {
         curNode.i = curNode.i+1;
-        String value = e.getAttribute("class");
+        String clazz = e.getAttribute("class");
         Resource node;
-        if (value.isEmpty()) {
-            value = String.format("%04d", curNode.i);
+        if (clazz.isEmpty()) {
+            // internal node of a taxonomy
+            String value = String.format("%04d", curNode.i);
             node = m.createResource(BDR+workId+"_"+value);
             node.addProperty(RDF.type, m.createResource(BDO+"Taxonomy"));
         } else {
-            node = m.createResource(BDR+value.trim());
+            // external node, often a Topic, create node of the form bdr:Txxx
+            node = m.createResource(BDR+clazz.trim());
         }
-        String outlineRID = e.getAttribute("RID").trim();
+        String nodeRID = e.getAttribute("RID").trim();
         //node.addProperty(m.createProperty(BDO, "workPartTreeIndex"), thisPartTreeIndex);
 //        if (!value.isEmpty()) {
 //            node.addProperty(m.getProperty(ADM, "workLegacyNode"), RID);
@@ -77,7 +78,7 @@ public class TaxonomyMigration {
         m.add(r, m.createProperty(BDO, "taxHasSubClass"), node);
 
         // sub nodes
-        addNodes(m, node, e, workId, curNode, outlineRID, legacyOutlineRID, thisPartTreeIndex);
+        addNodes(m, node, e, workId, curNode, nodeRID, legacyOutlineRID, thisPartTreeIndex);
     }
     
     static String getPartTreeIndexStr(final int index, final int nbSiblings) {

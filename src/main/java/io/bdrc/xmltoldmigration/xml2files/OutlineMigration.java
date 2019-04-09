@@ -188,7 +188,7 @@ public class OutlineMigration {
 		String legacyOutlineRID = root.getAttribute("RID");
 
         mainOutline = m.createResource();
-        mainOutline.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), legacyOutlineRID);
+        mainOutline.addProperty(m.getProperty(ADM, "legacyOutlineNodeRID"), legacyOutlineRID);
         mainOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
         workInOutlineModel.addProperty(m.getProperty(ADM, "outline"), mainOutline);
         NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
@@ -272,7 +272,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         node.addProperty(m.createProperty(BDO, "workPartTreeIndex"), thisPartTreeIndex);
         String RID = e.getAttribute("RID").trim();
         if (!value.isEmpty()) {
-            node.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), RID);
+            node.addProperty(m.getProperty(ADM, "legacyOutlineNodeRID"), RID);
             if (ridsToConvert.containsKey(RID)) {
                 ridsToConvert.put(RID, workId+"_"+value);
             }
