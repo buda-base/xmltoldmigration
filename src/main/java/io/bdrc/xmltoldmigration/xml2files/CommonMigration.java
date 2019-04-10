@@ -50,7 +50,9 @@ public class CommonMigration  {
 
 	public static final String ONTOLOGY_PREFIX = "http://purl.bdrc.io/ontology/core/";
 	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/ontology/admin/";
-	public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
+	public static final String ADMIN_DATA_PREFIX = "http://purl.bdrc.io/admindata/";
+    public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
+    public static final String GRAPH_PREFIX = "http://purl.bdrc.io/graph/";
 	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
 	public static final String SKOS_PREFIX = "http://www.w3.org/2004/02/skos/core#";
 	public static final String VCARD_PREFIX = "http://www.w3.org/2006/vcard/ns#";
@@ -71,8 +73,10 @@ public class CommonMigration  {
 	
 	public static final String BDO = ONTOLOGY_PREFIX;
     public static final String BDD = DATA_PREFIX;
+    public static final String BDG = GRAPH_PREFIX;
     public static final String BDR = RESOURCE_PREFIX;
     public static final String ADM = ADMIN_PREFIX;
+    public static final String BDA = ADMIN_DATA_PREFIX;
 	
 	public static final int ET_LANG = ExceptionHelper.ET_LANG;
 	

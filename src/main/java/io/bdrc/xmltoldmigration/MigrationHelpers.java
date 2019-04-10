@@ -129,6 +129,9 @@ public class MigrationHelpers {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
+    private static final String BDG = CommonMigration.GRAPH_PREFIX;
+
     
     public static Lang sttl;
     public static Context ctx;
