@@ -15,6 +15,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.SKOS;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -29,6 +30,8 @@ public class GRETILTransfer {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
+    private static final String BDG = CommonMigration.GRAPH_PREFIX;
     public static final Map<String,String> rKTsRIDMap = EAPTransfer.getrKTsRIDMap();
 
     public static final void transferGRETIL() {
@@ -69,23 +72,35 @@ public class GRETILTransfer {
         MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
     }
 
+    public static Resource getLegal(Model m) {
+        Resource legal = m.createResource(BDA+"ADL_GRETIL");
+        m.add(legal, m.createProperty(ADM, "license"), m.createResource(BDR+"LicensePublicDomain"));
+        m.add(legal, m.createProperty(ADM, "access"), m.createResource(BDR+"AccessOpen"));
+        m.add(legal, m.createProperty(ADM, "copyrightOwner"), m.createResource(BDA+"ContentProvider_GRETIL"));
+        m.add(legal, m.createProperty(ADM, "initialProvider"), m.createResource(BDA+"ContentProvider_GRETIL"));
+        m.add(legal, m.createProperty(ADM, "termsOfUse"), m.createResource(BDR+"TermsOfUseBDRCGeneral"));
+        
+        return legal;
+    }
+    
     public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
         Resource work = workModel.createResource(BDR+line[0]);
+        Resource admWork = workModel.createResource(BDA+line[0]);
+        Resource legal = getLegal(workModel);
         res.add(work);
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
         workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"GRETIL"));
-        workModel.add(work, workModel.createProperty(CommonMigration.SKOS_PREFIX,"prefLabel"), workModel.createLiteral(line[1], "en"));
-        workModel.add(work, workModel.createProperty(CommonMigration.SKOS_PREFIX,"prefLabel"), workModel.createLiteral(line[3], "sa-x-iast"));
+        workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
+        workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
         Resource titleR = workModel.createResource();
         workModel.add(work, workModel.createProperty(BDO, "workTitle"), titleR);
         workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
         workModel.add(titleR, RDFS.label, workModel.createLiteral(line[3], "sa-x-iast"));
-        workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createResource(BDR+"PublicDomain")); // ?
-        workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), legal); // ?
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
         workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypeUnicodeText"));
         String rkts=line[2];
         if(rkts!=null) {

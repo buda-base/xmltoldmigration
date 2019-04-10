@@ -332,32 +332,30 @@ public class CommonMigration  {
         logWhoToUri.put("Travis DeTour", prefix+String.format(userNumFormat, 66)); // same ?
     }
     
-	public static void setPrefixes(Model m) {
+    public static void setPrefixes(Model m) {
+        setPrefixes(m, true);
+    }
+
+    public static void setPrefixes(Model m, String type) {
+        setPrefixes(m, type.equals("place"));
+    }
+	
+    public static void setPrefixes(Model m, boolean addVcard) {
 		m.setNsPrefix("", ONTOLOGY_PREFIX);
 		m.setNsPrefix("adm", ADMIN_PREFIX);
 		//m.setNsPrefix("bdd", DATA_PREFIX);
-		m.setNsPrefix("bdr", RESOURCE_PREFIX);
+        m.setNsPrefix("bdr", RESOURCE_PREFIX);
+        m.setNsPrefix("bda", ADMIN_DATA_PREFIX);
+        m.setNsPrefix("bdg", GRAPH_PREFIX);
 		//m.setNsPrefix("owl", OWL_PREFIX);
 		m.setNsPrefix("rdf", RDF_PREFIX);
 		m.setNsPrefix("rdfs", RDFS_PREFIX);
 		m.setNsPrefix("skos", SKOS_PREFIX);
-		m.setNsPrefix("vcard", VCARD_PREFIX);
 		m.setNsPrefix("xsd", XSD_PREFIX);
-	}
+		if (addVcard)
+		    m.setNsPrefix("vcard", VCARD_PREFIX);
 
-    public static void setPrefixes(Model m, String type) {
-        m.setNsPrefix("", ONTOLOGY_PREFIX);
-        m.setNsPrefix("adm", ADMIN_PREFIX);
-        //m.setNsPrefix("bdd", DATA_PREFIX);
-        m.setNsPrefix("bdr", RESOURCE_PREFIX);
-        //m.setNsPrefix("owl", OWL_PREFIX);
-        m.setNsPrefix("rdf", RDF_PREFIX);
-        m.setNsPrefix("rdfs", RDFS_PREFIX);
-        m.setNsPrefix("skos", SKOS_PREFIX);
-        m.setNsPrefix("xsd", XSD_PREFIX);
-        if (type.equals("place"))
-            m.setNsPrefix("vcard", VCARD_PREFIX);
-    }
+	}
 	
 	public static Literal getLitFromUri(Model m, String uri) {
 		//return m.createLiteral(m.shortForm(uri));
