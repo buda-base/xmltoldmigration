@@ -31,11 +31,14 @@ public class CUDLTransfer {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
+    private static final String BDG = CommonMigration.GRAPH_PREFIX;
     public static  List<String[]> lines;
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
     public static final HashMap<String,String> scripts = getScripts();
     public static final HashMap<String,String> materials = getMaterials();
+    public static final String ORIG_URL_BASE = "https://cudl.lib.cam.ac.uk/view/";
 
     public static void CUDLDoTransfer() throws IOException {
         CSVReader reader;
@@ -159,12 +162,18 @@ public class CUDLTransfer {
         if(!line[5].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.RESOURCE_PREFIX+line[5]));
         }
-        workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createResource(BDR+"LicenseCopyrighted")); // ?
-        workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
+        
+
+        // adm:AdminData
+        Resource admWork = workModel.createResource(BDA+"W0CDL0"+rid);
+        res.add(admWork);
+        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_CUDL")); // ?
+        final String origUrl = ORIG_URL_BASE+line[0];
+        workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
+        
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+materials.get(line[9])));
-        workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"CCDL"));
-        workModel.add(work, workModel.createProperty(BDO,"originalRecord"), workModel.createTypedLiteral("https://cudl.lib.cam.ac.uk/view/"+line[0], XSDDatatype.XSDanyURI));
         if(!line[14].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
         }

@@ -32,7 +32,11 @@ public class EAPFondsTransfer {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
+    private static final String BDG = CommonMigration.GRAPH_PREFIX;
+    
     private static final String ManifestPREF="https://eap.bl.uk/archive-file/";
+    public static final String ORIG_URL_BASE = "https://eap.bl.uk/collection/";
 
     public EAPFondsTransfer(String filename) throws IOException {
         CSVReader reader;
@@ -115,11 +119,23 @@ public class EAPFondsTransfer {
                 Resource work = workModel.createResource(BDR+"W"+serie);
                 workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
                 workModel.add(work, workModel.createProperty(BDO,"workHasItemImageAsset"), item);
-                workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"CPEAP"));
-                workModel.add(work, workModel.createProperty(BDO, "originalRecord"), workModel.createTypedLiteral("https://eap.bl.uk/collection/"+serieID, XSDDatatype.XSDanyURI));
-                workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createResource(BDR+"PublicDomain")); // ?
-                workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-                workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
+
+                // Work adm:AdminData
+                Resource admWork = workModel.createResource(BDA+"W"+serie);
+                res.add(admWork);
+                workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
+                workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+                workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
+                String origUrl = ORIG_URL_BASE+serieID;
+                workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
+
+                // Item adm:AdminData
+                Resource admItem = workModel.createResource(BDA+"W"+serie);
+                res.add(admItem);
+                workModel.add(admItem, RDF.type, workModel.createResource(ADM+"AdminData"));
+                workModel.add(admItem, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+                workModel.add(admItem, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
+                
                 workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypePublishedWork"));
                 workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
                 Resource noteR = workModel.createResource();
@@ -143,12 +159,19 @@ public class EAPFondsTransfer {
                         // TODO: properly tag lang
                         //tmp=tmp.substring(tmp.indexOf("containing")).split(" ")[1];
                         //itemModel.add(vol, itemModel.createProperty(BDO,"imageCount"),itemModel.createTypedLiteral(Integer.parseInt(tmp), XSDDatatype.XSDinteger));
-                        itemModel.add(vol, workModel.createProperty(BDO,"originalRecord"), itemModel.createTypedLiteral(ManifestPREF+ref, XSDDatatype.XSDanyURI));
                         itemModel.add(vol, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREF+ref+"/manifest"));
                         itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),itemModel.createLiteral(name, "en"));
                         itemModel.add(vol, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(Integer.parseInt(volume[37]), XSDDatatype.XSDinteger));
                         itemModel.add(vol, itemModel.createProperty(BDO,"volumeOf"),item);
                         res.add(vol);
+                        
+                        // Volume adm:AdminData
+                        Resource admVol = itemModel.createResource(BDA+"V"+ref);
+                        res.add(admVol);
+                        itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
+                        origUrl = ManifestPREF+ref;
+                        itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
+
                         numVol++;
                     }
                 }

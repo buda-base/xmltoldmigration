@@ -32,7 +32,9 @@ public class GRETILTransfer {
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
     private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
     private static final String BDG = CommonMigration.GRAPH_PREFIX;
+
     public static final Map<String,String> rKTsRIDMap = EAPTransfer.getrKTsRIDMap();
+    public static final String ORIG_URL_BASE = "gretil.sub.uni-goettingen.de/";
 
     public static final void transferGRETIL() {
         System.out.println("Transfering GRETIL works");
@@ -71,17 +73,6 @@ public class GRETILTransfer {
         final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
         MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
     }
-
-    public static Resource getLegal(Model m) {
-        Resource legal = m.createResource(BDA+"ADL_GRETIL");
-        m.add(legal, m.createProperty(ADM, "license"), m.createResource(BDR+"LicensePublicDomain"));
-        m.add(legal, m.createProperty(ADM, "access"), m.createResource(BDR+"AccessOpen"));
-        m.add(legal, m.createProperty(ADM, "copyrightOwner"), m.createResource(BDA+"ContentProvider_GRETIL"));
-        m.add(legal, m.createProperty(ADM, "initialProvider"), m.createResource(BDA+"ContentProvider_GRETIL"));
-        m.add(legal, m.createProperty(ADM, "termsOfUse"), m.createResource(BDR+"TermsOfUseBDRCGeneral"));
-        
-        return legal;
-    }
     
     public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
@@ -89,19 +80,24 @@ public class GRETILTransfer {
         CommonMigration.setPrefixes(workModel);
         Resource work = workModel.createResource(BDR+line[0]);
         Resource admWork = workModel.createResource(BDA+line[0]);
-        Resource legal = getLegal(workModel);
         res.add(work);
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
-        workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"GRETIL"));
+//        workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"GRETIL"));
         workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
         workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
+        workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypeUnicodeText"));
         Resource titleR = workModel.createResource();
         workModel.add(work, workModel.createProperty(BDO, "workTitle"), titleR);
         workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
         workModel.add(titleR, RDFS.label, workModel.createLiteral(line[3], "sa-x-iast"));
-        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), legal); // ?
-        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-        workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypeUnicodeText"));
+
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_GRETIL")); // ?
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
+        if (line[8] != null && !"".equals(line[8])) {
+            final String origUrl = ORIG_URL_BASE+line[8].replace('/', '-');
+            workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
+        }
+
         String rkts=line[2];
         if(rkts!=null) {
             if(rkts.contains(",")) {
@@ -123,10 +119,6 @@ public class GRETILTransfer {
             if(topic.startsWith("T")) {
                 workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+topic));
             }
-        }
-        String record=line[8];
-        if(topic!=null && !"".equals(topic)) {
-            workModel.add(work, workModel.createProperty(BDO, "originalRecord"), workModel.createTypedLiteral(record, XSDDatatype.XSDanyURI));
         }
         String note=line[9];
         if(note!=null && !"".equals(note)) {

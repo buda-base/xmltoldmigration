@@ -32,8 +32,11 @@ public class EAPTransfer {
     private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
     private static final String BDR = CommonMigration.RESOURCE_PREFIX;
     private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
+    private static final String BDG = CommonMigration.GRAPH_PREFIX;
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
+    public static final String ORIG_URL_BASE = "https://eap.bl.uk/archive-file/";
 
     public static final Map<String,String> getrKTsRIDMap() {
         final CSVReader reader;
@@ -130,7 +133,16 @@ public class EAPTransfer {
         Resource work = workModel.createResource(BDR+RID);
         res.add(work);
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
-        workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"CPEAP"));
+
+        // adm:AdminData
+        Resource admWork = workModel.createResource(BDA+RID);
+        res.add(admWork);
+        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
+        final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
+        workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
+
         String title = line[12];
         String titleLang = "sa-x-iast";
         if (title.endsWith("@en")) {
@@ -223,18 +235,13 @@ public class EAPTransfer {
                 work.addProperty(workModel.createProperty(BDO, "workGenre"), workModel.createResource(BDR+genres[i]));
             }
         }
-        workModel.add(work, workModel.createProperty(ADM, "license"), workModel.createResource(BDR+"PublicDomain")); // ?
-        workModel.add(work, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-        workModel.add(work, workModel.createProperty(ADM, "access"), workModel.createResource(BDR+"AccessOpen"));
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+"MaterialPaper"));
         workModel.add(work, workModel.createProperty(BDO, "workObjectType"), workModel.createResource(BDR+"ObjectTypeManuscript"));
         final String abstractWorkRID = rKTsToBDR(line[15]);
         if (abstractWorkRID != null) {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", RID, abstractWorkRID, null);
         }
-        final String baseOrigUrl = "https://eap.bl.uk/archive-file/"+line[2].replace('/', '-');
-        workModel.add(work, workModel.createProperty(BDO, "originalRecord"), workModel.createTypedLiteral(baseOrigUrl, XSDDatatype.XSDanyURI));
-        final String iiifManifestUrl = baseOrigUrl+"/manifest";
+        final String iiifManifestUrl = origUrl+"/manifest";
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = 'I'+baseRid;
