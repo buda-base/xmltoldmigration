@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.Restriction;
@@ -593,12 +594,20 @@ public class MigrationHelpers {
 	{   
 		// the initial model from Protege is not considered valid by Openllet because
 		// it's RDF1.0, so we first open it with no reasoner:
-		OntModel ontoModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM, null);
+		OntModel ontoModel = null;
 	    try {
-            ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
-            InputStream inputStream = classLoader.getResourceAsStream("owl-file/bdrc.owl");
-	        ontoModel.read(inputStream, "", "RDF/XML");
-	        inputStream.close();
+//            ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+//            InputStream inputStream = classLoader.getResourceAsStream("owl-file/adm/admin.ttl");
+//	        ontoModel.read(inputStream, "", "TTL");
+//	        inputStream.close();
+//	        
+	        OntDocumentManager mgrImporting = new OntDocumentManager("owl-file//ont-policy.rdf");
+	        mgrImporting.setProcessImports(true);
+	        
+	        OntModelSpec ontSpecImporting = new OntModelSpec( OntModelSpec.OWL_DL_MEM );
+	        ontSpecImporting.setDocumentManager( mgrImporting );
+	        
+	        ontoModel = mgrImporting.getOntology("http://purl.bdrc.io/ontology/admin/", ontSpecImporting);
 	    } catch (Exception e) {
 	        System.err.println(e.getMessage());
 	        System.exit(1);

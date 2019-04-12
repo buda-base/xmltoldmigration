@@ -21,7 +21,11 @@ If the above fails try:
 ```
 git submodule update --init
 ```
+When there is a change in the owl-schema repo, after the initial config above, the following may be used to sync to the head of the owl-schema repo:
 
+```
+git submodule update --recursive --remote
+```
 Running the jar file:
 
 ```
