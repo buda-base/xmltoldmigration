@@ -15,6 +15,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -43,7 +44,7 @@ public class CUDLTransfer {
     public static void CUDLDoTransfer() throws IOException {
         CSVReader reader;
         CSVParser parser = new CSVParserBuilder().build();
-        InputStream inputStream = EAPFondsTransfer.class.getClassLoader().getResourceAsStream("cudl.csv");
+        InputStream inputStream = CUDLTransfer.class.getClassLoader().getResourceAsStream("cudl.csv");
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         reader = new CSVReaderBuilder(in)
                 .withCSVParser(parser)
@@ -130,8 +131,20 @@ public class CUDLTransfer {
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
         String rid=line[0];
+        
+        // Work model
         Resource work = workModel.createResource(BDR+"W0CDL0"+rid);
+        Resource admWork = workModel.createResource(BDA+"W0CDL0"+rid);
         res.add(work);
+
+        // Work adm:AdminData
+        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_CUDL")); // ?
+        final String origUrl = ORIG_URL_BASE+line[0];
+        workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
+
+        // bdo:Work
         workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));
         workModel.add(work,workModel.createProperty(BDO,"workBiblioNote"),workModel.createLiteral(line[2], "en"));
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
@@ -151,9 +164,11 @@ public class CUDLTransfer {
             workModel.add(work,workModel.createProperty(CommonMigration.SKOS_PREFIX,"altLabel"),workModel.createLiteral(altTitle, "sa-x-iast"));
         }
         if(mainTitle.equals("")) {
-            workModel.add(titleR, workModel.createProperty(BDO, "WorkBibliographicalTitle"), l);
+            workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
+            workModel.add(titleR, RDFS.label, l);
         }else {
-            workModel.add(titleR, workModel.createProperty(BDO, "WorkBibliographicalTitle"), workModel.createLiteral(mainTitle, "sa-x-iast"));
+            workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
+            workModel.add(titleR, RDFS.label, workModel.createLiteral(mainTitle, "sa-x-iast"));
         }
         final String abstractWorkRID = rKTsToBDR(line[4]);
         if (abstractWorkRID != null) {
@@ -162,17 +177,7 @@ public class CUDLTransfer {
         if(!line[5].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.RESOURCE_PREFIX+line[5]));
         }
-        
-
-        // adm:AdminData
-        Resource admWork = workModel.createResource(BDA+"W0CDL0"+rid);
-        res.add(admWork);
-        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
-        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_CUDL")); // ?
-        final String origUrl = ORIG_URL_BASE+line[0];
-        workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
-        
+                
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+materials.get(line[9])));
         if(!line[14].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
@@ -183,27 +188,6 @@ public class CUDLTransfer {
         if (!line[18].isEmpty()) {
             work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[18].replace(',','.').trim(), XSDDatatype.XSDdecimal);
         }
-        final Model itemModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(itemModel);
-        final String itemRID = "I0CDL0"+rid;
-        if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
-        }
-        Resource item = itemModel.createResource(BDR+itemRID);
-        res.add(item);
-        itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
-        final String volumeRID = "V0CDL0"+rid;
-        Resource volume = itemModel.createResource(BDR+volumeRID);
-        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
-        if (ImagegroupMigration.addVolumeOf)
-            itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
-        if (ImagegroupMigration.addItemHasVolume)
-            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
-        itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(line[8]));
-        itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
-        if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+rid));
-        }
         if(!line[10].equals("") && !line[11].equals("")) {
             Resource event = workModel.createResource();
             workModel.add(work, workModel.createProperty(BDO, "workEvent"), event);
@@ -211,7 +195,51 @@ public class CUDLTransfer {
             workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(line[11], XSDDatatype.XSDinteger));
             workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(line[10], XSDDatatype.XSDinteger));
         }
-        //itemModel.write(System.out,"TURTLE");
+        
+        
+        // Item model
+        final Model itemModel = ModelFactory.createDefaultModel();
+        CommonMigration.setPrefixes(itemModel);
+        final String itemRID = "I0CDL0"+rid;
+        Resource item = itemModel.createResource(BDR+itemRID);
+        Resource itemAdm = itemModel.createResource(BDA+itemRID);
+        res.add(item);
+        
+        if (WorkMigration.addWorkHasItem) {
+            workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
+        }
+        
+        // Item adm:AdminData
+        itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
+        itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
+        itemModel.add(itemAdm, itemModel.createProperty(ADM, "hasLegal"), itemModel.createResource(BDA+"LD_CUDL")); // ?
+               
+        // bdo:ItemImageAsset
+        itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
+        final String volumeRID = "V0CDL0"+rid;
+        
+        // Volume of Item
+        Resource volume = itemModel.createResource(BDR+volumeRID);
+
+        // There doesn't appear to be any original url info to include
+//        // Volume adm:AdminData
+//        Resource admVol = itemModel.createResource(BDA+volumeRID);
+//        itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
+//        origUrl = ManifestPREF+ref;
+//        itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
+
+        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+        if (ImagegroupMigration.addVolumeOf)
+            itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
+        if (ImagegroupMigration.addItemHasVolume)
+            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
+        itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(line[8]));
+        itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
+        
+        if (WorkMigration.addItemForWork) {
+            itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+rid));
+        }
+
         return res;
     }
 

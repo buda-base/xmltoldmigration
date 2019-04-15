@@ -75,14 +75,26 @@ public class GRETILTransfer {
     }
     
     public static final List<Resource> getResourcesFromLine(String[] line) {
+        
+        // Work model
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
         Resource work = workModel.createResource(BDR+line[0]);
         Resource admWork = workModel.createResource(BDA+line[0]);
         res.add(work);
+
+        // Work AdminData
+        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_GRETIL")); // ?
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
+        if (line[8] != null && !"".equals(line[8])) {
+            final String origUrl = ORIG_URL_BASE+line[8].replace('/', '-');
+            workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
+        }
+        
+        // bdo:Work
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
-//        workModel.add(work, workModel.createProperty(BDO,"contentProvider"), workModel.createResource(BDR+"GRETIL"));
         workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
         workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
         workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypeUnicodeText"));
@@ -90,13 +102,6 @@ public class GRETILTransfer {
         workModel.add(work, workModel.createProperty(BDO, "workTitle"), titleR);
         workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
         workModel.add(titleR, RDFS.label, workModel.createLiteral(line[3], "sa-x-iast"));
-
-        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_GRETIL")); // ?
-        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
-        if (line[8] != null && !"".equals(line[8])) {
-            final String origUrl = ORIG_URL_BASE+line[8].replace('/', '-');
-            workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
-        }
 
         String rkts=line[2];
         if(rkts!=null) {

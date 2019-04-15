@@ -106,42 +106,50 @@ public class EAPFondsTransfer {
             HashMap<String,String[]> map=seriesByCollections.get(key);
             Set<String> seriesKeys=map.keySet();
             for(String serie:seriesKeys) {
-                Model itemModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(itemModel);
                 String[] serieLine = seriesByCollections.get(key).get(serie);
-                //System.out.println(Arrays.toString(serieLine));
                 String serieID = serieLine[4].replace('/', '-');
-                Resource item = itemModel.createResource(BDR+"I"+serieID);
-                itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+"W"+serieID));
-                itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
+                                
+                // Work model
                 Model workModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(workModel);
                 Resource work = workModel.createResource(BDR+"W"+serie);
                 workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
-                workModel.add(work, workModel.createProperty(BDO,"workHasItemImageAsset"), item);
+                Resource admWork = workModel.createResource(BDA+"W"+serie);
+                res.add(work);
 
                 // Work adm:AdminData
-                Resource admWork = workModel.createResource(BDA+"W"+serie);
-                res.add(admWork);
                 workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
                 workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
                 workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
                 String origUrl = ORIG_URL_BASE+serieID;
                 workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
-
-                // Item adm:AdminData
-                Resource admItem = workModel.createResource(BDA+"W"+serie);
-                res.add(admItem);
-                workModel.add(admItem, RDF.type, workModel.createResource(ADM+"AdminData"));
-                workModel.add(admItem, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-                workModel.add(admItem, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
                 
+                // bdo:Work
                 workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypePublishedWork"));
                 workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
                 Resource noteR = workModel.createResource();
                 noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(serieLine[36],"en"));
                 workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
                 workModel.add(work, SKOS.prefLabel, workModel.createLiteral(serieLine[39],"en"));
+                
+                
+                // Item model
+                Model itemModel = ModelFactory.createDefaultModel();
+                CommonMigration.setPrefixes(itemModel);
+                Resource item = itemModel.createResource(BDR+"I"+serieID);
+                Resource admItem = itemModel.createResource(BDA+"I"+serieID);
+                res.add(item);
+
+                workModel.add(work, workModel.createProperty(BDO,"workHasItemImageAsset"), item);
+
+                // Item adm:AdminData
+                itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
+                itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
+                itemModel.add(admItem, itemModel.createProperty(ADM, "hasLegal"), itemModel.createResource(BDA+"LD_EAP")); // ?
+                
+                itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+"W"+serieID));
+                itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
+                
                 HashMap<String, ArrayList<String[]>> vols=getVolumes(serie);
                 Set<String> serVol=vols.keySet();
                 int numVol=0;
@@ -167,7 +175,6 @@ public class EAPFondsTransfer {
                         
                         // Volume adm:AdminData
                         Resource admVol = itemModel.createResource(BDA+"V"+ref);
-                        res.add(admVol);
                         itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
                         origUrl = ManifestPREF+ref;
                         itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
@@ -177,8 +184,6 @@ public class EAPFondsTransfer {
                 }
                 itemModel.add(item, itemModel.createProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(numVol));
                 workModel.add(work, workModel.createProperty(BDO, "workNumberOfVolumes"), workModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
-                res.add(item);
-                res.add(work);
             }
         }
         return res;

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -42,6 +43,10 @@ public class GretilTest {
         Model workModel = res.get(0).getModel();
         Model model = ModelFactory.createDefaultModel();
         model.read(new FileInputStream("src/test/ttl/gretiltest.ttl"), null,"TTL");
+        
+        workModel.write(new FileWriter("/Users/chris/GretilTest-workModel.ttl"), "TTL");
+        model.write(new FileWriter("/Users/chris/GretilTest-model.ttl"), "TTL");
+        
         assertTrue( workModel.isIsomorphicWith(model) );
     }
 

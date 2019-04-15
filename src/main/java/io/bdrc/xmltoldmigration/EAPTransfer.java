@@ -99,6 +99,7 @@ public class EAPTransfer {
         final Resource work = resources.get(0);
         final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
         MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
+        
         final Resource item = resources.get(1);
         final String itemOutfileName = MigrationApp.getDstFileName("item", item.getLocalName());
         MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "item");
@@ -138,7 +139,7 @@ public class EAPTransfer {
         Resource admWork = workModel.createResource(BDA+RID);
         res.add(admWork);
         workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
-        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
         workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
         final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
@@ -248,9 +249,19 @@ public class EAPTransfer {
         if (WorkMigration.addWorkHasItem) {
             workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
         }
+        
+        // Item for Work
         Resource item = itemModel.createResource(BDR+itemRID);
         res.add(item);
         itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
+
+        // Item adm:AdminData
+        Resource admItem = workModel.createResource(BDA+itemRID);
+        workModel.add(admItem, RDF.type, workModel.createResource(ADM+"AdminData"));
+        workModel.add(admItem, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(admItem, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
+
+        // Volume for Item
         final String volumeRID = 'V'+itemRID.substring(1);
         Resource volume = itemModel.createResource(BDR+volumeRID);
         itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
@@ -263,6 +274,14 @@ public class EAPTransfer {
         if (WorkMigration.addItemForWork) {
             itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+RID));
         }
+        
+        // there doesn't appear to be an original url for the volume to record in the Volume AdminData
+//        // Volume adm:AdminData
+//        Resource admVol = itemModel.createResource(BDA+volumeRID);
+//        itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
+//        origUrl = ManifestPREF+ref;
+//        itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
+        
         return res;
     }
 
