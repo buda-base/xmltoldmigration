@@ -98,10 +98,10 @@ public class MigrationHelpers {
 	public static boolean checkagainstXsd = false;
 	public static boolean deleteDbBeforeInsert = true;
 	
-	public static OntModel ontologymodelSimple = MigrationHelpers.getOntologyModel();
-	public static OntModel ontologymodel = MigrationHelpers.getInferredModel(ontologymodelSimple);
+	public static OntModel ontologymodel = MigrationHelpers.getOntologyModel();
 	public static PrefixMap prefixMap = getPrefixMap();
-	public static final Map<String,Object> jsonldcontext = ContextGenerator.generateContextObject(ontologymodelSimple, prefixMap, "bdo");
+	// not used here but let's remember for updating the owl-schema/context.jsonld
+	public static final Map<String,Object> jsonldcontext = ContextGenerator.generateContextObject(ontologymodel, prefixMap, "bdo");
 	
 	public static final String DB_PREFIX = "bdrc_";
 	// types in target DB
@@ -143,7 +143,6 @@ public class MigrationHelpers {
     public static final Map<String, String> ridReplacements;
 
     static {
-        ontologymodel = MigrationHelpers.getOntologyModel();
         try {
             logWriter = new PrintWriter(new OutputStreamWriter(System.err, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
@@ -604,8 +603,8 @@ public class MigrationHelpers {
 	        OntDocumentManager mgrImporting = new OntDocumentManager("owl-file//ont-policy.rdf");
 	        mgrImporting.setProcessImports(true);
 	        
-	        OntModelSpec ontSpecImporting = new OntModelSpec( OntModelSpec.OWL_DL_MEM );
-	        ontSpecImporting.setDocumentManager( mgrImporting );
+	        OntModelSpec ontSpecImporting = new OntModelSpec(OntModelSpec.OWL_DL_MEM);
+	        ontSpecImporting.setDocumentManager(mgrImporting);
 	        
 	        ontoModel = mgrImporting.getOntology("http://purl.bdrc.io/ontology/admin/", ontSpecImporting);
 	    } catch (Exception e) {

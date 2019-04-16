@@ -137,7 +137,6 @@ public class EAPTransfer {
 
         // adm:AdminData
         Resource admWork = workModel.createResource(BDA+RID);
-        res.add(admWork);
         workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
         workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
         workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
@@ -243,6 +242,9 @@ public class EAPTransfer {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", RID, abstractWorkRID, null);
         }
         final String iiifManifestUrl = origUrl+"/manifest";
+        
+        
+        // bdo:Item for current bdo:Work
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = 'I'+baseRid;

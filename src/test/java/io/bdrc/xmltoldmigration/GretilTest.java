@@ -44,9 +44,6 @@ public class GretilTest {
         Model model = ModelFactory.createDefaultModel();
         model.read(new FileInputStream("src/test/ttl/gretiltest.ttl"), null,"TTL");
         
-        workModel.write(new FileWriter("/Users/chris/GretilTest-workModel.ttl"), "TTL");
-        model.write(new FileWriter("/Users/chris/GretilTest-model.ttl"), "TTL");
-        
         assertTrue( workModel.isIsomorphicWith(model) );
     }
 
