@@ -29,6 +29,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -205,6 +206,11 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G844.ttl");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", MigrationHelpers.OUTPUT_STTL, null);
+        
+    	// ==== TEMP DEBUG ====
+    	fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-G844-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/MIGRATION_TEST-G844-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -348,13 +354,18 @@ public class MigrationTest
        }
 
        @Test
-       public void testWithdrawn()
+       public void testWithdrawn() throws IOException
        {
            System.out.println("testing withdrawn record");
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/withdrawn-test.xml");  
            Model fromXml = MigrationHelpers.migrateWithdrawn(d, "office");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/withdrawn-test.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", MigrationHelpers.OUTPUT_STTL, "");
+           
+           // ==== TEMP DEBUG ====
+           fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-testWithdrawn-fromXml.ttl"), "TTL");
+           correctModel.write(new FileWriter("/Users/chris/MIGRATION_TEST-testWithdrawn-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

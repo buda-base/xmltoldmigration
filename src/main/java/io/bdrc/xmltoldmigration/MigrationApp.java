@@ -59,8 +59,8 @@ public class MigrationApp
     public static boolean noXmlMigration = false;
     public static boolean useHash = true;
 
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
     private static final String ADM = CommonMigration.ADM;
 
     public static final String CORPORATION = MigrationHelpers.CORPORATION;

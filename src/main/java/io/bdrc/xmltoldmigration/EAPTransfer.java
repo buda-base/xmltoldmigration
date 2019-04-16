@@ -29,11 +29,11 @@ import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class EAPTransfer {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
-    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
-    private static final String BDG = CommonMigration.GRAPH_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
+    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
+    private static final String BDG = CommonMigration.GRAPH_NS;
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
     public static final String ORIG_URL_BASE = "https://eap.bl.uk/archive-file/";

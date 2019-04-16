@@ -20,9 +20,9 @@ import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 public class PubinfoMigration {
 
 	public static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
 
 	// used for testing only
 	public static Model MigratePubinfo(Document xmlDocument) {

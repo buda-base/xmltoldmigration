@@ -20,7 +20,7 @@ public class ImageListTranslation {
     
     public static final boolean startWith0 = false;
     public static boolean considerMissingPages = true;
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
     
     private static final Pattern imageP = Pattern.compile("^(.+)(\\d{4})( ?\\..+)$");
     private static final Pattern basicP = Pattern.compile("[^|]+");

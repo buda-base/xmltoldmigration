@@ -14,9 +14,9 @@ public class ProductMigration {
 	
     // TODO: move to admin: namespace?
     
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
 	public static final String PRXSDNS = "http://www.tbrc.org/models/product#";
 	
 	public static Model MigrateProduct(Document xmlDocument) {

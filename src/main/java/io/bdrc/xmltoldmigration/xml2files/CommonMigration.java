@@ -30,8 +30,13 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.ValidityReport;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.SKOS;
+import org.apache.jena.vocabulary.VCARD4;
+import org.apache.jena.vocabulary.XSD;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -48,35 +53,27 @@ import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
 
-	public static final String ONTOLOGY_PREFIX = "http://purl.bdrc.io/ontology/core/";
-	public static final String ADMIN_PREFIX = "http://purl.bdrc.io/ontology/admin/";
-	public static final String ADMIN_DATA_PREFIX = "http://purl.bdrc.io/admindata/";
-    public static final String DATA_PREFIX = "http://purl.bdrc.io/data/";
-    public static final String GRAPH_PREFIX = "http://purl.bdrc.io/graph/";
-	public static final String RESOURCE_PREFIX = "http://purl.bdrc.io/resource/";
-	public static final String SKOS_PREFIX = "http://www.w3.org/2004/02/skos/core#";
-	public static final String VCARD_PREFIX = "http://www.w3.org/2006/vcard/ns#";
-    public static final String OWL_PREFIX = "http://www.w3.org/2002/07/owl#";
-    public static final String RDF_PREFIX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-    public static final String RDFS_PREFIX = "http://www.w3.org/2000/01/rdf-schema#";
-    public static final String XSD_PREFIX = "http://www.w3.org/2001/XMLSchema#";
+	public static final String ONTOLOGY_NS = "http://purl.bdrc.io/ontology/core/";
+	public static final String ADMIN_NS = "http://purl.bdrc.io/ontology/admin/";
+	public static final String ADMIN_DATA_NS = "http://purl.bdrc.io/admindata/";
+    public static final String GRAPH_NS = "http://purl.bdrc.io/graph/";
+	public static final String RESOURCE_NS = "http://purl.bdrc.io/resource/";
 	
 	public static final String FPL_LIBRARY_ID = "G1TLMFPL000001";
 	
-	public static final String PREFLABEL_URI = SKOS_PREFIX+"prefLabel";
-	public static final String ALTLABEL_URI = SKOS_PREFIX+"altLabel";
-	public static final String GENLABEL_URI = RDFS_PREFIX+"label";
+	public static final String PREFLABEL_URI = SKOS.getURI()+"prefLabel";
+	public static final String ALTLABEL_URI = SKOS.getURI()+"altLabel";
+	public static final String GENLABEL_URI = RDFS.getURI()+"label";
 	
 	public static final String EWTS_TAG = "bo-x-ewts";
 	public static final boolean lowerCaseLangTags = true;
 	public static final String IMAGE_ITEM_SUFFIX = "";
 	
-	public static final String BDO = ONTOLOGY_PREFIX;
-    public static final String BDD = DATA_PREFIX;
-    public static final String BDG = GRAPH_PREFIX;
-    public static final String BDR = RESOURCE_PREFIX;
-    public static final String ADM = ADMIN_PREFIX;
-    public static final String BDA = ADMIN_DATA_PREFIX;
+	public static final String BDO = ONTOLOGY_NS;
+    public static final String BDG = GRAPH_NS;
+    public static final String BDR = RESOURCE_NS;
+    public static final String ADM = ADMIN_NS;
+    public static final String BDA = ADMIN_DATA_NS;
 	
 	public static final int ET_LANG = ExceptionHelper.ET_LANG;
 	
@@ -225,7 +222,7 @@ public class CommonMigration  {
     }
     
     public static void fillLogWhoToUri() {
-        String prefix = RESOURCE_PREFIX+"U"; // ?
+        String prefix = BDR+"U"; // ?
         logWhoToUri.put("Gene Smith", prefix+String.format(userNumFormat, 1));
         logWhoToUri.put("agardner@sdrubin.org", prefix+String.format(userNumFormat, 2));
         logWhoToUri.put("Alex Gardner", prefix+String.format(userNumFormat, 2));
@@ -341,19 +338,18 @@ public class CommonMigration  {
     }
 	
     public static void setPrefixes(Model m, boolean addVcard) {
-		m.setNsPrefix("", ONTOLOGY_PREFIX);
-		m.setNsPrefix("adm", ADMIN_PREFIX);
-		//m.setNsPrefix("bdd", DATA_PREFIX);
-        m.setNsPrefix("bdr", RESOURCE_PREFIX);
-        m.setNsPrefix("bda", ADMIN_DATA_PREFIX);
-        m.setNsPrefix("bdg", GRAPH_PREFIX);
-		//m.setNsPrefix("owl", OWL_PREFIX);
-		m.setNsPrefix("rdf", RDF_PREFIX);
-		m.setNsPrefix("rdfs", RDFS_PREFIX);
-		m.setNsPrefix("skos", SKOS_PREFIX);
-		m.setNsPrefix("xsd", XSD_PREFIX);
+		m.setNsPrefix("", ONTOLOGY_NS);
+		m.setNsPrefix("adm", ADMIN_NS);
+        m.setNsPrefix("bdr", RESOURCE_NS);
+        m.setNsPrefix("bda", ADMIN_DATA_NS);
+        m.setNsPrefix("bdg", GRAPH_NS);
+		m.setNsPrefix("owl", OWL.getURI());
+		m.setNsPrefix("rdf", RDF.getURI());
+		m.setNsPrefix("rdfs", RDFS.getURI());
+		m.setNsPrefix("skos", SKOS.getURI());
+		m.setNsPrefix("xsd", XSD.getURI());
 		if (addVcard)
-		    m.setNsPrefix("vcard", VCARD_PREFIX);
+		    m.setNsPrefix("vcard", VCARD4.getURI());
 
 	}
 	
@@ -378,16 +374,16 @@ public class CommonMigration  {
 	public static String getDescriptionUriFromType(String type) {
 	    String res = normalizePropName(type, "description");
 	       switch (res) {
-	        case "noType":                return RDFS_PREFIX+"comment";
-	        case "status":                return RDFS_PREFIX+"comment";
+	        case "noType":                return RDFS.getURI()+"comment";
+	        case "status":                return RDFS.getURI()+"comment";
 	        case "authorship":            return BDO+"workAuthorshipStatement";
 	        case "incipit":               return BDO+"workIncipit";
 	        case "note":                  return BDO+"note";
 	        case "notes":                 return BDO+"note";
 	        case "chapter":               return BDO+"work_desc_chapters";
 	        case "chapters":              return BDO+"work_desc_chapters";
-	        case "content":               return RDFS_PREFIX+"comment";
-	        case "contents":              return RDFS_PREFIX+"comment";
+	        case "content":               return RDFS.getURI()+"comment";
+	        case "contents":              return RDFS.getURI()+"comment";
 	        case "completionDate":        return BDO+"work_desc_completionDate"; // this one and the next one are handled separately
 	        case "date":                  return ADM+"work_desc_date";
 	        case "errata":                return BDO+"workErrata";
@@ -397,7 +393,7 @@ public class CommonMigration  {
 	        case "location":              return BDO+"workLocationStatement";
 	        case "remarks":               return "__fpl";
 	        case "room":                  return "__fpl";
-	        case "summary":               return RDFS_PREFIX+"comment";
+	        case "summary":               return RDFS.getURI()+"comment";
 	        case "snar_bstan_number":     return BDO+"workKaTenSiglaN";
 	        case "snr_thang_number":      return BDO+"workKaTenSiglaN";
 	        case "snar_thang_number":     return BDO+"workKaTenSiglaN"; 
@@ -575,14 +571,14 @@ public class CommonMigration  {
 		if (value.isEmpty()) return;
 		if (value.contains("treasuryoflives.org")) {
 		    value = normalizeToLUrl(value);
-		    r.addProperty(m.createProperty(RDFS_PREFIX, "seeAlso"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
+		    r.addProperty(m.createProperty(RDFS.getURI(), "seeAlso"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
 		    return;
 		}
 		if (value.contains("blog.tbrc.org")) return;
 		if (value.contains("tbrc.org")) {
 		    value = getRIDFromTbrcUrl(value);
 		    // TODO: map outline nodes to new ones
-		    r.addProperty(m.createProperty(RDFS_PREFIX, "seeAlso"), m.createResource(BDR+value));
+		    r.addProperty(m.createProperty(RDFS.getURI(), "seeAlso"), m.createResource(BDR+value));
 		}
 	}
 	

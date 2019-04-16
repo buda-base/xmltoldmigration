@@ -85,7 +85,7 @@ import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
-import org.apache.jena.vocabulary.VCARD;
+import org.apache.jena.vocabulary.VCARD4;
 import org.apache.jena.vocabulary.XSD;
 
 
@@ -131,11 +131,11 @@ public class MigrationHelpers {
     public static final int OUTPUT_STTL = 0;
     public static final int OUTPUT_JSONLD = 1;
     
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
-    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
-    private static final String BDG = CommonMigration.GRAPH_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
+    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
+    private static final String BDG = CommonMigration.GRAPH_NS;
 
     
     public static Lang sttl;
@@ -294,7 +294,7 @@ public class MigrationHelpers {
         pm.add("rdf",   RDF.getURI());
         pm.add("rdfs",  RDFS.getURI()); ;
         pm.add("skos",  SKOS.getURI());
-        pm.add("vcard", VCARD.getURI());
+        pm.add("vcard", VCARD4.getURI());
         pm.add("xsd",   XSD.getURI());
         return pm;
     }

@@ -4,6 +4,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -36,7 +37,7 @@ public class TopicMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             String value = current.getAttribute("rid").trim();
-            m.add(main, m.getProperty(CommonMigration.RDFS_PREFIX, "seeAlso"), m.createProperty(CommonMigration.BDR+value));
+            m.add(main, m.getProperty(RDFS.getURI(), "seeAlso"), m.createProperty(CommonMigration.BDR+value));
         }
 		
 		return m;

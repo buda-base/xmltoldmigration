@@ -16,6 +16,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.SKOS;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -29,11 +30,11 @@ import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class CUDLTransfer {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
-    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
-    private static final String BDG = CommonMigration.GRAPH_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
+    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
+    private static final String BDG = CommonMigration.GRAPH_NS;
     public static  List<String[]> lines;
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
@@ -159,9 +160,9 @@ public class CUDLTransfer {
         String altTitle=line[7];
         Resource titleR = workModel.createResource();
         workModel.add(work, workModel.createProperty(BDO, "workTitle"), titleR);
-        workModel.add(work,workModel.createProperty(CommonMigration.SKOS_PREFIX,"prefLabel"),l);
+        workModel.add(work,workModel.createProperty(SKOS.getURI(),"prefLabel"),l);
         if(!altTitle.equals("")) {
-            workModel.add(work,workModel.createProperty(CommonMigration.SKOS_PREFIX,"altLabel"),workModel.createLiteral(altTitle, "sa-x-iast"));
+            workModel.add(work,workModel.createProperty(SKOS.getURI(),"altLabel"),workModel.createLiteral(altTitle, "sa-x-iast"));
         }
         if(mainTitle.equals("")) {
             workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
@@ -175,7 +176,7 @@ public class CUDLTransfer {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", rid, abstractWorkRID, null);
         }
         if(!line[5].equals("")) {
-            workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.RESOURCE_PREFIX+line[5]));
+            workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.RESOURCE_NS+line[5]));
         }
                 
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+materials.get(line[9])));

@@ -26,9 +26,9 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
 public class WorkMigration {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
 	public static final String WXSDNS = "http://www.tbrc.org/models/work#";
 	
 	public static boolean splitItems = true;

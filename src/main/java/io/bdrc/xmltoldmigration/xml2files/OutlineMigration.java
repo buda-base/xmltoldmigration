@@ -21,9 +21,9 @@ import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 public class OutlineMigration {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
 	public static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 	
 	public static boolean splitOutlines = false;

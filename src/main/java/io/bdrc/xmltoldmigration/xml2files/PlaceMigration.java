@@ -18,10 +18,10 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 public class PlaceMigration {
 
 	public static final String PLXSDNS = "http://www.tbrc.org/models/place#";
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
     private static final String ADM = CommonMigration.ADM;
-    private static final String VCARD = CommonMigration.VCARD_PREFIX;
+    private static final String VCARD = org.apache.jena.vocabulary.VCARD.getURI();
 	
     private static String getUriFromTypeSubtype(String type, String subtype) {
         switch (type) {

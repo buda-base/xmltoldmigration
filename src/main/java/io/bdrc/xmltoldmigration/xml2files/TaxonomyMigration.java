@@ -16,9 +16,9 @@ import io.bdrc.xmltoldmigration.xml2files.OutlineMigration.CurNodeInt;
 
 public class TaxonomyMigration {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
     private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
     
     public static Model MigrateTaxonomy(Document d) {

@@ -29,11 +29,11 @@ public class EAPFondsTransfer {
     public static HashMap<String,HashMap<String,String[]>> seriesByCollections;
     public static HashMap<String,String[]> seriesLines;
     public static  List<String[]> lines;
-    private static final String BDO = CommonMigration.ONTOLOGY_PREFIX;
-    private static final String BDR = CommonMigration.RESOURCE_PREFIX;
-    private static final String ADM = CommonMigration.ADMIN_PREFIX;
-    private static final String BDA = CommonMigration.ADMIN_DATA_PREFIX;
-    private static final String BDG = CommonMigration.GRAPH_PREFIX;
+    private static final String BDO = CommonMigration.ONTOLOGY_NS;
+    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String ADM = CommonMigration.ADMIN_NS;
+    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
+    private static final String BDG = CommonMigration.GRAPH_NS;
     
     private static final String ManifestPREF="https://eap.bl.uk/archive-file/";
     public static final String ORIG_URL_BASE = "https://eap.bl.uk/collection/";
