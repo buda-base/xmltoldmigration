@@ -80,9 +80,13 @@ import io.bdrc.xmltoldmigration.xml2files.TaxonomyMigration;
 import io.bdrc.xmltoldmigration.xml2files.TopicMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
+import org.apache.jena.vocabulary.VCARD;
+import org.apache.jena.vocabulary.XSD;
 
 
 public class MigrationHelpers {
@@ -281,16 +285,17 @@ public class MigrationHelpers {
     
     public static PrefixMap getPrefixMap() {
         PrefixMap pm = PrefixMapFactory.create();
-        pm.add("", CommonMigration.ONTOLOGY_PREFIX);
-        pm.add("adm", CommonMigration.ADMIN_PREFIX);
-        pm.add("bdd", CommonMigration.DATA_PREFIX);
-        pm.add("bdr", CommonMigration.RESOURCE_PREFIX);
-        pm.add("owl", CommonMigration.OWL_PREFIX);
-        pm.add("rdf", CommonMigration.RDF_PREFIX);
-        pm.add("rdfs", CommonMigration.RDFS_PREFIX);
-        pm.add("skos", CommonMigration.SKOS_PREFIX);
-        pm.add("vcard", CommonMigration.VCARD_PREFIX);
-        pm.add("xsd", CommonMigration.XSD_PREFIX);
+        pm.add("",      BDO);
+        pm.add("adm",   ADM);
+        pm.add("bda",   BDA);
+        pm.add("bdg",   BDG);
+        pm.add("bdr",   BDR);
+        pm.add("owl",   OWL.getURI());
+        pm.add("rdf",   RDF.getURI());
+        pm.add("rdfs",  RDFS.getURI()); ;
+        pm.add("skos",  SKOS.getURI());
+        pm.add("vcard", VCARD.getURI());
+        pm.add("xsd",   XSD.getURI());
         return pm;
     }
     
@@ -298,20 +303,20 @@ public class MigrationHelpers {
         sttl = STTLWriter.registerWriter();
         SortedMap<String, Integer> nsPrio = ComparePredicates.getDefaultNSPriorities();
         nsPrio.put(SKOS.getURI(), 1);
-        nsPrio.put("http://purl.bdrc.io/ontology/admin/", 5);
+        nsPrio.put(ADM, 5);
         nsPrio.put("http://purl.bdrc.io/ontology/toberemoved/", 6);
         List<String> predicatesPrio = CompareComplex.getDefaultPropUris();
-        predicatesPrio.add(CommonMigration.ADM+"logDate");
-        predicatesPrio.add(CommonMigration.BDO+"seqNum");
-        predicatesPrio.add(CommonMigration.BDO+"onYear");
-        predicatesPrio.add(CommonMigration.BDO+"notBefore");
-        predicatesPrio.add(CommonMigration.BDO+"notAfter");
-        predicatesPrio.add(CommonMigration.BDO+"noteText");
-        predicatesPrio.add(CommonMigration.BDO+"noteWork");
-        predicatesPrio.add(CommonMigration.BDO+"noteLocationStatement");
-        predicatesPrio.add(CommonMigration.BDO+"volumeNumber");
-        predicatesPrio.add(CommonMigration.BDO+"eventWho");
-        predicatesPrio.add(CommonMigration.BDO+"eventWhere");
+        predicatesPrio.add(ADM+"logDate");
+        predicatesPrio.add(BDO+"seqNum");
+        predicatesPrio.add(BDO+"onYear");
+        predicatesPrio.add(BDO+"notBefore");
+        predicatesPrio.add(BDO+"notAfter");
+        predicatesPrio.add(BDO+"noteText");
+        predicatesPrio.add(BDO+"noteWork");
+        predicatesPrio.add(BDO+"noteLocationStatement");
+        predicatesPrio.add(BDO+"volumeNumber");
+        predicatesPrio.add(BDO+"eventWho");
+        predicatesPrio.add(BDO+"eventWhere");
         ctx = new Context();
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsPriorities"), nsPrio);
         ctx.set(Symbol.create(STTLWriter.SYMBOLS_NS + "nsDefaultPriority"), 2);
@@ -516,7 +521,8 @@ public class MigrationHelpers {
         Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m, type);
         Element root = xmlDocument.getDocumentElement();
-        Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
+        Resource main = m.createResource(BDR + root.getAttribute("RID"));
+        Resource admMain = m.createResource(BDA + root.getAttribute("RID"));
         CommonMigration.addStatus(m, main, root.getAttribute("status"));
         final String XsdPrefix = typeToXsdPrefix.get(type);
         NodeList nodeList = root.getElementsByTagNameNS(XsdPrefix, "log");
@@ -544,7 +550,7 @@ public class MigrationHelpers {
                 System.out.println("possible typo in withdrawing log message in "+main.getLocalName()+": "+withdrawnmsg);
             } else {
                 final String rid = matcher.group(1).toUpperCase();
-                main.addProperty(m.createProperty(ADM, "replaceWith"), m.createResource(BDR+rid));
+                admMain.addProperty(m.createProperty(ADM, "replaceWith"), m.createResource(BDR+rid));
                 MigrationHelpers.resourceReplacedWith(root.getAttribute("RID"), rid);
             }
         }
@@ -606,7 +612,7 @@ public class MigrationHelpers {
 	        OntModelSpec ontSpecImporting = new OntModelSpec(OntModelSpec.OWL_DL_MEM);
 	        ontSpecImporting.setDocumentManager(mgrImporting);
 	        
-	        ontoModel = mgrImporting.getOntology("http://purl.bdrc.io/ontology/admin/", ontSpecImporting);
+	        ontoModel = mgrImporting.getOntology(ADM, ontSpecImporting);
 	    } catch (Exception e) {
 	        System.err.println(e.getMessage());
 	        System.exit(1);
