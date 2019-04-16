@@ -248,14 +248,15 @@ public class EAPTransfer {
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = 'I'+baseRid;
-        if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
-        }
         
         // Item for Work
         Resource item = itemModel.createResource(BDR+itemRID);
         res.add(item);
         itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
+
+        if (WorkMigration.addWorkHasItem) {
+            workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), item);
+        }
 
         // Item adm:AdminData
         Resource admItem = workModel.createResource(BDA+itemRID);
