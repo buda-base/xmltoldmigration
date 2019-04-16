@@ -259,10 +259,10 @@ public class EAPTransfer {
         }
 
         // Item adm:AdminData
-        Resource admItem = workModel.createResource(BDA+itemRID);
-        workModel.add(admItem, RDF.type, workModel.createResource(ADM+"AdminData"));
-        workModel.add(admItem, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-        workModel.add(admItem, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
+        Resource admItem = itemModel.createResource(BDA+itemRID);
+        itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
+        itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
+        itemModel.add(admItem, itemModel.createProperty(ADM, "hasLegal"), itemModel.createResource(BDA+"LD_EAP")); // ?
 
         // Volume for Item
         final String volumeRID = 'V'+itemRID.substring(1);
