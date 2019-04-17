@@ -1,4 +1,5 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -45,46 +46,49 @@ bdr:G844  a             :Place ;
     :placeRegionPoly    "Some polygon coordinates" ;
     :placeType          bdr:PlaceTypeGzimsKhang ;
     :placeWBArea        "test" ;
-    adm:logEntry        [ adm:logDate         "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
-                          adm:logMessage      "added contain"@en ;
-                          adm:logWho          bdr:U00007
-                        ] ,
-            [ adm:logDate         "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
-              adm:logMessage      "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
-              adm:logWho          bdr:U00020
-            ] ,
-            [ adm:logDate         "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
-              adm:logMessage      "added byams pa chos gling gzhis ka'i par khang"@en ;
-              adm:logWho          bdr:U00013
-            ] ,
-            [ adm:logDate         "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
-              adm:logMessage      "added contain"@en ;
-              adm:logWho          bdr:U00007
-            ] ,
-            [ adm:logDate         "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
-              adm:logMessage      "added type & location & contains"@en ;
-              adm:logWho          bdr:U00007
-            ] ,
-            [ adm:logDate         "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
-              adm:logMessage      "added place contained"@en ;
-              adm:logWho          bdr:U00020
-            ] ,
-            [ adm:logDate         "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
-              adm:logMessage      "added location"@en ;
-              adm:logWho          bdr:U00007
-            ] ,
-            [ adm:logDate         "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
-              adm:logMessage      "added name & note"@en ;
-              adm:logWho          bdr:U00007
-            ] ;
-    adm:place_TLM_accession  "004476" ;
-    adm:place_TLM_admin  "tgaAdmin" ;
-    adm:place_TLM_adminEmail  "xxx" ;
-    adm:place_TLM_code  "TGA" ;
-    adm:place_TLM_librarian  "tgaLibrarian" ;
-    adm:place_TLM_librarianEmail  "xxx" ;
-    adm:place_TLM_num   "003159" ;
-    adm:place_TLM_taxonomy  bdr:O1TLMXXX000011 ;
-    adm:place_id_TBRC   "540102200:540101145" ;
-    adm:place_id_lex    "540102200:540101145" ;
-    adm:status          bdr:StatusReleased .
+.
+bda:G844  a           adm:AdminData ;
+        adm:logEntry  [ adm:logDate     "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
+                        adm:logMessage  "added place contained"@en ;
+                        adm:logWho      bdr:U00020
+                      ] ;
+        adm:logEntry  [ adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
+                        adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
+                        adm:logWho      bdr:U00020
+                      ] ;
+        adm:logEntry  [ adm:logDate     "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
+                        adm:logMessage  "added byams pa chos gling gzhis ka'i par khang"@en ;
+                        adm:logWho      bdr:U00013
+                      ] ;
+        adm:logEntry  [ adm:logDate     "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
+                        adm:logMessage  "added contain"@en ;
+                        adm:logWho      bdr:U00007
+                      ] ;
+        adm:logEntry  [ adm:logDate     "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
+                        adm:logMessage  "added type & location & contains"@en ;
+                        adm:logWho      bdr:U00007
+                      ] ;
+        adm:logEntry  [ adm:logDate     "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
+                        adm:logMessage  "added location"@en ;
+                        adm:logWho      bdr:U00007
+                      ] ;
+        adm:logEntry  [ adm:logDate     "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
+                        adm:logMessage  "added contain"@en ;
+                        adm:logWho      bdr:U00007
+                      ] ;
+        adm:logEntry  [ adm:logDate     "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
+                        adm:logMessage  "added name & note"@en ;
+                        adm:logWho      bdr:U00007
+                      ] ;
+        adm:place_TLM_accession  "004476" ;
+        adm:place_TLM_admin  "tgaAdmin" ;
+        adm:place_TLM_adminEmail  "xxx" ;
+        adm:place_TLM_code  "TGA" ;
+        adm:place_TLM_librarian  "tgaLibrarian" ;
+        adm:place_TLM_librarianEmail  "xxx" ;
+        adm:place_TLM_num   "003159" ;
+        adm:place_TLM_taxonomy  bdr:O1TLMXXX000011 ;
+        adm:place_id_TBRC   "540102200:540101145" ;
+        adm:place_id_lex    "540102200:540101145" ;
+        adm:status    bda:StatusReleased ;
+.

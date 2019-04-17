@@ -92,7 +92,7 @@ public class PlaceMigration {
 		nodeList = root.getElementsByTagNameNS(PLXSDNS, "tlm");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			addTlm(m, main, current);
+			addTlm(m, admMain, current);
 		}
 		
 		// adding monastery foundation events from persons (should be merged with the current founding event if present)
@@ -162,53 +162,57 @@ public class PlaceMigration {
 	    default: return "";
 	    }
 	}
-	
+
 	public static void addGis(Model m, Element gis, Resource main) {
-		NodeList nodeList = gis.getElementsByTagNameNS(PLXSDNS, "id");
-		String value = null;
-		Property prop;
-		Literal l;
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element current = (Element) nodeList.item(i);
-			value = current.getAttribute("type");
-			value = gisIdToUri(value);
-			if (value.isEmpty()) continue;
-			prop = m.getProperty(value);
-			value = current.getAttribute("value").trim();
-			l = m.createLiteral(value);
-			m.add(main, prop, l);
-		}
-		nodeList = gis.getElementsByTagNameNS(PLXSDNS, "coords");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element current = (Element) nodeList.item(i);
-			value = current.getAttribute("lat").trim();
-			if (!value.isEmpty()) {
-			    prop = m.getProperty(BDO+"placeLat");
-			    l = m.createLiteral(value);
-			    m.add(main, prop, l);
-			}
-			value = current.getAttribute("long").trim();
-			if (!value.isEmpty()) {
-			    prop = m.getProperty(BDO+"placeLong");
-			    l = m.createLiteral(value);
-			    m.add(main, prop, l);
-			}
-			prop = m.getProperty(BDO+"placeAccuracy");
-			value = current.getAttribute("accuracy").trim();
-			if(!value.isEmpty()) {
-				l = m.createLiteral(value);
-				m.add(main, prop, l);
-			}
-			prop = m.getProperty(BDO+"placeRegionPoly");
-			value = current.getTextContent().trim();
-			if(!value.isEmpty()) {
-				l = m.createLiteral(value);
-				m.add(main, prop, l);
-			}
-		}
-		
+	    NodeList nodeList = gis.getElementsByTagNameNS(PLXSDNS, "id");
+	    String value = null;
+	    Property prop;
+	    Literal lit;
+	    for (int i = 0; i < nodeList.getLength(); i++) {
+	        Element current = (Element) nodeList.item(i);
+	        value = current.getAttribute("type");
+	        value = gisIdToUri(value);
+	        if (value.isEmpty()) continue;
+	        prop = m.getProperty(value);
+	        value = current.getAttribute("value").trim();
+	        lit = m.createLiteral(value);
+	        if (prop.getNameSpace().contains("admin")) {
+	            m.add(MigrationHelpers.getAdmResource(m, main.getLocalName()), prop, lit);
+	        } else {
+	            m.add(main, prop, lit);
+	        }
+	    }
+	    nodeList = gis.getElementsByTagNameNS(PLXSDNS, "coords");
+	    for (int i = 0; i < nodeList.getLength(); i++) {
+	        Element current = (Element) nodeList.item(i);
+	        value = current.getAttribute("lat").trim();
+	        if (!value.isEmpty()) {
+	            prop = m.getProperty(BDO+"placeLat");
+	            lit = m.createLiteral(value);
+	            m.add(main, prop, lit);
+	        }
+	        value = current.getAttribute("long").trim();
+	        if (!value.isEmpty()) {
+	            prop = m.getProperty(BDO+"placeLong");
+	            lit = m.createLiteral(value);
+	            m.add(main, prop, lit);
+	        }
+	        prop = m.getProperty(BDO+"placeAccuracy");
+	        value = current.getAttribute("accuracy").trim();
+	        if(!value.isEmpty()) {
+	            lit = m.createLiteral(value);
+	            m.add(main, prop, lit);
+	        }
+	        prop = m.getProperty(BDO+"placeRegionPoly");
+	        value = current.getTextContent().trim();
+	        if(!value.isEmpty()) {
+	            lit = m.createLiteral(value);
+	            m.add(main, prop, lit);
+	        }
+	    }
+
 	}
-	
+
 	public static String normalizePlaceType(String val) {
 	    switch(val) {
 	    case "khul":
