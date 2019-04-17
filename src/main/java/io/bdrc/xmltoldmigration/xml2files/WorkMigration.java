@@ -26,9 +26,10 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
 public class WorkMigration {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
+    private static final String BDA = CommonMigration.BDA;
+    private static final String BDO = CommonMigration.BDO;
+    private static final String BDR = CommonMigration.BDR;
+    private static final String ADM = CommonMigration.ADM;
 	public static final String WXSDNS = "http://www.tbrc.org/models/work#";
 	
 	public static boolean splitItems = true;
@@ -67,10 +68,11 @@ public class WorkMigration {
 	public static Model MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(BDR + root.getAttribute("RID"));
+        Resource main = m.createResource(BDR + root.getAttribute("RID"));
+        Resource admMain = m.createResource(BDA + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(BDO + "Work"));
 		
-		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		
 		String value = null;
 		Literal lit = null;

@@ -15,8 +15,9 @@ import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 public class LineageMigration {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String BDA = CommonMigration.BDA;
+    private static final String BDO = CommonMigration.BDO;
+    private static final String BDR = CommonMigration.BDR;
    
 	public static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
 	
@@ -30,11 +31,12 @@ public class LineageMigration {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "event", "missing lineage type");
         }
 		value = BDR+"Lineage"+value.substring(0, 1).toUpperCase() + value.substring(1);
-		Resource main = m.createResource(BDR + rid);
+        Resource main = m.createResource(BDR + rid);
+        Resource admMain = m.createResource(BDA + rid);
 		m.add(main, RDF.type, m.createResource(BDO + "Lineage"));
 		m.add(main, m.getProperty(BDO, "lineageType"), m.createResource(value));
 		
-		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		
     	CommonMigration.addNames(m, root, main, LXSDNS);
     	CommonMigration.addNotes(m, root, main, LXSDNS);

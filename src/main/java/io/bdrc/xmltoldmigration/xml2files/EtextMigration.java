@@ -44,6 +44,7 @@ public class EtextMigration {
     public static final String BDR = CommonMigration.BDR;
     public static final String BDO = CommonMigration.BDO;
     public static final String ADM = CommonMigration.ADM;
+    public static final String BDA = CommonMigration.BDA;
     public static boolean testMode = false;
     private static XPath xPath = initXpath();
     public static final Map<String, String> distributorToUri = new HashMap<>();
@@ -417,7 +418,7 @@ public class EtextMigration {
                         etextModel.getResource(BDR+workId));
             }
             
-            CommonMigration.addStatus(itemModel, itemModel.getResource(BDR+itemId), "released");
+            CommonMigration.addStatus(itemModel, itemModel.getResource(BDA+itemId), "released");
         }
 
         if (addEtextInItem)
@@ -429,7 +430,7 @@ public class EtextMigration {
                 RDF.type,
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
-        CommonMigration.addStatus(etextModel, etextModel.getResource(BDR+etextId), "released");
+        CommonMigration.addStatus(etextModel, etextModel.getResource(BDA+etextId), "released");
         
         Model imageItemModel = null;
         if (isPaginated && !testMode) {

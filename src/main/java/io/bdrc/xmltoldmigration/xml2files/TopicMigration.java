@@ -19,9 +19,10 @@ public class TopicMigration {
 		CommonMigration.setPrefixes(m, "topic");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
+        Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
+        Resource admMain = m.createResource(CommonMigration.BDA + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Topic"));
-		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 
 		CommonMigration.addNames(m, root, main, TXSDNS);
 

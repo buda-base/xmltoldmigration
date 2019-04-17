@@ -61,6 +61,7 @@ public class MigrationApp
 
     private static final String BDO = CommonMigration.ONTOLOGY_NS;
     private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
     private static final String ADM = CommonMigration.ADM;
 
     public static final String CORPORATION = MigrationHelpers.CORPORATION;
@@ -166,6 +167,7 @@ public class MigrationApp
         if (!fileName.endsWith(".xml")) return;
         String baseName = fileName.substring(0, fileName.length()-4);
         Resource item;
+        Resource admItem;
         Model itemModel;
         switch(type) {
         case OUTLINE:
@@ -266,7 +268,8 @@ public class MigrationApp
                 adjustAccess(m, itemModel, baseName, itemName);
                 CommonMigration.setPrefixes(itemModel);
                 item = itemModel.createResource(BDR+itemName);
-                CommonMigration.addStatus(itemModel, item, root.getAttribute("status")); // same status as work
+                admItem = itemModel.createResource(BDA+itemName);
+                CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
                 itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
                 if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())

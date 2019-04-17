@@ -19,8 +19,9 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 public class PlaceMigration {
 
 	public static final String PLXSDNS = "http://www.tbrc.org/models/place#";
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String BDA = CommonMigration.BDA;
+    private static final String BDO = CommonMigration.BDO;
+    private static final String BDR = CommonMigration.BDR;
     private static final String ADM = CommonMigration.ADM;
     private static final String VCARD = VCARD4.getURI();
 	
@@ -42,12 +43,13 @@ public class PlaceMigration {
 		CommonMigration.setPrefixes(m, "place");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(BDR + root.getAttribute("RID"));
+        Resource main = m.createResource(BDR + root.getAttribute("RID"));
+        Resource admMain = m.createResource(BDA + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(BDO + "Place"));
 		String value = getTypeStr(root, m, main);
 		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + "PlaceType"+value));
 		
-		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 
 		CommonMigration.addNames(m, root, main, PLXSDNS);
 		

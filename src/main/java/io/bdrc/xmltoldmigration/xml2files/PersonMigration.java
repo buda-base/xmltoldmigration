@@ -20,8 +20,9 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
 public class PersonMigration {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
+    private static final String BDA = CommonMigration.BDA;
+    private static final String BDO = CommonMigration.BDO;
+    private static final String BDR = CommonMigration.BDR;
 	public static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
 	public static final class FoundingEvent {
@@ -81,9 +82,10 @@ public class PersonMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String RID = root.getAttribute("RID");
-		Resource main = m.createResource(BDR + RID);
+        Resource main = m.createResource(BDR + RID);
+        Resource admMain = m.createResource(BDA + RID);
 		m.add(main, RDF.type, m.createResource(BDO + "Person"));
-		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		int gender = SymetricNormalization.GENDER_U;
 		
 		Map<String,Resource> typeNodes = new HashMap<>();

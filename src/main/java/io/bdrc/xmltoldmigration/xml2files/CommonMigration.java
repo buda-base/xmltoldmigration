@@ -702,7 +702,8 @@ public class CommonMigration  {
 	public static Map<String,Model> addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
-		Resource fplItem = null;
+        Resource fplItem = null;
+        Resource admFplItem = null;
 		Model resModel = null;
 		String fplId = null;
 		String fplRoom = null;
@@ -756,11 +757,12 @@ public class CommonMigration  {
 			        resModel = ModelFactory.createDefaultModel();
 			        setPrefixes(resModel, "item");
 			        String workId = r.getLocalName();
-			        fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
+                    fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
+                    admFplItem = resModel.createResource(BDA+"I"+workId.substring(1)+"_P001");
 			        if (WorkMigration.addItemForWork) {
                         fplItem.addProperty(resModel.getProperty(BDO, "itemPhysicalAssetForWork"), r);
 			        }
-			        addStatus(resModel, fplItem, "released");
+			        addStatus(resModel, admFplItem, "released");
 			        fplItem.addProperty(RDF.type, resModel.getResource(BDO+"ItemPhysicalAsset"));
 			        fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
 			        if (WorkMigration.addWorkHasItem) {
@@ -1117,6 +1119,7 @@ public class CommonMigration  {
        public static void addStatus(Model m, Resource r, String status) {
            if (status == null || status.isEmpty()) return;
            String statusName = "Status"+status.substring(0, 1).toUpperCase() + status.substring(1);
+           m.add(r, RDF.type, m.createResource(ADM + "AdminData"));
            r.addProperty(m.getProperty(ADM+"status"), m.getResource(BDA+statusName));
        }
 	

@@ -14,9 +14,10 @@ public class ProductMigration {
 	
     // TODO: move to admin: namespace?
     
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
+    private static final String BDA = CommonMigration.BDA;
+    private static final String BDO = CommonMigration.BDO;
+    private static final String BDR = CommonMigration.BDR;
+    private static final String ADM = CommonMigration.ADM;
 	public static final String PRXSDNS = "http://www.tbrc.org/models/product#";
 	
 	public static Model MigrateProduct(Document xmlDocument) {
@@ -24,10 +25,11 @@ public class ProductMigration {
 		CommonMigration.setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		Resource main = m.createResource(BDR + root.getAttribute("RID"));
+        Resource main = m.createResource(BDR + root.getAttribute("RID"));
+        Resource admMain = m.createResource(BDA + root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(ADM + "Product"));
 		
-		CommonMigration.addStatus(m, main, root.getAttribute("status"));
+		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		
 		CommonMigration.addNotes(m, root, main, PRXSDNS);
 		
