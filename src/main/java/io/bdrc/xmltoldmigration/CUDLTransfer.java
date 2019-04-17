@@ -135,13 +135,12 @@ public class CUDLTransfer {
         
         // Work model
         Resource work = workModel.createResource(BDR+"W0CDL0"+rid);
-        Resource admWork = workModel.createResource(BDA+"W0CDL0"+rid);
+        Resource admWork = MigrationHelpers.getAdmResource(workModel, "W0CDL0"+rid);
         res.add(work);
 
         // Work adm:AdminData
-        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
-        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_CUDL")); // ?
+        CommonMigration.addReleased(workModel, admWork);
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA + "LD_CUDL")); // ?
         final String origUrl = ORIG_URL_BASE+line[0];
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
 
@@ -203,7 +202,7 @@ public class CUDLTransfer {
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = "I0CDL0"+rid;
         Resource item = itemModel.createResource(BDR+itemRID);
-        Resource itemAdm = itemModel.createResource(BDA+itemRID);
+        Resource itemAdm = MigrationHelpers.getAdmResource(itemModel, itemRID);
         res.add(item);
         
         if (WorkMigration.addWorkHasItem) {
@@ -211,9 +210,8 @@ public class CUDLTransfer {
         }
         
         // Item adm:AdminData
-        itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
-        itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
-        itemModel.add(itemAdm, itemModel.createProperty(ADM, "hasLegal"), itemModel.createResource(BDA+"LD_CUDL")); // ?
+        CommonMigration.addReleased(itemModel, itemAdm);
+        itemModel.add(itemAdm, itemModel.createProperty(ADM, "hasLegal"), itemModel.createResource(BDA + "LD_CUDL"));
                
         // bdo:ItemImageAsset
         itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));

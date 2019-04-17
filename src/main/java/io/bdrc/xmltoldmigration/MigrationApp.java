@@ -268,7 +268,7 @@ public class MigrationApp
                 adjustAccess(m, itemModel, baseName, itemName);
                 CommonMigration.setPrefixes(itemModel);
                 item = itemModel.createResource(BDR+itemName);
-                admItem = itemModel.createResource(BDA+itemName);
+                admItem = MigrationHelpers.getAdmResource(itemModel, itemName);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
                 itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));

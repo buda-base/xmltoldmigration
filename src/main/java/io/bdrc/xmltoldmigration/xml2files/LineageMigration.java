@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
@@ -32,7 +33,7 @@ public class LineageMigration {
         }
 		value = BDR+"Lineage"+value.substring(0, 1).toUpperCase() + value.substring(1);
         Resource main = m.createResource(BDR + rid);
-        Resource admMain = m.createResource(BDA + rid);
+        Resource admMain = MigrationHelpers.getAdmResource(m, rid);
 		m.add(main, RDF.type, m.createResource(BDO + "Lineage"));
 		m.add(main, m.getProperty(BDO, "lineageType"), m.createResource(value));
 		
@@ -42,7 +43,7 @@ public class LineageMigration {
     	CommonMigration.addNotes(m, root, main, LXSDNS);
     	CommonMigration.addExternals(m, root, main, LXSDNS);
     	CommonMigration.addDescriptions(m, root, main, LXSDNS);
-    	CommonMigration.addLog(m, root, main, LXSDNS);
+    	CommonMigration.addLog(m, root, admMain, LXSDNS);
     	CommonMigration.addLocations(m, main, root, LXSDNS, "", null, null, null);
 		
         NodeList nodeList = root.getElementsByTagNameNS(LXSDNS, "object");

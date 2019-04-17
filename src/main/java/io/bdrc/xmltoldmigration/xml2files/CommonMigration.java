@@ -758,11 +758,11 @@ public class CommonMigration  {
 			        setPrefixes(resModel, "item");
 			        String workId = r.getLocalName();
                     fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
-                    admFplItem = resModel.createResource(BDA+"I"+workId.substring(1)+"_P001");
+                    admFplItem = MigrationHelpers.getAdmResource(resModel, "I"+workId.substring(1)+"_P001");
 			        if (WorkMigration.addItemForWork) {
                         fplItem.addProperty(resModel.getProperty(BDO, "itemPhysicalAssetForWork"), r);
 			        }
-			        addStatus(resModel, admFplItem, "released");
+			        addReleased(resModel, admFplItem);
 			        fplItem.addProperty(RDF.type, resModel.getResource(BDO+"ItemPhysicalAsset"));
 			        fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
 			        if (WorkMigration.addWorkHasItem) {
@@ -1116,10 +1116,13 @@ public class CommonMigration  {
            return BDO+"creator"+type.substring(0, 1).toUpperCase() + type.substring(1);
        }
        
+       public static void addReleased(Model m, Resource r) {
+           addStatus(m, r, "released");
+       }
+       
        public static void addStatus(Model m, Resource r, String status) {
            if (status == null || status.isEmpty()) return;
            String statusName = "Status"+status.substring(0, 1).toUpperCase() + status.substring(1);
-           m.add(r, RDF.type, m.createResource(ADM + "AdminData"));
            r.addProperty(m.getProperty(ADM+"status"), m.getResource(BDA+statusName));
        }
 	

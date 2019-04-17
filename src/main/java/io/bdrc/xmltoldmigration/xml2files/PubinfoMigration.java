@@ -14,6 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
@@ -96,7 +97,9 @@ public class PubinfoMigration {
         
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
-        CommonMigration.addLog(m, root, main, WPXSDNS);
+        
+        Resource admMain = MigrationHelpers.getAdmResource(m, main.getLocalName());
+        CommonMigration.addLog(m, root, admMain, WPXSDNS);
         
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");
         for (int i = 0; i < nodeList.getLength(); i++) {

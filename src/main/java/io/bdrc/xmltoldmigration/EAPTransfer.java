@@ -136,10 +136,9 @@ public class EAPTransfer {
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
 
         // adm:AdminData
-        Resource admWork = workModel.createResource(BDA+RID);
-        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
-        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
-        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_EAP")); // ?
+        Resource admWork = MigrationHelpers.getAdmResource(workModel, RID);
+        CommonMigration.addReleased(workModel, admWork);
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA + "LD_EAP")); // ?
         final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
 
@@ -259,10 +258,9 @@ public class EAPTransfer {
         }
 
         // Item adm:AdminData
-        Resource admItem = itemModel.createResource(BDA+itemRID);
-        itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
-        itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
-        itemModel.add(admItem, itemModel.createProperty(ADM, "hasLegal"), itemModel.createResource(BDA+"LD_EAP")); // ?
+        Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemRID);
+        CommonMigration.addStatus(itemModel, admItem, "released");
+        itemModel.add(admItem, itemModel.createProperty(ADM, "hasLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?
 
         // Volume for Item
         final String volumeRID = 'V'+itemRID.substring(1);
@@ -280,8 +278,7 @@ public class EAPTransfer {
         
         // there doesn't appear to be an original url for the volume to record in the Volume AdminData
 //        // Volume adm:AdminData
-//        Resource admVol = itemModel.createResource(BDA+volumeRID);
-//        itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
+//        Resource admVol = MigrationHelpers.getAdmResource(itemModel, volumeRID);
 //        origUrl = ManifestPREF+ref;
 //        itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
         

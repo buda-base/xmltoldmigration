@@ -83,7 +83,7 @@ public class PersonMigration {
 		Element current;
 		String RID = root.getAttribute("RID");
         Resource main = m.createResource(BDR + RID);
-        Resource admMain = m.createResource(BDA + RID);
+        Resource admMain = MigrationHelpers.getAdmResource(m, RID);
 		m.add(main, RDF.type, m.createResource(BDO + "Person"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		int gender = SymetricNormalization.GENDER_U;
@@ -232,7 +232,7 @@ public class PersonMigration {
 		
 		CommonMigration.addExternals(m, root, main, PXSDNS);
 		
-		CommonMigration.addLog(m, root, main, PXSDNS);
+		CommonMigration.addLog(m, root, admMain, PXSDNS);
 		
 		SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
 		

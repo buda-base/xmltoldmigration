@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 
@@ -16,9 +17,11 @@ import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 public class ImagegroupMigration {
 
 	public static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
+    
+	private static final String BDA = CommonMigration.BDA;
+    private static final String BDO = CommonMigration.BDO;
+    private static final String BDR = CommonMigration.BDR;
+    private static final String ADM = CommonMigration.ADM;
 
     public static boolean addVolumeOf = false;
     public static boolean addItemHasVolume = true;
@@ -70,9 +73,11 @@ public class ImagegroupMigration {
 		final String itemId = item.getLocalName();
 		final String volumeId = "V"+itemId.substring(1)+"_"+imageGroupRID;
 		
-		Resource main = m.createResource(BDR+volumeId);
+        Resource main = m.createResource(BDR+volumeId);
+        Resource admMain = MigrationHelpers.getAdmResource(m, volumeId);
+        Resource admItem = MigrationHelpers.getAdmResource(m, itemId);
 
-		main.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
+		admMain.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
         if (volumeNumber < 1)
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");      
@@ -95,7 +100,7 @@ public class ImagegroupMigration {
             ImageListTranslation.addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, main);
         }
 		
-        CommonMigration.addLog(m, root, item, IGXSDNS);
+        CommonMigration.addLog(m, root, admItem, IGXSDNS);
         CommonMigration.addDescriptions(m, root, main, IGXSDNS);
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
@@ -125,9 +130,9 @@ public class ImagegroupMigration {
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "qc");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            addSimpleElement("qcperson", "volumeQcPerson", current, m, main);
-            addSimpleElement("qcdate", "volumeQcDate", current, m, main);
-            addSimpleElement("qcnotes", "volumeQcNote", current, m, main);
+            addSimpleElement("qcperson", "volumeQcPerson", current, m, admMain);
+            addSimpleElement("qcdate", "volumeQcDate", current, m, admMain);
+            addSimpleElement("qcnotes", "volumeQcNote", current, m, admMain);
         }
 	}
 

@@ -44,12 +44,20 @@ public class EAPTest {
         //MigrationHelpers.modelToOutputStream(workModel, System.out, "work", MigrationHelpers.OUTPUT_STTL, null);
         Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest.ttl");
         
+        // ==== TEMP DEBUG ====
+        workModel.write(new FileWriter("/Users/chris/EAPTest-workModel.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/EAPTest-correctModel.ttl"), "TTL");
+        
         assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.ontologymodel) );
         //
         Model itemModel = resources.get(1).getModel();
         //MigrationHelpers.modelToOutputStream(itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, null);
         correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest-item.ttl");
+        
+        // ==== TEMP DEBUG ====
+        itemModel.write(new FileWriter("/Users/chris/EAPTest-item-itemModel.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/EAPTest-item-correctModel.ttl"), "TTL");
         
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(itemModel, MigrationHelpers.ontologymodel) );

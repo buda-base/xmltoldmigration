@@ -11,7 +11,7 @@
 
 bda:IEAP676-1-10  a   adm:AdminData ;
         adm:hasLegal  bda:LD_EAP ;
-        adm:status    bdr:StatusReleased ;
+        adm:status    bda:StatusReleased ;
 .
 bdr:IEAP676-1-10  a     :ItemImageAsset ;
     :itemHasVolume      bdr:VEAP676-1-10 ;

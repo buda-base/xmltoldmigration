@@ -81,13 +81,12 @@ public class GRETILTransfer {
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
         Resource work = workModel.createResource(BDR+line[0]);
-        Resource admWork = workModel.createResource(BDA+line[0]);
+        Resource admWork = MigrationHelpers.getAdmResource(workModel, line[0]);
         res.add(work);
 
         // Work AdminData
-        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
-        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA+"LD_GRETIL")); // ?
-        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
+        CommonMigration.addReleased(workModel, admWork);
+        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA + "LD_GRETIL")); // ?
         if (line[8] != null && !"".equals(line[8])) {
             final String origUrl = ORIG_URL_BASE+line[8].replace('/', '-');
             workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));

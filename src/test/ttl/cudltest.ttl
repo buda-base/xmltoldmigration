@@ -12,7 +12,7 @@
 bda:W0CDL0MS-ADD-01691-00003
         a                       adm:AdminData ;
         adm:hasLegal            bda:LD_CUDL ;
-        adm:status              bdr:StatusReleased ;
+        adm:status              bda:StatusReleased ;
         adm:originalRecord      "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
 .
 bdr:W0CDL0MS-ADD-01691-00003

@@ -43,6 +43,10 @@ public class CUDLTest {
         Model workModel = res.get(0).getModel();
         Model model = ModelFactory.createDefaultModel();
         model.read(new FileInputStream("src/test/ttl/cudltest.ttl"), null,"TTL");
+        
+        // ==== TEMP DEBUG ====
+        workModel.write(new FileWriter("/Users/chris/CUDLTest-workModel.ttl"), "TTL");
+        model.write(new FileWriter("/Users/chris/CUDLTest-correctModel.ttl"), "TTL");
 
         assertTrue( workModel.isIsomorphicWith(model) );
     }

@@ -522,7 +522,7 @@ public class MigrationHelpers {
         CommonMigration.setPrefixes(m, type);
         Element root = xmlDocument.getDocumentElement();
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = m.createResource(BDA + root.getAttribute("RID"));
+        Resource admMain = getAdmResource(m, root.getAttribute("RID"));
         CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
         final String XsdPrefix = typeToXsdPrefix.get(type);
         NodeList nodeList = root.getElementsByTagNameNS(XsdPrefix, "log");
@@ -551,7 +551,7 @@ public class MigrationHelpers {
             } else {
                 final String rid = matcher.group(1).toUpperCase();
                 admMain.addProperty(m.createProperty(ADM, "replaceWith"), m.createResource(BDR+rid));
-                MigrationHelpers.resourceReplacedWith(root.getAttribute("RID"), rid);
+                resourceReplacedWith(root.getAttribute("RID"), rid);
             }
         }
         return m;
@@ -648,5 +648,11 @@ public class MigrationHelpers {
 		validators.put(type, res);
 		return res;
 	}
-	
+    
+    public static Resource getAdmResource(Model m, String id) {
+        Resource admR = m.createResource(BDA+id);
+        m.add(admR, RDF.type, m.createResource(ADM + "AdminData"));
+        
+        return admR;
+    }
 }

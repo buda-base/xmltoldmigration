@@ -16,14 +16,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
 public class OutlineMigration {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
+    private static final String BDA = CommonMigration.BDA;
+    private static final String BDO = CommonMigration.BDO;
+    private static final String BDR = CommonMigration.BDR;
+    private static final String ADM = CommonMigration.ADM;
 	public static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 	
 	public static boolean splitOutlines = false;
@@ -183,14 +185,13 @@ public class OutlineMigration {
 
 		CurNodeInt curNodeInt = new CurNodeInt();
 		curNodeInt.i = 0;
-		Resource mainOutline = null;
+		Resource admOutline = MigrationHelpers.getAdmResource(m, work.getLocalName());
 		String value;
 		String legacyOutlineRID = root.getAttribute("RID");
 
-        mainOutline = m.createResource();
-        mainOutline.addProperty(m.getProperty(ADM, "legacyOutlineNodeRID"), legacyOutlineRID);
-        mainOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
-        workInOutlineModel.addProperty(m.getProperty(ADM, "outline"), mainOutline);
+        admOutline.addProperty(m.getProperty(ADM, "legacyOutlineNodeRID"), legacyOutlineRID);
+        admOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
+        workInOutlineModel.addProperty(m.getProperty(ADM, "outline"), admOutline);
         NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
@@ -198,8 +199,8 @@ public class OutlineMigration {
             if (value.isEmpty()) {
                 value = "NoType";
             }
-            value = BDR+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
-            m.add(mainOutline, m.getProperty(ADM, "outlineType"), m.createResource(value));
+            value = BDA+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
+            m.add(admOutline, m.getProperty(ADM, "outlineType"), m.createResource(value));
         }
 
         value = root.getAttribute("pagination").trim();
@@ -213,13 +214,13 @@ public class OutlineMigration {
         // if the outline names must really be migrated, do it here, they would be under
         // the tbr:outlineName property
         
-		CommonMigration.addNotes(m, root, mainOutline, OXSDNS);
-		CommonMigration.addExternals(m, root, mainOutline, OXSDNS);
-		CommonMigration.addLog(m, root, mainOutline, OXSDNS);
-		CommonMigration.addDescriptions(m, root, mainOutline, OXSDNS);
-		CommonMigration.addLocations(m, mainOutline, root, OXSDNS, work.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
+		CommonMigration.addNotes(m, root, admOutline, OXSDNS);
+		CommonMigration.addExternals(m, root, admOutline, OXSDNS);
+		CommonMigration.addLog(m, root, admOutline, OXSDNS);
+		CommonMigration.addDescriptions(m, root, admOutline, OXSDNS);
+		CommonMigration.addLocations(m, admOutline, root, OXSDNS, work.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
-		addCreators(m, mainOutline, root);
+		addCreators(m, admOutline, root);
 		
 		// case where there's an unnecessary unique top node (ex: W1GS61415 / O1LS4227)
 		final List<Element> nodeList2 = CommonMigration.getChildrenByTagName(root, OXSDNS, "node");

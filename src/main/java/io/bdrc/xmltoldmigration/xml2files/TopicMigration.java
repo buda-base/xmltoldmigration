@@ -9,6 +9,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
+
 
 public class TopicMigration {
 
@@ -20,7 +22,7 @@ public class TopicMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
-        Resource admMain = m.createResource(CommonMigration.BDA + root.getAttribute("RID"));
+        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Topic"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 
@@ -30,7 +32,7 @@ public class TopicMigration {
 
 		CommonMigration.addExternals(m, root, main, TXSDNS);
 
-		CommonMigration.addLog(m, root, main, TXSDNS);
+		CommonMigration.addLog(m, root, admMain, TXSDNS);
 
 		CommonMigration.addDescriptions(m, root, main, TXSDNS);
 

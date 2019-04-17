@@ -44,7 +44,7 @@ public class PlaceMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = m.createResource(BDA + root.getAttribute("RID"));
+        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(BDO + "Place"));
 		String value = getTypeStr(root, m, main);
 		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + "PlaceType"+value));
@@ -57,7 +57,7 @@ public class PlaceMigration {
 		
 		CommonMigration.addExternals(m, root, main, PLXSDNS);
 		
-		CommonMigration.addLog(m, root, main, PLXSDNS);
+		CommonMigration.addLog(m, root, admMain, PLXSDNS);
 		
 		CommonMigration.addDescriptions(m, root, main, PLXSDNS);
 		

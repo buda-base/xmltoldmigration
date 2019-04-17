@@ -12,6 +12,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration.CurNodeInt;
 
 public class TaxonomyMigration {
@@ -32,8 +33,9 @@ public class TaxonomyMigration {
         
         String legacyOutlineRID = root.getAttribute("RID");
         Resource mainTaxonomy = m.createResource(BDR+legacyOutlineRID);
+        Resource admTaxonomy = MigrationHelpers.getAdmResource(m, legacyOutlineRID);
 
-        CommonMigration.addLog(m, root, mainTaxonomy, OXSDNS);
+        CommonMigration.addLog(m, root, admTaxonomy, OXSDNS);
         
         addNodes(m, mainTaxonomy, root, mainTaxonomy.getLocalName(), curNodeInt, null, legacyOutlineRID, "");
         

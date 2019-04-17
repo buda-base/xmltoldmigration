@@ -9,6 +9,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
+
 
 public class ProductMigration {
 	
@@ -26,7 +28,7 @@ public class ProductMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = m.createResource(BDA + root.getAttribute("RID"));
+        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(ADM + "Product"));
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
@@ -35,7 +37,7 @@ public class ProductMigration {
 		
 		CommonMigration.addExternals(m, root, main, PRXSDNS);
 		
-		CommonMigration.addLog(m, root, main, PRXSDNS);
+		CommonMigration.addLog(m, root, admMain, PRXSDNS);
 		
 		CommonMigration.addDescriptions(m, root, main, PRXSDNS, true);
 		
