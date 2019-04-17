@@ -6,6 +6,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.VCARD4;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -21,7 +22,7 @@ public class PlaceMigration {
     private static final String BDO = CommonMigration.ONTOLOGY_NS;
     private static final String BDR = CommonMigration.RESOURCE_NS;
     private static final String ADM = CommonMigration.ADM;
-    private static final String VCARD = org.apache.jena.vocabulary.VCARD.getURI();
+    private static final String VCARD = VCARD4.getURI();
 	
     private static String getUriFromTypeSubtype(String type, String subtype) {
         switch (type) {
