@@ -1117,7 +1117,7 @@ public class CommonMigration  {
        public static void addStatus(Model m, Resource r, String status) {
            if (status == null || status.isEmpty()) return;
            String statusName = "Status"+status.substring(0, 1).toUpperCase() + status.substring(1);
-           r.addProperty(m.getProperty(ADM+"status"), m.getResource(BDR+statusName));
+           r.addProperty(m.getProperty(ADM+"status"), m.getResource(BDA+statusName));
        }
 	
 	// IMPORTANT: we're using canonical BCP47 forms, which means that the

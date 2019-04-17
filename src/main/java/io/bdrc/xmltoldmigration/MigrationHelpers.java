@@ -523,7 +523,7 @@ public class MigrationHelpers {
         Element root = xmlDocument.getDocumentElement();
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
         Resource admMain = m.createResource(BDA + root.getAttribute("RID"));
-        CommonMigration.addStatus(m, main, root.getAttribute("status"));
+        CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
         final String XsdPrefix = typeToXsdPrefix.get(type);
         NodeList nodeList = root.getElementsByTagNameNS(XsdPrefix, "log");
         String withdrawnmsg = null;

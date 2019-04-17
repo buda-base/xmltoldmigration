@@ -5,6 +5,8 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:R8LS12811  adm:replaceWith  bdr:R1GS23 ;
-    adm:status          bdr:StatusWithdrawn .
+bda:R8LS12811  
+    adm:replaceWith  bdr:R1GS23 ;
+    adm:status       bda:StatusWithdrawn .

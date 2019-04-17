@@ -360,7 +360,6 @@ public class MigrationTest
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/withdrawn-test.xml");  
            Model fromXml = MigrationHelpers.migrateWithdrawn(d, "office");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/withdrawn-test.ttl");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", MigrationHelpers.OUTPUT_STTL, "");
            
            // ==== TEMP DEBUG ====
            fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-testWithdrawn-fromXml.ttl"), "TTL");
