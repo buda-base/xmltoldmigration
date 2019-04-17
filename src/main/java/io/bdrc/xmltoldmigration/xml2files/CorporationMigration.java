@@ -9,6 +9,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
+
 
 public class CorporationMigration {
 
@@ -20,7 +22,7 @@ public class CorporationMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
-        Resource admMain = m.createResource(CommonMigration.BDA + root.getAttribute("RID"));
+        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Corporation"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		

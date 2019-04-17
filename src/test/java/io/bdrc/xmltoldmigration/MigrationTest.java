@@ -231,7 +231,7 @@ public class MigrationTest
     }
 	
 	@Test
-    public void testCorporation()
+    public void testCorporation() throws IOException
     {
 	    System.out.println("testing corporation");
 		Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/CorporationTest.xml");	
@@ -240,6 +240,11 @@ public class MigrationTest
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
 		MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", MigrationHelpers.OUTPUT_STTL, null);
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-testCorporation-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/MIGRATION_TEST-testCorporation-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
