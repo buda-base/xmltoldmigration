@@ -7,6 +7,6 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:R8LS12811  
+bda:R8LS12811  a         adm:AdminData ;
     adm:replaceWith  bdr:R1GS23 ;
     adm:status       bda:StatusWithdrawn .
