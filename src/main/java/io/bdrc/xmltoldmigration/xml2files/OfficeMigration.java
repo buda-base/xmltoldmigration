@@ -7,6 +7,8 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
+
 public class OfficeMigration {
 	
 	public static final String OXSDNS = "http://www.tbrc.org/models/office#";
@@ -16,7 +18,7 @@ public class OfficeMigration {
 		CommonMigration.setPrefixes(m, "office");
 		Element root = xmlDocument.getDocumentElement();
         Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
-        Resource admMain = m.createResource(CommonMigration.BDA + root.getAttribute("RID"));
+        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Role"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		
