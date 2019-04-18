@@ -15,6 +15,7 @@ bdr:T3CN2023  a         :Topic ;
     skos:prefLabel      "bstan 'gyur/"@bo-x-ewts , "Tengyur"@en-x-mixed , "丹珠尔"@zh-hans ;
 .
 bda:T3CN2023  a         adm:AdminData ;
+    adm:adminAbout      bdr:T3CN2023 ;
     adm:logEntry        [ adm:logDate         "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
                           adm:logMessage      "created record"@en ;
                           adm:logWho          bdr:U00007

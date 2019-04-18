@@ -216,7 +216,7 @@ public class MigrationTest
     }
 	
 	@Test
-    public void testPR99NCUL01()
+    public void testPR99NCUL01() throws IOException
     {
 	    System.out.println("testing product");
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/PR99NCUL01.xml");
@@ -225,6 +225,11 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "product");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PR99NCUL01.ttl");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "product", MigrationHelpers.OUTPUT_STTL, null);
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-testPR99NCUL01-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/MIGRATION_TEST-testPR99NCUL01-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -261,6 +266,11 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-testWork-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/MIGRATION_TEST-testWork-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

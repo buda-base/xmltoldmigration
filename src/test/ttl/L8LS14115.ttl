@@ -39,6 +39,7 @@ bdr:L8LS14115  a        :Lineage ;
                         ] ;
 .
 bda:L8LS14115  a        adm:AdminData ;
+    adm:adminAbout bdr:L8LS14115 ;
     adm:logEntry        [ adm:logDate         "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
                           adm:logWho          bdr:U00019
                         ] ,

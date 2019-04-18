@@ -10,6 +10,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bda:IEAP676-1-10  a   adm:AdminData ;
+        adm:adminAbout bdr:IEAP676-1-10 ;
         adm:hasLegal  bda:LD_EAP ;
         adm:status    bda:StatusReleased ;
 .

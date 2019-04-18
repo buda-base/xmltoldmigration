@@ -650,8 +650,10 @@ public class MigrationHelpers {
 	}
     
     public static Resource getAdmResource(Model m, String id) {
+        Resource res = m.createResource(BDR+id);
         Resource admR = m.createResource(BDA+id);
         m.add(admR, RDF.type, m.createResource(ADM + "AdminData"));
+        m.add(admR, m.createProperty(ADM+"adminAbout"), res);
         
         return admR;
     }

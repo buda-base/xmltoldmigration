@@ -10,6 +10,7 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 
 bda:W0GR0001 a adm:AdminData ;
+        adm:adminAbout bdr:W0GR0001 ;
         adm:hasLegal  bda:LD_GRETIL ;
         adm:originalRecord  "gretil.sub.uni-goettingen.de/#AbhNisp"^^xsd:anyURI ;
         adm:status          bda:StatusReleased ;

@@ -10,6 +10,7 @@
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 
 bda:WEAP676-1-10  a     adm:AdminData ;
+    adm:adminAbout      bdr:WEAP676-1-10 ;
     adm:hasLegal        bda:LD_EAP ;
     adm:status          bda:StatusReleased ;
     adm:originalRecord  "https://eap.bl.uk/archive-file/EAP676-1-10"^^xsd:anyURI ;
