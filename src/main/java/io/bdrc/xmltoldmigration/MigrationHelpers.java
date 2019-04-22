@@ -648,12 +648,16 @@ public class MigrationHelpers {
 		validators.put(type, res);
 		return res;
 	}
-    
+
     public static Resource getAdmResource(Model m, String id) {
+        return getAdmResource(m, id, false);
+    }
+    
+    public static Resource getAdmResource(Model m, String id, boolean same) {
         Resource res = m.createResource(BDR+id);
         Resource admR = m.createResource(BDA+id);
         m.add(admR, RDF.type, m.createResource(ADM + "AdminData"));
-        m.add(admR, m.createProperty(ADM+"adminAbout"), res);
+        m.add(admR, m.createProperty(ADM+"adminAbout"), (same ? admR : res));
         
         return admR;
     }

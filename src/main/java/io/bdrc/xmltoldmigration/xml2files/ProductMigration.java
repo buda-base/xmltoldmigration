@@ -27,8 +27,11 @@ public class ProductMigration {
 		CommonMigration.setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
+//        Resource main = m.createResource(BDR + root.getAttribute("RID"));
+        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"), true);
+        // Products are migrated as pure admindata so notes, descriptions etc are all
+        // "about" admindata
+        Resource main = admMain;
 		m.add(main, RDF.type, m.createResource(ADM + "Product"));
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
@@ -49,19 +52,20 @@ public class ProductMigration {
 			for (int j = 0; j < subNodeList.getLength(); j++) {
 				Element subCurrent = (Element) subNodeList.item(j);
 				String value = subCurrent.getAttribute("RID");
-				Resource included = m.createResource(BDR + value);
+				Resource included = m.createResource(BDA + value);
 				m.add(main, m.getProperty(ADM, "productInclude"), included);
 			}
 			addAllows(m, main, current);
 			addOrgs(m, main, current);
 		}
 		
-		List<String> worksForProduct = WorkMigration.productWorks.get(main.getLocalName());
-		if (worksForProduct != null) {
-		    for (String workId : worksForProduct) {
-		        m.add(main, m.getProperty(ADM, "productHasWork"), m.createResource(BDR+workId));
-		    }
-		}
+		// just use the adm:workInProduct on the involved works. adm:productHasWork is deprecated
+//		List<String> worksForProduct = WorkMigration.productWorks.get(main.getLocalName());
+//		if (worksForProduct != null) {
+//		    for (String workId : worksForProduct) {
+//		        m.add(main, m.getProperty(ADM, "productHasWork"), m.createResource(BDR+workId));
+//		    }
+//		}
 
 		return m;
 	}

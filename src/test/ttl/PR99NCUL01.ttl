@@ -6,14 +6,12 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
-@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bda:PR99NCUL01  a           adm:Product, adm:AdminData ;
     skos:prefLabel          "This or that"@en ;
     adm:adminAbout          bda:PR99NCUL01 ;
-    adm:status              bdr:StatusReleased ;
+    adm:status              bda:StatusReleased ;
     adm:logEntry            [ adm:logMessage  "added entry for NCCU Taiwan"@en ;
                               adm:logDate     "2014-09-22T19:39:47.382Z"^^xsd:dateTime ;
                               adm:logWho      bdr:U00006
@@ -33,4 +31,4 @@ bda:PR99NCUL01  a           adm:Product, adm:AdminData ;
                         adm:productAllowByAddr  "ip1"
                       ]
             ] ;
-    adm:productInclude      bdr:PR88CT000129 .
+    adm:productInclude      bda:PR88CT000129 .
