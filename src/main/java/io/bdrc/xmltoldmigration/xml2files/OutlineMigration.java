@@ -179,19 +179,17 @@ public class OutlineMigration {
 		    m = workModel;
 		}
 		
-		Resource workInOutlineModel = m.getResource(work.getURI()); 
+        Resource admOutline = MigrationHelpers.getAdmResource(m, work.getLocalName());
 
 		Element root = xmlDocument.getDocumentElement();
 
 		CurNodeInt curNodeInt = new CurNodeInt();
 		curNodeInt.i = 0;
-		Resource admOutline = MigrationHelpers.getAdmResource(m, work.getLocalName());
 		String value;
 		String legacyOutlineRID = root.getAttribute("RID");
 
-        admOutline.addProperty(m.getProperty(ADM, "legacyOutlineNodeRID"), legacyOutlineRID);
+        admOutline.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), legacyOutlineRID);
         admOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
-        workInOutlineModel.addProperty(m.getProperty(ADM, "outline"), admOutline);
         NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
@@ -203,6 +201,7 @@ public class OutlineMigration {
             m.add(admOutline, m.getProperty(ADM, "outlineType"), m.createResource(value));
         }
 
+        m.add(work, m.getProperty(ADM, "outline"), admOutline);
         value = root.getAttribute("pagination").trim();
         if (value.isEmpty() || value == "relative") {
             value = BDR+"PaginationRelative";
@@ -220,7 +219,7 @@ public class OutlineMigration {
 		CommonMigration.addDescriptions(m, root, admOutline, OXSDNS);
 		CommonMigration.addLocations(m, admOutline, root, OXSDNS, work.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
-		addCreators(m, admOutline, root);
+		addCreators(m, admOutline, root, true);
 		
 		// case where there's an unnecessary unique top node (ex: W1GS61415 / O1LS4227)
 		final List<Element> nodeList2 = CommonMigration.getChildrenByTagName(root, OXSDNS, "node");
@@ -235,7 +234,7 @@ public class OutlineMigration {
 		return m;
 	}
 	
-	public static void addCreators(Model m, Resource r, Element e) {
+	public static void addCreators(Model m, Resource r, Element e, boolean isRoot) {
         // creator
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
         for (int j = 0; j < nodeList.size(); j++) {
@@ -244,7 +243,7 @@ public class OutlineMigration {
             if (value.isEmpty()) {
                 value = "hasMainAuthor";
             }
-            if (value.equals("hasScribe")) {
+            if (isRoot && value.equals("hasScribe")) {
                 Property prop = m.createProperty(ADM+"outlineAuthorStatement");
                 Literal l = CommonMigration.getLiteral(current, "en", m, "hasScribe", r.getLocalName(), null);
                 if (l == null) continue;
@@ -273,7 +272,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         node.addProperty(m.createProperty(BDO, "workPartTreeIndex"), thisPartTreeIndex);
         String RID = e.getAttribute("RID").trim();
         if (!value.isEmpty()) {
-            node.addProperty(m.getProperty(ADM, "legacyOutlineNodeRID"), RID);
+            node.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), RID);
             if (ridsToConvert.containsKey(RID)) {
                 ridsToConvert.put(RID, workId+"_"+value);
             }
@@ -365,7 +364,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             // TODO: what about current.getTextContent()?
         }
         
-        addCreators(m, node, e);
+        addCreators(m, node, e, false);
         
         // sub nodes
         boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex);

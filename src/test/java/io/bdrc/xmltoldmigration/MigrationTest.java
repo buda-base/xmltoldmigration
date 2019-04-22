@@ -287,6 +287,11 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "W30020");
            //showDifference(fromXml, correctModel);
+           
+           // ==== TEMP DEBUG ====
+           fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-testOutline-fromXml.ttl"), "TTL");
+           correctModel.write(new FileWriter("/Users/chris/MIGRATION_TEST-testOutline-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

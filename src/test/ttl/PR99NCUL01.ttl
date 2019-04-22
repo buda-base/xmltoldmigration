@@ -10,11 +10,9 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-bdr:PR99NCUL01  a           adm:Product ;
+bda:PR99NCUL01  a           adm:Product, adm:AdminData ;
     skos:prefLabel          "This or that"@en ;
-.
-bda:PR99NCUL01  a           adm:AdminData ;
-    adm:adminAbout          bdr:PR99NCUL01 ;
+    adm:adminAbout          bda:PR99NCUL01 ;
     adm:status              bdr:StatusReleased ;
     adm:logEntry            [ adm:logMessage  "added entry for NCCU Taiwan"@en ;
                               adm:logDate     "2014-09-22T19:39:47.382Z"^^xsd:dateTime ;
