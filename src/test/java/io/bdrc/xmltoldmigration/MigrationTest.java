@@ -390,7 +390,7 @@ public class MigrationTest
        }
        
        @Test
-       public void testImagegroup()
+       public void testImagegroup() throws IOException
        {
            System.out.println("testing imagegroup");
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/ImagegroupTest.xml");  
@@ -400,6 +400,11 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ImagegroupTest.ttl");
            //System.out.println(ImageListTranslation.getImageNums(correctModel, 1));
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", MigrationHelpers.OUTPUT_STTL, "");
+           
+           // ==== TEMP DEBUG ====
+           fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-testImagegroup-fromXml.ttl"), "TTL");
+           correctModel.write(new FileWriter("/Users/chris/MIGRATION_TEST-testImagegroup-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

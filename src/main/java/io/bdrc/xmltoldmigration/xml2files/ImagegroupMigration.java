@@ -68,14 +68,15 @@ public class ImagegroupMigration {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
-		final String imageGroupRID = root.getAttribute("RID").trim();
+        final String imageGroupRID = root.getAttribute("RID").trim();
+        final String imageGroupStatus = root.getAttribute("status").trim();
 		
 		final String itemId = item.getLocalName();
 		final String volumeId = "V"+itemId.substring(1)+"_"+imageGroupRID;
 		
         Resource main = m.createResource(BDR+volumeId);
         Resource admMain = MigrationHelpers.getAdmResource(m, volumeId);
-        Resource admItem = MigrationHelpers.getAdmResource(m, itemId);
+//        Resource admItem = MigrationHelpers.getAdmResource(m, itemId);
 
 		admMain.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
@@ -100,7 +101,8 @@ public class ImagegroupMigration {
             ImageListTranslation.addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, main);
         }
 		
-        CommonMigration.addLog(m, root, admItem, IGXSDNS);
+        CommonMigration.addStatus(m, admMain, imageGroupStatus);
+        CommonMigration.addLog(m, root, admMain, IGXSDNS);
         CommonMigration.addDescriptions(m, root, main, IGXSDNS);
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
