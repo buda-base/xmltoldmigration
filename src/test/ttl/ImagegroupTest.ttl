@@ -8,15 +8,7 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:TestItem  a         :ItemImageAsset ;
-#    itemForWork         bdr:W12827 ;
-#    :itemHasVolume      bdr:VestItem_I4158 ;
-#    :itemImageAssetForWork  bdr:W12827 ;
-#    :itemVolumes        1 ;
 .
-#bda:TestItem  a         adm:AdminData ;
-#    adm:adminAbout      bdr:TestItem ;
-#.
-
 bdr:VestItem_I4158  a   :VolumeImageAsset ;
     :imageCount         352 ;
     :imageList          "41580001.tif:54|41580055.jpg|41580056.tif:23|41580082.tif:26|42580108.tif|41580109.tif:88|garbage|41580198.tif:54|41580253.tif:104" ;
