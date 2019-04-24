@@ -262,7 +262,7 @@ public class MigrationApp
                 }
                 String itemName = "I"+baseName.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                 if (WorkMigration.addWorkHasItem) {
-                    m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItemImageAsset"), m.createResource(BDR+itemName));
+                    m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
                 }
                 itemModel = ModelFactory.createDefaultModel();
                 adjustAccess(m, itemModel, baseName, itemName);
@@ -275,7 +275,7 @@ public class MigrationApp
                 if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                     item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
                 if (WorkMigration.addItemForWork) {
-                    itemModel.add(item, itemModel.getProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR + baseName));
+                    itemModel.add(item, itemModel.getProperty(BDO, "itemForWork"), itemModel.createResource(BDR + baseName));
                 }
                 // workHasItem already added in WorkMigration
                 for (Map.Entry<Integer,String> vol : vols.entrySet()) {

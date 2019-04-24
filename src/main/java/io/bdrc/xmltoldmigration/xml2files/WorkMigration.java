@@ -262,7 +262,7 @@ public class WorkMigration {
             if (j == 0) {
                 Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX);
                 if (WorkMigration.addWorkHasItem)
-                    m.add(main, m.getProperty(BDO, "workHasItemImageAsset"), item);
+                    m.add(main, m.getProperty(BDO, "workHasItem"), item);
             }
             // then curate the volume list to add missing volumes
             Element volume = (Element) volumes.item(j);

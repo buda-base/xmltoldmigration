@@ -254,7 +254,7 @@ public class EAPTransfer {
         itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
 
         if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), item);
+            workModel.add(work, workModel.createProperty(BDO, "workHasItem"), item);
         }
 
         // Item adm:AdminData
@@ -273,7 +273,7 @@ public class EAPTransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(iiifManifestUrl));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+RID));
+            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+RID));
         }
         
         // there doesn't appear to be an original url for the volume to record in the Volume AdminData

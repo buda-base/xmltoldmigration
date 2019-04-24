@@ -330,7 +330,7 @@ public class CommonMigration  {
     }
     
     public static void setPrefixes(Model m) {
-        setPrefixes(m, true);
+        setPrefixes(m, false);
     }
 
     public static void setPrefixes(Model m, String type) {
@@ -760,13 +760,13 @@ public class CommonMigration  {
                     fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
                     admFplItem = MigrationHelpers.getAdmResource(resModel, "I"+workId.substring(1)+"_P001");
 			        if (WorkMigration.addItemForWork) {
-                        fplItem.addProperty(resModel.getProperty(BDO, "itemPhysicalAssetForWork"), r);
+                        fplItem.addProperty(resModel.getProperty(BDO, "itemForWork"), r);
 			        }
 			        addReleased(resModel, admFplItem);
 			        fplItem.addProperty(RDF.type, resModel.getResource(BDO+"ItemPhysicalAsset"));
 			        fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
 			        if (WorkMigration.addWorkHasItem) {
-			            r.addProperty(resModel.getProperty(BDO+"workHasItemPhysicalAsset"), fplItem);
+			            r.addProperty(resModel.getProperty(BDO+"workHasItem"), fplItem);
 			        }
 			    }
 			    switch(type) {
@@ -812,7 +812,7 @@ public class CommonMigration  {
 		if (fplDescription != null) {
 		    Resource fplVolume = resModel.createResource();
 		    fplItem.addProperty(resModel.getProperty(BDO, "itemHasVolume"), fplVolume);
-		    fplVolume.addProperty(RDF.type, resModel.getProperty(BDO+"VolumePhysicalAsset"));
+		    fplVolume.addProperty(RDF.type, resModel.getResource(BDO+"VolumePhysicalAsset"));
 		    fplVolume.addProperty(resModel.getProperty(BDO, "volumeNumber"), resModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
 		    fplVolume.addProperty(resModel.getProperty(BDO, "volumePhysicalDescription"), resModel.createLiteral(fplDescription, "en"));
 		}

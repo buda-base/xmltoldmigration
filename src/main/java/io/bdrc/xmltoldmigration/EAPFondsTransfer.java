@@ -137,18 +137,18 @@ public class EAPFondsTransfer {
                 Model itemModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(itemModel);
                 Resource item = itemModel.createResource(BDR+"I"+serieID);
+                itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
                 Resource admItem = MigrationHelpers.getAdmResource(itemModel, "I"+serieID);
                 res.add(item);
 
-                workModel.add(work, workModel.createProperty(BDO,"workHasItemImageAsset"), item);
+                workModel.add(work, workModel.createProperty(BDO,"workHasItem"), item);
 
                 // Item adm:AdminData
                 itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
                 itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
                 itemModel.add(admItem, itemModel.createProperty(ADM, "hasLegal"), MigrationHelpers.getAdmResource(itemModel, "LD_EAP")); // ?
                 
-                itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+"W"+serieID));
-                itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
+                itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
                 
                 HashMap<String, ArrayList<String[]>> vols=getVolumes(serie);
                 Set<String> serVol=vols.keySet();

@@ -309,7 +309,7 @@ public class EtextMigration {
             return;
         }
         final Resource workR = workModel.getResource(BDR+workId);
-        Property p = workModel.getProperty(BDO, "workHasItemEtext"+(isPaginated?"":"Non")+"Paginated");
+        Property p = workModel.getProperty(BDO, "workHasItem");
         workR.addProperty(p, workModel.createResource(BDR+itemId));
         MigrationHelpers.outputOneModel(workModel, workId, workPath, "work");
         lastWorkId = workId;
@@ -414,7 +414,7 @@ public class EtextMigration {
             
             if (WorkMigration.addItemForWork) {
                 itemModel.add(itemModel.getResource(BDR+itemId),
-                        etextModel.getProperty(BDO, "itemEtext"+(isPaginated?"Paginated":"NonPaginated")+"ForWork"),
+                        etextModel.getProperty(BDO, "itemForWork"),
                         etextModel.getResource(BDR+workId));
             }
             

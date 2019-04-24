@@ -206,7 +206,7 @@ public class CUDLTransfer {
         res.add(item);
         
         if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "workHasItemImageAsset"), workModel.createResource(BDR+itemRID));
+            workModel.add(work, workModel.createProperty(BDO, "workHasItem"), workModel.createResource(BDR+itemRID));
         }
         
         // Item adm:AdminData
@@ -236,7 +236,7 @@ public class CUDLTransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemImageAssetForWork"), itemModel.createResource(BDR+rid));
+            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+rid));
         }
 
         return res;
