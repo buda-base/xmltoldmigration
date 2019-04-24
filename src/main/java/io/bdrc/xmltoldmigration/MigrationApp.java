@@ -140,14 +140,21 @@ public class MigrationApp
         return res;
     }
 
-    public static void adjustAccess(Model workM, Model itemM, String workName, String itemName) {
-        Resource work = workM.getResource(BDR+workName);
+    // the WorkMigration gets the access and license info from the xml doc, adds adm:access and adm:license
+    // to the work but these need to be moved to the new :Item if there is one - no access => no Item
+    // the access and license triples are removed from the Work
+    public static void moveAdminInfo(Model workM, Model itemM, Resource work, Resource admItem) {
         Resource access = work.getPropertyResourceValue(workM.getProperty(ADM, "access"));
-        if (access == null || !access.getLocalName().equals("WorkAccessRestrictedByQuality"))
+        Resource legal = work.getPropertyResourceValue(workM.getProperty(ADM, "license"));
+        
+        if (access == null)
             return;
+        
         work.removeAll(workM.getProperty(ADM, "access"));
-        work.addProperty(workM.getProperty(ADM, "access"), workM.createResource(BDR+"WorkAccessOpen"));
-        itemM.add(itemM.getResource(BDR+itemName), itemM.getProperty(ADM, "access"), itemM.createResource(BDR+"WorkAccessRestrictedByQuality"));
+        work.removeAll(workM.getProperty(ADM, "license"));
+        
+        admItem.addProperty(workM.getProperty(ADM, "access"), access);
+        admItem.addProperty(workM.getProperty(ADM, "hasLegal"), legal);
     }
 
     // checking RID discrepancies (seem to only happen in outlines)
@@ -244,9 +251,11 @@ public class MigrationApp
             CommonMigration.setPrefixes(m);
             final Map<String, Model> itemModels = new HashMap<>();
             m = WorkMigration.MigrateWork(d, m, itemModels);
+            
+            Resource workR = m.getResource(BDR+baseName);
 
             int nbVolsTotal = 0;
-            Statement s = m.getResource(BDR+baseName).getProperty(m.getProperty(BDO, "workNumberOfVolumes"));
+            Statement s = workR.getProperty(m.getProperty(BDO, "workNumberOfVolumes"));
             if (s != null)
                 nbVolsTotal = s.getObject().asLiteral().getInt();
 
@@ -256,20 +265,21 @@ public class MigrationApp
             if (vols.size() > 0) {
                 // replace workNumberOfVolumes by the corrected value
                 if (imageGroups.totalVolumes > nbVolsTotal) {
-                    Resource w = m.getResource(BDR+baseName);
-                    w.removeAll(m.getProperty(BDO, "workNumberOfVolumes"));
-                    w.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
+                    workR.removeAll(m.getProperty(BDO, "workNumberOfVolumes"));
+                    workR.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                 }
                 String itemName = "I"+baseName.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                 if (WorkMigration.addWorkHasItem) {
-                    m.add(m.getResource(BDR+baseName), m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
+                    m.add(workR, m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
                 }
                 itemModel = ModelFactory.createDefaultModel();
-                adjustAccess(m, itemModel, baseName, itemName);
                 CommonMigration.setPrefixes(itemModel);
                 item = itemModel.createResource(BDR+itemName);
+                
                 admItem = MigrationHelpers.getAdmResource(itemModel, itemName);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
+                moveAdminInfo(m, itemModel, workR, admItem);
+
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
                 itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
                 if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
@@ -311,7 +321,7 @@ public class MigrationApp
                 File pubinfoFile = new File(pubinfoFileName);
                 if (pubinfoFile.exists()) {
                     d = MigrationHelpers.documentFromFileName(pubinfoFileName);
-                    m = PubinfoMigration.MigratePubinfo(d, m, m.getResource(BDR+baseName), itemModels);
+                    m = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels);
                 } else {
                     MigrationHelpers.writeLog("missing "+pubinfoFileName);
                 }

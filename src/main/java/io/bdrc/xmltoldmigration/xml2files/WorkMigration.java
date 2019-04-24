@@ -86,7 +86,7 @@ public class WorkMigration {
 	    CommonMigration.addSubjects(m, main, root, WXSDNS);
 	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS);
 	    if (itemModelsFromDesc != null) {
-	        if (splitItems == false) {
+	        if (!splitItems) {
 	            for (Model itemModel : itemModelsFromDesc.values()) {
 	                m.add(itemModel);
 	            }
@@ -104,8 +104,10 @@ public class WorkMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             String licenseValue = current.getAttribute("license").trim();
-            if (!licenseValue.equals("copyright")) licenseValue = BDR+"LicensePublicDomain";
-            else licenseValue = BDR+"LicenseCopyrighted";
+            if (licenseValue.equals("copyright")) 
+                licenseValue = BDA+"LD_BDRC_Copyright";
+            else
+                licenseValue = BDA+"LD_BDRC_Open";
             hasLicense = true;
             
             value = current.getAttribute("access").trim();
@@ -116,7 +118,7 @@ public class WorkMigration {
             case "fairUse": 
                 // just in case...
                 // https://github.com/BuddhistDigitalResourceCenter/library-issues/issues/59
-                licenseValue = BDR+"LicenseCopyrighted"; 
+                licenseValue = BDA+"LD_BDRC_Copyright"; 
                 value = "AccessFairUse";
                 break;
             case "restrictedSealed": value = "AccessRestrictedSealed"; break;
@@ -127,7 +129,7 @@ public class WorkMigration {
             default: value = ""; break;
             }
             if (!value.isEmpty()) {
-                m.add(main, m.getProperty(ADM, "access"), m.createResource(BDR+value));
+                m.add(main, m.getProperty(ADM, "access"), m.createResource(BDA+value));
                 hasAccess = true;
             }
             m.add(main, m.getProperty(ADM+"license"), m.createResource(licenseValue));
@@ -148,10 +150,10 @@ public class WorkMigration {
             }
         }
         if (!hasAccess)
-            m.add(main, m.getProperty(ADM, "access"), m.createResource(BDR+"AccessOpen"));
+            m.add(main, m.getProperty(ADM, "access"), m.createResource(BDA+"AccessOpen"));
         
         if (!hasLicense)
-            m.add(main, m.getProperty(ADM+"license"), m.createResource(BDR+"LicensePublicDomain"));
+            m.add(main, m.getProperty(ADM+"license"), m.createResource(BDA+"LD_BDRC_Open"));
 
         // info
         
