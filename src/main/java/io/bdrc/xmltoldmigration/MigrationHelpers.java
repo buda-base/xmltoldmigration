@@ -368,9 +368,7 @@ public class MigrationHelpers {
         }
     }
 
-    public static void modelToOutputStream(Model m, String type, int outputType, String fname) 
-            throws IllegalArgumentException 
-    {
+    public static void modelToOutputStream(Model m, String type, int outputType, String fname) {
         OutputStream out = null;
         try {
             if (m == null) 
@@ -391,6 +389,7 @@ public class MigrationHelpers {
         } catch (IllegalArgumentException e) {
             writeLog("error writing "+fname+": "+e.getMessage());
         }
+        
         try {
             out.close();
         } catch (IOException e) {
@@ -408,7 +407,7 @@ public class MigrationHelpers {
         if (outputType == OUTPUT_TRIG) {
             // compute graph uri from fname; if fname == null then testing so use a dummy graph URI
             String uriStr = 
-                (fname != null && !fname.isEmpty()) ? BDG + fname.substring(fname.lastIndexOf("/")) : BDG + "GraphForTesting";
+                (fname != null && !fname.isEmpty()) ? BDG + fname.substring(fname.lastIndexOf("/")+1) : BDG + "GraphForTesting";
             Node graphUri = NodeFactory.createURI(uriStr);
             DatasetGraph dsg = DatasetFactory.create().asDatasetGraph();
             dsg.addGraph(graphUri, m.getGraph());
@@ -454,14 +453,6 @@ public class MigrationHelpers {
 		}
 		CommonMigration.setPrefixes(model);
 		return model;
-	}
-	
-	public static void modelToFileName(Model m, String fname, String type, int outputType) {
-	    try {
-		    modelToOutputStream(m, type, outputType, fname);
-		} catch (IllegalArgumentException e) {
-		    writeLog("error writing "+fname+": "+e.getMessage());
-		}
 	}
 	
 	public static Model xmlToRdf(Document d, String type) {
@@ -598,7 +589,7 @@ public class MigrationHelpers {
     public static void outputOneModel(Model m, String mainId, String dst, String type) {
 	    if (m == null) return;
         if (writefiles) {
-            modelToFileName(m, dst, type, OUTPUT_TRIG);
+            modelToOutputStream(m, type, OUTPUT_TRIG, dst);
         }
 	}
 	
