@@ -112,7 +112,7 @@ public class MigrationApp
     }
 
     public static String getDstFileName(String type, String baseName) {
-        return getDstFileName(type, baseName, ".ttl");
+        return getDstFileName(type, baseName, "");
     }
 
     public static String getDstFileName(String type, String baseName, String extension) {

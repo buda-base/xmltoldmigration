@@ -244,7 +244,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
-		MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", MigrationHelpers.OUTPUT_STTL, null);
+		MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", MigrationHelpers.OUTPUT_TRIG, null);
         
         // ==== TEMP DEBUG ====
         fromXml.write(new FileWriter("/Users/chris/MIGRATION_TEST-testCorporation-fromXml.ttl"), "TTL");

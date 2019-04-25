@@ -13,6 +13,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +25,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.Restriction;
+import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -41,6 +47,9 @@ import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.StreamRDFLib;
+import org.apache.jena.riot.writer.TriGWriter;
+import org.apache.jena.shared.PrefixMapping;
+import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
@@ -130,6 +139,7 @@ public class MigrationHelpers {
     
     public static final int OUTPUT_STTL = 0;
     public static final int OUTPUT_JSONLD = 1;
+    public static final int OUTPUT_TRIG = 2;
     
     private static final String BDO = CommonMigration.ONTOLOGY_NS;
     private static final String BDR = CommonMigration.RESOURCE_NS;
@@ -358,19 +368,57 @@ public class MigrationHelpers {
         }
     }
 
-    public static void modelToOutputStream (Model m, OutputStream out, String type, int outputType, String mainResourceName) throws IllegalArgumentException {
-	    if (m==null) 
-	        throw new IllegalArgumentException("null model returned");
-	    if (out == null) return;
-	    if (outputType == OUTPUT_STTL) {
-	        RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
-	        return;
-	    }
-	}
-	
-	public static boolean isSimilarTo(Model src, Model dst) {
-		return src.isIsomorphicWith(dst);
-	}
+    public static void modelToOutputStream(Model m, String type, int outputType, String fname) 
+            throws IllegalArgumentException 
+    {
+        OutputStream out = null;
+        try {
+            if (m == null) 
+                throw new IllegalArgumentException("null model returned");
+            if (fname == null || fname.isEmpty()) 
+                return;
+            if (outputType == OUTPUT_STTL) {
+                out = new FileOutputStream(fname + ".ttl");
+            }
+            if (outputType == OUTPUT_TRIG) {
+                out = new FileOutputStream(fname + ".trig");
+            }
+            modelToOutputStream(m, out, type, outputType, fname);
+            return;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        } catch (IllegalArgumentException e) {
+            writeLog("error writing "+fname+": "+e.getMessage());
+        }
+        try {
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void modelToOutputStream(Model m, OutputStream out, String type, int outputType, String fname) 
+            throws FileNotFoundException 
+    {
+        if (outputType == OUTPUT_STTL) {
+            RDFWriter.create().source(m.getGraph()).context(ctx).lang(sttl).build().output(out);
+            return;
+        }
+        if (outputType == OUTPUT_TRIG) {
+            // compute graph uri from fname; if fname == null then testing so use a dummy graph URI
+            String uriStr = 
+                (fname != null && !fname.isEmpty()) ? BDG + fname.substring(fname.lastIndexOf("/")) : BDG + "GraphForTesting";
+            Node graphUri = NodeFactory.createURI(uriStr);
+            DatasetGraph dsg = DatasetFactory.create().asDatasetGraph();
+            dsg.addGraph(graphUri, m.getGraph());
+            new TriGWriter().write(out, dsg, getPrefixMap(), graphUri.toString(m), ctx);
+        }
+    }
+
+    public static boolean isSimilarTo(Model src, Model dst) {
+        return src.isIsomorphicWith(dst);
+    }
 	
 	public static Document documentFromFileName(String fname) {
 		if (documentFactory == null) {
@@ -409,21 +457,11 @@ public class MigrationHelpers {
 	}
 	
 	public static void modelToFileName(Model m, String fname, String type, int outputType) {
-	    FileOutputStream s = null;
 	    try {
-		    s = new FileOutputStream(fname);
-		    modelToOutputStream(m, s, type, outputType, fname);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
+		    modelToOutputStream(m, type, outputType, fname);
 		} catch (IllegalArgumentException e) {
 		    writeLog("error writing "+fname+": "+e.getMessage());
 		}
-		try {
-            s.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 	}
 	
 	public static Model xmlToRdf(Document d, String type) {
@@ -560,7 +598,7 @@ public class MigrationHelpers {
     public static void outputOneModel(Model m, String mainId, String dst, String type) {
 	    if (m == null) return;
         if (writefiles) {
-            modelToFileName(m, dst, type, OUTPUT_STTL);
+            modelToFileName(m, dst, type, OUTPUT_TRIG);
         }
 	}
 	
