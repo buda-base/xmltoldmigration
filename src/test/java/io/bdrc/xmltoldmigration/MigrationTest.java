@@ -167,7 +167,7 @@ public class MigrationTest
 	}
 	
    @Test
-    public void testP1331()
+    public void testP1331() throws IOException
     {
         System.out.println("testing P1331");
         Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1331.xml");
@@ -176,13 +176,18 @@ public class MigrationTest
         Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/P1331.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", MigrationHelpers.OUTPUT_STTL);
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1331-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1331-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
 	
 	@Test
-    public void testP1583()
+    public void testP1583() throws IOException
     {
 	    System.out.println("testing P1583");
 	    Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/P1583.xml");
@@ -191,6 +196,11 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/P1583.ttl");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", MigrationHelpers.OUTPUT_STTL, "");
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1583-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1583-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

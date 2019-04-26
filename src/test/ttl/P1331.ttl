@@ -1,5 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -26,4 +27,8 @@ bdr:P1331  a            :Person ;
             [ a                   :PersonPrimaryTitle ;
               rdfs:label          "bya yul blo bzang rnam dag"@bo-x-ewts
             ] ;
-    adm:status          bdr:StatusReleased .
+.
+bda:P1331   a            adm:AdminData ;
+    adm:adminAbout       bdr:P1331 ;
+    adm:status           bda:StatusReleased ;
+.
