@@ -11,7 +11,9 @@
     <w:description type="note">description with type note</w:description>
     <w:description type="sde dge number"/>
     <!-- from W1FPL110 : -->
-    <w:description type="remarks">Red lac. covers. Gilded leaves with vermilion band.</w:description><w:description type="room">3A</w:description><w:description type="id">110</w:description>
+    <w:description type="remarks">Red lac. covers. Gilded leaves with vermilion band.</w:description>
+    <w:description type="room">3A</w:description>
+    <w:description type="id">110</w:description>
     <w:description type="incipit">lamentatio Jeremiæ Prophetæ</w:description>
     <w:archiveInfo distribution="physical" restriction="none" status="scanned" vols="1" license="ccby" access="openAccess"/>
     <w:info nodeType="publishedWork" parent="W12345" seriesType="monographic" number="2" numbered="true" edition="this is the edition"/>
@@ -24,8 +26,7 @@
     <w:subject class="T3CN2027" type="isAboutUncontrolled">sog yig chos dpe/ </w:subject>
     <w:inProduct pid="PR01UNRESTR">All Released and Unrestricted Works</w:inProduct>
     <w:inProduct pid="PRHD03">TBRC Core Text Collection 3</w:inProduct>
-    <w:scanInfo>scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011
-2004</w:scanInfo>
+    <w:scanInfo>scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004</w:scanInfo>
     <w:catalogInfo>Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa.</w:catalogInfo>
     <w:volumeMap>
         <w:volume imagegroup="I4158" num="1"/>

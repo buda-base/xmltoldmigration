@@ -5,7 +5,6 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:I12837FPL_P001  a   :ItemPhysicalAsset ;
@@ -14,10 +13,13 @@ bdr:I12837FPL_P001  a   :ItemPhysicalAsset ;
                           :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en
                         ] ;
     :itemLibrary        bdr:G1TLMFPL000001 ;
-    :itemPhysicalAssetForWork  bdr:W12837FPL ;
+    :itemForWork        bdr:W12837FPL ;
     :itemShelf          "3A|110" ;
-    adm:status          bdr:StatusReleased .
-
+.
+bda:I12837FPL_P001  a   adm:AdminData ;
+    adm:adminAbout      bdr:I12837FPL_P001 ;
+    adm:status          bda:StatusReleased ;
+.    
 bdr:W12837FPL  a        :Work ;
     rdfs:comment        "description with no type" ;
     skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast ;
@@ -51,10 +53,10 @@ bdr:W12837FPL  a        :Work ;
             ] ;
     :workType           bdr:WorkTypePublishedWork ;
 .
-bda:I12837FPL_P001 a    adm:AdminData ;
-    adm:adminAbout      bdr:I12837FPL_P001 ;
+bda:W12837FPL      a    adm:AdminData ;
+    adm:adminAbout      bdr:W12837FPL ;
     adm:access          bda:AccessOpen ;
-    adm:license         bdr:LicensePublicDomain ;
+    adm:hasLegal        bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;
                           adm:logWho          bdr:U00001
@@ -71,4 +73,5 @@ bda:I12837FPL_P001 a    adm:AdminData ;
               adm:logMessage      "normalized catalog info"@en ;
               adm:logWho          bdr:U00012
             ] ;
-    adm:status          bdr:StatusReleased .
+    adm:status          bda:StatusReleased ;
+.

@@ -129,10 +129,10 @@ public class WorkMigration {
             default: value = ""; break;
             }
             if (!value.isEmpty()) {
-                m.add(main, m.getProperty(ADM, "access"), m.createResource(BDA+value));
+                m.add(admMain, m.getProperty(ADM, "access"), m.createResource(BDA+value));
                 hasAccess = true;
             }
-            m.add(main, m.getProperty(ADM+"license"), m.createResource(licenseValue));
+            m.add(admMain, m.getProperty(ADM+"hasLegal"), m.createResource(licenseValue));
 
             String nbVolsStr = current.getAttribute("vols").trim();
             if (nbVolsStr.isEmpty())
@@ -150,10 +150,10 @@ public class WorkMigration {
             }
         }
         if (!hasAccess)
-            m.add(main, m.getProperty(ADM, "access"), m.createResource(BDA+"AccessOpen"));
+            m.add(admMain, m.getProperty(ADM, "access"), m.createResource(BDA+"AccessOpen"));
         
         if (!hasLicense)
-            m.add(main, m.getProperty(ADM+"license"), m.createResource(BDA+"LD_BDRC_Open"));
+            m.add(admMain, m.getProperty(ADM+"hasLegal"), m.createResource(BDA+"LD_BDRC_Open"));
 
         // info
         
