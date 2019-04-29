@@ -347,7 +347,10 @@ public class CommonMigration  {
 		m.setNsPrefix("rdf", RDF.getURI());
 		m.setNsPrefix("rdfs", RDFS.getURI());
 		m.setNsPrefix("skos", SKOS.getURI());
-		m.setNsPrefix("xsd", XSD.getURI());
+        m.setNsPrefix("xsd", XSD.getURI());
+        m.setNsPrefix("rkts", "http://purl.rkts.eu/resource/");
+        m.setNsPrefix("dila", "http://authority.dila.edu.tw/person/?fromInner=");
+        m.setNsPrefix("sutta", "http://suttacentral.net/resource/");
 		if (addVcard)
 		    m.setNsPrefix("vcard", VCARD4.getURI());
 
@@ -567,18 +570,20 @@ public class CommonMigration  {
     }
 	
 	public static void addExternal(Model m, Element e, Resource r, int i) {
+	    String id = r.getLocalName();
+	    Resource admR = MigrationHelpers.getAdmResource(m, id);
 		String value = e.getAttribute("data").trim();
 		if (value.isEmpty()) return;
 		if (value.contains("treasuryoflives.org")) {
 		    value = normalizeToLUrl(value);
-		    r.addProperty(m.createProperty(RDFS.getURI(), "seeAlso"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
+		    admR.addProperty(m.createProperty(ADM, "seeOtherToL"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
 		    return;
 		}
 		if (value.contains("blog.tbrc.org")) return;
 		if (value.contains("tbrc.org")) {
 		    value = getRIDFromTbrcUrl(value);
 		    // TODO: map outline nodes to new ones
-		    r.addProperty(m.createProperty(RDFS.getURI(), "seeAlso"), m.createResource(BDR+value));
+		    admR.addProperty(m.createProperty(RDFS.getURI(), "seeAlso"), m.createResource(BDR+value));
 		}
 	}
 	

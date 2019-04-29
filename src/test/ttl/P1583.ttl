@@ -9,7 +9,6 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:P1583  a            :Person ;
-    rdfs:seeAlso        bdr:O1GS392481GS39291 , "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
     skos:prefLabel      "dri med 'od zer/"@bo-x-ewts , "Drime Oser"@en ;
     :hasUnknownKinship  bdr:P1584 ;
     :incarnationGeneral  bdr:P561654 ;
@@ -79,6 +78,8 @@ bdr:P1583  a            :Person ;
     :personStudentOf    bdr:P123 ;
 .
 bda:P1583  a            adm:AdminData ;
+    rdfs:seeAlso        bdr:O1GS392481GS39291 ;
+    adm:seeOtherToL     "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
     adm:adminAbout      bdr:P1583 ;
     adm:logEntry        [ adm:logDate         "2008-06-30T17:01:56.496Z"^^xsd:dateTime ;
                           adm:logMessage      "added records"@en ;
