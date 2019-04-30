@@ -140,27 +140,19 @@ public class MigrationApp
         return res;
     }
 
-    // the WorkMigration gets the access and legal info from the xml doc, adds access and legal data
-    // resources to HashMaps sp they can be added to the :workHsItem :Item if there is one - 
+    // the WorkMigration gets the access and legal info from the work xml doc, adds access and legal data
+    // resources to HashMaps so they can be added to the :workHasItem :Item if there is one - 
     // no access => no Item.
-    public static void moveAdminInfo(Model workM, Model itemM, Resource work, Resource admItem) {
-//        Resource access = work.getPropertyResourceValue(workM.getProperty(ADM, "access"));
-//        Resource legal = work.getPropertyResourceValue(workM.getProperty(ADM, "license"));
+    public static void moveAdminInfo(Model itemM, Resource work, Resource admItem) {
         String workId = work.getLocalName();
         Resource access = WorkMigration.getAcceess(workId);
         Resource legal = WorkMigration.getLLegal(workId);
-//        
-//        if (access == null)
-//            return;
-//        
-//        work.removeAll(workM.getProperty(ADM, "access"));
-//        work.removeAll(workM.getProperty(ADM, "license"));
         
         if (access != null) {
-            admItem.addProperty(workM.getProperty(ADM, "access"), access);
+            admItem.addProperty(itemM.getProperty(ADM, "access"), access);
         }
         if (legal != null) {
-            admItem.addProperty(workM.getProperty(ADM, "hasLegal"), legal);
+            admItem.addProperty(itemM.getProperty(ADM, "hasLegal"), legal);
         }
     }
 
@@ -285,7 +277,7 @@ public class MigrationApp
                 
                 admItem = MigrationHelpers.getAdmResource(itemModel, itemName);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
-                moveAdminInfo(m, itemModel, workR, admItem);
+                moveAdminInfo(itemModel, workR, admItem);
 
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
                 itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));

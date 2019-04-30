@@ -408,18 +408,11 @@ public class EtextMigration {
         if (first) { // initialize the :ItemEtext
             Resource work = itemModel.getResource(BDR+workId);
             Resource item = itemModel.getResource(BDR+itemId);
-            Resource access = WorkMigration.getAcceess(workId);
-            Resource legal = WorkMigration.getLLegal(workId);
 
             // Item AdminData
             Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemId);                           
             admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
-            if (access != null) {
-                admItem.addProperty(itemModel.getProperty(ADM, "access"), access);
-            }
-            if (legal != null) {
-                admItem.addProperty(itemModel.getProperty(ADM, "hasLegal"), legal);
-            }
+            MigrationApp.moveAdminInfo(itemModel, work, admItem);
             CommonMigration.addReleased(itemModel, admItem);
 
             // Item metadata
