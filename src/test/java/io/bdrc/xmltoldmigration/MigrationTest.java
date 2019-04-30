@@ -308,7 +308,7 @@ public class MigrationTest
        }
        
        @Test
-       public void testPubinfo()
+       public void testPubinfo() throws JsonLdError, JsonParseException, IOException
        {
            System.out.println("testing pubinfo");
            WorkMigration.splitItems = false;
@@ -317,6 +317,11 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "pubinfo");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
+           
+           // ==== TEMP DEBUG ====
+           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testPubinfo-fromXml.ttl"), "TTL");
+           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testPubinfo-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
@@ -353,7 +358,7 @@ public class MigrationTest
        }
 
        @Test
-       public void testTaxonomy()
+       public void testTaxonomy() throws IOException
        {
            System.out.println("testing taxonomy");
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/TaxonomyTest.xml");
@@ -362,6 +367,11 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "taxonomy");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/TaxonomyTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", MigrationHelpers.OUTPUT_STTL, null);
+           
+           // ==== TEMP DEBUG ====
+           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testTaxonomy-fromXml.ttl"), "TTL");
+           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testTaxonomy-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
@@ -487,6 +497,13 @@ public class MigrationTest
         Model correctEtextModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-etext.ttl");
         Model correctItemModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-item.ttl");
         String correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content.txt")));
+        
+        // ==== TEMP DEBUG ====
+        ei.etextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-ei.etextModel.ttl"), "TTL");
+        correctEtextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctEtextModel.ttl"), "TTL");
+        itemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-itemModel.ttl"), "TTL");
+        correctItemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctItemModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctItemModel) );
         assertTrue(computedContent.equals(correctContent.trim()));

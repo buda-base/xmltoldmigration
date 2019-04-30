@@ -73,14 +73,15 @@ public class EtextMigration {
     public static XPath initXpath() {
         XPathFactory factory = XPathFactory.newInstance();
         XPath xPath = factory.newXPath();
-        HashMap<String, String> prefMap = new HashMap<String, String>() {{
-            put("tei", TEI_PREFIX);
+        @SuppressWarnings("serial")
+        HashMap<String, String> prefMap = new HashMap<String, String>() {{ 
+            put("tei", TEI_PREFIX); 
         }};
         SimpleNamespaceContext namespaces = new SimpleNamespaceContext(prefMap);
         xPath.setNamespaceContext(namespaces);
         return xPath;
     }
-    
+
     public static final List<String> paginatedProviders = Arrays.asList("UCB-OCR", "eKangyur");
     
     public static final Map<String,Boolean> blackListL2 = new HashMap<>();
@@ -418,7 +419,8 @@ public class EtextMigration {
                         etextModel.getResource(BDR+workId));
             }
             
-            CommonMigration.addReleased(itemModel, itemModel.getResource(BDA+itemId));
+            Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemId);
+            CommonMigration.addReleased(itemModel, admItem);
         }
 
         if (addEtextInItem)
@@ -430,7 +432,8 @@ public class EtextMigration {
                 RDF.type,
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
-        CommonMigration.addReleased(etextModel, etextModel.getResource(BDA+etextId));
+        Resource admEtext = MigrationHelpers.getAdmResource(etextModel, etextId);
+        CommonMigration.addReleased(etextModel, admEtext);
         
         Model imageItemModel = null;
         if (isPaginated && !testMode) {
