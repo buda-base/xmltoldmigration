@@ -143,11 +143,9 @@ public class WorkMigration {
             default: value = ""; break;
             }
             if (!value.isEmpty()) {
-//                m.add(admMain, m.getProperty(ADM, "access"), m.createResource(BDA+value));
                 workAccess = m.createResource(BDA+value);
                 hasAccess = true;
             }
-//            m.add(admMain, m.getProperty(ADM+"hasLegal"), m.createResource(licenseValue));
             workLicense = m.createResource(licenseValue);
 
             String nbVolsStr = current.getAttribute("vols").trim();
@@ -166,11 +164,9 @@ public class WorkMigration {
             }
         }
         if (!hasAccess) {
-//            m.add(admMain, m.getProperty(ADM, "access"), m.createResource(BDA+"AccessOpen"));
             workAccess = m.createResource(BDA+"AccessOpen");
         }        
         if (!hasLicense) {
-//            m.add(admMain, m.getProperty(ADM+"hasLegal"), m.createResource(BDA+"LD_BDRC_Open"));
             workLicense = m.createResource(BDA+"LD_BDRC_Open");
         }
         
@@ -275,8 +271,6 @@ public class WorkMigration {
             if (l == null) continue;
             main.addProperty(m.getProperty(BDO, "workScanInfo"), l);
         }
-        
-        Map<String,String> res = new HashMap<String,String>(); 
         
         NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
         int lastVolume = 0;
