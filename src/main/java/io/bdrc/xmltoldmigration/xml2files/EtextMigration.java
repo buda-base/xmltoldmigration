@@ -56,7 +56,7 @@ public class EtextMigration {
     }
     
     public static void initDistributorToUri() {
-        String prefix = CommonMigration.BDR+"CP"; // ?
+        String prefix = CommonMigration.BDA+"CP"; // ?
         distributorToUri.put("DharmaDownload", prefix+"001");
         distributorToUri.put("DrikungChetsang", prefix+"002");
         distributorToUri.put("eKangyur", prefix+"003");
@@ -170,7 +170,7 @@ public class EtextMigration {
                            if (!dstFile.exists())
                                dstFile.createNewFile();
                            FileOutputStream dst = new FileOutputStream(dstFile);
-                           ei = migrateOneEtext(fl4.getAbsolutePath(), isPaginated, dst, needsPageNameTranslation, itemModel, firstItemModel);
+                           ei = migrateOneEtext(fl4.getAbsolutePath(), isPaginated, dst, needsPageNameTranslation, itemModel, firstItemModel, distributorUri);
                            firstItemModel = false;
                            dst.close();
                            if (ei == null) {
@@ -180,23 +180,23 @@ public class EtextMigration {
                            e1.printStackTrace();
                            return;
                        }
+                       
                        if (itemId != null && !ei.itemId.equals(itemId))
                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, fl2.getName(), fl2.getName(), "got two different itemIds: "+itemId+" and "+ei.itemId);
                        if (itemId == null) {
                            itemId = ei.itemId;
-                           itemModel.add(itemModel.createResource(BDR+itemId),
-                                   itemModel.getProperty(BDO, "eTextDistributor"),
-                                   itemModel.createResource(distributorUri));
                        }
                        if (itemId == null) {
                            System.err.println("arg!");
                            System.err.println(ei.toString());
                            continue;
                        }
+                       
                        String dst = MigrationApp.getDstFileName("etext", ei.etextId);
                        MigrationHelpers.outputOneModel(ei.etextModel, ei.etextId, dst, "etext");
                     }
                 }
+                
                 if (itemId != null) { // null in the case of blacklisted works
                     String dst = MigrationApp.getDstFileName("item", itemId);
                     MigrationHelpers.outputOneModel(itemModel, itemId, dst, "item");
@@ -366,7 +366,7 @@ public class EtextMigration {
         return imageItemModel;
     }
     
-    public static EtextInfos migrateOneEtext(final String path, final boolean isPaginated, final OutputStream contentOut, final boolean needsPageNameTranslation, final Model itemModel, final boolean firstItemModel) {
+    public static EtextInfos migrateOneEtext(String path, boolean isPaginated, OutputStream contentOut, boolean needsPageNameTranslation, Model itemModel, boolean first, String providerUri) {
         final Document d = MigrationHelpers.documentFromFileName(path);
         Element fileDesc;
         try {
@@ -396,10 +396,6 @@ public class EtextMigration {
         final String workId = e.getTextContent().trim();
         final String itemId = itemIdFromWorkId(workId);
         
-        itemModel.add(itemModel.getResource(BDR+itemId),
-                RDF.type,
-                etextModel.getResource(BDO+"ItemEtext"+(isPaginated?"Paginated":"NonPaginated")));
-        
         try {
             e = (Element) ((NodeList)xPath.evaluate("tei:idno[@type='TBRC_TEXT_RID']",
                     publicationStmt, XPathConstants.NODESET)).item(0);
@@ -408,19 +404,33 @@ public class EtextMigration {
             return null;
         }
         final String etextId = e.getTextContent().trim().replace('-', '_');
-        
-        if (firstItemModel) {
+
+        if (first) { // initialize the :ItemEtext
+            Resource work = itemModel.getResource(BDR+workId);
+            Resource item = itemModel.getResource(BDR+itemId);
+            Resource access = WorkMigration.getAcceess(workId);
+            Resource legal = WorkMigration.getLLegal(workId);
+
+            // Item AdminData
+            Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemId);                           
+            admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
+            if (access != null) {
+                admItem.addProperty(itemModel.getProperty(ADM, "access"), access);
+            }
+            if (legal != null) {
+                admItem.addProperty(itemModel.getProperty(ADM, "hasLegal"), legal);
+            }
+            CommonMigration.addReleased(itemModel, admItem);
+
+            // Item metadata
+            item.addProperty(RDF.type, itemModel.getResource(BDO+"ItemEtext"+(isPaginated?"Paginated":"NonPaginated")));
+
             if (WorkMigration.addWorkHasItem)
                 addItemToWork(workId, itemId, etextId, isPaginated);
-            
+
             if (WorkMigration.addItemForWork) {
-                itemModel.add(itemModel.getResource(BDR+itemId),
-                        etextModel.getProperty(BDO, "itemForWork"),
-                        etextModel.getResource(BDR+workId));
+                item.addProperty(itemModel.getProperty(BDO, "itemForWork"), work);
             }
-            
-            Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemId);
-            CommonMigration.addReleased(itemModel, admItem);
         }
 
         if (addEtextInItem)

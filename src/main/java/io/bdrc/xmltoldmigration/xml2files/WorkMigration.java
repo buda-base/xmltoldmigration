@@ -38,6 +38,17 @@ public class WorkMigration {
 	public static boolean addWorkHasItem = true;
 	
 	public static Map<String,List<String>> productWorks = new HashMap<>();
+	
+    private static HashMap<String, Resource> workAccessMap = new HashMap();
+    private static HashMap<String, Resource> workLegalMap = new HashMap();
+    
+    public static Resource getAcceess(String workId) {
+        return workAccessMap.get(workId);
+    }
+    
+    public static Resource getLLegal(String workId) {
+        return workLegalMap.get(workId);
+    }
 
 	private static String getUriFromTypeSubtype(String type, String subtype) {
 	    switch (type) {
@@ -68,6 +79,7 @@ public class WorkMigration {
 	public static Model MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
+		String workId = root.getAttribute("RID");
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
         Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(BDO + "Work"));
@@ -100,6 +112,8 @@ public class WorkMigration {
 		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
 		boolean hasAccess = false;
 		boolean hasLicense = false;
+		Resource workAccess = null;
+		Resource workLicense = null;
 		int nbvols = -1;
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
@@ -129,10 +143,12 @@ public class WorkMigration {
             default: value = ""; break;
             }
             if (!value.isEmpty()) {
-                m.add(admMain, m.getProperty(ADM, "access"), m.createResource(BDA+value));
+//                m.add(admMain, m.getProperty(ADM, "access"), m.createResource(BDA+value));
+                workAccess = m.createResource(BDA+value);
                 hasAccess = true;
             }
-            m.add(admMain, m.getProperty(ADM+"hasLegal"), m.createResource(licenseValue));
+//            m.add(admMain, m.getProperty(ADM+"hasLegal"), m.createResource(licenseValue));
+            workLicense = m.createResource(licenseValue);
 
             String nbVolsStr = current.getAttribute("vols").trim();
             if (nbVolsStr.isEmpty())
@@ -149,11 +165,17 @@ public class WorkMigration {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "archiveInfo/vols", "cannot parse number of volumes `"+current.getAttribute("vols").trim()+"`");
             }
         }
-        if (!hasAccess)
-            m.add(admMain, m.getProperty(ADM, "access"), m.createResource(BDA+"AccessOpen"));
+        if (!hasAccess) {
+//            m.add(admMain, m.getProperty(ADM, "access"), m.createResource(BDA+"AccessOpen"));
+            workAccess = m.createResource(BDA+"AccessOpen");
+        }        
+        if (!hasLicense) {
+//            m.add(admMain, m.getProperty(ADM+"hasLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+            workLicense = m.createResource(BDA+"LD_BDRC_Open");
+        }
         
-        if (!hasLicense)
-            m.add(admMain, m.getProperty(ADM+"hasLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+        workAccessMap.put(workId, workAccess);
+        workLegalMap.put(workId, workLicense);
 
         // info
         

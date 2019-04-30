@@ -486,7 +486,7 @@ public class MigrationTest
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel, "item");
-        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true);
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true, CommonMigration.BDA+"CP001");
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.itemId.equals("I1CZ2485_E001"));
         assertTrue(ei.workId.equals("W1CZ2485"));
@@ -515,7 +515,7 @@ public class MigrationTest
         out = new ByteArrayOutputStream();
         itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel, "item");
-        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false, itemModel, true);
+        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false, itemModel, true, CommonMigration.BDA+"CP001");
         computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         //System.out.println(computedContent);
         // this one is a bit bogus because it adds spaces in line milestones, but in real life data there is no lines when we must

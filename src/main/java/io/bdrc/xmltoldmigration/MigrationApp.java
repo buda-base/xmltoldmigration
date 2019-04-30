@@ -140,21 +140,28 @@ public class MigrationApp
         return res;
     }
 
-    // the WorkMigration gets the access and license info from the xml doc, adds adm:access and adm:license
-    // to the work but these need to be moved to the new :Item if there is one - no access => no Item
-    // the access and license triples are removed from the Work
+    // the WorkMigration gets the access and legal info from the xml doc, adds access and legal data
+    // resources to HashMaps sp they can be added to the :workHsItem :Item if there is one - 
+    // no access => no Item.
     public static void moveAdminInfo(Model workM, Model itemM, Resource work, Resource admItem) {
-        Resource access = work.getPropertyResourceValue(workM.getProperty(ADM, "access"));
-        Resource legal = work.getPropertyResourceValue(workM.getProperty(ADM, "license"));
+//        Resource access = work.getPropertyResourceValue(workM.getProperty(ADM, "access"));
+//        Resource legal = work.getPropertyResourceValue(workM.getProperty(ADM, "license"));
+        String workId = work.getLocalName();
+        Resource access = WorkMigration.getAcceess(workId);
+        Resource legal = WorkMigration.getLLegal(workId);
+//        
+//        if (access == null)
+//            return;
+//        
+//        work.removeAll(workM.getProperty(ADM, "access"));
+//        work.removeAll(workM.getProperty(ADM, "license"));
         
-        if (access == null)
-            return;
-        
-        work.removeAll(workM.getProperty(ADM, "access"));
-        work.removeAll(workM.getProperty(ADM, "license"));
-        
-        admItem.addProperty(workM.getProperty(ADM, "access"), access);
-        admItem.addProperty(workM.getProperty(ADM, "hasLegal"), legal);
+        if (access != null) {
+            admItem.addProperty(workM.getProperty(ADM, "access"), access);
+        }
+        if (legal != null) {
+            admItem.addProperty(workM.getProperty(ADM, "hasLegal"), legal);
+        }
     }
 
     // checking RID discrepancies (seem to only happen in outlines)

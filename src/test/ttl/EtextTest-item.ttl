@@ -18,4 +18,5 @@ bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
 .
 bda:I1CZ2485_E001   a   adm:AdminData ;
     adm:adminAbout      bdr:I1CZ2485_E001 ;
+    adm:contentProvider  bda:CP001 ;
     adm:status          bda:StatusReleased .
