@@ -29,6 +29,7 @@ public class WorkMigration {
     private static final String BDA = CommonMigration.BDA;
     private static final String BDO = CommonMigration.BDO;
     private static final String BDR = CommonMigration.BDR;
+    @SuppressWarnings("unused")
     private static final String ADM = CommonMigration.ADM;
 	public static final String WXSDNS = "http://www.tbrc.org/models/work#";
 	
@@ -39,8 +40,8 @@ public class WorkMigration {
 	
 	public static Map<String,List<String>> productWorks = new HashMap<>();
 	
-    private static HashMap<String, Resource> workAccessMap = new HashMap();
-    private static HashMap<String, Resource> workLegalMap = new HashMap();
+    private static HashMap<String, Resource> workAccessMap = new HashMap<String, Resource>();
+    private static HashMap<String, Resource> workLegalMap = new HashMap<String, Resource>();
     
     public static Resource getAcceess(String workId) {
         return workAccessMap.get(workId);
@@ -170,6 +171,8 @@ public class WorkMigration {
             workLicense = m.createResource(BDA+"LD_BDRC_Open");
         }
         
+        // these maps are queried in ImagegroupMigration and EtextMigration 
+        // to fill in the corresponding Item
         workAccessMap.put(workId, workAccess);
         workLegalMap.put(workId, workLicense);
 

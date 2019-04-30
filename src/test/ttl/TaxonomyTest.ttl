@@ -1,5 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -9,6 +10,9 @@
 
 bdr:O9TAXTBRC201605  :taxHasSubClass
         bdr:O9TAXTBRC201605_0001 , bdr:O9TAXTBRC201605_0010 ;
+.
+bda:O9TAXTBRC201605  a  adm:AdminData ;
+    adm:adminAbout      bdr:O9TAXTBRC201605 ;
     adm:logEntry        [ adm:logDate         "2016-05-23T10:58:27.909Z"^^xsd:dateTime ;
                           adm:logMessage      "added topics"@en ;
                           adm:logWho          bdr:U00016
