@@ -257,9 +257,9 @@ public class OutlineMigration {
                 if (!person.isEmpty())
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, r.getLocalName(), r.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
-                String uri = CommonMigration.getCreatorUri(value);
-                //MigrationHelpers.recordLinkTo(main.getLocalName(), value, person);
-                r.addProperty(m.getProperty(uri), m.createResource(BDR+person));
+                person = MigrationHelpers.sanitizeRID(r.getLocalName(), value, person);
+                if (!MigrationHelpers.isDisconnected(person))
+                    CommonMigration.addAgentAsCreator(m, r, m.createResource(BDR+person), value);
             }
         }
 	}

@@ -93,11 +93,8 @@ bdr:W30020_0004  a      :Work ;
     :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" .
 
 bdr:W30020_0005  a      :Work ;
+    :creator            bdr:W30020_0005_hasTranslator_P20 , bdr:W30020_0005_hasPandita_P00KG07267 , bdr:W30020_0005_hasReviserOfTranslation_P21 ;
     skos:prefLabel      "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts ;
-    :creatorMainAuthor  bdr:P4CZ10507 ;
-    :creatorPandita     bdr:P8262 ;
-    :creatorReviserOfTranslation  bdr:P21 ;
-    :creatorTranslator  bdr:P20 ;
     :note               [ :noteText  "p. 1 (1st group)" ] ;
     :workLocation       [ :workLocationEndPage  25 ;
                           :workLocationPage   17 ;
@@ -110,8 +107,23 @@ bdr:W30020_0005  a      :Work ;
     :workTitle          [ a                   :WorkBibliographicalTitle ;
                           rdfs:label          "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts
                         ] ;
-    :legacyOutlineNodeRID  "O2DB875722DB875732DB87600" .
-
+    :legacyOutlineNodeRID  "O2DB875722DB875732DB87600" ;
+.
+bdr:W30020_0005_hasPandita_P00KG07267
+    a       :AgentAsCreator ;
+    :agent  bdr:P00KG07267 ;
+    :role   bdr:R0ER0018 ;
+.
+bdr:W30020_0005_hasTranslator_P20
+    a       :AgentAsCreator ;
+    :agent  bdr:P20 ;
+    :role   bdr:R0ER0026 ;
+.
+bdr:W30020_0005_hasReviserOfTranslation_P21
+    a       :AgentAsCreator ;
+    :agent  bdr:P21 ;
+    :role   bdr:R0ER0023 ;
+.
 bdr:W30020_0006  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;
     :workPartIndex      3 ;

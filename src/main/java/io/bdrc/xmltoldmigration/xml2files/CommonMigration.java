@@ -82,13 +82,32 @@ public class CommonMigration  {
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
     
+    
     public static final Map<String, String> logWhoToUri = new HashMap<>();
     public static final Map<String, Boolean> genreTopics = new HashMap<>();
     public static final Map<Integer, Boolean> isTraditional = new HashMap<>();
+    public static final Map<String, String> creatorMigrations = new HashMap<>();
+
     static {
         fillLogWhoToUri();
         fillGenreTopics();
         getTcList();
+        initCreatorMigrations();
+    }
+    
+    public static void initCreatorMigrations() {
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("creator-migrations.txt");
+        final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        String line = null;
+        try {
+            while((line = in.readLine()) != null) {
+                String[] key_val = line.split(",");
+                creatorMigrations.put(key_val[0], key_val[1]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public static void getTcList() {
@@ -1115,10 +1134,20 @@ public class CommonMigration  {
            return res;
        }
        
-       static String getCreatorUri(String type) {
+       static String getCreatorRoleUri(String type) {
            if (type.startsWith("has"))
                type = type.substring(3);
-           return BDO+"creator"+type.substring(0, 1).toUpperCase() + type.substring(1);
+           return BDR+creatorMigrations.get(type);
+       }
+       
+       static void addAgentAsCreator(Model m, Resource work, Resource person, String roleKey) {
+           Property creator = m.createProperty(BDO+"creator");
+           Resource role = m.createResource(getCreatorRoleUri(roleKey));
+           Resource agentAsCreator = m.createResource(BDR+work.getLocalName()+"_"+roleKey+"_"+person.getLocalName());
+           work.addProperty(creator, agentAsCreator);
+           agentAsCreator.addProperty(RDF.type, m.createResource(BDO+"AgentAsCreator"));
+           agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
+           agentAsCreator.addProperty(m.createProperty(BDO+"role"), role);
        }
        
        public static void addReleased(Model m, Resource r) {

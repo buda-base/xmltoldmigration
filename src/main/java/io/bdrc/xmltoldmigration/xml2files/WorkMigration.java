@@ -50,15 +50,6 @@ public class WorkMigration {
     public static Resource getLLegal(String workId) {
         return workLegalMap.get(workId);
     }
-
-	private static String getUriFromTypeSubtype(String type, String subtype) {
-	    switch (type) {
-	    case "creator":
-	        return CommonMigration.getCreatorUri(subtype);
-	    default:
-	        return "";
-	    }
-	}
 	    
 	// testing only
     public static Model MigrateWork(Document xmlDocument) {
@@ -237,10 +228,9 @@ public class WorkMigration {
                 if (!person.isEmpty())
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
-                String uri = getUriFromTypeSubtype("creator", value);
                 person = MigrationHelpers.sanitizeRID(main.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    main.addProperty(m.getProperty(uri), m.createResource(BDR+person));
+                    CommonMigration.addAgentAsCreator(m, main, m.createResource(BDR+person), value);
             }
         }
         
