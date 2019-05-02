@@ -303,7 +303,7 @@ public class EtextMigration {
     public static void addItemToWork(String workId, String itemId, String etextId, boolean isPaginated) {
         if (workId.equals(lastWorkId))
             return;
-        final String workPath = MigrationApp.getDstFileName("work", workId);
+        final String workPath = MigrationApp.getDstFileName("work", workId, ".trig");
         final Model workModel = MigrationHelpers.modelFromFileName(workPath);
         if (workModel == null) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+workPath);
@@ -355,7 +355,7 @@ public class EtextMigration {
         if (lastModelId != null && lastModelId.equals(imageItemId)) {
             return lastModel;
         }
-        String imageItemPath = MigrationApp.getDstFileName("item", imageItemId);
+        String imageItemPath = MigrationApp.getDstFileName("item", imageItemId, ".trig");
         Model imageItemModel = MigrationHelpers.modelFromFileName(imageItemPath);
         if (imageItemModel == null) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+imageItemPath);

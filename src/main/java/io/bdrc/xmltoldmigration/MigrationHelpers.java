@@ -3,6 +3,7 @@ package io.bdrc.xmltoldmigration;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,17 +35,20 @@ import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.Restriction;
+import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RDFParser;
 import org.apache.jena.riot.RDFParserBuilder;
 import org.apache.jena.riot.RDFWriter;
 import org.apache.jena.riot.RiotException;
+import org.apache.jena.riot.RiotNotFoundException;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.StreamRDFLib;
@@ -436,25 +441,43 @@ public class MigrationHelpers {
 		}
 		return document;
 	}
-	
+
 	public static Model modelFromFileName(String fname) {
-		Model model = ModelFactory.createDefaultModel();
-		Graph g = model.getGraph();
-		try {
-		    // workaround for https://github.com/jsonld-java/jsonld-java/issues/199
-		    RDFParserBuilder pb = RDFParser.create()
-		             .source(fname)
-		             .lang(RDFLanguages.TTL);
-		             //.canonicalLiterals(true);
-		    pb.parse(StreamRDFLib.graph(g));
-		} catch (RiotException e) {
-		    writeLog("error reading "+fname);
-		    return null;
-		}
-		CommonMigration.setPrefixes(model);
-		return model;
+	    Model model = ModelFactory.createDefaultModel();
+	    Graph g = model.getGraph();
+	    String ext = fname.substring(fname.lastIndexOf("."));
+
+	    if (ext.equals(".ttl")) {
+	        try {
+	            // workaround for https://github.com/jsonld-java/jsonld-java/issues/199
+	            RDFParser.create()
+    	            .source(fname)
+    	            .lang(RDFLanguages.TTL)
+    	            .parse(StreamRDFLib.graph(g));
+	        } catch (RiotException e) {
+	            writeLog("error reading "+fname);
+	            return null;
+	        }
+	    } else if (ext.equals(".trig")) {
+	        try {
+	            Dataset dataset = RDFDataMgr.loadDataset(fname);
+	            Iterator<String> iter = dataset.listNames();
+	            if (iter.hasNext()) {
+	                String graphUri = iter.next();
+	                if (iter.hasNext())
+	                    writeLog("modelFromFileName " + fname + " getting named model: " + graphUri + ". Has more graphs! ");
+	                model = dataset.getNamedModel(graphUri);
+	            }
+	        } catch (RiotException e) {
+	            writeLog("error reading "+fname);
+	            return null;
+	        }
+	    }
+
+	    CommonMigration.setPrefixes(model);
+	    return model;
 	}
-	
+
 	public static Model xmlToRdf(Document d, String type) {
 		Model m = null;
 		switch (type) {

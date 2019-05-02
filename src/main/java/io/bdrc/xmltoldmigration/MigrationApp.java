@@ -242,7 +242,7 @@ public class MigrationApp
             }
             Model m = null;
             if (workCreatedByOutline.containsKey(baseName)) {
-                m = MigrationHelpers.modelFromFileName(getDstFileName("work", baseName));
+                m = MigrationHelpers.modelFromFileName(getDstFileName("work", baseName, ".trig"));
             }
             if (m == null) {
                 m = ModelFactory.createDefaultModel();
@@ -357,7 +357,7 @@ public class MigrationApp
             for (String s : SymetricNormalization.triplesToAdd.keySet()) {
 //                System.out.println("adding triples in "+s);
 //                System.out.println(SymetricNormalization.triplesToAdd.get(s));
-                String inFileName = getDstFileName(type, s);
+                String inFileName = getDstFileName(type, s, ".trig");
                 Model m = MigrationHelpers.modelFromFileName(inFileName);
                 if (m == null) {
                     System.out.println("cannot open "+inFileName);
