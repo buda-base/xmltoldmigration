@@ -93,10 +93,10 @@ public class GRETILTransfer {
         }
         
         // bdo:Work
-        workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
+        workModel.add(work, RDF.type, workModel.createResource(BDO+"UnicodeWork"));
         workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
         workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
-        workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypeUnicodeText"));
+//        workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypeUnicodeText"));
         Resource titleR = workModel.createResource();
         workModel.add(work, workModel.createProperty(BDO, "workTitle"), titleR);
         workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?

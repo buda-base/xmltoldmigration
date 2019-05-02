@@ -113,7 +113,8 @@ public class EAPFondsTransfer {
                 Model workModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(workModel);
                 Resource work = workModel.createResource(BDR+"W"+serie);
-                workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
+//                workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
+                work.addProperty(RDF.type, workModel.createResource(BDO+"PublishedWork"));
                 Resource admWork = MigrationHelpers.getAdmResource(workModel, "W"+serie);
                 res.add(work);
 
@@ -125,7 +126,7 @@ public class EAPFondsTransfer {
                 workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
                 
                 // bdo:Work
-                workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypePublishedWork"));
+//                workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypePublishedWork"));
                 workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
                 Resource noteR = workModel.createResource();
                 noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(serieLine[36],"en"));

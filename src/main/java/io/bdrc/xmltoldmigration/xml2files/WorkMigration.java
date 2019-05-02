@@ -61,11 +61,9 @@ public class WorkMigration {
     public static boolean isAbstract(final Model m, final String baseName) {
         if (m == null || baseName == null)
             return false; // ?
-        final Resource r = m.getResource(BDR+baseName);
-        final Resource workType = r.getPropertyResourceValue(m.createProperty(BDO, "workType"));
-        if (workType == null)
-            return false;
-        return workType.getLocalName().equals("WorkTypeAbstractWork");
+        final Resource work = m.getResource(BDR+baseName);
+        Resource absWorkClass = m.createResource(BDO+"AbstractWork");
+        return m.listStatements(work, RDF.type, absWorkClass).hasNext();
     }
 	    
 	public static Model MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
@@ -74,7 +72,6 @@ public class WorkMigration {
 		String workId = root.getAttribute("RID");
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
         Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
-		m.add(main, RDF.type, m.createResource(BDO + "Work"));
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		
@@ -174,14 +171,14 @@ public class WorkMigration {
             current = (Element) nodeList.item(i);
             String nodeType = current.getAttribute("nodeType");
             switch (nodeType) {
-            case "unicodeText": value = BDR+"WorkTypeUnicodeText"; break;
-            case "conceptualWork": value = BDR+"WorkTypeAbstractWork"; break;
-            case "publishedWork": value = BDR+"WorkTypePublishedWork"; break;
-            case "series": value = BDR+"WorkTypeSeries"; break;
+            case "unicodeText": value = BDO+"UnicodeWork"; break;
+            case "conceptualWork": value = BDO+"AbstractWork"; break;
+            case "publishedWork": value = BDO+"PublishedWork"; break;
+            case "series": value = BDO+"SeriesWork"; break;
             default: value = ""; break;
             }
             if (!value.isEmpty()) {
-                main.addProperty(m.getProperty(BDO, "workType"), m.getResource(value));
+                main.addProperty(RDF.type, m.createResource(value));
             }
             boolean numbered = false;
             // will be overwritten when reading the pubinfo

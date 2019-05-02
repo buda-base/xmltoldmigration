@@ -41,10 +41,14 @@ public class GretilTest {
         List<Resource> res= GRETILTransfer.getResourcesFromLine(line);
         reader.close();
         Model workModel = res.get(0).getModel();
-        Model model = ModelFactory.createDefaultModel();
-        model.read(new FileInputStream("src/test/ttl/gretiltest.ttl"), null,"TTL");
+        Model correctModel = ModelFactory.createDefaultModel();
+        correctModel.read(new FileInputStream("src/test/ttl/gretiltest.ttl"), null,"TTL");
         
-        assertTrue( workModel.isIsomorphicWith(model) );
+        // ==== TEMP DEBUG ====
+        workModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/GRETIL_TEST-testGretil-workModel.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/GRETIL_TEST-testGretil-correctModel.ttl"), "TTL");
+        
+        assertTrue( workModel.isIsomorphicWith(correctModel) );
     }
 
 }

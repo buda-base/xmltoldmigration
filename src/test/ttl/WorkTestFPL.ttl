@@ -25,7 +25,7 @@ bdr:W12837FPL_hasMainAuthor_P1591
     :agent              bdr:P1591 ;
     :role               bdr:R0ER0019 ;
 .
-bdr:W12837FPL  a        :Work ;
+bdr:W12837FPL  a        :PublishedWork ;
     rdfs:comment        "description with no type" ;
     skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast ;
     :creator            bdr:W12837FPL_hasMainAuthor_P1591 ;
@@ -56,7 +56,6 @@ bdr:W12837FPL  a        :Work ;
             [ a                   :WorkTitlePageTitle ;
               rdfs:label          "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts
             ] ;
-    :workType           bdr:WorkTypePublishedWork ;
 .
 bda:W12837FPL      a    adm:AdminData ;
     adm:adminAbout      bdr:W12837FPL ;
