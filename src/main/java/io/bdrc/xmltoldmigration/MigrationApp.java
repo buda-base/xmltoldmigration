@@ -150,7 +150,7 @@ public class MigrationApp
         
         if (access != null) {
             admItem.addProperty(itemM.getProperty(ADM, "access"), access);
-            itemM.createLiteralStatement(admItem, itemM.getProperty(ADM, "restrictedInChina"), ric);
+            itemM.addLiteral(admItem, itemM.getProperty(ADM, "restrictedInChina"), ric);
         }
         if (legal != null) {
             admItem.addProperty(itemM.getProperty(ADM, "hasLegal"), legal);
