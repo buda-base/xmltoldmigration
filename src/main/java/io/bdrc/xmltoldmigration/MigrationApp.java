@@ -150,9 +150,7 @@ public class MigrationApp
         
         if (access != null) {
             admItem.addProperty(itemM.getProperty(ADM, "access"), access);
-            if (ric) {
-                admItem.addProperty(itemM.getProperty(ADM, "access"), itemM.createResource(BDA+"AccessRestrictedInChina"));
-            }
+            itemM.createLiteralStatement(admItem, itemM.getProperty(ADM, "restrictedInChina"), ric);
         }
         if (legal != null) {
             admItem.addProperty(itemM.getProperty(ADM, "hasLegal"), legal);
@@ -215,7 +213,7 @@ public class MigrationApp
             if (workId == null || workId.isEmpty())
                 return;
             String srItemName = "I"+workId.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
-            String itemFileName = getDstFileName("item", srItemName);
+            String itemFileName = getDstFileName("item", srItemName, ".trig");
             itemModel = MigrationHelpers.modelFromFileName(itemFileName);
             if (itemModel == null)
                 return;
