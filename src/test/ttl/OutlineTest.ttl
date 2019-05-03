@@ -8,7 +8,6 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:W30020  a           :Work ;
-    adm:outline      bda:W30020 ;
     :workPagination     bdr:PaginationAbsolute ;
 .
 bda:W30020  a           adm:Outline , adm:AdminData ;

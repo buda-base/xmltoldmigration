@@ -201,7 +201,7 @@ public class OutlineMigration {
             m.add(admOutline, m.getProperty(ADM, "outlineType"), m.createResource(value));
         }
 
-        m.add(work, m.getProperty(ADM, "outline"), admOutline);
+//        m.add(work, m.getProperty(ADM, "outline"), admOutline);
         value = root.getAttribute("pagination").trim();
         if (value.isEmpty() || value == "relative") {
             value = BDR+"PaginationRelative";

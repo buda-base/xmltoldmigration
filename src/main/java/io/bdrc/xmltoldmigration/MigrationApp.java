@@ -144,12 +144,15 @@ public class MigrationApp
     // resources to HashMaps so they can be added to the :workHasItem :Item if there is one - 
     // no access => no Item.
     public static void moveAdminInfo(Model itemM, Resource work, Resource admItem) {
-        String workId = work.getLocalName();
-        Resource access = WorkMigration.getAcceess(workId);
-        Resource legal = WorkMigration.getLLegal(workId);
+        Resource access = WorkMigration.getAccess(itemM, work);
+        Resource legal = WorkMigration.getLegal(itemM, work);
+        boolean ric = WorkMigration.isRestrictedInChina(itemM, work);
         
         if (access != null) {
             admItem.addProperty(itemM.getProperty(ADM, "access"), access);
+            if (ric) {
+                admItem.addProperty(itemM.getProperty(ADM, "access"), itemM.createResource(BDA+"AccessRestrictedInChina"));
+            }
         }
         if (legal != null) {
             admItem.addProperty(itemM.getProperty(ADM, "hasLegal"), legal);
@@ -191,19 +194,24 @@ public class MigrationApp
                 //ExceptionHelper.logException(ExceptionHelper.ET_GEN, baseName, baseName, "outlineFor", "outline does not reference its main work");
                 return;
             }
-            Model workModel = null;
-            // if order is the same (outlines before works), then no work is migrated yet
-//            if (new File(OUTPUT_DIR+"works/"+outWorkId+".ttl").exists()) {
-//                workModel = MigrationHelpers.modelFromFileName(OUTPUT_DIR+"works/"+outWorkId+".ttl");
+
+//            Model workModel = null;
+//            // if order is the same (outlines before works), then no work is migrated yet
+////            if (new File(OUTPUT_DIR+"works/"+outWorkId+".ttl").exists()) {
+////                workModel = MigrationHelpers.modelFromFileName(OUTPUT_DIR+"works/"+outWorkId+".ttl");
+////            }
+//            Resource work = null;
+//            if (workModel == null) {
+//                workModel = ModelFactory.createDefaultModel();
+//                CommonMigration.setPrefixes(workModel, "work");
+//                work = workModel.createResource(BDR+outWorkId);
+//            } else {
+//                work = workModel.getResource(BDR+outWorkId);
 //            }
-            Resource work = null;
-            if (workModel == null) {
-                workModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(workModel, "work");
-                work = workModel.createResource(BDR+outWorkId);
-            } else {
-                work = workModel.getResource(BDR+outWorkId);
-            }
+            Model workModel = ModelFactory.createDefaultModel();
+            CommonMigration.setPrefixes(workModel, "work");
+            Resource work = workModel.createResource(BDR+outWorkId);
+
             Model outlineModel = OutlineMigration.MigrateOutline(outd, workModel, work);
             if (OutlineMigration.splitOutlines) {
                 String outlineFileName = getDstFileName("work", outWorkId+"_001");
@@ -229,6 +237,8 @@ public class MigrationApp
             MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "item");
             break;
         case WORK:
+//            MigrationHelpers.writeLog("MigrationApp processing "+baseName);
+            System.out.println("MigrationApp processing "+baseName);
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();
             MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
@@ -501,12 +511,12 @@ public class MigrationApp
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondance, for externals
         if (!noXmlMigration) {
             migrateType(OUTLINE, "O");
-            migrateType(PERSON, "P");
-            migrateType(PLACE, "G");
-            migrateType(OFFICE, "R");
-            migrateType(CORPORATION, "C");
-            migrateType(LINEAGE, "L");
-            migrateType(TOPIC, "T");
+//            migrateType(PERSON, "P");
+//            migrateType(PLACE, "G");
+//            migrateType(OFFICE, "R");
+//            migrateType(CORPORATION, "C");
+//            migrateType(LINEAGE, "L");
+//            migrateType(TOPIC, "T");
 ////        migrateOneFile(new File(XML_DIR+"tbrc-works/W12827.xml"), "work", "W");
 ////        migrateOneFile(new File(XML_DIR+"tbrc-outlines/O4CZ17896.xml"), "outline", "O");
 ////        //migrateOneFile(new File(XML_DIR+"tbrc-scanrequests/SR1KG10424.xml"), "scanrequest", "SR");

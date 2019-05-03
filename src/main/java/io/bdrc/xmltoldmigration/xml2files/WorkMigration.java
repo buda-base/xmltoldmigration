@@ -40,15 +40,35 @@ public class WorkMigration {
 	
 	public static Map<String,List<String>> productWorks = new HashMap<>();
 	
-    private static HashMap<String, Resource> workAccessMap = new HashMap<String, Resource>();
-    private static HashMap<String, Resource> workLegalMap = new HashMap<String, Resource>();
+    private static HashMap<String, String> workAccessMap = new HashMap<>();
+    private static HashMap<String, String> workLegalMap = new HashMap<>();
+    private static HashMap<String, Boolean> workRestrictedInChina = new HashMap<>();
     
-    public static Resource getAcceess(String workId) {
-        return workAccessMap.get(workId);
+    public static Resource getAccess(Model itemModel, Resource work) {
+        String legalUri = workAccessMap.get(work.getLocalName());
+        if (legalUri != null) {
+            return itemModel.createResource(legalUri);
+        } else {
+            return null;
+        }
     }
     
-    public static Resource getLLegal(String workId) {
-        return workLegalMap.get(workId);
+    public static boolean isRestrictedInChina(Model itemModel, Resource work) {
+        Boolean ric = workRestrictedInChina.get(work.getLocalName());
+        if (ric != null) {
+            return ric;
+        } else {
+            return false;
+        }
+    }
+    
+    public static Resource getLegal(Model itemModel, Resource work) {
+        String legalUri = workLegalMap.get(work.getLocalName());
+        if (legalUri != null) {
+            return itemModel.createResource(legalUri);
+        } else {
+            return null;
+        }
     }
 	    
 	// testing only
@@ -101,8 +121,9 @@ public class WorkMigration {
 		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
 		boolean hasAccess = false;
 		boolean hasLicense = false;
-		Resource workAccess = null;
-		Resource workLicense = null;
+		String accessUri = null;
+		String legalUri = null;
+		boolean isRestrictedInChina = false;
 		int nbvols = -1;
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
@@ -128,14 +149,17 @@ public class WorkMigration {
             case "temporarilyRestricted": value = "AccessRestrictedTemporarily"; break;
             case "restrictedByQuality": value = "AccessRestrictedByQuality"; break;
             case "restrictedByTbrc": value = "AccessRestrictedByTbrc"; break;
-            case "restrictedInChina": value = "AccessRestrictedInChina"; break;
+            case "restrictedInChina":
+                value = (licenseValue.contains("Copyright") ? "AccessFairUse" : "AccessOpen");
+                isRestrictedInChina = true;
+                break;
             default: value = ""; break;
             }
             if (!value.isEmpty()) {
-                workAccess = m.createResource(BDA+value);
+                accessUri = BDA+value;
                 hasAccess = true;
             }
-            workLicense = m.createResource(licenseValue);
+            legalUri = licenseValue;
 
             String nbVolsStr = current.getAttribute("vols").trim();
             if (nbVolsStr.isEmpty())
@@ -153,16 +177,17 @@ public class WorkMigration {
             }
         }
         if (!hasAccess) {
-            workAccess = m.createResource(BDA+"AccessOpen");
+            accessUri = BDA+"AccessOpen";
         }        
         if (!hasLicense) {
-            workLicense = m.createResource(BDA+"LD_BDRC_Open");
+            legalUri = BDA+"LD_BDRC_Open";
         }
         
         // these maps are queried in ImagegroupMigration and EtextMigration 
         // to fill in the corresponding Item
-        workAccessMap.put(workId, workAccess);
-        workLegalMap.put(workId, workLicense);
+        workAccessMap.put(workId, accessUri);
+        workLegalMap.put(workId, legalUri);
+        workRestrictedInChina.put(workId, isRestrictedInChina);
 
         // info
         
