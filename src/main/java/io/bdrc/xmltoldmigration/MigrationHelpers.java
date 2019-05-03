@@ -367,14 +367,17 @@ public class MigrationHelpers {
         OutputStream out = null;
         try {
             if (m == null) 
-                throw new IllegalArgumentException("null model returned");
+                throw new IllegalArgumentException("modelToOutputStream called with null model");
             if (fname == null || fname.isEmpty()) 
                 return;
-            if (outputType == OUTPUT_STTL) {
-                out = new FileOutputStream(fname + ".ttl");
-            }
-            if (outputType == OUTPUT_TRIG) {
-                out = new FileOutputStream(fname + ".trig");
+            if (fname.contains(".ttl") || fname.contains(".trig")) {
+                out = new FileOutputStream(fname);
+            } else {
+                if (outputType == OUTPUT_TRIG) {
+                    out = new FileOutputStream(fname + ".trig");
+                } else if (outputType == OUTPUT_STTL) {
+                    out = new FileOutputStream(fname + ".ttl");
+                }
             }
             modelToOutputStream(m, out, type, outputType, fname);
             return;
