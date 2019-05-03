@@ -224,7 +224,6 @@ public class MigrationApp
             MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "item");
             break;
         case WORK:
-            System.out.println("MigrationApp processing "+baseName);
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();
             MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
