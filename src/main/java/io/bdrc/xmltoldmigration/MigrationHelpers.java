@@ -438,9 +438,8 @@ public class MigrationHelpers {
 	public static Model modelFromFileName(String fname) {
 	    Model model = ModelFactory.createDefaultModel();
 	    Graph g = model.getGraph();
-	    String ext = fname.substring(fname.lastIndexOf("."));
 
-	    if (ext.equals(".ttl")) {
+	    if (fname.endsWith(".ttl")) {
 	        try {
 	            // workaround for https://github.com/jsonld-java/jsonld-java/issues/199
 	            RDFParser.create()
@@ -451,7 +450,7 @@ public class MigrationHelpers {
 	            writeLog("error reading "+fname);
 	            return null;
 	        }
-	    } else if (ext.equals(".trig")) {
+	    } else if (fname.endsWith(".trig")) {
 	        try {
 	            Dataset dataset = RDFDataMgr.loadDataset(fname);
 	            Iterator<String> iter = dataset.listNames();
