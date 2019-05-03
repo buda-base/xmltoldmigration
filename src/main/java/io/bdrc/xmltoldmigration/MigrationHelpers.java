@@ -404,8 +404,9 @@ public class MigrationHelpers {
         }
         if (outputType == OUTPUT_TRIG) {
             // compute graph uri from fname; if fname == null then testing so use a dummy graph URI
-            String uriStr = 
-                (fname != null && !fname.isEmpty()) ? BDG + fname.substring(fname.lastIndexOf("/")+1) : BDG + "GraphForTesting";
+            String foo = (fname != null && !fname.isEmpty()) ? fname.substring(fname.lastIndexOf("/")+1) : "GraphForTesting";
+            foo = foo.replace(".trig",  "").replace(".ttl",  "");
+            String uriStr = BDG+foo;
             Node graphUri = NodeFactory.createURI(uriStr);
             DatasetGraph dsg = DatasetFactory.create().asDatasetGraph();
             dsg.addGraph(graphUri, m.getGraph());
