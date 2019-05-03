@@ -3,10 +3,9 @@ package io.bdrc.xmltoldmigration;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -14,9 +13,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +21,14 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
@@ -45,34 +49,27 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RDFParser;
-import org.apache.jena.riot.RDFParserBuilder;
 import org.apache.jena.riot.RDFWriter;
 import org.apache.jena.riot.RiotException;
-import org.apache.jena.riot.RiotNotFoundException;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.StreamRDFLib;
 import org.apache.jena.riot.writer.TriGWriter;
-import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import openllet.jena.PelletReasonerFactory;
-
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.OWL2;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.SKOS;
+import org.apache.jena.vocabulary.VCARD4;
+import org.apache.jena.vocabulary.XSD;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import io.bdrc.jena.sttl.CompareComplex;
 import io.bdrc.jena.sttl.ComparePredicates;
@@ -93,14 +90,7 @@ import io.bdrc.xmltoldmigration.xml2files.ScanrequestMigration;
 import io.bdrc.xmltoldmigration.xml2files.TaxonomyMigration;
 import io.bdrc.xmltoldmigration.xml2files.TopicMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
-
-import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.OWL2;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
-import org.apache.jena.vocabulary.SKOS;
-import org.apache.jena.vocabulary.VCARD4;
-import org.apache.jena.vocabulary.XSD;
+import openllet.jena.PelletReasonerFactory;
 
 
 public class MigrationHelpers {
@@ -653,12 +643,7 @@ public class MigrationHelpers {
 		// it's RDF1.0, so we first open it with no reasoner:
 		OntModel ontoModel = null;
 	    try {
-//            ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
-//            InputStream inputStream = classLoader.getResourceAsStream("owl-file/adm/admin.ttl");
-//	        ontoModel.read(inputStream, "", "TTL");
-//	        inputStream.close();
-//	        
-	        OntDocumentManager mgrImporting = new OntDocumentManager("owl-file//ont-policy.rdf");
+	        OntDocumentManager mgrImporting = new OntDocumentManager("owl-file/ont-policy.rdf");
 	        mgrImporting.setProcessImports(true);
 	        
 	        OntModelSpec ontSpecImporting = new OntModelSpec(OntModelSpec.OWL_DL_MEM);

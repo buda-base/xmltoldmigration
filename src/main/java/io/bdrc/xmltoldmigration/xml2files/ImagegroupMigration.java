@@ -18,7 +18,8 @@ public class ImagegroupMigration {
 
 	public static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
     
-	private static final String BDA = CommonMigration.BDA;
+	@SuppressWarnings("unused")
+    private static final String BDA = CommonMigration.BDA;
     private static final String BDO = CommonMigration.BDO;
     private static final String BDR = CommonMigration.BDR;
     private static final String ADM = CommonMigration.ADM;
@@ -43,7 +44,7 @@ public class ImagegroupMigration {
         
         // adding the ondisk/onDisk description as vol:imageList
         NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "isVolumeOf");
-        for (int i = 0; i < nodeList.getLength(); i++) {
+        for (int i = 0; i < nodeList.getLength(); ) {
             Element current = (Element) nodeList.item(i);
             volumeOf = current.getAttribute("work").trim();
             break;
@@ -76,7 +77,6 @@ public class ImagegroupMigration {
 		
         Resource main = m.createResource(BDR+volumeId);
         Resource admMain = MigrationHelpers.getAdmResource(m, volumeId);
-//        Resource admItem = MigrationHelpers.getAdmResource(m, itemId);
 
 		admMain.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         

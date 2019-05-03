@@ -184,7 +184,7 @@ public class WorkMigration {
         }
         
         // these maps are queried in ImagegroupMigration and EtextMigration 
-        // to fill in the corresponding Item
+        // to fill in the corresponding Item via MigrationApp.moveAdminInfo()
         workAccessMap.put(workId, accessUri);
         workLegalMap.put(workId, legalUri);
         workRestrictedInChina.put(workId, isRestrictedInChina);
@@ -409,5 +409,4 @@ public class WorkMigration {
         String missingVols = String.join(",", missingVolumes);
         return new ImageGroupInfo(missingVols, res, lastVolume);
 	}
-	
 }
