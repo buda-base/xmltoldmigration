@@ -200,7 +200,7 @@ public class WorkMigration {
             case "conceptualWork": value = BDO+"AbstractWork"; break;
             case "publishedWork": value = BDO+"PublishedWork"; break;
             case "series": value = BDO+"SeriesWork"; break;
-            default: value = ""; break;
+            default: value = BDO+"UnspecifiedWorkClass"; break;
             }
             if (!value.isEmpty()) {
                 main.addProperty(RDF.type, m.createResource(value));
