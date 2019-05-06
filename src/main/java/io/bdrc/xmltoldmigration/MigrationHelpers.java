@@ -689,6 +689,10 @@ public class MigrationHelpers {
 		return res;
 	}
 
+    public static Resource getAdmResource(Model m, Resource r) {
+        return getAdmResource(m, r.getLocalName(), false);
+    }
+
     public static Resource getAdmResource(Model m, String id) {
         return getAdmResource(m, id, false);
     }

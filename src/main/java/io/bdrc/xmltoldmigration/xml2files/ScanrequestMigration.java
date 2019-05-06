@@ -7,6 +7,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
@@ -43,8 +44,10 @@ public class ScanrequestMigration {
 		Element root = xmlDocument.getDocumentElement();
 		
 		String value = root.getAttribute("venue").trim();
-        if (!value.isEmpty())
-            m.add(item, m.getProperty(ADM+"volumeScanVenue"), m.createLiteral(value));
+        if (!value.isEmpty()) {
+            Resource admR = MigrationHelpers.getAdmResource(m, item);
+            m.add(admR, m.getProperty(ADM+"volumeScanVenue"), m.createLiteral(value));
+        }
 		
 		return m;
 	}
