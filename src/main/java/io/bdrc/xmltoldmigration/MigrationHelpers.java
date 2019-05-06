@@ -74,6 +74,7 @@ import org.xml.sax.SAXException;
 import io.bdrc.jena.sttl.CompareComplex;
 import io.bdrc.jena.sttl.ComparePredicates;
 import io.bdrc.jena.sttl.STTLWriter;
+import io.bdrc.jena.sttl.STriGWriter;
 import io.bdrc.xmltoldmigration.helpers.ContextGenerator;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
@@ -144,6 +145,7 @@ public class MigrationHelpers {
 
     
     public static Lang sttl;
+    public static Lang strig;
     public static Context ctx;
     
     public static final Map<String,String> typeToXsdPrefix = new HashMap<>();
@@ -306,10 +308,10 @@ public class MigrationHelpers {
     
     public static void setupSTTL() {
         sttl = STTLWriter.registerWriter();
+        strig = STriGWriter.registerWriter();
         SortedMap<String, Integer> nsPrio = ComparePredicates.getDefaultNSPriorities();
         nsPrio.put(SKOS.getURI(), 1);
         nsPrio.put(ADM, 5);
-        nsPrio.put("http://purl.bdrc.io/ontology/toberemoved/", 6);
         List<String> predicatesPrio = CompareComplex.getDefaultPropUris();
         predicatesPrio.add(ADM+"logDate");
         predicatesPrio.add(BDO+"seqNum");
@@ -410,7 +412,7 @@ public class MigrationHelpers {
             Node graphUri = NodeFactory.createURI(uriStr);
             DatasetGraph dsg = DatasetFactory.create().asDatasetGraph();
             dsg.addGraph(graphUri, m.getGraph());
-            new TriGWriter().write(out, dsg, getPrefixMap(), graphUri.toString(m), ctx);
+            new STriGWriter().write(out, dsg, getPrefixMap(), graphUri.toString(m), ctx);
         }
     }
 

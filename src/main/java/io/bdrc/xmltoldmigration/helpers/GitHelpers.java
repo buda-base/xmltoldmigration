@@ -26,7 +26,7 @@ public class GitHelpers {
             "!*/\n" + 
             "# Don't ignore .gitignore and *.foo files\n" + 
             "!.gitignore\n" + 
-            "!*.ttl\n" + 
+            "!*.trig\n" + 
             "";
     
     public static Map<String,Repository> typeRepo = new HashMap<>();
