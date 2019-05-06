@@ -112,6 +112,6 @@ bdr:UT1CZ2485_001_0000
     :eTextTitle         "༄༅། །ཕྱག་རྒྱ་ཆེན་པོ་ལྷན་ཅིག་སྐྱེས་སྦྱོར་ཟབ་དོན་དོན་གྱི་ཆུ་བོ་སྐལ་ལྡན་གྱི་གདུལ་བྱའི་"@bo ;
 .
 bda:UT1CZ2485_001_0000 a adm:AdminData ;
-    adm:adminAbout      bdr:UT1CZ2485_001_0000 ;
-    adm:status          bda:StatusReleased ;
+    adm:adminAbout       bdr:UT1CZ2485_001_0000 ;
+    adm:status           bda:StatusReleased ;
 .

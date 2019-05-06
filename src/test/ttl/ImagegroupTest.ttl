@@ -22,6 +22,7 @@ bdr:VestItem_I4158  a   :VolumeImageAsset ;
 .
 bda:VestItem_I4158  a   adm:AdminData ;
     adm:adminAbout      bdr:VestItem_I4158 ;
+    adm:metadataLegal    bda:LD_BDRC_Open ;
     adm:legacyImageGroupRID  "I4158" ;
     adm:volumeQcDate    "12/03" ;
     adm:volumeQcNote    "qc notes" ;

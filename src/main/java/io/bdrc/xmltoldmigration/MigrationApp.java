@@ -153,7 +153,7 @@ public class MigrationApp
             itemM.addLiteral(admItem, itemM.getProperty(ADM, "restrictedInChina"), ric);
         }
         if (legal != null) {
-            admItem.addProperty(itemM.getProperty(ADM, "hasLegal"), legal);
+            admItem.addProperty(itemM.getProperty(ADM, "contentLegal"), legal);
         }
     }
 
@@ -270,6 +270,7 @@ public class MigrationApp
                 
                 admItem = MigrationHelpers.getAdmResource(itemModel, itemName);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
+                admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
                 moveAdminInfo(itemModel, workR, admItem);
 
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));

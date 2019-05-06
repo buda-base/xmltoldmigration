@@ -19,6 +19,7 @@ public class LineageMigration {
     private static final String BDA = CommonMigration.BDA;
     private static final String BDO = CommonMigration.BDO;
     private static final String BDR = CommonMigration.BDR;
+    private static final String ADM = CommonMigration.ADM;
    
 	public static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
 	
@@ -38,6 +39,7 @@ public class LineageMigration {
 		m.add(main, m.getProperty(BDO, "lineageType"), m.createResource(value));
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
 		
     	CommonMigration.addNames(m, root, main, LXSDNS);
     	CommonMigration.addNotes(m, root, main, LXSDNS);

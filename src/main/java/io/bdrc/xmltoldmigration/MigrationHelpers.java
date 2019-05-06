@@ -571,6 +571,7 @@ public class MigrationHelpers {
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
         Resource admMain = getAdmResource(m, root.getAttribute("RID"));
         CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+        admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
         final String XsdPrefix = typeToXsdPrefix.get(type);
         NodeList nodeList = root.getElementsByTagNameNS(XsdPrefix, "log");
         String withdrawnmsg = null;

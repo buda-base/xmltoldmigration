@@ -78,6 +78,7 @@ bdr:P1583  a            :Person ;
     :personStudentOf    bdr:P123 ;
 .
 bda:P1583  a            adm:AdminData ;
+    adm:metadataLegal   bda:LD_BDRC_Open ;
     rdfs:seeAlso        bdr:O1GS392481GS39291 ;
     adm:seeOtherToL     "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
     adm:adminAbout      bdr:P1583 ;

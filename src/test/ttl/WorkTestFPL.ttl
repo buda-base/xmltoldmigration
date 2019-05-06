@@ -59,6 +59,7 @@ bdr:W12837FPL  a        :PublishedWork ;
 .
 bda:W12837FPL      a    adm:AdminData ;
     adm:adminAbout      bdr:W12837FPL ;
+    adm:metadataLegal   bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;
                           adm:logWho          bdr:U00001

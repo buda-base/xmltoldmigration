@@ -121,7 +121,7 @@ public class EAPFondsTransfer {
                 // Work adm:AdminData
                 workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
                 workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-                workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), MigrationHelpers.getAdmResource(workModel, "LD_EAP")); // ?
+                workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), MigrationHelpers.getAdmResource(workModel, "LD_EAP")); // ?
                 String origUrl = ORIG_URL_BASE+serieID;
                 workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
                 
@@ -147,7 +147,8 @@ public class EAPFondsTransfer {
                 // Item adm:AdminData
                 itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
                 itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
-                itemModel.add(admItem, itemModel.createProperty(ADM, "hasLegal"), MigrationHelpers.getAdmResource(itemModel, "LD_EAP")); // ?
+                itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), MigrationHelpers.getAdmResource(itemModel, "LD_EAP")); // ?
+                itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), MigrationHelpers.getAdmResource(itemModel, "LD_EAP")); // ?
                 
                 itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
                 

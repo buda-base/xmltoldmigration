@@ -25,6 +25,7 @@ public class TopicMigration {
         Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Topic"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		admMain.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));
 
 		CommonMigration.addNames(m, root, main, TXSDNS);
 

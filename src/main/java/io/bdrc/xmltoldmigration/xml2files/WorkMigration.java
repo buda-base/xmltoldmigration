@@ -93,7 +93,9 @@ public class WorkMigration {
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
         Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		
-		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));        
+        admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+
 		
 		String value = null;
 		Literal lit = null;

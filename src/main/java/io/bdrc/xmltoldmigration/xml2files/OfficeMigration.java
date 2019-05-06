@@ -21,6 +21,7 @@ public class OfficeMigration {
         Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Role"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		admMain.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));
 		
 		CommonMigration.addNotes(m, root, main, OXSDNS);
 		

@@ -20,6 +20,7 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
 public class PersonMigration {
 
+    private static final String ADM = CommonMigration.ADM;
     private static final String BDA = CommonMigration.BDA;
     private static final String BDO = CommonMigration.BDO;
     private static final String BDR = CommonMigration.BDR;
@@ -86,6 +87,7 @@ public class PersonMigration {
         Resource admMain = MigrationHelpers.getAdmResource(m, RID);
 		m.add(main, RDF.type, m.createResource(BDO + "Person"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
 		int gender = SymetricNormalization.GENDER_U;
 		
 		Map<String,Resource> typeNodes = new HashMap<>();

@@ -412,6 +412,7 @@ public class EtextMigration {
             // Item AdminData
             Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemId);                           
             admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
+            admItem.addProperty(itemModel.getProperty(ADM, "metadataLegal"), itemModel.createResource(BDA+"LD_BDRC_Open"));
             MigrationApp.moveAdminInfo(itemModel, work, admItem);
             CommonMigration.addReleased(itemModel, admItem);
 

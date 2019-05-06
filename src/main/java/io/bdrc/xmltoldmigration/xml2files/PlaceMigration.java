@@ -50,6 +50,7 @@ public class PlaceMigration {
 		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + "PlaceType"+value));
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
 
 		CommonMigration.addNames(m, root, main, PLXSDNS);
 		

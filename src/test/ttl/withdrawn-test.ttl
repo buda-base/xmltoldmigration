@@ -7,7 +7,8 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:R8LS12811  a         adm:AdminData ;
-    adm:adminAbout   bdr:R8LS12811 ;
-    adm:replaceWith  bdr:R1GS23 ;
-    adm:status       bda:StatusWithdrawn .
+bda:R8LS12811  a       adm:AdminData ;
+    adm:adminAbout     bdr:R8LS12811 ;
+    adm:metadataLegal  bda:LD_BDRC_Open ;
+    adm:replaceWith    bdr:R1GS23 ;
+    adm:status         bda:StatusWithdrawn .

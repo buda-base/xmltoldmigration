@@ -48,6 +48,7 @@ bdr:G844  a             :Place ;
     :placeWBArea        "test" ;
 .
 bda:G844  a           adm:AdminData ;
+        adm:metadataLegal  bda:LD_BDRC_Open ;
         adm:adminAbout bdr:G844 ;
         adm:logEntry  [ adm:logDate     "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
                         adm:logMessage  "added place contained"@en ;

@@ -138,7 +138,7 @@ public class EAPTransfer {
         // adm:AdminData
         Resource admWork = MigrationHelpers.getAdmResource(workModel, RID);
         CommonMigration.addReleased(workModel, admWork);
-        workModel.add(admWork, workModel.createProperty(ADM, "hasLegal"), workModel.createResource(BDA + "LD_EAP")); // ?
+        workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_EAP")); // ?
         final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
 
@@ -260,7 +260,8 @@ public class EAPTransfer {
         // Item adm:AdminData
         Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemRID);
         CommonMigration.addStatus(itemModel, admItem, "released");
-        itemModel.add(admItem, itemModel.createProperty(ADM, "hasLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?
+        itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?
+        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?
 
         // Volume for Item
         final String volumeRID = 'V'+itemRID.substring(1);

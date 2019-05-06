@@ -29,6 +29,7 @@ bdr:P1331  a            :Person ;
             ] ;
 .
 bda:P1331   a            adm:AdminData ;
+    adm:metadataLegal    bda:LD_BDRC_Open ;
     adm:adminAbout       bdr:P1331 ;
     adm:status           bda:StatusReleased ;
 .

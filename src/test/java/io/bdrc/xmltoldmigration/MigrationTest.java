@@ -378,7 +378,7 @@ public class MigrationTest
        }
        
        @Test
-       public void testScanrequest()
+       public void testScanrequest() throws IOException
        {
            System.out.println("testing scanrequest");
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/ScanrequestTest.xml");  
@@ -387,6 +387,11 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "scanrequest");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ScanrequestTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", MigrationHelpers.OUTPUT_STTL);
+//           
+//           // ==== TEMP DEBUG ====
+//           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testScanrequest-fromXml.ttl"), "TTL");
+//           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testScanrequest-correctModel.ttl"), "TTL");
+//
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
