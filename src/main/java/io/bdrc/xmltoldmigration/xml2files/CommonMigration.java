@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.MessageDigest;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Validator;
@@ -137,6 +139,86 @@ public class CommonMigration  {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private static Map<String, FacetType> strToFacetType = new HashMap<>();
+    public enum FacetType {
+
+        CREATOR("creator", "CR"), 
+        EVENT("event", "EV"), 
+        NAME("name", "NM"),
+        TITLE("title", "TT");
+
+        private String label;
+        private String prefix;
+
+        private FacetType(String label, String prefix) {
+            this.label = label;
+            this.prefix = prefix;
+            strToFacetType.put(prefix, this);
+        }
+
+        public static FacetType getType(String prefix) {
+            return strToFacetType.get(prefix);
+        }
+        
+        public String getPrefix() {
+            return prefix;
+        }
+        
+        @Override
+        public String toString() {
+            return label;
+        }
+    }
+    
+    /**
+     * retrieves the index for resource, rez, for the given facet type, increment the index and store
+     * it back into the underlying model.
+     * @param facet
+     * @param rez
+     * @return
+     */
+    private static int getFacetIndex(FacetType facet, Resource rootAdmRez) {
+        Model m = rootAdmRez.getModel();
+        Property inxP = m.createProperty(ADM+facet+"Index");
+        Statement stmt = m.getProperty(rootAdmRez, inxP);
+        
+        int inx = 1;
+        if (stmt != null) {
+           inx = stmt.getInt();
+           m.remove(stmt);
+        }
+        
+        m.addLiteral(rootAdmRez, inxP, inx+1);
+        return inx;
+    }
+    
+    // returns hex string in uppercase
+    private static String  bytesToHex(byte[] hash) {
+        return DatatypeConverter.printHexBinary(hash);
+    }
+
+    /**
+     * Returns prefix + 8 character unique id based on a hash of the concatenation of the last three string arguments. 
+     * This is itended to be used to generate ids for named nodes like Events, AgentAsCreator, even WorkTitle
+     * and PersonName.
+     * @param prefix initial 1, 2, or 3 chars that distinguish what the id will identify
+     * @param baseId typically the id of the subject that refers to an Event, AgentAsCreator etc
+     * @param user some String identifying the user or tool that is creating the id, make unique to the user
+     * @param instanceId a sequence number string or other occurrence specific index
+     * @return id = prefix + 8 character hash substring
+     */
+    public static String generateId(FacetType facet, Resource rez, String user, Resource rootRez) {
+        try {
+            String data = rez.getLocalName()+user+getFacetIndex(FacetType.CREATOR, rootRez);
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(data.getBytes("UTF-8"));
+            return facet.getPrefix()+bytesToHex(hash).substring(0, 8);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
     }
     
@@ -1139,10 +1221,11 @@ public class CommonMigration  {
            return BDR+creatorMigrations.get(type);
        }
        
-       static void addAgentAsCreator(Model m, Resource work, Resource person, String roleKey) {
+       static void addAgentAsCreator(Model m, Resource work, Resource person, String roleKey, Resource rootAdmWork) {
            Property creator = m.createProperty(BDO+"creator");
            Resource role = m.createResource(getCreatorRoleUri(roleKey));
-           Resource agentAsCreator = m.createResource(BDR+work.getLocalName()+"_"+roleKey+"_"+person.getLocalName());
+           String id = generateId(FacetType.CREATOR, work, "MigrationApp", rootAdmWork);
+           Resource agentAsCreator = m.createResource(BDR+id);
            work.addProperty(creator, agentAsCreator);
            agentAsCreator.addProperty(RDF.type, m.createResource(BDO+"AgentAsCreator"));
            agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);

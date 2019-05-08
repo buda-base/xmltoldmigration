@@ -256,7 +256,7 @@ public class WorkMigration {
             } else {
                 person = MigrationHelpers.sanitizeRID(main.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    CommonMigration.addAgentAsCreator(m, main, m.createResource(BDR+person), value);
+                    CommonMigration.addAgentAsCreator(m, main, m.createResource(BDR+person), value, admMain);
             }
         }
         

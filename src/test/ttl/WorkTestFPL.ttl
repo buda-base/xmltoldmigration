@@ -20,15 +20,14 @@ bda:I12837FPL_P001  a   adm:AdminData ;
     adm:adminAbout      bdr:I12837FPL_P001 ;
     adm:status          bda:StatusReleased ;
 .
-bdr:W12837FPL_hasMainAuthor_P1591
-    a                   :AgentAsCreator ;
-    :agent              bdr:P1591 ;
-    :role               bdr:R0ER0019 ;
+bdr:CR3F0F87B0  a  :AgentAsCreator ;
+        :agent  bdr:P1591 ;
+        :role   bdr:R0ER0019 ;
 .
 bdr:W12837FPL  a        :PublishedWork ;
     rdfs:comment        "description with no type" ;
+    :creator              bdr:CR3F0F87B0 ;
     skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast ;
-    :creator            bdr:W12837FPL_hasMainAuthor_P1591 ;
     :note               [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ,
             [ :noteText       "description with type note" ] ;
     :workCatalogInfo    "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
@@ -59,6 +58,7 @@ bdr:W12837FPL  a        :PublishedWork ;
 .
 bda:W12837FPL      a    adm:AdminData ;
     adm:adminAbout      bdr:W12837FPL ;
+    adm:creatorIndex   "2"^^xsd:int ;
     adm:metadataLegal   bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;

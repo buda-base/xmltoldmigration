@@ -170,7 +170,7 @@ public class OutlineMigration {
 	    return MigrateOutline(xmlDocument, workModel, work);
 	}
 
-	public static Model MigrateOutline(Document xmlDocument, Model workModel, Resource work) {
+	public static Model MigrateOutline(Document xmlDocument, Model workModel, Resource rootWork) {
 		Model m;
 		if (splitOutlines) {
 		    m = ModelFactory.createDefaultModel();
@@ -179,7 +179,7 @@ public class OutlineMigration {
 		    m = workModel;
 		}
 		
-        Resource admOutline = MigrationHelpers.getAdmResource(work);
+        Resource admOutline = MigrationHelpers.getAdmResource(rootWork);
 
 		Element root = xmlDocument.getDocumentElement();
 
@@ -208,7 +208,7 @@ public class OutlineMigration {
         } else {
             value = BDR+"PaginationAbsolute";            
         }
-        m.add(work, m.getProperty(BDO, "workPagination"), m.createResource(value));
+        m.add(rootWork, m.getProperty(BDO, "workPagination"), m.createResource(value));
         
         // if the outline names must really be migrated, do it here, they would be under
         // the tbr:outlineName property
@@ -217,9 +217,9 @@ public class OutlineMigration {
 		CommonMigration.addExternals(m, root, admOutline, OXSDNS);
 		CommonMigration.addLog(m, root, admOutline, OXSDNS);
 		CommonMigration.addDescriptions(m, root, admOutline, OXSDNS);
-		CommonMigration.addLocations(m, admOutline, root, OXSDNS, work.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
+		CommonMigration.addLocations(m, admOutline, root, OXSDNS, rootWork.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
-		addCreators(m, admOutline, root, true);
+		addCreators(m, admOutline, root, true, rootWork);
 		
 		// case where there's an unnecessary unique top node (ex: W1GS61415 / O1LS4227)
 		final List<Element> nodeList2 = CommonMigration.getChildrenByTagName(root, OXSDNS, "node");
@@ -229,12 +229,12 @@ public class OutlineMigration {
             node2 = nodeList2.get(0);
         }
 		
-		addNodes(m, work, node2, work.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "");
+		addNodes(m, rootWork, node2, rootWork.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "", rootWork);
 		
 		return m;
 	}
 	
-	public static void addCreators(Model m, Resource r, Element e, boolean isRoot) {
+	public static void addCreators(Model m, Resource r, Element e, boolean isRoot, Resource rootWork) {
         // creator
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
         for (int j = 0; j < nodeList.size(); j++) {
@@ -259,13 +259,13 @@ public class OutlineMigration {
             } else {
                 person = MigrationHelpers.sanitizeRID(r.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    CommonMigration.addAgentAsCreator(m, r, m.createResource(BDR+person), value);
+                    CommonMigration.addAgentAsCreator(m, r, m.createResource(BDR+person), value, MigrationHelpers.getAdmResource(rootWork));
             }
         }
 	}
 
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
-LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex) {
+LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork) {
 	    curNode.i = curNode.i+1;
 	    String value = String.format("%04d", curNode.i);	    
         Resource node = m.createResource(BDR+workId+"_"+value);
@@ -364,10 +364,10 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             // TODO: what about current.getTextContent()?
         }
         
-        addCreators(m, node, e, false);
+        addCreators(m, node, e, false, rootWork);
         
         // sub nodes
-        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex);
+        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex, rootWork);
         
         if (!hasChildren && (locVP == null)) {
 //            labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
@@ -390,7 +390,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 	    return String.format("%03d", index);
 	}
 	
-	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex) {
+	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex, Resource rootWork) {
 	    CommonMigration.LocationVolPage endLocVP = null;
 	    boolean res = false;
 	    final List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
@@ -404,7 +404,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             } else {
                 thisPartTreeIndex = curPartTreeIndex+"."+getPartTreeIndexStr(i+1, nbChildren);
             }
-            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex);
+            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex, rootWork);
             if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {
                 // check if beginning of child node is before beginning of parent
                 if (parentLocVP.beginVolNum > endLocVP.beginVolNum
