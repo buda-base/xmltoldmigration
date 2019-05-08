@@ -91,7 +91,7 @@ public class WorkMigration {
 		Element current;
 		String workId = root.getAttribute("RID");
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
+        Resource admMain = MigrationHelpers.getAdmResource(m, main);
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));        
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
@@ -121,6 +121,7 @@ public class WorkMigration {
 		// archiveInfo
 		
 		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
+		boolean hasArchiveInfo = false;
 		boolean hasAccess = false;
 		boolean hasLicense = false;
 		String accessUri = null;
@@ -128,6 +129,7 @@ public class WorkMigration {
 		boolean isRestrictedInChina = false;
 		int nbvols = -1;
         for (int i = 0; i < nodeList.getLength(); i++) {
+            hasArchiveInfo = true;
             current = (Element) nodeList.item(i);
             String licenseValue = current.getAttribute("license").trim();
             if (licenseValue.equals("copyright")) 
@@ -178,10 +180,10 @@ public class WorkMigration {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "archiveInfo/vols", "cannot parse number of volumes `"+current.getAttribute("vols").trim()+"`");
             }
         }
-        if (!hasAccess) {
+        if (hasArchiveInfo && !hasAccess) {
             accessUri = BDA+"AccessOpen";
         }        
-        if (!hasLicense) {
+        if (hasArchiveInfo && !hasLicense) {
             legalUri = BDA+"LD_BDRC_Open";
         }
         
@@ -202,7 +204,7 @@ public class WorkMigration {
             case "conceptualWork": value = BDO+"AbstractWork"; break;
             case "publishedWork": value = BDO+"PublishedWork"; break;
             case "series": value = BDO+"SeriesWork"; break;
-            default: value = BDO+"UnspecifiedWorkClass"; break;
+            default: value = BDO+(hasArchiveInfo ? "PublishedWork" : "UnspecifiedWorkClass"); break;
             }
             if (!value.isEmpty()) {
                 main.addProperty(RDF.type, m.createResource(value));
