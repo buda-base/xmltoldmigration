@@ -81,7 +81,7 @@ public class GRETILTransfer {
         final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
         Resource work = workModel.createResource(BDR+line[0]);
-        Resource admWork = MigrationHelpers.getAdmResource(workModel, line[0]);
+        Resource admWork = MigrationHelpers.getAdmResource(work);
         res.add(work);
 
         // Work AdminData

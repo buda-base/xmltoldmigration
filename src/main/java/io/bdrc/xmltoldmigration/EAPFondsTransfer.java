@@ -115,13 +115,14 @@ public class EAPFondsTransfer {
                 Resource work = workModel.createResource(BDR+"W"+serie);
 //                workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
                 work.addProperty(RDF.type, workModel.createResource(BDO+"PublishedWork"));
-                Resource admWork = MigrationHelpers.getAdmResource(workModel, "W"+serie);
+                Resource admWork = MigrationHelpers.getAdmResource(work);
                 res.add(work);
 
                 // Work adm:AdminData
+                Resource ldEAP = workModel.createResource(BDA+"LD_EAP");
                 workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
                 workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-                workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), MigrationHelpers.getAdmResource(workModel, "LD_EAP")); // ?
+                workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
                 String origUrl = ORIG_URL_BASE+serieID;
                 workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
                 
@@ -139,16 +140,17 @@ public class EAPFondsTransfer {
                 CommonMigration.setPrefixes(itemModel);
                 Resource item = itemModel.createResource(BDR+"I"+serieID);
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
-                Resource admItem = MigrationHelpers.getAdmResource(itemModel, "I"+serieID);
+                Resource admItem = MigrationHelpers.getAdmResource(item);
                 res.add(item);
 
                 workModel.add(work, workModel.createProperty(BDO,"workHasItem"), item);
 
                 // Item adm:AdminData
+                ldEAP = itemModel.createResource(BDA+"LD_EAP");
                 itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
                 itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
-                itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), MigrationHelpers.getAdmResource(itemModel, "LD_EAP")); // ?
-                itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), MigrationHelpers.getAdmResource(itemModel, "LD_EAP")); // ?
+                itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), ldEAP); // ?
+                itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
                 
                 itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
                 
@@ -176,7 +178,7 @@ public class EAPFondsTransfer {
                         res.add(vol);
                         
                         // Volume adm:AdminData
-                        Resource admVol = MigrationHelpers.getAdmResource(itemModel, "V"+ref);
+                        Resource admVol = MigrationHelpers.getAdmResource(vol);
                         itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
                         origUrl = ManifestPREF+ref;
                         itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                

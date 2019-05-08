@@ -98,7 +98,7 @@ public class PubinfoMigration {
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
         
-        Resource admMain = MigrationHelpers.getAdmResource(m, main.getLocalName());
+        Resource admMain = MigrationHelpers.getAdmResource(main);
         CommonMigration.addLog(m, root, admMain, WPXSDNS);
         
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");

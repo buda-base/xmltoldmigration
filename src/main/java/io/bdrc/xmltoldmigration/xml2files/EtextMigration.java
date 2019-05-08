@@ -404,13 +404,14 @@ public class EtextMigration {
             return null;
         }
         final String etextId = e.getTextContent().trim().replace('-', '_');
+        Resource etext = etextModel.getResource(BDR+etextId);
 
         if (first) { // initialize the :ItemEtext
             Resource work = itemModel.getResource(BDR+workId);
             Resource item = itemModel.getResource(BDR+itemId);
 
             // Item AdminData
-            Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemId);                           
+            Resource admItem = MigrationHelpers.getAdmResource(item);                           
             admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
             admItem.addProperty(itemModel.getProperty(ADM, "metadataLegal"), itemModel.createResource(BDA+"LD_BDRC_Open"));
             MigrationApp.moveAdminInfo(itemModel, work, admItem);
@@ -428,15 +429,15 @@ public class EtextMigration {
         }
 
         if (addEtextInItem)
-            etextModel.add(etextModel.getResource(BDR+etextId),
+            etextModel.add(etext,
                     etextModel.getProperty(BDO, "eTextInItem"),
                     etextModel.getResource(BDR+itemId));
 
-        etextModel.add(etextModel.getResource(BDR+etextId),
+        etextModel.add(etext,
                 RDF.type,
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
-        Resource admEtext = MigrationHelpers.getAdmResource(etextModel, etextId);
+        Resource admEtext = MigrationHelpers.getAdmResource(etext);
         CommonMigration.addReleased(etextModel, admEtext);
         
         Model imageItemModel = null;
@@ -466,7 +467,7 @@ public class EtextMigration {
             if (titleStr.isEmpty())
                 continue;
             if (!titlesList.contains(titleStr)) {
-                etextModel.add(etextModel.getResource(BDR+etextId),
+                etextModel.add(etext,
                         etextModel.getProperty(BDO, "eTextTitle"),
                         getLiteral(titleStr, etextModel, etextId));
             }
@@ -479,7 +480,7 @@ public class EtextMigration {
             e1.printStackTrace();
             return null;
         }
-        etextModel.add(etextModel.getResource(BDR+etextId),
+        etextModel.add(etext,
                 etextModel.getProperty(BDO, "eTextSourcePath"),
                 etextModel.createLiteral(e.getTextContent().trim()));
         

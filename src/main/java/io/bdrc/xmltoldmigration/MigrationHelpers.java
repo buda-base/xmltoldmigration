@@ -569,7 +569,7 @@ public class MigrationHelpers {
         CommonMigration.setPrefixes(m, type);
         Element root = xmlDocument.getDocumentElement();
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = getAdmResource(m, root.getAttribute("RID"));
+        Resource admMain = getAdmResource(main);
         CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
         final String XsdPrefix = typeToXsdPrefix.get(type);
@@ -692,17 +692,13 @@ public class MigrationHelpers {
 		return res;
 	}
 
-    public static Resource getAdmResource(Model m, Resource r) {
-        return getAdmResource(m, r.getLocalName(), false);
-    }
-
-    public static Resource getAdmResource(Model m, String id) {
-        return getAdmResource(m, id, false);
+    public static Resource getAdmResource(Resource r) {
+        return getAdmResource(r, false);
     }
     
-    public static Resource getAdmResource(Model m, String id, boolean same) {
-        Resource res = m.createResource(BDR+id);
-        Resource admR = m.createResource(BDA+id);
+    public static Resource getAdmResource(Resource res, boolean same) {
+        Model m = res.getModel();
+        Resource admR = m.createResource(BDA+res.getLocalName());
         m.add(admR, RDF.type, m.createResource(ADM + "AdminData"));
         m.add(admR, m.createProperty(ADM+"adminAbout"), (same ? admR : res));
         

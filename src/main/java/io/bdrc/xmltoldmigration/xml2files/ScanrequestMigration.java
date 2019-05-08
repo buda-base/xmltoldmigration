@@ -45,7 +45,7 @@ public class ScanrequestMigration {
 		
 		String value = root.getAttribute("venue").trim();
         if (!value.isEmpty()) {
-            Resource admR = MigrationHelpers.getAdmResource(m, item);
+            Resource admR = MigrationHelpers.getAdmResource(item);
             m.add(admR, m.getProperty(ADM+"volumeScanVenue"), m.createLiteral(value));
         }
 		

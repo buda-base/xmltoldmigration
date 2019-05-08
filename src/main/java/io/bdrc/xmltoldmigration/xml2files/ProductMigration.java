@@ -13,36 +13,34 @@ import io.bdrc.xmltoldmigration.MigrationHelpers;
 
 
 public class ProductMigration {
-	
-    // TODO: move to admin: namespace?
     
     private static final String BDA = CommonMigration.BDA;
+    @SuppressWarnings("unused")
     private static final String BDO = CommonMigration.BDO;
+    @SuppressWarnings("unused")
     private static final String BDR = CommonMigration.BDR;
     private static final String ADM = CommonMigration.ADM;
 	public static final String PRXSDNS = "http://www.tbrc.org/models/product#";
 	
+    // Products are migrated as pure admindata so notes, descriptions etc are all
+    // "about" admindata
 	public static Model MigrateProduct(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
 		CommonMigration.setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-//        Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"), true);
-        // Products are migrated as pure admindata so notes, descriptions etc are all
-        // "about" admindata
-        Resource main = admMain;
-		m.add(main, RDF.type, m.createResource(ADM + "Product"));
+        Resource admMain = MigrationHelpers.getAdmResource(m.createResource(BDA+root.getAttribute("RID")), true);
+		m.add(admMain, RDF.type, m.createResource(ADM + "Product"));
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		
-		CommonMigration.addNotes(m, root, main, PRXSDNS);
+		CommonMigration.addNotes(m, root, admMain, PRXSDNS);
 		
-		CommonMigration.addExternals(m, root, main, PRXSDNS);
+		CommonMigration.addExternals(m, root, admMain, PRXSDNS);
 		
 		CommonMigration.addLog(m, root, admMain, PRXSDNS);
 		
-		CommonMigration.addDescriptions(m, root, main, PRXSDNS, true);
+		CommonMigration.addDescriptions(m, root, admMain, PRXSDNS, true);
 		
 		// access (contains everything
 		NodeList nodeList = root.getElementsByTagNameNS(PRXSDNS, "access");
@@ -53,10 +51,10 @@ public class ProductMigration {
 				Element subCurrent = (Element) subNodeList.item(j);
 				String value = subCurrent.getAttribute("RID");
 				Resource included = m.createResource(BDA + value);
-				m.add(main, m.getProperty(ADM, "productInclude"), included);
+				m.add(admMain, m.getProperty(ADM, "productInclude"), included);
 			}
-			addAllows(m, main, current);
-			addOrgs(m, main, current);
+			addAllows(m, admMain, current);
+			addOrgs(m, admMain, current);
 		}
 		
 		// just use the adm:workInProduct on the involved works. adm:productHasWork is deprecated
@@ -99,5 +97,4 @@ public class ProductMigration {
 			m.add(r, m.getProperty(ADM+"productAllowByAddr"), m.createLiteral(value));
 		}
 	}
-	
 }

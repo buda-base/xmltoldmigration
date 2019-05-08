@@ -34,7 +34,7 @@ public class LineageMigration {
         }
 		value = BDR+"Lineage"+value.substring(0, 1).toUpperCase() + value.substring(1);
         Resource main = m.createResource(BDR + rid);
-        Resource admMain = MigrationHelpers.getAdmResource(m, rid);
+        Resource admMain = MigrationHelpers.getAdmResource(main);
 		m.add(main, RDF.type, m.createResource(BDO + "Lineage"));
 		m.add(main, m.getProperty(BDO, "lineageType"), m.createResource(value));
 		

@@ -136,7 +136,7 @@ public class EAPTransfer {
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
 
         // adm:AdminData
-        Resource admWork = MigrationHelpers.getAdmResource(workModel, RID);
+        Resource admWork = MigrationHelpers.getAdmResource(work);
         CommonMigration.addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_EAP")); // ?
         final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
@@ -258,7 +258,7 @@ public class EAPTransfer {
         }
 
         // Item adm:AdminData
-        Resource admItem = MigrationHelpers.getAdmResource(itemModel, itemRID);
+        Resource admItem = MigrationHelpers.getAdmResource(item);
         CommonMigration.addStatus(itemModel, admItem, "released");
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?
         itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?

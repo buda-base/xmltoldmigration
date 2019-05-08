@@ -179,7 +179,7 @@ public class OutlineMigration {
 		    m = workModel;
 		}
 		
-        Resource admOutline = MigrationHelpers.getAdmResource(m, work.getLocalName());
+        Resource admOutline = MigrationHelpers.getAdmResource(work);
 
 		Element root = xmlDocument.getDocumentElement();
 

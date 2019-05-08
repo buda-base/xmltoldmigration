@@ -44,7 +44,7 @@ public class PlaceMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = MigrationHelpers.getAdmResource(m, root.getAttribute("RID"));
+        Resource admMain = MigrationHelpers.getAdmResource(main);
 		m.add(main, RDF.type, m.createResource(BDO + "Place"));
 		String value = getTypeStr(root, m, main);
 		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + "PlaceType"+value));
@@ -178,7 +178,7 @@ public class PlaceMigration {
 	        value = current.getAttribute("value").trim();
 	        lit = m.createLiteral(value);
 	        if (prop.getNameSpace().contains("admin")) {
-	            m.add(MigrationHelpers.getAdmResource(m, main.getLocalName()), prop, lit);
+	            m.add(MigrationHelpers.getAdmResource(main), prop, lit);
 	        } else {
 	            m.add(main, prop, lit);
 	        }

@@ -84,7 +84,7 @@ public class PersonMigration {
 		Element current;
 		String RID = root.getAttribute("RID");
         Resource main = m.createResource(BDR + RID);
-        Resource admMain = MigrationHelpers.getAdmResource(m, RID);
+        Resource admMain = MigrationHelpers.getAdmResource(main);
 		m.add(main, RDF.type, m.createResource(BDO + "Person"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));

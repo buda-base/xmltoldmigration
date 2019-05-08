@@ -589,8 +589,7 @@ public class CommonMigration  {
     }
 	
 	public static void addExternal(Model m, Element e, Resource r, int i) {
-	    String id = r.getLocalName();
-	    Resource admR = MigrationHelpers.getAdmResource(m, id);
+	    Resource admR = MigrationHelpers.getAdmResource(r);
 		String value = e.getAttribute("data").trim();
 		if (value.isEmpty()) return;
 		if (value.contains("treasuryoflives.org")) {
@@ -782,7 +781,7 @@ public class CommonMigration  {
 			        setPrefixes(resModel, "item");
 			        String workId = r.getLocalName();
                     fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
-                    admFplItem = MigrationHelpers.getAdmResource(resModel, "I"+workId.substring(1)+"_P001");
+                    admFplItem = MigrationHelpers.getAdmResource(fplItem);
 			        if (WorkMigration.addItemForWork) {
                         fplItem.addProperty(resModel.getProperty(BDO, "itemForWork"), r);
 			        }
