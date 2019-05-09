@@ -50,7 +50,7 @@ bdr:W1FPL1  a                       :Work ;
         :workObjectType             bdr:ObjectTypeManuscript ;
         :workPublisherLocation      "[lha sa]"@en ;
         :workPublisherName          "[zhol par khang]"@en ;
-        :workSeriesContent          "test series content/"@bo-x-ewts ;
+        :workSeriesContent          "test series content"@en ;
         :workSeriesName             "oral history series" ;
         :workSeriesNumber           "no. 16" ;
         :workSourcePrintery_string  "test sourcePrintery with no place" .

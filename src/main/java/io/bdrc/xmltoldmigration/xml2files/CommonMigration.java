@@ -1555,6 +1555,12 @@ public class CommonMigration  {
         return true;
 	}
 	
+	static final Pattern englishP = Pattern.compile("\\b(of|is|it|and|that|has|have|for|not|as|if)\\b");
+	public static boolean isLikelyEnglish(String value) {
+	    Matcher m = englishP.matcher(value);
+	    return m.find();
+	}
+	
 	public static Literal getLiteral(Element e, String dflt, Model m, String propertyHint, String RID, String subRID) {
 	    return getLiteral(e, dflt, m, propertyHint, RID, subRID, true);
 	}
@@ -1581,17 +1587,27 @@ public class CommonMigration  {
 	                tag = "sa-x-ndia";
 	        }
 	        if (tag.equals(EWTS_TAG)) {
-	            value = normalizeEwts(value);
-	            List<String> conversionWarnings = new ArrayList<String>();
-	            converter.toUnicode(value, conversionWarnings, true);
-	            if (conversionWarnings.size() > 0) {
-	                String fixed = EwtsFixer.getFixedStr(RID, value);
-	                if (fixed == null)
-	                    ExceptionHelper.logEwtsException(RID, subRID, propertyHint, value, conversionWarnings);
-	                else if ("LNG".equals(fixed))
-	                    tag = EwtsFixer.guessLang(value);
-	                else
-	                    value = fixed;
+	            if (RID.startsWith("W1FPL")) {
+	                tag = "en";
+	            } else {
+    	            List<String> conversionWarnings = new ArrayList<String>();
+    	            converter.toUnicode(value, conversionWarnings, true);
+    	            if (conversionWarnings.size() > 0) {
+    	                String fixed = EwtsFixer.getFixedStr(RID, value);
+    	                if (fixed == null) {
+    	                    if (isLikelyEnglish(value)) {
+    	                        tag = "en";
+    	                    } else {
+    	                        value = normalizeEwts(value);	                        
+    	                    }
+    	                    ExceptionHelper.logEwtsException(RID, subRID, propertyHint, value, conversionWarnings);
+    	                } else if ("LNG".equals(fixed))
+    	                    tag = EwtsFixer.guessLang(value);
+    	                else
+    	                    value = fixed;
+    	            } else {
+    	                value = normalizeEwts(value);
+    	            }
 	            }
 	        }
 	        if (tag.equals("bo-alalc97")) {
