@@ -689,21 +689,22 @@ public class CommonMigration  {
 	    return normalizeString(toNormalize, false);
 	}
 	
-	public static void addNote(Model m, Element e, Resource r, int i, Property p, Literal l) {
+	public static void addNote(Model m, Element e, Resource rez, int i, Property p, Literal l) {
 	    // some empty <note/> appear sometimes
 	    if (e.getAttribute("work").isEmpty() && e.getAttribute("location").isEmpty() && e.getTextContent().trim().isEmpty()) {
 	        return;
 	    }
-		Resource note = m.createResource();
+//		Resource note = m.createResource();
+		Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp", getAdmResource(rez));
 		// really?
 		//m.add(note, RDF.type, m.getProperty(BDO, "Note"));
 		Property prop = m.getProperty(BDO, "note");
 		Literal lit;
 		if (p == null) {
-		    m.add(r, prop, note);
+		    m.add(rez, prop, note);
 		} else {
 		    Resource axiom = m.createResource(OWL2.Axiom);
-		    axiom.addProperty(OWL2.annotatedSource, r);
+		    axiom.addProperty(OWL2.annotatedSource, rez);
 		    axiom.addProperty(OWL2.annotatedProperty, p);
 		    axiom.addProperty(OWL2.annotatedTarget, l);
 		    axiom.addLiteral(prop, note);
@@ -711,7 +712,7 @@ public class CommonMigration  {
 		String value = e.getAttribute("work").trim();
 		if (!value.isEmpty()) {
 			prop = m.getProperty(BDO, "noteWork");
-			value = MigrationHelpers.sanitizeRID(r.getLocalName(), "noteWork", value);
+			value = MigrationHelpers.sanitizeRID(rez.getLocalName(), "noteWork", value);
 			if (!MigrationHelpers.isDisconnected(value))
 			    m.add(note, prop, m.createResource(BDR+value));
 		}
@@ -722,7 +723,7 @@ public class CommonMigration  {
 			m.add(note, prop, lit);
 		}
 		prop = m.getProperty(BDO, "noteText");
-		lit = getLiteral(e, "en", m, "note", r.getLocalName(), r.getLocalName(), false);
+		lit = getLiteral(e, "en", m, "note", rez.getLocalName(), rez.getLocalName(), false);
 		if (lit != null)
 		    m.add(note, prop, lit);
 	}

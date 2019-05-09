@@ -10,10 +10,7 @@
 
 bdr:P1331  a            :Person ;
     skos:prefLabel      "blo gros rnam dag"@bo-x-ewts ;
-    :note               [ :noteLocationStatement  "p. 359" ;
-                          :noteText           "date of death from this source"@en ;
-                          :noteWork           bdr:W20115
-                        ] ;
+    :note               bdr:NTE51DB3F4D952 ;
     :personEvent        [ a                   :PersonDeath ;
                           :onYear             1322
                         ] ,
@@ -28,8 +25,14 @@ bdr:P1331  a            :Person ;
               rdfs:label          "bya yul blo bzang rnam dag"@bo-x-ewts
             ] ;
 .
+bdr:NTE51DB3F4D952  a           :Note ;
+        :noteLocationStatement  "p. 359" ;
+        :noteText               "date of death from this source"@en ;
+        :noteWork               bdr:W20115 ;
+.
 bda:P1331   a            adm:AdminData ;
     adm:metadataLegal    bda:LD_BDRC_Open ;
+    adm:facetIndex       "2"^^xsd:int ;
     adm:adminAbout       bdr:P1331 ;
     adm:status           bda:StatusReleased ;
 .

@@ -691,17 +691,4 @@ public class MigrationHelpers {
 		validators.put(type, res);
 		return res;
 	}
-//
-//    public static Resource getAdmResource(Resource r) {
-//        return getAdmResource(r, false);
-//    }
-//    
-//    public static Resource getAdmResource(Resource res, boolean same) {
-//        Model m = res.getModel();
-//        Resource admR = m.createResource(BDA+res.getLocalName());
-//        m.add(admR, RDF.type, m.createResource(ADM + "AdminData"));
-//        m.add(admR, m.createProperty(ADM+"adminAbout"), (same ? admR : res));
-//        
-//        return admR;
-//    }
 }

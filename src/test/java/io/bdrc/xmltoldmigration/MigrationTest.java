@@ -179,11 +179,11 @@ public class MigrationTest
         Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/P1331.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", MigrationHelpers.OUTPUT_STTL);
-//        
-//        // ==== TEMP DEBUG ====
-//        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1331-fromXml.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1331-correctModel.ttl"), "TTL");
-//
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1331-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1331-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -199,11 +199,11 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/P1583.ttl");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "person", MigrationHelpers.OUTPUT_STTL, "");
-//        
-//        // ==== TEMP DEBUG ====
-//        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1583-fromXml.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1583-correctModel.ttl"), "TTL");
-//
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1583-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testP1583-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -218,11 +218,11 @@ public class MigrationTest
         assertFalse(CommonMigration.documentValidates(d, validator));
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G844.ttl");
-//        
-//    	// ==== TEMP DEBUG ====
-//    	fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-G844-fromXml.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-G844-correctModel.ttl"), "TTL");
-//
+        
+    	// ==== TEMP DEBUG ====
+    	fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-G844-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-G844-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -258,11 +258,11 @@ public class MigrationTest
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
 		MigrationHelpers.modelToOutputStream(fromXml, System.out, "corporation", MigrationHelpers.OUTPUT_TRIG, null);
-//        
-//        // ==== TEMP DEBUG ====
-//        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testCorporation-fromXml.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testCorporation-correctModel.ttl"), "TTL");
-//
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testCorporation-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testCorporation-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -279,11 +279,11 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
-//        
-//        // ==== TEMP DEBUG ====
-//        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testWork-fromXml.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testWork-correctModel.ttl"), "TTL");
-//
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testWork-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testWork-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
