@@ -411,7 +411,7 @@ public class EtextMigration {
             Resource item = itemModel.getResource(BDR+itemId);
 
             // Item AdminData
-            Resource admItem = MigrationHelpers.getAdmResource(item);                           
+            Resource admItem = CommonMigration.getAdmResource(item);                           
             admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
             admItem.addProperty(itemModel.getProperty(ADM, "metadataLegal"), itemModel.createResource(BDA+"LD_BDRC_Open"));
             MigrationApp.moveAdminInfo(itemModel, work, admItem);
@@ -437,7 +437,7 @@ public class EtextMigration {
                 RDF.type,
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
-        Resource admEtext = MigrationHelpers.getAdmResource(etext);
+        Resource admEtext = CommonMigration.getAdmResource(etext);
         CommonMigration.addReleased(etextModel, admEtext);
         
         Model imageItemModel = null;

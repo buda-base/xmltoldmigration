@@ -135,7 +135,7 @@ public class CUDLTransfer {
         
         // Work model
         Resource work = workModel.createResource(BDR+"W0CDL0"+rid);
-        Resource admWork = MigrationHelpers.getAdmResource(work);
+        Resource admWork = CommonMigration.getAdmResource(work);
         res.add(work);
 
         // Work adm:AdminData
@@ -202,7 +202,7 @@ public class CUDLTransfer {
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = "I0CDL0"+rid;
         Resource item = itemModel.createResource(BDR+itemRID);
-        Resource itemAdm = MigrationHelpers.getAdmResource(item);
+        Resource itemAdm = CommonMigration.getAdmResource(item);
         res.add(item);
         
         if (WorkMigration.addWorkHasItem) {

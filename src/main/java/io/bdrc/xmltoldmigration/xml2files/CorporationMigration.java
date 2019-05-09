@@ -22,7 +22,7 @@ public class CorporationMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
-        Resource admMain = MigrationHelpers.getAdmResource(main);
+        Resource admMain = CommonMigration.getAdmResource(main);
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Corporation"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));

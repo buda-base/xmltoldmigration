@@ -91,7 +91,7 @@ public class WorkMigration {
 		Element current;
 		String workId = root.getAttribute("RID");
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = MigrationHelpers.getAdmResource(main);
+        Resource admMain = CommonMigration.getAdmResource(main);
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));        
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
@@ -256,7 +256,7 @@ public class WorkMigration {
             } else {
                 person = MigrationHelpers.sanitizeRID(main.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    CommonMigration.addAgentAsCreator(m, main, m.createResource(BDR+person), value, admMain);
+                    CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, admMain);
             }
         }
         

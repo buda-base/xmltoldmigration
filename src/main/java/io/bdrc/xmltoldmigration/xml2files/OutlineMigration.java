@@ -179,7 +179,7 @@ public class OutlineMigration {
 		    m = workModel;
 		}
 		
-        Resource admOutline = MigrationHelpers.getAdmResource(rootWork);
+        Resource admOutline = CommonMigration.getAdmResource(rootWork);
 
 		Element root = xmlDocument.getDocumentElement();
 
@@ -259,7 +259,7 @@ public class OutlineMigration {
             } else {
                 person = MigrationHelpers.sanitizeRID(r.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    CommonMigration.addAgentAsCreator(m, r, m.createResource(BDR+person), value, MigrationHelpers.getAdmResource(rootWork));
+                    CommonMigration.addAgentAsCreator(r, m.createResource(BDR+person), value, CommonMigration.getAdmResource(rootWork));
             }
         }
 	}

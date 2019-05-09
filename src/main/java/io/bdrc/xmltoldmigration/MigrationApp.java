@@ -268,7 +268,7 @@ public class MigrationApp
                 CommonMigration.setPrefixes(itemModel);
                 item = itemModel.createResource(BDR+itemName);
                 
-                admItem = MigrationHelpers.getAdmResource(item);
+                admItem = CommonMigration.getAdmResource(item);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                 admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
                 moveAdminInfo(itemModel, workR, admItem);

@@ -136,7 +136,7 @@ public class EAPTransfer {
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
 
         // adm:AdminData
-        Resource admWork = MigrationHelpers.getAdmResource(work);
+        Resource admWork = CommonMigration.getAdmResource(work);
         CommonMigration.addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_EAP")); // ?
         final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
@@ -258,7 +258,7 @@ public class EAPTransfer {
         }
 
         // Item adm:AdminData
-        Resource admItem = MigrationHelpers.getAdmResource(item);
+        Resource admItem = CommonMigration.getAdmResource(item);
         CommonMigration.addStatus(itemModel, admItem, "released");
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?
         itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?
@@ -279,7 +279,7 @@ public class EAPTransfer {
         
         // there doesn't appear to be an original url for the volume to record in the Volume AdminData
 //        // Volume adm:AdminData
-//        Resource admVol = MigrationHelpers.getAdmResource(itemModel, volumeRID);
+//        Resource admVol = CommonMigration.getAdmResource(itemModel, volumeRID);
 //        origUrl = ManifestPREF+ref;
 //        itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
         

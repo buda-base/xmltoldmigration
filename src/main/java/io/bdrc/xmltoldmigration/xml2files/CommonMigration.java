@@ -141,21 +141,62 @@ public class CommonMigration  {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Returns an AdminData resource for the resource r. Beware that if r IS an AdminData resource this
+     * method will return the same resource with an additional stmt declaring this resource to be 
+     * adm:adminAbout itself.
+     * <p/>
+     * This method is the usual one to use. The method below that takes a boolean, same, is used when the
+     * resource is for a Entity that IS all AdminData. The only current migration case being adm:Product
+     * @param r resource for which the corresponding AdminData resource is requested.
+     * @return the AdminData resource
+     */
+    public static Resource getAdmResource(Resource r) {
+        return getAdmResource(r, false);
+    }
+    
+    /**
+     * Returns an AdminData resource for the resource r. Beware that if r IS an AdminData resource this
+     * method will return the same resource with an additional stmt declaring this resource to be 
+     * adm:adminAbout itself.
+     * 
+     * @param res resource for which the corresponding AdminData resource is requested.
+     * @param same if true then the 
+     * @return
+     */
+    public static Resource getAdmResource(Resource res, boolean same) {
+        Model m = res.getModel();
+        Resource admR = m.createResource(BDA+res.getLocalName());
+        m.add(admR, RDF.type, m.createResource(ADM + "AdminData"));
+        m.add(admR, m.createProperty(ADM+"adminAbout"), (same ? admR : res));
+        
+        return admR;
+    }
     
     private static Map<String, FacetType> strToFacetType = new HashMap<>();
     public enum FacetType {
 
-        CREATOR("creator", "CR"), 
-        EVENT("event", "EV"), 
-        NAME("name", "NM"),
-        TITLE("title", "TT");
+        CREATOR("creator", "CR", BDO+"AgentAsCreator"), 
+        EVENT("event", "EV", BDO+"Event"), 
+        NAME("name", "NM", BDO+"PersonName"),
+        TITLE("title", "TT", BDO+"WorkTitle"),
+        NOTE("note", "NT", BDO+"Note"),
+        WORK_LOC("workLoc", "WL", BDO+"WorkLocation")
+        ;
 
         private String label;
         private String prefix;
+        private String nodeTypeUri;
 
         private FacetType(String label, String prefix) {
+            this(label, prefix, null);
+        }
+
+        private FacetType(String label, String prefix, String nodeTypeUri) {
             this.label = label;
             this.prefix = prefix;
+            this.nodeTypeUri = nodeTypeUri;
             strToFacetType.put(prefix, this);
         }
 
@@ -167,6 +208,13 @@ public class CommonMigration  {
             return prefix;
         }
         
+        public Resource getNodeType(Resource rez) {
+            if (nodeTypeUri != null)
+                return rez.getModel().createResource(nodeTypeUri);
+            else
+                return null;
+        }
+        
         @Override
         public String toString() {
             return label;
@@ -174,15 +222,14 @@ public class CommonMigration  {
     }
     
     /**
-     * retrieves the index for resource, rez, for the given facet type, increment the index and store
+     * retrieves the adm:facetIndex for admin data resource, rootAdmRez, for the given facet type, increment the index and store
      * it back into the underlying model.
-     * @param facet
-     * @param rez
+     * @param rootAdmRez admin data resource containing the adm:facetIndex to be used
      * @return
      */
-    private static int getFacetIndex(FacetType facet, Resource rootAdmRez) {
+    private static int getFacetIndex(Resource rootAdmRez) {
         Model m = rootAdmRez.getModel();
-        Property inxP = m.createProperty(ADM+facet+"Index");
+        Property inxP = m.createProperty(ADM+"facetIndex");
         Statement stmt = m.getProperty(rootAdmRez, inxP);
         
         int inx = 1;
@@ -202,24 +249,85 @@ public class CommonMigration  {
 
     /**
      * Returns prefix + 8 character unique id based on a hash of the concatenation of the last three string arguments. 
-     * This is itended to be used to generate ids for named nodes like Events, AgentAsCreator, even WorkTitle
+     * This is itended to be used to generate ids for named nodes like Events, AgentAsCreator, WorkTitle
      * and PersonName.
-     * @param prefix initial 1, 2, or 3 chars that distinguish what the id will identify
-     * @param baseId typically the id of the subject that refers to an Event, AgentAsCreator etc
+     * @param facet enum type to provide a prefix will that distinguish what the id will identify
+     * @param rez subject resource that refers to an Event, AgentAsCreator etc
      * @param user some String identifying the user or tool that is creating the id, make unique to the user
-     * @param instanceId a sequence number string or other occurrence specific index
-     * @return id = prefix + 8 character hash substring
+     * @param rootAdmRez adm:AdminData resource for the top-level subject, relevant particularly for :Works which may have many sub-parts
+     * @return id = facet prefix + 8 character hash substring
      */
-    public static String generateId(FacetType facet, Resource rez, String user, Resource rootRez) {
+    private static String generateId(FacetType facet, Resource rez, String user, Resource rootAdmRez) {
         try {
-            String data = rez.getLocalName()+user+getFacetIndex(FacetType.CREATOR, rootRez);
+            String data = rez.getLocalName()+user+getFacetIndex(rootAdmRez);
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(data.getBytes("UTF-8"));
-            return facet.getPrefix()+bytesToHex(hash).substring(0, 8);
+            return facet.getPrefix()+bytesToHex(hash).substring(0, 12);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Creates a facet node in the BDR namespace w/ the default facet type. The method version that takes a nodeType resource
+     * should be used for PersonName, WorkTitle and Events since these have many specialized sub-types.
+     * <p/>
+     * Use this method for AgentAsCreator, most Notes, and WorkLocation use this method
+     * @param facet the type of facet node to create
+     * @param rez the resource the node is associated w/ such as via bdo:creator
+     * @param user a string identifying the user or tool requesting the facet node
+     * @param rootAdmWork the admin data that contains the adm:facetIndex used to uniquify the facet node id
+     * @return the newly minted facet node resource w/ the default facet node type
+     */
+    public static Resource getFacetNode(FacetType facet, Resource rez, String user, Resource rootAdmWork) {
+        Resource nodeType = facet.getNodeType(rez);
+        return getFacetNode(facet, rez, user, rootAdmWork, nodeType);
+    }
+    
+    /**
+     * Creates a facet node in the BDR namespace w/ the supplied nodeType resource.
+     * Should be used for PersonName, WorkTitle and Events since these have many specialized sub-types.
+     * 
+     * @param facet FacetType of the node to create
+     * @param rez the resource the node is associated w/ such as via bdo:creator
+     * @param user a string identifying the user or tool requesting the facet node
+     * @param rootAdmWork the admin data that contains the adm:facetIndex used to uniquify the facet node id
+     * @param nodeType to use instead of the default from the FacetType
+     * @return
+     */
+    public static Resource getFacetNode(FacetType facet, Resource rez, String user, Resource rootAdmWork, Resource nodeType) {
+        return getFacetNode(facet, BDR, rez, user, rootAdmWork, nodeType);
+    }
+
+    private static Resource getFacetNode(FacetType facet, String nsUri, Resource rez, String user, Resource rootAdmWork, Resource nodeType) {
+        Model m = rez.getModel();
+        String id = generateId(facet, rez, user, rootAdmWork);
+        Resource facetNode = m.createResource(nsUri+id);
+        facetNode.addProperty(RDF.type, nodeType);
+        return facetNode;
+    }
+
+    private static String getCreatorRoleUri(String type) {
+        if (type.startsWith("has"))
+            type = type.substring(3);
+        return BDR+creatorMigrations.get(type);
+    }
+    /**
+     * Creates a new named AgentAsCreator node and adds bdo:creator node to the supplied work.
+     * 
+     * @param work that the AgentAsCreator is a creator for
+     * @param person that is the creating agent
+     * @param roleKey the name of the type pof role of the creator
+     * @param rootAdmWork the root AdminData that contains the adm:facetIndex
+     */
+    public static void addAgentAsCreator(Resource work, Resource person, String roleKey, Resource rootAdmWork) {
+        Model m = work.getModel();
+        Resource agentAsCreator = getFacetNode(FacetType.CREATOR, work, "MigrationApp", rootAdmWork);
+        work.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
+        agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
+        Resource role = m.createResource(getCreatorRoleUri(roleKey));
+        agentAsCreator.addProperty(m.createProperty(BDO+"role"), role);
     }
     
     public static Resource getEvent(Resource r, String eventType, String eventProp) {
@@ -671,7 +779,7 @@ public class CommonMigration  {
     }
 	
 	public static void addExternal(Model m, Element e, Resource r, int i) {
-	    Resource admR = MigrationHelpers.getAdmResource(r);
+	    Resource admR = CommonMigration.getAdmResource(r);
 		String value = e.getAttribute("data").trim();
 		if (value.isEmpty()) return;
 		if (value.contains("treasuryoflives.org")) {
@@ -863,7 +971,7 @@ public class CommonMigration  {
 			        setPrefixes(resModel, "item");
 			        String workId = r.getLocalName();
                     fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
-                    admFplItem = MigrationHelpers.getAdmResource(fplItem);
+                    admFplItem = CommonMigration.getAdmResource(fplItem);
 			        if (WorkMigration.addItemForWork) {
                         fplItem.addProperty(resModel.getProperty(BDO, "itemForWork"), r);
 			        }
@@ -1213,23 +1321,6 @@ public class CommonMigration  {
                ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", vol. "+volume1+", missing beginpage or endpage");
            }
            return res;
-       }
-       
-       static String getCreatorRoleUri(String type) {
-           if (type.startsWith("has"))
-               type = type.substring(3);
-           return BDR+creatorMigrations.get(type);
-       }
-       
-       static void addAgentAsCreator(Model m, Resource work, Resource person, String roleKey, Resource rootAdmWork) {
-           Property creator = m.createProperty(BDO+"creator");
-           Resource role = m.createResource(getCreatorRoleUri(roleKey));
-           String id = generateId(FacetType.CREATOR, work, "MigrationApp", rootAdmWork);
-           Resource agentAsCreator = m.createResource(BDR+id);
-           work.addProperty(creator, agentAsCreator);
-           agentAsCreator.addProperty(RDF.type, m.createResource(BDO+"AgentAsCreator"));
-           agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
-           agentAsCreator.addProperty(m.createProperty(BDO+"role"), role);
        }
        
        public static void addReleased(Model m, Resource r) {

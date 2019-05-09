@@ -76,7 +76,7 @@ public class ImagegroupMigration {
 		final String volumeId = "V"+itemId.substring(1)+"_"+imageGroupRID;
 		
         Resource main = m.createResource(BDR+volumeId);
-        Resource admMain = MigrationHelpers.getAdmResource(main);
+        Resource admMain = CommonMigration.getAdmResource(main);
 
 		admMain.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
