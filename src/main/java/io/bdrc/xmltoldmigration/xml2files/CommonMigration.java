@@ -1390,14 +1390,17 @@ public class CommonMigration  {
            return true;
        }
 	   
-    private static boolean isAllTibetanUnicode(String input) {
-        for (int i = 0; i < input.length(); i++) {
+    public static boolean isAllTibetanUnicode(String input) {
+        final int len = input.length();
+        if (len == 0) return false;
+        double nbNonTibUni = 0;
+        for (int i = 0; i < len; i++) {
             int c = input.charAt(i);
             if ((c < 0x0F00 || c > 0x0FFF) && c != ' ') {
-                return false;
+                nbNonTibUni += 1;
             }
         }
-        return true;
+        return (nbNonTibUni / len < 0.1);
     }
     
     private static boolean isAllChineseUnicode(String input) {
@@ -1463,7 +1466,7 @@ public class CommonMigration  {
 	    }
 		String value = e.getTextContent().trim();
 		// some values are wrongly marked as native instead of extendedWylie
-		if (res != null && res.equals("bo") && isAllEwtsChars(value)) {
+		if ("bo".equals(res) && isAllEwtsChars(value)) {
 			res = EWTS_TAG;// could be loc?
 		}
 		if ((res == null || !res.equals("bo")) && isAllTibetanUnicode(value)) {
