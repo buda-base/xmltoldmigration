@@ -299,8 +299,8 @@ public class MigrationTest
            //showDifference(fromXml, correctModel);
            
            // ==== TEMP DEBUG ====
-           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOutline-fromXml.ttl"), "TTL");
-           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOutline-correctModel.ttl"), "TTL");
+           //fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOutline-fromXml.ttl"), "TTL");
+           //correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOutline-correctModel.ttl"), "TTL");
 
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );

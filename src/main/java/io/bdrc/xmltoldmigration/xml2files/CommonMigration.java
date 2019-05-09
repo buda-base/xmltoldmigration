@@ -1253,7 +1253,7 @@ public class CommonMigration  {
 			return "-x-ewts";
 		case "wadeGiles":
 		    // transliteration of Chinese
-			return "-x-wade";
+			return lowerCaseLangTags ? "-latn-wadegile" : "-Latn-wadegile";
 		case "pinyin":
 			return lowerCaseLangTags ? "-latn-pinyin" : "-Latn-pinyin";
 		case "libraryOfCongress":
