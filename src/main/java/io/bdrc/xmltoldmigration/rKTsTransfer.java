@@ -12,6 +12,8 @@ import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
 
 import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
@@ -25,6 +27,12 @@ public class rKTsTransfer {
 
     public static List<String> RIDList = new ArrayList<>();
     public static Map<String, Model> RidModels = new HashMap<>();
+    
+    public static final String BDO = CommonMigration.ONTOLOGY_NS;
+    public static final String BDG = CommonMigration.GRAPH_NS;
+    public static final String BDR = CommonMigration.RESOURCE_NS;
+    public static final String ADM = CommonMigration.ADMIN_NS;
+    public static final String BDA = CommonMigration.ADMIN_DATA_NS;
     
     public static void initLists() {
         initListsForRID("W22084");
@@ -123,6 +131,13 @@ public class rKTsTransfer {
                         // maybe the sa-x-ndia strings should be removed?
                         m.add(existingM);
                     }
+                } else {
+                    Resource admin = m.createResource(BDA+workName);
+                    admin.addProperty(RDF.type, m.createResource(ADM+"AdminData"));
+                    admin.addProperty(m.getProperty(ADM, "adminAbout"), m.createResource(BDR+workName));
+                    admin.addProperty(m.getProperty(ADM, "status"), m.createResource(BDA+"StatusReleased"));
+                    admin.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+                    // TODO: add log entry?
                 }
                 MigrationHelpers.outputOneModel(m, workName, workOutFileName, "work");
             }
