@@ -11,11 +11,13 @@
 bdr:T3CN2023  a         :Topic ;
     rdfs:comment        "bde bar gshegs pa'i bka'i dgongs 'grel bstan bcos 'gyur ro cog te/ rgya gar mkhas pa'i bstan bcos bod skad du 'gyur ba glegs bam brgya phrag lhag tsam bzhugs pa rnams so/ de rnams kyi khrod du nang don rig pa kho na gsungs pa glegs bam 170 lhag bzhugs pa grub cha gtso bo yin cing / da dung tshad ma'i bstan bcos kyi glegs bam po ti 21 tsam dang / sgra rig pa po ti 4/ gso ba rig pa po ti 5/ bzo rig pa po ti 1/ sna tshogs glegs bam po ti 9tsam bcas bzhugs pa yin no//" , "Tenjur Canonical Text" ;
     rdfs:seeAlso        bdr:T1129 ;
+    :isRoot                true ;
     skos:altLabel       "bstan bcos 'gyur ro 'tshal/"@bo-x-ewts , "Tenjur"@en-x-mixed , "丹珠尔大藏经"@zh-hans , "丹珠爾大藏經"@zh-hant , "dan zhu er"@zh-latn-pinyin-x-ndia , "dan zhu er da zang jing"@zh-latn-pinyin-x-ndia ;
     skos:prefLabel      "bstan 'gyur/"@bo-x-ewts , "Tengyur"@en-x-mixed , "丹珠尔"@zh-hans ;
 .
 bda:T3CN2023  a         adm:AdminData ;
     adm:adminAbout      bdr:T3CN2023 ;
+    :isRoot                true ;
     adm:metadataLegal  bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
                           adm:logMessage      "created record"@en ;

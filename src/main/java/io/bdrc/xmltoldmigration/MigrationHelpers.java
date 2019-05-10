@@ -569,7 +569,7 @@ public class MigrationHelpers {
         CommonMigration.setPrefixes(m, type);
         Element root = xmlDocument.getDocumentElement();
         Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = CommonMigration.getAdmResource(main);
+        Resource admMain = CommonMigration.createAdminRoot(main);
         CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
         final String XsdPrefix = typeToXsdPrefix.get(type);

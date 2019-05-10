@@ -9,6 +9,7 @@
 
 bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
     :itemForWork        bdr:W1CZ2485 ;
+    :isRoot             true ;
     :itemHasVolume      [ a                   :VolumeEtextAsset ;
                           :volumeHasEtext     [ a                   :EtextRef ;
                                                 :eTextResource      bdr:UT1CZ2485_001_0000
@@ -18,6 +19,7 @@ bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
 .
 bda:I1CZ2485_E001   a   adm:AdminData ;
     adm:adminAbout      bdr:I1CZ2485_E001 ;
+    :isRoot             true ;
     adm:metadataLegal   bda:LD_BDRC_Open ;
     adm:contentProvider  bda:CP001 ;
     adm:status          bda:StatusReleased .

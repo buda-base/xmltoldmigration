@@ -9,8 +9,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
-
 
 public class TopicMigration {
 
@@ -21,8 +19,8 @@ public class TopicMigration {
 		CommonMigration.setPrefixes(m, "topic");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = m.createResource(CommonMigration.BDR + root.getAttribute("RID"));
-        Resource admMain = CommonMigration.getAdmResource(main);
+        Resource main = CommonMigration.createRoot(m, CommonMigration.BDR + root.getAttribute("RID"));
+        Resource admMain = CommonMigration.createAdminRoot(main);
 		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Topic"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));

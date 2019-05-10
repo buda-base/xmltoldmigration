@@ -300,11 +300,11 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "W30020");
            //showDifference(fromXml, correctModel);
-//           
-//           // ==== TEMP DEBUG ====
-//           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOutline-fromXml.ttl"), "TTL");
-//           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOutline-correctModel.ttl"), "TTL");
-//
+           
+           // ==== TEMP DEBUG ====
+           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOutline-fromXml.ttl"), "TTL");
+           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOutline-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
@@ -440,15 +440,20 @@ public class MigrationTest
        }
 
 	@Test
-    public void testL8LS14115()
+    public void testL8LS14115() throws IOException
     {
 	    System.out.println("testing lineage");
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/L8LS14115.xml");
     	Validator validator = MigrationHelpers.getValidatorFor("lineage");
         assertTrue(CommonMigration.documentValidates(d, validator));
-    	Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
-    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/L8LS14115.ttl");
-    	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", MigrationHelpers.OUTPUT_STTL, "");
+        Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/L8LS14115.ttl");
+        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", MigrationHelpers.OUTPUT_STTL, "");
+
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testL8LS14115-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testL8LS14115-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

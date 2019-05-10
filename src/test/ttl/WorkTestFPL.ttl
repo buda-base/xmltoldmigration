@@ -18,18 +18,25 @@ bdr:I12837FPL_P001  a   :ItemPhysicalAsset ;
 .
 bda:I12837FPL_P001  a   adm:AdminData ;
     adm:adminAbout      bdr:I12837FPL_P001 ;
+    :isRoot             true ;
     adm:status          bda:StatusReleased ;
 .
-bdr:CR3F0F87B07E32  a  :AgentAsCreator ;
+bdr:CRA31364CA97C9  a  :AgentAsCreator ;
         :agent  bdr:P1591 ;
         :role   bdr:R0ER0019 ;
 .
+bdr:NT3F0F87B07E32  a  :Note ;
+        :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ;
+.
+bdr:NT7E331F54F258  a  :Note ;
+        :noteText  "description with type note" ;
+.
 bdr:W12837FPL  a        :PublishedWork ;
     rdfs:comment        "description with no type" ;
-    :creator            bdr:CR3F0F87B07E32 ;
+    :isRoot                true ;
+    :creator            bdr:CRA31364CA97C9 ;
     skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast ;
-    :note               [ :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ] ,
-            [ :noteText       "description with type note" ] ;
+    :note               bdr:NT3F0F87B07E32 , bdr:NT7E331F54F258 ;
     :workCatalogInfo    "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
     :workEvent          [ a                   :CompletedEvent ;
                           :onOrAbout          "descriptionwithtypedate" ;
@@ -58,7 +65,8 @@ bdr:W12837FPL  a        :PublishedWork ;
 .
 bda:W12837FPL      a    adm:AdminData ;
     adm:adminAbout      bdr:W12837FPL ;
-    adm:facetIndex   "2"^^xsd:int ;
+    :isRoot                true ;
+    adm:facetIndex      "4"^^xsd:int ;
     adm:metadataLegal   bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;

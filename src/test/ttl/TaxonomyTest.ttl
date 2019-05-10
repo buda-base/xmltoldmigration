@@ -9,10 +9,12 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:O9TAXTBRC201605  :taxHasSubClass
-        bdr:O9TAXTBRC201605_0001 , bdr:O9TAXTBRC201605_0010 ;
+            bdr:O9TAXTBRC201605_0001 , bdr:O9TAXTBRC201605_0010 ;
+    :isRoot                true ;
 .
 bda:O9TAXTBRC201605  a  adm:AdminData ;
     adm:adminAbout      bdr:O9TAXTBRC201605 ;
+    :isRoot                true ;
     adm:logEntry        [ adm:logDate         "2016-05-23T10:58:27.909Z"^^xsd:dateTime ;
                           adm:logMessage      "added topics"@en ;
                           adm:logWho          bdr:U00016

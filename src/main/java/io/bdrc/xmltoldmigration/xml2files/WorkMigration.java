@@ -90,8 +90,8 @@ public class WorkMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String workId = root.getAttribute("RID");
-        Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = CommonMigration.getAdmResource(main);
+        Resource main = CommonMigration.createRoot(m, BDR + root.getAttribute("RID"));
+        Resource admMain = CommonMigration.createAdminRoot(main);
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));        
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
@@ -297,7 +297,8 @@ public class WorkMigration {
         for (int j = 0; j < volumes.getLength(); j++) {
             // just adding an item if we have a volume list
             if (j == 0) {
-                Resource item = m.createResource(BDR+"I"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX);
+                String itemRid = BDR+"I"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
+                Resource item = m.createResource(itemRid);
                 if (WorkMigration.addWorkHasItem)
                     m.add(main, m.getProperty(BDO, "workHasItem"), item);
             }

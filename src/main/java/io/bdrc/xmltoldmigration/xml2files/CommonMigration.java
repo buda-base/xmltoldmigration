@@ -28,6 +28,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
@@ -141,19 +142,11 @@ public class CommonMigration  {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Returns an AdminData resource for the resource r. Beware that if r IS an AdminData resource this
-     * method will return the same resource with an additional stmt declaring this resource to be 
-     * adm:adminAbout itself.
-     * <p/>
-     * This method is the usual one to use. The method below that takes a boolean, same, is used when the
-     * resource is for a Entity that IS all AdminData. The only current migration case being adm:Product
-     * @param r resource for which the corresponding AdminData resource is requested.
-     * @return the AdminData resource
-     */
-    public static Resource getAdmResource(Resource r) {
-        return getAdmResource(r, false);
+    
+    public static Resource createRoot(Model m, String rid) {
+        Resource rez = m.createResource(rid);
+        m.addLiteral(rez, m.createProperty(BDO+"isRoot"), true);
+        return rez;
     }
     
     /**
@@ -165,13 +158,44 @@ public class CommonMigration  {
      * @param same if true then the 
      * @return
      */
-    public static Resource getAdmResource(Resource res, boolean same) {
-        Model m = res.getModel();
-        Resource admR = m.createResource(BDA+res.getLocalName());
+    public static Resource getAdminData(Resource rez) {
+        Model m = rez.getModel();
+        Resource admR = m.createResource(BDA+rez.getLocalName());
         m.add(admR, RDF.type, m.createResource(ADM + "AdminData"));
-        m.add(admR, m.createProperty(ADM+"adminAbout"), (same ? admR : res));
+        m.add(admR, m.createProperty(ADM+"adminAbout"), rez);
         
         return admR;
+    }
+
+    /**
+     * Returns a root AdminData resource for the root resource rez. If rez IS a BDA: resource this
+     * method will return the same resource with an additional stmt declaring this resource to be 
+     * adm:adminAbout itself, and adm:isRoot true.
+     * 
+     * @param rez resource for which the corresponding AdminData resource is requested.
+     * @return the root AdminData resource
+     */
+    public static Resource createAdminRoot(Resource rez) {
+        Resource admR = getAdminData(rez);
+        Model m = rez.getModel();
+        m.addLiteral(admR, m.createProperty(BDO+"isRoot"), true);
+        return admR;
+    }
+    
+    public static Resource getAdminRoot(Resource rez) {
+        return getAdminRoot(rez.getModel());
+    }
+    
+    public static Resource getAdminRoot(Model m) {
+        ResIterator resIt = m.listResourcesWithProperty(RDF.type, m.createResource(ADM+"AdminData"));
+        while (resIt.hasNext()) {
+            Resource admR = resIt.next();
+            if (m.containsLiteral(admR, m.createProperty(BDO+"isRoot"), true)) {
+                return admR;
+            }
+        }
+        
+        return null;
     }
     
     private static Map<String, FacetType> strToFacetType = new HashMap<>();
@@ -179,9 +203,11 @@ public class CommonMigration  {
 
         CREATOR("creator", "CR", BDO+"AgentAsCreator"), 
         EVENT("event", "EV", BDO+"Event"), 
+        HOLDER("lineageHolder", "LH", BDO+"LineageHolder"), 
+        LOG_ENTRY("logEntry", "LG", ADM+"LogEntry"), 
         NAME("name", "NM", BDO+"PersonName"),
-        TITLE("title", "TT", BDO+"WorkTitle"),
         NOTE("note", "NT", BDO+"Note"),
+        TITLE("title", "TT", BDO+"WorkTitle"),
         WORK_LOC("workLoc", "WL", BDO+"WorkLocation")
         ;
 
@@ -268,6 +294,19 @@ public class CommonMigration  {
             return null;
         }
     }
+    
+    /**
+     * 
+     * @param facet
+     * @param rez
+     * @param user
+     * @return
+     */
+    public static Resource getFacetNode(FacetType facet, Resource rez, String user) {
+        Resource rootAdm = getAdminRoot(rez);
+        Resource nodeType = facet.getNodeType(rez);
+        return getFacetNode(facet, rez, user, rootAdm, nodeType);
+    }
 
     /**
      * Creates a facet node in the BDR namespace w/ the default facet type. The method version that takes a nodeType resource
@@ -280,9 +319,9 @@ public class CommonMigration  {
      * @param rootAdmWork the admin data that contains the adm:facetIndex used to uniquify the facet node id
      * @return the newly minted facet node resource w/ the default facet node type
      */
-    public static Resource getFacetNode(FacetType facet, Resource rez, String user, Resource rootAdmWork) {
+    public static Resource getFacetNode(FacetType facet, Resource rez, String user, Resource rootAdmin) {
         Resource nodeType = facet.getNodeType(rez);
-        return getFacetNode(facet, rez, user, rootAdmWork, nodeType);
+        return getFacetNode(facet, rez, user, rootAdmin, nodeType);
     }
     
     /**
@@ -694,8 +733,8 @@ public class CommonMigration  {
 	    if (e.getAttribute("work").isEmpty() && e.getAttribute("location").isEmpty() && e.getTextContent().trim().isEmpty()) {
 	        return;
 	    }
-//		Resource note = m.createResource();
-		Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp", getAdmResource(rez));
+//        Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp", getRootAdminData(rez));
+        Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp");
 		// really?
 		//m.add(note, RDF.type, m.getProperty(BDO, "Note"));
 		Property prop = m.getProperty(BDO, "note");
@@ -779,8 +818,8 @@ public class CommonMigration  {
         return res;
     }
 	
-	public static void addExternal(Model m, Element e, Resource r, int i) {
-	    Resource admR = CommonMigration.getAdmResource(r);
+	public static void addExternal(Model m, Element e, Resource rez, int i) {
+	    Resource admR = getAdminData(rez);
 		String value = e.getAttribute("data").trim();
 		if (value.isEmpty()) return;
 		if (value.contains("treasuryoflives.org")) {
@@ -913,7 +952,11 @@ public class CommonMigration  {
        }
    }
    
-	public static Map<String,Model> addDescriptions(Model m, Element e, Resource r, String XsdPrefix, boolean guessLabel) {
+   public static Map<String,Model> addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
+       return addDescriptions(m, e, r, XsdPrefix, false);
+   }
+   
+	public static Map<String,Model> addDescriptions(Model m, Element e, Resource rez, String XsdPrefix, boolean guessLabel) {
 		List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
         Resource fplItem = null;
@@ -929,38 +972,40 @@ public class CommonMigration  {
 			String type = current.getAttribute("type").trim();
 	        if (type.isEmpty())
 	            type = "noType";
-	        Literal l;
+	        Literal lit;
 	        // we add some spaghettis for the case of R8LS13081 which has no description type
 	        // but needs to be added as label
 	        String lang = descriptionTypeNeedsLang(type);
 	        if (lang != null || (guessLabel && type.equals("noType"))) {
 	            if (lang == null)
 	                lang = "en";
-	            l = getLiteral(current, lang, m, "description", r.getLocalName(), r.getLocalName());
-	            if (l == null) continue;
+	            lit = getLiteral(current, lang, m, "description", rez.getLocalName(), rez.getLocalName());
+	            if (lit == null) continue;
 	        } else {
-	            l = m.createLiteral(normalizeString(value));
+	            lit = m.createLiteral(normalizeString(value));
 	        }
 	        if (type.equals("nameLex")) {
-                String placeId = r.getLocalName();
+                String placeId = rez.getLocalName();
                 current.setTextContent(current.getTextContent().replace(placeId, ""));
             }
             if (type.equals("note")) {
-                Resource note = m.createResource();
-                m.add(r, m.getProperty(BDO+"note"), note);
-                m.add(note, m.getProperty(BDO+"noteText"), l);
+                ResIterator resIt = m.listResourcesWithProperty(RDF.type, m.createResource(ADM+"AdminData"));
+                Resource admR = resIt.hasNext() ? resIt.next() : null;
+                Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp", admR);
+                m.add(rez, m.getProperty(BDO+"note"), note);
+                m.add(note, m.getProperty(BDO+"noteText"), lit);
                 continue;
             }
             if (type.equals("completionDate") || type.equals("date")) {
-                Resource event = getEvent(r, "CompletedEvent", "workEvent");
-                addDates(value, event, r);
+                Resource event = getEvent(rez, "CompletedEvent", "workEvent");
+                addDates(value, event, rez);
                 continue;
             }
 			String propUri = getDescriptionUriFromType(type);
 			if (propUri != null && propUri.equals("__ignore")) 
 			    continue;
 			if (propUri == null) {
-			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, r.getLocalName(), r.getLocalName(), "description", "unhandled description type: "+type);
+			    ExceptionHelper.logException(ExceptionHelper.ET_DESC, rez.getLocalName(), rez.getLocalName(), "description", "unhandled description type: "+type);
 			    if (!guessLabel)
 			        continue;
 			}
@@ -970,17 +1015,17 @@ public class CommonMigration  {
 			    if (fplItem == null) {
 			        resModel = ModelFactory.createDefaultModel();
 			        setPrefixes(resModel, "item");
-			        String workId = r.getLocalName();
+			        String workId = rez.getLocalName();
                     fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
-                    admFplItem = CommonMigration.getAdmResource(fplItem);
+                    admFplItem = createAdminRoot(fplItem);
 			        if (WorkMigration.addItemForWork) {
-                        fplItem.addProperty(resModel.getProperty(BDO, "itemForWork"), r);
+                        fplItem.addProperty(resModel.getProperty(BDO, "itemForWork"), rez);
 			        }
 			        addReleased(resModel, admFplItem);
 			        fplItem.addProperty(RDF.type, resModel.getResource(BDO+"ItemPhysicalAsset"));
 			        fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
 			        if (WorkMigration.addWorkHasItem) {
-			            r.addProperty(resModel.getProperty(BDO+"workHasItem"), fplItem);
+			            rez.addProperty(resModel.getProperty(BDO+"workHasItem"), fplItem);
 			        }
 			    }
 			    switch(type) {
@@ -1004,20 +1049,20 @@ public class CommonMigration  {
 			}
 			// for product and office the name is the first description type="contents", and we don't want to keep it in a description
             if (guessLabel && (type.equals("contents") || type.equals("noType"))) {
-                lang = l.getLanguage().substring(0, 2);
+                lang = lit.getLanguage().substring(0, 2);
                 if (!labelDoneForLang.containsKey(lang)) {
-                    r.addProperty(m.getProperty(PREFLABEL_URI), l);
+                    rez.addProperty(m.getProperty(PREFLABEL_URI), lit);
                     labelDoneForLang.put(lang, true);
                 } else {
-                    r.addProperty(m.getProperty(ALTLABEL_URI), l);
+                    rez.addProperty(m.getProperty(ALTLABEL_URI), lit);
                 }
                 continue;
             }
-            r.addProperty(m.getProperty(propUri), l);
+            rez.addProperty(m.getProperty(propUri), lit);
 		}
 		if ((fplId == null && fplRoom != null) ||
 		        (fplId != null && fplRoom == null)) {
-		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "description", "types `id` and `room` should both be present");
+		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "description", "types `id` and `room` should both be present");
 		    if (fplId == null)
 		        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+"|"));
 		    else
@@ -1037,10 +1082,6 @@ public class CommonMigration  {
 		} else {
 		    return null;
 		}
-	}
-	
-	public static Map<String,Model> addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
-		return addDescriptions(m, e, r, XsdPrefix, false);
 	}
 
 	public static String titleUriFromType(String type, boolean outlineMode) {

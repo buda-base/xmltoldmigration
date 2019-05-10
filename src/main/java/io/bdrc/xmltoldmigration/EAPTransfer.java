@@ -131,12 +131,12 @@ public class EAPTransfer {
         CommonMigration.setPrefixes(workModel);
         final String baseRid = line[2].replace('/', '-');
         final String RID = 'W'+baseRid;
-        Resource work = workModel.createResource(BDR+RID);
+        Resource work = CommonMigration.createRoot(workModel, BDR+RID);
         res.add(work);
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
 
         // adm:AdminData
-        Resource admWork = CommonMigration.getAdmResource(work);
+        Resource admWork = CommonMigration.createAdminRoot(work);
         CommonMigration.addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_EAP")); // ?
         final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
@@ -249,7 +249,7 @@ public class EAPTransfer {
         final String itemRID = 'I'+baseRid;
         
         // Item for Work
-        Resource item = itemModel.createResource(BDR+itemRID);
+        Resource item = CommonMigration.createRoot(itemModel, BDR+itemRID);
         res.add(item);
         itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
 
@@ -258,7 +258,7 @@ public class EAPTransfer {
         }
 
         // Item adm:AdminData
-        Resource admItem = CommonMigration.getAdmResource(item);
+        Resource admItem = CommonMigration.createAdminRoot(item);
         CommonMigration.addStatus(itemModel, admItem, "released");
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?
         itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_EAP")); // ?

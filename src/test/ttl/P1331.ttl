@@ -10,6 +10,7 @@
 
 bdr:P1331  a            :Person ;
     skos:prefLabel      "blo gros rnam dag"@bo-x-ewts ;
+    :isRoot                true ;
     :note               bdr:NTE51DB3F4D952 ;
     :personEvent        [ a                   :PersonDeath ;
                           :onYear             1322
@@ -32,6 +33,7 @@ bdr:NTE51DB3F4D952  a           :Note ;
 .
 bda:P1331   a            adm:AdminData ;
     adm:metadataLegal    bda:LD_BDRC_Open ;
+    :isRoot                true ;
     adm:facetIndex       "2"^^xsd:int ;
     adm:adminAbout       bdr:P1331 ;
     adm:status           bda:StatusReleased ;

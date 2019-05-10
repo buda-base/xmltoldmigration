@@ -21,6 +21,7 @@ bdr:I1FPL1_P001  a      :ItemPhysicalAsset ;
 
 bda:W1FPL1  a           adm:AdminData ;
         adm:adminAbout  bdr:W1FPL1 ;
+        :isRoot                true ;
         adm:logEntry    [ adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
                           adm:logMessage  "added hollis field to pub info"@en ;
                           adm:logWho      bdr:U00006
@@ -36,6 +37,7 @@ bda:W1FPL1  a           adm:AdminData ;
 
 bdr:W1FPL1  a                       :Work ;
         :itemBDRCHoldingStatement   "1" ;
+        :isRoot                true ;
         :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
         :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
         :workEvent                  [ a        :PublishedEvent ;

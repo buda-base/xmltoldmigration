@@ -112,10 +112,9 @@ public class EAPFondsTransfer {
                 // Work model
                 Model workModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(workModel);
-                Resource work = workModel.createResource(BDR+"W"+serie);
-//                workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
+                Resource work = CommonMigration.createRoot(workModel, BDR+"W"+serie);
                 work.addProperty(RDF.type, workModel.createResource(BDO+"PublishedWork"));
-                Resource admWork = CommonMigration.getAdmResource(work);
+                Resource admWork = CommonMigration.createAdminRoot(work);
                 res.add(work);
 
                 // Work adm:AdminData
@@ -138,9 +137,9 @@ public class EAPFondsTransfer {
                 // Item model
                 Model itemModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(itemModel);
-                Resource item = itemModel.createResource(BDR+"I"+serieID);
+                Resource item = CommonMigration.createRoot(itemModel, BDR+"I"+serieID);
                 itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
-                Resource admItem = CommonMigration.getAdmResource(item);
+                Resource admItem = CommonMigration.createAdminRoot(item);
                 res.add(item);
 
                 workModel.add(work, workModel.createProperty(BDO,"workHasItem"), item);
@@ -178,7 +177,7 @@ public class EAPFondsTransfer {
                         res.add(vol);
                         
                         // Volume adm:AdminData
-                        Resource admVol = CommonMigration.getAdmResource(vol);
+                        Resource admVol = CommonMigration.getAdminData(vol);
                         itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
                         origUrl = ManifestPREF+ref;
                         itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                

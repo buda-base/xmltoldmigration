@@ -9,9 +9,11 @@
 
 bdr:W30020  a           :Work ;
     :workPagination     bdr:PaginationAbsolute ;
+    :isRoot                true ;
 .
 bda:W30020  a           adm:Outline , adm:AdminData ;
     adm:adminAbout      bdr:W30020 ;
+    :isRoot                true ;
     adm:facetIndex            "4"^^xsd:int ;
     :legacyOutlineNodeRID  "O2DB87572" ;
     adm:logEntry        [ adm:logDate    "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;

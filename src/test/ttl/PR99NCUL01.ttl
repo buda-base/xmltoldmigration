@@ -10,6 +10,7 @@
 
 bda:PR99NCUL01  a           adm:Product, adm:AdminData ;
     skos:prefLabel          "This or that"@en ;
+    :isRoot                true ;
     adm:adminAbout          bda:PR99NCUL01 ;
     adm:status              bda:StatusReleased ;
     adm:logEntry            [ adm:logMessage  "added entry for NCCU Taiwan"@en ;

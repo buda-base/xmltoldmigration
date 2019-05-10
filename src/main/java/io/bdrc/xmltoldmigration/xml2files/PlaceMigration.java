@@ -43,8 +43,8 @@ public class PlaceMigration {
 		CommonMigration.setPrefixes(m, "place");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = CommonMigration.getAdmResource(main);
+        Resource main = CommonMigration.createRoot(m, BDR + root.getAttribute("RID"));
+        Resource admMain = CommonMigration.createAdminRoot(main);
 		m.add(main, RDF.type, m.createResource(BDO + "Place"));
 		String value = getTypeStr(root, m, main);
 		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + "PlaceType"+value));
@@ -178,7 +178,7 @@ public class PlaceMigration {
 	        value = current.getAttribute("value").trim();
 	        lit = m.createLiteral(value);
 	        if (prop.getNameSpace().contains("admin")) {
-	            m.add(CommonMigration.getAdmResource(main), prop, lit);
+	            m.add(CommonMigration.getAdminData(main), prop, lit);
 	        } else {
 	            m.add(main, prop, lit);
 	        }

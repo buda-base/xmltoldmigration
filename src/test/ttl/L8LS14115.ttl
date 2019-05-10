@@ -10,6 +10,7 @@
 
 bdr:L8LS14115  a        :Lineage ;
     rdfs:comment        "initiation transmission of clear light blessing of rakta yamari"@en ;
+    :isRoot                true ;
     skos:prefLabel      "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"@bo-x-ewts ;
     :lineageHolder      [ a                   :LineageHolder ;
                           :lineageDownFrom    bdr:L8LS15610 ;
@@ -18,7 +19,7 @@ bdr:L8LS14115  a        :Lineage ;
                                               ] ;
                           :lineageWho         bdr:P1018 ;
                           :lineageWork        bdr:WTest ;
-                          :note               [ :noteText  "test description" ]
+                          :note               bdr:NTF1C37311042B ;
                         ] ,
             [ a                   :LineageHolder ;
               :lineageReceived    [ :lineageFrom        bdr:P1132 ;
@@ -38,8 +39,10 @@ bdr:L8LS14115  a        :Lineage ;
                           :workLocationWork   bdr:W1PD107937
                         ] ;
 .
-bda:L8LS14115  a        adm:AdminData ;
-    adm:adminAbout bdr:L8LS14115 ;
+bda:L8LS14115  a       adm:AdminData ;
+    adm:adminAbout     bdr:L8LS14115 ;
+    :isRoot            true ;
+    adm:facetIndex     "2"^^xsd:int ;
     adm:metadataLegal  bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
                           adm:logWho          bdr:U00019
@@ -64,4 +67,8 @@ bda:L8LS14115  a        adm:AdminData ;
               adm:logWho          bdr:U00006
             ] ;
     adm:status          bda:StatusReleased ;
+.
+
+bdr:NTF1C37311042B  a  :Note ;
+        :noteText  "test description" ;
 .

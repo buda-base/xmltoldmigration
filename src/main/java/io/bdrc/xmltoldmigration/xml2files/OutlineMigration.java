@@ -179,7 +179,7 @@ public class OutlineMigration {
 		    m = workModel;
 		}
 		
-        Resource admOutline = CommonMigration.getAdmResource(rootWork);
+        Resource admOutline = CommonMigration.createAdminRoot(rootWork);
 
 		Element root = xmlDocument.getDocumentElement();
 
@@ -234,7 +234,7 @@ public class OutlineMigration {
 		return m;
 	}
 	
-	public static void addCreators(Model m, Resource r, Element e, boolean isRoot, Resource rootWork) {
+	public static void addCreators(Model m, Resource rez, Element e, boolean isRoot, Resource rootWork) {
         // creator
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
         for (int j = 0; j < nodeList.size(); j++) {
@@ -245,9 +245,9 @@ public class OutlineMigration {
             }
             if (isRoot && value.equals("hasScribe")) {
                 Property prop = m.createProperty(ADM+"outlineAuthorStatement");
-                Literal l = CommonMigration.getLiteral(current, "en", m, "hasScribe", r.getLocalName(), null);
+                Literal l = CommonMigration.getLiteral(current, "en", m, "hasScribe", rez.getLocalName(), null);
                 if (l == null) continue;
-                r.addProperty(prop,  l);
+                rez.addProperty(prop,  l);
                 continue;
             }
             String person = current.getAttribute("person").trim(); // required
@@ -255,11 +255,11 @@ public class OutlineMigration {
             if (person.equals("Add to DLMS")) {
                 person = current.getTextContent().trim();
                 if (!person.isEmpty())
-                    ExceptionHelper.logException(ExceptionHelper.ET_MISSING, r.getLocalName(), r.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
+                    ExceptionHelper.logException(ExceptionHelper.ET_MISSING, rez.getLocalName(), rez.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
-                person = MigrationHelpers.sanitizeRID(r.getLocalName(), value, person);
+                person = MigrationHelpers.sanitizeRID(rez.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    CommonMigration.addAgentAsCreator(r, m.createResource(BDR+person), value, CommonMigration.getAdmResource(rootWork));
+                    CommonMigration.addAgentAsCreator(rez, m.createResource(BDR+person), value, CommonMigration.getAdminRoot(rez));
             }
         }
 	}

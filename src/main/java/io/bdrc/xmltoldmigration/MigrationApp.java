@@ -266,9 +266,9 @@ public class MigrationApp
                 }
                 itemModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(itemModel);
-                item = itemModel.createResource(BDR+itemName);
+                item = CommonMigration.createRoot(m, BDR+itemName);
                 
-                admItem = CommonMigration.getAdmResource(item);
+                admItem = CommonMigration.createAdminRoot(item);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                 admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
                 moveAdminInfo(itemModel, workR, admItem);

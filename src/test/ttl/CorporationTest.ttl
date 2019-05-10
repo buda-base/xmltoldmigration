@@ -12,6 +12,7 @@
 
 bdr:C11MS170  a    :Corporation ;
    rdfs:comment        "some description" ;
+   :isRoot                true ;
    skos:prefLabel  "bran ka"@bo-x-phon-en-m-tbrc , "Dranka"@en-x-mixed ;
    :corporationHasMember  [ a               :CorporationMemberNotSpecified ;
                             :corporationMember  bdr:P1856
@@ -24,6 +25,7 @@ bdr:C11MS170  a    :Corporation ;
 .
 bda:C11MS170  a    adm:AdminData ;
    adm:status      bda:StatusReleased ;
+   :isRoot                true ;
    adm:facetIndex     "3"^^xsd:int ;
    adm:metadataLegal  bda:LD_BDRC_Open ;
    adm:adminAbout  bdr:C11MS170 ;
