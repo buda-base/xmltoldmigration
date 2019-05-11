@@ -173,17 +173,15 @@ public class EAPTransfer {
             }
         }
         
-        // note
-        Resource noteR = CommonMigration.getFacetNode(FacetType.NOTE, work, "MigrationApp");
-        work.addProperty(workModel.createProperty(BDO, "note"), noteR);        
+        // notes
         final StringBuilder noteText = new StringBuilder();
         noteText.append(line[8]);
         if (!line[13].isEmpty()) {
             noteText.append(", date: "+line[13]);
         }
         noteText.append(", recordID: "+line[0]);
-        noteText.append(", MDARK: "+line[7]);        
-        noteR.addProperty(workModel.createProperty(BDO, "noteText"), noteText.toString(), "en");
+        noteText.append(", MDARK: "+line[7]);
+        CommonMigration.addNote(work, noteText.toString(), "en", null, null);
         
         // other metadata
         final String langCode = line[5];
