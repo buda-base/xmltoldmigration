@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -38,16 +37,16 @@ public class GretilTest {
                     .withCSVParser(parser)
                     .build();
         String[] line = reader.readNext();
-        List<Resource> res= GRETILTransfer.getResourcesFromLine(line);
+        Resource work= GRETILTransfer.getWorkFromLine(line);
         reader.close();
-        Model workModel = res.get(0).getModel();
+        Model workModel = work.getModel();
         Model correctModel = ModelFactory.createDefaultModel();
         correctModel.read(new FileInputStream("src/test/ttl/gretiltest.ttl"), null,"TTL");
-//        
-//        // ==== TEMP DEBUG ====
-//        workModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/GRETIL_TEST-testGretil-workModel.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/GRETIL_TEST-testGretil-correctModel.ttl"), "TTL");
-//        
+        
+        // ==== TEMP DEBUG ====
+        workModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/GRETIL_TEST-testGretil-workModel.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/GRETIL_TEST-testGretil-correctModel.ttl"), "TTL");
+        
         assertTrue( workModel.isIsomorphicWith(correctModel) );
     }
 

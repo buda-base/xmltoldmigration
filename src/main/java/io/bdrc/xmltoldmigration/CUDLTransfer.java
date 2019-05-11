@@ -25,6 +25,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
@@ -150,26 +151,28 @@ public class CUDLTransfer {
         workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
         String mainTitle=line[6];
         String title=line[3];
-        Literal l=null;
+        Literal lit=null;
         if(title.endsWith("@en")) {
-            l=workModel.createLiteral(title);
+            lit=workModel.createLiteral(title);
         }else {
-            l=workModel.createLiteral(title,"sa-x-iast");
+            lit=workModel.createLiteral(title,"sa-x-iast");
         }
+        workModel.add(work, SKOS.prefLabel, lit);
+        
+        Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
+        Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, "MigrationApp", titleType);
+        work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+        titleR.addProperty(RDFS.label, (mainTitle.equals("") ? lit : workModel.createLiteral(mainTitle, "sa-x-iast")));
+
         String altTitle=line[7];
-        Resource titleR = workModel.createResource();
-        workModel.add(work, workModel.createProperty(BDO, "workTitle"), titleR);
-        workModel.add(work,workModel.createProperty(SKOS.getURI(),"prefLabel"),l);
         if(!altTitle.equals("")) {
-            workModel.add(work,workModel.createProperty(SKOS.getURI(),"altLabel"),workModel.createLiteral(altTitle, "sa-x-iast"));
+            workModel.add(work, SKOS.altLabel, workModel.createLiteral(altTitle, "sa-x-iast")); // DO WE REALLY NEED THIS??
+            titleType = workModel.createResource(BDO+"WorkOtherTitle");
+            titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, "MigrationApp", titleType);
+            work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+            titleR.addProperty(RDFS.label, altTitle, "sa-x-iast");
         }
-        if(mainTitle.equals("")) {
-            workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
-            workModel.add(titleR, RDFS.label, l);
-        }else {
-            workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
-            workModel.add(titleR, RDFS.label, workModel.createLiteral(mainTitle, "sa-x-iast"));
-        }
+        
         final String abstractWorkRID = rKTsToBDR(line[4]);
         if (abstractWorkRID != null) {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", rid, abstractWorkRID, null);

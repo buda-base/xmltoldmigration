@@ -343,6 +343,7 @@ public class CommonMigration  {
             type = type.substring(3);
         return BDR+creatorMigrations.get(type);
     }
+    
     /**
      * Creates a new named AgentAsCreator node and adds bdo:creator node to the supplied work.
      * 
@@ -718,43 +719,65 @@ public class CommonMigration  {
 	public static String normalizeString(String toNormalize) {
 	    return normalizeString(toNormalize, false);
 	}
-	
-	public static void addNote(Model m, Element e, Resource rez, int i, Property p, Literal l) {
+    
+    /**
+     *Adds a new named Note node and adds bdo:noye node to the supplied rez.
+     * 
+     * @param rez respource the note is attached to
+     * @param noteText String note text content
+     * @param lang language of the noteText. If null set to "en"
+     * @param loc the location statement for the note
+     * @param ref Work resource from which the note is taken
+     */
+    public static void addNote(Resource rez, String noteText, String lang,  String loc, Resource ref) {
+        Literal noteLit = null;
+        if (noteText != null && !noteText.isEmpty()) {
+            noteLit = rez.getModel().createLiteral(noteText, (lang != null ? lang : "en"));
+        }
+        addNote(rez, noteLit, loc, ref);
+    }
+    
+    /**
+     *Adds a new named Note node and adds bdo:noye node to the supplied rez.
+     * 
+     * @param rez respource the note is attached to
+     * @param noteText Literal note text content
+     * @param loc the location statement for the note
+     * @param ref Work resource from which the note is taken
+     */
+    private static void addNote(Resource rez, Literal noteText, String loc, Resource ref) {
+        Model m = rez.getModel();
+        Resource noteR = getFacetNode(FacetType.NOTE, rez, "MigrationApp");
+        Property prop = m.getProperty(BDO, "note");
+        rez.addProperty(prop, noteR);
+        
+        if (noteText != null) {
+            noteR.addProperty(m.createProperty(BDO+"noteText"), noteText);
+        }
+        if (loc != null && !loc.isEmpty()) {
+            noteR.addProperty(m.createProperty(BDO+"noteLocationStatement"), loc);
+        }
+        if (ref != null) {
+            noteR.addProperty(m.getProperty(BDO, "noteWork"), ref);
+        }
+    }
+
+    private static void addNote(Model m, Element e, Resource rez, int i, Property p, Literal l) {
 	    // some empty <note/> appear sometimes
 	    if (e.getAttribute("work").isEmpty() && e.getAttribute("location").isEmpty() && e.getTextContent().trim().isEmpty()) {
 	        return;
 	    }
-        Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp");
-		// really?
-		//m.add(note, RDF.type, m.getProperty(BDO, "Note"));
-		Property prop = m.getProperty(BDO, "note");
-		Literal lit;
-		if (p == null) {
-		    m.add(rez, prop, note);
-		} else {
-		    Resource axiom = m.createResource(OWL2.Axiom);
-		    axiom.addProperty(OWL2.annotatedSource, rez);
-		    axiom.addProperty(OWL2.annotatedProperty, p);
-		    axiom.addProperty(OWL2.annotatedTarget, l);
-		    axiom.addLiteral(prop, note);
-		}
-		String value = e.getAttribute("work").trim();
-		if (!value.isEmpty()) {
-			prop = m.getProperty(BDO, "noteWork");
-			value = MigrationHelpers.sanitizeRID(rez.getLocalName(), "noteWork", value);
-			if (!MigrationHelpers.isDisconnected(value))
-			    m.add(note, prop, m.createResource(BDR+value));
-		}
-		value = e.getAttribute("location");
-		if (!value.isEmpty()) {
-			prop = m.getProperty(BDO, "noteLocationStatement");
-			lit = m.createLiteral(value);
-			m.add(note, prop, lit);
-		}
-		prop = m.getProperty(BDO, "noteText");
-		lit = getLiteral(e, "en", m, "note", rez.getLocalName(), rez.getLocalName(), false);
-		if (lit != null)
-		    m.add(note, prop, lit);
+	    
+	    Literal noteText = getLiteral(e, "en", m, "note", rez.getLocalName(), rez.getLocalName(), false);	    
+	    String noteLoc = e.getAttribute("location").trim();
+	    String workRid = e.getAttribute("work").trim();
+	    Resource noteWork = null;
+	    if (!workRid.isEmpty()) {
+	        workRid = MigrationHelpers.sanitizeRID(rez.getLocalName(), "noteWork", workRid);
+	        if (!MigrationHelpers.isDisconnected(workRid))
+	            noteWork = m.createResource(BDR+workRid);
+	    }
+	    addNote(rez, noteText, noteLoc, noteWork);
 	}
 	
 	public static void addNotes(Model m, Element e, Resource r, String XsdPrefix) {
@@ -763,14 +786,6 @@ public class CommonMigration  {
 			Element current = (Element) nodeList.get(i);
 			addNote(m, current, r, i, null, null);
 		}
-	}
-	
-	public static void addNotes(Model m, Element e, Resource r, Property p, Literal l, String XsdPrefix) {
-	    List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "note");
-        for (int i = 0; i < nodeList.size(); i++) {
-            Element current = (Element) nodeList.get(i);
-            addNote(m, current, r, i, p, l);
-        }
 	}
 	
 	public static String normalizeToLUrl(String toLUrl) {

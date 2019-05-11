@@ -11,11 +11,12 @@
 
 bda:W0CDL0MS-ADD-01691-00003
         a                       adm:AdminData ;
-        :isRoot                 true ;
         adm:adminAbout          bdr:W0CDL0MS-ADD-01691-00003 ;
+        adm:facetIndex          "2"^^xsd:int ;
         adm:metadataLegal       bda:LD_CUDL ;
         adm:status              bda:StatusReleased ;
         adm:originalRecord      "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
+        :isRoot                 true ;
 .
 bdr:W0CDL0MS-ADD-01691-00003 a  :Work ;
         :isRoot                 true ;
@@ -25,7 +26,9 @@ bdr:W0CDL0MS-ADD-01691-00003 a  :Work ;
         :workDimWidth           27.5 ;
         :workHasItem            bdr:I0CDL0MS-ADD-01691-00003 ;
         :workMaterial           bdr:MaterialPalmLeaf ;
-        :workTitle              [ a           :WorkBibliographicalTitle ;
-                                  rdfs:label  "Abhiṣekavidhi"@sa-x-iast ] ;
+        :workTitle              bdr:TT3D5436600134 ;
         skos:prefLabel          "Abhiṣekavidhi"@sa-x-iast ;
 .
+
+bdr:TT3D5436600134  a  :WorkBibliographicalTitle ;
+        rdfs:label  "Abhiṣekavidhi"@sa-x-iast .

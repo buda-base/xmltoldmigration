@@ -24,6 +24,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
@@ -142,19 +143,22 @@ public class EAPTransfer {
         final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
 
+        // title
         String title = line[12];
         String titleLang = "sa-x-iast";
         if (title.endsWith("@en")) {
             title = title.substring(0, title.length()-3);
             titleLang = "en";
         } else {
-            Resource titleR = workModel.createResource();
-            workModel.add(work, workModel.createProperty(BDO, "workTitle"), titleR);
-            workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
-            workModel.add(titleR, RDFS.label, workModel.createLiteral(title, titleLang)); // ?
+            Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
+            Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, "MigrationApp", titleType);
+            work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+            titleR.addProperty(RDFS.label, workModel.createLiteral(title, titleLang));
         }
         int linelen = line.length;
         work.addLiteral(SKOS.prefLabel, workModel.createLiteral(title, titleLang));
+        
+        // event
         if (!line[3].isEmpty()) {
             int startDate = Integer.parseInt(line[3]);
             int endDate = Integer.parseInt(line[4]);
@@ -168,17 +172,20 @@ public class EAPTransfer {
                 copyEventR.addLiteral(workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(endDate, XSDDatatype.XSDinteger));
             }
         }
-        final StringBuilder note = new StringBuilder();
-        note.append(line[8]);
+        
+        // note
+        Resource noteR = CommonMigration.getFacetNode(FacetType.NOTE, work, "MigrationApp");
+        work.addProperty(workModel.createProperty(BDO, "note"), noteR);        
+        final StringBuilder noteText = new StringBuilder();
+        noteText.append(line[8]);
         if (!line[13].isEmpty()) {
-            note.append(", date: "+line[13]);
+            noteText.append(", date: "+line[13]);
         }
-        note.append(", recordID: "+line[0]);
-        note.append(", MDARK: "+line[7]);
-        Resource noteR = workModel.createResource();
-        //workModel.add(noteR, RDF.type, workModel.createResource(BDO+"Note"));
-        noteR.addLiteral(workModel.createProperty(BDO, "noteText"), note.toString());
-        workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
+        noteText.append(", recordID: "+line[0]);
+        noteText.append(", MDARK: "+line[7]);        
+        noteR.addProperty(workModel.createProperty(BDO, "noteText"), noteText.toString(), "en");
+        
+        // other metadata
         final String langCode = line[5];
         final String scriptCode = line[6];
         switch(langCode) {

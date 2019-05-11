@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
@@ -24,6 +22,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class GRETILTransfer {
 
@@ -31,7 +30,6 @@ public class GRETILTransfer {
     private static final String BDR = CommonMigration.RESOURCE_NS;
     private static final String ADM = CommonMigration.ADMIN_NS;
     private static final String BDA = CommonMigration.ADMIN_DATA_NS;
-    private static final String BDG = CommonMigration.GRAPH_NS;
 
     public static final Map<String,String> rKTsRIDMap = EAPTransfer.getrKTsRIDMap();
     public static final String ORIG_URL_BASE = "gretil.sub.uni-goettingen.de/";
@@ -55,8 +53,8 @@ public class GRETILTransfer {
             while (line != null) {
                 //avoiding identical originalRecords
                 if(line[8]!=null && !processed.contains(line[8])) {
-                    List<Resource> resources = getResourcesFromLine(line);
-                    writeGRETILFiles(resources);
+                    Resource work = getWorkFromLine(line);
+                    writeGRETILFiles(work);
                     processed.add(line[8]);
                 }
                 line = reader.readNext();
@@ -68,21 +66,17 @@ public class GRETILTransfer {
         MigrationApp.insertMissingSymetricTriples("work");
     }
 
-    public static final void writeGRETILFiles(List<Resource> resources) {
-        final Resource work = resources.get(0);
+    public static final void writeGRETILFiles(Resource work) {
         final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
         MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
     }
     
-    public static final List<Resource> getResourcesFromLine(String[] line) {
-        
+    public static final Resource getWorkFromLine(String[] line) {        
         // Work model
         final Model workModel = ModelFactory.createDefaultModel();
-        final List<Resource> res = new ArrayList<>();
         CommonMigration.setPrefixes(workModel);
         Resource work = CommonMigration.createRoot(workModel, BDR+line[0]);
         Resource admWork = CommonMigration.createAdminRoot(work);
-        res.add(work);
 
         // Work AdminData
         CommonMigration.addReleased(workModel, admWork);
@@ -92,16 +86,16 @@ public class GRETILTransfer {
             workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
         }
         
-        // bdo:Work
-        workModel.add(work, RDF.type, workModel.createResource(BDO+"UnicodeWork"));
-        workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
-        workModel.add(work, SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
-//        workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypeUnicodeText"));
-        Resource titleR = workModel.createResource();
-        workModel.add(work, workModel.createProperty(BDO, "workTitle"), titleR);
-        workModel.add(titleR, RDF.type, workModel.createResource(BDO+"WorkBibliographicalTitle")); // ?
-        workModel.add(titleR, RDFS.label, workModel.createLiteral(line[3], "sa-x-iast"));
+        // titles
+        work.addProperty(RDF.type, workModel.createResource(BDO+"UnicodeWork"));
+        work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
+        work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
+        Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
+        Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, "MigrationApp", titleType);
+        work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+        titleR.addProperty(RDFS.label, workModel.createLiteral(line[3], "sa-x-iast"));
 
+        // rKTs metadata
         String rkts=line[2];
         if(rkts!=null) {
             if(rkts.contains(",")) {
@@ -112,10 +106,14 @@ public class GRETILTransfer {
                 SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", line[0], abstractWorkRID, null);
             }
         }
+        
+        // creator
         String author=line[5];
         if(author!=null && !"".equals(author)) {
-            workModel.add(work, workModel.createProperty(BDO, "creatorMainAuthor"), workModel.createResource(BDR+author));
+            CommonMigration.addAgentAsCreator(work, workModel.createResource(BDR+author), "hasMainAuthor");
         }
+        
+        // subject
         String topic=line[6];
         if(topic!=null && !"".equals(topic)) {
             // Basic cchecking but some validation of the topic should occur here
@@ -124,15 +122,18 @@ public class GRETILTransfer {
                 workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+topic));
             }
         }
+        
+        // notes
         String note=line[9];
-        if(note!=null && !"".equals(note)) {
-            workModel.add(work, workModel.createProperty(BDO, "note"), "Input by "+note);
+        if (note != null && !note.isEmpty()) {
+            CommonMigration.addNote(work, "Input by "+note, "en", null, null);
         }
         note=line[10];
-        if(note!=null && !"".equals(note)) {
-            workModel.add(work, workModel.createProperty(BDO, "note"), "Based on "+note);
+        if (note != null && !note.isEmpty()) {
+            CommonMigration.addNote(work, "Based on "+note, "en", null, null);
         }
-        return res;
+        
+        return work;
     }
 
 }
