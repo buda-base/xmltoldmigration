@@ -21,22 +21,12 @@ bda:I12837FPL_P001  a   adm:AdminData ;
     :isRoot             true ;
     adm:status          bda:StatusReleased ;
 .
-bdr:CRA31364CA97C9  a  :AgentAsCreator ;
-        :agent  bdr:P1591 ;
-        :role   bdr:R0ER0019 ;
-.
-bdr:NT3F0F87B07E32  a  :Note ;
-        :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en ;
-.
-bdr:NT7E331F54F258  a  :Note ;
-        :noteText  "description with type note" ;
-.
 bdr:W12837FPL  a        :PublishedWork ;
     rdfs:comment        "description with no type" ;
     :isRoot                true ;
-    :creator            bdr:CRA31364CA97C9 ;
+    :creator            bdr:CRB8AAD6436BFB ;
     skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast ;
-    :note               bdr:NT3F0F87B07E32 , bdr:NT7E331F54F258 ;
+    :note               bdr:NT3F0F87B07E32 , bdr:NTE1AD1BBEF536 ;
     :workCatalogInfo    "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
     :workEvent          [ a                   :CompletedEvent ;
                           :onOrAbout          "descriptionwithtypedate" ;
@@ -50,23 +40,13 @@ bdr:W12837FPL  a        :PublishedWork ;
     :workNumberOfVolumes  1 ;
     :workScanInfo       "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
     :workSeriesNumber   "2" ;
-    :workTitle          [ a                   :OtherTitle ;
-                          rdfs:label          "testcap/"@bo-x-ewts
-                        ] ,
-            [ a                   :WorkBibliographicalTitle ;
-              rdfs:label          "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "vinayavinicchaya pāṭh nisya"@pi-x-iast
-            ] ,
-            [ a                   :WorkOtherTitle ;
-              rdfs:label          "test pali title"@pi-x-iast
-            ] ,
-            [ a                   :WorkTitlePageTitle ;
-              rdfs:label          "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts
-            ] ;
+    :workTitle          bdr:TT7E331F54F258 , bdr:TT4802878668DC , bdr:TTFB1A36806E27 , 
+                        bdr:TTA31364CA97C9 , bdr:TTE97A0FB4E947 , bdr:TTD87EBF2311F0 ;
 .
 bda:W12837FPL      a    adm:AdminData ;
     adm:adminAbout      bdr:W12837FPL ;
     :isRoot                true ;
-    adm:facetIndex      "4"^^xsd:int ;
+    adm:facetIndex      "10"^^xsd:int ;
     adm:metadataLegal   bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
                           adm:logMessage      "cataloging reviewed"@en ;
@@ -86,3 +66,31 @@ bda:W12837FPL      a    adm:AdminData ;
             ] ;
     adm:status          bda:StatusReleased ;
 .
+
+bdr:CRB8AAD6436BFB  a  :AgentAsCreator ;
+        :agent  bdr:P1591 ;
+        :role   bdr:R0ER0019 .
+
+bdr:TTFB1A36806E27  a  :WorkTitlePageTitle ;
+        rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
+
+bdr:TT7E331F54F258  a  :WorkBibliographicalTitle ;
+        rdfs:label  "kun rig rnam bshad/"@bo-x-ewts .
+
+bdr:TT4802878668DC  a  :WorkBibliographicalTitle ;
+        rdfs:label  "vinayavinicchaya"@pi-x-iast .
+
+bdr:TTA31364CA97C9  a  :WorkOtherTitle ;
+        rdfs:label  "test pali title"@pi-x-iast .
+
+bdr:TTD87EBF2311F0  a  :WorkOtherTitle ;
+        rdfs:label  "testcap/"@bo-x-ewts .
+
+bdr:TTE97A0FB4E947  a  :WorkBibliographicalTitle ;
+        rdfs:label  "vinayavinicchaya pāṭh nisya"@pi-x-iast .
+
+bdr:NTE1AD1BBEF536  a  :Note ;
+        :noteText  "description with type note" .
+
+bdr:NT3F0F87B07E32  a  :Note ;
+        :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .

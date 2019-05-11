@@ -243,14 +243,11 @@ public class CommonMigration  {
         public String getPrefix() {
             return prefix;
         }
-        
+
         public Resource getNodeType(Resource rez) {
-            if (nodeTypeUri != null)
-                return rez.getModel().createResource(nodeTypeUri);
-            else
-                return null;
+            return rez.getModel().createResource(nodeTypeUri);
         }
-        
+
         @Override
         public String toString() {
             return label;
@@ -306,52 +303,36 @@ public class CommonMigration  {
     }
     
     /**
+     * Creates a facet node in the BDR namespace w/ the defsult facet nodeType from the facet enum
      * 
-     * @param facet
-     * @param rez
-     * @param user
-     * @return
-     */
-    public static Resource getFacetNode(FacetType facet, Resource rez, String user) {
-        Resource rootAdm = getAdminRoot(rez);
-        Resource nodeType = facet.getNodeType(rez);
-        return getFacetNode(facet, rez, user, rootAdm, nodeType);
-    }
-
-    /**
-     * Creates a facet node in the BDR namespace w/ the default facet type. The method version that takes a nodeType resource
-     * should be used for PersonName, WorkTitle and Events since these have many specialized sub-types.
-     * <p/>
-     * Use this method for AgentAsCreator, most Notes, and WorkLocation use this method
      * @param facet the type of facet node to create
      * @param rez the resource the node is associated w/ such as via bdo:creator
      * @param user a string identifying the user or tool requesting the facet node
-     * @param rootAdmWork the admin data that contains the adm:facetIndex used to uniquify the facet node id
-     * @return the newly minted facet node resource w/ the default facet node type
+     * @return the newly minted facet node resource of rdf:type default nodeType for the facet
      */
-    public static Resource getFacetNode(FacetType facet, Resource rez, String user, Resource rootAdmin) {
+    public static Resource getFacetNode(FacetType facet, Resource rez, String user) {
         Resource nodeType = facet.getNodeType(rez);
-        return getFacetNode(facet, rez, user, rootAdmin, nodeType);
-    }
-    
-    /**
-     * Creates a facet node in the BDR namespace w/ the supplied nodeType resource.
-     * Should be used for PersonName, WorkTitle and Events since these have many specialized sub-types.
-     * 
-     * @param facet FacetType of the node to create
-     * @param rez the resource the node is associated w/ such as via bdo:creator
-     * @param user a string identifying the user or tool requesting the facet node
-     * @param rootAdmWork the admin data that contains the adm:facetIndex used to uniquify the facet node id
-     * @param nodeType to use instead of the default from the FacetType
-     * @return
-     */
-    public static Resource getFacetNode(FacetType facet, Resource rez, String user, Resource rootAdmWork, Resource nodeType) {
-        return getFacetNode(facet, BDR, rez, user, rootAdmWork, nodeType);
+        return getFacetNode(facet, BDR, rez, user, nodeType);
     }
 
-    private static Resource getFacetNode(FacetType facet, String nsUri, Resource rez, String user, Resource rootAdmWork, Resource nodeType) {
+    /**
+     * Creates a facet node in the BDR namespace w/ the supplied facet nodeType. This method takes a nodeType resource
+     * for use with PersonName, WorkTitle and Events since these have many specialized sub-types.
+     * 
+     * @param facet the type of facet node to create
+     * @param rez the resource the node is associated w/ such as via bdo:creator
+     * @param user a string identifying the user or tool requesting the facet node
+     * @param nodeType the class for the type of node
+     * @return the newly minted facet node resource of rdf:type nodeType
+     */
+    public static Resource getFacetNode(FacetType facet, Resource rez, String user, Resource nodeType) {
+        return getFacetNode(facet, BDR, rez, user, nodeType);
+    }
+
+    private static Resource getFacetNode(FacetType facet, String nsUri, Resource rez, String user, Resource nodeType) {
         Model m = rez.getModel();
-        String id = generateId(facet, rez, user, rootAdmWork);
+        Resource rootAdm = getAdminRoot(rez);
+        String id = generateId(facet, rez, user, rootAdm);
         Resource facetNode = m.createResource(nsUri+id);
         facetNode.addProperty(RDF.type, nodeType);
         return facetNode;
@@ -370,9 +351,9 @@ public class CommonMigration  {
      * @param roleKey the name of the type pof role of the creator
      * @param rootAdmWork the root AdminData that contains the adm:facetIndex
      */
-    public static void addAgentAsCreator(Resource work, Resource person, String roleKey, Resource rootAdmWork) {
+    public static void addAgentAsCreator(Resource work, Resource person, String roleKey) {
         Model m = work.getModel();
-        Resource agentAsCreator = getFacetNode(FacetType.CREATOR, work, "MigrationApp", rootAdmWork);
+        Resource agentAsCreator = getFacetNode(FacetType.CREATOR, work, "MigrationApp");
         work.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
         agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
         Resource role = m.createResource(getCreatorRoleUri(roleKey));
@@ -743,7 +724,6 @@ public class CommonMigration  {
 	    if (e.getAttribute("work").isEmpty() && e.getAttribute("location").isEmpty() && e.getTextContent().trim().isEmpty()) {
 	        return;
 	    }
-//        Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp", getRootAdminData(rez));
         Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp");
 		// really?
 		//m.add(note, RDF.type, m.getProperty(BDO, "Note"));
@@ -999,9 +979,7 @@ public class CommonMigration  {
                 current.setTextContent(current.getTextContent().replace(placeId, ""));
             }
             if (type.equals("note")) {
-                ResIterator resIt = m.listResourcesWithProperty(RDF.type, m.createResource(ADM+"AdminData"));
-                Resource admR = resIt.hasNext() ? resIt.next() : null;
-                Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp", admR);
+                Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp");
                 m.add(rez, m.getProperty(BDO+"note"), note);
                 m.add(note, m.getProperty(BDO+"noteText"), lit);
                 continue;
@@ -1094,7 +1072,9 @@ public class CommonMigration  {
 		}
 	}
 
-	public static String titleUriFromType(String type, boolean outlineMode) {
+	private static Resource getNodeType(String type, boolean outlineMode, Resource work) {
+	    Model m = work.getModel();
+	    
 	    switch (type) {
 	    case "titlePageTitle":
 	    case "fullTitle":
@@ -1108,17 +1088,18 @@ public class CommonMigration  {
 	    case "spineTitle":
 	    case "copyrightPageTitle":
 	    case "bibliographicalTitle":
-	        return BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1);
+	        return m.createResource(BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1));
         case "sectionTitle":
         case "captionTitle":
             if (outlineMode)
-                return BDO+"WorkRunningTitle";
+                return m.createResource(BDO+"WorkRunningTitle");
             else
-                return BDO+"OtherTitle";
+                return m.createResource(BDO+"WorkOtherTitle");
         case "portion":
-            return BDO+"WorkTitlePortion";
+            return m.createResource(BDO+"WorkTitlePortion");
 	    default:
-	        return null;
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, work.getLocalName(), work.getLocalName(), "title", "unknown title type `"+type+"`");
+            return m.createResource(BDO+"WorkBibliographicalTitle");
 	    }
 	}
 	
@@ -1126,21 +1107,20 @@ public class CommonMigration  {
             List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
             Map<String,Boolean> labelDoneForLang = new HashMap<>();
             Map<String,Boolean> titleSeen = new HashMap<>();
-            Map<String,Resource> typeNodes = new HashMap<>();
             String typeUsedForLabel = null;
             for (int i = 0; i < nodeList.size(); i++) {
                 Element current = (Element) nodeList.get(i);
-                Literal l = getLiteral(current, EWTS_TAG, m, "title", main.getLocalName(), main.getLocalName());
+                Literal lit = getLiteral(current, EWTS_TAG, m, "title", main.getLocalName(), main.getLocalName());
                 String nextTitle = null;
-                if (l == null) continue;
-                if (main.getLocalName().contains("FPL") && l.getLanguage().equals("pi-x-iast") && l.getString().contains("--")) {
-                    String[] split = l.getString().split("--");
+                if (lit == null) continue;
+                if (main.getLocalName().contains("FPL") && lit.getLanguage().equals("pi-x-iast") && lit.getString().contains("--")) {
+                    String[] split = lit.getString().split("--");
                     if (!split[1].isEmpty()) {
                         nextTitle = split[1];
-                        l = m.createLiteral(split[0], "pi-x-iast");
+                        lit = m.createLiteral(split[0], "pi-x-iast");
                     }
                 }
-                final String litStr = l.getString()+"@"+l.getLanguage();
+                final String litStr = lit.getString()+"@"+lit.getLanguage();
                 if (titleSeen.containsKey(litStr))
                     continue;
                 titleSeen.put(litStr, true);
@@ -1149,29 +1129,25 @@ public class CommonMigration  {
                     type = "bibliographicalTitle";
                 }
                 if (type.equals("incipit")) {
-                    main.addProperty(m.getProperty(BDO, "workIncipit"), l);
+                    main.addProperty(m.getProperty(BDO, "workIncipit"), lit);
                     continue;
                 }
-                String uri = titleUriFromType(type, outlineMode);
-                if (uri == null) {
-                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "title", "unknown title type `"+type+"`");
-                    uri = BDO+"WorkBibliographicalTitle";
-                }
-                Resource node = typeNodes.get(uri);
-                if (node == null) {
-                    node = m.createResource();
-                    node.addProperty(RDF.type, m.createResource(uri));
-                    typeNodes.put(uri, node);
-                }
-                node.addProperty(m.getProperty(GENLABEL_URI), l);
+                
+                Resource nodeType = getNodeType(type, outlineMode, main);
+                Resource titleNode = getFacetNode(FacetType.TITLE, main, "MigrationApp", nodeType);        
+                titleNode.addProperty(RDFS.label, lit);
+                main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
+                
                 if (nextTitle != null) {
-                    node.addProperty(m.getProperty(GENLABEL_URI), m.createLiteral(nextTitle, "pi-x-iast"));
+                    titleNode = getFacetNode(FacetType.TITLE, main, "MigrationApp", nodeType);
+                    titleNode.addProperty(RDFS.label, m.createLiteral(nextTitle, "pi-x-iast"));
+                    main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
                 }
-                main.addProperty(m.getProperty(BDO, "workTitle"), node);
+
                 if (guessLabel) {
-                    String lang = l.getLanguage().substring(0, 2);
+                    String lang = lit.getLanguage().substring(0, 2);
                     if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
-                        main.addProperty(m.getProperty(PREFLABEL_URI), l);
+                        main.addProperty(SKOS.prefLabel, lit);
                         labelDoneForLang.put(lang, true);
                         typeUsedForLabel = type;
                     }

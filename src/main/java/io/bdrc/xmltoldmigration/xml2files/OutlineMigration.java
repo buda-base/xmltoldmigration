@@ -259,7 +259,7 @@ public class OutlineMigration {
             } else {
                 person = MigrationHelpers.sanitizeRID(rez.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    CommonMigration.addAgentAsCreator(rez, m.createResource(BDR+person), value, CommonMigration.getAdminRoot(rez));
+                    CommonMigration.addAgentAsCreator(rez, m.createResource(BDR+person), value);
             }
         }
 	}
