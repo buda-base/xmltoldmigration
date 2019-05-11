@@ -565,13 +565,12 @@ public class MigrationHelpers {
 	    if (type.equals(PUBINFO) || type.equals(SCANREQUEST)) {
 	        return null;
 	    }
-        Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m, type);
-        Element root = xmlDocument.getDocumentElement();
-        Resource main = m.createResource(BDR + root.getAttribute("RID"));
-        Resource admMain = CommonMigration.createAdminRoot(main);
-        CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
-        admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+        
+	    Element root = xmlDocument.getDocumentElement();        
+        Model m = xmlToRdf(xmlDocument, type);
+        Resource admMain = CommonMigration.getAdminRoot(m);
+        Resource main = admMain.getPropertyResourceValue(m.createProperty(ADM+"adminAbout"));
+                
         final String XsdPrefix = typeToXsdPrefix.get(type);
         NodeList nodeList = root.getElementsByTagNameNS(XsdPrefix, "log");
         String withdrawnmsg = null;
@@ -592,6 +591,7 @@ public class MigrationHelpers {
                     withdrawnmsg = msg.trim();
             }
         }
+        
         if (withdrawnmsg != null) {
             Matcher matcher = withdrawnPattern.matcher(withdrawnmsg);
             if (!matcher.matches()) {
@@ -602,6 +602,7 @@ public class MigrationHelpers {
                 resourceReplacedWith(root.getAttribute("RID"), rid);
             }
         }
+        
         return m;
     }
 

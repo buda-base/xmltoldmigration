@@ -8,14 +8,12 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:W30020  a           :Work ;
-    :workPagination     bdr:PaginationAbsolute ;
     :isRoot                true ;
+    :workPagination     bdr:PaginationAbsolute ;
 .
 bda:W30020  a           adm:Outline , adm:AdminData ;
     adm:adminAbout      bdr:W30020 ;
-    :isRoot                true ;
-    adm:facetIndex            "4"^^xsd:int ;
-    :legacyOutlineNodeRID  "O2DB87572" ;
+    adm:facetIndex      "6"^^xsd:int ;
     adm:logEntry        [ adm:logDate    "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
                           adm:logWho     bdr:U00003 ;
                         ] ,
@@ -28,7 +26,9 @@ bda:W30020  a           adm:Outline , adm:AdminData ;
                           adm:logWho      bdr:U00019 ;
                         ] ;
     adm:outlineAuthorStatement  "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en ;
-    adm:outlineType     bda:OutlineTypePartialCollectedWorks
+    adm:outlineType     bda:OutlineTypePartialCollectedWorks ;
+    :isRoot                true ;
+    :legacyOutlineNodeRID  "O2DB87572" ;
 .
 
 bdr:W30020_0001  a      :Work ;
@@ -79,7 +79,7 @@ bdr:W30020_0003  a      :Work ;
 
 bdr:W30020_0004  a      :Work ;
     skos:prefLabel      "testsec/"@bo-x-ewts ;
-    :note               [ :noteText  "p. 1 (1st group)" ] ;
+    :note               bdr:NTC4AB2C5816FC ;
     :workIncipit        "gleng gzhi/"@bo-x-ewts ;
     :workLocation       [ :workLocationEndPage  18 ;
                           :workLocationPage   11 ;
@@ -92,11 +92,14 @@ bdr:W30020_0004  a      :Work ;
     :workTitle          [ a                   :WorkRunningTitle ;
                           rdfs:label          "testsec/"@bo-x-ewts
                         ] ;
-    :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" .
-
+    :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" ;
+.
+bdr:NTC4AB2C5816FC  a  :Note ;
+        :noteText  "p. 1 (1st group)" ;
+.
 bdr:W30020_0005  a      :Work ;
-    :creator            bdr:CRDE1CE63D7AAC , bdr:CRF2DDB0A9FC66 , bdr:CR7CD895724DEB ;
-    :note               [ :noteText  "p. 1 (1st group)" ] ;
+    :creator            bdr:CR26FEB2B9C994 , bdr:CRC93F7BAE712F , bdr:CRF2DDB0A9FC66 ;
+    :note               bdr:NT7CD895724DEB ;
     :workLocation       [ :workLocationEndPage  25 ;
                           :workLocationPage   17 ;
                           :workLocationVolume  2 ;
@@ -111,17 +114,20 @@ bdr:W30020_0005  a      :Work ;
     :legacyOutlineNodeRID  "O2DB875722DB875732DB87600" ;
     skos:prefLabel         "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts ;
 .
-bdr:CRDE1CE63D7AAC  a  :AgentAsCreator ;
+bdr:CRF2DDB0A9FC66  a  :AgentAsCreator ;
         :agent  bdr:P00KG07267 ;
         :role   bdr:R0ER0018 ;
 .
-bdr:CR7CD895724DEB  a  :AgentAsCreator ;
+bdr:CR26FEB2B9C994  a  :AgentAsCreator ;
         :agent  bdr:P20 ;
         :role   bdr:R0ER0026 ;
 .
-bdr:CRF2DDB0A9FC66  a  :AgentAsCreator ;
+bdr:CRC93F7BAE712F  a  :AgentAsCreator ;
         :agent  bdr:P21 ;
         :role   bdr:R0ER0023 ;
+.
+bdr:NT7CD895724DEB  a  :Note ;
+        :noteText  "p. 1 (1st group)" ;
 .
 bdr:W30020_0006  a      :Work ;
     skos:prefLabel      "gleng gzhi2/"@bo-x-ewts ;

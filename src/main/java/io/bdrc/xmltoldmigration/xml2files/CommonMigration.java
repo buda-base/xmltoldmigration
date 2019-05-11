@@ -143,8 +143,8 @@ public class CommonMigration  {
         }
     }
     
-    public static Resource createRoot(Model m, String rid) {
-        Resource rez = m.createResource(rid);
+    public static Resource createRoot(Model m, String uri) {
+        Resource rez = m.createResource(uri);
         m.addLiteral(rez, m.createProperty(BDO+"isRoot"), true);
         return rez;
     }

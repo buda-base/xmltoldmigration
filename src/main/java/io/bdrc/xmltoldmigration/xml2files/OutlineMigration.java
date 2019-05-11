@@ -164,7 +164,7 @@ public class OutlineMigration {
 	    String workId = getWorkId(xmlDocument);
 	    if (workId == null || workId.isEmpty())
 	        return null;
-        Resource work = workModel.createResource(BDR + workId);
+	    Resource work = CommonMigration.createRoot(workModel, BDR + workId);
         work.addProperty(RDF.type, workModel.getResource(BDO+"Work"));
         //CommonMigration.addStatus(workModel, work, root.getAttribute("status"));
 	    return MigrateOutline(xmlDocument, workModel, work);
