@@ -404,7 +404,7 @@ public class EtextMigration {
             return null;
         }
         final String etextId = e.getTextContent().trim().replace('-', '_');
-        Resource etext = etextModel.getResource(BDR+etextId);
+        Resource etext = CommonMigration.createRoot(etextModel, BDR+etextId);
 
         if (first) { // initialize the :ItemEtext
             Resource work = itemModel.getResource(BDR+workId);
@@ -437,7 +437,7 @@ public class EtextMigration {
                 RDF.type,
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
-        Resource admEtext = CommonMigration.getAdminData(etext);
+        Resource admEtext = CommonMigration.getAdminRoot(etext, true);
         CommonMigration.addReleased(etextModel, admEtext);
         
         Model imageItemModel = null;

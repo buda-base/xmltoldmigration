@@ -40,7 +40,7 @@ public class PubinfoMigration {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "work", "missing work ID!");
                 return m;
             }
-            main = m.createResource(BDR+value);
+            main = CommonMigration.createRoot(m, BDR+value);
         }
         m.add(main, RDF.type, m.getResource(BDO+"Work"));
         MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>());
@@ -98,7 +98,7 @@ public class PubinfoMigration {
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
         
-        Resource admMain = CommonMigration.getAdminData(main);
+        Resource admMain = CommonMigration.getAdminRoot(main, true);
         CommonMigration.addLog(m, root, admMain, WPXSDNS);
         
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");

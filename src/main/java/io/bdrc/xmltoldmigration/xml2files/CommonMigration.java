@@ -183,7 +183,17 @@ public class CommonMigration  {
     }
     
     public static Resource getAdminRoot(Resource rez) {
-        return getAdminRoot(rez.getModel());
+        return getAdminRoot(rez, false);
+    }
+    
+    public static Resource getAdminRoot(Resource rez, boolean create) {
+        Resource admR = getAdminRoot(rez.getModel());
+        
+        if (admR == null && create) {
+            admR = createAdminRoot(rez);
+        }
+        
+        return admR;
     }
     
     public static Resource getAdminRoot(Model m) {
