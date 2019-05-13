@@ -1,5 +1,10 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,12 +34,6 @@ import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class EAPTransfer {
-
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
-    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
-    private static final String BDG = CommonMigration.GRAPH_NS;
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
     public static final String ORIG_URL_BASE = "https://eap.bl.uk/archive-file/";

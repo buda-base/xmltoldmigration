@@ -1,5 +1,7 @@
 package io.bdrc.xmltoldmigration.helpers;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +22,6 @@ public class ImageListTranslation {
     
     public static final boolean startWith0 = false;
     public static boolean considerMissingPages = true;
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
     
     private static final Pattern imageP = Pattern.compile("^(.+)(\\d{4})( ?\\..+)$");
     private static final Pattern basicP = Pattern.compile("[^|]+");

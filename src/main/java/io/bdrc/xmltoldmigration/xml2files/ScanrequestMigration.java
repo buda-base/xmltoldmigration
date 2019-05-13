@@ -1,5 +1,9 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -7,17 +11,12 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
 public class ScanrequestMigration {
 
 	public static final String SRXSDNS = "http://www.tbrc.org/models/scanrequest#";
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
-
 	
 	// used for testing only
 	public static Model MigrateScanrequest(Document xmlDocument) {

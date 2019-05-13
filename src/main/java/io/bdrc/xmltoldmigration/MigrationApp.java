@@ -1,5 +1,10 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,11 +63,6 @@ public class MigrationApp
     public static boolean firstMigration = false;
     public static boolean noXmlMigration = false;
     public static boolean useHash = true;
-
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
-    private static final String ADM = CommonMigration.ADM;
 
     public static final String CORPORATION = MigrationHelpers.CORPORATION;
     public static final String LINEAGE = MigrationHelpers.LINEAGE;

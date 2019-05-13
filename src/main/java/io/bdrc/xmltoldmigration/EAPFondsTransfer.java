@@ -1,11 +1,15 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -29,11 +33,6 @@ public class EAPFondsTransfer {
     public static HashMap<String,HashMap<String,String[]>> seriesByCollections;
     public static HashMap<String,String[]> seriesLines;
     public static  List<String[]> lines;
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
-    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
-    private static final String BDG = CommonMigration.GRAPH_NS;
     
     private static final String ManifestPREF="https://eap.bl.uk/archive-file/";
     public static final String ORIG_URL_BASE = "https://eap.bl.uk/collection/";

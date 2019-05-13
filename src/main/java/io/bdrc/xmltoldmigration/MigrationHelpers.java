@@ -1,5 +1,11 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDG;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,7 +60,6 @@ import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.StreamRDFLib;
-import org.apache.jena.riot.writer.TriGWriter;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
@@ -136,13 +141,6 @@ public class MigrationHelpers {
     public static final int OUTPUT_STTL = 0;
     public static final int OUTPUT_JSONLD = 1;
     public static final int OUTPUT_TRIG = 2;
-    
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
-    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
-    private static final String BDG = CommonMigration.GRAPH_NS;
-
     
     public static Lang sttl;
     public static Lang strig;

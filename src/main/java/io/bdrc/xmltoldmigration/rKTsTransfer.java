@@ -1,5 +1,9 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,12 +31,6 @@ public class rKTsTransfer {
 
     public static List<String> RIDList = new ArrayList<>();
     public static Map<String, Model> RidModels = new HashMap<>();
-    
-    public static final String BDO = CommonMigration.ONTOLOGY_NS;
-    public static final String BDG = CommonMigration.GRAPH_NS;
-    public static final String BDR = CommonMigration.RESOURCE_NS;
-    public static final String ADM = CommonMigration.ADMIN_NS;
-    public static final String BDA = CommonMigration.ADMIN_DATA_NS;
     
     public static void initLists() {
         initListsForRID("W22084");

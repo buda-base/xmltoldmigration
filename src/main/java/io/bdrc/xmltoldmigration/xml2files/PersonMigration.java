@@ -1,5 +1,10 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +14,8 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,13 +24,8 @@ import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
-
 public class PersonMigration {
 
-    private static final String ADM = CommonMigration.ADM;
-    private static final String BDA = CommonMigration.BDA;
-    private static final String BDO = CommonMigration.BDO;
-    private static final String BDR = CommonMigration.BDR;
 	public static final String PXSDNS = "http://www.tbrc.org/models/person#";
 	
 	public static final class FoundingEvent {
@@ -95,7 +97,6 @@ public class PersonMigration {
 		// names
 		
 		NodeList nodeList = root.getElementsByTagNameNS(PXSDNS, "name");
-		Property nameProp = m.getProperty(CommonMigration.GENLABEL_URI);
 		Property prop = m.getProperty(BDO+"personName");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		String typeUsedForLabel = null;
@@ -105,13 +106,13 @@ public class PersonMigration {
 			String type = current.getAttribute("type").trim();
 			if (type.isEmpty())
 			    type = "primaryName";
-			Resource r = getResourceForType(typeNodes, m, main, prop, "name", type);
-			Literal l = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, type, RID, null);
-			if (l == null) continue;
-			r.addProperty(nameProp, l);
-			String lang = l.getLanguage().substring(0, 2);
+			Resource rez = getResourceForType(typeNodes, m, main, prop, "name", type);
+			Literal lit = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, type, RID, null);
+			if (lit == null) continue;
+			rez.addProperty(RDFS.label, lit);
+			String lang = lit.getLanguage().substring(0, 2);
 			if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
-			    main.addProperty(m.getProperty(CommonMigration.PREFLABEL_URI), l);
+			    main.addProperty(SKOS.prefLabel, lit);
 			    labelDoneForLang.put(lang, true);
 			    typeUsedForLabel = type;
 			}

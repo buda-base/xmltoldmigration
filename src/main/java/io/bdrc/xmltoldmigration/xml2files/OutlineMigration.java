@@ -12,6 +12,7 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -301,7 +302,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
         CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true);
         
-        Statement labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
+        Statement labelSta = node.getProperty(SKOS.prefLabel);
         String label = null;
         if (labelSta != null)
             label = labelSta.getLiteral().getString();

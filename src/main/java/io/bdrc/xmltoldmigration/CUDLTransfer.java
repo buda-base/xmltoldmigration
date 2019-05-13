@@ -1,5 +1,10 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,11 +36,6 @@ import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class CUDLTransfer {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
-    private static final String BDA = CommonMigration.ADMIN_DATA_NS;
-    private static final String BDG = CommonMigration.GRAPH_NS;
     public static  List<String[]> lines;
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
@@ -178,7 +178,7 @@ public class CUDLTransfer {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", rid, abstractWorkRID, null);
         }
         if(!line[5].equals("")) {
-            workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.RESOURCE_NS+line[5]));
+            workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.BDR+line[5]));
         }
                 
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+materials.get(line[9])));

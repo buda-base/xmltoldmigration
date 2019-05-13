@@ -1,25 +1,23 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import java.util.HashMap;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.util.List;
-import java.util.Map;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration.CurNodeInt;
 
 public class TaxonomyMigration {
 
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
     private static final String OXSDNS = "http://www.tbrc.org/models/outline#";
     
     public static Model MigrateTaxonomy(Document d) {
@@ -51,7 +49,7 @@ public class TaxonomyMigration {
             Literal l = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, "name", r.getLocalName(), r.getLocalName());
             if (l != null) {
                 if (!l.getLanguage().equals("bo") && !l.getLanguage().equals("zh-latn-pinyin-x-ndia"))
-                    r.addProperty(m.getProperty(CommonMigration.PREFLABEL_URI), l);
+                    r.addProperty(SKOS.prefLabel, l);
             }
         }
     }

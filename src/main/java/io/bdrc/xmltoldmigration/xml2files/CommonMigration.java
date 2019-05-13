@@ -34,7 +34,6 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
@@ -56,27 +55,17 @@ import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
 
-	public static final String ONTOLOGY_NS = "http://purl.bdrc.io/ontology/core/";
-	public static final String ADMIN_NS = "http://purl.bdrc.io/ontology/admin/";
-	public static final String ADMIN_DATA_NS = "http://purl.bdrc.io/admindata/";
-    public static final String GRAPH_NS = "http://purl.bdrc.io/graph/";
-	public static final String RESOURCE_NS = "http://purl.bdrc.io/resource/";
+	public static final String BDO = "http://purl.bdrc.io/ontology/core/";
+	public static final String ADM = "http://purl.bdrc.io/ontology/admin/";
+	public static final String BDA = "http://purl.bdrc.io/admindata/";
+    public static final String BDG = "http://purl.bdrc.io/graph/";
+	public static final String BDR = "http://purl.bdrc.io/resource/";
 	
 	public static final String FPL_LIBRARY_ID = "G1TLMFPL000001";
-	
-	public static final String PREFLABEL_URI = SKOS.getURI()+"prefLabel";
-	public static final String ALTLABEL_URI = SKOS.getURI()+"altLabel";
-	public static final String GENLABEL_URI = RDFS.getURI()+"label";
 	
 	public static final String EWTS_TAG = "bo-x-ewts";
 	public static final boolean lowerCaseLangTags = true;
 	public static final String IMAGE_ITEM_SUFFIX = "";
-	
-	public static final String BDO = ONTOLOGY_NS;
-    public static final String BDG = GRAPH_NS;
-    public static final String BDR = RESOURCE_NS;
-    public static final String ADM = ADMIN_NS;
-    public static final String BDA = ADMIN_DATA_NS;
 	
 	public static final int ET_LANG = ExceptionHelper.ET_LANG;
 	
@@ -578,11 +567,11 @@ public class CommonMigration  {
     }
 	
     public static void setPrefixes(Model m, boolean addVcard) {
-		m.setNsPrefix("", ONTOLOGY_NS);
-		m.setNsPrefix("adm", ADMIN_NS);
-        m.setNsPrefix("bdr", RESOURCE_NS);
-        m.setNsPrefix("bda", ADMIN_DATA_NS);
-        m.setNsPrefix("bdg", GRAPH_NS);
+		m.setNsPrefix("", BDO);
+		m.setNsPrefix("adm", ADM);
+        m.setNsPrefix("bdr", BDR);
+        m.setNsPrefix("bda", BDA);
+        m.setNsPrefix("bdg", BDG);
 		m.setNsPrefix("owl", OWL.getURI());
 		m.setNsPrefix("rdf", RDF.getURI());
 		m.setNsPrefix("rdfs", RDFS.getURI());
@@ -918,13 +907,13 @@ public class CommonMigration  {
                 if (guessLabel) {
                     String lang = l.getLanguage().substring(0, 2);
                     if (!labelDoneForLang.containsKey(lang)) {
-                        r.addProperty(m.getProperty(PREFLABEL_URI), l);
+                        r.addProperty(SKOS.prefLabel, l);
                         labelDoneForLang.put(lang, true);
                     } else {
-                        r.addProperty(m.getProperty(ALTLABEL_URI), l);
+                        r.addProperty(SKOS.altLabel, l);
                     }
                 } else {
-                    r.addProperty(m.getProperty(GENLABEL_URI), l);
+                    r.addProperty(RDFS.label, l);
                 }
                 if (additionalNameProp != null) {
                     r.addProperty(m.getProperty(additionalNameProp), l);
@@ -1054,10 +1043,10 @@ public class CommonMigration  {
             if (guessLabel && (type.equals("contents") || type.equals("noType"))) {
                 lang = lit.getLanguage().substring(0, 2);
                 if (!labelDoneForLang.containsKey(lang)) {
-                    rez.addProperty(m.getProperty(PREFLABEL_URI), lit);
+                    rez.addProperty(SKOS.prefLabel, lit);
                     labelDoneForLang.put(lang, true);
                 } else {
-                    rez.addProperty(m.getProperty(ALTLABEL_URI), lit);
+                    rez.addProperty(SKOS.altLabel, lit);
                 }
                 continue;
             }

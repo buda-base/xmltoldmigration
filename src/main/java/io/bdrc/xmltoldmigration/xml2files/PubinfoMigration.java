@@ -1,5 +1,9 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,16 +18,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
 public class PubinfoMigration {
 
 	public static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
-    private static final String BDO = CommonMigration.ONTOLOGY_NS;
-    private static final String BDR = CommonMigration.RESOURCE_NS;
-    private static final String ADM = CommonMigration.ADMIN_NS;
 
 	// used for testing only
 	public static Model MigratePubinfo(Document xmlDocument) {

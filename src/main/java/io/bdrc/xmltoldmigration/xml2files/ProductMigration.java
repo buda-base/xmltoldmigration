@@ -5,6 +5,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -81,7 +82,7 @@ public class ProductMigration {
 		//m.add(org, RDF.type, m.getResource(PRP+"ProductOrg"));
 		String value = CommonMigration.normalizeString(orgElement.getAttribute("name"));
 		if (!value.isEmpty()) {
-			m.add(org, m.getProperty(CommonMigration.GENLABEL_URI), m.createLiteral(value, "en"));
+			m.add(org, RDFS.label, m.createLiteral(value, "en"));
 		}
 		m.add(r, m.getProperty(ADM+"productHasOrg"), org);
 		addAllows(m, org, orgElement);
