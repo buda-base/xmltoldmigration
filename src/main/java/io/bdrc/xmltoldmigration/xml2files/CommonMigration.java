@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +31,10 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.ValidityReport;
@@ -75,19 +80,64 @@ public class CommonMigration  {
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
     
     
+    public static final Map<String, String> typeToRepo = new HashMap<>();
     public static final Map<String, String> logWhoToUri = new HashMap<>();
     public static final Map<String, Boolean> genreTopics = new HashMap<>();
     public static final Map<Integer, Boolean> isTraditional = new HashMap<>();
     public static final Map<String, String> creatorMigrations = new HashMap<>();
+    
+    public static MessageDigest md5;
+    private static final int hashNbChars = 2;
+    private static final int nbShaChars = 12;
 
     static {
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         fillLogWhoToUri();
         fillGenreTopics();
         getTcList();
         initCreatorMigrations();
+        fillTypeToRepo();
     }
     
-    public static void initCreatorMigrations() {
+    private static void fillTypeToRepo() {
+        typeToRepo.put("Corporation", BDA+"GR0001");
+        
+        typeToRepo.put("Etext", BDA+"GR0002");
+        typeToRepo.put("EtextNonPaginated", BDA+"GR0002");
+        typeToRepo.put("EtextPaginated", BDA+"GR0002");
+        
+        typeToRepo.put("Item", BDA+"GR0003");
+        typeToRepo.put("ItemEtext", BDA+"GR0003");
+        typeToRepo.put("ItemEtextNonPaginated", BDA+"GR0003");
+        typeToRepo.put("ItemEtextPaginated", BDA+"GR0003");
+        typeToRepo.put("ItemImageAsset", BDA+"GR0003");
+        typeToRepo.put("ItemPhysicalAsset", BDA+"GR0003");
+        
+        typeToRepo.put("Lineage", BDA+"GR0004");
+        typeToRepo.put("Place", BDA+"GR0005");
+        typeToRepo.put("Person", BDA+"GR0006");
+        typeToRepo.put("Product", BDA+"GR0011");
+        typeToRepo.put("Topic", BDA+"GR0007");
+        
+        typeToRepo.put("Work", BDA+"GR0008");
+        typeToRepo.put("AbstractWork", BDA+"GR0008");
+        typeToRepo.put("PublishedWork", BDA+"GR0008");
+        typeToRepo.put("SerialWork", BDA+"GR0008");
+        typeToRepo.put("UnicodeWork", BDA+"GR0008");
+        typeToRepo.put("VirtualWork", BDA+"GR0008");
+        typeToRepo.put("UnspecifiedWorkClass", BDA+"GR0008");
+
+        typeToRepo.put("EtextContent", BDA+"GR0009");
+        typeToRepo.put("Role", BDA+"GR0010");
+        typeToRepo.put("Product", BDA+"GR0011");
+    }
+    
+    private static void initCreatorMigrations() {
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
         final InputStream inputStream = classLoader.getResourceAsStream("creator-migrations.txt");
         final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
@@ -102,7 +152,7 @@ public class CommonMigration  {
         }
     }
     
-    public static void getTcList() {
+    private static void getTcList() {
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
         final InputStream inputStream = classLoader.getResourceAsStream("tclist.txt");
         final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
@@ -116,9 +166,9 @@ public class CommonMigration  {
         }
     }
     
-    public static final String userNumFormat = "%05d";
+    private static final String userNumFormat = "%05d";
     
-    public static void fillGenreTopics() {
+    private static void fillGenreTopics() {
         final ClassLoader classLoader = CommonMigration.class.getClassLoader();
         final InputStream inputStream = classLoader.getResourceAsStream("topics-genres.txt");
         final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
@@ -132,9 +182,27 @@ public class CommonMigration  {
         }
     }
     
-    public static Resource createRoot(Model m, String uri) {
+    public static String getMd5(String resId) {
+        try {
+            // keeping files from the same work together:
+            final int underscoreIndex = resId.indexOf('_');
+            String message = resId;
+            if (underscoreIndex != -1)
+                message = resId.substring(0, underscoreIndex);
+            final byte[] bytesOfMessage = message.getBytes("UTF-8");
+            final byte[] hashBytes = md5.digest(bytesOfMessage);
+            BigInteger bigInt = new BigInteger(1,hashBytes);
+            return String.format("%032x", bigInt).substring(0, hashNbChars);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static Resource createRoot(Model m, String uri, String typeUri) {
         Resource rez = m.createResource(uri);
-        m.addLiteral(rez, m.createProperty(BDO+"isRoot"), true);
+        if (typeUri != null) rez.addProperty(RDF.type, m.createResource(typeUri));
+        rez.addLiteral(m.createProperty(BDO+"isRoot"), true);
         return rez;
     }
     
@@ -150,12 +218,52 @@ public class CommonMigration  {
     public static Resource getAdminData(Resource rez) {
         Model m = rez.getModel();
         Resource admR = m.createResource(BDA+rez.getLocalName());
-        m.add(admR, RDF.type, m.createResource(ADM + "AdminData"));
+        admR.addProperty(RDF.type, m.createResource(ADM+"AdminData"));
         m.add(admR, m.createProperty(ADM+"adminAbout"), rez);
         
         return admR;
     }
+    
+    public static Resource getRepoFor(String typeName) {
+        String repoUri = typeToRepo.get(typeName);
+        if (repoUri != null) {
+            return ResourceFactory.createResource(repoUri);
+        } else {
+            return null;
+        }
+    }
 
+    private static Resource getRezRepo(Resource rez) {
+        Statement typeStmt = rez.getProperty(RDF.type);
+        String typeName = typeStmt != null ? typeStmt.getObject().asResource().getLocalName(): null;
+        Resource repoR = null;
+        
+        if (typeName != null) {
+            repoR = getRepoFor(typeName);
+            if (repoR != null)
+                return repoR;
+        } else { // this case covers Product (may be others) which is both AdminData and Product
+            StmtIterator stmtItr = rez.listProperties(RDF.type);
+            if (stmtItr != null) {
+                while (stmtItr.hasNext()) {
+                    Statement stmt = stmtItr.next();
+                    String nm = stmt.getObject().asResource().getLocalName();
+                    if ("AdminData".equals(nm)) {
+                        continue;
+                    } else {
+                        repoR = getRepoFor(typeName);
+                        if (repoR != null) {
+                            return repoR;
+                        }
+                    }
+                        
+                }
+            }
+        }
+
+        return null;
+    }
+    
     /**
      * Returns a root AdminData resource for the root resource rez. If rez IS a BDA: resource this
      * method will return the same resource with an additional stmt declaring this resource to be 
@@ -165,12 +273,32 @@ public class CommonMigration  {
      * @return the root AdminData resource
      */
     public static Resource createAdminRoot(Resource rez) {
-        Resource admR = getAdminData(rez);
         Model m = rez.getModel();
-        m.addLiteral(admR, m.createProperty(BDO+"isRoot"), true);
+        Resource admR = getAdminData(rez);
+        Resource repoR = getRezRepo(rez);
+        
+        if (repoR != null) {
+            // add GitInfo
+            String gitInfoUri = BDA+mintId(admR, admR.getURI(), "GT");
+            Resource gitInfo = m.createResource(gitInfoUri);
+            admR.addProperty(m.createProperty(ADM+"gitInfo"), gitInfo);
+            // fill in GitInfo
+            gitInfo.addProperty(RDF.type, m.createResource(ADM+"GitInfo"));
+            gitInfo.addProperty(m.createProperty(ADM+"gitRepo"), repoR);
+            String rid = rez.getLocalName();
+            gitInfo.addProperty(m.createProperty(ADM+"gitPath"), getMd5(rid)+"/"+rid+".trig");
+        } else {
+            // probably called from TaxonomyMigration - 
+            // nothing to do since taxonomies aren't stored in their own repo
+        }
+
+        // TO BE REMOVED - not needed since presence of ?s adm:gitInfo ?o indicates that ?s is a root
+        // AdminData
+        admR.addLiteral(m.createProperty(BDO+"isRoot"), true);
+
         return admR;
     }
-    
+
     public static Resource getAdminRoot(Resource rez) {
         return getAdminRoot(rez, false);
     }
@@ -189,6 +317,12 @@ public class CommonMigration  {
         ResIterator resIt = m.listResourcesWithProperty(RDF.type, m.createResource(ADM+"AdminData"));
         while (resIt.hasNext()) {
             Resource admR = resIt.next();
+            Statement stmt = m.getProperty(admR, m.createProperty(ADM+"gitInfo"));
+            RDFNode node = stmt != null ? stmt.getObject() : null;
+            if (node != null) {
+                return admR;
+            }
+            // TO BE REMOVED
             if (m.containsLiteral(admR, m.createProperty(BDO+"isRoot"), true)) {
                 return admR;
             }
@@ -268,7 +402,18 @@ public class CommonMigration  {
     private static String  bytesToHex(byte[] hash) {
         return DatatypeConverter.printHexBinary(hash);
     }
-
+    
+    public static String mintId(Resource rootAdmRez, String seed, String prefix) {
+        try {
+        String data = seed+getFacetIndex(rootAdmRez);
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(data.getBytes("UTF-8"));
+        return prefix+bytesToHex(hash).substring(0, nbShaChars);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
     /**
      * Returns prefix + 8 character unique id based on a hash of the concatenation of the last three string arguments. 
      * This is itended to be used to generate ids for named nodes like Events, AgentAsCreator, WorkTitle
@@ -280,15 +425,16 @@ public class CommonMigration  {
      * @return id = facet prefix + 8 character hash substring
      */
     private static String generateId(FacetType facet, Resource rez, String user, Resource rootAdmRez) {
-        try {
-            String data = rez.getLocalName()+user+getFacetIndex(rootAdmRez);
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(data.getBytes("UTF-8"));
-            return facet.getPrefix()+bytesToHex(hash).substring(0, 12);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
+        return mintId(rootAdmRez, rez.getLocalName()+user, facet.getPrefix());
+//        try {
+//            String data = rez.getLocalName()+user+getFacetIndex(rootAdmRez);
+//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+//            byte[] hash = digest.digest(data.getBytes("UTF-8"));
+//            return facet.getPrefix()+bytesToHex(hash).substring(0, 12);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            return null;
+//        }
     }
     
     /**

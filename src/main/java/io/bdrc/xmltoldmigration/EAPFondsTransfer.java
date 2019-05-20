@@ -111,8 +111,7 @@ public class EAPFondsTransfer {
                 // Work model
                 Model workModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(workModel);
-                Resource work = CommonMigration.createRoot(workModel, BDR+"W"+serie);
-                work.addProperty(RDF.type, workModel.createResource(BDO+"PublishedWork"));
+                Resource work = CommonMigration.createRoot(workModel, BDR+"W"+serie, BDO+"PublishedWork");
                 Resource admWork = CommonMigration.createAdminRoot(work);
                 res.add(work);
 
@@ -136,8 +135,7 @@ public class EAPFondsTransfer {
                 // Item model
                 Model itemModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(itemModel);
-                Resource item = CommonMigration.createRoot(itemModel, BDR+"I"+serieID);
-                itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
+                Resource item = CommonMigration.createRoot(itemModel, BDR+"I"+serieID, BDO+"ItemImageAsset");
                 Resource admItem = CommonMigration.createAdminRoot(item);
                 res.add(item);
 

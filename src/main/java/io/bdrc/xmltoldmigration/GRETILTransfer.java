@@ -75,7 +75,7 @@ public class GRETILTransfer {
         // Work model
         final Model workModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(workModel);
-        Resource work = CommonMigration.createRoot(workModel, BDR+line[0]);
+        Resource work = CommonMigration.createRoot(workModel, BDR+line[0], BDO+"UnicodeWork");
         Resource admWork = CommonMigration.createAdminRoot(work);
 
         // Work AdminData
@@ -87,7 +87,6 @@ public class GRETILTransfer {
         }
         
         // titles
-        work.addProperty(RDF.type, workModel.createResource(BDO+"UnicodeWork"));
         work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
         work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
         Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");

@@ -148,7 +148,7 @@ public class CUDLTransfer {
         String rid=line[0];
         
         // Work model
-        Resource work = CommonMigration.createRoot(workModel, BDR+"W0CDL0"+rid);
+        Resource work = CommonMigration.createRoot(workModel, BDR+"W0CDL0"+rid, BDO+"Work");
         Resource admWork = CommonMigration.createAdminRoot(work);
         res.add(work);
 
@@ -161,7 +161,6 @@ public class CUDLTransfer {
         // bdo:Work
         workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));
         workModel.add(work,workModel.createProperty(BDO,"workBiblioNote"),workModel.createLiteral(line[2], "en"));
-        workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
         String mainTitle=line[6];
         String title=line[3];
         Literal lit=null;
@@ -216,7 +215,7 @@ public class CUDLTransfer {
         final Model itemModel = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(itemModel);
         final String itemRID = "I0CDL0"+rid;
-        Resource item = CommonMigration.createRoot(itemModel, BDR+itemRID);
+        Resource item = CommonMigration.createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
         Resource itemAdm = CommonMigration.createAdminRoot(item);
         res.add(item);
         
@@ -230,7 +229,6 @@ public class CUDLTransfer {
         itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_CUDL"));
                
         // bdo:ItemImageAsset
-        itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
         final String volumeRID = "V0CDL0"+rid;
         
         // Volume of Item

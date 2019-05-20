@@ -90,7 +90,7 @@ public class WorkMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String workId = root.getAttribute("RID");
-        Resource main = CommonMigration.createRoot(m, BDR + root.getAttribute("RID"));
+        Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Work");
         Resource admMain = CommonMigration.createAdminRoot(main);
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));        

@@ -33,9 +33,8 @@ public class LineageMigration {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "event", "missing lineage type");
         }
 		value = BDR+"Lineage"+value.substring(0, 1).toUpperCase() + value.substring(1);
-        Resource main = CommonMigration.createRoot(m, BDR + rid);
+        Resource main = CommonMigration.createRoot(m, BDR+rid, BDO+"Lineage");
         Resource admMain = CommonMigration.createAdminRoot(main);
-		m.add(main, RDF.type, m.createResource(BDO + "Lineage"));
 		m.add(main, m.getProperty(BDO, "lineageType"), m.createResource(value));
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));

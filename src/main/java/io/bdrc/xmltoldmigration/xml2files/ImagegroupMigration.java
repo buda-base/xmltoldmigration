@@ -32,9 +32,7 @@ public class ImagegroupMigration {
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m, "item");
-//        Resource item = m.createResource(BDR+"TestItem");
-        Resource item = CommonMigration.createRoot(m, BDR+"TestItem");
-        m.add(item, RDF.type, m.getResource(BDO+"ItemImageAsset"));
+        Resource item = CommonMigration.createRoot(m, BDR+"TestItem", BDO+"ItemImageAsset");
         MigrateImagegroup(xmlDocument, m, item, "testItem", 1, "testItem");
         return m;
 	}

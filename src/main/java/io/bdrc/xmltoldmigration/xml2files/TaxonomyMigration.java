@@ -30,7 +30,7 @@ public class TaxonomyMigration {
         curNodeInt.i = 0;
         
         String legacyOutlineRID = root.getAttribute("RID");
-        Resource mainTaxonomy = CommonMigration.createRoot(m, BDR+legacyOutlineRID);
+        Resource mainTaxonomy = CommonMigration.createRoot(m, BDR+legacyOutlineRID, null);
         Resource admTaxonomy = CommonMigration.createAdminRoot(mainTaxonomy);
 
         CommonMigration.addLog(m, root, admTaxonomy, OXSDNS);

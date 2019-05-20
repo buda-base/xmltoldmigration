@@ -40,9 +40,9 @@ public class PubinfoMigration {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "work", "missing work ID!");
                 return m;
             }
-            main = CommonMigration.createRoot(m, BDR+value);
+            
+            main = CommonMigration.createRoot(m, BDR+value, BDO+"Work");
         }
-        m.add(main, RDF.type, m.getResource(BDO+"Work"));
         MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>());
         return m;
 	}

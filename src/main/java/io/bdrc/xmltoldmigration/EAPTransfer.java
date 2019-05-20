@@ -131,9 +131,8 @@ public class EAPTransfer {
         CommonMigration.setPrefixes(workModel);
         final String baseRid = line[2].replace('/', '-');
         final String RID = 'W'+baseRid;
-        Resource work = CommonMigration.createRoot(workModel, BDR+RID);
+        Resource work = CommonMigration.createRoot(workModel, BDR+RID, BDO+"Work");
         res.add(work);
-        workModel.add(work, RDF.type, workModel.createResource(BDO+"Work"));
 
         // adm:AdminData
         Resource admWork = CommonMigration.createAdminRoot(work);
@@ -253,9 +252,8 @@ public class EAPTransfer {
         final String itemRID = 'I'+baseRid;
         
         // Item for Work
-        Resource item = CommonMigration.createRoot(itemModel, BDR+itemRID);
+        Resource item = CommonMigration.createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
         res.add(item);
-        itemModel.add(item, RDF.type, itemModel.createResource(BDO+"ItemImageAsset"));
 
         if (WorkMigration.addWorkHasItem) {
             workModel.add(work, workModel.createProperty(BDO, "workHasItem"), item);

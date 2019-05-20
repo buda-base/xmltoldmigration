@@ -11,6 +11,8 @@
 
 bda:IEAP676-1-10  a     adm:AdminData ;
     adm:adminAbout      bdr:IEAP676-1-10 ;
+    adm:facetIndex     "2"^^xsd:int ;
+    adm:gitInfo        bda:GTD8D1E9012AB0 ;
     :isRoot                true ;
     adm:contentLegal    bda:LD_EAP ;
     adm:metadataLegal   bda:LD_EAP ;
@@ -25,4 +27,9 @@ bdr:VEAP676-1-10  a     :VolumeImageAsset ;
     :hasIIIFManifest    <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> ;
     :volumeNumber       1 ;
     :volumeOf           bdr:IEAP676-1-10 ;
+.
+
+bda:GTD8D1E9012AB0  a  adm:GitInfo ;
+        adm:gitPath  "79/IEAP676-1-10.trig" ;
+        adm:gitRepo  bda:GR0003 ;
 .

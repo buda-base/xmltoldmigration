@@ -18,7 +18,8 @@ bdr:W30020  a            :Work ;
 
 bda:W30020  a                       adm:AdminData , adm:Outline ;
         adm:adminAbout              bdr:W30020 ;
-        adm:facetIndex              "19"^^xsd:int ;
+        adm:facetIndex              "20"^^xsd:int ;
+        adm:gitInfo                 bda:GTFB484180E5EB ;
         adm:logEntry                [ adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
                                       adm:logWho   bdr:U00003
                                     ] ;
@@ -62,7 +63,7 @@ bdr:W30020_0002  a             :Work ;
         :workPartIndex         1 ;
         :workPartOf            bdr:W30020_0001 ;
         :workPartTreeIndex     "1.1" ;
-        :workTitle             bdr:TT6730AA7411B4 ;
+        :workTitle             bdr:TT6ED4884B3608 ;
         skos:prefLabel         "gleng gzhi/"@bo-x-ewts .
 
 bdr:W30020_0003  a             :Work ;
@@ -80,7 +81,7 @@ bdr:W30020_0003  a             :Work ;
 
 bdr:W30020_0004  a             :Work ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" ;
-        :note                  bdr:NTD28881EA8726 ;
+        :note                  bdr:NTECE6665C91D3 ;
         :workIncipit           "gleng gzhi/"@bo-x-ewts ;
         :workLocation          [ :workLocationEndPage  18 ;
                                  :workLocationPage     11 ;
@@ -90,13 +91,13 @@ bdr:W30020_0004  a             :Work ;
         :workPartIndex         1 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.01" ;
-        :workTitle             bdr:TTECE6665C91D3 ;
+        :workTitle             bdr:TTD9F4FF708A3F ;
         skos:prefLabel         "testsec/"@bo-x-ewts .
 
 bdr:W30020_0005  a             :Work ;
-        :creator               bdr:CR3A89CDB987F6 , bdr:CRC87C90CE4A1C , bdr:CRE632101F22F8 ;
+        :creator               bdr:CR3A89CDB987F6 , bdr:CRE818D1983D82 , bdr:CRE632101F22F8 ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87600" ;
-        :note                  bdr:NT26FEB2B9C994 ;
+        :note                  bdr:NTC93F7BAE712F ;
         :workLocation          [ :workLocationEndPage  25 ;
                                  :workLocationPage     17 ;
                                  :workLocationVolume   2 ;
@@ -105,7 +106,7 @@ bdr:W30020_0005  a             :Work ;
         :workPartIndex         2 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.02" ;
-        :workTitle             bdr:TTC93F7BAE712F ;
+        :workTitle             bdr:TTC87C90CE4A1C ;
         skos:prefLabel         "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
 
 bdr:W30020_0006  a             :Work ;
@@ -113,7 +114,7 @@ bdr:W30020_0006  a             :Work ;
         :workPartIndex         3 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.03" ;
-        :workTitle             bdr:TT585B22932F9C ;
+        :workTitle             bdr:TT4DC677323C78 ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0007  a             :Work ;
@@ -121,7 +122,7 @@ bdr:W30020_0007  a             :Work ;
         :workPartIndex         4 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.04" ;
-        :workTitle             bdr:TTF08320AE8B4C ;
+        :workTitle             bdr:TTC8EDAF253075 ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0008  a             :Work ;
@@ -129,7 +130,7 @@ bdr:W30020_0008  a             :Work ;
         :workPartIndex         5 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.05" ;
-        :workTitle             bdr:TTA769BF0949AF ;
+        :workTitle             bdr:TT113A6377103C ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0009  a             :Work ;
@@ -137,7 +138,7 @@ bdr:W30020_0009  a             :Work ;
         :workPartIndex         6 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.06" ;
-        :workTitle             bdr:TT7638F20AE2C1 ;
+        :workTitle             bdr:TT54010D886EE4 ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0010  a             :Work ;
@@ -145,7 +146,7 @@ bdr:W30020_0010  a             :Work ;
         :workPartIndex         7 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.07" ;
-        :workTitle             bdr:TT51897DBD13A9 ;
+        :workTitle             bdr:TTBB4D464B4D58 ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0011  a             :Work ;
@@ -153,7 +154,7 @@ bdr:W30020_0011  a             :Work ;
         :workPartIndex         8 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.08" ;
-        :workTitle             bdr:TT022054C39F40 ;
+        :workTitle             bdr:TTFC372C513CD3 ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0012  a             :Work ;
@@ -161,7 +162,7 @@ bdr:W30020_0012  a             :Work ;
         :workPartIndex         9 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.09" ;
-        :workTitle             bdr:TT86A2079C2945 ;
+        :workTitle             bdr:TT18C4D143CE9C ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0013  a             :Work ;
@@ -169,7 +170,7 @@ bdr:W30020_0013  a             :Work ;
         :workPartIndex         10 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.10" ;
-        :workTitle             bdr:TT0DA50593914D ;
+        :workTitle             bdr:TT4036E87CCC83 ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0014  a             :Work ;
@@ -177,7 +178,7 @@ bdr:W30020_0014  a             :Work ;
         :workPartIndex         11 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.11" ;
-        :workTitle             bdr:TTCC8C641A208F ;
+        :workTitle             bdr:TT262865DF3E16 ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
 bdr:W30020_0015  a             :Work ;
@@ -185,62 +186,66 @@ bdr:W30020_0015  a             :Work ;
         :workPartIndex         12 ;
         :workPartOf            bdr:W30020_0003 ;
         :workPartTreeIndex     "2.12" ;
-        :workTitle             bdr:TTBE325FD19CAB ;
+        :workTitle             bdr:TT63AB27FEFD32 ;
         skos:prefLabel         "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TTBE325FD19CAB  a  :WorkBibliographicalTitle ;
+bda:GTFB484180E5EB  a  adm:GitInfo ;
+        adm:gitPath  "1b/W30020.trig" ;
+        adm:gitRepo  bda:GR0008 .
+
+bdr:TT63AB27FEFD32  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TT51897DBD13A9  a  :WorkBibliographicalTitle ;
+bdr:TTBB4D464B4D58  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TT86A2079C2945  a  :WorkBibliographicalTitle ;
+bdr:TT18C4D143CE9C  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TT022054C39F40  a  :WorkBibliographicalTitle ;
+bdr:TTFC372C513CD3  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TT585B22932F9C  a  :WorkBibliographicalTitle ;
+bdr:TT4DC677323C78  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TTC93F7BAE712F  a  :WorkBibliographicalTitle ;
+bdr:TTC87C90CE4A1C  a  :WorkBibliographicalTitle ;
         rdfs:label  "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
 
-bdr:TT6730AA7411B4  a  :WorkBibliographicalTitle ;
+bdr:TT6ED4884B3608  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi/"@bo-x-ewts .
 
-bdr:TTF08320AE8B4C  a  :WorkBibliographicalTitle ;
+bdr:TTC8EDAF253075  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TTCC8C641A208F  a  :WorkBibliographicalTitle ;
+bdr:TT262865DF3E16  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TT0DA50593914D  a  :WorkBibliographicalTitle ;
+bdr:TT4036E87CCC83  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TTA769BF0949AF  a  :WorkBibliographicalTitle ;
+bdr:TT113A6377103C  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TT7638F20AE2C1  a  :WorkBibliographicalTitle ;
+bdr:TT54010D886EE4  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
-bdr:TTECE6665C91D3  a  :WorkRunningTitle ;
+bdr:TTD9F4FF708A3F  a  :WorkRunningTitle ;
         rdfs:label  "testsec/"@bo-x-ewts .
 
-bdr:CR3A89CDB987F6  a  :AgentAsCreator ;
+bdr:CRE632101F22F8  a  :AgentAsCreator ;
         :agent  bdr:P20 ;
         :role   bdr:R0ER0026 .
 
-bdr:CRE632101F22F8  a  :AgentAsCreator ;
+bdr:CRE818D1983D82  a  :AgentAsCreator ;
         :agent  bdr:P21 ;
         :role   bdr:R0ER0023 .
 
-bdr:CRC87C90CE4A1C  a  :AgentAsCreator ;
+bdr:CR3A89CDB987F6  a  :AgentAsCreator ;
         :agent  bdr:P00KG07267 ;
         :role   bdr:R0ER0018 .
 
-bdr:NTD28881EA8726  a  :Note ;
+bdr:NTECE6665C91D3  a  :Note ;
         :noteText  "p. 1 (1st group)" .
 
-bdr:NT26FEB2B9C994  a  :Note ;
+bdr:NTC93F7BAE712F  a  :Note ;
         :noteText  "p. 1 (1st group)" .

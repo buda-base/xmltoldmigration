@@ -30,8 +30,9 @@ public class ProductMigration {
 		CommonMigration.setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource admMain = CommonMigration.createAdminRoot(m.createResource(BDA+root.getAttribute("RID")));
-		m.add(admMain, RDF.type, m.createResource(ADM + "Product"));
+		Resource main = m.createResource(BDA+root.getAttribute("RID"));
+        m.add(main, RDF.type, m.createResource(ADM + "Product"));
+        Resource admMain = CommonMigration.createAdminRoot(main);
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		

@@ -1,5 +1,10 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -21,11 +26,10 @@ public class CorporationMigration {
 		CommonMigration.setPrefixes(m, "corporation");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = CommonMigration.createRoot(m, CommonMigration.BDR + root.getAttribute("RID"));
+        Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Corporation");
         Resource admMain = CommonMigration.createAdminRoot(main);
-		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Corporation"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
-		admMain.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
 		
 		CommonMigration.addNames(m, root, main, CXSDNS);
 		
@@ -46,16 +50,16 @@ public class CorporationMigration {
 			Resource member = m.createResource();
 			value = current.getAttribute("person");
 			if (value.isEmpty()) continue;
-			Resource person = m.createResource(CommonMigration.BDR + value);
+			Resource person = m.createResource(BDR + value);
 			value = current.getAttribute("type").trim();
 			if (value.isEmpty()) {
 				value = "notSpecified";
 			}
 			value = CommonMigration.normalizePropName(value, null);
-			value = CommonMigration.BDO+"CorporationMember"+value.substring(0, 1).toUpperCase() + value.substring(1);
-			Property prop = m.getProperty(CommonMigration.BDO, "corporationHasMember");
+			value = BDO+"CorporationMember"+value.substring(0, 1).toUpperCase() + value.substring(1);
+			Property prop = m.getProperty(BDO, "corporationHasMember");
 			m.add(main, prop, member);
-			m.add(member, m.getProperty(CommonMigration.BDO, "corporationMember"), person);
+			m.add(member, m.getProperty(BDO, "corporationMember"), person);
 			m.add(member, RDF.type, m.createResource(value));
 		}
 		
@@ -66,8 +70,8 @@ public class CorporationMigration {
 			current = (Element) nodeList.item(i);
 			value = current.getAttribute("place");
 			if (!value.isEmpty()) {
-				Resource place = m.createResource(CommonMigration.BDR + value);
-				Property prop = m.getProperty(CommonMigration.BDO+"corporationRegion");
+				Resource place = m.createResource(BDR + value);
+				Property prop = m.getProperty(BDO+"corporationRegion");
 				m.add(main, prop, place);
 			}
 		}

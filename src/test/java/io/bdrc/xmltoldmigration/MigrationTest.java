@@ -332,7 +332,7 @@ public class MigrationTest
        }
 	   
        @Test
-       public void testOffice()
+       public void testOffice() throws IOException
        {
            System.out.println("testing office");
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/OfficeTest.xml");  
@@ -341,13 +341,18 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "office");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OfficeTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "office", MigrationHelpers.OUTPUT_STTL);
+           
+           // ==== TEMP DEBUG ====
+           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOffice-fromXml.ttl"), "TTL");
+           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testOffice-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
 //       
        @Test
-       public void testTopic()
+       public void testTopic() throws IOException
        {
            System.out.println("testing topic");
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/TopicTest.xml");  
@@ -356,6 +361,11 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "topic");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/TopicTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", MigrationHelpers.OUTPUT_STTL, null);
+         
+         // ==== TEMP DEBUG ====
+         fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testTopic-fromXml.ttl"), "TTL");
+         correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testTopic-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

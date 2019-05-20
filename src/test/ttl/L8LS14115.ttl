@@ -19,7 +19,7 @@ bdr:L8LS14115  a        :Lineage ;
                                               ] ;
                           :lineageWho         bdr:P1018 ;
                           :lineageWork        bdr:WTest ;
-                          :note               bdr:NTF1C37311042B ;
+                          :note               bdr:NT8FD3F08E4D4E ;
                         ] ,
             [ a                   :LineageHolder ;
               :lineageReceived    [ :lineageFrom        bdr:P1132 ;
@@ -42,7 +42,8 @@ bdr:L8LS14115  a        :Lineage ;
 bda:L8LS14115  a       adm:AdminData ;
     adm:adminAbout     bdr:L8LS14115 ;
     :isRoot            true ;
-    adm:facetIndex     "2"^^xsd:int ;
+    adm:facetIndex     "3"^^xsd:int ;
+    adm:gitInfo        bda:GT80ED30291973 ;
     adm:metadataLegal  bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
                           adm:logWho          bdr:U00019
@@ -69,6 +70,10 @@ bda:L8LS14115  a       adm:AdminData ;
     adm:status          bda:StatusReleased ;
 .
 
-bdr:NTF1C37311042B  a  :Note ;
+bda:GT80ED30291973  a  adm:GitInfo ;
+        adm:gitPath  "86/L8LS14115.trig" ;
+        adm:gitRepo  bda:GR0004 .
+
+bdr:NT8FD3F08E4D4E  a  :Note ;
         :noteText  "test description" ;
 .

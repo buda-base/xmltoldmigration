@@ -266,14 +266,13 @@ public class MigrationApp
                 }
                 itemModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(itemModel);
-                item = CommonMigration.createRoot(m, BDR+itemName);
+                item = CommonMigration.createRoot(m, BDR+itemName, BDO+"ItemImageAsset");
                 
                 admItem = CommonMigration.createAdminRoot(item);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                 admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
                 moveAdminInfo(itemModel, workR, admItem);
 
-                itemModel.add(item, RDF.type, itemModel.createResource(BDO + "ItemImageAsset"));
                 itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
                 if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                     item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);

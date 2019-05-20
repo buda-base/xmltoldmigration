@@ -13,6 +13,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
@@ -66,18 +67,34 @@ public class PersonMigration {
 	           return "";
 	    }
 	}
-	
-	private static Resource createFromType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
-	    Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
-	    Resource r = m.createResource();
-	    r.addProperty(RDF.type, typeIndividual);
-	    main.addProperty(p, r);
-	    return r;
-	}
-	
-	private static Resource getResourceForType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
-	    return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(typeNodes, m, main, p, type, t));
-	}
+    
+    private static Resource createFromType(Model m, Resource main, Property p, String type, String subtype) {
+        Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
+        Resource r = m.createResource();
+        r.addProperty(RDF.type, typeIndividual);
+        main.addProperty(p, r);
+        return r;
+    }
+
+// TO REMOVE
+    private static Resource createFromType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
+        Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
+        Resource r = m.createResource();
+        r.addProperty(RDF.type, typeIndividual);
+        main.addProperty(p, r);
+        return r;
+    }
+    
+    private static Resource getResourceForType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
+        return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(typeNodes, m, main, p, type, t));
+    }
+// TO REMOVE
+    
+// TO REPLACE THE ABOVE
+//    private static Resource getResourceForType(Model m, Resource main, Property p, String type, String subtype) {
+//        Resource foo = ResourceFactory.createResource(uriref)
+//        return createFromType(m, main, p, type, subtype);
+//    }
 	
 	public static Model MigratePerson(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
@@ -85,13 +102,13 @@ public class PersonMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String RID = root.getAttribute("RID");
-        Resource main = CommonMigration.createRoot(m, BDR + RID);
+        Resource main = CommonMigration.createRoot(m, BDR+RID, BDO+"Person");
         Resource admMain = CommonMigration.createAdminRoot(main);
-		m.add(main, RDF.type, m.createResource(BDO + "Person"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
 		int gender = SymetricNormalization.GENDER_U;
-		
+
+// TO REMOVE
 		Map<String,Resource> typeNodes = new HashMap<>();
 		
 		// names
@@ -103,18 +120,21 @@ public class PersonMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			if (current.getTextContent().trim().isEmpty()) continue;
-			String type = current.getAttribute("type").trim();
-			if (type.isEmpty())
-			    type = "primaryName";
-			Resource rez = getResourceForType(typeNodes, m, main, prop, "name", type);
-			Literal lit = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, type, RID, null);
+			String subtype = current.getAttribute("type").trim();
+			if (subtype.isEmpty())
+			    subtype = "primaryName";
+// TO REMOVE
+            Resource rez = getResourceForType(typeNodes, m, main, prop, "name", subtype);
+// TO REPLACE ABOVE
+//            Resource rez = getResourceForType(m, main, prop, "name", subtype);
+			Literal lit = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, subtype, RID, null);
 			if (lit == null) continue;
 			rez.addProperty(RDFS.label, lit);
 			String lang = lit.getLanguage().substring(0, 2);
-			if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
+			if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(subtype))) {
 			    main.addProperty(SKOS.prefLabel, lit);
 			    labelDoneForLang.put(lang, true);
-			    typeUsedForLabel = type;
+			    typeUsedForLabel = subtype;
 			}
 		}
 		

@@ -16,6 +16,8 @@ bdr:R8LS12811  a    :Role ;
 .
 bda:R8LS12811  a    adm:AdminData ;
     adm:adminAbout  bdr:R8LS12811 ;
+    adm:facetIndex     "2"^^xsd:int ;
+    adm:gitInfo        bda:GT09D0297884B2 ;
     :isRoot                true ;
     adm:metadataLegal  bda:LD_BDRC_Open ;
     adm:status      bda:StatusReleased ;
@@ -28,3 +30,7 @@ bda:R8LS12811  a    adm:AdminData ;
               adm:logWho      bdr:U00020
             ] ;
 .
+
+bda:GT09D0297884B2  a  adm:GitInfo ;
+        adm:gitPath  "ff/R8LS12811.trig" ;
+        adm:gitRepo  bda:GR0010 .

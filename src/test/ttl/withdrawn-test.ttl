@@ -13,6 +13,8 @@ bdr:R8LS12811  a        :Role ;
 
 bda:R8LS12811  a       adm:AdminData ;
     adm:adminAbout     bdr:R8LS12811 ;
+    adm:facetIndex     "2"^^xsd:int ;
+    adm:gitInfo        bda:GT09D0297884B2 ;
     adm:logEntry       [ adm:logDate     "2014-07-11T12:26:57.845Z"^^xsd:dateTime ;
                          adm:logMessage  "withdrawn in favour of  r1gs23; deleted data and moved to P2597"@en ;
                          adm:logWho      bdr:U00020
@@ -26,3 +28,7 @@ bda:R8LS12811  a       adm:AdminData ;
     adm:status         bda:StatusWithdrawn ;
     :isRoot            true ;
 .
+
+bda:GT09D0297884B2  a  adm:GitInfo ;
+        adm:gitPath  "ff/R8LS12811.trig" ;
+        adm:gitRepo  bda:GR0010 .

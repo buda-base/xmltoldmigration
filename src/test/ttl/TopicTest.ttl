@@ -17,6 +17,8 @@ bdr:T3CN2023  a         :Topic ;
 .
 bda:T3CN2023  a         adm:AdminData ;
     adm:adminAbout      bdr:T3CN2023 ;
+    adm:facetIndex      "2"^^xsd:int ;
+    adm:gitInfo         bda:GTA60A2A28DC34 ;
     :isRoot                true ;
     adm:metadataLegal  bda:LD_BDRC_Open ;
     adm:logEntry        [ adm:logDate         "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
@@ -40,3 +42,7 @@ bda:T3CN2023  a         adm:AdminData ;
             ] ;
     adm:status          bda:StatusReleased ;
 .
+
+bda:GTA60A2A28DC34  a  adm:GitInfo ;
+        adm:gitPath  "1b/T3CN2023.trig" ;
+        adm:gitRepo  bda:GR0007 .

@@ -12,7 +12,8 @@
 bda:W0CDL0MS-ADD-01691-00003
         a                       adm:AdminData ;
         adm:adminAbout          bdr:W0CDL0MS-ADD-01691-00003 ;
-        adm:facetIndex          "2"^^xsd:int ;
+        adm:facetIndex          "3"^^xsd:int ;
+        adm:gitInfo             bda:GTF3F924E32BBA ;
         adm:metadataLegal       bda:LD_CUDL ;
         adm:status              bda:StatusReleased ;
         adm:originalRecord      "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
@@ -25,10 +26,14 @@ bdr:W0CDL0MS-ADD-01691-00003 a  :Work ;
         :workDimHeight          3.5 ;
         :workDimWidth           27.5 ;
         :workHasItem            bdr:I0CDL0MS-ADD-01691-00003 ;
-        :workMaterial           bdr:MaterialPalmLeaf ;
-        :workTitle              bdr:TT3D5436600134 ;
+        :workMaterial           bdr:MaterialPalmyraPalmLeaf ;
+        :workTitle              bdr:TTF89C4D245695 ;
         skos:prefLabel          "Abhiṣekavidhi"@sa-x-iast ;
 .
-
-bdr:TT3D5436600134  a  :WorkBibliographicalTitle ;
-        rdfs:label  "Abhiṣekavidhi"@sa-x-iast .
+bda:GTF3F924E32BBA  a  adm:GitInfo ;
+        adm:gitPath  "6f/W0CDL0MS-ADD-01691-00003.trig" ;
+        adm:gitRepo  bda:GR0008 ;
+.
+bdr:TTF89C4D245695  a  :WorkBibliographicalTitle ;
+        rdfs:label  "Abhiṣekavidhi"@sa-x-iast ;
+.

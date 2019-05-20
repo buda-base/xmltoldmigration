@@ -19,7 +19,13 @@ bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
 .
 bda:I1CZ2485_E001   a   adm:AdminData ;
     adm:adminAbout      bdr:I1CZ2485_E001 ;
+    adm:facetIndex      "2"^^xsd:int ;
+    adm:gitInfo         bda:GTD36BE819C985 ;
     :isRoot             true ;
     adm:metadataLegal   bda:LD_BDRC_Open ;
     adm:contentProvider  bda:CP001 ;
     adm:status          bda:StatusReleased .
+
+bda:GTD36BE819C985  a  adm:GitInfo ;
+        adm:gitPath  "e9/I1CZ2485_E001.trig" ;
+        adm:gitRepo  bda:GR0003 .

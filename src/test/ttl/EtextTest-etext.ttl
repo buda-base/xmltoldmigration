@@ -114,6 +114,13 @@ bdr:UT1CZ2485_001_0000
 .
 bda:UT1CZ2485_001_0000 a adm:AdminData ;
     adm:adminAbout       bdr:UT1CZ2485_001_0000 ;
+    adm:facetIndex       "2"^^xsd:int ;
+    adm:gitInfo          bda:GTB64C9FC43C2A ;
     :isRoot              true ;
     adm:status           bda:StatusReleased ;
 .
+
+bda:GTB64C9FC43C2A  a  adm:GitInfo ;
+        adm:gitPath  "cd/UT1CZ2485_001_0000.trig" ;
+        adm:gitRepo  bda:GR0002 .
+

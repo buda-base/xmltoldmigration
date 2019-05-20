@@ -1,5 +1,10 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -19,11 +24,10 @@ public class TopicMigration {
 		CommonMigration.setPrefixes(m, "topic");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = CommonMigration.createRoot(m, CommonMigration.BDR + root.getAttribute("RID"));
+        Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Topic");
         Resource admMain = CommonMigration.createAdminRoot(main);
-		m.add(main, RDF.type, m.createResource(CommonMigration.BDO + "Topic"));
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
-		admMain.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
 
 		CommonMigration.addNames(m, root, main, TXSDNS);
 
@@ -39,7 +43,7 @@ public class TopicMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
             String value = current.getAttribute("rid").trim();
-            m.add(main, m.getProperty(RDFS.getURI(), "seeAlso"), m.createProperty(CommonMigration.BDR+value));
+            m.add(main, m.getProperty(RDFS.getURI(), "seeAlso"), m.createProperty(BDR+value));
         }
 		
 		return m;
