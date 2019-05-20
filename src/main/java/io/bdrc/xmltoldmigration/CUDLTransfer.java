@@ -40,7 +40,6 @@ public class CUDLTransfer {
 
     public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
     public static final HashMap<String,String> scripts = getScripts();
-    public static final HashMap<String,String> materials = getMaterials();
     public static final String ORIG_URL_BASE = "https://cudl.lib.cam.ac.uk/view/";
 
     public static void CUDLDoTransfer() throws IOException {
@@ -68,15 +67,29 @@ public class CUDLTransfer {
         return res;
     }
 
-    public static final HashMap<String,String> getMaterials() {
-
+    public static final void addMaterial(final Resource r, final String matStr) {
+        final Model m = r.getModel();
         final HashMap<String,String> res = new HashMap<>();
-        res.put("palm_leaf","MaterialPalmLeaf");
+        res.put("palm_leaf","MaterialPalmyraPalmLeaf");
         res.put("paper","MaterialPaper");
-        res.put("nep_multi_layered_paper","MaterialMultiLayerPaper");
         res.put("corypha_palm_leaf","MaterialCoryphaPalmLeaf");
         res.put("mixed","MaterialMixed");
-        return res;
+        switch(matStr) {
+        case "palm_leaf":
+        case "paper":
+        case "corypha_palm_leaf":
+        case "mixed":
+            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+res.get(matStr)));
+            break;
+        case "nep_multi_layered_paper":
+            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"MaterialPaper"));
+            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"AppliedMaterial_Poison"));
+            break;
+        case "black_paper":
+            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"MaterialPaper"));
+            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"AppliedMaterial_IndigoDye"));
+            break;
+        }
     }
 
     public static final Map<String,String> getrKTsRIDMap() {
@@ -180,8 +193,7 @@ public class CUDLTransfer {
         if(!line[5].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.BDR+line[5]));
         }
-                
-        workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+materials.get(line[9])));
+        addMaterial(work, line[9]);
         if(!line[14].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
         }
