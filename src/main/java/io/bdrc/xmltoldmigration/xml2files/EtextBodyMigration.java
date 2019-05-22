@@ -51,9 +51,8 @@ public class EtextBodyMigration {
     
     public static final boolean LOC_START = true;
     public static final boolean LOC_END = false;
-    public static void addChunkLocation(Model m, Resource r, int chunkNum, int charNum, boolean start) {
+    public static void addChunkLocation(Model m, Resource r, int charNum, boolean start) {
         final String startEndString = (start ? "Start" : "End");
-        r.addProperty(m.getProperty(BDO, "slice"+startEndString+"Chunk"), m.createTypedLiteral(chunkNum, XSDDatatype.XSDinteger));
         r.addProperty(m.getProperty(BDO, "slice"+startEndString+"Char"), m.createTypedLiteral(charNum, XSDDatatype.XSDinteger));
     }
     
@@ -80,8 +79,9 @@ public class EtextBodyMigration {
         boolean first = true;
         for (int i = 0; i < pars.getLength(); i++) {
             final Element par = (Element) pars.item(i);
-            if (!par.hasChildNodes())
+            if (!par.hasChildNodes()) {
                 continue;
+            }
             Resource pageR = null;
             if (keepPages) {
                 pageR = m.createResource();
@@ -136,12 +136,12 @@ public class EtextBodyMigration {
                     Resource lineR = m.createResource();
                     pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
                     lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
-                    if (oneLongString) {
-                        addChunkLocation(m, lineR, 1, currentTotalPoints+1, LOC_START);
-                        addChunkLocation(m, lineR, 1, currentTotalPoints+strLen, LOC_END);
-                    } else {
+                    //if (oneLongString) {
+                    //    addChunkLocation(m, lineR, 1, currentTotalPoints+1, LOC_START);
+                    //    addChunkLocation(m, lineR, 1, currentTotalPoints+strLen, LOC_END);
+                    //} else {
                         resourcesCoords.put(lineR, new int[] {currentTotalPoints+1, currentTotalPoints+strLen});
-                    }
+                    //}
                 }
                 currentTotalPoints += strLen;
                 
@@ -154,10 +154,11 @@ public class EtextBodyMigration {
               first = false;
            }
            final int pageEndPointIndex = currentTotalPoints;
-           if (oneLongString && keepPages) {
-               addChunkLocation(m, pageR, 1, pageBeginPointIndex, true);
-               addChunkLocation(m, pageR, 1, pageEndPointIndex, false);
-           } else if (keepPages) {
+           //if (oneLongString && keepPages) {
+           //    addChunkLocation(m, pageR, 1, pageBeginPointIndex, true);
+           //    addChunkLocation(m, pageR, 1, pageEndPointIndex, false);
+           //} else 
+           if (keepPages) {
                resourcesCoords.put(pageR, new int[] {pageBeginPointIndex, pageEndPointIndex});
            }
         }
@@ -166,26 +167,6 @@ public class EtextBodyMigration {
         // at that point the processing is done if we're in one long string mode
         if (!oneLongString)
             chunkString(totalStr.toString(), resourcesCoords, ps, m, eTextId, currentTotalPoints);
-    }
-    
-    public static int[] translatePoint(final List<Integer> pointBreaks, final int pointIndex, final boolean isStart) {
-        // pointIndex depends on the context, 
-        // if it's about the starting point (isStart == true):
-        //     it's the index of the starting char: ab|cd -> pointIndex 2 for the beginning of the second segment (cd)
-        // else 
-        //     it's the index after the end char: ab|cd -> pointIndex 2 for the end of the first segment (ab)
-        int curLine = 1;
-        int toSubstract = 0;
-        for (final int pointBreak : pointBreaks) {
-            // pointBreak is the index of the char after which the break occurs, for instance
-            // a|bc|d will have pointBreaks of 1 and 3
-            if (pointBreak >= pointIndex) {
-                break;
-            }
-            toSubstract = pointBreak;
-            curLine += 1;
-        }
-        return new int[] {curLine, pointIndex-toSubstract};
     }
     
     public static void chunkString(final String totalStr, final Map<Resource,int[]> resourcesCoords, final PrintStream out, final Model m, final String eTextId, final int totalPoints) {
@@ -204,10 +185,8 @@ public class EtextBodyMigration {
         }
         for (final Entry<Resource,int[]> e : resourcesCoords.entrySet()) {
             final int[] oldSet = e.getValue();
-            final int[] start = translatePoint(pointBreaks, oldSet[0], LOC_START);
-            final int[] end = translatePoint(pointBreaks, oldSet[1], LOC_END);
-            addChunkLocation(m, e.getKey(), start[0], start[1], LOC_START);
-            addChunkLocation(m, e.getKey(), end[0], end[1], LOC_END);
+            e.getKey().addProperty(m.getProperty(BDO, "sliceStartChar"), m.createTypedLiteral(oldSet[0], XSDDatatype.XSDinteger));
+            e.getKey().addProperty(m.getProperty(BDO, "sliceEndChar"), m.createTypedLiteral(oldSet[1], XSDDatatype.XSDinteger));
         }
     }
 

@@ -493,16 +493,6 @@ public class MigrationTest
         assertEquals(expected, imageNums);
 	}
 	
-	@Test
-	public void testEtextIndexTranslation() {
-	    List<Integer> breaks = Arrays.asList(2);
-	    assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 2, true), new int[] {1,2}));
-        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 2, false), new int[] {1,2}));
-        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 3, true), new int[] {2,1}));
-        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 3, false), new int[] {2,1}));
-        assertTrue(Arrays.equals(EtextBodyMigration.translatePoint(breaks, 4, false), new int[] {2,2}));
-	}
-	
     @Test
     public void testEtext() throws XPathExpressionException, IOException
     {
@@ -523,10 +513,11 @@ public class MigrationTest
         String correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content.txt")));
         
         // ==== TEMP DEBUG ====
-        ei.etextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-ei.etextModel.ttl"), "TTL");
-        correctEtextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctEtextModel.ttl"), "TTL");
-        itemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-itemModel.ttl"), "TTL");
-        correctItemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctItemModel.ttl"), "TTL");
+        //ei.etextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-ei.etextModel.ttl"), "TTL");
+        //correctEtextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctEtextModel.ttl"), "TTL");
+        //itemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-itemModel.ttl"), "TTL");
+        //correctItemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctItemModel.ttl"), "TTL");
+        ei.etextModel.write(System.out, "TTL");
 
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctItemModel) );
