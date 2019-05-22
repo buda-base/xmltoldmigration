@@ -66,6 +66,8 @@ public class CommonMigration  {
     public static final String BDG = "http://purl.bdrc.io/graph/";
 	public static final String BDR = "http://purl.bdrc.io/resource/";
 	
+	public static final String USER = "MigrationApp";
+	
 	public static final String FPL_LIBRARY_ID = "G1TLMFPL000001";
 	
 	public static final String EWTS_TAG = "bo-x-ewts";

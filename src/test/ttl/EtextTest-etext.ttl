@@ -12,35 +12,39 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bda:GTB64C9FC43C2A  a  adm:GitInfo ;
+        adm:gitPath  "cd/UT1CZ2485_001_0000.trig" ;
+        adm:gitRepo  bda:GR0002 .
+
 bdr:UT1CZ2485_001_0000
         a                 :EtextPaginated ;
-        :eTextHasPage     [ :pageHasLine     [ :seqNum          7 ;
-                                               :sliceEndChar    3224 ;
-                                               :sliceStartChar  3001
+        :eTextHasPage     [ :pageHasLine     [ :seqNum          6 ;
+                                               :sliceEndChar    3000 ;
+                                               :sliceStartChar  2756
                                              ] ;
-                            :pageHasLine     [ :seqNum          3 ;
-                                               :sliceEndChar    2333 ;
-                                               :sliceStartChar  2118
+                            :pageHasLine     [ :seqNum          7 ;
+                                               :sliceEndChar    3224 ;
+                                               :sliceStartChar  3000
                                              ] ;
                             :pageHasLine     [ :seqNum          1 ;
                                                :sliceEndChar    1900 ;
-                                               :sliceStartChar  1688
+                                               :sliceStartChar  1687
+                                             ] ;
+                            :pageHasLine     [ :seqNum          3 ;
+                                               :sliceEndChar    2333 ;
+                                               :sliceStartChar  2117
                                              ] ;
                             :pageHasLine     [ :seqNum          2 ;
                                                :sliceEndChar    2117 ;
-                                               :sliceStartChar  1901
-                                             ] ;
-                            :pageHasLine     [ :seqNum          5 ;
-                                               :sliceEndChar    2756 ;
-                                               :sliceStartChar  2549
-                                             ] ;
-                            :pageHasLine     [ :seqNum          6 ;
-                                               :sliceEndChar    3000 ;
-                                               :sliceStartChar  2757
+                                               :sliceStartChar  1900
                                              ] ;
                             :pageHasLine     [ :seqNum          4 ;
                                                :sliceEndChar    2548 ;
-                                               :sliceStartChar  2334
+                                               :sliceStartChar  2333
+                                             ] ;
+                            :pageHasLine     [ :seqNum          5 ;
+                                               :sliceEndChar    2756 ;
+                                               :sliceStartChar  2548
                                              ] ;
                             :seqNum          6 ;
                             :sliceEndChar    3224 ;
@@ -48,27 +52,27 @@ bdr:UT1CZ2485_001_0000
                           ] ;
         :eTextHasPage     [ :pageHasLine     [ :seqNum          6 ;
                                                :sliceEndChar    1687 ;
-                                               :sliceStartChar  1491
+                                               :sliceStartChar  1490
                                              ] ;
                             :pageHasLine     [ :seqNum          5 ;
                                                :sliceEndChar    1490 ;
-                                               :sliceStartChar  1307
+                                               :sliceStartChar  1306
                                              ] ;
                             :pageHasLine     [ :seqNum          4 ;
                                                :sliceEndChar    1306 ;
-                                               :sliceStartChar  1100
+                                               :sliceStartChar  1099
                                              ] ;
                             :pageHasLine     [ :seqNum          3 ;
                                                :sliceEndChar    1099 ;
-                                               :sliceStartChar  890
+                                               :sliceStartChar  889
                                              ] ;
                             :pageHasLine     [ :seqNum          2 ;
                                                :sliceEndChar    889 ;
-                                               :sliceStartChar  698
+                                               :sliceStartChar  697
                                              ] ;
                             :pageHasLine     [ :seqNum          1 ;
                                                :sliceEndChar    697 ;
-                                               :sliceStartChar  520
+                                               :sliceStartChar  519
                                              ] ;
                             :seqNum          5 ;
                             :sliceEndChar    1687 ;
@@ -91,7 +95,3 @@ bda:UT1CZ2485_001_0000
         adm:gitInfo     bda:GTB64C9FC43C2A ;
         adm:status      bda:StatusReleased ;
         :isRoot         true .
-
-bda:GTB64C9FC43C2A  a  adm:GitInfo ;
-        adm:gitPath  "cd/UT1CZ2485_001_0000.trig" ;
-        adm:gitRepo  bda:GR0002 .

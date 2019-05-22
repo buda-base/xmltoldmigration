@@ -4,6 +4,7 @@ import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
 import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
 import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
 import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.USER;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class PersonMigration {
     private static Resource getNameForType(Resource personR, String subtype) {
         Model m = personR.getModel();
         Resource typeIndividual = m.getResource(getUriFromTypeSubtype("name", subtype));
-        Resource nameR = CommonMigration.getFacetNode(FacetType.NAME, personR, "MigrationApp", typeIndividual);
+        Resource nameR = CommonMigration.getFacetNode(FacetType.NAME, personR, USER, typeIndividual);
         personR.addProperty(m.getProperty(BDO+"personName"), nameR);
         return nameR;
     }
@@ -266,8 +267,16 @@ public class PersonMigration {
                 r.addProperty(m.getProperty(uri), being);
 		}
 	}
+    
+    public static Resource getEventForType(Resource rez, Property prop, String subtype) {
+        Model m = rez.getModel();
+        Resource typeIndividual = m.getResource(getUriFromTypeSubtype("event", subtype));
+        Resource eventR = CommonMigration.getFacetNode(FacetType.EVENT, rez, USER, typeIndividual);
+        rez.addProperty(prop, eventR);
+        return eventR;
+    }
 	
-	public static void addEvent(Model m, Resource person, Element e, int i) {
+	private static void addEvent(Model m, Resource person, Element e, int i) {
 		String typeValue = e.getAttribute("type");
 		if (typeValue.isEmpty()) {
 		    typeValue = "NotSpecified";
@@ -294,9 +303,10 @@ public class PersonMigration {
             if (e.getElementsByTagNameNS(PXSDNS, "office").getLength() == 0)
                 return;
 		}
-		Resource subResource = m.createResource();
-		m.add(subResource, RDF.type, 
-		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
+		Resource subResource = getEventForType(person, m.getProperty(BDO+"personEvent"), typeValue);
+//		Resource subResource = m.createResource();
+//		m.add(subResource, RDF.type, 
+//		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
 	    CommonMigration.addDates(e.getAttribute("circa"), subResource, person);
         NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
         for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
@@ -328,7 +338,7 @@ public class PersonMigration {
             if (!MigrationHelpers.isDisconnected(pid))
                 m.add(subResource, prop, r);
         }
-		m.add(person, m.getProperty(BDO+"personEvent"), subResource);
+//		m.add(person, m.getProperty(BDO+"personEvent"), subResource);
 	}
 	
 	public static void addKinship(Model m, Resource person, Element e, int gender) {
@@ -348,10 +358,11 @@ public class PersonMigration {
 	}
 	
 	public static void addSeat(Model m, Resource person, Element e) {
-        Resource subResource = m.createResource();
-        m.add(person, m.getProperty(BDO+"personEvent"), subResource);
-        m.add(subResource, RDF.type, 
-                m.createProperty(getUriFromTypeSubtype("event", "occupiesSeat")));
+	    Resource subResource = getEventForType(person, m.getProperty(BDO+"personEvent"), "occupiesSeat");
+//        Resource subResource = m.createResource();
+//        m.add(person, m.getProperty(BDO+"personEvent"), subResource);
+//        m.add(subResource, RDF.type, 
+//                m.createProperty(getUriFromTypeSubtype("event", "occupiesSeat")));
         CommonMigration.addDates(e.getAttribute("circa"), subResource, person);
 		NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
 		for (int i = 0; i < nodeList.getLength(); i++) {

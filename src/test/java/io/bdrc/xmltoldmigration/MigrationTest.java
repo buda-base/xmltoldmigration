@@ -513,11 +513,11 @@ public class MigrationTest
         String correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content.txt")));
         
         // ==== TEMP DEBUG ====
-        //ei.etextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-ei.etextModel.ttl"), "TTL");
-        //correctEtextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctEtextModel.ttl"), "TTL");
-        //itemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-itemModel.ttl"), "TTL");
-        //correctItemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctItemModel.ttl"), "TTL");
-        ei.etextModel.write(System.out, "TTL");
+        ei.etextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-ei.etextModel.ttl"), "TTL");
+        correctEtextModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctEtextModel.ttl"), "TTL");
+        itemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-itemModel.ttl"), "TTL");
+        correctItemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testEtext-correctItemModel.ttl"), "TTL");
+        //ei.etextModel.write(System.out, "TTL");
 
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctItemModel) );
