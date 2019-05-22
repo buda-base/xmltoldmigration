@@ -14,7 +14,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
@@ -304,9 +303,6 @@ public class PersonMigration {
                 return;
 		}
 		Resource subResource = getEventForType(person, m.getProperty(BDO+"personEvent"), typeValue);
-//		Resource subResource = m.createResource();
-//		m.add(subResource, RDF.type, 
-//		        m.createProperty(getUriFromTypeSubtype("event", typeValue)));
 	    CommonMigration.addDates(e.getAttribute("circa"), subResource, person);
         NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
         for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
@@ -338,7 +334,6 @@ public class PersonMigration {
             if (!MigrationHelpers.isDisconnected(pid))
                 m.add(subResource, prop, r);
         }
-//		m.add(person, m.getProperty(BDO+"personEvent"), subResource);
 	}
 	
 	public static void addKinship(Model m, Resource person, Element e, int gender) {
@@ -359,10 +354,6 @@ public class PersonMigration {
 	
 	public static void addSeat(Model m, Resource person, Element e) {
 	    Resource subResource = getEventForType(person, m.getProperty(BDO+"personEvent"), "occupiesSeat");
-//        Resource subResource = m.createResource();
-//        m.add(person, m.getProperty(BDO+"personEvent"), subResource);
-//        m.add(subResource, RDF.type, 
-//                m.createProperty(getUriFromTypeSubtype("event", "occupiesSeat")));
         CommonMigration.addDates(e.getAttribute("circa"), subResource, person);
 		NodeList nodeList = e.getElementsByTagNameNS(PXSDNS, "place");
 		for (int i = 0; i < nodeList.getLength(); i++) {
