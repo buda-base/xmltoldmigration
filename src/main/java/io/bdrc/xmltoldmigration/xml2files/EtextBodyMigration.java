@@ -92,7 +92,7 @@ public class EtextBodyMigration {
                 if (imageNumPageNum != null) {
                     Integer pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
                     if (pageNumI == null) { // TODO: are there some cases in which this breaks?
-                        pageNumI = imageNumPageNum.get(pageNum.replace(".tif", ".jpg").toLowerCase());
+                        pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
                     }
                     if (pageNumI == null) {
                         //System.out.println(imageNumPageNum);
@@ -136,12 +136,7 @@ public class EtextBodyMigration {
                     Resource lineR = m.createResource();
                     pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
                     lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
-                    //if (oneLongString) {
-                    //    addChunkLocation(m, lineR, 1, currentTotalPoints+1, LOC_START);
-                    //    addChunkLocation(m, lineR, 1, currentTotalPoints+strLen, LOC_END);
-                    //} else {
-                        resourcesCoords.put(lineR, new int[] {currentTotalPoints+1, currentTotalPoints+strLen});
-                    //}
+                    resourcesCoords.put(lineR, new int[] {currentTotalPoints, currentTotalPoints+strLen});
                 }
                 currentTotalPoints += strLen;
                 
@@ -154,10 +149,6 @@ public class EtextBodyMigration {
               first = false;
            }
            final int pageEndPointIndex = currentTotalPoints;
-           //if (oneLongString && keepPages) {
-           //    addChunkLocation(m, pageR, 1, pageBeginPointIndex, true);
-           //    addChunkLocation(m, pageR, 1, pageEndPointIndex, false);
-           //} else 
            if (keepPages) {
                resourcesCoords.put(pageR, new int[] {pageBeginPointIndex, pageEndPointIndex});
            }
@@ -173,7 +164,6 @@ public class EtextBodyMigration {
         final List<Integer>[] breaks = TibetanStringChunker.getAllBreakingCharsIndexes(totalStr);
         
         final List<Integer> charBreaks = breaks[0];
-        final List<Integer> pointBreaks = breaks[1];
         int previousIndex = 0;
         //final int nbBreaks = charBreaks.size();
         for (final int charBreakIndex : charBreaks) { 
