@@ -1,45 +1,49 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix bda:   <http://purl.bdrc.io/admindata/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix sutta: <http://suttacentral.net/resource/> .
+@prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix tbr:   <http://purl.bdrc.io/ontology/toberemoved/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:P1331  a            :Person ;
-    skos:prefLabel      "blo gros rnam dag"@bo-x-ewts ;
-    :isRoot                true ;
-    :note               bdr:NT4A638B850908 ;
-    :personEvent        [ a                   :PersonDeath ;
-                          :onYear             1322
-                        ] ,
-            [ a                   :PersonOccupiesSeat ;
-              :eventWhere         bdr:G844
-            ] ;
-    :personGender       bdr:GenderMale ;
-    :personName         [ a                   :PersonPrimaryName ;
-                          rdfs:label          "blo gros rnam dag"@bo-x-ewts
-                        ] ,
-            [ a                   :PersonPrimaryTitle ;
-              rdfs:label          "bya yul blo bzang rnam dag"@bo-x-ewts
-            ] ;
-.
+        :isRoot         true ;
+        :note           bdr:NT12DC80761AF6 ;
+        :personEvent    [ a            :PersonOccupiesSeat ;
+                          :eventWhere  bdr:G844
+                        ] ;
+        :personEvent    [ a        :PersonDeath ;
+                          :onYear  1322
+                        ] ;
+        :personGender   bdr:GenderMale ;
+        :personName     bdr:NM4D6B8F9B0828 , bdr:NM4A638B850908 ;
+        skos:prefLabel  "blo gros rnam dag"@bo-x-ewts .
+
 bda:GT571CB24315A2  a  adm:GitInfo ;
         adm:gitPath  "97/P1331.trig" ;
-        adm:gitRepo  bda:GR0006 ;
-.
-bdr:NT4A638B850908  a           :Note ;
+        adm:gitRepo  bda:GR0006 .
+
+bdr:NM4D6B8F9B0828  a  :PersonPrimaryTitle ;
+        rdfs:label  "bya yul blo bzang rnam dag"@bo-x-ewts .
+
+bdr:NM4A638B850908  a  :PersonPrimaryName ;
+        rdfs:label  "blo gros rnam dag"@bo-x-ewts .
+
+bda:P1331  a               adm:AdminData ;
+        adm:adminAbout     bdr:P1331 ;
+        adm:facetIndex     "5"^^xsd:int ;
+        adm:gitInfo        bda:GT571CB24315A2 ;
+        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
+
+bdr:NT12DC80761AF6  a           :Note ;
         :noteLocationStatement  "p. 359" ;
         :noteText               "date of death from this source"@en ;
-        :noteWork               bdr:W20115 ;
-.
-bda:P1331   a            adm:AdminData ;
-    adm:metadataLegal    bda:LD_BDRC_Open ;
-    adm:facetIndex       "3"^^xsd:int ;
-    adm:gitInfo          bda:GT571CB24315A2 ;
-    :isRoot              true ;
-    adm:adminAbout       bdr:P1331 ;
-    adm:status           bda:StatusReleased ;
-.
+        :noteWork               bdr:W20115 .

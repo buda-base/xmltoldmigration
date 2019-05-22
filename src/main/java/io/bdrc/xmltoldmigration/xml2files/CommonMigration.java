@@ -418,6 +418,7 @@ public class CommonMigration  {
      * Returns prefix + 8 character unique id based on a hash of the concatenation of the last three string arguments. 
      * This is itended to be used to generate ids for named nodes like Events, AgentAsCreator, WorkTitle
      * and PersonName.
+     * 
      * @param facet enum type to provide a prefix will that distinguish what the id will identify
      * @param rez subject resource that refers to an Event, AgentAsCreator etc
      * @param user some String identifying the user or tool that is creating the id, make unique to the user
@@ -426,19 +427,10 @@ public class CommonMigration  {
      */
     private static String generateId(FacetType facet, Resource rez, String user, Resource rootAdmRez) {
         return mintId(rootAdmRez, rez.getLocalName()+user, facet.getPrefix());
-//        try {
-//            String data = rez.getLocalName()+user+getFacetIndex(rootAdmRez);
-//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//            byte[] hash = digest.digest(data.getBytes("UTF-8"));
-//            return facet.getPrefix()+bytesToHex(hash).substring(0, 12);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
     }
     
     /**
-     * Creates a facet node in the BDR namespace w/ the defsult facet nodeType from the facet enum
+     * Creates a facet node in the BDR namespace w/ the default facet nodeType from the facet enum
      * 
      * @param facet the type of facet node to create
      * @param rez the resource the node is associated w/ such as via bdo:creator

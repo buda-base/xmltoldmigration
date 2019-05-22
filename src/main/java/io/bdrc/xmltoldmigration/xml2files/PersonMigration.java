@@ -13,7 +13,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
@@ -24,6 +23,7 @@ import org.w3c.dom.NodeList;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class PersonMigration {
 
@@ -68,33 +68,13 @@ public class PersonMigration {
 	    }
 	}
     
-    private static Resource createFromType(Model m, Resource main, Property p, String type, String subtype) {
-        Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
-        Resource r = m.createResource();
-        r.addProperty(RDF.type, typeIndividual);
-        main.addProperty(p, r);
-        return r;
+    private static Resource getNameForType(Resource personR, String subtype) {
+        Model m = personR.getModel();
+        Resource typeIndividual = m.getResource(getUriFromTypeSubtype("name", subtype));
+        Resource nameR = CommonMigration.getFacetNode(FacetType.NAME, personR, "MigrationApp", typeIndividual);
+        personR.addProperty(m.getProperty(BDO+"personName"), nameR);
+        return nameR;
     }
-
-// TO REMOVE
-    private static Resource createFromType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
-        Resource typeIndividual = m.getResource(getUriFromTypeSubtype(type, subtype));
-        Resource r = m.createResource();
-        r.addProperty(RDF.type, typeIndividual);
-        main.addProperty(p, r);
-        return r;
-    }
-    
-    private static Resource getResourceForType(Map<String,Resource> typeNodes, Model m, Resource main, Property p, String type, String subtype) {
-        return typeNodes.computeIfAbsent(subtype, (t) -> createFromType(typeNodes, m, main, p, type, t));
-    }
-// TO REMOVE
-    
-// TO REPLACE THE ABOVE
-//    private static Resource getResourceForType(Model m, Resource main, Property p, String type, String subtype) {
-//        Resource foo = ResourceFactory.createResource(uriref)
-//        return createFromType(m, main, p, type, subtype);
-//    }
 	
 	public static Model MigratePerson(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
@@ -108,13 +88,9 @@ public class PersonMigration {
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
 		int gender = SymetricNormalization.GENDER_U;
 
-// TO REMOVE
-		Map<String,Resource> typeNodes = new HashMap<>();
-		
 		// names
 		
 		NodeList nodeList = root.getElementsByTagNameNS(PXSDNS, "name");
-		Property prop = m.getProperty(BDO+"personName");
 		Map<String,Boolean> labelDoneForLang = new HashMap<>();
 		String typeUsedForLabel = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -123,13 +99,10 @@ public class PersonMigration {
 			String subtype = current.getAttribute("type").trim();
 			if (subtype.isEmpty())
 			    subtype = "primaryName";
-// TO REMOVE
-            Resource rez = getResourceForType(typeNodes, m, main, prop, "name", subtype);
-// TO REPLACE ABOVE
-//            Resource rez = getResourceForType(m, main, prop, "name", subtype);
+            Resource nameR = getNameForType(main, subtype);
 			Literal lit = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, subtype, RID, null);
 			if (lit == null) continue;
-			rez.addProperty(RDFS.label, lit);
+			nameR.addProperty(RDFS.label, lit);
 			String lang = lit.getLanguage().substring(0, 2);
 			if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(subtype))) {
 			    main.addProperty(SKOS.prefLabel, lit);
@@ -145,7 +118,7 @@ public class PersonMigration {
             current = (Element) nodeList.item(i);
             String genderval = current.getAttribute("gender");
             if (!genderval.isEmpty()) {
-                prop = m.getProperty(BDO, "personGender");
+                Property prop = m.getProperty(BDO, "personGender");
                 m.add(main, prop, m.getResource(getUriFromTypeSubtype("gender", genderval)));
                 if (genderval.equals("male"))
                     gender = SymetricNormalization.GENDER_M;
@@ -239,7 +212,7 @@ public class PersonMigration {
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "ofSect");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			prop = m.getProperty(BDO, "personOfSect");
+			Property prop = m.getProperty(BDO, "personOfSect");
 			m.add(main, prop, m.createResource(BDR+current.getAttribute("sect")));
 		}
 		
