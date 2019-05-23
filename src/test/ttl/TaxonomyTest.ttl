@@ -31,6 +31,11 @@ bdr:O9TAXTBRC201605_0010
         :taxHasSubClass  bdr:O9TAXTBRC201605_0011 ;
         skos:prefLabel   "大藏经"@zh-hans , "Buddhist Canonical Texts"@en , "bka' bstan/"@bo-x-ewts .
 
+bda:LG73FFF6A15429  a   adm:LogEntry ;
+        adm:logDate     "2016-05-23T10:58:27.909Z"^^xsd:dateTime ;
+        adm:logMessage  "added topics"@en ;
+        adm:logWho      bdr:U00016 .
+
 bdr:T00KG02662  skos:prefLabel  "chos skor dkar chag"@bo-x-ewts .
 
 bdr:T4CZ2366  skos:prefLabel  "them yig"@bo-x-ewts , "them byang /"@bo-x-ewts .
@@ -45,7 +50,7 @@ bdr:T13  skos:prefLabel  "目录"@zh-hans , "notice of contents"@en , "dkar chag
 bda:O9TAXTBRC201605  a  adm:AdminData ;
         adm:adminAbout  bdr:O9TAXTBRC201605 ;
         adm:facetIndex  "2"^^xsd:int ;
-        adm:logEntry    bdr:LG73FFF6A15429 ;
+        adm:logEntry    bda:LG73FFF6A15429 ;
         :isRoot         true .
 
 bdr:O9TAXTBRC201605_0011
@@ -54,10 +59,5 @@ bdr:O9TAXTBRC201605_0011
         skos:prefLabel   "甘珠尔"@zh-hans , "Kajur"@en , "bka' 'gyur/"@bo-x-ewts .
 
 bdr:T2423  skos:prefLabel  "甘珠尔大藏经"@zh-hans , "甘珠尔"@zh-hans , "Kanjur"@en-x-mixed , "Kagyur"@en-x-mixed , "rgyal ba'i bka' 'gyur ro cog"@bo-x-ewts , "bka' 'gyur ro 'tshal/"@bo-x-ewts , "bka' 'gyur/"@bo-x-ewts .
-
-bdr:LG73FFF6A15429  a   adm:LogEntry ;
-        adm:logDate     "2016-05-23T10:58:27.909Z"^^xsd:dateTime ;
-        adm:logMessage  "added topics"@en ;
-        adm:logWho      bdr:U00016 .
 
 bdr:T298  skos:prefLabel  "书目"@zh-hans , "bibliography"@en , "dpe tho/"@bo-x-ewts .

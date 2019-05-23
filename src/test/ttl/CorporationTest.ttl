@@ -32,12 +32,12 @@ bda:C11MS170  a            adm:AdminData ;
         adm:adminAbout     bdr:C11MS170 ;
         adm:facetIndex     "5"^^xsd:int ;
         adm:gitInfo        bda:GT3E8AE8DC17BE ;
-        adm:logEntry       bdr:LG7872F5FD7506 ;
+        adm:logEntry       bda:LG7872F5FD7506 ;
         adm:metadataLegal  bda:LD_BDRC_Open ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:LG7872F5FD7506  a   adm:LogEntry ;
+bda:LG7872F5FD7506  a   adm:LogEntry ;
         adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
         adm:logMessage  "created new corp."@en ;
         adm:logWho      bdr:U00020 .

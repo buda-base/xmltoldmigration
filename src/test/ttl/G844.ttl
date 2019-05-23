@@ -20,20 +20,20 @@ vcard:VA66166F79F3E5  a       vcard:Address ;
         vcard:region          "Himachal Pradesh" ;
         vcard:street-address  "མི་གསལ། Dzongsar Institute" .
 
-bdr:LGFD3940A68CCD  a   adm:LogEntry ;
-        adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
-        adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
-        adm:logWho      bdr:U00020 .
-
 bdr:NTAA8C25A79102  a           :Note ;
         :noteLocationStatement  "test" ;
         :noteText               "event note test"@en ;
         :noteWork               bdr:Wtest .
 
-bdr:LG32AA3FB263A1  a   adm:LogEntry ;
-        adm:logDate     "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
-        adm:logMessage  "added place contained"@en ;
-        adm:logWho      bdr:U00020 .
+bda:LG2B4F2E9D5266  a   adm:LogEntry ;
+        adm:logDate     "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
+        adm:logMessage  "added location"@en ;
+        adm:logWho      bdr:U00007 .
+
+bda:LGD9AB54C475EB  a   adm:LogEntry ;
+        adm:logDate     "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
+        adm:logMessage  "added name & note"@en ;
+        adm:logWho      bdr:U00007 .
 
 bdr:EV5CB8D9E05178  a           :Event ;
         :note                   bdr:NTAA8C25A79102 ;
@@ -45,26 +45,16 @@ bdr:NT7E9BCA78C720  a           :Note ;
         :noteText               "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"@bo ;
         :noteWork               bdr:W26372 .
 
-bdr:LGFE2C8100AFEA  a   adm:LogEntry ;
-        adm:logDate     "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
-        adm:logMessage  "added contain"@en ;
-        adm:logWho      bdr:U00007 .
-
-bdr:LG0EEB0BC94161  a   adm:LogEntry ;
-        adm:logDate     "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
-        adm:logMessage  "added byams pa chos gling gzhis ka'i par khang"@en ;
-        adm:logWho      bdr:U00013 .
-
-bdr:LG9DB536C5C700  a   adm:LogEntry ;
-        adm:logDate     "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
-        adm:logMessage  "added contain"@en ;
-        adm:logWho      bdr:U00007 .
+bda:LGFD3940A68CCD  a   adm:LogEntry ;
+        adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
+        adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
+        adm:logWho      bdr:U00020 .
 
 bda:G844  a                           adm:AdminData ;
         adm:adminAbout                bdr:G844 ;
         adm:facetIndex                "17"^^xsd:int ;
         adm:gitInfo                   bda:GT0003C9494ACE ;
-        adm:logEntry                  bdr:LG32AA3FB263A1 , bdr:LGFE2C8100AFEA , bdr:LGD9AB54C475EB , bdr:LG0EEB0BC94161 , bdr:LG9DB536C5C700 , bdr:LG2B4F2E9D5266 , bdr:LG6B068E49DCE4 , bdr:LGFD3940A68CCD ;
+        adm:logEntry                  bda:LG2B4F2E9D5266 , bda:LGFE2C8100AFEA , bda:LG32AA3FB263A1 , bda:LG6B068E49DCE4 , bda:LGD9AB54C475EB , bda:LG0EEB0BC94161 , bda:LG9DB536C5C700 , bda:LGFD3940A68CCD ;
         adm:metadataLegal             bda:LD_BDRC_Open ;
         adm:place_TLM_accession       "004476" ;
         adm:place_TLM_admin           "tgaAdmin" ;
@@ -79,14 +69,34 @@ bda:G844  a                           adm:AdminData ;
         adm:status                    bda:StatusReleased ;
         :isRoot                       true .
 
-bdr:LG6B068E49DCE4  a   adm:LogEntry ;
-        adm:logDate     "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
-        adm:logMessage  "added type & location & contains"@en ;
+bda:LG32AA3FB263A1  a   adm:LogEntry ;
+        adm:logDate     "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
+        adm:logMessage  "added place contained"@en ;
+        adm:logWho      bdr:U00020 .
+
+bda:LGFE2C8100AFEA  a   adm:LogEntry ;
+        adm:logDate     "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
+        adm:logMessage  "added contain"@en ;
         adm:logWho      bdr:U00007 .
 
 bdr:EV213E4B9AED5E  a  :Event ;
         :notAfter   1799 ;
         :notBefore  1300 .
+
+bda:LG0EEB0BC94161  a   adm:LogEntry ;
+        adm:logDate     "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
+        adm:logMessage  "added byams pa chos gling gzhis ka'i par khang"@en ;
+        adm:logWho      bdr:U00013 .
+
+bda:LG9DB536C5C700  a   adm:LogEntry ;
+        adm:logDate     "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
+        adm:logMessage  "added contain"@en ;
+        adm:logWho      bdr:U00007 .
+
+bda:LG6B068E49DCE4  a   adm:LogEntry ;
+        adm:logDate     "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
+        adm:logMessage  "added type & location & contains"@en ;
+        adm:logWho      bdr:U00007 .
 
 bdr:NTF28813787133  a           :Note ;
         :noteLocationStatement  "V.3, p.47" ;
@@ -99,16 +109,6 @@ bdr:NT6CE397FC65EA  a  :Note ;
 bda:GT0003C9494ACE  a  adm:GitInfo ;
         adm:gitPath  "ea/G844.trig" ;
         adm:gitRepo  bda:GR0005 .
-
-bdr:LGD9AB54C475EB  a   adm:LogEntry ;
-        adm:logDate     "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
-        adm:logMessage  "added name & note"@en ;
-        adm:logWho      bdr:U00007 .
-
-bdr:LG2B4F2E9D5266  a   adm:LogEntry ;
-        adm:logDate     "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
-        adm:logMessage  "added location"@en ;
-        adm:logWho      bdr:U00007 .
 
 bdr:G844  a                   :Place ;
         :isRoot               true ;

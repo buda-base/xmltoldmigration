@@ -12,31 +12,37 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:LGBF7F6269805E  a   adm:LogEntry ;
-        adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
-        adm:logMessage  "added location"@en ;
-        adm:logWho      bdr:U00019 .
-
 bda:GT80ED30291973  a  adm:GitInfo ;
         adm:gitPath  "86/L8LS14115.trig" ;
         adm:gitRepo  bda:GR0004 .
 
-bdr:LG6B9FE548306F  a  adm:LogEntry ;
-        adm:logDate  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
+bda:LG96B065B1B67F  a   adm:LogEntry ;
+        adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
+        adm:logMessage  "changed type"@en ;
+        adm:logWho      bdr:U00019 .
+
+bda:LGAE337746AFB0  a  adm:LogEntry ;
+        adm:logDate  "2014-07-28T11:30:18.879Z"^^xsd:dateTime ;
         adm:logWho   bdr:U00019 .
+
+bda:LG80A1FAA25E83  a   adm:LogEntry ;
+        adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized names of who and received elements"@en ;
+        adm:logWho      bdr:U00006 .
+
+bda:LGC0BD672AF6D3  a   adm:LogEntry ;
+        adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized names of who and received elements - yet again"@en ;
+        adm:logWho      bdr:U00006 .
+
+bda:LGBF7F6269805E  a   adm:LogEntry ;
+        adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
+        adm:logMessage  "added location"@en ;
+        adm:logWho      bdr:U00019 .
 
 bdr:L8LS14115  a        :Lineage ;
         rdfs:comment    "initiation transmission of clear light blessing of rakta yamari"@en ;
         :isRoot         true ;
-        :lineageHolder  [ a                 :LineageHolder ;
-                          :lineageDownFrom  bdr:L8LS15610 ;
-                          :lineageReceived  [ :eventWhere   bdr:G844 ;
-                                              :lineageFrom  bdr:P8LS15618
-                                            ] ;
-                          :lineageWho       bdr:P1018 ;
-                          :lineageWork      bdr:WTest ;
-                          :note             bdr:NT00F54FA6BB10
-                        ] ;
         :lineageHolder  [ a               :LineageHolder ;
                           :lineageDownTo  bdr:L8LS15728 ;
                           :lineageWho     bdr:P1132
@@ -47,6 +53,15 @@ bdr:L8LS14115  a        :Lineage ;
                                             ] ;
                           :lineageWho       bdr:P1040
                         ] ;
+        :lineageHolder  [ a                 :LineageHolder ;
+                          :lineageDownFrom  bdr:L8LS15610 ;
+                          :lineageReceived  [ :eventWhere   bdr:G844 ;
+                                              :lineageFrom  bdr:P8LS15618
+                                            ] ;
+                          :lineageWho       bdr:P1018 ;
+                          :lineageWork      bdr:WTest ;
+                          :note             bdr:NT00F54FA6BB10
+                        ] ;
         :lineageObject  bdr:T1613 ;
         :lineageRef     bdr:L1RKL2042 ;
         :lineageType    bdr:LineageDbang ;
@@ -56,33 +71,18 @@ bdr:L8LS14115  a        :Lineage ;
                         ] ;
         skos:prefLabel  "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"@bo-x-ewts .
 
-bdr:LG96B065B1B67F  a   adm:LogEntry ;
-        adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
-        adm:logMessage  "changed type"@en ;
-        adm:logWho      bdr:U00019 .
-
 bda:L8LS14115  a           adm:AdminData ;
         adm:adminAbout     bdr:L8LS14115 ;
         adm:facetIndex     "9"^^xsd:int ;
         adm:gitInfo        bda:GT80ED30291973 ;
-        adm:logEntry       bdr:LG96B065B1B67F , bdr:LG80A1FAA25E83 , bdr:LGAE337746AFB0 , bdr:LG6B9FE548306F , bdr:LGC0BD672AF6D3 , bdr:LGBF7F6269805E ;
+        adm:logEntry       bda:LG96B065B1B67F , bda:LGC0BD672AF6D3 , bda:LGBF7F6269805E , bda:LG80A1FAA25E83 , bda:LGAE337746AFB0 , bda:LG6B9FE548306F ;
         adm:metadataLegal  bda:LD_BDRC_Open ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:LGAE337746AFB0  a  adm:LogEntry ;
-        adm:logDate  "2014-07-28T11:30:18.879Z"^^xsd:dateTime ;
+bda:LG6B9FE548306F  a  adm:LogEntry ;
+        adm:logDate  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
         adm:logWho   bdr:U00019 .
-
-bdr:LG80A1FAA25E83  a   adm:LogEntry ;
-        adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized names of who and received elements"@en ;
-        adm:logWho      bdr:U00006 .
 
 bdr:NT00F54FA6BB10  a  :Note ;
         :noteText  "test description" .
-
-bdr:LGC0BD672AF6D3  a   adm:LogEntry ;
-        adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized names of who and received elements - yet again"@en ;
-        adm:logWho      bdr:U00006 .

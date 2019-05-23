@@ -12,6 +12,11 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bda:LG725E8279E4B4  a   adm:LogEntry ;
+        adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
+        adm:logMessage  "added print type and source printery"@en ;
+        adm:logWho      bdr:U00013 .
+
 bdr:I1FPL1_P001  a      :ItemPhysicalAsset ;
         :itemCopies     "1" ;
         :itemException  "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo ;
@@ -19,31 +24,14 @@ bdr:I1FPL1_P001  a      :ItemPhysicalAsset ;
         :itemLibrary    bdr:G1TLMTGA000001 ;
         :itemShelf      "ཇ|ཇ|༣||001278" .
 
-bdr:LGEDA5DE9E3376  a   adm:LogEntry ;
-        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
-        adm:logMessage  "added hollis field to pub info"@en ;
-        adm:logWho      bdr:U00006 .
-
 bda:GT8537B43BD86E  a  adm:GitInfo ;
         adm:gitPath  "56/W1FPL1.trig" ;
         adm:gitRepo  bda:GR0008 .
 
-bdr:LG725E8279E4B4  a   adm:LogEntry ;
-        adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
-        adm:logMessage  "added print type and source printery"@en ;
-        adm:logWho      bdr:U00013 .
-
-bdr:LGEAF54DACE95D  a   adm:LogEntry ;
-        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
-        adm:logMessage  "normalize encoding field for pub info"@en ;
-        adm:logWho      bdr:U00012 .
-
-bda:W1FPL1  a           adm:AdminData ;
-        adm:adminAbout  bdr:W1FPL1 ;
-        adm:facetIndex  "5"^^xsd:int ;
-        adm:gitInfo     bda:GT8537B43BD86E ;
-        adm:logEntry    bdr:LGEDA5DE9E3376 , bdr:LGEAF54DACE95D , bdr:LG725E8279E4B4 ;
-        :isRoot         true .
+bda:LGEDA5DE9E3376  a   adm:LogEntry ;
+        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+        adm:logMessage  "added hollis field to pub info"@en ;
+        adm:logWho      bdr:U00006 .
 
 bdr:W1FPL1  a                       :Work ;
         :isRoot                     true ;
@@ -66,3 +54,15 @@ bdr:W1FPL1  a                       :Work ;
         :workSeriesName             "oral history series" ;
         :workSeriesNumber           "no. 16" ;
         :workSourcePrintery_string  "test sourcePrintery with no place" .
+
+bda:W1FPL1  a           adm:AdminData ;
+        adm:adminAbout  bdr:W1FPL1 ;
+        adm:facetIndex  "5"^^xsd:int ;
+        adm:gitInfo     bda:GT8537B43BD86E ;
+        adm:logEntry    bda:LGEDA5DE9E3376 , bda:LGEAF54DACE95D , bda:LG725E8279E4B4 ;
+        :isRoot         true .
+
+bda:LGEAF54DACE95D  a   adm:LogEntry ;
+        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+        adm:logMessage  "normalize encoding field for pub info"@en ;
+        adm:logWho      bdr:U00012 .

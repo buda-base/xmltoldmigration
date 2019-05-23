@@ -12,14 +12,9 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:LGE44A97C18EC3  a   adm:LogEntry ;
-        adm:logDate     "2015-08-31T16:58:10.553Z"^^xsd:dateTime ;
+bda:LG5312A53141EB  a   adm:LogEntry ;
+        adm:logDate     "2015-08-31T16:55:02.487Z"^^xsd:dateTime ;
         adm:logMessage  "added description"@en ;
-        adm:logWho      bdr:U00007 .
-
-bdr:LG84BBD58F4153  a   adm:LogEntry ;
-        adm:logDate     "2015-09-04T13:13:26.221Z"^^xsd:dateTime ;
-        adm:logMessage  "added see also"@en ;
         adm:logWho      bdr:U00007 .
 
 bdr:T3CN2023  a         :Topic ;
@@ -29,14 +24,23 @@ bdr:T3CN2023  a         :Topic ;
         skos:altLabel   "dan zhu er da zang jing"@zh-latn-pinyin-x-ndia , "dan zhu er"@zh-latn-pinyin-x-ndia , "丹珠爾大藏經"@zh-hant , "丹珠尔大藏经"@zh-hans , "bstan bcos 'gyur ro 'tshal/"@bo-x-ewts , "Tenjur"@en-x-mixed ;
         skos:prefLabel  "Tengyur"@en-x-mixed , "bstan 'gyur/"@bo-x-ewts , "丹珠尔"@zh-hans .
 
-bdr:LGBAD47AAC9EAE  a   adm:LogEntry ;
-        adm:logDate     "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
-        adm:logMessage  "created record"@en ;
+bda:LG5445DD18570C  a   adm:LogEntry ;
+        adm:logMessage  "added description: Tenjur Canonical Text"@en ;
         adm:logWho      bdr:U00007 .
 
-bdr:LG5312A53141EB  a   adm:LogEntry ;
-        adm:logDate     "2015-08-31T16:55:02.487Z"^^xsd:dateTime ;
+bda:LGE44A97C18EC3  a   adm:LogEntry ;
+        adm:logDate     "2015-08-31T16:58:10.553Z"^^xsd:dateTime ;
         adm:logMessage  "added description"@en ;
+        adm:logWho      bdr:U00007 .
+
+bda:LG84BBD58F4153  a   adm:LogEntry ;
+        adm:logDate     "2015-09-04T13:13:26.221Z"^^xsd:dateTime ;
+        adm:logMessage  "added see also"@en ;
+        adm:logWho      bdr:U00007 .
+
+bda:LGBAD47AAC9EAE  a   adm:LogEntry ;
+        adm:logDate     "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
+        adm:logMessage  "created record"@en ;
         adm:logWho      bdr:U00007 .
 
 bda:GTA60A2A28DC34  a  adm:GitInfo ;
@@ -47,11 +51,7 @@ bda:T3CN2023  a            adm:AdminData ;
         adm:adminAbout     bdr:T3CN2023 ;
         adm:facetIndex     "7"^^xsd:int ;
         adm:gitInfo        bda:GTA60A2A28DC34 ;
-        adm:logEntry       bdr:LGE44A97C18EC3 , bdr:LG84BBD58F4153 , bdr:LGBAD47AAC9EAE , bdr:LG5312A53141EB , bdr:LG5445DD18570C ;
+        adm:logEntry       bda:LGE44A97C18EC3 , bda:LG84BBD58F4153 , bda:LG5445DD18570C , bda:LG5312A53141EB , bda:LGBAD47AAC9EAE ;
         adm:metadataLegal  bda:LD_BDRC_Open ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
-
-bdr:LG5445DD18570C  a   adm:LogEntry ;
-        adm:logMessage  "added description: Tenjur Canonical Text"@en ;
-        adm:logWho      bdr:U00007 .

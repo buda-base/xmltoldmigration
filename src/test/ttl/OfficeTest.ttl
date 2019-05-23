@@ -24,17 +24,17 @@ bda:R8LS12811  a           adm:AdminData ;
         adm:adminAbout     bdr:R8LS12811 ;
         adm:facetIndex     "4"^^xsd:int ;
         adm:gitInfo        bda:GT09D0297884B2 ;
-        adm:logEntry       bdr:LGD54D06CD4A62 , bdr:LGB627CF38003D ;
+        adm:logEntry       bda:LGD54D06CD4A62 , bda:LGB627CF38003D ;
         adm:metadataLegal  bda:LD_BDRC_Open ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:LGB627CF38003D  a   adm:LogEntry ;
+bda:LGB627CF38003D  a   adm:LogEntry ;
         adm:logDate     "2012-12-20T16:34:48.895Z"^^xsd:dateTime ;
         adm:logMessage  "created new office"@en ;
         adm:logWho      bdr:U00019 .
 
-bdr:LGD54D06CD4A62  a   adm:LogEntry ;
+bda:LGD54D06CD4A62  a   adm:LogEntry ;
         adm:logDate     "2014-07-11T12:26:57.845Z"^^xsd:dateTime ;
         adm:logMessage  "added phonetic title"@en ;
         adm:logWho      bdr:U00020 .
