@@ -90,7 +90,7 @@ public class GRETILTransfer {
         work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
         work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
         Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
-        Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, "MigrationApp", titleType);
+        Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, titleType);
         work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
         titleR.addProperty(RDFS.label, workModel.createLiteral(line[3], "sa-x-iast"));
 

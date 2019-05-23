@@ -65,6 +65,7 @@ public class CommonMigration  {
 	public static final String BDA = "http://purl.bdrc.io/admindata/";
     public static final String BDG = "http://purl.bdrc.io/graph/";
 	public static final String BDR = "http://purl.bdrc.io/resource/";
+	public static final String VCARD = VCARD4.getURI();	
 	
 	public static final String USER = "MigrationApp";
 	
@@ -343,7 +344,8 @@ public class CommonMigration  {
         NAME("name", "NM", BDO+"PersonName"),
         NOTE("note", "NT", BDO+"Note"),
         TITLE("title", "TT", BDO+"WorkTitle"),
-        WORK_LOC("workLoc", "WL", BDO+"WorkLocation")
+        WORK_LOC("workLoc", "WL", BDO+"WorkLocation"),
+        VCARD_ADDR("vcardAddr", "VA", VCARD+"Address")
         ;
 
         private String label;
@@ -369,8 +371,8 @@ public class CommonMigration  {
             return prefix;
         }
 
-        public Resource getNodeType(Resource rez) {
-            return rez.getModel().createResource(nodeTypeUri);
+        public Resource getNodeType() {
+            return ResourceFactory.createResource(nodeTypeUri);
         }
 
         @Override
@@ -439,9 +441,9 @@ public class CommonMigration  {
      * @param user a string identifying the user or tool requesting the facet node
      * @return the newly minted facet node resource of rdf:type default nodeType for the facet
      */
-    public static Resource getFacetNode(FacetType facet, Resource rez, String user) {
-        Resource nodeType = facet.getNodeType(rez);
-        return getFacetNode(facet, BDR, rez, user, nodeType);
+    public static Resource getFacetNode(FacetType facet, Resource rez) {
+        Resource nodeType = facet.getNodeType();
+        return getFacetNode(facet, BDR, rez, nodeType);
     }
 
     /**
@@ -454,14 +456,14 @@ public class CommonMigration  {
      * @param nodeType the class for the type of node
      * @return the newly minted facet node resource of rdf:type nodeType
      */
-    public static Resource getFacetNode(FacetType facet, Resource rez, String user, Resource nodeType) {
-        return getFacetNode(facet, BDR, rez, user, nodeType);
+    public static Resource getFacetNode(FacetType facet, Resource rez, Resource nodeType) {
+        return getFacetNode(facet, BDR, rez, nodeType);
     }
 
-    private static Resource getFacetNode(FacetType facet, String nsUri, Resource rez, String user, Resource nodeType) {
+    public static Resource getFacetNode(FacetType facet, String nsUri, Resource rez, Resource nodeType) {
         Model m = rez.getModel();
         Resource rootAdm = getAdminRoot(rez);
-        String id = generateId(facet, rez, user, rootAdm);
+        String id = generateId(facet, rez, USER, rootAdm);
         Resource facetNode = m.createResource(nsUri+id);
         facetNode.addProperty(RDF.type, nodeType);
         return facetNode;
@@ -483,7 +485,7 @@ public class CommonMigration  {
      */
     public static void addAgentAsCreator(Resource work, Resource person, String roleKey) {
         Model m = work.getModel();
-        Resource agentAsCreator = getFacetNode(FacetType.CREATOR, work, "MigrationApp");
+        Resource agentAsCreator = getFacetNode(FacetType.CREATOR, work);
         work.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
         agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
         Resource role = m.createResource(getCreatorRoleUri(roleKey));
@@ -876,7 +878,7 @@ public class CommonMigration  {
      */
     private static void addNote(Resource rez, Literal noteText, String loc, Resource ref) {
         Model m = rez.getModel();
-        Resource noteR = getFacetNode(FacetType.NOTE, rez, "MigrationApp");
+        Resource noteR = getFacetNode(FacetType.NOTE, rez);
         Property prop = m.getProperty(BDO, "note");
         rez.addProperty(prop, noteR);
         
@@ -1123,7 +1125,7 @@ public class CommonMigration  {
                 current.setTextContent(current.getTextContent().replace(placeId, ""));
             }
             if (type.equals("note")) {
-                Resource note = getFacetNode(FacetType.NOTE, rez, "MigrationApp");
+                Resource note = getFacetNode(FacetType.NOTE, rez);
                 m.add(rez, m.getProperty(BDO+"note"), note);
                 m.add(note, m.getProperty(BDO+"noteText"), lit);
                 continue;
@@ -1278,12 +1280,12 @@ public class CommonMigration  {
                 }
                 
                 Resource nodeType = getNodeType(type, outlineMode, main);
-                Resource titleNode = getFacetNode(FacetType.TITLE, main, "MigrationApp", nodeType);        
+                Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
                 titleNode.addProperty(RDFS.label, lit);
                 main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
                 
                 if (nextTitle != null) {
-                    titleNode = getFacetNode(FacetType.TITLE, main, "MigrationApp", nodeType);
+                    titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
                     titleNode.addProperty(RDFS.label, m.createLiteral(nextTitle, "pi-x-iast"));
                     main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
                 }

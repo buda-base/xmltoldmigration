@@ -149,7 +149,7 @@ public class EAPTransfer {
             titleLang = "en";
         } else {
             Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
-            Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, "MigrationApp", titleType);
+            Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, titleType);
             work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
             titleR.addProperty(RDFS.label, workModel.createLiteral(title, titleLang));
         }

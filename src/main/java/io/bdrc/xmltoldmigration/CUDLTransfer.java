@@ -172,7 +172,7 @@ public class CUDLTransfer {
         workModel.add(work, SKOS.prefLabel, lit);
         
         Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
-        Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, "MigrationApp", titleType);
+        Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, titleType);
         work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
         titleR.addProperty(RDFS.label, (mainTitle.equals("") ? lit : workModel.createLiteral(mainTitle, "sa-x-iast")));
 
@@ -180,7 +180,7 @@ public class CUDLTransfer {
         if(!altTitle.equals("")) {
             workModel.add(work, SKOS.altLabel, workModel.createLiteral(altTitle, "sa-x-iast")); // DO WE REALLY NEED THIS??
             titleType = workModel.createResource(BDO+"WorkOtherTitle");
-            titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, "MigrationApp", titleType);
+            titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, titleType);
             work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
             titleR.addProperty(RDFS.label, altTitle, "sa-x-iast");
         }

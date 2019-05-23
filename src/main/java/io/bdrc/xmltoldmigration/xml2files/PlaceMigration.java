@@ -1,12 +1,20 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.USER;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.VCARD;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType.EVENT;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType.VCARD_ADDR;
+
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.VCARD4;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -19,11 +27,6 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 public class PlaceMigration {
 
 	public static final String PLXSDNS = "http://www.tbrc.org/models/place#";
-    private static final String BDA = CommonMigration.BDA;
-    private static final String BDO = CommonMigration.BDO;
-    private static final String BDR = CommonMigration.BDR;
-    private static final String ADM = CommonMigration.ADM;
-    private static final String VCARD = VCARD4.getURI();
 	
     private static String getUriFromTypeSubtype(String type, String subtype) {
         switch (type) {
@@ -56,12 +59,12 @@ public class PlaceMigration {
 		CommonMigration.addNotes(m, root, main, PLXSDNS);
 		
 		CommonMigration.addExternals(m, root, main, PLXSDNS);
+        
+        CommonMigration.addDescriptions(m, root, main, PLXSDNS);
+        
+        addEvents(m, root, main);
 		
 		CommonMigration.addLog(m, root, admMain, PLXSDNS);
-		
-		CommonMigration.addDescriptions(m, root, main, PLXSDNS);
-		
-		addEvents(m, root, main);
 		
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "gis");
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -77,7 +80,8 @@ public class PlaceMigration {
 		nodeList = root.getElementsByTagNameNS(PLXSDNS, "address");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			Resource address = m.createResource();
+			Resource address = CommonMigration.getFacetNode(VCARD_ADDR, VCARD, main, VCARD_ADDR.getNodeType());
+//			Resource address = m.createResource();
 			//m.add(address, RDF.type, m.createResource(BDO+"PlaceAddress"));
 			m.add(main, m.getProperty(BDO+"placeAddress"), address);
 			addSimpleAttr(current.getAttribute("city"), "city", VCARD+"locality", m, address);
@@ -270,8 +274,9 @@ public class PlaceMigration {
 	            value = value.substring(16);
 	            value = getUriFromTypeSubtype("eventType", value);
 	        }
-			Resource event = m.createResource();
-			m.add(event, RDF.type, m.getResource(value));
+			Resource event = CommonMigration.getFacetNode(EVENT, main);
+//			Resource event = m.createResource();
+//			m.add(event, RDF.type, m.getResource(value));
 			CommonMigration.addDates(current.getAttribute("circa"), event, main);
 			value = current.getAttribute("circa").trim();
 			Property prop = m.getProperty(BDO+"placeEvent");

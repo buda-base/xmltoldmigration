@@ -5,6 +5,8 @@ import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
 import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
 import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
 import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.USER;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType.EVENT;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType.NAME;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +25,6 @@ import org.w3c.dom.NodeList;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class PersonMigration {
 
@@ -71,7 +72,7 @@ public class PersonMigration {
     private static Resource getNameForType(Resource personR, String subtype) {
         Model m = personR.getModel();
         Resource typeIndividual = m.getResource(getUriFromTypeSubtype("name", subtype));
-        Resource nameR = CommonMigration.getFacetNode(FacetType.NAME, personR, USER, typeIndividual);
+        Resource nameR = CommonMigration.getFacetNode(NAME, personR, typeIndividual);
         personR.addProperty(m.getProperty(BDO+"personName"), nameR);
         return nameR;
     }
@@ -270,7 +271,7 @@ public class PersonMigration {
     public static Resource getEventForType(Resource rez, Property prop, String subtype) {
         Model m = rez.getModel();
         Resource typeIndividual = m.getResource(getUriFromTypeSubtype("event", subtype));
-        Resource eventR = CommonMigration.getFacetNode(FacetType.EVENT, rez, USER, typeIndividual);
+        Resource eventR = CommonMigration.getFacetNode(EVENT, rez, typeIndividual);
         rez.addProperty(prop, eventR);
         return eventR;
     }
