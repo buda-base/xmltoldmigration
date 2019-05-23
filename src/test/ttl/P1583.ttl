@@ -37,16 +37,18 @@ bdr:EVF24F5C4DD814  a  :PersonAssumesOffice ;
 bda:P1583  a               adm:AdminData ;
         rdfs:seeAlso       bdr:O1GS392481GS39291 ;
         adm:adminAbout     bdr:P1583 ;
-        adm:facetIndex     "24"^^xsd:int ;
+        adm:facetIndex     "25"^^xsd:int ;
         adm:gitInfo        bda:GTCCF6A7ECE007 ;
-        adm:logEntry       [ adm:logDate     "2008-06-30T17:01:56.496Z"^^xsd:dateTime ;
-                             adm:logMessage  "added records"@en ;
-                             adm:logWho      bdr:U00015
-                           ] ;
+        adm:logEntry       bdr:LG650F49A48542 ;
         adm:metadataLegal  bda:LD_BDRC_Open ;
         adm:seeOtherToL    "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
+
+bdr:LG650F49A48542  a   adm:LogEntry ;
+        adm:logDate     "2008-06-30T17:01:56.496Z"^^xsd:dateTime ;
+        adm:logMessage  "added records"@en ;
+        adm:logWho      bdr:U00015 .
 
 bdr:NM27A9E6B52AE2  a  :PersonPrimaryName ;
         rdfs:label  "dri med 'od zer/ 2"@bo-x-ewts .

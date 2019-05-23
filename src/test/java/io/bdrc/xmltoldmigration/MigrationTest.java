@@ -238,11 +238,11 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "product");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PR99NCUL01.ttl");
     	//MigrationHelpers.modelToOutputStream(fromXml, System.out, "product", MigrationHelpers.OUTPUT_STTL, null);
-//        
-//        // ==== TEMP DEBUG ====
-//        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testPR99NCUL01-fromXml.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testPR99NCUL01-correctModel.ttl"), "TTL");
-//
+        
+        // ==== TEMP DEBUG ====
+        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testPR99NCUL01-fromXml.ttl"), "TTL");
+        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testPR99NCUL01-correctModel.ttl"), "TTL");
+
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -381,11 +381,11 @@ public class MigrationTest
            Model fromXml = MigrationHelpers.xmlToRdf(d, "taxonomy");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/TaxonomyTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "topic", MigrationHelpers.OUTPUT_STTL, null);
-//           
-//           // ==== TEMP DEBUG ====
-//           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testTaxonomy-fromXml.ttl"), "TTL");
-//           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testTaxonomy-correctModel.ttl"), "TTL");
-//
+           
+           // ==== TEMP DEBUG ====
+           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testTaxonomy-fromXml.ttl"), "TTL");
+           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-testTaxonomy-correctModel.ttl"), "TTL");
+
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

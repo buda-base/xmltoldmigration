@@ -987,7 +987,8 @@ public class CommonMigration  {
 	
 	public static void addLogEntry(Model m, Element e, Resource r) {
 		if (e == null) return;
-		Resource logEntry = m.createResource();
+		Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, r);
+//		Resource logEntry = m.createResource();
 		//m.add(logEntry, RDF.type, m.getProperty(BDO+"LogEntry"));
 		Property prop = m.getProperty(ADM, "logEntry");
 		m.add(r, prop, logEntry);
