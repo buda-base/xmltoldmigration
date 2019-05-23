@@ -75,7 +75,9 @@ public class ImagegroupMigration {
 		final String volumeId = "V"+itemId.substring(1)+"_"+imageGroupRID;
 		
         Resource main = m.createResource(BDR+volumeId);
-        Resource admMain = CommonMigration.getAdminData(main);
+        // create root AdminData if it doesn't already exist - should only be created 
+        // when used in MigrationTest.testImagegroup() w/o previously the containing Item
+        Resource admMain = CommonMigration.getAdminRoot(item, true);
 
 		admMain.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         

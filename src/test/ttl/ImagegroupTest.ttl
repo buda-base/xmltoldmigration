@@ -12,20 +12,22 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:VestItem_I4158  a            adm:AdminData ;
-        adm:adminAbout           bdr:VestItem_I4158 ;
-        adm:legacyImageGroupRID  "I4158" ;
-        adm:logEntry             bdr:THIS_MUST_VE_TRACKED_DOWN ;
-        adm:metadataLegal        bda:LD_BDRC_Open ;
-        adm:status               bda:StatusReleased ;
-        adm:volumeQcDate         "12/03" ;
-        adm:volumeQcNote         "qc notes" ;
-        adm:volumeQcPerson       "khedup" .
+bda:GT0A6926EAF415  a  adm:GitInfo ;
+        adm:gitPath  "2d/TestItem.trig" ;
+        adm:gitRepo  bda:GR0003 .
 
-bdr:THIS_MUST_VE_TRACKED_DOWN  a             adm:LogEntry ;
-        adm:logDate     "2007-09-08T18:25:21.468Z"^^xsd:dateTime , "2016-03-31T21:27:09.458Z"^^xsd:dateTime , "2016-04-28T23:50:58.855Z"^^xsd:dateTime , "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
-        adm:logMessage  "Added ondisk"@en , "cataloging reviewed"@en , "Updated total pages and added page list"@en , "Updated total pages"@en ;
-        adm:logWho      bdr:U00001 , bdr:U00006 .
+bdr:LG22EEF47207C5  a   adm:LogEntry ;
+        adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
+        adm:logMessage  "Updated total pages"@en ;
+        adm:logWho      bdr:U00006 .
+
+bdr:TestItem  a  :ItemImageAsset ;
+        :isRoot  true .
+
+bdr:LG2AEA0C5ABA00  a   adm:LogEntry ;
+        adm:logDate     "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;
+        adm:logMessage  "cataloging reviewed"@en ;
+        adm:logWho      bdr:U00001 .
 
 bdr:VestItem_I4158  a          :VolumeImageAsset ;
         :imageCount            352 ;
@@ -38,5 +40,25 @@ bdr:VestItem_I4158  a          :VolumeImageAsset ;
         :volumePagesText       2 ;
         :volumePagesTotal      356 .
 
-bdr:TestItem  a  :ItemImageAsset ;
-        :isRoot  true .
+bdr:LG13CE91162562  a   adm:LogEntry ;
+        adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
+        adm:logMessage  "Updated total pages and added page list"@en ;
+        adm:logWho      bdr:U00006 .
+
+bda:TestItem  a                  adm:AdminData ;
+        adm:adminAbout           bdr:TestItem ;
+        adm:facetIndex           "6"^^xsd:int ;
+        adm:gitInfo              bda:GT0A6926EAF415 ;
+        adm:legacyImageGroupRID  "I4158" ;
+        adm:logEntry             bdr:LG13CE91162562 , bdr:LG2898BD656B68 , bdr:LG2AEA0C5ABA00 , bdr:LG22EEF47207C5 ;
+        adm:metadataLegal        bda:LD_BDRC_Open ;
+        adm:status               bda:StatusReleased ;
+        adm:volumeQcDate         "12/03" ;
+        adm:volumeQcNote         "qc notes" ;
+        adm:volumeQcPerson       "khedup" ;
+        :isRoot                  true .
+
+bdr:LG2898BD656B68  a   adm:LogEntry ;
+        adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
+        adm:logMessage  "Added ondisk"@en ;
+        adm:logWho      bdr:U00006 .
