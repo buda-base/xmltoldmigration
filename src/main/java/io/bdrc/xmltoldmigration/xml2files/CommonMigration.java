@@ -403,7 +403,7 @@ public class CommonMigration  {
            m.remove(stmt);
         }
         
-        m.addLiteral(rootAdmRez, inxP, inx+1);
+        m.addLiteral(rootAdmRez, inxP, m.createTypedLiteral(inx+1, XSDDatatype.XSDinteger));
         return inx;
     }
     
