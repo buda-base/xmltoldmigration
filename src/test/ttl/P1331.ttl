@@ -12,6 +12,9 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bdg:P1331  a          adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
+
 bdr:EV7219361C1AA8  a  :PersonOccupiesSeat ;
         :eventWhere  bdr:G844 .
 
@@ -43,6 +46,7 @@ bdr:NM4A638B850908  a  :PersonPrimaryName ;
 
 bda:P1331  a               adm:AdminData ;
         adm:adminAbout     bdr:P1331 ;
+        adm:adminForGraph  bdg:P1331 ;
         adm:facetIndex     "7"^^xsd:int ;
         adm:gitInfo        bda:GT571CB24315A2 ;
         adm:metadataLegal  bda:LD_BDRC_Open ;

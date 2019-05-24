@@ -52,6 +52,7 @@ bda:LGFD3940A68CCD  a   adm:LogEntry ;
 
 bda:G844  a                           adm:AdminData ;
         adm:adminAbout                bdr:G844 ;
+        adm:adminForGraph             bdg:G844 ;
         adm:facetIndex                "17"^^xsd:int ;
         adm:gitInfo                   bda:GT0003C9494ACE ;
         adm:logEntry                  bda:LG2B4F2E9D5266 , bda:LGFE2C8100AFEA , bda:LG32AA3FB263A1 , bda:LG6B068E49DCE4 , bda:LGD9AB54C475EB , bda:LG0EEB0BC94161 , bda:LG9DB536C5C700 , bda:LGFD3940A68CCD ;
@@ -109,6 +110,9 @@ bdr:NT6CE397FC65EA  a  :Note ;
 bda:GT0003C9494ACE  a  adm:GitInfo ;
         adm:gitPath  "ea/G844.trig" ;
         adm:gitRepo  bda:GR0005 .
+
+bdg:G844  a           adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
 
 bdr:G844  a                   :Place ;
         :isRoot               true ;

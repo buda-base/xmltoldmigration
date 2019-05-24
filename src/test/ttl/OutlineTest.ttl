@@ -67,6 +67,7 @@ bdr:W30020_0004  a             :Work ;
 
 bda:W30020  a                       adm:AdminData , adm:Outline ;
         adm:adminAbout              bdr:W30020 ;
+        adm:adminForGraph           bdg:W30020 ;
         adm:facetIndex              "23"^^xsd:int ;
         adm:gitInfo                 bda:GTFB484180E5EB ;
         adm:logEntry                bda:LGD3DC46254703 , bda:LG6DB31C3D5BCC , bda:LGEAEF6A2CE31A ;
@@ -169,6 +170,9 @@ bdr:W30020_0015  a             :Work ;
 bdr:CRE066648DD448  a  :AgentAsCreator ;
         :agent  bdr:P00KG07267 ;
         :role   bdr:R0ER0018 .
+
+bdg:W30020  a         adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
 
 bdr:TT62495530955B  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .

@@ -37,6 +37,7 @@ bdr:VestItem_I4158  a          :VolumeImageAsset ;
 
 bda:TestItem  a                  adm:AdminData ;
         adm:adminAbout           bdr:TestItem ;
+        adm:adminForGraph        bdg:TestItem ;
         adm:facetIndex           "6"^^xsd:int ;
         adm:gitInfo              bda:GT0A6926EAF415 ;
         adm:legacyImageGroupRID  "I4158" ;
@@ -52,6 +53,9 @@ bda:LG22EEF47207C5  a   adm:LogEntry ;
         adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages"@en ;
         adm:logWho      bdr:U00006 .
+
+bdg:TestItem  a       adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
 
 bda:LG2AEA0C5ABA00  a   adm:LogEntry ;
         adm:logDate     "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;

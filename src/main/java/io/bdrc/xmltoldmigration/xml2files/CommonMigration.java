@@ -281,15 +281,20 @@ public class CommonMigration  {
         Resource repoR = getRezRepo(rez);
         
         if (repoR != null) {
+            Resource graphR = m.createResource(BDG+rez.getLocalName());
             // add GitInfo
             String gitInfoUri = BDA+mintId(admR, admR.getURI(), "GT");
             Resource gitInfo = m.createResource(gitInfoUri);
             admR.addProperty(m.createProperty(ADM+"gitInfo"), gitInfo);
+            admR.addProperty(m.createProperty(ADM+"adminForGraph"), graphR);
             // fill in GitInfo
             gitInfo.addProperty(RDF.type, m.createResource(ADM+"GitInfo"));
             gitInfo.addProperty(m.createProperty(ADM+"gitRepo"), repoR);
             String rid = rez.getLocalName();
             gitInfo.addProperty(m.createProperty(ADM+"gitPath"), getMd5(rid)+"/"+rid+".trig");
+            // add graph triples
+            graphR.addProperty(RDF.type, m.createResource(ADM+"Graph"));
+            graphR.addProperty(m.createProperty(ADM+"hasLegal"), m.createResource(BDA+"LD_BDRC_Open"));
         } else {
             // probably called from TaxonomyMigration - 
             // nothing to do since taxonomies aren't stored in their own repo

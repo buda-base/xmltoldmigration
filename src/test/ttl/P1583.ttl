@@ -37,6 +37,7 @@ bdr:EVF24F5C4DD814  a  :PersonAssumesOffice ;
 bda:P1583  a               adm:AdminData ;
         rdfs:seeAlso       bdr:O1GS392481GS39291 ;
         adm:adminAbout     bdr:P1583 ;
+        adm:adminForGraph  bdg:P1583 ;
         adm:facetIndex     "25"^^xsd:int ;
         adm:gitInfo        bda:GTCCF6A7ECE007 ;
         adm:logEntry       bda:LG650F49A48542 ;
@@ -94,6 +95,9 @@ bdr:P1583  a                 :Person ;
         :personOfSect        bdr:T1234 ;
         :personStudentOf     bdr:P123 ;
         skos:prefLabel       "Drime Oser"@en , "dri med 'od zer/"@bo-x-ewts .
+
+bdg:P1583  a          adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
 
 bdr:NMFB54273C9888  a  :PersonPrimaryName ;
         rdfs:label  "Drime Oser"@en .

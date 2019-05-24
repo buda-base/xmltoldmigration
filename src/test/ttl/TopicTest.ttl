@@ -33,6 +33,9 @@ bda:LGE44A97C18EC3  a   adm:LogEntry ;
         adm:logMessage  "added description"@en ;
         adm:logWho      bdr:U00007 .
 
+bdg:T3CN2023  a       adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
+
 bda:LG84BBD58F4153  a   adm:LogEntry ;
         adm:logDate     "2015-09-04T13:13:26.221Z"^^xsd:dateTime ;
         adm:logMessage  "added see also"@en ;
@@ -49,6 +52,7 @@ bda:GTA60A2A28DC34  a  adm:GitInfo ;
 
 bda:T3CN2023  a            adm:AdminData ;
         adm:adminAbout     bdr:T3CN2023 ;
+        adm:adminForGraph  bdg:T3CN2023 ;
         adm:facetIndex     "7"^^xsd:int ;
         adm:gitInfo        bda:GTA60A2A28DC34 ;
         adm:logEntry       bda:LGE44A97C18EC3 , bda:LG84BBD58F4153 , bda:LG5445DD18570C , bda:LG5312A53141EB , bda:LGBAD47AAC9EAE ;

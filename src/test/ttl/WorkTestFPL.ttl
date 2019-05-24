@@ -29,6 +29,7 @@ bdr:NTA756609A3D60  a  :Note ;
 
 bda:W12837FPL  a           adm:AdminData ;
         adm:adminAbout     bdr:W12837FPL ;
+        adm:adminForGraph  bdg:W12837FPL ;
         adm:facetIndex     "15"^^xsd:int ;
         adm:gitInfo        bda:GT8B546A75C4A0 ;
         adm:logEntry       bda:LG4802878668DC , bda:LGA31364CA97C9 , bda:LGD87EBF2311F0 , bda:LGFB1A36806E27 ;
@@ -56,6 +57,9 @@ bdr:TTE1AD1BBEF536  a  :WorkOtherTitle ;
 bda:GT8B546A75C4A0  a  adm:GitInfo ;
         adm:gitPath  "55/W12837FPL.trig" ;
         adm:gitRepo  bda:GR0008 .
+
+bdg:W12837FPL  a      adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
 
 bda:LG4802878668DC  a   adm:LogEntry ;
         adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;

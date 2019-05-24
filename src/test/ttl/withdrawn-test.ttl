@@ -22,6 +22,7 @@ bda:GT09D0297884B2  a  adm:GitInfo ;
 
 bda:R8LS12811  a           adm:AdminData ;
         adm:adminAbout     bdr:R8LS12811 ;
+        adm:adminForGraph  bdg:R8LS12811 ;
         adm:facetIndex     "4"^^xsd:int ;
         adm:gitInfo        bda:GT09D0297884B2 ;
         adm:logEntry       bda:LGB627CF38003D , bda:LGD54D06CD4A62 ;
@@ -29,6 +30,9 @@ bda:R8LS12811  a           adm:AdminData ;
         adm:replaceWith    bdr:R1GS23 ;
         adm:status         bda:StatusWithdrawn ;
         :isRoot            true .
+
+bdg:R8LS12811  a      adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
 
 bda:LGB627CF38003D  a   adm:LogEntry ;
         adm:logDate     "2012-12-20T16:34:48.895Z"^^xsd:dateTime ;

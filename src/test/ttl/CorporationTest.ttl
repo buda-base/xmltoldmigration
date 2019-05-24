@@ -14,11 +14,11 @@
 
 bdr:C11MS170  a                :Corporation ;
         rdfs:comment           "some description" ;
-        :corporationHasMember  [ a                   :CorporationMemberNotSpecified ;
-                                 :corporationMember  bdr:P1856
-                               ] ;
         :corporationHasMember  [ a                   :CorporationMemberUnknown ;
                                  :corporationMember  bdr:P1857
+                               ] ;
+        :corporationHasMember  [ a                   :CorporationMemberNotSpecified ;
+                                 :corporationMember  bdr:P1856
                                ] ;
         :corporationRegion     bdr:G934 ;
         :isRoot                true ;
@@ -30,6 +30,7 @@ bdr:NTF247E9C5ACE9  a  :Note ;
 
 bda:C11MS170  a            adm:AdminData ;
         adm:adminAbout     bdr:C11MS170 ;
+        adm:adminForGraph  bdg:C11MS170 ;
         adm:facetIndex     "5"^^xsd:int ;
         adm:gitInfo        bda:GT3E8AE8DC17BE ;
         adm:logEntry       bda:LG7872F5FD7506 ;
@@ -41,6 +42,9 @@ bda:LG7872F5FD7506  a   adm:LogEntry ;
         adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
         adm:logMessage  "created new corp."@en ;
         adm:logWho      bdr:U00020 .
+
+bdg:C11MS170  a       adm:Graph ;
+        adm:hasLegal  bda:LD_BDRC_Open .
 
 bda:GT3E8AE8DC17BE  a  adm:GitInfo ;
         adm:gitPath  "9a/C11MS170.trig" ;
