@@ -31,6 +31,10 @@ public class EtextBodyMigration {
     public static final String BDR = CommonMigration.BDR;
     public static final String BDO = CommonMigration.BDO;
     public static final String ADM = CommonMigration.ADM;
+    public static final String PAGE_INSERT = "\n\n";
+    public static final int PAGE_INSERT_codelen = 2;
+    public static final String LINE_INSERT = "\n";
+    public static final int LINE_INSERT_codelen = 1;
     
     public static final Pattern rtfP = Pattern.compile("(\\s*\\d*(PAGE|\\$)[\u0000-\u0127]+)+");
     public static String normalizeString(final String src, final String page, final String lineNum, final boolean fromRTF, final String eTextId) {
@@ -75,8 +79,7 @@ public class EtextBodyMigration {
         final NodeList pars = body.getElementsByTagNameNS(TEI_PREFIX, "p");
         int currentTotalPoints = 0;
         final StringBuilder totalStr = new StringBuilder();
-        final Map<Resource,int[]> resourcesCoords = new HashMap<Resource,int[]>();
-        boolean first = true;
+        boolean firstPage = true;
         for (int i = 0; i < pars.getLength(); i++) {
             final Element par = (Element) pars.item(i);
             if (!par.hasChildNodes()) {
@@ -95,7 +98,6 @@ public class EtextBodyMigration {
                         pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
                     }
                     if (pageNumI == null) {
-                        //System.out.println(imageNumPageNum);
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot find image "+pageNum);
                     } else {
                         pageR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(pageNumI, XSDDatatype.XSDinteger));
@@ -109,12 +111,14 @@ public class EtextBodyMigration {
                     }
                 }
             }
-            final int pageBeginPointIndex = currentTotalPoints+1;
+            int pageBeginPointIndex = currentTotalPoints;
             final NodeList children = par.getChildNodes();
             int linenum = 0;
+            boolean firstLine = true;
             for (int j = 0; j < children.getLength(); j++) {
               final Node child = children.item(j);
               if (child instanceof Element) {
+                  // milestones inbetween text chuncks
                   if (!keepPages)
                       continue;
                   final Element milestone = (Element) child;
@@ -125,59 +129,42 @@ public class EtextBodyMigration {
                       linenum = 0;
                   }
               } else {
+                // text chunks
                 String s = child.getTextContent();
                 if (s.isEmpty())
                     continue;
+                if (!firstLine) {
+                    ps.print(LINE_INSERT);
+                    currentTotalPoints += LINE_INSERT_codelen;
+                } else if (!firstPage) {
+                    ps.print(PAGE_INSERT);
+                    currentTotalPoints += PAGE_INSERT_codelen;
+                    pageBeginPointIndex += PAGE_INSERT_codelen;
+                }
                 s = normalizeString(s, Integer.toString(linenum), pageNum, !needsPageNameTranslation, eTextId);
-                if (!first && !keepPages)
-                    s = ' '+s;
                 final int strLen = s.codePointCount(0, s.length()); 
                 if (keepPages && linenum != 0) {
                     Resource lineR = m.createResource();
                     pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
                     lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
-                    resourcesCoords.put(lineR, new int[] {currentTotalPoints, currentTotalPoints+strLen});
+                    lineR.addProperty(m.getProperty(BDO, "sliceStartChar"), m.createTypedLiteral(currentTotalPoints, XSDDatatype.XSDinteger));
+                    lineR.addProperty(m.getProperty(BDO, "sliceEndChar"), m.createTypedLiteral(currentTotalPoints+strLen, XSDDatatype.XSDinteger));
                 }
                 currentTotalPoints += strLen;
-                
-                // web annotations refer to code points, not UTF-16 code units:
-                if (oneLongString)
-                    ps.print(s);
-                else
-                    totalStr.append(s);
+
+                ps.print(s);
+                firstPage = false;
+                firstLine = false;
               }
-              first = false;
            }
            final int pageEndPointIndex = currentTotalPoints;
            if (keepPages) {
-               resourcesCoords.put(pageR, new int[] {pageBeginPointIndex, pageEndPointIndex});
+               pageR.addProperty(m.getProperty(BDO, "sliceStartChar"), m.createTypedLiteral(pageBeginPointIndex, XSDDatatype.XSDinteger));
+               pageR.addProperty(m.getProperty(BDO, "sliceEndChar"), m.createTypedLiteral(pageEndPointIndex, XSDDatatype.XSDinteger));
            }
         }
         if (totalStr.length() == 0)
             ExceptionHelper.logException(ExceptionHelper.ET_ETEXT, eTextId, eTextId, "is empty");
-        // at that point the processing is done if we're in one long string mode
-        if (!oneLongString)
-            chunkString(totalStr.toString(), resourcesCoords, ps, m, eTextId, currentTotalPoints);
-    }
-    
-    public static void chunkString(final String totalStr, final Map<Resource,int[]> resourcesCoords, final PrintStream out, final Model m, final String eTextId, final int totalPoints) {
-        final List<Integer>[] breaks = TibetanStringChunker.getAllBreakingCharsIndexes(totalStr);
-        
-        final List<Integer> charBreaks = breaks[0];
-        int previousIndex = 0;
-        //final int nbBreaks = charBreaks.size();
-        for (final int charBreakIndex : charBreaks) { 
-            out.print(totalStr.substring(previousIndex, charBreakIndex)+'\n');
-            previousIndex = charBreakIndex;
-        }
-        if (previousIndex != totalStr.length()) {
-            out.print(totalStr.substring(previousIndex));
-        }
-        for (final Entry<Resource,int[]> e : resourcesCoords.entrySet()) {
-            final int[] oldSet = e.getValue();
-            e.getKey().addProperty(m.getProperty(BDO, "sliceStartChar"), m.createTypedLiteral(oldSet[0], XSDDatatype.XSDinteger));
-            e.getKey().addProperty(m.getProperty(BDO, "sliceEndChar"), m.createTypedLiteral(oldSet[1], XSDDatatype.XSDinteger));
-        }
     }
 
 }
