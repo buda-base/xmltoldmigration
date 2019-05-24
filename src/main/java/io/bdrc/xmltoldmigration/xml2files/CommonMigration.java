@@ -725,8 +725,6 @@ public class CommonMigration  {
 		m.setNsPrefix("skos", SKOS.getURI());
         m.setNsPrefix("xsd", XSD.getURI());
         m.setNsPrefix("rkts", "http://purl.rkts.eu/resource/");
-        m.setNsPrefix("dila", "http://authority.dila.edu.tw/person/?fromInner=");
-        m.setNsPrefix("sutta", "http://suttacentral.net/resource/");
 		if (addVcard)
 		    m.setNsPrefix("vcard", VCARD4.getURI());
 
