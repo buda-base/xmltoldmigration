@@ -154,7 +154,7 @@ public class CUDLTransfer {
 
         // Work adm:AdminData
         CommonMigration.addReleased(workModel, admWork);
-        workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_CUDL")); // ?
+        workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_CUDL_metadata")); // ?
         final String origUrl = ORIG_URL_BASE+line[0];
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
 
@@ -225,8 +225,7 @@ public class CUDLTransfer {
         
         // Item adm:AdminData
         CommonMigration.addReleased(itemModel, itemAdm);
-        itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_CUDL"));
-        itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_CUDL"));
+        itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_CUDL_content"));
                
         // bdo:ItemImageAsset
         final String volumeRID = "V0CDL0"+rid;

@@ -294,7 +294,7 @@ public class CommonMigration  {
             gitInfo.addProperty(m.createProperty(ADM+"gitPath"), getMd5(rid)+"/"+rid+".trig");
             // add graph triples
             graphR.addProperty(RDF.type, m.createResource(ADM+"Graph"));
-            graphR.addProperty(m.createProperty(ADM+"hasLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+            graphR.addProperty(m.createProperty(ADM+"hasLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
         } else {
             // probably called from TaxonomyMigration - 
             // nothing to do since taxonomies aren't stored in their own repo

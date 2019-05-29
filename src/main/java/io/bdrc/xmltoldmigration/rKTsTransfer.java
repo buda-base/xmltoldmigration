@@ -134,7 +134,7 @@ public class rKTsTransfer {
                     admin.addProperty(RDF.type, m.createResource(ADM+"AdminData"));
                     admin.addProperty(m.getProperty(ADM, "adminAbout"), m.createResource(BDR+workName));
                     admin.addProperty(m.getProperty(ADM, "status"), m.createResource(BDA+"StatusReleased"));
-                    admin.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+                    admin.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_rKTs_CC0"));
                     // TODO: add log entry?
                 }
                 MigrationHelpers.outputOneModel(m, workName, workOutFileName, "work");

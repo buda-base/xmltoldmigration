@@ -94,7 +94,7 @@ public class WorkMigration {
         Resource admMain = CommonMigration.createAdminRoot(main);
 		
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));        
-        admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+        //admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 
 		
 		String value = null;
@@ -135,7 +135,7 @@ public class WorkMigration {
             if (licenseValue.equals("copyright")) 
                 licenseValue = BDA+"LD_BDRC_Copyright";
             else
-                licenseValue = BDA+"LD_BDRC_Open";
+                licenseValue = BDA+"LD_BDRC_PD";
             hasLicense = true;
             
             value = current.getAttribute("access").trim();
@@ -184,7 +184,7 @@ public class WorkMigration {
             accessUri = BDA+"AccessOpen";
         }        
         if (hasArchiveInfo && !hasLicense) {
-            legalUri = BDA+"LD_BDRC_Open";
+            legalUri = BDA+"LD_BDRC_PD";
         }
         
         // these maps are queried in ImagegroupMigration and EtextMigration 
