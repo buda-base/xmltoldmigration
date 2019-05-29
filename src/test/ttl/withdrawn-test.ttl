@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix sutta: <http://suttacentral.net/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -12,34 +10,28 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:R8LS12811  a        :Role ;
-        :isRoot         true ;
-        skos:prefLabel  "Bonpo Lung Lama Tulku Line"@en , "bon po lung bla ma'i skye brgyud/"@bo-x-ewts .
-
-bda:GT09D0297884B2  a  adm:GitInfo ;
-        adm:gitPath  "ff/R8LS12811.trig" ;
-        adm:gitRepo  bda:GR0010 .
-
-bda:R8LS12811  a           adm:AdminData ;
-        adm:adminAbout     bdr:R8LS12811 ;
-        adm:adminForGraph  bdg:R8LS12811 ;
-        adm:facetIndex     "4"^^xsd:int ;
-        adm:gitInfo        bda:GT09D0297884B2 ;
-        adm:logEntry       bda:LGB627CF38003D , bda:LGD54D06CD4A62 ;
-        adm:metadataLegal  bda:LD_BDRC_Open ;
-        adm:replaceWith    bdr:R1GS23 ;
-        adm:status         bda:StatusWithdrawn ;
-        :isRoot            true .
-
-bdg:R8LS12811  a      adm:Graph ;
-        adm:hasLegal  bda:LD_BDRC_Open .
-
 bda:LGB627CF38003D  a   adm:LogEntry ;
+        adm:logDate     "2014-07-11T12:26:57.845Z"^^xsd:dateTime ;
+        adm:logMessage  "withdrawn in favour of  r1gs23; deleted data and moved to P2597"@en ;
+        adm:logWho      bdr:U00020 .
+
+bda:LG32C083A34E27  a   adm:LogEntry ;
         adm:logDate     "2012-12-20T16:34:48.895Z"^^xsd:dateTime ;
         adm:logMessage  "created new office"@en ;
         adm:logWho      bdr:U00019 .
 
-bda:LGD54D06CD4A62  a   adm:LogEntry ;
-        adm:logDate     "2014-07-11T12:26:57.845Z"^^xsd:dateTime ;
-        adm:logMessage  "withdrawn in favour of  r1gs23; deleted data and moved to P2597"@en ;
-        adm:logWho      bdr:U00020 .
+bdr:R8LS12811  a        :Role ;
+        :isRoot         true ;
+        skos:prefLabel  "Bonpo Lung Lama Tulku Line"@en , "bon po lung bla ma'i skye brgyud/"@bo-x-ewts .
+
+bda:R8LS12811  a           adm:AdminData ;
+        adm:adminAbout     bdr:R8LS12811 ;
+        adm:facetIndex     3 ;
+        adm:gitPath        "ff/R8LS12811.trig" ;
+        adm:gitRepo        bda:GR0010 ;
+        adm:graphId        bdg:R8LS12811 ;
+        adm:logEntry       bda:LG32C083A34E27 , bda:LGB627CF38003D ;
+        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:replaceWith    bdr:R1GS23 ;
+        adm:status         bda:StatusWithdrawn ;
+        :isRoot            true .

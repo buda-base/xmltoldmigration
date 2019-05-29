@@ -10,14 +10,8 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:GT0A6926EAF415  a  adm:GitInfo ;
-        adm:gitPath  "2d/TestItem.trig" ;
-        adm:gitRepo  bda:GR0003 .
-
-bda:LGC97AB930BEE3  a   adm:LogEntry ;
-        adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
-        adm:logMessage  "Updated total pages and added page list"@en ;
-        adm:logWho      bdr:U00006 .
+bdr:TestItem  a  :ItemImageAsset ;
+        :isRoot  true .
 
 bdr:VestItem_I4158  a          :VolumeImageAsset ;
         :imageCount            352 ;
@@ -30,33 +24,33 @@ bdr:VestItem_I4158  a          :VolumeImageAsset ;
         :volumePagesText       2 ;
         :volumePagesTotal      356 .
 
-bdr:TestItem  a  :ItemImageAsset ;
-        :isRoot  true .
-
-bda:TestItem  a            adm:AdminData ;
-        adm:adminAbout     bdr:TestItem ;
-        adm:adminForGraph  bdg:TestItem ;
-        adm:facetIndex     6 ;
-        adm:gitInfo        bda:GT0A6926EAF415 ;
-        :isRoot            true .
-
-bda:LG3851E8262B9D  a   adm:LogEntry ;
-        adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
-        adm:logMessage  "Updated total pages"@en ;
-        adm:logWho      bdr:U00006 .
-
-bda:LGFC9B5FCCA8D3  a   adm:LogEntry ;
+bda:LG012EB7E318FD  a   adm:LogEntry ;
         adm:logDate     "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdr:U00001 .
 
-bdg:TestItem  a       adm:Graph ;
-        adm:hasLegal  bda:LD_BDRC_CC0 .
+bda:TestItem  a         adm:AdminData ;
+        adm:adminAbout  bdr:TestItem ;
+        adm:facetIndex  5 ;
+        adm:gitPath     "2d/TestItem.trig" ;
+        adm:gitRepo     bda:GR0003 ;
+        adm:graphId     bdg:TestItem ;
+        :isRoot         true .
+
+bda:LG3851E8262B9D  a   adm:LogEntry ;
+        adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
+        adm:logMessage  "Added ondisk"@en ;
+        adm:logWho      bdr:U00006 .
+
+bda:LGFC9B5FCCA8D3  a   adm:LogEntry ;
+        adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
+        adm:logMessage  "Updated total pages"@en ;
+        adm:logWho      bdr:U00006 .
 
 bda:VestItem_I4158  a            adm:AdminData ;
         adm:adminAbout           bdr:VestItem_I4158 ;
         adm:legacyImageGroupRID  "I4158" ;
-        adm:logEntry             bda:LGFC9B5FCCA8D3 , bda:LG3851E8262B9D , bda:LGC97AB930BEE3 , bda:LGC589389A74ED ;
+        adm:logEntry             bda:LGFC9B5FCCA8D3 , bda:LG3851E8262B9D , bda:LG012EB7E318FD , bda:LGC589389A74ED ;
         adm:metadataLegal        bda:LD_BDRC_Open ;
         adm:status               bda:StatusReleased ;
         adm:volumeQcDate         "12/03" ;
@@ -64,6 +58,6 @@ bda:VestItem_I4158  a            adm:AdminData ;
         adm:volumeQcPerson       "khedup" .
 
 bda:LGC589389A74ED  a   adm:LogEntry ;
-        adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
-        adm:logMessage  "Added ondisk"@en ;
+        adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
+        adm:logMessage  "Updated total pages and added page list"@en ;
         adm:logWho      bdr:U00006 .

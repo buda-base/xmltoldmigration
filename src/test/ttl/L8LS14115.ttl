@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix sutta: <http://suttacentral.net/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -12,32 +10,26 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:GT80ED30291973  a  adm:GitInfo ;
-        adm:gitPath  "86/L8LS14115.trig" ;
-        adm:gitRepo  bda:GR0004 .
-
-bda:LG96B065B1B67F  a   adm:LogEntry ;
-        adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
-        adm:logMessage  "changed type"@en ;
-        adm:logWho      bdr:U00019 .
-
-bda:LGAE337746AFB0  a  adm:LogEntry ;
+bda:LG96B065B1B67F  a  adm:LogEntry ;
         adm:logDate  "2014-07-28T11:30:18.879Z"^^xsd:dateTime ;
         adm:logWho   bdr:U00019 .
 
-bda:LG80A1FAA25E83  a   adm:LogEntry ;
+bda:LGAE337746AFB0  a   adm:LogEntry ;
         adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
         adm:logMessage  "normalized names of who and received elements"@en ;
         adm:logWho      bdr:U00006 .
 
-bda:LGC0BD672AF6D3  a   adm:LogEntry ;
+bdr:NT55DF3CCBF9D5  a  :Note ;
+        :noteText  "test description" .
+
+bda:LG80A1FAA25E83  a   adm:LogEntry ;
         adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
         adm:logMessage  "normalized names of who and received elements - yet again"@en ;
         adm:logWho      bdr:U00006 .
 
 bda:LGBF7F6269805E  a   adm:LogEntry ;
-        adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
-        adm:logMessage  "added location"@en ;
+        adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
+        adm:logMessage  "changed type"@en ;
         adm:logWho      bdr:U00019 .
 
 bdr:L8LS14115  a        :Lineage ;
@@ -50,7 +42,7 @@ bdr:L8LS14115  a        :Lineage ;
                                             ] ;
                           :lineageWho       bdr:P1018 ;
                           :lineageWork      bdr:WTest ;
-                          :note             bdr:NT00F54FA6BB10
+                          :note             bdr:NT55DF3CCBF9D5
                         ] ;
         :lineageHolder  [ a               :LineageHolder ;
                           :lineageDownTo  bdr:L8LS15728 ;
@@ -73,20 +65,20 @@ bdr:L8LS14115  a        :Lineage ;
 
 bda:L8LS14115  a           adm:AdminData ;
         adm:adminAbout     bdr:L8LS14115 ;
-        adm:adminForGraph  bdg:L8LS14115 ;
-        adm:facetIndex     "9"^^xsd:int ;
-        adm:gitInfo        bda:GT80ED30291973 ;
-        adm:logEntry       bda:LG96B065B1B67F , bda:LGC0BD672AF6D3 , bda:LGBF7F6269805E , bda:LG80A1FAA25E83 , bda:LGAE337746AFB0 , bda:LG6B9FE548306F ;
+        adm:facetIndex     8 ;
+        adm:gitPath        "86/L8LS14115.trig" ;
+        adm:gitRepo        bda:GR0004 ;
+        adm:graphId        bdg:L8LS14115 ;
+        adm:logEntry       bda:LG96B065B1B67F , bda:LGBF7F6269805E , bda:LG80A1FAA25E83 , bda:LGAE337746AFB0 , bda:LG7D6D1032AD23 , bda:LG6B9FE548306F ;
         adm:metadataLegal  bda:LD_BDRC_Open ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdg:L8LS14115  a      adm:Graph ;
-        adm:hasLegal  bda:LD_BDRC_Open .
+bda:LG6B9FE548306F  a   adm:LogEntry ;
+        adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
+        adm:logMessage  "added location"@en ;
+        adm:logWho      bdr:U00019 .
 
-bda:LG6B9FE548306F  a  adm:LogEntry ;
+bda:LG7D6D1032AD23  a  adm:LogEntry ;
         adm:logDate  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
         adm:logWho   bdr:U00019 .
-
-bdr:NT00F54FA6BB10  a  :Note ;
-        :noteText  "test description" .

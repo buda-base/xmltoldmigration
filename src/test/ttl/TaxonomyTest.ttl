@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix sutta: <http://suttacentral.net/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -49,7 +47,7 @@ bdr:T13  skos:prefLabel  "目录"@zh-hans , "notice of contents"@en , "dkar chag
 
 bda:O9TAXTBRC201605  a  adm:AdminData ;
         adm:adminAbout  bdr:O9TAXTBRC201605 ;
-        adm:facetIndex  "2"^^xsd:int ;
+        adm:facetIndex  2 ;
         adm:logEntry    bda:LG73FFF6A15429 ;
         :isRoot         true .
 

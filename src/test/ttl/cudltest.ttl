@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix sutta: <http://suttacentral.net/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -12,12 +10,17 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:TTF89C4D245695  a  :WorkBibliographicalTitle ;
-        rdfs:label  "Abhiṣekavidhi"@sa-x-iast .
-
-bda:GTF3F924E32BBA  a  adm:GitInfo ;
-        adm:gitPath  "6f/W0CDL0MS-ADD-01691-00003.trig" ;
-        adm:gitRepo  bda:GR0008 .
+bda:W0CDL0MS-ADD-01691-00003
+        a                   adm:AdminData ;
+        adm:adminAbout      bdr:W0CDL0MS-ADD-01691-00003 ;
+        adm:facetIndex      2 ;
+        adm:gitPath         "6f/W0CDL0MS-ADD-01691-00003.trig" ;
+        adm:gitRepo         bda:GR0008 ;
+        adm:graphId         bdg:W0CDL0MS-ADD-01691-00003 ;
+        adm:metadataLegal   bda:LD_CUDL_metadata ;
+        adm:originalRecord  "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
+        adm:status          bda:StatusReleased ;
+        :isRoot             true .
 
 bdr:W0CDL0MS-ADD-01691-00003
         a                 :Work ;
@@ -28,20 +31,8 @@ bdr:W0CDL0MS-ADD-01691-00003
         :workDimWidth     27.5 ;
         :workHasItem      bdr:I0CDL0MS-ADD-01691-00003 ;
         :workMaterial     bdr:MaterialPalmyraPalmLeaf ;
-        :workTitle        bdr:TTF89C4D245695 ;
+        :workTitle        bdr:TT3D5436600134 ;
         skos:prefLabel    "Abhiṣekavidhi"@sa-x-iast .
 
-bdg:W0CDL0MS-ADD-01691-00003
-        a             adm:Graph ;
-        adm:hasLegal  bda:LD_BDRC_Open .
-
-bda:W0CDL0MS-ADD-01691-00003
-        a                   adm:AdminData ;
-        adm:adminAbout      bdr:W0CDL0MS-ADD-01691-00003 ;
-        adm:adminForGraph   bdg:W0CDL0MS-ADD-01691-00003 ;
-        adm:facetIndex      "3"^^xsd:int ;
-        adm:gitInfo         bda:GTF3F924E32BBA ;
-        adm:metadataLegal   bda:LD_CUDL ;
-        adm:originalRecord  "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
-        adm:status          bda:StatusReleased ;
-        :isRoot             true .
+bdr:TT3D5436600134  a  :WorkBibliographicalTitle ;
+        rdfs:label  "Abhiṣekavidhi"@sa-x-iast .

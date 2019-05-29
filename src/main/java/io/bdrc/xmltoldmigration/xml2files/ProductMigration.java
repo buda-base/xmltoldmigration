@@ -1,6 +1,10 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+
 import java.util.List;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -10,17 +14,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
-
 
 public class ProductMigration {
     
-    private static final String BDA = CommonMigration.BDA;
-    @SuppressWarnings("unused")
-    private static final String BDO = CommonMigration.BDO;
-    @SuppressWarnings("unused")
-    private static final String BDR = CommonMigration.BDR;
-    private static final String ADM = CommonMigration.ADM;
 	public static final String PRXSDNS = "http://www.tbrc.org/models/product#";
 	
     // Products are migrated as pure admindata so notes, descriptions etc are all
@@ -58,14 +54,6 @@ public class ProductMigration {
 			addAllows(m, admMain, current);
 			addOrgs(m, admMain, current);
 		}
-		
-		// just use the adm:workInProduct on the involved works. adm:productHasWork is deprecated
-//		List<String> worksForProduct = WorkMigration.productWorks.get(main.getLocalName());
-//		if (worksForProduct != null) {
-//		    for (String workId : worksForProduct) {
-//		        m.add(main, m.getProperty(ADM, "productHasWork"), m.createResource(BDR+workId));
-//		    }
-//		}
 
 		return m;
 	}

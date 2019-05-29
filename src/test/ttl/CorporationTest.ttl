@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix sutta: <http://suttacentral.net/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -22,33 +20,27 @@ bdr:C11MS170  a                :Corporation ;
                                ] ;
         :corporationRegion     bdr:G934 ;
         :isRoot                true ;
-        :note                  bdr:NTF247E9C5ACE9 , bdr:NT74E16D28D450 ;
+        :note                  bdr:NTF247E9C5ACE9 , bdr:NTAA3AC231C721 ;
         skos:prefLabel         "Dranka"@en-x-mixed , "bran ka"@bo-x-phon-en-m-tbrc .
 
 bdr:NTF247E9C5ACE9  a  :Note ;
-        :noteText  "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en .
+        :noteText  "associated w / 11th cent. master, P4CZ15480 ?"@en .
 
-bda:C11MS170  a            adm:AdminData ;
-        adm:adminAbout     bdr:C11MS170 ;
-        adm:adminForGraph  bdg:C11MS170 ;
-        adm:facetIndex     "5"^^xsd:int ;
-        adm:gitInfo        bda:GT3E8AE8DC17BE ;
-        adm:logEntry       bda:LG7872F5FD7506 ;
-        adm:metadataLegal  bda:LD_BDRC_Open ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
-
-bda:LG7872F5FD7506  a   adm:LogEntry ;
+bda:LG74E16D28D450  a   adm:LogEntry ;
         adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
         adm:logMessage  "created new corp."@en ;
         adm:logWho      bdr:U00020 .
 
-bdg:C11MS170  a       adm:Graph ;
-        adm:hasLegal  bda:LD_BDRC_Open .
+bda:C11MS170  a            adm:AdminData ;
+        adm:adminAbout     bdr:C11MS170 ;
+        adm:facetIndex     4 ;
+        adm:gitPath        "9a/C11MS170.trig" ;
+        adm:gitRepo        bda:GR0001 ;
+        adm:graphId        bdg:C11MS170 ;
+        adm:logEntry       bda:LG74E16D28D450 ;
+        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
 
-bda:GT3E8AE8DC17BE  a  adm:GitInfo ;
-        adm:gitPath  "9a/C11MS170.trig" ;
-        adm:gitRepo  bda:GR0001 .
-
-bdr:NT74E16D28D450  a  :Note ;
-        :noteText  "associated w / 11th cent. master, P4CZ15480 ?"@en .
+bdr:NTAA3AC231C721  a  :Note ;
+        :noteText  "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en .

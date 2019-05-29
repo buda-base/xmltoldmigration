@@ -210,23 +210,24 @@ public class CommonMigration  {
     }
     
     /**
-     * Returns an AdminData resource for the resource r. Beware that if r IS an AdminData resource this
-     * method will return the same resource with an additional stmt declaring this resource to be 
-     * adm:adminAbout itself.
+     * Returns an AdminData resource for the resource r. Be aware that if r IS an <code>adm:</code> resource 
+     * this method will return the same resource with an additional stmt declaring this resource to be 
+     * adm:adminAbout itself, and an additional <code>rdf:type</code> stmt, making the resource of two types.
      * 
-     * @param res resource for which the corresponding AdminData resource is requested.
-     * @param same if true then the 
-     * @return
+     * @param rez resource for which the corresponding AdminData resource is requested.
+     * @return the corresponding AdminData resource
      */
     public static Resource getAdminData(Resource rez) {
         Model m = rez.getModel();
         Resource admR = m.createResource(BDA+rez.getLocalName());
-        admR.addProperty(RDF.type, m.createResource(ADM+"AdminData"));
-        m.add(admR, m.createProperty(ADM+"adminAbout"), rez);
-        
+        if (!m.contains(admR, RDF.type, m.createResource(ADM+"AdminData"))) {
+            admR.addProperty(RDF.type, m.createResource(ADM+"AdminData"));
+            m.add(admR, m.createProperty(ADM+"adminAbout"), rez);
+        }
+
         return admR;
     }
-    
+
     public static Resource getRepoFor(String typeName) {
         String repoUri = typeToRepo.get(typeName);
         if (repoUri != null) {
@@ -237,34 +238,27 @@ public class CommonMigration  {
     }
 
     private static Resource getRezRepo(Resource rez) {
-        Statement typeStmt = rez.getProperty(RDF.type);
-        String typeName = typeStmt != null ? typeStmt.getObject().asResource().getLocalName(): null;
-        Resource repoR = null;
+        Resource adClass = ResourceFactory.createResource(ADM+"AdminData");
+        String typeName = null;
         
-        if (typeName != null) {
-            repoR = getRepoFor(typeName);
-            if (repoR != null)
-                return repoR;
-        } else { // this case covers Product (may be others) which is both AdminData and Product
-            StmtIterator stmtItr = rez.listProperties(RDF.type);
-            if (stmtItr != null) {
-                while (stmtItr.hasNext()) {
-                    Statement stmt = stmtItr.next();
-                    String nm = stmt.getObject().asResource().getLocalName();
-                    if ("AdminData".equals(nm)) {
-                        continue;
-                    } else {
-                        repoR = getRepoFor(typeName);
-                        if (repoR != null) {
-                            return repoR;
-                        }
-                    }
-                        
+        if (!rez.hasProperty(RDF.type, adClass)) {
+            Statement typeStmt = rez.getProperty(RDF.type); 
+            typeName = typeStmt != null ? typeStmt.getObject().asResource().getLocalName(): null;            
+        } else {
+            // multiple typed admin resource - e.g., adm:Product
+            StmtIterator iter = rez.listProperties(RDF.type);
+            while (iter.hasNext()) {
+                Statement stmt = iter.next();
+                Resource typeR = stmt.getObject().asResource();
+                if (typeR.equals(adClass)) {
+                    continue;
+                } else {
+                    typeName = typeR.getLocalName();
                 }
             }
         }
-
-        return null;
+        
+        return getRepoFor(typeName);
     }
     
     /**
@@ -277,30 +271,24 @@ public class CommonMigration  {
      */
     public static Resource createAdminRoot(Resource rez) {
         Model m = rez.getModel();
+        String rid = rez.getLocalName();
         Resource admR = getAdminData(rez);
         Resource repoR = getRezRepo(rez);
         
         if (repoR != null) {
-            Resource graphR = m.createResource(BDG+rez.getLocalName());
             // add GitInfo
-            String gitInfoUri = BDA+mintId(admR, admR.getURI(), "GT");
-            Resource gitInfo = m.createResource(gitInfoUri);
-            admR.addProperty(m.createProperty(ADM+"gitInfo"), gitInfo);
-            admR.addProperty(m.createProperty(ADM+"adminForGraph"), graphR);
-            // fill in GitInfo
-            gitInfo.addProperty(RDF.type, m.createResource(ADM+"GitInfo"));
-            gitInfo.addProperty(m.createProperty(ADM+"gitRepo"), repoR);
-            String rid = rez.getLocalName();
-            gitInfo.addProperty(m.createProperty(ADM+"gitPath"), getMd5(rid)+"/"+rid+".trig");
-            // add graph triples
-            graphR.addProperty(RDF.type, m.createResource(ADM+"Graph"));
-            graphR.addProperty(m.createProperty(ADM+"hasLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
+            admR.addProperty(m.createProperty(ADM+"gitRepo"), repoR);
+            admR.addProperty(m.createProperty(ADM+"gitPath"), getMd5(rid)+"/"+rid+".trig");
+
+            // add link to graphId. Only resorces w/ a git repo have a graphId
+            admR.addProperty(m.createProperty(ADM+"graphId"), m.createResource(BDG+rid));
         } else {
-            // probably called from TaxonomyMigration - 
-            // nothing to do since taxonomies aren't stored in their own repo
+            // probably called from TaxonomyMigration or ImagegroupMigration - 
+            // nothing to do since they aren't stored in their own repo
         }
 
-        // TO BE REMOVED - not needed since presence of ?s adm:gitInfo ?o indicates that ?s is a root
+        // MAY BE REMOVED - not needed since presence of ?s adm:gitInfo ?o indicates that ?s is a root
+        // or adm:graphId is also a good indicator of a root AdminData.
         // AdminData
         admR.addLiteral(m.createProperty(BDO+"isRoot"), true);
 

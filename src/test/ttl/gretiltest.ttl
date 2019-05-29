@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix sutta: <http://suttacentral.net/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -12,40 +10,34 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdg:W0GR0001  a       adm:Graph ;
-        adm:hasLegal  bda:LD_BDRC_Open .
-
-bda:GTC290D9523D6A  a  adm:GitInfo ;
-        adm:gitPath  "f5/W0GR0001.trig" ;
-        adm:gitRepo  bda:GR0008 .
-
 bdr:NTB2EC128E3232  a  :Note ;
-        :noteText  "Input by Klaus Wille (Göttingen, Germany)"@en .
+        :noteText  "Based on the edition by R.O. Meisezahl: \"Akṣobhya-Mañjuvajra, Ikonographie und Ikonologie des Ekonaviṃśadātmakamañjuvajramaṇḍala\", Oriens 25-26 (1976), pp. 190-274. = Am"@en .
 
 bda:W0GR0001  a             adm:AdminData ;
         adm:adminAbout      bdr:W0GR0001 ;
-        adm:adminForGraph   bdg:W0GR0001 ;
-        adm:facetIndex      "6"^^xsd:int ;
-        adm:gitInfo         bda:GTC290D9523D6A ;
+        adm:facetIndex      5 ;
+        adm:gitPath         "f5/W0GR0001.trig" ;
+        adm:gitRepo         bda:GR0008 ;
+        adm:graphId         bdg:W0GR0001 ;
         adm:metadataLegal   bda:LD_GRETIL ;
         adm:originalRecord  "gretil.sub.uni-goettingen.de/#AbhNisp"^^xsd:anyURI ;
         adm:status          bda:StatusReleased ;
         :isRoot             true .
 
-bdr:W0GR0001  a            :UnicodeWork ;
-        :creator           bdr:CRE0253A895570 ;
-        :isRoot            true ;
-        :note              bdr:NT0120A6EA2A64 , bdr:NTB2EC128E3232 ;
-        :workExpressionOf  bdr:W0RTA1961 ;
-        :workTitle         bdr:TT96F00AAAE1EB ;
-        skos:prefLabel     "Niṣpannayogāvali"@sa-x-iast , "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
-
-bdr:NT0120A6EA2A64  a  :Note ;
-        :noteText  "Based on the edition by R.O. Meisezahl: \"Akṣobhya-Mañjuvajra, Ikonographie und Ikonologie des Ekonaviṃśadātmakamañjuvajramaṇḍala\", Oriens 25-26 (1976), pp. 190-274. = Am"@en .
-
-bdr:TT96F00AAAE1EB  a  :WorkBibliographicalTitle ;
-        rdfs:label  "Niṣpannayogāvali"@sa-x-iast .
-
-bdr:CRE0253A895570  a  :AgentAsCreator ;
+bdr:CR96F00AAAE1EB  a  :AgentAsCreator ;
         :agent  bdr:P4004 ;
         :role   bdr:R0ER0019 .
+
+bdr:TT689E6F9C849A  a  :WorkBibliographicalTitle ;
+        rdfs:label  "Niṣpannayogāvali"@sa-x-iast .
+
+bdr:W0GR0001  a            :UnicodeWork ;
+        :creator           bdr:CR96F00AAAE1EB ;
+        :isRoot            true ;
+        :note              bdr:NTB2EC128E3232 , bdr:NTE0253A895570 ;
+        :workExpressionOf  bdr:W0RTA1961 ;
+        :workTitle         bdr:TT689E6F9C849A ;
+        skos:prefLabel     "Niṣpannayogāvali"@sa-x-iast , "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
+
+bdr:NTE0253A895570  a  :Note ;
+        :noteText  "Input by Klaus Wille (Göttingen, Germany)"@en .

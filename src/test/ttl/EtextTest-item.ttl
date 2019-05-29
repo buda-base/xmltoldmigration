@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix sutta: <http://suttacentral.net/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -11,20 +9,6 @@
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
-
-bda:GTD36BE819C985  a  adm:GitInfo ;
-        adm:gitPath  "e9/I1CZ2485_E001.trig" ;
-        adm:gitRepo  bda:GR0003 .
-
-bda:I1CZ2485_E001  a         adm:AdminData ;
-        adm:adminAbout       bdr:I1CZ2485_E001 ;
-        adm:adminForGraph    bdg:I1CZ2485_E001 ;
-        adm:contentProvider  bda:CP001 ;
-        adm:facetIndex       "2"^^xsd:int ;
-        adm:gitInfo          bda:GTD36BE819C985 ;
-        adm:metadataLegal    bda:LD_BDRC_Open ;
-        adm:status           bda:StatusReleased ;
-        :isRoot              true .
 
 bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
         :isRoot         true ;
@@ -36,5 +20,12 @@ bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
                           :volumeNumber    1
                         ] .
 
-bdg:I1CZ2485_E001  a  adm:Graph ;
-        adm:hasLegal  bda:LD_BDRC_Open .
+bda:I1CZ2485_E001  a         adm:AdminData ;
+        adm:adminAbout       bdr:I1CZ2485_E001 ;
+        adm:contentProvider  bda:CP001 ;
+        adm:gitPath          "e9/I1CZ2485_E001.trig" ;
+        adm:gitRepo          bda:GR0003 ;
+        adm:graphId          bdg:I1CZ2485_E001 ;
+        adm:metadataLegal    bda:LD_BDRC_Open ;
+        adm:status           bda:StatusReleased ;
+        :isRoot              true .

@@ -10,39 +10,35 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:GTB64C9FC43C2A  a  adm:GitInfo ;
-        adm:gitPath  "cd/UT1CZ2485_001_0000.trig" ;
-        adm:gitRepo  bda:GR0002 .
-
 bdr:UT1CZ2485_001_0000
         a                 :EtextPaginated ;
-        :eTextHasPage     [ :pageHasLine     [ :seqNum          1 ;
+        :eTextHasPage     [ :pageHasLine     [ :seqNum          3 ;
+                                               :sliceEndChar    2344 ;
+                                               :sliceStartChar  2128
+                                             ] ;
+                            :pageHasLine     [ :seqNum          1 ;
                                                :sliceEndChar    1909 ;
                                                :sliceStartChar  1696
-                                             ] ;
-                            :pageHasLine     [ :seqNum          6 ;
-                                               :sliceEndChar    3014 ;
-                                               :sliceStartChar  2770
-                                             ] ;
-                            :pageHasLine     [ :seqNum          7 ;
-                                               :sliceEndChar    3239 ;
-                                               :sliceStartChar  3015
-                                             ] ;
-                            :pageHasLine     [ :seqNum          4 ;
-                                               :sliceEndChar    2560 ;
-                                               :sliceStartChar  2345
                                              ] ;
                             :pageHasLine     [ :seqNum          2 ;
                                                :sliceEndChar    2127 ;
                                                :sliceStartChar  1910
                                              ] ;
+                            :pageHasLine     [ :seqNum          4 ;
+                                               :sliceEndChar    2560 ;
+                                               :sliceStartChar  2345
+                                             ] ;
+                            :pageHasLine     [ :seqNum          6 ;
+                                               :sliceEndChar    3014 ;
+                                               :sliceStartChar  2770
+                                             ] ;
                             :pageHasLine     [ :seqNum          5 ;
                                                :sliceEndChar    2769 ;
                                                :sliceStartChar  2561
                                              ] ;
-                            :pageHasLine     [ :seqNum          3 ;
-                                               :sliceEndChar    2344 ;
-                                               :sliceStartChar  2128
+                            :pageHasLine     [ :seqNum          7 ;
+                                               :sliceEndChar    3239 ;
+                                               :sliceStartChar  3015
                                              ] ;
                             :seqNum          6 ;
                             :sliceEndChar    3239 ;
@@ -87,14 +83,10 @@ bdr:UT1CZ2485_001_0000
         :isRoot           true .
 
 bda:UT1CZ2485_001_0000
-        a                  adm:AdminData ;
-        adm:adminAbout     bdr:UT1CZ2485_001_0000 ;
-        adm:adminForGraph  bdg:UT1CZ2485_001_0000 ;
-        adm:facetIndex     "2"^^xsd:int ;
-        adm:gitInfo        bda:GTB64C9FC43C2A ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
-
-bdg:UT1CZ2485_001_0000
-        a             adm:Graph ;
-        adm:hasLegal  bda:LD_BDRC_Open .
+        a               adm:AdminData ;
+        adm:adminAbout  bdr:UT1CZ2485_001_0000 ;
+        adm:gitPath     "cd/UT1CZ2485_001_0000.trig" ;
+        adm:gitRepo     bda:GR0002 ;
+        adm:graphId     bdg:UT1CZ2485_001_0000 ;
+        adm:status      bda:StatusReleased ;
+        :isRoot         true .

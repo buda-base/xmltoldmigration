@@ -1,8 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix sutta: <http://suttacentral.net/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix dila:  <http://authority.dila.edu.tw/person/?fromInner=> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -14,9 +12,15 @@
 
 bda:PR99NCUL01  a               adm:Product , adm:AdminData ;
         adm:adminAbout          bda:PR99NCUL01 ;
-        adm:facetIndex          "2"^^xsd:int ;
+        adm:facetIndex          2 ;
+        adm:gitPath             "e2/PR99NCUL01.trig" ;
+        adm:gitRepo             bda:GR0011 ;
+        adm:graphId             bdg:PR99NCUL01 ;
         adm:logEntry            bda:LGBE16F203BDFB ;
         adm:productAllowByAddr  "ip6" ;
+        adm:productHasOrg       [ rdfs:label              "Top1"@en ;
+                                  adm:productAllowByAddr  "ip4" , "ip5"
+                                ] ;
         adm:productHasOrg       [ rdfs:label         "Top2"@en ;
                                   adm:productHasOrg  [ rdfs:label              "Sub3"@en ;
                                                        adm:productAllowByAddr  "ip1"
@@ -27,9 +31,6 @@ bda:PR99NCUL01  a               adm:Product , adm:AdminData ;
                                   adm:productHasOrg  [ rdfs:label              "Sub1"@en ;
                                                        adm:productAllowByAddr  "ip3"
                                                      ]
-                                ] ;
-        adm:productHasOrg       [ rdfs:label              "Top1"@en ;
-                                  adm:productAllowByAddr  "ip4" , "ip5"
                                 ] ;
         adm:productInclude      bda:PR88CT000129 ;
         adm:status              bda:StatusReleased ;
