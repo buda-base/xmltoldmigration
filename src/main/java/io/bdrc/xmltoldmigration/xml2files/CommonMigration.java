@@ -306,7 +306,7 @@ public class CommonMigration  {
 
         return admR;
     }
-
+    
     public static Resource getAdminRoot(Resource rez) {
         return getAdminRoot(rez, false);
     }

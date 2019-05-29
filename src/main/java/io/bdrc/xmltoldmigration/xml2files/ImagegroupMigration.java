@@ -33,6 +33,7 @@ public class ImagegroupMigration {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m, "item");
         Resource item = CommonMigration.createRoot(m, BDR+"TestItem", BDO+"ItemImageAsset");
+        Resource admMain = CommonMigration.createAdminRoot(m.createResource(BDR+"TestItem"));
         MigrateImagegroup(xmlDocument, m, item, "testItem", 1, "testItem");
         return m;
 	}
@@ -77,7 +78,7 @@ public class ImagegroupMigration {
         Resource main = m.createResource(BDR+volumeId);
         // create root AdminData if it doesn't already exist - should only be created 
         // when used in MigrationTest.testImagegroup() w/o previously the containing Item
-        Resource admMain = CommonMigration.getAdminRoot(item, true);
+        Resource admMain = CommonMigration.getAdminData(main);
 
 		admMain.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
