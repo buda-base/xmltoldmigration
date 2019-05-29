@@ -203,9 +203,7 @@ public class CUDLTransfer {
             work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[18].replace(',','.').trim(), XSDDatatype.XSDdecimal);
         }
         if(!line[10].equals("") && !line[11].equals("")) {
-            Resource event = workModel.createResource();
-            workModel.add(work, workModel.createProperty(BDO, "workEvent"), event);
-            workModel.add(event, RDF.type, workModel.createResource(BDO+"PublishedEvent"));
+            Resource event = CommonMigration.getEvent(work, "PublishedEvent", "workEvent");
             workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(line[11], XSDDatatype.XSDinteger));
             workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(line[10], XSDDatatype.XSDinteger));
         }

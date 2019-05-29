@@ -36,14 +36,17 @@ bda:W1FPL1  a           adm:AdminData ;
         adm:logEntry    bda:LG725E8279E4B4 , bda:LGEAF54DACE95D , bda:LG1F91ADA2A1C7 ;
         :isRoot         true .
 
+# this bogus rid is a result of the test being out of context of a Work havig been
+# created with the usual root AdminData that includes the facetIndex for rid generated
+bdr:null  a      :PublishedEvent ;
+        :onYear  2000 .
+
 bdr:W1FPL1  a                       :Work ;
         :isRoot                     true ;
         :itemBDRCHoldingStatement   "1" ;
         :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
         :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
-        :workEvent                  [ a        :PublishedEvent ;
-                                      :onYear  2000
-                                    ] ;
+        :workEvent                  bdr:null ;
         :workExtentStatement        "177 ff." ;
         :workHasSourcePrintery      bdr:G1PD129184 ;
         :workHollis                 "014254679" ;

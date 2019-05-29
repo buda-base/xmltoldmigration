@@ -13,6 +13,10 @@
 bdr:TT05B2BD4860AC  a  :WorkBibliographicalTitle ;
         rdfs:label  "vinayavinicchaya pāṭh nisya"@pi-x-iast .
 
+bdr:CR49A89728EE2A  a  :AgentAsCreator ;
+        :agent  bdr:P1591 ;
+        :role   bdr:R0ER0019 .
+
 bdr:NT3F0F87B07E32  a  :Note ;
         :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
 
@@ -21,9 +25,12 @@ bda:I12837FPL_P001  a   adm:AdminData ;
         adm:status      bda:StatusReleased ;
         :isRoot         true .
 
+bdr:NTA756609A3D60  a  :Note ;
+        :noteText  "description with type note" .
+
 bda:W12837FPL  a        adm:AdminData ;
         adm:adminAbout  bdr:W12837FPL ;
-        adm:facetIndex  14 ;
+        adm:facetIndex  15 ;
         adm:gitPath     "55/W12837FPL.trig" ;
         adm:gitRepo     bda:GR0008 ;
         adm:graphId     bdg:W12837FPL ;
@@ -39,9 +46,9 @@ bda:LGFB1A36806E27  a   adm:LogEntry ;
 bdr:TTF8411F25C214  a  :WorkBibliographicalTitle ;
         rdfs:label  "vinayavinicchaya"@pi-x-iast .
 
-bdr:CRA756609A3D60  a  :AgentAsCreator ;
-        :agent  bdr:P1591 ;
-        :role   bdr:R0ER0019 .
+bdr:EV88744000A978  a  :CompletedEvent ;
+        :onOrAbout  "descriptionwithtypedate" ;
+        :onYear     1232 .
 
 bdr:TTB8AAD6436BFB  a  :WorkOtherTitle ;
         rdfs:label  "testcap/"@bo-x-ewts .
@@ -59,14 +66,11 @@ bda:LG7E331F54F258  a   adm:LogEntry ;
 
 bdr:W12837FPL  a              :PublishedWork , :Work ;
         rdfs:comment          "description with no type" ;
-        :creator              bdr:CRA756609A3D60 ;
+        :creator              bdr:CR49A89728EE2A ;
         :isRoot               true ;
-        :note                 bdr:NT88744000A978 , bdr:NT3F0F87B07E32 ;
+        :note                 bdr:NTA756609A3D60 , bdr:NT3F0F87B07E32 ;
         :workCatalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
-        :workEvent            [ a           :CompletedEvent ;
-                                :onOrAbout  "descriptionwithtypedate" ;
-                                :onYear     1232
-                              ] ;
+        :workEvent            bdr:EV88744000A978 ;
         :workGenre            bdr:T132 , bdr:T62 ;
         :workIncipit          "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
         :workIsAbout          bdr:G844 , bdr:W976 ;
@@ -85,9 +89,6 @@ bda:LGA31364CA97C9  a   adm:LogEntry ;
 
 bdr:TTE97A0FB4E947  a  :WorkOtherTitle ;
         rdfs:label  "test pali title"@pi-x-iast .
-
-bdr:NT88744000A978  a  :Note ;
-        :noteText  "description with type note" .
 
 bdr:I12837FPL_P001  a   :ItemPhysicalAsset ;
         :itemForWork    bdr:W12837FPL ;

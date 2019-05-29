@@ -73,7 +73,7 @@ public class PubinfoMigration {
         addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
         addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
         addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
-        addSimpleDateElement("publisherDate", "PublishedEvent", root, m, main);
+        addSimpleDateElement("publisherDate", "PublishedEvent", root, main);
         addSimpleElementUC("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
         addSimpleElement("lccn", BDO+"workLccn", null, root, m, main);
         addSimpleElement("hollis", BDO+"workHollis", null, root, m, main);
@@ -81,7 +81,7 @@ public class PubinfoMigration {
         addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
         addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
         addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", CommonMigration.EWTS_TAG, root, m, main);
-        addSimpleDateElement("dateOfWriting", "CompletedEvent", root, m, main);
+        addSimpleDateElement("dateOfWriting", "CompletedEvent", root, main);
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"workDimensions", null, root, m, main);
@@ -475,12 +475,11 @@ public class PubinfoMigration {
         }
     }
 
-    public static void addSimpleDateElement(String elementName, String eventType, Element root, Model m, Resource main) {
+    private static void addSimpleDateElement(String elementName, String eventType, Element root, Resource main) {
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            String value = null;
-            value = current.getTextContent().trim();
+            String value = current.getTextContent().trim();
             if (value.isEmpty()) return;
             CommonMigration.addDatesToEvent(value, main, "workEvent", eventType);
         }

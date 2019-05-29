@@ -160,9 +160,7 @@ public class EAPTransfer {
         if (!line[3].isEmpty()) {
             int startDate = Integer.parseInt(line[3]);
             int endDate = Integer.parseInt(line[4]);
-            Resource copyEventR = workModel.createResource();
-            workModel.add(work, workModel.createProperty(BDO, "workEvent"), copyEventR);
-            workModel.add(copyEventR, RDF.type, workModel.createResource(BDO+"CopyEvent"));
+            Resource copyEventR = CommonMigration.getEvent(work, "CopyEvent", "workEvent");
             if (startDate == endDate) {
                 copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(startDate, XSDDatatype.XSDinteger));
             } else {

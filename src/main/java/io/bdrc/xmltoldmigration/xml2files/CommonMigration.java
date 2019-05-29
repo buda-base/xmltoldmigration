@@ -399,13 +399,13 @@ public class CommonMigration  {
     private static String  bytesToHex(byte[] hash) {
         return DatatypeConverter.printHexBinary(hash);
     }
-    
+
     public static String mintId(Resource rootAdmRez, String seed, String prefix) {
         try {
-        String data = seed+getFacetIndex(rootAdmRez);
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(data.getBytes("UTF-8"));
-        return prefix+bytesToHex(hash).substring(0, nbShaChars);
+            String data = seed+getFacetIndex(rootAdmRez);
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(data.getBytes("UTF-8"));
+            return prefix+bytesToHex(hash).substring(0, nbShaChars);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
@@ -485,10 +485,10 @@ public class CommonMigration  {
         agentAsCreator.addProperty(m.createProperty(BDO+"role"), role);
     }
     
-    public static Resource getEvent(Resource r, String eventType, String eventProp) {
-        Model m = r.getModel();
+    public static Resource getEvent(Resource rez, String eventType, String eventProp) {
+        Model m = rez.getModel();
         Property prop = m.createProperty(BDO, eventProp);
-        StmtIterator it = r.listProperties(prop);
+        StmtIterator it = rez.listProperties(prop);
         while (it.hasNext()) {
             Statement s = it.next();
             Resource event = s.getObject().asResource();
@@ -497,9 +497,9 @@ public class CommonMigration  {
                 return event;
             }
         }
-        Resource event = m.createResource();
-        m.add(event, RDF.type, m.createProperty(BDO+eventType));
-        m.add(r, prop, event);
+        
+        Resource event = getFacetNode(FacetType.EVENT, rez, m.createProperty(BDO+eventType));
+        m.add(rez, prop, event);
         return event;
     }
     
