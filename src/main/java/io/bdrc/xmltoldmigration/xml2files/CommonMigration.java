@@ -337,8 +337,9 @@ public class CommonMigration  {
         NAME("name", "NM", BDO+"PersonName"),
         NOTE("note", "NT", BDO+"Note"),
         TITLE("title", "TT", BDO+"WorkTitle"),
-        WORK_LOC("workLoc", "WL", BDO+"WorkLocation"),
-        VCARD_ADDR("vcardAddr", "VA", VCARD+"Address")
+        VCARD_ADDR("vcardAddr", "VA", VCARD+"Address"),
+        VOLUME("volume", "VL", BDO+"Volume"),
+        WORK_LOC("workLoc", "WL", BDO+"WorkLocation")
         ;
 
         private String label;
@@ -1195,9 +1196,8 @@ public class CommonMigration  {
 		        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral("|"+fplId));
 		}
 		if (fplDescription != null) {
-		    Resource fplVolume = resModel.createResource();
+		    Resource fplVolume = getFacetNode(FacetType.VOLUME, rez, resModel.getResource(BDO+"VolumePhysicalAsset"));
 		    fplItem.addProperty(resModel.getProperty(BDO, "itemHasVolume"), fplVolume);
-		    fplVolume.addProperty(RDF.type, resModel.getResource(BDO+"VolumePhysicalAsset"));
 		    fplVolume.addProperty(resModel.getProperty(BDO, "volumeNumber"), resModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
 		    fplVolume.addProperty(resModel.getProperty(BDO, "volumePhysicalDescription"), resModel.createLiteral(fplDescription, "en"));
 		}
@@ -1415,12 +1415,17 @@ public class CommonMigration  {
        }
        
        public static LocationVolPage addLocations(Model m, Resource main, Element root, String XsdPrefix, String workId, String outlineId, String outlineNode, String outlineNodeTitle) {
+           
            List<Element> nodeList = CommonMigration.getChildrenByTagName(root, XsdPrefix, "location");
+           if (nodeList.size() == 0) 
+               return null;
+           
            int i;
            int volume1 = -1;
            int page1 = -1;
            int page2 = -1;
-           Resource loc = m.createResource();
+           
+           Resource loc = getFacetNode(FacetType.WORK_LOC, main);
            LocationVolPage res = null;
            for (i = 0; i < nodeList.size(); i++) {
                if (i > 1) {
@@ -1440,7 +1445,7 @@ public class CommonMigration  {
                String value = current.getAttribute("work").trim();
                if (workId.isEmpty()) {
                    if (!value.isEmpty())
-                       m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
+                       loc.addProperty(m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
                } else if (!value.isEmpty() && !value.equals(workId)) {
                    String error = "title: \""+outlineNodeTitle+"\" has locations in work "+value+" instead of "+workId;
                    ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, error);
@@ -1473,6 +1478,7 @@ public class CommonMigration  {
                    m.add(loc, m.getProperty(BDO, "workLocation"+endString+"Side"), m.createLiteral(value));
                
            }
+           
            // only add locations with statements
            StmtIterator locProps = loc.listProperties();
            if (locProps.hasNext()) {
@@ -1480,12 +1486,16 @@ public class CommonMigration  {
                // comment to remove workLocationWork in outline nodes
                if (!workId.isEmpty())
                    m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+workId));
+           } else {
+               m.removeAll(loc, null, null);
            }
+           
            if (volume1 == -1 && (page1 == -1 || page2 == -1)) {
                ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", missing volume, beginpage or endpage");
            } else if (volume1 != -1 && (page1 == -1 || page2 == -1)) {
                ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", vol. "+volume1+", missing beginpage or endpage");
            }
+           
            return res;
        }
        
