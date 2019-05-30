@@ -11,9 +11,9 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LG725E8279E4B4  a   adm:LogEntry ;
-        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
-        adm:logMessage  "normalize encoding field for pub info"@en ;
-        adm:logWho      bdr:U00012 .
+        adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
+        adm:logMessage  "added print type and source printery"@en ;
+        adm:logWho      bdr:U00013 .
 
 bdr:I1FPL1_P001  a      :ItemPhysicalAsset ;
         :itemCopies     "1" ;
@@ -22,31 +22,29 @@ bdr:I1FPL1_P001  a      :ItemPhysicalAsset ;
         :itemLibrary    bdr:G1TLMTGA000001 ;
         :itemShelf      "ཇ|ཇ|༣||001278" .
 
-bda:LG1F91ADA2A1C7  a   adm:LogEntry ;
-        adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
-        adm:logMessage  "added print type and source printery"@en ;
-        adm:logWho      bdr:U00013 .
+bdr:EV1F91ADA2A1C7  a  :PublishedEvent ;
+        :onYear  2000 .
+
+bda:LGEDA5DE9E3376  a   adm:LogEntry ;
+        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+        adm:logMessage  "added hollis field to pub info"@en ;
+        adm:logWho      bdr:U00006 .
 
 bda:W1FPL1  a           adm:AdminData ;
         adm:adminAbout  bdr:W1FPL1 ;
-        adm:facetIndex  4 ;
+        adm:facetIndex  5 ;
         adm:gitPath     "56/W1FPL1.trig" ;
         adm:gitRepo     bda:GR0008 ;
         adm:graphId     bdg:W1FPL1 ;
-        adm:logEntry    bda:LG725E8279E4B4 , bda:LGEAF54DACE95D , bda:LG1F91ADA2A1C7 ;
+        adm:logEntry    bda:LG725E8279E4B4 , bda:LGEDA5DE9E3376 , bda:LGEAF54DACE95D ;
         :isRoot         true .
-
-# this bogus rid is a result of the test being out of context of a Work havig been
-# created with the usual root AdminData that includes the facetIndex for rid generated
-bdr:null  a      :PublishedEvent ;
-        :onYear  2000 .
 
 bdr:W1FPL1  a                       :Work ;
         :isRoot                     true ;
         :itemBDRCHoldingStatement   "1" ;
         :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
         :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
-        :workEvent                  bdr:null ;
+        :workEvent                  bdr:EV1F91ADA2A1C7 ;
         :workExtentStatement        "177 ff." ;
         :workHasSourcePrintery      bdr:G1PD129184 ;
         :workHollis                 "014254679" ;
@@ -62,6 +60,6 @@ bdr:W1FPL1  a                       :Work ;
         :workSourcePrintery_string  "test sourcePrintery with no place" .
 
 bda:LGEAF54DACE95D  a   adm:LogEntry ;
-        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
-        adm:logMessage  "added hollis field to pub info"@en ;
-        adm:logWho      bdr:U00006 .
+        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+        adm:logMessage  "normalize encoding field for pub info"@en ;
+        adm:logWho      bdr:U00012 .

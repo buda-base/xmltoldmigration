@@ -42,6 +42,7 @@ public class PubinfoMigration {
             }
             
             main = CommonMigration.createRoot(m, BDR+value, BDO+"Work");
+            CommonMigration.createAdminRoot(main);
         }
         MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>());
         return m;

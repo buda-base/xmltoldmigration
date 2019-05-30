@@ -318,7 +318,7 @@ public class CommonMigration  {
             if (node != null) {
                 return admR;
             }
-            // TO BE REMOVED
+            // TO BE REMOVED ??
             if (m.containsLiteral(admR, m.createProperty(BDO+"isRoot"), true)) {
                 return admR;
             }
@@ -988,20 +988,18 @@ public class CommonMigration  {
 		return m.createTypedLiteral(dateTime);
 	}
 	
-	public static void addLogEntry(Model m, Element e, Resource r) {
+	public static void addLogEntry(Model m, Element e, Resource rez) {
 		if (e == null) return;
-		Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, r, FacetType.LOG_ENTRY.getNodeType());
-//		Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, r);...
-		//m.add(logEntry, RDF.type, m.getProperty(BDO+"LogEntry"));
+		Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
 		Property prop = m.getProperty(ADM, "logEntry");
-		m.add(r, prop, logEntry);
+		m.add(rez, prop, logEntry);
 		String value = e.getAttribute("when");
 		if (!value.isEmpty()) {
 			prop = m.createProperty(ADM+"logDate");
 			try {
 			    m.add(logEntry, prop, literalFromXsdDate(m, value));
 			} catch (DatatypeFormatException ex) {
-			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+value+"`");
+			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+value+"`");
 			}
 		}
 		value = normalizeString(e.getAttribute("who"));
@@ -1009,7 +1007,7 @@ public class CommonMigration  {
 			prop = m.createProperty(ADM+"logWho");
 			String uri = logWhoToUri.get(value);
 			if (uri == null) {
-			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "log_who", "unknown who: "+value);    
+			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_who", "unknown who: "+value);    
 			} else {
 			    m.add(logEntry, prop, m.createResource(uri));
 			}
@@ -1022,19 +1020,19 @@ public class CommonMigration  {
 		
 	}
 	
-	public static void addLog(Model m, Element e, Resource r, String XsdPrefix) {
+	public static void addLog(Model m, Element e, Resource rez, String XsdPrefix) {
 		NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "log");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element log = (Element) nodeList.item(i);
 			NodeList logEntriesList = log.getElementsByTagNameNS(XsdPrefix, "entry");
 			for (int j = 0; j < logEntriesList.getLength(); j++) {
 				Element logEntry = (Element) logEntriesList.item(j);
-				addLogEntry(m, logEntry, r);
+				addLogEntry(m, logEntry, rez);
 			}
 			logEntriesList = log.getElementsByTagName("entry");
 			for (int k = 0; k < logEntriesList.getLength(); k++) {
 				Element logEntry = (Element) logEntriesList.item(k);
-				addLogEntry(m, logEntry, r);
+				addLogEntry(m, logEntry, rez);
 			}
 		}
 	}

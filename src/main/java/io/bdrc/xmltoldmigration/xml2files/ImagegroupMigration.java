@@ -33,7 +33,7 @@ public class ImagegroupMigration {
 	    Model m = ModelFactory.createDefaultModel();
         CommonMigration.setPrefixes(m, "item");
         Resource item = CommonMigration.createRoot(m, BDR+"TestItem", BDO+"ItemImageAsset");
-        Resource admMain = CommonMigration.createAdminRoot(m.createResource(BDR+"TestItem"));
+        Resource admMain = CommonMigration.createAdminRoot(item);
         MigrateImagegroup(xmlDocument, m, item, "testItem", 1, "testItem");
         return m;
 	}
@@ -75,24 +75,24 @@ public class ImagegroupMigration {
 		final String itemId = item.getLocalName();
 		final String volumeId = "V"+itemId.substring(1)+"_"+imageGroupRID;
 		
-        Resource main = m.createResource(BDR+volumeId);
-        // create root AdminData if it doesn't already exist - should only be created 
+        Resource volR = m.createResource(BDR+volumeId);
+        volR.addProperty(RDF.type, m.getResource(BDO+"VolumeImageAsset"));
+        // create AdminData if it doesn't already exist - should only be created 
         // when used in MigrationTest.testImagegroup() w/o previously the containing Item
-        Resource admMain = CommonMigration.getAdminData(main);
+        Resource admVol = CommonMigration.getAdminData(volR);
 
-		admMain.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
+		admVol.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
-        if (volumeNumber < 1)
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");      
-        m.add(main, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(volumeNumber, XSDDatatype.XSDinteger));
+        if (volumeNumber < 1) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
+        }
+        m.add(volR, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(volumeNumber, XSDDatatype.XSDinteger));
         
         if (addItemHasVolume)
-            m.add(item, m.getProperty(BDO+"itemHasVolume"), main);
+            m.add(item, m.getProperty(BDO+"itemHasVolume"), volR);
         
         if (addVolumeOf)
-            m.add(main, m.getProperty(BDO+"volumeOf"), item);
-
-        main.addProperty(RDF.type, m.getResource(BDO+"VolumeImageAsset"));
+            m.add(volR, m.getProperty(BDO+"volumeOf"), item);
         
 		// adding the ondisk/onDisk description as vol:imageList
 		NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "description");
@@ -100,24 +100,24 @@ public class ImagegroupMigration {
             Element current = (Element) nodeList.item(i);
             String type = current.getAttribute("type").trim();
             if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
-            ImageListTranslation.addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, main);
+            ImageListTranslation.addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, volR);
         }
 		
-        CommonMigration.addStatus(m, admMain, imageGroupStatus);
-        CommonMigration.addLog(m, root, admMain, IGXSDNS);
-        CommonMigration.addDescriptions(m, root, main, IGXSDNS);
-        admMain.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));
+        CommonMigration.addStatus(m, admVol, imageGroupStatus);
+        CommonMigration.addLog(m, root, admVol, IGXSDNS);
+        CommonMigration.addDescriptions(m, root, volR, IGXSDNS);
+        admVol.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("intro").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "volumePagesIntro"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
+                m.add(volR, m.getProperty(BDO, "volumePagesIntro"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             
             value = current.getAttribute("tbrcintro").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "volumePagesTbrcIntro"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
+                m.add(volR, m.getProperty(BDO, "volumePagesTbrcIntro"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             
             value = current.getAttribute("text").trim();
             if (!value.isEmpty()) {
@@ -125,19 +125,19 @@ public class ImagegroupMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup:text", "image group had a negative value for `text`: `"+value+"`");
                     value = "0";
                 }
-                m.add(main, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
+                m.add(volR, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             }
             value = current.getAttribute("total").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
+                m.add(volR, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
         }
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "qc");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            addSimpleElement("qcperson", "volumeQcPerson", current, m, admMain);
-            addSimpleElement("qcdate", "volumeQcDate", current, m, admMain);
-            addSimpleElement("qcnotes", "volumeQcNote", current, m, admMain);
+            addSimpleElement("qcperson", "volumeQcPerson", current, m, admVol);
+            addSimpleElement("qcdate", "volumeQcDate", current, m, admVol);
+            addSimpleElement("qcnotes", "volumeQcNote", current, m, admVol);
         }
 	}
 

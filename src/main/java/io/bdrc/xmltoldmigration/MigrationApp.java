@@ -266,7 +266,7 @@ public class MigrationApp
                 }
                 itemModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(itemModel);
-                item = CommonMigration.createRoot(m, BDR+itemName, BDO+"ItemImageAsset");
+                item = CommonMigration.createRoot(itemModel, BDR+itemName, BDO+"ItemImageAsset");
                 
                 admItem = CommonMigration.createAdminRoot(item);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
