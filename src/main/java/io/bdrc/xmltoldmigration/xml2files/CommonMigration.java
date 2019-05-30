@@ -330,7 +330,10 @@ public class CommonMigration  {
     private static Map<String, FacetType> strToFacetType = new HashMap<>();
     public enum FacetType {
 
+        CORP_MEMBER("corporationMember", "CM", BDO+"CorporationMember"), 
         CREATOR("creator", "CR", BDO+"AgentAsCreator"), 
+        ETEXT_LINE("etextLine", "EL", BDO+"EtextLine"), 
+        ETEXT_PAGE("etextPage", "EP", BDO+"EtextPage"), 
         EVENT("event", "EV", BDO+"Event"), 
         HOLDER("lineageHolder", "LH", BDO+"LineageHolder"), 
         LOG_ENTRY("logEntry", "LG", ADM+"LogEntry"), 

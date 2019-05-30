@@ -22,6 +22,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class EtextBodyMigration {
 
@@ -87,7 +88,8 @@ public class EtextBodyMigration {
             }
             Resource pageR = null;
             if (keepPages) {
-                pageR = m.createResource();
+                pageR = CommonMigration.getFacetNode(FacetType.ETEXT_PAGE,  etextR);
+//                pageR = m.createResource();
                 etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
             }
             final String pageNum = par.getAttribute("n");
@@ -144,7 +146,8 @@ public class EtextBodyMigration {
                 s = normalizeString(s, Integer.toString(linenum), pageNum, !needsPageNameTranslation, eTextId);
                 final int strLen = s.codePointCount(0, s.length()); 
                 if (keepPages && linenum != 0) {
-                    Resource lineR = m.createResource();
+                    Resource lineR = CommonMigration.getFacetNode(FacetType.ETEXT_LINE,  pageR);
+//                    Resource lineR = m.createResource();
                     pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
                     lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
                     lineR.addProperty(m.getProperty(BDO, "sliceStartChar"), m.createTypedLiteral(currentTotalPoints, XSDDatatype.XSDinteger));

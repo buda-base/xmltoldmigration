@@ -14,7 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 
 public class CorporationMigration {
@@ -47,7 +47,6 @@ public class CorporationMigration {
 		String value = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			Resource member = m.createResource();
 			value = current.getAttribute("person");
 			if (value.isEmpty()) continue;
 			Resource person = m.createResource(BDR + value);
@@ -58,6 +57,7 @@ public class CorporationMigration {
 			value = CommonMigration.normalizePropName(value, null);
 			value = BDO+"CorporationMember"+value.substring(0, 1).toUpperCase() + value.substring(1);
 			Property prop = m.getProperty(BDO, "corporationHasMember");
+            Resource member = CommonMigration.getFacetNode(FacetType.CORP_MEMBER, main, m.createResource(value));
 			m.add(main, prop, member);
 			m.add(member, m.getProperty(BDO, "corporationMember"), person);
 			m.add(member, RDF.type, m.createResource(value));

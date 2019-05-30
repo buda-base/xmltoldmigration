@@ -10,14 +10,12 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bdr:CM7872F5FD7506  a       :CorporationMemberNotSpecified ;
+        :corporationMember  bdr:P1856 .
+
 bdr:C11MS170  a                :Corporation ;
         rdfs:comment           "some description" ;
-        :corporationHasMember  [ a                   :CorporationMemberUnknown ;
-                                 :corporationMember  bdr:P1857
-                               ] ;
-        :corporationHasMember  [ a                   :CorporationMemberNotSpecified ;
-                                 :corporationMember  bdr:P1856
-                               ] ;
+        :corporationHasMember  bdr:CM7872F5FD7506 , bdr:CMF428C2DEB2CD ;
         :corporationRegion     bdr:G934 ;
         :isRoot                true ;
         :note                  bdr:NTF247E9C5ACE9 , bdr:NTAA3AC231C721 ;
@@ -33,7 +31,7 @@ bda:LG74E16D28D450  a   adm:LogEntry ;
 
 bda:C11MS170  a            adm:AdminData ;
         adm:adminAbout     bdr:C11MS170 ;
-        adm:facetIndex     4 ;
+        adm:facetIndex     6 ;
         adm:gitPath        "9a/C11MS170.trig" ;
         adm:gitRepo        bda:GR0001 ;
         adm:graphId        bdg:C11MS170 ;
@@ -44,3 +42,6 @@ bda:C11MS170  a            adm:AdminData ;
 
 bdr:NTAA3AC231C721  a  :Note ;
         :noteText  "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en .
+
+bdr:CMF428C2DEB2CD  a       :CorporationMemberUnknown ;
+        :corporationMember  bdr:P1857 .
