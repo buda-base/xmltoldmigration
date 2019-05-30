@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 
 public class OutlineMigration {
@@ -325,11 +326,9 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         for (int j = 0; j < nodeList.size(); j++) {
             Element current = (Element) nodeList.get(j);
             
-            //value = CommonMigration.getSubResourceName(node, OP, "Site");
-            Resource site = m.createResource();
+            String type = null;
             value = current.getAttribute("type").trim().toLowerCase();
             if (!value.isEmpty())  {
-                String type = null;
                 switch(value) {
                 case "started":
                     type = "OriginatedEvent";
@@ -350,9 +349,12 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                 default:
                     System.out.println("unknown site type: "+value);
                 }
-                if (type != null)
-                    m.add(site, RDF.type, m.getResource(BDO+type));
             }
+            if (type == null) {
+                type = "WorkEvent";
+            }
+
+            Resource site = CommonMigration.getFacetNode(FacetType.EVENT,  node, m.createResource(BDO+type));
             m.add(node, m.getProperty(BDO, "workEvent"), site);
             
             CommonMigration.addDates(current.getAttribute("circa"), site, r);

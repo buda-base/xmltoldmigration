@@ -81,8 +81,6 @@ public class PlaceMigration {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			Resource address = CommonMigration.getFacetNode(VCARD_ADDR, VCARD, main, VCARD_ADDR.getNodeType());
-//			Resource address = m.createResource();
-			//m.add(address, RDF.type, m.createResource(BDO+"PlaceAddress"));
 			m.add(main, m.getProperty(BDO+"placeAddress"), address);
 			addSimpleAttr(current.getAttribute("city"), "city", VCARD+"locality", m, address);
 			addSimpleAttr(current.getAttribute("country"), "country", VCARD+"country-name", m, address);
@@ -102,8 +100,7 @@ public class PlaceMigration {
 		// adding monastery foundation events from persons (should be merged with the current founding event if present)
 		PersonMigration.FoundingEvent fe = PersonMigration.placeEvents.get(main.getLocalName());
 		if (fe != null) {
-		    Resource event = m.createResource();
-	        m.add(event, RDF.type, m.getResource(BDR+"PlaceFounded"));
+		    Resource event = CommonMigration.getFacetNode(EVENT, main,  m.getResource(BDO+"PlaceFounded"));
 	        CommonMigration.addDates(fe.circa, event, main);
 	        m.add(event, m.createProperty(BDO, "eventWho"), m.createResource(BDR+fe.person));
 	        Property prop = m.getProperty(BDO+"placeEvent");
@@ -275,8 +272,6 @@ public class PlaceMigration {
 	            value = getUriFromTypeSubtype("eventType", value);
 	        }
 			Resource event = CommonMigration.getFacetNode(EVENT, main);
-//			Resource event = m.createResource();
-//			m.add(event, RDF.type, m.getResource(value));
 			CommonMigration.addDates(current.getAttribute("circa"), event, main);
 			value = current.getAttribute("circa").trim();
 			Property prop = m.getProperty(BDO+"placeEvent");

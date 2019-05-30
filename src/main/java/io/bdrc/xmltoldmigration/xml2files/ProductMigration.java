@@ -14,6 +14,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
+
 
 public class ProductMigration {
     
@@ -66,14 +68,13 @@ public class ProductMigration {
 		}
 	}
 	
-	public static void addOrg(Model m, Resource r, Element orgElement, int i) {
-		Resource org = m.createResource();
-		//m.add(org, RDF.type, m.getResource(PRP+"ProductOrg"));
+	public static void addOrg(Model m, Resource rez, Element orgElement, int i) {
+	    Resource org = CommonMigration.getFacetNode(FacetType.PRODUCT_ORG, BDA, rez);
 		String value = CommonMigration.normalizeString(orgElement.getAttribute("name"));
 		if (!value.isEmpty()) {
 			m.add(org, RDFS.label, m.createLiteral(value, "en"));
 		}
-		m.add(r, m.getProperty(ADM+"productHasOrg"), org);
+		m.add(rez, m.getProperty(ADM+"productHasOrg"), org);
 		addAllows(m, org, orgElement);
 		// sub orgs
 		addOrgs(m, org, orgElement);

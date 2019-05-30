@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 
 public class LineageMigration {
@@ -75,9 +76,6 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(i);
             elList = CommonMigration.getChildrenByTagName(current, LXSDNS, "holder");
             if (elList.isEmpty()) continue;
-//            Resource alternative = m.createResource();
-//            //m.add(alternative, RDF.type, m.getResource(BDO+"LineageAlternative"));
-//            m.add(main, m.getProperty(BDO, "lineageAlternative"), alternative);
             for (int j = 0; j < elList.size(); j++) {
                 Element holderElement = (Element) elList.get(j);
                 addHolder(m, main, holderElement, j);
@@ -87,11 +85,9 @@ public class LineageMigration {
 		return m;
 	}
 	
-	public static void addHolder(Model m, Resource r, Element e, int i) {
-	    //String value = CommonMigration.getSubResourceName(r, LP, "Holder", i+1);
-	    Resource holder = m.createResource();
-	    m.add(holder, RDF.type, m.getResource(BDO+"LineageHolder"));
-	    m.add(r, m.getProperty(BDO, "lineageHolder"), holder);
+	public static void addHolder(Model m, Resource rez, Element e, int i) {
+	    Resource holder = CommonMigration.getFacetNode(FacetType.LINEAGE_HOLDER,  rez);
+	    m.add(rez, m.getProperty(BDO, "lineageHolder"), holder);
 	    
        CommonMigration.addNotes(m, e, holder, LXSDNS);
        CommonMigration.addDescriptions(m, e, holder, LXSDNS);
@@ -133,9 +129,7 @@ public class LineageMigration {
         nodeList = e.getElementsByTagNameNS(LXSDNS, "received");
         for (int j = 0; j < nodeList.getLength(); j++) {
             Element current = (Element) nodeList.item(j);
-            //value = CommonMigration.getSubResourceName(r, LP, "Received", j+1);
-            Resource received = m.createResource();
-            //m.add(received, RDF.type, m.getResource(BDO+"LineageEvent"));
+            Resource received = CommonMigration.getFacetNode(FacetType.EVENT,  holder, m.getResource(BDO+"LineageEvent"));
             m.add(holder, m.getProperty(BDO, "lineageReceived"), received);
             value = current.getAttribute("RID");
             if (!value.isEmpty()) {
@@ -143,7 +137,7 @@ public class LineageMigration {
                     String [] parts = value.split(" ");
                     for (String part: parts) {
                         if (part.startsWith("#")) {
-                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, r.getLocalName(), r.getLocalName(), "received", "received value contains unparsed strings: `"+part+"`");
+                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "received", "received value contains unparsed strings: `"+part+"`");
                             continue;
                         }
                         m.add(received, m.getProperty(BDO, "lineageFrom"), m.createResource(BDR+part));

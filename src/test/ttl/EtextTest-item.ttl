@@ -10,19 +10,22 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bdr:VLC927251E24B2  a    :VolumeEtextAsset ;
+        :volumeHasEtext  bdr:ER0847257BD8E3 ;
+        :volumeNumber    1 .
+
+bdr:ER0847257BD8E3  a   :EtextRef ;
+        :eTextResource  bdr:UT1CZ2485_001_0000 .
+
 bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
         :isRoot         true ;
         :itemForWork    bdr:W1CZ2485 ;
-        :itemHasVolume  [ a                :VolumeEtextAsset ;
-                          :volumeHasEtext  [ a               :EtextRef ;
-                                             :eTextResource  bdr:UT1CZ2485_001_0000
-                                           ] ;
-                          :volumeNumber    1
-                        ] .
+        :itemHasVolume  bdr:VLC927251E24B2 .
 
 bda:I1CZ2485_E001  a         adm:AdminData ;
         adm:adminAbout       bdr:I1CZ2485_E001 ;
         adm:contentProvider  bda:CP001 ;
+        adm:facetIndex       3 ;
         adm:gitPath          "e9/I1CZ2485_E001.trig" ;
         adm:gitRepo          bda:GR0003 ;
         adm:graphId          bdg:I1CZ2485_E001 ;

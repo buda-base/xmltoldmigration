@@ -27,6 +27,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class EAPFondsTransfer {
 
@@ -126,7 +127,7 @@ public class EAPFondsTransfer {
                 // bdo:Work
 //                workModel.add(work, workModel.createProperty(BDO, "workType"), workModel.createResource(BDR+"WorkTypePublishedWork"));
                 workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
-                Resource noteR = workModel.createResource();
+                Resource noteR = CommonMigration.getFacetNode(FacetType.NOTE,  work);
                 noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(serieLine[36],"en"));
                 workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
                 workModel.add(work, SKOS.prefLabel, workModel.createLiteral(serieLine[39],"en"));

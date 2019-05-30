@@ -37,6 +37,7 @@ import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class EtextMigration {
 
@@ -321,6 +322,7 @@ public class EtextMigration {
         final Property itemHasVolume = itemModel.getProperty(BDO, "itemHasVolume");
         final Property volumeHasEtext = itemModel.getProperty(BDO, "volumeHasEtext");
         Resource volumeRes = null;
+        
         StmtIterator si = item.listProperties(itemHasVolume);
         while (si.hasNext()) {
             Statement s = si.next();
@@ -331,16 +333,16 @@ public class EtextMigration {
                 break;
             }
         }
+        
         if (volumeRes == null) {
-            volumeRes = itemModel.createResource();
-            volumeRes.addProperty(RDF.type, itemModel.getResource(BDO+"VolumeEtextAsset"));
+            volumeRes = CommonMigration.getFacetNode(FacetType.VOLUME,  item, itemModel.getResource(BDO+"VolumeEtextAsset"));
             item.addProperty(itemHasVolume, volumeRes);
             volumeRes.addProperty(itemModel.getProperty(BDO, "volumeNumber"), 
                     itemModel.createTypedLiteral(volume, XSDDatatype.XSDinteger));
         }
-        Resource seqRes = itemModel.createResource();
+        
+        Resource seqRes = CommonMigration.getFacetNode(FacetType.ETEXT_REF,  item);
         volumeRes.addProperty(volumeHasEtext, seqRes);
-        seqRes.addProperty(RDF.type, itemModel.getResource(BDO+"EtextRef"));
         if (seqNum != 0)
             seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
                 itemModel.createTypedLiteral(seqNum, XSDDatatype.XSDinteger));

@@ -12,32 +12,39 @@
 
 bda:PR99NCUL01  a               adm:Product , adm:AdminData ;
         adm:adminAbout          bda:PR99NCUL01 ;
-        adm:facetIndex          2 ;
+        adm:facetIndex          7 ;
         adm:gitPath             "e2/PR99NCUL01.trig" ;
         adm:gitRepo             bda:GR0011 ;
         adm:graphId             bdg:PR99NCUL01 ;
         adm:logEntry            bda:LGBE16F203BDFB ;
         adm:productAllowByAddr  "ip6" ;
-        adm:productHasOrg       [ rdfs:label              "Top1"@en ;
-                                  adm:productAllowByAddr  "ip4" , "ip5"
-                                ] ;
-        adm:productHasOrg       [ rdfs:label         "Top2"@en ;
-                                  adm:productHasOrg  [ rdfs:label              "Sub3"@en ;
-                                                       adm:productAllowByAddr  "ip1"
-                                                     ] ;
-                                  adm:productHasOrg  [ rdfs:label              "Sub2"@en ;
-                                                       adm:productAllowByAddr  "ip2"
-                                                     ] ;
-                                  adm:productHasOrg  [ rdfs:label              "Sub1"@en ;
-                                                       adm:productAllowByAddr  "ip3"
-                                                     ]
-                                ] ;
+        adm:productHasOrg       bda:PGE676375D5967 , bda:PG7C1978105B50 ;
         adm:productInclude      bda:PR88CT000129 ;
         adm:status              bda:StatusReleased ;
         :isRoot                 true ;
         skos:prefLabel          "This or that"@en .
 
+bda:PGE676375D5967  a           adm:ProductOrg ;
+        rdfs:label              "Top1"@en ;
+        adm:productAllowByAddr  "ip4" , "ip5" .
+
 bda:LGBE16F203BDFB  a   adm:LogEntry ;
         adm:logDate     "2014-09-22T19:39:47.382Z"^^xsd:dateTime ;
         adm:logMessage  "added entry for NCCU Taiwan"@en ;
         adm:logWho      bdr:U00006 .
+
+bda:PG2A960E31A8B0  a           adm:ProductOrg ;
+        rdfs:label              "Sub3"@en ;
+        adm:productAllowByAddr  "ip1" .
+
+bda:PGEEBA28F1F8F3  a           adm:ProductOrg ;
+        rdfs:label              "Sub2"@en ;
+        adm:productAllowByAddr  "ip2" .
+
+bda:PGBBD20DA40B09  a           adm:ProductOrg ;
+        rdfs:label              "Sub1"@en ;
+        adm:productAllowByAddr  "ip3" .
+
+bda:PG7C1978105B50  a      adm:ProductOrg ;
+        rdfs:label         "Top2"@en ;
+        adm:productHasOrg  bda:PG2A960E31A8B0 , bda:PGEEBA28F1F8F3 , bda:PGBBD20DA40B09 .

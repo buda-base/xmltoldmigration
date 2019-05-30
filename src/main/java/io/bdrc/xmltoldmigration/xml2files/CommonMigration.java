@@ -334,11 +334,14 @@ public class CommonMigration  {
         CREATOR("creator", "CR", BDO+"AgentAsCreator"), 
         ETEXT_LINE("etextLine", "EL", BDO+"EtextLine"), 
         ETEXT_PAGE("etextPage", "EP", BDO+"EtextPage"), 
+        ETEXT_REF("etextRef", "ER", BDO+"EtextRef"), 
         EVENT("event", "EV", BDO+"Event"), 
         HOLDER("lineageHolder", "LH", BDO+"LineageHolder"), 
+        LINEAGE_HOLDER("lineageHolder", "LH", BDO+"LineageHolder"), 
         LOG_ENTRY("logEntry", "LG", ADM+"LogEntry"), 
         NAME("name", "NM", BDO+"PersonName"),
         NOTE("note", "NT", BDO+"Note"),
+        PRODUCT_ORG("productOrg", "PG", ADM+"ProductOrg"),
         TITLE("title", "TT", BDO+"WorkTitle"),
         VCARD_ADDR("vcardAddr", "VA", VCARD+"Address"),
         VOLUME("volume", "VL", BDO+"Volume"),
@@ -455,6 +458,11 @@ public class CommonMigration  {
      */
     public static Resource getFacetNode(FacetType facet, Resource rez, Resource nodeType) {
         return getFacetNode(facet, BDR, rez, nodeType);
+    }
+
+    public static Resource getFacetNode(FacetType facet, String nsUri, Resource rez) {
+        Resource nodeType = facet.getNodeType();
+        return getFacetNode(facet, nsUri, rez, nodeType);
     }
 
     public static Resource getFacetNode(FacetType facet, String nsUri, Resource rez, Resource nodeType) {

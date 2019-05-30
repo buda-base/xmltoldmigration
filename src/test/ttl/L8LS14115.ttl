@@ -10,6 +10,13 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bdr:LHD3068D370498  a     :LineageHolder ;
+        :lineageDownFrom  bdr:L8LS15610 ;
+        :lineageReceived  bdr:EV08E7C6B1F9BF ;
+        :lineageWho       bdr:P1018 ;
+        :lineageWork      bdr:WTest ;
+        :note             bdr:NT90EDF4B929F1 .
+
 bda:LG96B065B1B67F  a  adm:LogEntry ;
         adm:logDate  "2014-07-28T11:30:18.879Z"^^xsd:dateTime ;
         adm:logWho   bdr:U00019 .
@@ -18,6 +25,9 @@ bda:LGAE337746AFB0  a   adm:LogEntry ;
         adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
         adm:logMessage  "normalized names of who and received elements"@en ;
         adm:logWho      bdr:U00006 .
+
+bdr:NT90EDF4B929F1  a  :Note ;
+        :noteText  "test description" .
 
 bda:LG80A1FAA25E83  a   adm:LogEntry ;
         adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
@@ -32,25 +42,7 @@ bda:LGBF7F6269805E  a   adm:LogEntry ;
 bdr:L8LS14115  a        :Lineage ;
         rdfs:comment    "initiation transmission of clear light blessing of rakta yamari"@en ;
         :isRoot         true ;
-        :lineageHolder  [ a                 :LineageHolder ;
-                          :lineageDownFrom  bdr:L8LS15610 ;
-                          :lineageReceived  [ :eventWhere   bdr:G844 ;
-                                              :lineageFrom  bdr:P8LS15618
-                                            ] ;
-                          :lineageWho       bdr:P1018 ;
-                          :lineageWork      bdr:WTest ;
-                          :note             bdr:NT00F54FA6BB10
-                        ] ;
-        :lineageHolder  [ a               :LineageHolder ;
-                          :lineageDownTo  bdr:L8LS15728 ;
-                          :lineageWho     bdr:P1132
-                        ] ;
-        :lineageHolder  [ a                 :LineageHolder ;
-                          :lineageReceived  [ :lineageFrom  bdr:P1132 ;
-                                              :onOrAbout    "testcirca"
-                                            ] ;
-                          :lineageWho       bdr:P1040
-                        ] ;
+        :lineageHolder  bdr:LH624305BFA552 , bdr:LHD3068D370498 , bdr:LHC366A00C3BAE ;
         :lineageObject  bdr:T1613 ;
         :lineageRef     bdr:L1RKL2042 ;
         :lineageType    bdr:LineageDbang ;
@@ -59,7 +51,7 @@ bdr:L8LS14115  a        :Lineage ;
 
 bda:L8LS14115  a           adm:AdminData ;
         adm:adminAbout     bdr:L8LS14115 ;
-        adm:facetIndex     9 ;
+        adm:facetIndex     14 ;
         adm:gitPath        "86/L8LS14115.trig" ;
         adm:gitRepo        bda:GR0004 ;
         adm:graphId        bdg:L8LS14115 ;
@@ -67,6 +59,14 @@ bda:L8LS14115  a           adm:AdminData ;
         adm:metadataLegal  bda:LD_BDRC_Open ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
+
+bdr:EV08E7C6B1F9BF  a  :LineageEvent ;
+        :eventWhere   bdr:G844 ;
+        :lineageFrom  bdr:P8LS15618 .
+
+bdr:EV085EF39BA874  a  :LineageEvent ;
+        :lineageFrom  bdr:P1132 ;
+        :onOrAbout    "testcirca" .
 
 bdr:WLC0BD672AF6D3  a        :WorkLocation ;
         :workLocationPage    236 ;
@@ -78,9 +78,14 @@ bda:LG6B9FE548306F  a   adm:LogEntry ;
         adm:logMessage  "added location"@en ;
         adm:logWho      bdr:U00019 .
 
+bdr:LH624305BFA552  a   :LineageHolder ;
+        :lineageDownTo  bdr:L8LS15728 ;
+        :lineageWho     bdr:P1132 .
+
+bdr:LHC366A00C3BAE  a     :LineageHolder ;
+        :lineageReceived  bdr:EV085EF39BA874 ;
+        :lineageWho       bdr:P1040 .
+
 bda:LG7D6D1032AD23  a  adm:LogEntry ;
         adm:logDate  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
         adm:logWho   bdr:U00019 .
-
-bdr:NT00F54FA6BB10  a  :Note ;
-        :noteText  "test description" .
