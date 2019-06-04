@@ -270,7 +270,7 @@ public class MigrationApp
                 
                 admItem = CommonMigration.createAdminRoot(item);
                 CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
-                admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+                admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
                 moveAdminInfo(itemModel, workR, admItem);
 
                 itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));

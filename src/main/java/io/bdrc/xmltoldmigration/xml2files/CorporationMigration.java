@@ -29,7 +29,7 @@ public class CorporationMigration {
         Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Corporation");
         Resource admMain = CommonMigration.createAdminRoot(main);
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
-		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		
 		CommonMigration.addNames(m, root, main, CXSDNS);
 		

@@ -22,7 +22,7 @@ public class OfficeMigration {
         Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Role");
         Resource admMain = CommonMigration.createAdminRoot(main);
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
-		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		
 		CommonMigration.addNotes(m, root, main, OXSDNS);
 		

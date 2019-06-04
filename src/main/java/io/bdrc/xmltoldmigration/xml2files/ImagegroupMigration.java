@@ -106,7 +106,7 @@ public class ImagegroupMigration {
         CommonMigration.addStatus(m, admVol, imageGroupStatus);
         CommonMigration.addLog(m, root, admVol, IGXSDNS);
         CommonMigration.addDescriptions(m, root, volR, IGXSDNS);
-        admVol.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_Open"));
+        admVol.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_CC0"));
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
         for (int i = 0; i < nodeList.getLength(); i++) {

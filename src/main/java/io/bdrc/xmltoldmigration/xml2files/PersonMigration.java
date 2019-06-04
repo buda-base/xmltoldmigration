@@ -86,7 +86,7 @@ public class PersonMigration {
         Resource main = CommonMigration.createRoot(m, BDR+RID, BDO+"Person");
         Resource admMain = CommonMigration.createAdminRoot(main);
 		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
-		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_Open"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		int gender = SymetricNormalization.GENDER_U;
 
 		// names
