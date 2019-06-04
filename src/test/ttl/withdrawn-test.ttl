@@ -31,7 +31,7 @@ bda:R8LS12811  a           adm:AdminData ;
         adm:gitRepo        bda:GR0010 ;
         adm:graphId        bdg:R8LS12811 ;
         adm:logEntry       bda:LG32C083A34E27 , bda:LGB627CF38003D ;
-        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:replaceWith    bdr:R1GS23 ;
         adm:status         bda:StatusWithdrawn ;
         :isRoot            true .

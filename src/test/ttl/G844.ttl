@@ -76,7 +76,7 @@ bda:G844  a                           adm:AdminData ;
         adm:gitRepo                   bda:GR0005 ;
         adm:graphId                   bdg:G844 ;
         adm:logEntry                  bda:LG2B4F2E9D5266 , bda:LGFE2C8100AFEA , bda:LG32AA3FB263A1 , bda:LG6B068E49DCE4 , bda:LG0EEB0BC94161 , bda:LG9DB536C5C700 , bda:LGFD3940A68CCD , bda:LGF4CB83866B85 ;
-        adm:metadataLegal             bda:LD_BDRC_Open ;
+        adm:metadataLegal             bda:LD_BDRC_CC0 ;
         adm:place_TLM_accession       "004476" ;
         adm:place_TLM_admin           "tgaAdmin" ;
         adm:place_TLM_adminEmail      "xxx" ;

@@ -35,7 +35,7 @@ bda:P1331  a               adm:AdminData ;
         adm:gitPath        "97/P1331.trig" ;
         adm:gitRepo        bda:GR0006 ;
         adm:graphId        bdg:P1331 ;
-        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 

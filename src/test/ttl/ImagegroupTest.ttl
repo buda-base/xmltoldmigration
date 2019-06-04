@@ -51,7 +51,7 @@ bda:VestItem_I4158  a            adm:AdminData ;
         adm:adminAbout           bdr:VestItem_I4158 ;
         adm:legacyImageGroupRID  "I4158" ;
         adm:logEntry             bda:LGFC9B5FCCA8D3 , bda:LG3851E8262B9D , bda:LG012EB7E318FD , bda:LGC589389A74ED ;
-        adm:metadataLegal        bda:LD_BDRC_Open ;
+        adm:metadataLegal        bda:LD_BDRC_CC0 ;
         adm:status               bda:StatusReleased ;
         adm:volumeQcDate         "12/03" ;
         adm:volumeQcNote         "qc notes" ;

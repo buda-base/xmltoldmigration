@@ -332,6 +332,7 @@ public class CommonMigration  {
 
         CORP_MEMBER("corporationMember", "CM", BDO+"CorporationMember"), 
         CREATOR("creator", "CR", BDO+"AgentAsCreator"), 
+        ETEXT_CHUNK("etextChunk", "EC", BDO+"EtextChunk"), 
         ETEXT_LINE("etextLine", "EL", BDO+"EtextLine"), 
         ETEXT_PAGE("etextPage", "EP", BDO+"EtextPage"), 
         ETEXT_REF("etextRef", "ER", BDO+"EtextRef"), 

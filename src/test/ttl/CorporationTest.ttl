@@ -36,7 +36,7 @@ bda:C11MS170  a            adm:AdminData ;
         adm:gitRepo        bda:GR0001 ;
         adm:graphId        bdg:C11MS170 ;
         adm:logEntry       bda:LG74E16D28D450 ;
-        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 

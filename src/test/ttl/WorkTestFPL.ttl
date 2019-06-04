@@ -28,15 +28,16 @@ bdr:VL49A89728EE2A  a               :VolumePhysicalAsset ;
         :volumeNumber               1 ;
         :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en .
 
-bda:W12837FPL  a        adm:AdminData ;
-        adm:adminAbout  bdr:W12837FPL ;
-        adm:facetIndex  16 ;
-        adm:gitPath     "55/W12837FPL.trig" ;
-        adm:gitRepo     bda:GR0008 ;
-        adm:graphId     bdg:W12837FPL ;
-        adm:logEntry    bda:LGA31364CA97C9 , bda:LGD87EBF2311F0 , bda:LGFB1A36806E27 , bda:LG7E331F54F258 ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
+bda:W12837FPL  a           adm:AdminData ;
+        adm:adminAbout     bdr:W12837FPL ;
+        adm:facetIndex     16 ;
+        adm:gitPath        "55/W12837FPL.trig" ;
+        adm:gitRepo        bda:GR0008 ;
+        adm:graphId        bdg:W12837FPL ;
+        adm:logEntry       bda:LGA31364CA97C9 , bda:LGD87EBF2311F0 , bda:LGFB1A36806E27 , bda:LG7E331F54F258 ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
 
 bda:LGFB1A36806E27  a   adm:LogEntry ;
         adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;

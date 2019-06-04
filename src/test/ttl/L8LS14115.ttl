@@ -56,7 +56,7 @@ bda:L8LS14115  a           adm:AdminData ;
         adm:gitRepo        bda:GR0004 ;
         adm:graphId        bdg:L8LS14115 ;
         adm:logEntry       bda:LG96B065B1B67F , bda:LGBF7F6269805E , bda:LG80A1FAA25E83 , bda:LGAE337746AFB0 , bda:LG7D6D1032AD23 , bda:LG6B9FE548306F ;
-        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 

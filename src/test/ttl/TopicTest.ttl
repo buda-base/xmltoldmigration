@@ -48,6 +48,6 @@ bda:T3CN2023  a            adm:AdminData ;
         adm:gitRepo        bda:GR0007 ;
         adm:graphId        bdg:T3CN2023 ;
         adm:logEntry       bda:LGE44A97C18EC3 , bda:LG84BBD58F4153 , bda:LG5312A53141EB , bda:LG1A9CB6791753 , bda:LGBAD47AAC9EAE ;
-        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .

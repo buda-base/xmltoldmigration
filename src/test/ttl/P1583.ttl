@@ -38,7 +38,7 @@ bda:P1583  a               adm:AdminData ;
         adm:gitRepo        bda:GR0006 ;
         adm:graphId        bdg:P1583 ;
         adm:logEntry       bda:LGE1683F39A3E5 ;
-        adm:metadataLegal  bda:LD_BDRC_Open ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:seeOtherToL    "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
