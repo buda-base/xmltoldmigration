@@ -338,7 +338,7 @@ public class MigrationApp
         String baseName = "O9TAXTBRC201605";
         Document d = MigrationHelpers.documentFromFileName(fileName);
         Model m = TaxonomyMigration.MigrateTaxonomy(d);
-        String outfileName = OUTPUT_DIR+baseName+".ttl";
+        String outfileName = OUTPUT_DIR+baseName+".trig";
         MigrationHelpers.outputOneModel(m, baseName, outfileName, "taxonomy");
         System.out.println("created taxonomy on "+outfileName);
     }
