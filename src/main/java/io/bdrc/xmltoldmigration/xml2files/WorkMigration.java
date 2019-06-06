@@ -202,13 +202,11 @@ public class WorkMigration {
             switch (nodeType) {
             case "unicodeText": value = BDO+"UnicodeWork"; break;
             case "conceptualWork": value = BDO+"AbstractWork"; break;
-            case "publishedWork": value = BDO+"PublishedWork"; break;
+            case "publishedWork": value = BDO+"Work"; break;
             case "series": value = BDO+"SeriesWork"; break;
-            default: value = BDO+(hasArchiveInfo ? "PublishedWork" : "UnspecifiedWorkClass"); break;
+            default: value = BDO+"Work"; break;
             }
-            if (!value.isEmpty()) {
-                main.addProperty(RDF.type, m.createResource(value));
-            }
+            main.addProperty(RDF.type, m.createResource(value));
             boolean numbered = false;
             // will be overwritten when reading the pubinfo
             value = current.getAttribute("number");

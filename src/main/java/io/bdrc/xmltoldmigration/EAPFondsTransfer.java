@@ -112,7 +112,7 @@ public class EAPFondsTransfer {
                 // Work model
                 Model workModel = ModelFactory.createDefaultModel();
                 CommonMigration.setPrefixes(workModel);
-                Resource work = CommonMigration.createRoot(workModel, BDR+"W"+serie, BDO+"PublishedWork");
+                Resource work = CommonMigration.createRoot(workModel, BDR+"W"+serie, BDO+"Work");
                 Resource admWork = CommonMigration.createAdminRoot(work);
                 res.add(work);
 
