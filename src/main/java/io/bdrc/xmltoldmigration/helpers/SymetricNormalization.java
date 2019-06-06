@@ -1,5 +1,8 @@
 package io.bdrc.xmltoldmigration.helpers;
 
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,16 +10,12 @@ import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class SymetricNormalization {
 
-    public static final String BDO = CommonMigration.BDO;
-    public static final String BDR = CommonMigration.BDR;
     public static final int GENDER_M = 0;
     public static final int GENDER_F = 1;
     public static final int GENDER_U = 2;

@@ -1,20 +1,24 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.USER;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.VCARD;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType.EVENT;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType.VCARD_ADDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.VCARD;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getAdminData;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
+import static io.bdrc.libraries.Models.FacetType.EVENT;
+import static io.bdrc.libraries.Models.FacetType.VCARD_ADDR;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -43,15 +47,15 @@ public class PlaceMigration {
 	
 	public static Model MigratePlace(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m, "place");
+		setPrefixes(m, "place");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Place");
-        Resource admMain = CommonMigration.createAdminRoot(main);
+        Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Place");
+        Resource admMain = createAdminRoot(main);
 		String value = getTypeStr(root, m, main);
 		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + "PlaceType"+value));
 		
-		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 
 		CommonMigration.addNames(m, root, main, PLXSDNS);
@@ -80,7 +84,7 @@ public class PlaceMigration {
 		nodeList = root.getElementsByTagNameNS(PLXSDNS, "address");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			Resource address = CommonMigration.getFacetNode(VCARD_ADDR, VCARD, main, VCARD_ADDR.getNodeType());
+			Resource address = getFacetNode(VCARD_ADDR, VCARD, main, VCARD_ADDR.getNodeType());
 			m.add(main, m.getProperty(BDO+"placeAddress"), address);
 			addSimpleAttr(current.getAttribute("city"), "city", VCARD+"locality", m, address);
 			addSimpleAttr(current.getAttribute("country"), "country", VCARD+"country-name", m, address);
@@ -100,7 +104,7 @@ public class PlaceMigration {
 		// adding monastery foundation events from persons (should be merged with the current founding event if present)
 		PersonMigration.FoundingEvent fe = PersonMigration.placeEvents.get(main.getLocalName());
 		if (fe != null) {
-		    Resource event = CommonMigration.getFacetNode(EVENT, main,  m.getResource(BDO+"PlaceFounded"));
+		    Resource event = getFacetNode(EVENT, main,  m.getResource(BDO+"PlaceFounded"));
 	        CommonMigration.addDates(fe.circa, event, main);
 	        m.add(event, m.createProperty(BDO, "eventWho"), m.createResource(BDR+fe.person));
 	        Property prop = m.getProperty(BDO+"placeEvent");
@@ -119,7 +123,7 @@ public class PlaceMigration {
 		NodeList nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "taxonomy");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element current = (Element) nodeList.item(i);
-			Resource tax = m.createResource(CommonMigration.BDR+current.getAttribute("rid"));
+			Resource tax = m.createResource(BDR+current.getAttribute("rid"));
 			m.add(main, m.getProperty(ADM+"place_TLM_taxonomy"), tax);
 		}
 		nodeList = tlmEl.getElementsByTagNameNS(PLXSDNS, "groups");
@@ -178,7 +182,7 @@ public class PlaceMigration {
 	        value = current.getAttribute("value").trim();
 	        lit = m.createLiteral(value);
 	        if (prop.getNameSpace().contains("admin")) {
-	            m.add(CommonMigration.getAdminData(main), prop, lit);
+	            m.add(getAdminData(main), prop, lit);
 	        } else {
 	            m.add(main, prop, lit);
 	        }
@@ -271,7 +275,7 @@ public class PlaceMigration {
 	            value = value.substring(16);
 	            value = getUriFromTypeSubtype("eventType", value);
 	        }
-			Resource event = CommonMigration.getFacetNode(EVENT, main);
+			Resource event = getFacetNode(EVENT, main);
 			CommonMigration.addDates(current.getAttribute("circa"), event, main);
 			value = current.getAttribute("circa").trim();
 			Property prop = m.getProperty(BDO+"placeEvent");

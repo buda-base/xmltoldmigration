@@ -1,11 +1,13 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.LangStrings.normalizeTibetan;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.getFacetNode;
+
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,17 +23,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class EtextBodyMigration {
 
     public static boolean oneLongString = false;
     private static final XPath xPath = EtextMigration.initXpath();
     private static final String TEI_PREFIX = EtextMigration.TEI_PREFIX;
-    public static final String BDR = CommonMigration.BDR;
-    public static final String BDO = CommonMigration.BDO;
-    public static final String ADM = CommonMigration.ADM;
     public static final String PAGE_INSERT = "\n\n";
     public static final int PAGE_INSERT_codelen = 2;
     public static final String LINE_INSERT = "\n";
@@ -39,7 +38,7 @@ public class EtextBodyMigration {
     
     public static final Pattern rtfP = Pattern.compile("(\\s*\\d*(PAGE|\\$)[\u0000-\u0127]+)+");
     public static String normalizeString(final String src, final String page, final String lineNum, final boolean fromRTF, final String eTextId) {
-        String res = CommonMigration.normalizeTibetan(src);
+        String res = normalizeTibetan(src);
         // I don't think we want non-breakable spaces, just normal spaces
         res = res.replace('\u00A0', ' ');
         if (fromRTF) {
@@ -88,7 +87,7 @@ public class EtextBodyMigration {
             }
             Resource pageR = null;
             if (keepPages) {
-                pageR = CommonMigration.getFacetNode(FacetType.ETEXT_PAGE,  etextR);
+                pageR = getFacetNode(FacetType.ETEXT_PAGE,  etextR);
                 etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
             }
             final String pageNum = par.getAttribute("n");
@@ -145,7 +144,7 @@ public class EtextBodyMigration {
                 s = normalizeString(s, Integer.toString(linenum), pageNum, !needsPageNameTranslation, eTextId);
                 final int strLen = s.codePointCount(0, s.length()); 
                 if (keepPages && linenum != 0) {
-                    Resource lineR = CommonMigration.getFacetNode(FacetType.ETEXT_LINE,  pageR);
+                    Resource lineR = getFacetNode(FacetType.ETEXT_LINE,  pageR);
                     pageR.addProperty(m.createProperty(BDO, "pageHasLine"), lineR);
                     lineR.addProperty(m.createProperty(BDO, "seqNum"), m.createTypedLiteral(linenum, XSDDatatype.XSDinteger));
                     lineR.addProperty(m.getProperty(BDO, "sliceStartChar"), m.createTypedLiteral(currentTotalPoints, XSDDatatype.XSDinteger));

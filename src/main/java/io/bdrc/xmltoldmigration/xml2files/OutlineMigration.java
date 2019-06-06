@@ -1,5 +1,14 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,17 +26,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
-
 
 public class OutlineMigration {
 
-    private static final String BDA = CommonMigration.BDA;
-    private static final String BDO = CommonMigration.BDO;
-    private static final String BDR = CommonMigration.BDR;
-    private static final String ADM = CommonMigration.ADM;
 	public static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 	
 	public static boolean splitOutlines = false;
@@ -162,11 +166,11 @@ public class OutlineMigration {
 	
 	public static Model MigrateOutline(Document xmlDocument) {
 	    Model workModel = ModelFactory.createDefaultModel();
-	    CommonMigration.setPrefixes(workModel, "work");
+	    setPrefixes(workModel, "work");
 	    String workId = getWorkId(xmlDocument);
 	    if (workId == null || workId.isEmpty())
 	        return null;
-	    Resource work = CommonMigration.createRoot(workModel, BDR+workId, BDO+"Work");
+	    Resource work = createRoot(workModel, BDR+workId, BDO+"Work");
         //CommonMigration.addStatus(workModel, work, root.getAttribute("status"));
 	    return MigrateOutline(xmlDocument, workModel, work);
 	}
@@ -175,12 +179,12 @@ public class OutlineMigration {
 		Model m;
 		if (splitOutlines) {
 		    m = ModelFactory.createDefaultModel();
-		    CommonMigration.setPrefixes(m, "work");
+		    setPrefixes(m, "work");
 		} else {
 		    m = workModel;
 		}
 		
-        Resource admOutline = CommonMigration.createAdminRoot(rootWork);
+        Resource admOutline = createAdminRoot(rootWork);
 
 		Element root = xmlDocument.getDocumentElement();
 
@@ -354,7 +358,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                 type = "WorkEvent";
             }
 
-            Resource site = CommonMigration.getFacetNode(FacetType.EVENT,  node, m.createResource(BDO+type));
+            Resource site = getFacetNode(FacetType.EVENT,  node, m.createResource(BDO+type));
             m.add(node, m.getProperty(BDO, "workEvent"), site);
             
             CommonMigration.addDates(current.getAttribute("circa"), site, r);

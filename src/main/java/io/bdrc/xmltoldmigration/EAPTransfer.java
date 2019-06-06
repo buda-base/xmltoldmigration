@@ -1,9 +1,20 @@
 package io.bdrc.xmltoldmigration;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.BDG;
+import static io.bdrc.libraries.Models.VCARD;
+import static io.bdrc.libraries.Models.FacetType;
+import static io.bdrc.libraries.Models.addReleased;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getAdminData;
+import static io.bdrc.libraries.Models.getEvent;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +40,6 @@ import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
@@ -128,15 +138,15 @@ public class EAPTransfer {
     public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
-        CommonMigration.setPrefixes(workModel);
+        setPrefixes(workModel);
         final String baseRid = line[2].replace('/', '-');
         final String RID = 'W'+baseRid;
-        Resource work = CommonMigration.createRoot(workModel, BDR+RID, BDO+"Work");
+        Resource work = createRoot(workModel, BDR+RID, BDO+"Work");
         res.add(work);
 
         // adm:AdminData
-        Resource admWork = CommonMigration.createAdminRoot(work);
-        CommonMigration.addReleased(workModel, admWork);
+        Resource admWork = createAdminRoot(work);
+        addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_EAP_metadata")); // ?
         final String origUrl = ORIG_URL_BASE+line[2].replace('/', '-');
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
@@ -149,7 +159,7 @@ public class EAPTransfer {
             titleLang = "en";
         } else {
             Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
-            Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, titleType);
+            Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
             work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
             titleR.addProperty(RDFS.label, workModel.createLiteral(title, titleLang));
         }
@@ -160,7 +170,7 @@ public class EAPTransfer {
         if (!line[3].isEmpty()) {
             int startDate = Integer.parseInt(line[3]);
             int endDate = Integer.parseInt(line[4]);
-            Resource copyEventR = CommonMigration.getEvent(work, "CopyEvent", "workEvent");
+            Resource copyEventR = getEvent(work, "CopyEvent", "workEvent");
             if (startDate == endDate) {
                 copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(startDate, XSDDatatype.XSDinteger));
             } else {
@@ -246,11 +256,11 @@ public class EAPTransfer {
         
         // bdo:Item for current bdo:Work
         final Model itemModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(itemModel);
+        setPrefixes(itemModel);
         final String itemRID = 'I'+baseRid;
         
         // Item for Work
-        Resource item = CommonMigration.createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
+        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
         res.add(item);
 
         if (WorkMigration.addWorkHasItem) {
@@ -258,8 +268,8 @@ public class EAPTransfer {
         }
 
         // Item adm:AdminData
-        Resource admItem = CommonMigration.createAdminRoot(item);
-        CommonMigration.addStatus(itemModel, admItem, "released");
+        Resource admItem = createAdminRoot(item);
+        addStatus(itemModel, admItem, "released");
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_EAP_content")); // ?
 
         // Volume for Item

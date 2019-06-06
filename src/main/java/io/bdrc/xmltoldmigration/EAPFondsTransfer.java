@@ -1,9 +1,19 @@
 package io.bdrc.xmltoldmigration;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.BDG;
+import static io.bdrc.libraries.Models.VCARD;
+import static io.bdrc.libraries.Models.FacetType;
+import static io.bdrc.libraries.Models.addReleased;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getAdminData;
+import static io.bdrc.libraries.Models.getEvent;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +37,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class EAPFondsTransfer {
 
@@ -111,9 +120,9 @@ public class EAPFondsTransfer {
                                 
                 // Work model
                 Model workModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(workModel);
-                Resource work = CommonMigration.createRoot(workModel, BDR+"W"+serie, BDO+"Work");
-                Resource admWork = CommonMigration.createAdminRoot(work);
+                setPrefixes(workModel);
+                Resource work = createRoot(workModel, BDR+"W"+serie, BDO+"Work");
+                Resource admWork = createAdminRoot(work);
                 res.add(work);
 
                 // Work adm:AdminData
@@ -126,7 +135,7 @@ public class EAPFondsTransfer {
                 
                 // bdo:Work
                 workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
-                Resource noteR = CommonMigration.getFacetNode(FacetType.NOTE,  work);
+                Resource noteR = getFacetNode(FacetType.NOTE,  work);
                 noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(serieLine[36],"en"));
                 workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
                 workModel.add(work, SKOS.prefLabel, workModel.createLiteral(serieLine[39],"en"));
@@ -134,9 +143,9 @@ public class EAPFondsTransfer {
                 
                 // Item model
                 Model itemModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(itemModel);
-                Resource item = CommonMigration.createRoot(itemModel, BDR+"I"+serieID, BDO+"ItemImageAsset");
-                Resource admItem = CommonMigration.createAdminRoot(item);
+                setPrefixes(itemModel);
+                Resource item = createRoot(itemModel, BDR+"I"+serieID, BDO+"ItemImageAsset");
+                Resource admItem = createAdminRoot(item);
                 res.add(item);
 
                 workModel.add(work, workModel.createProperty(BDO,"workHasItem"), item);
@@ -174,7 +183,7 @@ public class EAPFondsTransfer {
                         res.add(vol);
                         
                         // Volume adm:AdminData
-                        Resource admVol = CommonMigration.getAdminData(vol);
+                        Resource admVol = getAdminData(vol);
                         itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
                         origUrl = ManifestPREF+ref;
                         itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                

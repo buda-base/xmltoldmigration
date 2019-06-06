@@ -1,7 +1,11 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.LangStrings.EWTS_TAG;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.util.List;
 
@@ -24,14 +28,14 @@ public class TaxonomyMigration {
         Element root = d.getDocumentElement();
         
         Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m, "outline");
+        setPrefixes(m, "outline");
 
         CurNodeInt curNodeInt = new CurNodeInt();
         curNodeInt.i = 0;
         
         String legacyOutlineRID = root.getAttribute("RID");
-        Resource mainTaxonomy = CommonMigration.createRoot(m, BDR+legacyOutlineRID, null);
-        Resource admTaxonomy = CommonMigration.createAdminRoot(mainTaxonomy);
+        Resource mainTaxonomy = createRoot(m, BDR+legacyOutlineRID, null);
+        Resource admTaxonomy = createAdminRoot(mainTaxonomy);
 
         CommonMigration.addLog(m, root, admTaxonomy, OXSDNS);
         
@@ -46,7 +50,7 @@ public class TaxonomyMigration {
             Element current = (Element) nodeList.get(i);
             if (current.getTextContent().trim().isEmpty()) continue;
             // not sure about the second one in case of an outline
-            Literal l = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, "name", r.getLocalName(), r.getLocalName());
+            Literal l = CommonMigration.getLiteral(current, EWTS_TAG, m, "name", r.getLocalName(), r.getLocalName());
             if (l != null) {
                 if (!l.getLanguage().equals("bo") && !l.getLanguage().equals("zh-latn-pinyin-x-ndia"))
                     r.addProperty(SKOS.prefLabel, l);

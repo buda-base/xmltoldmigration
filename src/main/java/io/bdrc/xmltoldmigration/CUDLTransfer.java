@@ -1,9 +1,15 @@
 package io.bdrc.xmltoldmigration;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addReleased;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getEvent;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,9 +34,8 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
@@ -144,16 +149,16 @@ public class CUDLTransfer {
     public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
-        CommonMigration.setPrefixes(workModel);
+        setPrefixes(workModel);
         String rid=line[0];
         
         // Work model
-        Resource work = CommonMigration.createRoot(workModel, BDR+"W0CDL0"+rid, BDO+"Work");
-        Resource admWork = CommonMigration.createAdminRoot(work);
+        Resource work = createRoot(workModel, BDR+"W0CDL0"+rid, BDO+"Work");
+        Resource admWork = createAdminRoot(work);
         res.add(work);
 
         // Work adm:AdminData
-        CommonMigration.addReleased(workModel, admWork);
+        addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_CUDL_metadata")); // ?
         final String origUrl = ORIG_URL_BASE+line[0];
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
@@ -172,7 +177,7 @@ public class CUDLTransfer {
         workModel.add(work, SKOS.prefLabel, lit);
         
         Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
-        Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, titleType);
+        Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
         work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
         titleR.addProperty(RDFS.label, (mainTitle.equals("") ? lit : workModel.createLiteral(mainTitle, "sa-x-iast")));
 
@@ -180,7 +185,7 @@ public class CUDLTransfer {
         if(!altTitle.equals("")) {
             workModel.add(work, SKOS.altLabel, workModel.createLiteral(altTitle, "sa-x-iast")); // DO WE REALLY NEED THIS??
             titleType = workModel.createResource(BDO+"WorkOtherTitle");
-            titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, titleType);
+            titleR = getFacetNode(FacetType.TITLE, work, titleType);
             work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
             titleR.addProperty(RDFS.label, altTitle, "sa-x-iast");
         }
@@ -190,7 +195,7 @@ public class CUDLTransfer {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", rid, abstractWorkRID, null);
         }
         if(!line[5].equals("")) {
-            workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(CommonMigration.BDR+line[5]));
+            workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+line[5]));
         }
         addMaterial(work, line[9]);
         if(!line[14].equals("")) {
@@ -203,7 +208,7 @@ public class CUDLTransfer {
             work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[18].replace(',','.').trim(), XSDDatatype.XSDdecimal);
         }
         if(!line[10].equals("") && !line[11].equals("")) {
-            Resource event = CommonMigration.getEvent(work, "PublishedEvent", "workEvent");
+            Resource event = getEvent(work, "PublishedEvent", "workEvent");
             workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(line[11], XSDDatatype.XSDinteger));
             workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(line[10], XSDDatatype.XSDinteger));
         }
@@ -211,10 +216,10 @@ public class CUDLTransfer {
         
         // Item model
         final Model itemModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(itemModel);
+        setPrefixes(itemModel);
         final String itemRID = "I0CDL0"+rid;
-        Resource item = CommonMigration.createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
-        Resource itemAdm = CommonMigration.createAdminRoot(item);
+        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
+        Resource itemAdm = createAdminRoot(item);
         res.add(item);
         
         if (WorkMigration.addWorkHasItem) {
@@ -222,7 +227,7 @@ public class CUDLTransfer {
         }
         
         // Item adm:AdminData
-        CommonMigration.addReleased(itemModel, itemAdm);
+        addReleased(itemModel, itemAdm);
         itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_CUDL_content"));
                
         // bdo:ItemImageAsset

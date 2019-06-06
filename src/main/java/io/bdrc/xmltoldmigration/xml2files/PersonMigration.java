@@ -1,12 +1,17 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.USER;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType.EVENT;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType.NAME;
+import static io.bdrc.libraries.LangStrings.EWTS_TAG;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
+import static io.bdrc.libraries.Models.FacetType.EVENT;
+import static io.bdrc.libraries.Models.FacetType.NAME;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,20 +77,20 @@ public class PersonMigration {
     private static Resource getNameForType(Resource personR, String subtype) {
         Model m = personR.getModel();
         Resource typeIndividual = m.getResource(getUriFromTypeSubtype("name", subtype));
-        Resource nameR = CommonMigration.getFacetNode(NAME, personR, typeIndividual);
+        Resource nameR = getFacetNode(NAME, personR, typeIndividual);
         personR.addProperty(m.getProperty(BDO+"personName"), nameR);
         return nameR;
     }
 	
 	public static Model MigratePerson(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m, "person");
+		setPrefixes(m, "person");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String RID = root.getAttribute("RID");
-        Resource main = CommonMigration.createRoot(m, BDR+RID, BDO+"Person");
-        Resource admMain = CommonMigration.createAdminRoot(main);
-		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+        Resource main = createRoot(m, BDR+RID, BDO+"Person");
+        Resource admMain = createAdminRoot(main);
+		addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		int gender = SymetricNormalization.GENDER_U;
 
@@ -101,7 +106,7 @@ public class PersonMigration {
 			if (subtype.isEmpty())
 			    subtype = "primaryName";
             Resource nameR = getNameForType(main, subtype);
-			Literal lit = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, subtype, RID, null);
+			Literal lit = CommonMigration.getLiteral(current, EWTS_TAG, m, subtype, RID, null);
 			if (lit == null) continue;
 			nameR.addProperty(RDFS.label, lit);
 			String lang = lit.getLanguage().substring(0, 2);
@@ -271,7 +276,7 @@ public class PersonMigration {
     public static Resource getEventForType(Resource rez, Property prop, String subtype) {
         Model m = rez.getModel();
         Resource typeIndividual = m.getResource(getUriFromTypeSubtype("event", subtype));
-        Resource eventR = CommonMigration.getFacetNode(EVENT, rez, typeIndividual);
+        Resource eventR = getFacetNode(EVENT, rez, typeIndividual);
         rez.addProperty(prop, eventR);
         return eventR;
     }

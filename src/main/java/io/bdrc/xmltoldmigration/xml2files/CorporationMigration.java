@@ -1,9 +1,14 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -14,7 +19,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
+import io.bdrc.libraries.Models.FacetType;
 
 
 public class CorporationMigration {
@@ -23,12 +28,12 @@ public class CorporationMigration {
 	
 	public static Model MigrateCorporation(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m, "corporation");
+		setPrefixes(m, "corporation");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Corporation");
-        Resource admMain = CommonMigration.createAdminRoot(main);
-		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+        Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Corporation");
+        Resource admMain = createAdminRoot(main);
+		addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		
 		CommonMigration.addNames(m, root, main, CXSDNS);
@@ -57,7 +62,7 @@ public class CorporationMigration {
 			value = CommonMigration.normalizePropName(value, null);
 			value = BDO+"CorporationMember"+value.substring(0, 1).toUpperCase() + value.substring(1);
 			Property prop = m.getProperty(BDO, "corporationHasMember");
-            Resource member = CommonMigration.getFacetNode(FacetType.CORP_MEMBER, main, m.createResource(value));
+            Resource member = getFacetNode(FacetType.CORP_MEMBER, main, m.createResource(value));
 			m.add(main, prop, member);
 			m.add(member, m.getProperty(BDO, "corporationMember"), person);
 			m.add(member, RDF.type, m.createResource(value));

@@ -1,24 +1,33 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.LangStrings.EWTS_TAG;
+import static io.bdrc.libraries.LangStrings.getBCP47;
+import static io.bdrc.libraries.LangStrings.isDeva;
+import static io.bdrc.libraries.LangStrings.isLikelyEnglish;
+import static io.bdrc.libraries.LangStrings.normalizeEwts;
+import static io.bdrc.libraries.LangStrings.normalizeTibetan;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addReleased;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.getAdminData;
+import static io.bdrc.libraries.Models.getEvent;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.bind.DatatypeConverter;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Validator;
@@ -31,19 +40,12 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.ResourceFactory;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.ValidityReport;
-import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
-import org.apache.jena.vocabulary.VCARD4;
-import org.apache.jena.vocabulary.XSD;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -53,6 +55,7 @@ import org.xml.sax.SAXException;
 import com.atlascopco.hunspell.Hunspell;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
+import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.EwtsFixer;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -60,19 +63,8 @@ import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
 
-	public static final String BDO = "http://purl.bdrc.io/ontology/core/";
-	public static final String ADM = "http://purl.bdrc.io/ontology/admin/";
-	public static final String BDA = "http://purl.bdrc.io/admindata/";
-    public static final String BDG = "http://purl.bdrc.io/graph/";
-	public static final String BDR = "http://purl.bdrc.io/resource/";
-	public static final String VCARD = VCARD4.getURI();	
-	
-	public static final String USER = "MigrationApp";
-	
 	public static final String FPL_LIBRARY_ID = "G1TLMFPL000001";
-	
-	public static final String EWTS_TAG = "bo-x-ewts";
-	public static final boolean lowerCaseLangTags = true;
+
 	public static final String IMAGE_ITEM_SUFFIX = "";
 	
 	public static final int ET_LANG = ExceptionHelper.ET_LANG;
@@ -82,62 +74,16 @@ public class CommonMigration  {
 	public static final String hunspellBoPath = "src/main/resources/hunspell-bo/";
     public static final Hunspell speller = new Hunspell(hunspellBoPath+"bo.dic", hunspellBoPath+"bo.aff");
     
-    
-    public static final Map<String, String> typeToRepo = new HashMap<>();
     public static final Map<String, String> logWhoToUri = new HashMap<>();
     public static final Map<String, Boolean> genreTopics = new HashMap<>();
     public static final Map<Integer, Boolean> isTraditional = new HashMap<>();
     public static final Map<String, String> creatorMigrations = new HashMap<>();
-    
-    public static MessageDigest md5;
-    private static final int hashNbChars = 2;
-    private static final int nbShaChars = 12;
 
     static {
-        try {
-            md5 = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
         fillLogWhoToUri();
         fillGenreTopics();
         getTcList();
         initCreatorMigrations();
-        fillTypeToRepo();
-    }
-    
-    private static void fillTypeToRepo() {
-        typeToRepo.put("Corporation", BDA+"GR0001");
-        
-        typeToRepo.put("Etext", BDA+"GR0002");
-        typeToRepo.put("EtextNonPaginated", BDA+"GR0002");
-        typeToRepo.put("EtextPaginated", BDA+"GR0002");
-        
-        typeToRepo.put("Item", BDA+"GR0003");
-        typeToRepo.put("ItemEtext", BDA+"GR0003");
-        typeToRepo.put("ItemEtextNonPaginated", BDA+"GR0003");
-        typeToRepo.put("ItemEtextPaginated", BDA+"GR0003");
-        typeToRepo.put("ItemImageAsset", BDA+"GR0003");
-        typeToRepo.put("ItemPhysicalAsset", BDA+"GR0003");
-        
-        typeToRepo.put("Lineage", BDA+"GR0004");
-        typeToRepo.put("Place", BDA+"GR0005");
-        typeToRepo.put("Person", BDA+"GR0006");
-        typeToRepo.put("Product", BDA+"GR0011");
-        typeToRepo.put("Topic", BDA+"GR0007");
-        
-        typeToRepo.put("Work", BDA+"GR0008");
-        typeToRepo.put("AbstractWork", BDA+"GR0008");
-        typeToRepo.put("PublishedWork", BDA+"GR0008");
-        typeToRepo.put("SerialWork", BDA+"GR0008");
-        typeToRepo.put("UnicodeWork", BDA+"GR0008");
-        typeToRepo.put("VirtualWork", BDA+"GR0008");
-        typeToRepo.put("UnspecifiedWorkClass", BDA+"GR0008");
-
-        typeToRepo.put("EtextContent", BDA+"GR0009");
-        typeToRepo.put("Role", BDA+"GR0010");
-        typeToRepo.put("Product", BDA+"GR0011");
     }
     
     private static void initCreatorMigrations() {
@@ -185,296 +131,6 @@ public class CommonMigration  {
         }
     }
     
-    public static String getMd5(String resId) {
-        try {
-            // keeping files from the same work together:
-            final int underscoreIndex = resId.indexOf('_');
-            String message = resId;
-            if (underscoreIndex != -1)
-                message = resId.substring(0, underscoreIndex);
-            final byte[] bytesOfMessage = message.getBytes("UTF-8");
-            final byte[] hashBytes = md5.digest(bytesOfMessage);
-            BigInteger bigInt = new BigInteger(1,hashBytes);
-            return String.format("%032x", bigInt).substring(0, hashNbChars);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
-    public static Resource createRoot(Model m, String uri, String typeUri) {
-        Resource rez = m.createResource(uri);
-        if (typeUri != null) rez.addProperty(RDF.type, m.createResource(typeUri));
-        rez.addLiteral(m.createProperty(BDO+"isRoot"), true);
-        return rez;
-    }
-    
-    /**
-     * Returns an AdminData resource for the resource r. Be aware that if r IS an <code>adm:</code> resource 
-     * this method will return the same resource with an additional stmt declaring this resource to be 
-     * adm:adminAbout itself, and an additional <code>rdf:type</code> stmt, making the resource of two types.
-     * 
-     * @param rez resource for which the corresponding AdminData resource is requested.
-     * @return the corresponding AdminData resource
-     */
-    public static Resource getAdminData(Resource rez) {
-        Model m = rez.getModel();
-        Resource admR = m.createResource(BDA+rez.getLocalName());
-        if (!m.contains(admR, RDF.type, m.createResource(ADM+"AdminData"))) {
-            admR.addProperty(RDF.type, m.createResource(ADM+"AdminData"));
-            m.add(admR, m.createProperty(ADM+"adminAbout"), rez);
-        }
-
-        return admR;
-    }
-
-    public static Resource getRepoFor(String typeName) {
-        String repoUri = typeToRepo.get(typeName);
-        if (repoUri != null) {
-            return ResourceFactory.createResource(repoUri);
-        } else {
-            return null;
-        }
-    }
-
-    private static Resource getRezRepo(Resource rez) {
-        Resource adClass = ResourceFactory.createResource(ADM+"AdminData");
-        String typeName = null;
-        
-        if (!rez.hasProperty(RDF.type, adClass)) {
-            Statement typeStmt = rez.getProperty(RDF.type); 
-            typeName = typeStmt != null ? typeStmt.getObject().asResource().getLocalName(): null;            
-        } else {
-            // multiple typed admin resource - e.g., adm:Product
-            StmtIterator iter = rez.listProperties(RDF.type);
-            while (iter.hasNext()) {
-                Statement stmt = iter.next();
-                Resource typeR = stmt.getObject().asResource();
-                if (typeR.equals(adClass)) {
-                    continue;
-                } else {
-                    typeName = typeR.getLocalName();
-                }
-            }
-        }
-        
-        return getRepoFor(typeName);
-    }
-    
-    /**
-     * Returns a root AdminData resource for the root resource rez. If rez IS a BDA: resource this
-     * method will return the same resource with an additional stmt declaring this resource to be 
-     * adm:adminAbout itself, and adm:isRoot true.
-     * 
-     * @param rez resource for which the corresponding AdminData resource is requested.
-     * @return the root AdminData resource
-     */
-    public static Resource createAdminRoot(Resource rez) {
-        Model m = rez.getModel();
-        String rid = rez.getLocalName();
-        Resource admR = getAdminData(rez);
-        Resource repoR = getRezRepo(rez);
-        
-        if (repoR != null) {
-            // add GitInfo
-            admR.addProperty(m.createProperty(ADM+"gitRepo"), repoR);
-            admR.addProperty(m.createProperty(ADM+"gitPath"), getMd5(rid)+"/"+rid+".trig");
-
-            // add link to graphId. Only resorces w/ a git repo have a graphId
-            admR.addProperty(m.createProperty(ADM+"graphId"), m.createResource(BDG+rid));
-        } else {
-            // probably called from TaxonomyMigration or ImagegroupMigration - 
-            // nothing to do since they aren't stored in their own repo
-        }
-
-        // MAY BE REMOVED - not needed since presence of ?s adm:gitInfo ?o indicates that ?s is a root
-        // or adm:graphId is also a good indicator of a root AdminData.
-        // AdminData
-        admR.addLiteral(m.createProperty(BDO+"isRoot"), true);
-
-        return admR;
-    }
-    
-    public static Resource getAdminRoot(Resource rez) {
-        return getAdminRoot(rez, false);
-    }
-    
-    public static Resource getAdminRoot(Resource rez, boolean create) {
-        Resource admR = getAdminRoot(rez.getModel());
-        
-        if (admR == null && create) {
-            admR = createAdminRoot(rez);
-        }
-        
-        return admR;
-    }
-    
-    public static Resource getAdminRoot(Model m) {
-        ResIterator resIt = m.listResourcesWithProperty(RDF.type, m.createResource(ADM+"AdminData"));
-        while (resIt.hasNext()) {
-            Resource admR = resIt.next();
-            Statement stmt = m.getProperty(admR, m.createProperty(ADM+"gitInfo"));
-            RDFNode node = stmt != null ? stmt.getObject() : null;
-            if (node != null) {
-                return admR;
-            }
-            // TO BE REMOVED ??
-            if (m.containsLiteral(admR, m.createProperty(BDO+"isRoot"), true)) {
-                return admR;
-            }
-        }
-        
-        return null;
-    }
-    
-    private static Map<String, FacetType> strToFacetType = new HashMap<>();
-    public enum FacetType {
-
-        CORP_MEMBER("corporationMember", "CM", BDO+"CorporationMember"), 
-        CREATOR("creator", "CR", BDO+"AgentAsCreator"), 
-        ETEXT_CHUNK("etextChunk", "EC", BDO+"EtextChunk"), 
-        ETEXT_LINE("etextLine", "EL", BDO+"EtextLine"), 
-        ETEXT_PAGE("etextPage", "EP", BDO+"EtextPage"), 
-        ETEXT_REF("etextRef", "ER", BDO+"EtextRef"), 
-        EVENT("event", "EV", BDO+"Event"), 
-        HOLDER("lineageHolder", "LH", BDO+"LineageHolder"), 
-        LINEAGE_HOLDER("lineageHolder", "LH", BDO+"LineageHolder"), 
-        LOG_ENTRY("logEntry", "LG", ADM+"LogEntry"), 
-        NAME("name", "NM", BDO+"PersonName"),
-        NOTE("note", "NT", BDO+"Note"),
-        PRODUCT_ORG("productOrg", "PG", ADM+"ProductOrg"),
-        TITLE("title", "TT", BDO+"WorkTitle"),
-        VCARD_ADDR("vcardAddr", "VA", VCARD+"Address"),
-        VOLUME("volume", "VL", BDO+"Volume"),
-        WORK_LOC("workLoc", "WL", BDO+"WorkLocation")
-        ;
-
-        private String label;
-        private String prefix;
-        private String nodeTypeUri;
-
-        private FacetType(String label, String prefix) {
-            this(label, prefix, null);
-        }
-
-        private FacetType(String label, String prefix, String nodeTypeUri) {
-            this.label = label;
-            this.prefix = prefix;
-            this.nodeTypeUri = nodeTypeUri;
-            strToFacetType.put(prefix, this);
-        }
-
-        public static FacetType getType(String prefix) {
-            return strToFacetType.get(prefix);
-        }
-        
-        public String getPrefix() {
-            return prefix;
-        }
-
-        public Resource getNodeType() {
-            return ResourceFactory.createResource(nodeTypeUri);
-        }
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
-    
-    /**
-     * retrieves the adm:facetIndex for admin data resource, rootAdmRez, for the given facet type, increment the index and store
-     * it back into the underlying model.
-     * @param rootAdmRez admin data resource containing the adm:facetIndex to be used
-     * @return
-     */
-    private static int getFacetIndex(Resource rootAdmRez) {
-        Model m = rootAdmRez.getModel();
-        Property inxP = m.createProperty(ADM+"facetIndex");
-        Statement stmt = m.getProperty(rootAdmRez, inxP);
-        
-        int inx = 1;
-        if (stmt != null) {
-           inx = stmt.getInt();
-           m.remove(stmt);
-        }
-        
-        m.addLiteral(rootAdmRez, inxP, m.createTypedLiteral(inx+1, XSDDatatype.XSDinteger));
-        return inx;
-    }
-    
-    // returns hex string in uppercase
-    private static String  bytesToHex(byte[] hash) {
-        return DatatypeConverter.printHexBinary(hash);
-    }
-
-    public static String mintId(Resource rootAdmRez, String seed, String prefix) {
-        try {
-            String data = seed+getFacetIndex(rootAdmRez);
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(data.getBytes("UTF-8"));
-            return prefix+bytesToHex(hash).substring(0, nbShaChars);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
-    /**
-     * Returns prefix + 8 character unique id based on a hash of the concatenation of the last three string arguments. 
-     * This is itended to be used to generate ids for named nodes like Events, AgentAsCreator, WorkTitle
-     * and PersonName.
-     * 
-     * @param facet enum type to provide a prefix will that distinguish what the id will identify
-     * @param rez subject resource that refers to an Event, AgentAsCreator etc
-     * @param user some String identifying the user or tool that is creating the id, make unique to the user
-     * @param rootAdmRez adm:AdminData resource for the top-level subject, relevant particularly for :Works which may have many sub-parts
-     * @return id = facet prefix + 8 character hash substring
-     */
-    private static String generateId(FacetType facet, Resource rez, String user, Resource rootAdmRez) {
-        return mintId(rootAdmRez, rez.getLocalName()+user, facet.getPrefix());
-    }
-    
-    /**
-     * Creates a facet node in the BDR namespace w/ the default facet nodeType from the facet enum
-     * 
-     * @param facet the type of facet node to create
-     * @param rez the resource the node is associated w/ such as via bdo:creator
-     * @param user a string identifying the user or tool requesting the facet node
-     * @return the newly minted facet node resource of rdf:type default nodeType for the facet
-     */
-    public static Resource getFacetNode(FacetType facet, Resource rez) {
-        Resource nodeType = facet.getNodeType();
-        return getFacetNode(facet, BDR, rez, nodeType);
-    }
-
-    /**
-     * Creates a facet node in the BDR namespace w/ the supplied facet nodeType. This method takes a nodeType resource
-     * for use with PersonName, WorkTitle and Events since these have many specialized sub-types.
-     * 
-     * @param facet the type of facet node to create
-     * @param rez the resource the node is associated w/ such as via bdo:creator
-     * @param user a string identifying the user or tool requesting the facet node
-     * @param nodeType the class for the type of node
-     * @return the newly minted facet node resource of rdf:type nodeType
-     */
-    public static Resource getFacetNode(FacetType facet, Resource rez, Resource nodeType) {
-        return getFacetNode(facet, BDR, rez, nodeType);
-    }
-
-    public static Resource getFacetNode(FacetType facet, String nsUri, Resource rez) {
-        Resource nodeType = facet.getNodeType();
-        return getFacetNode(facet, nsUri, rez, nodeType);
-    }
-
-    public static Resource getFacetNode(FacetType facet, String nsUri, Resource rez, Resource nodeType) {
-        Model m = rez.getModel();
-        Resource rootAdm = getAdminRoot(rez);
-        String id = generateId(facet, rez, USER, rootAdm);
-        Resource facetNode = m.createResource(nsUri+id);
-        facetNode.addProperty(RDF.type, nodeType);
-        return facetNode;
-    }
-
     private static String getCreatorRoleUri(String type) {
         if (type.startsWith("has"))
             type = type.substring(3);
@@ -496,24 +152,6 @@ public class CommonMigration  {
         agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
         Resource role = m.createResource(getCreatorRoleUri(roleKey));
         agentAsCreator.addProperty(m.createProperty(BDO+"role"), role);
-    }
-    
-    public static Resource getEvent(Resource rez, String eventType, String eventProp) {
-        Model m = rez.getModel();
-        Property prop = m.createProperty(BDO, eventProp);
-        StmtIterator it = rez.listProperties(prop);
-        while (it.hasNext()) {
-            Statement s = it.next();
-            Resource event = s.getObject().asResource();
-            Resource eventTypeR = event.getPropertyResourceValue(RDF.type);
-            if (eventTypeR != null && eventTypeR.getLocalName().equals(eventType)) {
-                return event;
-            }
-        }
-        
-        Resource event = getFacetNode(FacetType.EVENT, rez, m.createProperty(BDO+eventType));
-        m.add(rez, prop, event);
-        return event;
     }
     
     public static void addDatesToEvent(String dateStr, Resource r, String eventProp, String eventType) {
@@ -705,31 +343,6 @@ public class CommonMigration  {
         logWhoToUri.put("Tserings Wangdag and Dhondup", prefix+String.format(userNumFormat, 65)); // same ?
         logWhoToUri.put("Travis DeTour", prefix+String.format(userNumFormat, 66)); // same ?
     }
-    
-    public static void setPrefixes(Model m) {
-        setPrefixes(m, false);
-    }
-
-    public static void setPrefixes(Model m, String type) {
-        setPrefixes(m, type.equals("place"));
-    }
-	
-    public static void setPrefixes(Model m, boolean addVcard) {
-		m.setNsPrefix("", BDO);
-		m.setNsPrefix("adm", ADM);
-        m.setNsPrefix("bdr", BDR);
-        m.setNsPrefix("bda", BDA);
-        m.setNsPrefix("bdg", BDG);
-		m.setNsPrefix("owl", OWL.getURI());
-		m.setNsPrefix("rdf", RDF.getURI());
-		m.setNsPrefix("rdfs", RDFS.getURI());
-		m.setNsPrefix("skos", SKOS.getURI());
-        m.setNsPrefix("xsd", XSD.getURI());
-        m.setNsPrefix("rkts", "http://purl.rkts.eu/resource/");
-		if (addVcard)
-		    m.setNsPrefix("vcard", VCARD4.getURI());
-
-	}
 	
 	public static Literal getLitFromUri(Model m, String uri) {
 		//return m.createLiteral(m.shortForm(uri));
@@ -1508,335 +1121,6 @@ public class CommonMigration  {
            
            return res;
        }
-       
-       public static void addReleased(Model m, Resource r) {
-           addStatus(m, r, "released");
-       }
-       
-       public static void addStatus(Model m, Resource r, String status) {
-           if (status == null || status.isEmpty()) return;
-           String statusName = "Status"+status.substring(0, 1).toUpperCase() + status.substring(1);
-           r.addProperty(m.getProperty(ADM+"status"), m.getResource(BDA+statusName));
-       }
-	
-	// IMPORTANT: we're using canonical BCP47 forms, which means that the
-	// script has an upper case first letter (ex: zh-Latn-pinyin), which
-	// is then smashed by the annoying
-	// https://github.com/jsonld-java/jsonld-java/issues/199
-	// so we have a workaround when reading a file, see MigrationHelper
-	public static String getBCP47Suffix(String encoding) {
-		switch(encoding) {
-		case "extendedWylie":
-			return "-x-ewts";
-		case "wadeGiles":
-		    // transliteration of Chinese
-			return lowerCaseLangTags ? "-latn-wadegile" : "-Latn-wadegile";
-		case "pinyin":
-			return lowerCaseLangTags ? "-latn-pinyin" : "-Latn-pinyin";
-		case "libraryOfCongress":
-			return "-alalc97"; // could also be -t-m0-alaloc
-		case "native":
-			return "";
-		case "none":
-            return "";
-		case "rma":
-			return "-x-rma"; // what's that?
-		case "sansDiacritics":
-			return "-x-ndia";
-		case "withDiacritics":
-			return "-x-iast";
-		case "transliteration":
-			return "-x-trans"; // not sure...
-		case "acip":
-			return "-x-acip";
-		case "tbrcPhonetic":
-			return "-x-phon-en-m-tbrc";
-		case "alternatePhonetic":
-			return "-x-phon-en"; // not sure about this one...
-		case "syllables":
-		    // the cases we have are essentially town_syl, which is a
-		    // romanization that doesn't seem standard, a kind of phonetic?
-			return "-x-syx";
-		case "":
-			return "";
-		default:
-		    throw new IllegalArgumentException("unknown encoding: "+encoding);
-		}
-	}
-	
-	public static String getIso639(String language) throws IllegalArgumentException {
-		switch(language) {
-		case "tibetan":
-			return "bo";
-		case "pali":
-            return "pi";
-		case "english":
-			return "en";
-		case "chinese":
-			return "zh";
-		case "sanskrit":
-			return "sa";
-		case "mongolian":
-			return "mn";
-		case "french":
-			return "fr";
-		case "russian":
-			return "ru";
-		case "zhangZhung":
-			return "xzh";// iso 639-3
-		case "dzongkha":
-			return "dz";
-		case "miNyag":
-			return "mvm"; // not really sure...
-		case "german":
-			return "de";
-		case "":
-            return "en";
-		case "japanese":
-			return "ja";
-		case "unspecified":
-			// Jena checks tags against https://tools.ietf.org/html/rfc3066 stating:
-		    // You SHOULD NOT use the UND (Undetermined) code unless the protocol
-		    // in use forces you to give a value for the language tag, even if
-		    // the language is unknown.  Omitting the tag is preferred.
-		    throw new IllegalArgumentException("unknown language: "+language);
-		default:
-		    throw new IllegalArgumentException("unknown language: "+language);
-		}
-	}
-	
-	public static String getBCP47(String language, String encoding) throws IllegalArgumentException {
-		if (language == null || language.isEmpty()) {
-			if (encoding != null && !encoding.isEmpty()) {
-			    if (encoding.equals("extendedWylie")) return EWTS_TAG;
-			    if (encoding.equals("tbrcPhonetic")) return "bo-x-phon-en-m-tbrc";
-				throw new IllegalArgumentException("encoding with no language!");
-			}
-			return null;
-		}
-		return getIso639(language)+getBCP47Suffix(encoding);
-	}
-	
-	// from http://stackoverflow.com/a/14066594/2560906
-	private static boolean isAllEwtsChars(String input) {
-	    boolean res = true;
-	    for (int i = 0; i < input.length(); i++) {
-	        int c = input.charAt(i);
-	        if ((c > 0x7F && c != 0x2019) || c == 'x') { // ’ is sometimes used instead of '
-	            res = false;
-	            break;
-	        }
-	    }
-	    return res;
-	}
-	
-	   private static boolean isAllLatn(String input) {
-	        for (int i = 0; i < input.length(); i++) {
-	            int c = input.charAt(i);
-	            if (c > 0x36F) {
-	                return false;
-	            }
-	        }
-	        return true;
-	    }
-
-	    private static final List<Character> unihanPinyinDiacritics = Arrays.asList(
-	            'Ā', 'Á', 'Ǎ', 'À', 
-	            'ā', 'á', 'ǎ', 'à', 
-	            'Ē', 'É', 'Ě', 'È', 
-	            'ē', 'é', 'ě', 'è', 
-	            'Ī', 'Í', 'Ǐ', 'Ì', 
-	            'ī', 'í', 'ǐ', 'ì', 
-	            'Ō', 'Ó', 'Ǒ', 'Ò', 
-	            'ō', 'ó', 'ǒ', 'ò', 
-	            'Ū', 'Ú', 'Ǔ', 'Ù', 
-	            'ū', 'ú', 'ǔ', 'ù', 
-	            'Ǖ', 'Ǘ', 'Ǚ', 'Ǜ', 'Ü',
-	            'ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü');
-	   // test if the Pinyin has diacritics
-       private static boolean isPinyinNDia(String input) {
-           for (int i = 0; i < input.length(); i++) {
-               int c = input.charAt(i);
-               // if we encounter a number, it has diacritics:
-               if (c > '0' && c < '9') {
-                   return false;
-               }
-               if (unihanPinyinDiacritics.contains(c))
-                   return false;
-           }
-           return true;
-       }
-	   
-    public static boolean isAllTibetanUnicode(String input) {
-        final int len = input.length();
-        if (len == 0) return false;
-        double nbNonTibUni = 0;
-        for (int i = 0; i < len; i++) {
-            int c = input.charAt(i);
-            if ((c < 0x0F00 || c > 0x0FFF) && c != ' ') {
-                nbNonTibUni += 1;
-            }
-        }
-        return (nbNonTibUni / len < 0.1);
-    }
-    
-    private static boolean isAllChineseUnicode(String input) {
-        boolean isChinese = true;
-        for (int i = 0; i < input.length(); i++) {
-            int c = input.charAt(i);
-            if (c < 0x2E00 && c != 0x00B7) {
-                isChinese = false;
-                break;
-            }
-        }
-        return isChinese;
-    }
-
-    // check for traditional characters.
-    // TODO: some strings, such as 阿毘達磨文献における思想の展開
-    // are a mix of Hans and Hant (mostly Hant except 献 which is simplified for 獻)
-    private static boolean isHant(String input) {
-        final int length = input.length();
-        for (int offset = 0; offset < length; ) {
-           final int codepoint = input.codePointAt(offset);
-           if (isTraditional.containsKey(codepoint)) {
-               return true;
-           }
-           offset += Character.charCount(codepoint);
-        }
-        return false;
-    }
-
-    private static Pattern p = Pattern.compile("[\u0F40-\u0FBC]+");
-    public static boolean isMostLikelyEwts(String input) {
-        if (!isAllEwtsChars(input))
-            return false;
-        List<String> warns = new ArrayList<>();
-        String uni = converter.toUnicode(input, warns, true);
-        if (warns.size() > 0)
-            return false;
-        Matcher m = p.matcher(uni);
-        while (m.find()) {
-           if (!speller.isCorrect(m.group(0)))
-               return false;
-        }
-        return true;
-    }
-	
-	public static String getBCP47(Element e, String propertyHint, String RID, String subRID) {
-	    String lang = e.getAttribute("lang");
-	    String encoding = e.getAttribute("encoding");
-	    // some entries have language in "type"
-	    if (lang.isEmpty()) {
-	        lang = e.getAttribute("type");
-	        if (!lang.equals("sanskrit") && !lang.equals("tibetan")) lang = "";
-	    }
-	    String res = "en";
-	    if (lang.equals("english") && (!encoding.isEmpty() && !encoding.equals("native"))) {
-	        ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "mixed english + encoding `"+encoding+"` turned into `en-x-mixed`, please convert other language to unicode");
-	        return "en-x-mixed";
-	    }
-	    try {
-	        res = getBCP47(lang, encoding);
-	    } catch (IllegalArgumentException ex) {
-	        ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "lang+encoding invalid combination (`"+lang+"`, `"+encoding+"`) turned into `en` tag, exception message: "+ex.getMessage());
-	    }
-		String value = e.getTextContent().trim();
-		// some values are wrongly marked as native instead of extendedWylie
-		if ("bo".equals(res) && isAllEwtsChars(value)) {
-			res = EWTS_TAG;// could be loc?
-		}
-		if ((res == null || !res.equals("bo")) && isAllTibetanUnicode(value)) {
-            res = "bo";
-        }
-		if ((res == null || !res.equals("zh")) && isAllChineseUnicode(value)) {
-            res = "zh";
-        }
-		if (res != null && res.equals("zh")) {
-		    if (isHant(value)) {
-		        res = lowerCaseLangTags ? "zh-hant" : "zh-Hant";
-		    } else {
-		        res = lowerCaseLangTags ? "zh-hans" : "zh-Hans";
-		    }
-		}
-		if (res != null && res.toLowerCase().equals("zh-latn-pinyin") && isPinyinNDia(value)) {
-		    res = res+"-x-ndia";
-		}
-		if ((res == null || res == "en") && isMostLikelyEwts(value)) {
-		    res = EWTS_TAG;
-		}
-		if (res != null && res.equals("pi")) {
-		    if (isAllLatn(value)) {
-		        res = "pi-x-iast";
-		    }
-		    ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "lang+encoding invalid combination (`"+lang+"`, `"+encoding+"`) turned into `"+res+"` tag, Pali must always have a script.");
-		}
-		return res;
-	}
-	
-	public static String getBCP47(Element e, String dflt, String propertyHint, String RID, String subRID) {
-		String res = getBCP47(e, propertyHint, RID, subRID);
-		if (dflt != null && (res == null || res.isEmpty())) {
-			return dflt;
-		}
-		return res;
-	}
-	
-	public static String normalizeTibetan(String s) {
-	    String res = Normalizer.normalize(s, Normalizer.Form.NFD);
-	    // Normalizer doesn't normalize deprecate characters such as 0x0F79
-	    res = res.replace("\u0F79", "\u0FB3\u0F71\u0F80");
-	    res = res.replace("\u0F77", "\u0FB2\u0F71\u0F80");
-	    // it also doesn't normalize characters which use is discouraged:
-	    res = res.replace("\u0F81", "\u0F71\u0F80");
-	    res = res.replace("\u0F75", "\u0F71\u0F74");
-	    res = res.replace("\u0F73", "\u0F71\u0F72");
-	    return res;
-	}
-	
-	public static String addEwtsShad(final String s) {
-	    // we suppose that there is no space at the end
-        if (s == null)
-            return s;
-        final int sLen = s.length();
-        if (sLen < 2)
-            return s;
-        int last = s.codePointAt(sLen-1);
-        if (last == 'a' || last == 'i' || last == 'e' || last == 'o')
-            last = s.codePointAt(sLen-2);
-        if (sLen > 2 && last == 'g' && s.codePointAt(sLen -3) == 'n')
-            return s+" /";
-        if (last == 'g' || last == 'k' || (sLen == 3 && last == 'h' && s.codePointAt(sLen -3) == 's') || (sLen > 3 && last == 'h' && s.codePointAt(sLen -3) == 's' && s.codePointAt(sLen -4) != 't'))
-            return s;
-        if (last < 'A' || last > 'z' || (last > 'Z' && last < 'a'))  // string doesn't end with tibetan letter
-            return s;
-	    return s+"/";
-	}
-	
-	public static String normalizeEwts(final String s) {
-	    return addEwtsShad(s.replace((char)0x2019, (char)0x27));
-	}
-	
-	public static boolean isStandardTibetan(String s) {
-	    String[] words = s.split("[ \u0F04-\u0F14\u0F20-\u0F34\u0F3A-\u0F3F]");
-	    for (String word: words) {
-	        if (!speller.spell(word)) return false; 
-	    }
-	    return words.length > 0;
-	}
-	
-	public static boolean isDeva(String s) {
-	    int c = s.charAt(0);
-        if (c < 0x0900 || c > 0x097F)
-            return false;
-        return true;
-	}
-	
-	static final Pattern englishP = Pattern.compile("\\b(of|is|it|and|that|has|have|for|not|as|if)\\b");
-	public static boolean isLikelyEnglish(String value) {
-	    Matcher m = englishP.matcher(value);
-	    return m.find();
-	}
 	
 	public static Literal getLiteral(Element e, String dflt, Model m, String propertyHint, String RID, String subRID) {
 	    return getLiteral(e, dflt, m, propertyHint, RID, subRID, true);

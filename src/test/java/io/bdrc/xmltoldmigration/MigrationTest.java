@@ -1,15 +1,45 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.libraries.LangStrings.addEwtsShad;
+import static io.bdrc.libraries.LangStrings.isAllTibetanUnicode;
+import static io.bdrc.libraries.LangStrings.isLikelyEnglish;
+import static io.bdrc.libraries.LangStrings.isMostLikelyEwts;
+import static io.bdrc.libraries.LangStrings.isStandardTibetan;
+import static io.bdrc.libraries.LangStrings.normalizeTibetan;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.setPrefixes;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.validation.Validator;
+import javax.xml.xpath.XPathExpressionException;
+
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.github.jsonldjava.core.JsonLdError;
+
 import io.bdrc.ewtsconverter.EwtsConverter;
-import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -19,31 +49,6 @@ import io.bdrc.xmltoldmigration.xml2files.EtextMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextMigration.EtextInfos;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
-
-import org.junit.Test;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.validation.Validator;
-import javax.xml.xpath.XPathExpressionException;
 
 
 /**
@@ -103,15 +108,15 @@ public class MigrationTest
 	
 	@Test
 	public void testEwtsShad() {
-	    assertTrue("bla ma/".equals(CommonMigration.addEwtsShad("bla ma")));
-	    assertTrue("ngo /".equals(CommonMigration.addEwtsShad("ngo")));
-	    assertTrue("nga /".equals(CommonMigration.addEwtsShad("nga")));
-	    assertTrue("ngag".equals(CommonMigration.addEwtsShad("ngag")));
-	    assertTrue("ga".equals(CommonMigration.addEwtsShad("ga")));
-	    assertTrue("gi".equals(CommonMigration.addEwtsShad("gi")));
-	    assertTrue("she".equals(CommonMigration.addEwtsShad("she")));
-	    assertTrue("tshe/".equals(CommonMigration.addEwtsShad("tshe")));
-	    assertTrue("ko".equals(CommonMigration.addEwtsShad("ko")));
+	    assertTrue("bla ma/".equals(addEwtsShad("bla ma")));
+	    assertTrue("ngo /".equals(addEwtsShad("ngo")));
+	    assertTrue("nga /".equals(addEwtsShad("nga")));
+	    assertTrue("ngag".equals(addEwtsShad("ngag")));
+	    assertTrue("ga".equals(addEwtsShad("ga")));
+	    assertTrue("gi".equals(addEwtsShad("gi")));
+	    assertTrue("she".equals(addEwtsShad("she")));
+	    assertTrue("tshe/".equals(addEwtsShad("tshe")));
+	    assertTrue("ko".equals(addEwtsShad("ko")));
 	}
 	
 	@Test
@@ -128,15 +133,15 @@ public class MigrationTest
         res = toUnicode("pa'm", conversionWarnings);
         assertTrue(res.equals("པའམ"));
         assertTrue(conversionWarnings.size()==0);
-        assertTrue(CommonMigration.normalizeTibetan("དྷ་དཹ་").equals("དྷ་དླཱྀ་"));
-        assertTrue(CommonMigration.normalizeTibetan("\u0F81").equals("\u0F71\u0F80"));
-        assertTrue(CommonMigration.normalizeTibetan("\u0F76").equals("\u0FB2\u0F80"));
-        assertTrue(CommonMigration.isMostLikelyEwts("myang stod khu le'i rgya rigs"));
-        assertFalse(CommonMigration.isMostLikelyEwts("my tailor is rich"));
-        assertFalse(CommonMigration.isMostLikelyEwts("associated w / 11th cent. master, P4CZ15480 ?"));
-        assertTrue(CommonMigration.isAllTibetanUnicode("སྡེ་དགེ་《བཀའ་འགྱུར་》ནི་ཁམས་སྡེ་དགེ་ཆོས་རྒྱལ་བསྟན་པ་ཚེ་རིང་གིས་སྦྱིན་བདག་མཛད་དེ་བོད་རབ་བྱུང་བཅུ་གཉིས་པའི་ས་བྱ་ ༼སྤྱི་ལོ་ ༡༧༢༩༽ ནས་ཆུ་གླང་ ༼སྤྱི་ལོ ་༡༧༣༣༽ བར་བགྲང་བྱ་ལྔའི་ངོ་མཐོང་བར་བརྩོན་པ་ཆེན་པོས་པར་དུ་བཞེངས་ཞིང་། སྡེ་དགེ་དགོན་ཆེན་ཏེ་ལྷུན་གྲུབ་སྟེང་གི་པར་ཁང་ཆོས་མཛོད་ཆེན་མོར་བཞུགས་པ་ལ་སྡེ་དགེའི་མཚལ་པར་ཞེས་ཡོངས་སུ་གྲགས༎ 《བཀའ་འགྱུར་》འདིའི་ཡི་གེའི་ཕྱི་མོ་ཇི་ལྟར་བསྡུས་པའི་ཚུལ་ནི། བོད་ཀྱི་ལོ་པཎ་མང་པོས་བརྟགས་ཤིང་དཔྱད་ནས། ཞུས་དག་མཛད་ཅིང་མཆན་བུ་སོགས་བཏབ་པ་གངས་རིའི་ལྗོངས་སུ་ཁུངས་ཐུབ་ཀྱི་ཕྱི་མོར་གྱུར་ཏེ། འཕྱིང་བ་སྟག་རྩེའི་ཕོ་བྲང་དུ་བཞུགས་པའི་ཚལ་པ་བཀའ་འགྱུར་ཕྱིས་འཇང་ཡུལ་དུ་སྤྱན་དྲངས་ནས་པར་དུ་བསྒྲུབས་པའི་འཇང་ངམ་ལི་ཐང་《བཀའ་འགྱུར་》ནི་པར་གཞི་འདིའི་མ་ཕྱི་གཙོ་བོར་བཟུང་བ་དང་དེའི་སྟེང་དུ་སྒ་ཨ་གཉན་པཀྵིའི་ཐུགས་དམ་གྱི་རྟེན་དུ་གྱུར་པ་《བཀའ་འགྱུར་》ཤིན་ཏུ་དག་པ་དང་། གཞན་ཡང་དཔེ་རྒྱུན་རྙིང་མ་ཁུངས་བཙུན་འགའ་ཞིག་ལ་གོ་སྡུར་མཛད་ཅིང་། མདོ་སྟོད་ལྷོ་རྫོང་གི་ཕོ་བྲང་དུ་བཞུགས་པའི་《བཀའ་འགྱུར་》ཡང་སྤྱན་དྲངས་ཏེ། དེ་དང་ཡང་སྒོ་བསྟུན་ནས་པར་དུ་བསྒྲུབས་པར་བཤད་དོ༎  དེ་ཡང་《བཀའ་འགྱུར་》འདིའི་ཡི་གེ་མཁན་དང་ཞུ་དག་པ་རྣམས་ཀྱི་སློབ་སྟོན་པའམ་ཞུས་ཆེན་པ་ནི། སི་ཏུ་ཆོས་ཀྱི་འབྱུང་གནས་སམ་ཀརྨ་བསྟན་པའི་ཉིན་བྱེད་གཙུག་ལག་ཆོས་ཀྱི་སྣང་བ་ཞེས་ཞུ་བ་ཡིན་ཏེ། ཁོང་གི་ཞུས་ཆེན་མཛད་ནས་དཀར་ཆག་《བདེ་བར་གཤེགས་པའི་བཀའ་གངས་ཅན་གྱི་བརྡས་དྲངས་པའི་ཕྱི་མོའི་ཚོགས་ཇི་སྙེད་པ་པར་དུ་བསྒྲུབས་པའི་ཚུལ་ལས་ཉེ་བར་བརྩམས་པའི་གཏམ་བཟང་པོ་བློ་ལྡན་མོས་པའི་ཀུནྡ་ཡོངས་སུ་ཁ་བྱེ་བའི་ཟླ་འོད་གཞོན་ནུའི་འཁྲི་ཤིང་》ཞེས་པ་མཛད་ཅིང་།དེ་ནི་《བཀའ་འགྱུར་》དཀར་ཆག་རྣམས་ལས་ཆེས་རྒྱས་པ་ཞིག་གོ༎"));
-        assertTrue(CommonMigration.isAllTibetanUnicode("སྡེ་དགེ་བཀའ་འགྱུར། མདོ་སྟོད་སྡེ་དགེ་ཆོས་རྒྱལ་བསྟན་པ་ཚེ་རིང་ ༼༡༦༧༨-༡༧༣༨༽ ནས་སྦྱིན་བདག་མཛད་ནས། ལི་ཐང་མཚལ་དཔར། སྒ་ཨ་གཉེན་པཀྵིའི་ཐུགས་དམ་རྟེན་གྱི་བཀའ་འགྱུར་ཤིན་ཏུ་དག་པ། མདོ་སྟོད་ལྷོ་རྫོང་གི་ཕོ་བྲང་དུ་བཞུགས་པའི་ཐང་པོ་ཆེའི་བཀའ་འགྱུར་སོགས་དཔེ་རྒྱུན་རྙིང་མ་ཁུངས་བཙུན་འགའ་ཞིག་གོ་བསྡུར་ནས། ༡༧༢༩ ལོར་དཔར་གཞི་གསར་བཞེངས་དབུ་བརྩམས་ནས་བགྲང་བྱ་ལྔའི་ངོ་མཐོང་ ༡༧༣༣ བར་བརྩོན་པ་ཆེན་པོས་དཀར་ཆག་ཐེ་པའི་པོད་བརྒྱ་དང་གསུམ་ལེགས་པར་བསྒྲུབས་ནས་སྡེ་དགེ་དགོན་ཆེན་ལྷུན་གྲུབ་སྟེང་གི་དཔར་ཁང་ཆོས་མཛོད་ཆེན་མོར་བཞུགས་པ་ལ་སྡེ་དགེ་མཚལ་དཔར་ཞེས་གྲགས་ཅན་དེ་བྱུང་།།"));
-        assertTrue(CommonMigration.isLikelyEnglish("Biography of the famous Tibetan physician and scholar, Troru Tsenam."));
+        assertTrue(normalizeTibetan("དྷ་དཹ་").equals("དྷ་དླཱྀ་"));
+        assertTrue(normalizeTibetan("\u0F81").equals("\u0F71\u0F80"));
+        assertTrue(normalizeTibetan("\u0F76").equals("\u0FB2\u0F80"));
+        assertTrue(isMostLikelyEwts("myang stod khu le'i rgya rigs"));
+        assertFalse(isMostLikelyEwts("my tailor is rich"));
+        assertFalse(isMostLikelyEwts("associated w / 11th cent. master, P4CZ15480 ?"));
+        assertTrue(isAllTibetanUnicode("སྡེ་དགེ་《བཀའ་འགྱུར་》ནི་ཁམས་སྡེ་དགེ་ཆོས་རྒྱལ་བསྟན་པ་ཚེ་རིང་གིས་སྦྱིན་བདག་མཛད་དེ་བོད་རབ་བྱུང་བཅུ་གཉིས་པའི་ས་བྱ་ ༼སྤྱི་ལོ་ ༡༧༢༩༽ ནས་ཆུ་གླང་ ༼སྤྱི་ལོ ་༡༧༣༣༽ བར་བགྲང་བྱ་ལྔའི་ངོ་མཐོང་བར་བརྩོན་པ་ཆེན་པོས་པར་དུ་བཞེངས་ཞིང་། སྡེ་དགེ་དགོན་ཆེན་ཏེ་ལྷུན་གྲུབ་སྟེང་གི་པར་ཁང་ཆོས་མཛོད་ཆེན་མོར་བཞུགས་པ་ལ་སྡེ་དགེའི་མཚལ་པར་ཞེས་ཡོངས་སུ་གྲགས༎ 《བཀའ་འགྱུར་》འདིའི་ཡི་གེའི་ཕྱི་མོ་ཇི་ལྟར་བསྡུས་པའི་ཚུལ་ནི། བོད་ཀྱི་ལོ་པཎ་མང་པོས་བརྟགས་ཤིང་དཔྱད་ནས། ཞུས་དག་མཛད་ཅིང་མཆན་བུ་སོགས་བཏབ་པ་གངས་རིའི་ལྗོངས་སུ་ཁུངས་ཐུབ་ཀྱི་ཕྱི་མོར་གྱུར་ཏེ། འཕྱིང་བ་སྟག་རྩེའི་ཕོ་བྲང་དུ་བཞུགས་པའི་ཚལ་པ་བཀའ་འགྱུར་ཕྱིས་འཇང་ཡུལ་དུ་སྤྱན་དྲངས་ནས་པར་དུ་བསྒྲུབས་པའི་འཇང་ངམ་ལི་ཐང་《བཀའ་འགྱུར་》ནི་པར་གཞི་འདིའི་མ་ཕྱི་གཙོ་བོར་བཟུང་བ་དང་དེའི་སྟེང་དུ་སྒ་ཨ་གཉན་པཀྵིའི་ཐུགས་དམ་གྱི་རྟེན་དུ་གྱུར་པ་《བཀའ་འགྱུར་》ཤིན་ཏུ་དག་པ་དང་། གཞན་ཡང་དཔེ་རྒྱུན་རྙིང་མ་ཁུངས་བཙུན་འགའ་ཞིག་ལ་གོ་སྡུར་མཛད་ཅིང་། མདོ་སྟོད་ལྷོ་རྫོང་གི་ཕོ་བྲང་དུ་བཞུགས་པའི་《བཀའ་འགྱུར་》ཡང་སྤྱན་དྲངས་ཏེ། དེ་དང་ཡང་སྒོ་བསྟུན་ནས་པར་དུ་བསྒྲུབས་པར་བཤད་དོ༎  དེ་ཡང་《བཀའ་འགྱུར་》འདིའི་ཡི་གེ་མཁན་དང་ཞུ་དག་པ་རྣམས་ཀྱི་སློབ་སྟོན་པའམ་ཞུས་ཆེན་པ་ནི། སི་ཏུ་ཆོས་ཀྱི་འབྱུང་གནས་སམ་ཀརྨ་བསྟན་པའི་ཉིན་བྱེད་གཙུག་ལག་ཆོས་ཀྱི་སྣང་བ་ཞེས་ཞུ་བ་ཡིན་ཏེ། ཁོང་གི་ཞུས་ཆེན་མཛད་ནས་དཀར་ཆག་《བདེ་བར་གཤེགས་པའི་བཀའ་གངས་ཅན་གྱི་བརྡས་དྲངས་པའི་ཕྱི་མོའི་ཚོགས་ཇི་སྙེད་པ་པར་དུ་བསྒྲུབས་པའི་ཚུལ་ལས་ཉེ་བར་བརྩམས་པའི་གཏམ་བཟང་པོ་བློ་ལྡན་མོས་པའི་ཀུནྡ་ཡོངས་སུ་ཁ་བྱེ་བའི་ཟླ་འོད་གཞོན་ནུའི་འཁྲི་ཤིང་》ཞེས་པ་མཛད་ཅིང་།དེ་ནི་《བཀའ་འགྱུར་》དཀར་ཆག་རྣམས་ལས་ཆེས་རྒྱས་པ་ཞིག་གོ༎"));
+        assertTrue(isAllTibetanUnicode("སྡེ་དགེ་བཀའ་འགྱུར། མདོ་སྟོད་སྡེ་དགེ་ཆོས་རྒྱལ་བསྟན་པ་ཚེ་རིང་ ༼༡༦༧༨-༡༧༣༨༽ ནས་སྦྱིན་བདག་མཛད་ནས། ལི་ཐང་མཚལ་དཔར། སྒ་ཨ་གཉེན་པཀྵིའི་ཐུགས་དམ་རྟེན་གྱི་བཀའ་འགྱུར་ཤིན་ཏུ་དག་པ། མདོ་སྟོད་ལྷོ་རྫོང་གི་ཕོ་བྲང་དུ་བཞུགས་པའི་ཐང་པོ་ཆེའི་བཀའ་འགྱུར་སོགས་དཔེ་རྒྱུན་རྙིང་མ་ཁུངས་བཙུན་འགའ་ཞིག་གོ་བསྡུར་ནས། ༡༧༢༩ ལོར་དཔར་གཞི་གསར་བཞེངས་དབུ་བརྩམས་ནས་བགྲང་བྱ་ལྔའི་ངོ་མཐོང་ ༡༧༣༣ བར་བརྩོན་པ་ཆེན་པོས་དཀར་ཆག་ཐེ་པའི་པོད་བརྒྱ་དང་གསུམ་ལེགས་པར་བསྒྲུབས་ནས་སྡེ་དགེ་དགོན་ཆེན་ལྷུན་གྲུབ་སྟེང་གི་དཔར་ཁང་ཆོས་མཛོད་ཆེན་མོར་བཞུགས་པ་ལ་སྡེ་དགེ་མཚལ་དཔར་ཞེས་གྲགས་ཅན་དེ་བྱུང་།།"));
+        assertTrue(isLikelyEnglish("Biography of the famous Tibetan physician and scholar, Troru Tsenam."));
 	}
 	
 	@Test
@@ -153,13 +158,13 @@ public class MigrationTest
 	
 	@Test
 	public void testHunspell() {
-	    assertTrue(CommonMigration.isStandardTibetan("བོད"));
-	    assertTrue(CommonMigration.isStandardTibetan("བོད་བོད་ བོད་"));
-	    assertFalse(CommonMigration.isStandardTibetan("བབབོ་ད་དདཨོ་"));
-	    assertFalse(CommonMigration.isStandardTibetan("བབབོ་ད་དདཨོ་"));
-	    assertFalse(CommonMigration.isStandardTibetan("བོད a"));
-	    assertFalse(CommonMigration.isStandardTibetan("abc"));
-	    assertFalse(CommonMigration.isStandardTibetan("རཀག"));
+	    assertTrue(isStandardTibetan("བོད"));
+	    assertTrue(isStandardTibetan("བོད་བོད་ བོད་"));
+	    assertFalse(isStandardTibetan("བབབོ་ད་དདཨོ་"));
+	    assertFalse(isStandardTibetan("བབབོ་ད་དདཨོ་"));
+	    assertFalse(isStandardTibetan("བོད a"));
+	    assertFalse(isStandardTibetan("abc"));
+	    assertFalse(isStandardTibetan("རཀག"));
 	}
 	
 	@Test
@@ -499,8 +504,8 @@ public class MigrationTest
         System.out.println("testing etext");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Model itemModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(itemModel, "item");
-        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true, CommonMigration.BDA+"CP001");
+        setPrefixes(itemModel, "item");
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true, BDA+"CP001");
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.itemId.equals("I1CZ2485_E001"));
         assertTrue(ei.workId.equals("W1CZ2485"));
@@ -529,8 +534,8 @@ public class MigrationTest
         // test with different options:
         out = new ByteArrayOutputStream();
         itemModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(itemModel, "item");
-        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false, itemModel, true, CommonMigration.BDA+"CP001");
+        setPrefixes(itemModel, "item");
+        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false, itemModel, true, BDA+"CP001");
         computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         //System.out.println(computedContent);
         // this one is a bit bogus because it adds spaces in line milestones, but in real life data there is no lines when we must

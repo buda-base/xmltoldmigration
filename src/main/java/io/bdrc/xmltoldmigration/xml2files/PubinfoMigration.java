@@ -1,8 +1,13 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.LangStrings.EWTS_TAG;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getAdminRoot;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +33,7 @@ public class PubinfoMigration {
 	// used for testing only
 	public static Model MigratePubinfo(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m, "work");
+        setPrefixes(m, "work");
         Element root = xmlDocument.getDocumentElement();
         Resource main = null;
         
@@ -41,8 +46,8 @@ public class PubinfoMigration {
                 return m;
             }
             
-            main = CommonMigration.createRoot(m, BDR+value, BDO+"Work");
-            CommonMigration.createAdminRoot(main);
+            main = createRoot(m, BDR+value, BDO+"Work");
+            createAdminRoot(main);
         }
         MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>());
         return m;
@@ -81,17 +86,17 @@ public class PubinfoMigration {
         addSimpleElement("seeHarvard", BDO+"workSeeHarvard", null, root, m, main);
         addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
         addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
-        addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", CommonMigration.EWTS_TAG, root, m, main);
+        addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", EWTS_TAG, root, m, main);
         addSimpleDateElement("dateOfWriting", "CompletedEvent", root, main);
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"workDimensions", null, root, m, main);
         addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
-        addSimpleElement("seriesName", BDO+"workSeriesName", CommonMigration.EWTS_TAG, root, m, main);
+        addSimpleElement("seriesName", BDO+"workSeriesName", EWTS_TAG, root, m, main);
         addSimpleElement("seriesNumber", BDO+"workSeriesNumber", null, root, m, main);
         addSimpleElement("biblioNote", BDO+"workBiblioNote", "en", root, m, main);
         addSimpleElement("sourceNote", BDO+"workSourceNote", "en", root, m, main);
-        addSimpleElement("editionStatement", BDO+"workEditionStatement", CommonMigration.EWTS_TAG, root, m, main);
+        addSimpleElement("editionStatement", BDO+"workEditionStatement", EWTS_TAG, root, m, main);
         
         // TODO: this goes in the item
         addSimpleElement("tbrcHoldings", BDO+"itemBDRCHoldingStatement", null, root, m, main);
@@ -99,7 +104,7 @@ public class PubinfoMigration {
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
         
-        Resource admMain = CommonMigration.getAdminRoot(main, true);
+        Resource admMain = getAdminRoot(main, true);
         CommonMigration.addLog(m, root, admMain, WPXSDNS);
         
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");
@@ -114,7 +119,7 @@ public class PubinfoMigration {
                 m.add(main, m.getProperty(BDO, "workIsNumbered"), m.createTypedLiteral(true));
             }
             Property prop = m.getProperty(BDO, "workSeriesContent");
-            Literal l = CommonMigration.getLiteral(current, CommonMigration.EWTS_TAG, m, "series", main.getLocalName(), null);
+            Literal l = CommonMigration.getLiteral(current, EWTS_TAG, m, "series", main.getLocalName(), null);
             if (l == null) continue;
             main.addProperty(prop, l);
             Statement s = main.getProperty(m.getProperty(BDO, "workExpressionOf"));
@@ -406,7 +411,7 @@ public class PubinfoMigration {
             Model itemModel = m;
             if (WorkMigration.splitItems) {
                 itemModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(itemModel, "item");
+                setPrefixes(itemModel, "item");
                 itemModels.put(itemName, itemModel);
             }
             Resource holding = itemModel.createResource(BDR+itemName);
@@ -417,7 +422,7 @@ public class PubinfoMigration {
                 m.add(main, m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
             }
 
-            addSimpleElement("exception", BDO+"itemException", CommonMigration.EWTS_TAG, current, itemModel, holding);
+            addSimpleElement("exception", BDO+"itemException", EWTS_TAG, current, itemModel, holding);
             String value;
             NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");
             for (int j = 0; j < subNodeList.getLength(); j++) {

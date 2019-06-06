@@ -1,10 +1,12 @@
 package io.bdrc.xmltoldmigration;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDG;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDG;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.getAdminRoot;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -467,7 +469,7 @@ public class MigrationHelpers {
 	        }
 	    }
 
-	    CommonMigration.setPrefixes(model);
+	    setPrefixes(model);
 	    return model;
 	}
 
@@ -566,7 +568,7 @@ public class MigrationHelpers {
         
 	    Element root = xmlDocument.getDocumentElement();        
         Model m = xmlToRdf(xmlDocument, type);
-        Resource admMain = CommonMigration.getAdminRoot(m);
+        Resource admMain = getAdminRoot(m);
         Resource main = admMain.getPropertyResourceValue(m.createProperty(ADM+"adminAbout"));
                 
         final String XsdPrefix = typeToXsdPrefix.get(type);

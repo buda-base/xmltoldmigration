@@ -1,5 +1,16 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addReleased;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getAdminRoot;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,20 +43,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class EtextMigration {
 
     public static final String TEI_PREFIX = "http://www.tei-c.org/ns/1.0";
-    public static final String BDR = CommonMigration.BDR;
-    public static final String BDO = CommonMigration.BDO;
-    public static final String ADM = CommonMigration.ADM;
-    public static final String BDA = CommonMigration.BDA;
     public static boolean testMode = false;
     private static XPath xPath = initXpath();
     public static final Map<String, String> distributorToUri = new HashMap<>();
@@ -57,7 +64,7 @@ public class EtextMigration {
     }
     
     public static void initDistributorToUri() {
-        String prefix = CommonMigration.BDA+"CP"; // ?
+        String prefix = BDA+"CP"; // ?
         distributorToUri.put("DharmaDownload", prefix+"001");
         distributorToUri.put("DrikungChetsang", prefix+"002");
         distributorToUri.put("eKangyur", prefix+"003");
@@ -150,7 +157,7 @@ public class EtextMigration {
                 //System.out.println("migrating "+provider+"/"+fl2.getName());
                 String itemId = null;
                 Model itemModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(itemModel, "item");
+                setPrefixes(itemModel, "item");
                 boolean firstItemModel = true;
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
@@ -243,8 +250,8 @@ public class EtextMigration {
         if (!imageGroupId.startsWith("I")) // UT30012_5742_0000
             imageGroupId = "I"+imageGroupId;
         final Literal oldId = m.createLiteral(imageGroupId);
-        final Property volumeNumberP = m.getProperty(CommonMigration.BDO, "volumeNumber");
-        final Property legacyIdP = m.getProperty(CommonMigration.ADM, "legacyImageGroupRID");
+        final Property volumeNumberP = m.getProperty(BDO, "volumeNumber");
+        final Property legacyIdP = m.getProperty(ADM, "legacyImageGroupRID");
         final List<Statement> sl = m.listStatements(null, legacyIdP, oldId).toList();
         if (sl.size() == 0) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot find volume with legacy RID "+imageGroupId);
@@ -335,13 +342,13 @@ public class EtextMigration {
         }
         
         if (volumeRes == null) {
-            volumeRes = CommonMigration.getFacetNode(FacetType.VOLUME,  item, itemModel.getResource(BDO+"VolumeEtextAsset"));
+            volumeRes = getFacetNode(FacetType.VOLUME,  item, itemModel.getResource(BDO+"VolumeEtextAsset"));
             item.addProperty(itemHasVolume, volumeRes);
             volumeRes.addProperty(itemModel.getProperty(BDO, "volumeNumber"), 
                     itemModel.createTypedLiteral(volume, XSDDatatype.XSDinteger));
         }
         
-        Resource seqRes = CommonMigration.getFacetNode(FacetType.ETEXT_REF,  item);
+        Resource seqRes = getFacetNode(FacetType.ETEXT_REF,  item);
         volumeRes.addProperty(volumeHasEtext, seqRes);
         if (seqNum != 0)
             seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
@@ -385,7 +392,7 @@ public class EtextMigration {
         final Element sourceDesc = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "sourceDesc").item(0);
 
         final Model etextModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(etextModel, "etext");
+        setPrefixes(etextModel, "etext");
         
         Element e;
         try {
@@ -406,18 +413,18 @@ public class EtextMigration {
             return null;
         }
         final String etextId = e.getTextContent().trim().replace('-', '_');
-        Resource etext = CommonMigration.createRoot(etextModel, BDR+etextId, BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated"));
+        Resource etext = createRoot(etextModel, BDR+etextId, BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated"));
 
         if (first) { // initialize the :ItemEtext
             Resource work = itemModel.getResource(BDR+workId);
-            Resource item = CommonMigration.createRoot(itemModel, BDR+itemId, BDO+"ItemEtext"+(isPaginated?"Paginated":"NonPaginated"));
+            Resource item = createRoot(itemModel, BDR+itemId, BDO+"ItemEtext"+(isPaginated?"Paginated":"NonPaginated"));
 
             // Item AdminData
-            Resource admItem = CommonMigration.createAdminRoot(item);                           
+            Resource admItem = createAdminRoot(item);                           
             admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
             admItem.addProperty(itemModel.getProperty(ADM, "metadataLegal"), itemModel.createResource(BDA+"LD_BDRC_CC0"));
             MigrationApp.moveAdminInfo(itemModel, work, admItem);
-            CommonMigration.addReleased(itemModel, admItem);
+            addReleased(itemModel, admItem);
 
             // Item metadata
 
@@ -438,8 +445,8 @@ public class EtextMigration {
                 RDF.type,
                 etextModel.getResource(BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated")));
         
-        Resource admEtext = CommonMigration.getAdminRoot(etext, true);
-        CommonMigration.addReleased(etextModel, admEtext);
+        Resource admEtext = getAdminRoot(etext, true);
+        addReleased(etextModel, admEtext);
         
         Model imageItemModel = null;
         if (isPaginated && !testMode) {

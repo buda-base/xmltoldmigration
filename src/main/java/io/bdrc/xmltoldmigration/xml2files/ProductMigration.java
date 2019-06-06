@@ -1,7 +1,11 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.util.List;
 
@@ -14,7 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
+import io.bdrc.libraries.Models.FacetType;
 
 
 public class ProductMigration {
@@ -25,14 +29,14 @@ public class ProductMigration {
     // "about" admindata
 	public static Model MigrateProduct(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m, "product");
+		setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		Resource main = m.createResource(BDA+root.getAttribute("RID"));
         m.add(main, RDF.type, m.createResource(ADM + "Product"));
-        Resource admMain = CommonMigration.createAdminRoot(main);
+        Resource admMain = createAdminRoot(main);
 		
-		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		addStatus(m, admMain, root.getAttribute("status"));
 		
 		CommonMigration.addNotes(m, root, admMain, PRXSDNS);
 		
@@ -69,7 +73,7 @@ public class ProductMigration {
 	}
 	
 	public static void addOrg(Model m, Resource rez, Element orgElement, int i) {
-	    Resource org = CommonMigration.getFacetNode(FacetType.PRODUCT_ORG, BDA, rez);
+	    Resource org = getFacetNode(FacetType.PRODUCT_ORG, BDA, rez);
 		String value = CommonMigration.normalizeString(orgElement.getAttribute("name"));
 		if (!value.isEmpty()) {
 			m.add(org, RDFS.label, m.createLiteral(value, "en"));

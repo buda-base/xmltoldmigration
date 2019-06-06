@@ -1,8 +1,9 @@
 package io.bdrc.xmltoldmigration;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +21,6 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 
 import io.bdrc.xmltoldmigration.helpers.GitHelpers;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 
 /* This class does not do any actual migration of the rKTs data,
  * which is handled by https://github.com/BuddhistDigitalResourceCenter/rKTs-migration
@@ -107,7 +107,7 @@ public class rKTsTransfer {
                 }
             } else {
                 final Model m = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(m);
+                setPrefixes(m);
                 final InputStream in;
                 try {
                     in = new FileInputStream(child);

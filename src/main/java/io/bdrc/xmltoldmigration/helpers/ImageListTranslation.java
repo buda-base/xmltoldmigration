@@ -1,6 +1,6 @@
 package io.bdrc.xmltoldmigration.helpers;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
+import static io.bdrc.libraries.Models.BDO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +15,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 
 public class ImageListTranslation {
     
@@ -114,7 +112,7 @@ public class ImageListTranslation {
     
     public static Resource getVolumeResource(Model m, int volumeNumber) {
         final Literal num = m.createTypedLiteral(volumeNumber, XSDDatatype.XSDinteger);
-        final Property volumeNumberP = m.getProperty(CommonMigration.BDO, "volumeNumber");
+        final Property volumeNumberP = m.getProperty(BDO, "volumeNumber");
         final List<Statement> sl = m.listStatements(null, volumeNumberP, num).toList();
         if (sl.size() == 0)
             return null;
@@ -177,8 +175,8 @@ public class ImageListTranslation {
         Resource vol = getVolumeResource(m, volumeNumber);
         if (vol == null)
             return null;
-        final Property imageListP = m.getProperty(CommonMigration.BDO, "imageList");
-        final Property imagesMissingP = m.getProperty(CommonMigration.BDO, "imagesMissing");
+        final Property imageListP = m.getProperty(BDO, "imageList");
+        final Property imagesMissingP = m.getProperty(BDO, "imagesMissing");
         final Statement imageListS = vol.getProperty(imageListP);
         if (imageListS == null)
             return null;

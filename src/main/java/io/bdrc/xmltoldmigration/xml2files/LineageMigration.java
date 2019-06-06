@@ -1,32 +1,35 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
+
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
+import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 
 public class LineageMigration {
-
-    private static final String BDA = CommonMigration.BDA;
-    private static final String BDO = CommonMigration.BDO;
-    private static final String BDR = CommonMigration.BDR;
-    private static final String ADM = CommonMigration.ADM;
    
 	public static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
 	
 	public static Model MigrateLineage(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m, "lineage");
+		setPrefixes(m, "lineage");
 		Element root = xmlDocument.getDocumentElement();
 		String value = getTypeStr(root);
 		String rid = root.getAttribute("RID");
@@ -34,11 +37,11 @@ public class LineageMigration {
 		    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "event", "missing lineage type");
         }
 		value = BDR+"Lineage"+value.substring(0, 1).toUpperCase() + value.substring(1);
-        Resource main = CommonMigration.createRoot(m, BDR+rid, BDO+"Lineage");
-        Resource admMain = CommonMigration.createAdminRoot(main);
+        Resource main = createRoot(m, BDR+rid, BDO+"Lineage");
+        Resource admMain = createAdminRoot(main);
 		m.add(main, m.getProperty(BDO, "lineageType"), m.createResource(value));
 		
-		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+		addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		
     	CommonMigration.addNames(m, root, main, LXSDNS);
@@ -86,7 +89,7 @@ public class LineageMigration {
 	}
 	
 	public static void addHolder(Model m, Resource rez, Element e, int i) {
-	    Resource holder = CommonMigration.getFacetNode(FacetType.LINEAGE_HOLDER,  rez);
+	    Resource holder = getFacetNode(FacetType.LINEAGE_HOLDER,  rez);
 	    m.add(rez, m.getProperty(BDO, "lineageHolder"), holder);
 	    
        CommonMigration.addNotes(m, e, holder, LXSDNS);
@@ -129,7 +132,7 @@ public class LineageMigration {
         nodeList = e.getElementsByTagNameNS(LXSDNS, "received");
         for (int j = 0; j < nodeList.getLength(); j++) {
             Element current = (Element) nodeList.item(j);
-            Resource received = CommonMigration.getFacetNode(FacetType.EVENT,  holder, m.getResource(BDO+"LineageEvent"));
+            Resource received = getFacetNode(FacetType.EVENT,  holder, m.getResource(BDO+"LineageEvent"));
             m.add(holder, m.getProperty(BDO, "lineageReceived"), received);
             value = current.getAttribute("RID");
             if (!value.isEmpty()) {

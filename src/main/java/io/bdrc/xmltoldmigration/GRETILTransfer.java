@@ -1,9 +1,14 @@
 package io.bdrc.xmltoldmigration;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addReleased;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +21,6 @@ import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 
@@ -25,9 +29,9 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration.FacetType;
 
 public class GRETILTransfer {
 
@@ -74,12 +78,12 @@ public class GRETILTransfer {
     public static final Resource getWorkFromLine(String[] line) {        
         // Work model
         final Model workModel = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(workModel);
-        Resource work = CommonMigration.createRoot(workModel, BDR+line[0], BDO+"UnicodeWork");
-        Resource admWork = CommonMigration.createAdminRoot(work);
+        setPrefixes(workModel);
+        Resource work = createRoot(workModel, BDR+line[0], BDO+"UnicodeWork");
+        Resource admWork = createAdminRoot(work);
 
         // Work AdminData
-        CommonMigration.addReleased(workModel, admWork);
+        addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_GRETIL")); // ?
         if (line[8] != null && !"".equals(line[8])) {
             final String origUrl = ORIG_URL_BASE+line[8].replace('/', '-');
@@ -90,7 +94,7 @@ public class GRETILTransfer {
         work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
         work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[3], "sa-x-iast"));
         Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
-        Resource titleR = CommonMigration.getFacetNode(FacetType.TITLE, work, titleType);
+        Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
         work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
         titleR.addProperty(RDFS.label, workModel.createLiteral(line[3], "sa-x-iast"));
 

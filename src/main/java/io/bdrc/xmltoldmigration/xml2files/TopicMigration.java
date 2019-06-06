@@ -1,14 +1,17 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,12 +24,12 @@ public class TopicMigration {
 
 	public static Model MigrateTopic(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		CommonMigration.setPrefixes(m, "topic");
+		setPrefixes(m, "topic");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Topic");
-        Resource admMain = CommonMigration.createAdminRoot(main);
-		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));
+        Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Topic");
+        Resource admMain = createAdminRoot(main);
+		addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 
 		CommonMigration.addNames(m, root, main, TXSDNS);

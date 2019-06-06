@@ -1,5 +1,27 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.BDG;
+import static io.bdrc.libraries.Models.VCARD;
+import static io.bdrc.libraries.Models.FacetType;
+import static io.bdrc.libraries.Models.FacetType.EVENT;
+import static io.bdrc.libraries.Models.FacetType.NAME;
+import static io.bdrc.libraries.Models.FacetType.VCARD_ADDR;
+import static io.bdrc.libraries.Models.addReleased;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getAdminData;
+import static io.bdrc.libraries.Models.getAdminRoot;
+import static io.bdrc.libraries.Models.getEvent;
+import static io.bdrc.libraries.Models.getFacetNode;
+import static io.bdrc.libraries.Models.setPrefixes;
+
+import static io.bdrc.libraries.LangStrings.normalizeTibetan;
+import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +48,6 @@ import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
 public class WorkMigration {
 
-    private static final String BDA = CommonMigration.BDA;
-    private static final String BDO = CommonMigration.BDO;
-    private static final String BDR = CommonMigration.BDR;
-    @SuppressWarnings("unused")
-    private static final String ADM = CommonMigration.ADM;
 	public static final String WXSDNS = "http://www.tbrc.org/models/work#";
 	
 	public static boolean splitItems = true;
@@ -74,7 +91,7 @@ public class WorkMigration {
 	// testing only
     public static Model MigrateWork(Document xmlDocument) {
         Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m, "work");
+        setPrefixes(m, "work");
         return MigrateWork(xmlDocument, m, new HashMap<>());
     }
     
@@ -90,10 +107,10 @@ public class WorkMigration {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String workId = root.getAttribute("RID");
-        Resource main = CommonMigration.createRoot(m, BDR+root.getAttribute("RID"), BDO+"Work");
-        Resource admMain = CommonMigration.createAdminRoot(main);
+        Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Work");
+        Resource admMain = createAdminRoot(main);
 		
-		CommonMigration.addStatus(m, admMain, root.getAttribute("status"));        
+		addStatus(m, admMain, root.getAttribute("status"));        
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 
 		
@@ -202,9 +219,9 @@ public class WorkMigration {
             switch (nodeType) {
             case "unicodeText": value = BDO+"UnicodeWork"; break;
             case "conceptualWork": value = BDO+"AbstractWork"; break;
-            case "publishedWork": value = BDO+"Work"; break;
+            case "publishedWork": value = BDO+"PublishedWork"; break;
             case "series": value = BDO+"SeriesWork"; break;
-            default: value = BDO+"Work"; break;
+            default: value = BDO+(hasArchiveInfo ? "PublishedWork" : "Work"); break;
             }
             main.addProperty(RDF.type, m.createResource(value));
             boolean numbered = false;

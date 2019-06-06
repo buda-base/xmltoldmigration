@@ -1,5 +1,15 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getAdminData;
+import static io.bdrc.libraries.Models.setPrefixes;
+
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -9,7 +19,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 
@@ -17,12 +26,6 @@ import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 public class ImagegroupMigration {
 
 	public static final String IGXSDNS = "http://www.tbrc.org/models/imagegroup#";
-    
-	@SuppressWarnings("unused")
-    private static final String BDA = CommonMigration.BDA;
-    private static final String BDO = CommonMigration.BDO;
-    private static final String BDR = CommonMigration.BDR;
-    private static final String ADM = CommonMigration.ADM;
 
     public static boolean addVolumeOf = false;
     public static boolean addItemHasVolume = true;
@@ -31,9 +34,9 @@ public class ImagegroupMigration {
 	// for testing purposes only
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m, "item");
-        Resource item = CommonMigration.createRoot(m, BDR+"TestItem", BDO+"ItemImageAsset");
-        Resource admMain = CommonMigration.createAdminRoot(item);
+        setPrefixes(m, "item");
+        Resource item = createRoot(m, BDR+"TestItem", BDO+"ItemImageAsset");
+        createAdminRoot(item);
         MigrateImagegroup(xmlDocument, m, item, "testItem", 1, "testItem");
         return m;
 	}
@@ -79,7 +82,7 @@ public class ImagegroupMigration {
         volR.addProperty(RDF.type, m.getResource(BDO+"VolumeImageAsset"));
         // create AdminData if it doesn't already exist - should only be created 
         // when used in MigrationTest.testImagegroup() w/o previously the containing Item
-        Resource admVol = CommonMigration.getAdminData(volR);
+        Resource admVol = getAdminData(volR);
 
 		admVol.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
@@ -103,10 +106,10 @@ public class ImagegroupMigration {
             ImageListTranslation.addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, volR);
         }
 		
-        CommonMigration.addStatus(m, admVol, imageGroupStatus);
+        addStatus(m, admVol, imageGroupStatus);
         CommonMigration.addLog(m, root, admVol, IGXSDNS);
         CommonMigration.addDescriptions(m, root, volR, IGXSDNS);
-        admVol.addProperty(m.getProperty(CommonMigration.ADM, "metadataLegal"), m.createResource(CommonMigration.BDA+"LD_BDRC_CC0"));
+        admVol.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
         for (int i = 0; i < nodeList.getLength(); i++) {

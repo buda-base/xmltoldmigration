@@ -1,9 +1,13 @@
 package io.bdrc.xmltoldmigration;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDA;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +32,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -194,7 +197,7 @@ public class MigrationApp
             }
 
             Model workModel = ModelFactory.createDefaultModel();
-            CommonMigration.setPrefixes(workModel, "work");
+            setPrefixes(workModel, "work");
             Resource work = workModel.createResource(BDR+outWorkId);
 
             Model outlineModel = OutlineMigration.MigrateOutline(outd, workModel, work);
@@ -240,7 +243,7 @@ public class MigrationApp
             if (m == null) {
                 m = ModelFactory.createDefaultModel();
             }
-            CommonMigration.setPrefixes(m);
+            setPrefixes(m);
             final Map<String, Model> itemModels = new HashMap<>();
             m = WorkMigration.MigrateWork(d, m, itemModels);
             
@@ -265,11 +268,11 @@ public class MigrationApp
                     m.add(workR, m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
                 }
                 itemModel = ModelFactory.createDefaultModel();
-                CommonMigration.setPrefixes(itemModel);
-                item = CommonMigration.createRoot(itemModel, BDR+itemName, BDO+"ItemImageAsset");
+                setPrefixes(itemModel);
+                item = createRoot(itemModel, BDR+itemName, BDO+"ItemImageAsset");
                 
-                admItem = CommonMigration.createAdminRoot(item);
-                CommonMigration.addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
+                admItem = createAdminRoot(item);
+                addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                 admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
                 moveAdminInfo(itemModel, workR, admItem);
 

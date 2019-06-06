@@ -169,6 +169,11 @@
         </exclusion>
       </exclusions>
     </dependency>
+	<dependency>
+	  <groupId>io.bdrc.libraries</groupId>
+	  <artifactId>bdrc-libraries</artifactId>
+	  <version>0.2.0</version>
+	</dependency>
     <dependency>
       <groupId>com.opencsv</groupId>
       <artifactId>opencsv</artifactId>

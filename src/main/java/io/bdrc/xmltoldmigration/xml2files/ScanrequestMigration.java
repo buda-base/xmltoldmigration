@@ -1,8 +1,10 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.ADM;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDO;
-import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.BDR;
+import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.getAdminData;
+import static io.bdrc.libraries.Models.setPrefixes;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -21,7 +23,7 @@ public class ScanrequestMigration {
 	// used for testing only
 	public static Model MigrateScanrequest(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
-        CommonMigration.setPrefixes(m, "item");
+        setPrefixes(m, "item");
         Element root = xmlDocument.getDocumentElement();
         String value = root.getAttribute("work");
         String rid=root.getAttribute("RID");
@@ -44,7 +46,7 @@ public class ScanrequestMigration {
 		
 		String value = root.getAttribute("venue").trim();
         if (!value.isEmpty()) {
-            Resource admR = CommonMigration.getAdminData(item);
+            Resource admR = getAdminData(item);
             m.add(admR, m.getProperty(ADM+"volumeScanVenue"), m.createLiteral(value));
         }
 		
