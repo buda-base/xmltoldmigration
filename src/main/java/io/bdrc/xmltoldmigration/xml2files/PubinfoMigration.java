@@ -12,6 +12,7 @@ import static io.bdrc.libraries.Models.setPrefixes;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.validator.routines.ISBNValidator;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -29,6 +30,8 @@ import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 public class PubinfoMigration {
 
 	public static final String WPXSDNS = "http://www.tbrc.org/models/pubinfo#";
+	
+	static final ISBNValidator isbnvalidator = ISBNValidator.getInstance(false);
 
 	// used for testing only
 	public static Model MigratePubinfo(Document xmlDocument) {
@@ -476,6 +479,15 @@ public class PubinfoMigration {
             } else {
                 value = current.getTextContent().trim();
                 if (value.isEmpty()) return;
+                if (elementName.equals("isbn")) {
+                    final String validIsbn = isbnvalidator.validate(value);
+                    if (validIsbn != null) {
+                        value = validIsbn;
+                    } else {
+                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "isbn", "invalid isbn: "+value);
+                    }
+                }
+                
                 m.add(main, m.createProperty(propName), m.createLiteral(value));
             }
         }
