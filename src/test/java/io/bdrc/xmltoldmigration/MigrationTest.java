@@ -544,4 +544,13 @@ public class MigrationTest
         assertTrue(computedContent.equals(correctContent.trim()));
         flushLog();
     }
+    
+    @Test
+    public void testEtextReadItem() throws XPathExpressionException, IOException
+    {
+        Model itemModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ImagegroupTest.ttl");
+        int foundVol = EtextMigration.getVolumeNumber("4158", itemModel, null);
+        assertTrue(foundVol == 1);
+    }
+    
 }

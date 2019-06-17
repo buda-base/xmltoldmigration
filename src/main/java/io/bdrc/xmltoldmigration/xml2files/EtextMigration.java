@@ -259,7 +259,8 @@ public class EtextMigration {
         }
         if (sl.size() > 1)
             System.err.println("two volumes have the legacy ID!");
-        Resource volume = sl.get(0).getSubject().asResource();
+        Resource volumeAdm = sl.get(0).getSubject().asResource();
+        Resource volume = volumeAdm.getPropertyResourceValue(m.getProperty(ADM, "adminAbout"));
         Statement s = volume.getProperty(volumeNumberP);
         if (s == null) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "volume with legacy RID "+imageGroupId+" has no volume number");
