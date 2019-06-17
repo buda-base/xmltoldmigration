@@ -347,6 +347,7 @@ public class EtextMigration {
             item.addProperty(itemHasVolume, volumeRes);
             volumeRes.addProperty(itemModel.getProperty(BDO, "volumeNumber"), 
                     itemModel.createTypedLiteral(volume, XSDDatatype.XSDinteger));
+            volumeRes.addProperty(itemModel.getProperty(BDO, "volumeOf"), item);
         }
         
         Resource seqRes = getFacetNode(FacetType.ETEXT_REF,  item);
@@ -354,6 +355,9 @@ public class EtextMigration {
         if (seqNum != 0)
             seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
                 itemModel.createTypedLiteral(seqNum, XSDDatatype.XSDinteger));
+        else 
+            seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
+                    itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         // TODO: check for duplicates
         return seqRes;
     }
