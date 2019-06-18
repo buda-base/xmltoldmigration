@@ -262,5 +262,6 @@ bdr:TT252B0EC486B8  a  :WorkBibliographicalTitle ;
         rdfs:label  "gleng gzhi2/"@bo-x-ewts .
 
 bdr:EV8E260F78BD0B  a  :CompletedEvent ;
+        :eventText   "lhun grub steng srib dgon (sde dge) " ;
         :eventWhere  bdr:G4449 ;
         :onYear      1235 .

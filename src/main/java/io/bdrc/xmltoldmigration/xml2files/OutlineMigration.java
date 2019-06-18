@@ -368,6 +368,10 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                 m.add(site, m.getProperty(BDO, "eventWhere"), m.getResource(BDR+value));
 
             // TODO: what about current.getTextContent()?
+            value = current.getTextContent();
+            if (value != null && !value.isEmpty()) {
+                site.addLiteral(m.getProperty(BDO, "eventText"), m.createLiteral(value));
+            }
         }
         
         addCreators(m, node, e, false, rootWork);
