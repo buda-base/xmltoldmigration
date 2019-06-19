@@ -18,6 +18,7 @@ import java.util.Map;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.riot.RiotException;
 import org.apache.jena.vocabulary.RDF;
 
 import io.bdrc.xmltoldmigration.helpers.GitHelpers;
@@ -95,31 +96,26 @@ public class rKTsTransfer {
                 final InputStream in;
                 try {
                     in = new FileInputStream(child);
-                } catch (FileNotFoundException e) {
+                    m.read(in, null, "TTL");
+                    in.close();
+                } catch (IOException | RiotException e) {
                     System.err.println("can't read from "+child.getName());
+                    e.printStackTrace();
                     continue;
                 }
-                m.read(in, null, "TTL");
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                
             } else {
                 final Model m = ModelFactory.createDefaultModel();
                 setPrefixes(m);
                 final InputStream in;
                 try {
                     in = new FileInputStream(child);
-                } catch (FileNotFoundException e) {
-                    System.err.println("can't read from "+child.getName());
-                    continue;
-                }
-                m.read(in, null, "TTL");
-                try {
+                    m.read(in, null, "TTL");
                     in.close();
-                } catch (IOException e) {
+                } catch (IOException | RiotException e) {
+                    System.err.println("can't read from "+child.getName());
                     e.printStackTrace();
+                    continue;
                 }
                 final String workName = fileBaseName.substring(0, fileBaseName.length()-4);
                 final String workOutFileName = MigrationApp.getDstFileName("work", workName, ".trig");
