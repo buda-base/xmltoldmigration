@@ -12,10 +12,12 @@
 
 bdr:VLC927251E24B2  a    :VolumeEtextAsset ;
         :volumeHasEtext  bdr:ER0847257BD8E3 ;
-        :volumeNumber    1 .
+        :volumeNumber    1 ;
+        :volumeOf        bdr:I1CZ2485_E001 .
 
 bdr:ER0847257BD8E3  a   :EtextRef ;
-        :eTextResource  bdr:UT1CZ2485_001_0000 .
+        :eTextResource  bdr:UT1CZ2485_001_0000 ;
+        :seqNum         1 .
 
 bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
         :isRoot         true ;
