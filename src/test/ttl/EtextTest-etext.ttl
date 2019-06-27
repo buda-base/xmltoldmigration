@@ -49,7 +49,7 @@ bda:UT1CZ2485_001_0000
         a               adm:AdminData ;
         adm:adminAbout  bdr:UT1CZ2485_001_0000 ;
         adm:facetIndex  17 ;
-        adm:gitPath     "cd/UT1CZ2485_001_0000.trig" ;
+        adm:gitPath     "24/UT1CZ2485_001_0000.trig" ;
         adm:gitRepo     bda:GR0002 ;
         adm:graphId     bdg:UT1CZ2485_001_0000 ;
         adm:status      bda:StatusReleased ;

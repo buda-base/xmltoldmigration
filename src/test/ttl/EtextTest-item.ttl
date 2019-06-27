@@ -28,7 +28,7 @@ bda:I1CZ2485_E001  a         adm:AdminData ;
         adm:adminAbout       bdr:I1CZ2485_E001 ;
         adm:contentProvider  bda:CP001 ;
         adm:facetIndex       3 ;
-        adm:gitPath          "e9/I1CZ2485_E001.trig" ;
+        adm:gitPath          "7c/I1CZ2485_E001.trig" ;
         adm:gitRepo          bda:GR0003 ;
         adm:graphId          bdg:I1CZ2485_E001 ;
         adm:metadataLegal    bda:LD_BDRC_CC0 ;

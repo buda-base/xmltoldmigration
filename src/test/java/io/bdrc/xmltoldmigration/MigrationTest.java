@@ -13,12 +13,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +64,6 @@ public class MigrationTest
 		ontology = MigrationHelpers.ontologymodel;
 		SymetricNormalization.normalizeOneDirection(true, false);
 		WorkMigration.splitItems = false;
-		MigrationApp.md = MessageDigest.getInstance("MD5");
 		EtextMigration.testMode = true;
 	}
 	

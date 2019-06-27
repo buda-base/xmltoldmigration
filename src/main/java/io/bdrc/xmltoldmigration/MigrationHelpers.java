@@ -542,7 +542,7 @@ public class MigrationHelpers {
         final String status = root.getAttribute("status");
         MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), status);
         Model m = null;
-        if (status.equals("withdrawn")) {
+        if (status.equals("withdrawn") || status.equals("onHold")) {
             return migrateWithdrawn(d, type);      
         }
         if (!mustBeMigrated(root, type, status)) {

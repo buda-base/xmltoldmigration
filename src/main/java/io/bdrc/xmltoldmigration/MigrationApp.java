@@ -7,6 +7,7 @@ import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
+import static io.bdrc.libraries.Models.getMd5;
 import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.File;
@@ -14,9 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -83,8 +81,6 @@ public class MigrationApp
     public static final Map<String,String> imageGroupWork = new HashMap<>();
 
     private static Map<String,Boolean> workCreatedByOutline = new HashMap<>();
-    static MessageDigest md;
-    private static final int hashNbChars = 2;
 
     public static OntModel ontology = null;
     static {
@@ -94,11 +90,6 @@ public class MigrationApp
 
     public static void init() {
         ontology = MigrationHelpers.getOntologyModel();
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void createDirIfNotExists(String dir) {
@@ -122,22 +113,9 @@ public class MigrationApp
         final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product");
         String res = OUTPUT_DIR+type+"s/";
         if (needsHash) {
-            try {
-                // keeping files from the same work together:
-                final int underscoreIndex = baseName.indexOf('_');
-                String message = baseName;
-                if (underscoreIndex != -1)
-                    message = baseName.substring(0, underscoreIndex);
-                final byte[] bytesOfMessage = message.getBytes("UTF-8");
-                final byte[] hashBytes = md.digest(bytesOfMessage);
-                BigInteger bigInt = new BigInteger(1,hashBytes);
-                String hashtext = String.format("%032x", bigInt).substring(0, hashNbChars);
-                res = res+hashtext.toString()+"/";
-                createDirIfNotExists(res);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                return null;
-            }
+            String hashtext = getMd5(baseName);
+            res = res+hashtext.toString()+"/";
+            createDirIfNotExists(res);
         }
         res = res + baseName + extension;
         return res;
