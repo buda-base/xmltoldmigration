@@ -13,7 +13,9 @@
 bda:IEAP676-1-10  a       adm:AdminData ;
         adm:adminAbout    bdr:IEAP676-1-10 ;
         adm:contentLegal  bda:LD_EAP_content ;
+        adm:access        bda:AccessOpen ;
         adm:gitPath       "79/IEAP676-1-10.trig" ;
+        adm:restrictedInChina  false ;
         adm:gitRepo       bda:GR0003 ;
         adm:graphId       bdg:IEAP676-1-10 ;
         adm:status        bda:StatusReleased ;
