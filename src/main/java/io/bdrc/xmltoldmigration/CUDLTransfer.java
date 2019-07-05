@@ -67,8 +67,10 @@ public class CUDLTransfer {
         res.put("nepālākṣarā","SaNepaleseHooked");
         res.put("pāla","SaRanj");
         res.put("sinhala","SaSinh");
-        res.put("Hooked Nepālākṣarā (Bhujimol)","SaNepaleseHooked");
+        res.put("devanāgarī","SaDeva");
+        res.put("rañjanā","SaRanj");
         res.put("bengali","SaBeng");
+        res.put("naipālanāgarī","SaDeva"); // TODO: check
         return res;
     }
 
@@ -192,14 +194,14 @@ public class CUDLTransfer {
         
         final String abstractWorkRID = rKTsToBDR(line[4]);
         if (abstractWorkRID != null) {
-            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", rid, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", "W0CDL0"+rid, abstractWorkRID, null);
         }
         if(!line[5].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+line[5]));
         }
         addMaterial(work, line[9]);
         if(!line[14].equals("")) {
-            workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14])));
+            workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14].toLowerCase())));
         }
         if (!line[19].isEmpty()) {
             work.addProperty(workModel.createProperty(BDO, "workDimWidth"), line[19].replace(',','.').trim(), XSDDatatype.XSDdecimal);
@@ -254,7 +256,7 @@ public class CUDLTransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+rid));
+            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W0CDL0"+rid));
         }
 
         return res;
