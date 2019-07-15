@@ -183,7 +183,11 @@ public class EAPFondsTransfer {
         // bdo:Work
         workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
         addNote(serieLine, workModel, work);
-        workModel.add(work, SKOS.prefLabel, getLiteral(simplified ? serieLine[9] : serieLine[39], workModel));
+        String name = simplified ? serieLine[9] : serieLine[39];
+        if (name.startsWith("bka' 'gyur")) {
+            workModel.add(work, workModel.createProperty(BDO, "workGenre"), workModel.createResource(BDR+"T2423"));
+        }
+        workModel.add(work, SKOS.prefLabel, getLiteral(name, workModel));
         addEvent(serieLine, workModel, work);
         
         // Item model
@@ -212,10 +216,10 @@ public class EAPFondsTransfer {
             Resource vol = itemModel.createResource(BDR+"V"+ref);
             itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), vol);
             itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
-            String name = simplified ? volume[9] : volume[39];
+            String volName = simplified ? volume[9] : volume[39];
             itemModel.add(vol, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREFIX+ref+"/manifest"));
             //itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),getLiteral(name, workModel));
-            itemModel.add(vol, SKOS.prefLabel,getLiteral(name, workModel));
+            itemModel.add(vol, SKOS.prefLabel,getLiteral(volName, workModel));
             itemModel.add(vol, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(getVolNum(volume), XSDDatatype.XSDinteger));
             itemModel.add(vol, itemModel.createProperty(BDO,"volumeOf"),item);
             res.add(vol);
@@ -300,9 +304,9 @@ public class EAPFondsTransfer {
 
     public static void EAPFondsDoTransfer() throws IOException {
         EAPFondsTransfer tr = new EAPFondsTransfer("EAP310.csv", false);
-        //tr.writeEAPFiles(tr.getResources());
-        //tr = new EAPFondsTransfer("EAP039.csv", false);
-        //tr.writeEAPFiles(tr.getResources());
+        tr.writeEAPFiles(tr.getResources());
+        tr = new EAPFondsTransfer("EAP039.csv", false);
+        tr.writeEAPFiles(tr.getResources());
         tr = new EAPFondsTransfer("eap2.csv", true);
         tr.writeEAPFiles(tr.getResources());
     }
