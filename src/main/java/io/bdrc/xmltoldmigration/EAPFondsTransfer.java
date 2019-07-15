@@ -173,10 +173,11 @@ public class EAPFondsTransfer {
         res.add(work);
 
         // Work adm:AdminData
-        Resource ldEAP = workModel.createResource(BDA+"LD_EAP");
+        Resource ldEAPc = workModel.createResource(BDA+"LD_EAP_content");
+        Resource ldEAPm = workModel.createResource(BDA+"LD_EAP_metadata");
         workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
         workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-        workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
+        workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
         String origUrl = ORIG_URL_BASE+serieID;
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
         
@@ -200,11 +201,10 @@ public class EAPFondsTransfer {
         workModel.add(work, workModel.createProperty(BDO,"workHasItem"), item);
 
         // Item adm:AdminData
-        ldEAP = itemModel.createResource(BDA+"LD_EAP");
         itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
         itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
-        itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), ldEAP); // ?
-        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
+        itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), ldEAPc); // ?
+        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
         
         itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
         
@@ -242,12 +242,13 @@ public class EAPFondsTransfer {
             setPrefixes(workModel);
             Model itemModel = ModelFactory.createDefaultModel();
             setPrefixes(itemModel);
-            Resource ldEAP = workModel.createResource(BDA+"LD_EAP");
+            Resource ldEAPc = workModel.createResource(BDA+"LD_EAP_content");
+            Resource ldEAPm = workModel.createResource(BDA+"LD_EAP_metadata");
             Resource work = createRoot(workModel, BDR+"W"+ref, BDO+"Work");
             Resource workAdm = createAdminRoot(work);
             workModel.add(workAdm, RDF.type, workModel.createResource(ADM+"AdminData"));
             workModel.add(workAdm, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-            workModel.add(workAdm, workModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
+            workModel.add(workAdm, workModel.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
             String origUrl = ManifestPREFIX+ref; // for files, not collections
             workModel.add(workAdm, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
@@ -259,8 +260,8 @@ public class EAPFondsTransfer {
             itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+ref));
             itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
             itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
-            itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), ldEAP);
-            itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), ldEAP);
+            itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), ldEAPc);
+            itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm);
             Resource volume = itemModel.createResource(BDR+"V"+ref);
             itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
             itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
