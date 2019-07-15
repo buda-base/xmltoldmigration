@@ -67,8 +67,8 @@ public class EAPFondsTransfer {
         for(String s : seriesByCollections.keySet()) {
             HashMap<String,String[]> mp = seriesByCollections.get(s);
             for(String[] line:lines) {
-                if ((!simplified && line[3].equals(s)) || simplified && line[0].toLowerCase().startsWith("serie") && line[1].startsWith(s+"/")) {
-                    mp.put(line[0], line);
+                if ((!simplified && line[3].equals(s)) || (simplified && line[0].toLowerCase().startsWith("serie") && line[1].startsWith(s+"/"))) {
+                    mp.put(simplified ? line[1] : line[0], line);
                 }
             }
             seriesByCollections.put(s,mp);
@@ -129,6 +129,155 @@ public class EAPFondsTransfer {
         }
     }
     
+    public void addEvent(String[] line, Model workModel, Resource work) {
+        String notBefore = simplified ? line[3] : line[38];
+        String notAfter = simplified ? line[4] : line[17];
+        if (!notBefore.isEmpty() && !notAfter.isEmpty()) {
+            Resource event = workModel.createResource(BDR+"E"+work.getLocalName()+"_01");
+            workModel.add(work, workModel.createProperty(BDO, "workEvent"), event);
+            workModel.add(event, RDF.type, workModel.createResource(BDO+"CopyEvent"));
+            if (simplified && !line[13].isEmpty()) {
+                workModel.add(event, workModel.createProperty(BDO, "eventWhere"), workModel.createResource(BDR+line[13]));
+            }
+            // TODO: add locations in other eap sheets
+            if (notBefore.equals(notAfter)) {
+                workModel.add(event, workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(Integer.valueOf(notBefore), XSDDatatype.XSDinteger));    
+            } else {
+                workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(Integer.valueOf(notBefore), XSDDatatype.XSDinteger));
+                workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(Integer.valueOf(notAfter), XSDDatatype.XSDinteger));
+            }
+        }
+    }
+    
+    public void addNote(String[] line, Model workModel, Resource work) {
+        String noteText;
+        if (simplified) {
+            noteText = line[10]+line[11]+line[12];
+        } else {
+            noteText = line[36];
+        }
+        if (!noteText.isEmpty()) {
+            Resource noteR = getFacetNode(FacetType.NOTE,  work);
+            noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(noteText,"en"));
+            workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
+        }
+    }
+    
+    public void addSeriesC(String[] serieLine, List<Resource> res, String serie) {
+        String serieID = (simplified ? serieLine[1] : serieLine[4]).replace('/', '-');
+        // Work model
+        Model workModel = ModelFactory.createDefaultModel();
+        setPrefixes(workModel);
+        Resource work = createRoot(workModel, BDR+"W"+serieID, BDO+"Work");
+        Resource admWork = createAdminRoot(work);
+        res.add(work);
+
+        // Work adm:AdminData
+        Resource ldEAP = workModel.createResource(BDA+"LD_EAP");
+        workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
+        String origUrl = ORIG_URL_BASE+serieID;
+        workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
+        
+        // bdo:Work
+        workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
+        addNote(serieLine, workModel, work);
+        workModel.add(work, SKOS.prefLabel, getLiteral(simplified ? serieLine[9] : serieLine[39], workModel));
+        addEvent(serieLine, workModel, work);
+        
+        // Item model
+        Model itemModel = ModelFactory.createDefaultModel();
+        setPrefixes(itemModel);
+        Resource item = createRoot(itemModel, BDR+"I"+serieID, BDO+"ItemImageAsset");
+        Resource admItem = createAdminRoot(item);
+        res.add(item);
+
+        workModel.add(work, workModel.createProperty(BDO,"workHasItem"), item);
+
+        // Item adm:AdminData
+        ldEAP = itemModel.createResource(BDA+"LD_EAP");
+        itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
+        itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
+        itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), ldEAP); // ?
+        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
+        
+        itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
+        
+        List<String[]> volumes = getVolumes(serie);
+        int numVol=0;
+        for(int x=0;x<volumes.size();x++) {
+            final String[] volume = volumes.get(x);
+            String ref=(simplified ? volume[1] : volume[4]).replace('/', '-');
+            Resource vol = itemModel.createResource(BDR+"V"+ref);
+            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), vol);
+            itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+            String name = simplified ? volume[9] : volume[39];
+            itemModel.add(vol, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREFIX+ref+"/manifest"));
+            //itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),getLiteral(name, workModel));
+            itemModel.add(vol, SKOS.prefLabel,getLiteral(name, workModel));
+            itemModel.add(vol, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(getVolNum(volume), XSDDatatype.XSDinteger));
+            itemModel.add(vol, itemModel.createProperty(BDO,"volumeOf"),item);
+            res.add(vol);
+            
+            // Volume adm:AdminData
+            Resource admVol = getAdminData(vol);
+            itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
+            numVol++;
+        }
+        itemModel.add(item, itemModel.createProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(numVol));
+        workModel.add(work, workModel.createProperty(BDO, "workNumberOfVolumes"), workModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
+    }
+
+    public void addSeries(String[] serieLine, List<Resource> res, String serie) {
+        List<String[]> works = getVolumes(serie);
+        for(int x=0;x<works.size();x++) {
+            final String[] workLine = works.get(x);
+            String ref=(simplified ? workLine[1] : workLine[4]).replace('/', '-');
+            Model workModel = ModelFactory.createDefaultModel();
+            setPrefixes(workModel);
+            Model itemModel = ModelFactory.createDefaultModel();
+            setPrefixes(itemModel);
+            Resource ldEAP = workModel.createResource(BDA+"LD_EAP");
+            Resource work = createRoot(workModel, BDR+"W"+ref, BDO+"Work");
+            Resource workAdm = createAdminRoot(work);
+            workModel.add(workAdm, RDF.type, workModel.createResource(ADM+"AdminData"));
+            workModel.add(workAdm, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+            workModel.add(workAdm, workModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
+            String origUrl = ManifestPREFIX+ref; // for files, not collections
+            workModel.add(workAdm, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
+            workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
+            addNote(serieLine, workModel, work);
+            //workModel.add(work, SKOS.prefLabel, getLiteral(simplified ? serieLine[9] : serieLine[39], workModel));
+            addEvent(serieLine, workModel, work);
+            Resource item = createRoot(itemModel, BDR+"I"+ref, BDO+"ItemImageAsset");
+            Resource itemAdm = createAdminRoot(item);
+            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+ref));
+            itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
+            itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
+            itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), ldEAP);
+            itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), ldEAP);
+            Resource volume = itemModel.createResource(BDR+"V"+ref);
+            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
+            itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+            String name = simplified ? workLine[9] : workLine[39];
+            workModel.add(work, SKOS.prefLabel,getLiteral(name, workModel));
+            itemModel.add(volume, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREFIX+ref+"/manifest"));
+            itemModel.add(volume, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
+            itemModel.add(volume, itemModel.createProperty(BDO,"volumeOf"),item);
+            res.add(item);
+            res.add(work);
+            
+            // Volume adm:AdminData
+            Resource admVol = getAdminData(volume);
+            itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
+            origUrl = ManifestPREFIX+ref;
+            itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
+            res.add(work);
+            res.add(item);
+        }
+    }
+    
     public List<Resource> getResources(){
         Set<String> keys=seriesByCollections.keySet();
         List<Resource> res = new ArrayList<>();
@@ -137,103 +286,13 @@ public class EAPFondsTransfer {
             Set<String> seriesKeys=map.keySet();
             for(String serie:seriesKeys) {
                 String[] serieLine = seriesByCollections.get(key).get(serie);
-                String serieID = (simplified ? serieLine[1] : serieLine[4]).replace('/', '-');
-                                
-                // Work model
-                Model workModel = ModelFactory.createDefaultModel();
-                setPrefixes(workModel);
-                Resource work = createRoot(workModel, BDR+"W"+serieID, BDO+"Work");
-                Resource admWork = createAdminRoot(work);
-                res.add(work);
-
-                // Work adm:AdminData
-                Resource ldEAP = workModel.createResource(BDA+"LD_EAP");
-                workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
-                workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
-                workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
-                String origUrl = ORIG_URL_BASE+serieID;
-                workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
-                
-                // bdo:Work
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
-                String noteText;
-                if (simplified) {
-                    noteText = serieLine[10]+serieLine[11]+serieLine[12];
+                String type = this.simplified ? serieLine[0] : serieLine[1];
+                if (type.toLowerCase().startsWith("seriesc")) {
+                    addSeriesC(serieLine, res, serie);
                 } else {
-                    noteText = serieLine[36];
+                    addSeries(serieLine, res, serie);
                 }
-                if (!noteText.isEmpty()) {
-                    Resource noteR = getFacetNode(FacetType.NOTE,  work);
-                    noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(noteText,"en"));
-                    workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
-                }
-                workModel.add(work, SKOS.prefLabel, getLiteral(simplified ? serieLine[9] : serieLine[39], workModel));
-                String notBefore = simplified ? serieLine[3] : serieLine[38];
-                String notAfter = simplified ? serieLine[4] : serieLine[17];
-                if (!notBefore.isEmpty() && !notAfter.isEmpty()) {
-                    Resource event = workModel.createResource(BDR+"EW"+serieID+"_01");
-                    workModel.add(work, workModel.createProperty(BDO, "workEvent"), event);
-                    workModel.add(event, RDF.type, workModel.createResource(BDO+"CopyEvent"));
-                    if (simplified && !serieLine[13].isEmpty()) {
-                        workModel.add(event, workModel.createProperty(BDO, "eventWhere"), workModel.createResource(BDR+serieLine[13]));
-                    }
-                    // TODO: add locations in other eap sheets
-                    if (notBefore.equals(notAfter)) {
-                        workModel.add(event, workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(Integer.valueOf(notBefore), XSDDatatype.XSDinteger));    
-                    } else {
-                        workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(Integer.valueOf(notBefore), XSDDatatype.XSDinteger));
-                        workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(Integer.valueOf(notAfter), XSDDatatype.XSDinteger));
-                    }
-                }
-                
-                
-                // Item model
-                Model itemModel = ModelFactory.createDefaultModel();
-                setPrefixes(itemModel);
-                Resource item = createRoot(itemModel, BDR+"I"+serieID, BDO+"ItemImageAsset");
-                Resource admItem = createAdminRoot(item);
-                res.add(item);
 
-                workModel.add(work, workModel.createProperty(BDO,"workHasItem"), item);
-
-                // Item adm:AdminData
-                ldEAP = itemModel.createResource(BDA+"LD_EAP");
-                itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
-                itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
-                itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), ldEAP); // ?
-                itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAP); // ?
-                
-                itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
-                
-                List<String[]> volumes = getVolumes(serie);
-                int numVol=0;
-                for(int x=0;x<volumes.size();x++) {
-                    final String[] volume = volumes.get(x);
-                    String ref=(simplified ? volume[1] : volume[4]).replace('/', '-');
-                    //System.out.println(Arrays.toString(volume));
-                    Resource vol = itemModel.createResource(BDR+"V"+ref);
-                    itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), vol);
-                    itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
-                    String name = simplified ? volume[9] : volume[39];
-                    //tmp=tmp.substring(tmp.indexOf("containing")).split(" ")[1];
-                    //itemModel.add(vol, itemModel.createProperty(BDO,"imageCount"),itemModel.createTypedLiteral(Integer.parseInt(tmp), XSDDatatype.XSDinteger));
-                    itemModel.add(vol, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREFIX+ref+"/manifest"));
-                    //itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),getLiteral(name, workModel));
-                    itemModel.add(vol, SKOS.prefLabel,getLiteral(name, workModel));
-                    itemModel.add(vol, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(getVolNum(volume), XSDDatatype.XSDinteger));
-                    itemModel.add(vol, itemModel.createProperty(BDO,"volumeOf"),item);
-                    res.add(vol);
-                    
-                    // Volume adm:AdminData
-                    Resource admVol = getAdminData(vol);
-                    itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
-                    origUrl = ManifestPREFIX+ref;
-                    itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
-
-                    numVol++;
-                }
-                itemModel.add(item, itemModel.createProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(numVol));
-                workModel.add(work, workModel.createProperty(BDO, "workNumberOfVolumes"), workModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
             }
         }
         return res;
@@ -241,9 +300,9 @@ public class EAPFondsTransfer {
 
     public static void EAPFondsDoTransfer() throws IOException {
         EAPFondsTransfer tr = new EAPFondsTransfer("EAP310.csv", false);
-        tr.writeEAPFiles(tr.getResources());
-        tr = new EAPFondsTransfer("EAP039.csv", false);
-        tr.writeEAPFiles(tr.getResources());
+        //tr.writeEAPFiles(tr.getResources());
+        //tr = new EAPFondsTransfer("EAP039.csv", false);
+        //tr.writeEAPFiles(tr.getResources());
         tr = new EAPFondsTransfer("eap2.csv", true);
         tr.writeEAPFiles(tr.getResources());
     }
