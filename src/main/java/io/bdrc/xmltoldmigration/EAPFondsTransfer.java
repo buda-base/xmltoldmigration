@@ -35,14 +35,16 @@ import com.opencsv.CSVReaderBuilder;
 
 public class EAPFondsTransfer {
 
-    public static HashMap<String,HashMap<String,String[]>> seriesByCollections;
-    public static HashMap<String,String[]> seriesLines;
-    public static  List<String[]> lines;
+    public HashMap<String,HashMap<String,String[]>> seriesByCollections;
+    public HashMap<String,String[]> seriesLines;
+    public List<String[]> lines;
+    public boolean simplified; // for the eap2.csv file that contains less columns
     
-    private static final String ManifestPREF="https://eap.bl.uk/archive-file/";
+    private static final String ManifestPREFIX = "https://eap.bl.uk/archive-file/";
     public static final String ORIG_URL_BASE = "https://eap.bl.uk/collection/";
 
-    public EAPFondsTransfer(String filename) throws IOException {
+    public EAPFondsTransfer(String filename, boolean simplified) throws IOException {
+        this.simplified = simplified;
         CSVReader reader;
         CSVParser parser = new CSVParserBuilder().build();
         InputStream inputStream = EAPFondsTransfer.class.getClassLoader().getResourceAsStream(filename);
@@ -56,15 +58,16 @@ public class EAPFondsTransfer {
 
     public void getSeriesByFonds() throws IOException{
         seriesByCollections = new HashMap<>();
-        for(String[] line:lines) {
-            if(line[1].equals("Fonds")) {
-                seriesByCollections.put(line[0], new HashMap<>());
+        for (String[] line:lines) {
+            String type = this.simplified ? line[0] : line[1];
+            if (type.toLowerCase().equals("fonds")) {
+                seriesByCollections.put(simplified ? line[1] : line[0], new HashMap<>());
             }
         }
         for(String s : seriesByCollections.keySet()) {
             HashMap<String,String[]> mp = seriesByCollections.get(s);
             for(String[] line:lines) {
-                if(line[3].equals(s)) {
+                if ((!simplified && line[3].equals(s)) || simplified && line[0].toLowerCase().startsWith("serie") && line[1].startsWith(s+"/")) {
                     mp.put(line[0], line);
                 }
             }
@@ -72,24 +75,22 @@ public class EAPFondsTransfer {
         }
     }
 
-    public HashMap<String, ArrayList<String[]>> getVolumes(String serie){
-        HashMap<String, ArrayList<String[]>> vols=new HashMap<>();
-        ArrayList<String[]> ll=new ArrayList<>();
-        String key="";
+    public List<String[]> getVolumes(String serie){
+        List<String[]> volumes = new ArrayList<>();
         for(String[] line:lines) {
-            key=line[3];
-            if(line[3].equals(serie)) {
-                ll.add(line);
+            if ((!simplified && line[3].equals(serie)) || simplified && line[0].toLowerCase().startsWith("file") && line[1].startsWith(serie+"/")) {
+                volumes.add(line);
             }
         }
-        vols.put(key, ll);
-        return vols;
+        return volumes;
     }
     
     public final void writeEAPFiles(List<Resource> resources) {
+        int nbresources = 0;
         for(Resource r: resources) {
             String uri=r.getProperty(RDF.type).getObject().asResource().getLocalName();
             //r.getModel().write(System.out, "TURTLE");
+            nbresources += 1;
             switch(uri) {
                 case "Work":
                     final String workOutfileName = MigrationApp.getDstFileName("work", r.getLocalName());
@@ -102,6 +103,7 @@ public class EAPFondsTransfer {
                     break;
             }
         }
+        System.out.println("wrote "+nbresources+" files of eap funds");
     }
 
     public Literal getLiteral(String title, Model m) {
@@ -117,6 +119,16 @@ public class EAPFondsTransfer {
         return m.createLiteral(title, lang);
     }
     
+    public Integer getVolNum(String[] line) {
+        if (simplified) {
+            String id = line[1];
+            int lastSlashIdx = id.lastIndexOf('/');
+            return Integer.parseInt(id.substring(lastSlashIdx+1));
+        } else {
+            return Integer.parseInt(line[37]);
+        }
+    }
+    
     public List<Resource> getResources(){
         Set<String> keys=seriesByCollections.keySet();
         List<Resource> res = new ArrayList<>();
@@ -125,12 +137,12 @@ public class EAPFondsTransfer {
             Set<String> seriesKeys=map.keySet();
             for(String serie:seriesKeys) {
                 String[] serieLine = seriesByCollections.get(key).get(serie);
-                String serieID = serieLine[4].replace('/', '-');
+                String serieID = (simplified ? serieLine[1] : serieLine[4]).replace('/', '-');
                                 
                 // Work model
                 Model workModel = ModelFactory.createDefaultModel();
                 setPrefixes(workModel);
-                Resource work = createRoot(workModel, BDR+"W"+serie, BDO+"Work");
+                Resource work = createRoot(workModel, BDR+"W"+serieID, BDO+"Work");
                 Resource admWork = createAdminRoot(work);
                 res.add(work);
 
@@ -144,10 +156,35 @@ public class EAPFondsTransfer {
                 
                 // bdo:Work
                 workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoTibt"));
-                Resource noteR = getFacetNode(FacetType.NOTE,  work);
-                noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(serieLine[36],"en"));
-                workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
-                workModel.add(work, SKOS.prefLabel, getLiteral(serieLine[39], workModel));
+                String noteText;
+                if (simplified) {
+                    noteText = serieLine[10]+serieLine[11]+serieLine[12];
+                } else {
+                    noteText = serieLine[36];
+                }
+                if (!noteText.isEmpty()) {
+                    Resource noteR = getFacetNode(FacetType.NOTE,  work);
+                    noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(noteText,"en"));
+                    workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
+                }
+                workModel.add(work, SKOS.prefLabel, getLiteral(simplified ? serieLine[9] : serieLine[39], workModel));
+                String notBefore = simplified ? serieLine[3] : serieLine[38];
+                String notAfter = simplified ? serieLine[4] : serieLine[17];
+                if (!notBefore.isEmpty() && !notAfter.isEmpty()) {
+                    Resource event = workModel.createResource(BDR+"EW"+serieID+"_01");
+                    workModel.add(work, workModel.createProperty(BDO, "workEvent"), event);
+                    workModel.add(event, RDF.type, workModel.createResource(BDO+"CopyEvent"));
+                    if (simplified && !serieLine[13].isEmpty()) {
+                        workModel.add(event, workModel.createProperty(BDO, "eventWhere"), workModel.createResource(BDR+serieLine[13]));
+                    }
+                    // TODO: add locations in other eap sheets
+                    if (notBefore.equals(notAfter)) {
+                        workModel.add(event, workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(Integer.valueOf(notBefore), XSDDatatype.XSDinteger));    
+                    } else {
+                        workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(Integer.valueOf(notBefore), XSDDatatype.XSDinteger));
+                        workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(Integer.valueOf(notAfter), XSDDatatype.XSDinteger));
+                    }
+                }
                 
                 
                 // Item model
@@ -168,38 +205,32 @@ public class EAPFondsTransfer {
                 
                 itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
                 
-                HashMap<String, ArrayList<String[]>> vols=getVolumes(serie);
-                Set<String> serVol=vols.keySet();
+                List<String[]> volumes = getVolumes(serie);
                 int numVol=0;
-                for(String ser:serVol) {
-                    ArrayList<String[]> volumes=vols.get(ser);
-                    for(int x=0;x<volumes.size();x++) {
-                        final String[] volume = volumes.get(x);
-                        String ref=volume[4].replace('/', '-');
-                        //System.out.println(Arrays.toString(volume));
-                        Resource vol = itemModel.createResource(BDR+"V"+ref);
-                        itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), vol);
-                        itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
-                        String tmp=volume[18];
-                        String name=volume[39];
-                        // TODO: properly tag lang
-                        //tmp=tmp.substring(tmp.indexOf("containing")).split(" ")[1];
-                        //itemModel.add(vol, itemModel.createProperty(BDO,"imageCount"),itemModel.createTypedLiteral(Integer.parseInt(tmp), XSDDatatype.XSDinteger));
-                        itemModel.add(vol, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREF+ref+"/manifest"));
-                        //itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),getLiteral(name, workModel));
-                        itemModel.add(vol, SKOS.prefLabel,getLiteral(name, workModel));
-                        itemModel.add(vol, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(Integer.parseInt(volume[37]), XSDDatatype.XSDinteger));
-                        itemModel.add(vol, itemModel.createProperty(BDO,"volumeOf"),item);
-                        res.add(vol);
-                        
-                        // Volume adm:AdminData
-                        Resource admVol = getAdminData(vol);
-                        itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
-                        origUrl = ManifestPREF+ref;
-                        itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
+                for(int x=0;x<volumes.size();x++) {
+                    final String[] volume = volumes.get(x);
+                    String ref=(simplified ? volume[1] : volume[4]).replace('/', '-');
+                    //System.out.println(Arrays.toString(volume));
+                    Resource vol = itemModel.createResource(BDR+"V"+ref);
+                    itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), vol);
+                    itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+                    String name = simplified ? volume[9] : volume[39];
+                    //tmp=tmp.substring(tmp.indexOf("containing")).split(" ")[1];
+                    //itemModel.add(vol, itemModel.createProperty(BDO,"imageCount"),itemModel.createTypedLiteral(Integer.parseInt(tmp), XSDDatatype.XSDinteger));
+                    itemModel.add(vol, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREFIX+ref+"/manifest"));
+                    //itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),getLiteral(name, workModel));
+                    itemModel.add(vol, SKOS.prefLabel,getLiteral(name, workModel));
+                    itemModel.add(vol, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(getVolNum(volume), XSDDatatype.XSDinteger));
+                    itemModel.add(vol, itemModel.createProperty(BDO,"volumeOf"),item);
+                    res.add(vol);
+                    
+                    // Volume adm:AdminData
+                    Resource admVol = getAdminData(vol);
+                    itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
+                    origUrl = ManifestPREFIX+ref;
+                    itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
 
-                        numVol++;
-                    }
+                    numVol++;
                 }
                 itemModel.add(item, itemModel.createProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(numVol));
                 workModel.add(work, workModel.createProperty(BDO, "workNumberOfVolumes"), workModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
@@ -209,9 +240,11 @@ public class EAPFondsTransfer {
     }
 
     public static void EAPFondsDoTransfer() throws IOException {
-        EAPFondsTransfer tr = new EAPFondsTransfer("EAP310.csv");
+        EAPFondsTransfer tr = new EAPFondsTransfer("EAP310.csv", false);
         tr.writeEAPFiles(tr.getResources());
-        tr= new EAPFondsTransfer("EAP039.csv");
+        tr = new EAPFondsTransfer("EAP039.csv", false);
+        tr.writeEAPFiles(tr.getResources());
+        tr = new EAPFondsTransfer("eap2.csv", true);
         tr.writeEAPFiles(tr.getResources());
     }
 
