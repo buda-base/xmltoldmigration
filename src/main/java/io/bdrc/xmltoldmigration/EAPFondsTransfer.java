@@ -4,16 +4,13 @@ import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.BDR;
-import static io.bdrc.libraries.Models.BDG;
-import static io.bdrc.libraries.Models.VCARD;
 import static io.bdrc.libraries.Models.FacetType;
-import static io.bdrc.libraries.Models.addReleased;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getAdminData;
-import static io.bdrc.libraries.Models.getEvent;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
+import org.apache.jena.rdf.model.Literal;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,8 +32,6 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-
-import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 
 public class EAPFondsTransfer {
 
@@ -76,6 +71,7 @@ public class EAPFondsTransfer {
             seriesByCollections.put(s,mp);
         }
     }
+
     public HashMap<String, ArrayList<String[]>> getVolumes(String serie){
         HashMap<String, ArrayList<String[]>> vols=new HashMap<>();
         ArrayList<String[]> ll=new ArrayList<>();
@@ -89,7 +85,7 @@ public class EAPFondsTransfer {
         vols.put(key, ll);
         return vols;
     }
-
+    
     public final void writeEAPFiles(List<Resource> resources) {
         for(Resource r: resources) {
             String uri=r.getProperty(RDF.type).getObject().asResource().getLocalName();
@@ -108,6 +104,19 @@ public class EAPFondsTransfer {
         }
     }
 
+    public Literal getLiteral(String title, Model m) {
+        int firstChar = title.codePointAt(0);
+        String lang = "bo-x-ewts";
+        if (firstChar > 3840 && firstChar < 4095) {
+            lang = "bo";
+        }
+        if (title.endsWith("@en")) {
+            title = title.substring(0, title.length()-3);
+            lang = "en";
+        }
+        return m.createLiteral(title, lang);
+    }
+    
     public List<Resource> getResources(){
         Set<String> keys=seriesByCollections.keySet();
         List<Resource> res = new ArrayList<>();
@@ -138,7 +147,7 @@ public class EAPFondsTransfer {
                 Resource noteR = getFacetNode(FacetType.NOTE,  work);
                 noteR.addLiteral(workModel.createProperty(BDO, "noteText"), workModel.createLiteral(serieLine[36],"en"));
                 workModel.add(work, workModel.createProperty(BDO, "note"), noteR);
-                workModel.add(work, SKOS.prefLabel, workModel.createLiteral(serieLine[39],"en"));
+                workModel.add(work, SKOS.prefLabel, getLiteral(serieLine[39], workModel));
                 
                 
                 // Item model
@@ -177,7 +186,8 @@ public class EAPFondsTransfer {
                         //tmp=tmp.substring(tmp.indexOf("containing")).split(" ")[1];
                         //itemModel.add(vol, itemModel.createProperty(BDO,"imageCount"),itemModel.createTypedLiteral(Integer.parseInt(tmp), XSDDatatype.XSDinteger));
                         itemModel.add(vol, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREF+ref+"/manifest"));
-                        itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),itemModel.createLiteral(name, "en"));
+                        //itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),getLiteral(name, workModel));
+                        itemModel.add(vol, SKOS.prefLabel,getLiteral(name, workModel));
                         itemModel.add(vol, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(Integer.parseInt(volume[37]), XSDDatatype.XSDinteger));
                         itemModel.add(vol, itemModel.createProperty(BDO,"volumeOf"),item);
                         res.add(vol);

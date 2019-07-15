@@ -70,7 +70,7 @@ public class CUDLTransfer {
         res.put("devanāgarī","SaDeva");
         res.put("rañjanā","SaRanj");
         res.put("bengali","SaBeng");
-        res.put("naipālanāgarī","SaDeva"); // TODO: check
+        res.put("naipālanāgarī","SaDeva");
         return res;
     }
 
