@@ -48,7 +48,7 @@ public class GitHelpers {
             if (!repository.getObjectDatabase().exists()) {
                 System.out.println("create git repository in "+dirpath);
                 repository.create();
-                PrintWriter out = new PrintWriter(dirpath+".gitignore");
+                PrintWriter out = new PrintWriter(dirpath+"/.gitignore");
                 out.println(gitignore);
                 out.close();
             }
