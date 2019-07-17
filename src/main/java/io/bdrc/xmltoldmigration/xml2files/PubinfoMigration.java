@@ -152,7 +152,7 @@ public class PubinfoMigration {
                 m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
                 break;
             case "blockprint":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeBlockprint"));
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeBlockPrint"));
                 break;
             case "computerInput":
                 m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
