@@ -289,6 +289,8 @@ public class PersonMigration {
 		}
 		if (typeValue.equals("assumeOffice")) // an interesting typo
 		    typeValue = "assumesOffice";
+		if (typeValue.equals("residence")) // to clarify a bit
+            typeValue = "inResidence";
 		if (typeValue.equals("foundsMonastery")) {
 		    // for foundsMonastery, if the event has an office, we transform it into
 		    // assumesOffice, otherwise we just record it into placeEvents

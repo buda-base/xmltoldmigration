@@ -27,6 +27,7 @@
     </p:event>
     <p:event circa="1364" pid="E1989"/>
     <p:event circa="1734/1735" type="foundsMonastery"><p:office pid="R10MS14280">zhe chen rab 'byams pa </p:office><p:place pid="G20">zhe chen bstan gnyis dar rgyas gling </p:place></p:event>
+    <p:event circa="1734/1735" type="residence"><p:office pid="R10MS14280">zhe chen rab 'byams pa </p:office><p:place pid="G20">zhe chen bstan gnyis dar rgyas gling </p:place></p:event>
     <p:seat>
         <p:place pid="G521">shug gseb dgon (chu shur rdzong)</p:place>
     </p:seat>
