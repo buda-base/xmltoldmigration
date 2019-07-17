@@ -45,6 +45,11 @@ public class TaxonomyMigration {
     }
 
     public static void addNames(Model m, Element e, Resource r) {
+        if (r.getLocalName().startsWith("T")) {
+            // we don't want topic labels in the taxonomy graph, these should
+            // already be in the topics graph
+            return;
+        }
         List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "name");
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
