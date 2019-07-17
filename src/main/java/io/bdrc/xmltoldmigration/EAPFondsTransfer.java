@@ -203,8 +203,10 @@ public class EAPFondsTransfer {
         // Item adm:AdminData
         itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
         itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
-        itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), ldEAPc); // ?
-        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
+        itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), ldEAPc);
+        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm);
+        itemModel.addLiteral(admItem, itemModel.getProperty(ADM+"restrictedInChina"), false);
+        itemModel.add(admItem, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
         
         itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
         
@@ -260,6 +262,8 @@ public class EAPFondsTransfer {
             itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+ref));
             itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
             itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
+            itemModel.addLiteral(itemAdm, itemModel.getProperty(ADM+"restrictedInChina"), false);
+            itemModel.add(itemAdm, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), ldEAPc);
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm);
             Resource volume = itemModel.createResource(BDR+"V"+ref);
