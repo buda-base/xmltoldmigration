@@ -14,6 +14,8 @@ import static io.bdrc.libraries.Models.setPrefixes;
 import static io.bdrc.libraries.Models.FacetType.EVENT;
 import static io.bdrc.libraries.Models.FacetType.VCARD_ADDR;
 
+import java.util.HashMap;
+
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -49,6 +51,7 @@ public class PlaceMigration {
     }
     
     private static Resource placeTypeNotSpec = getNotSpecifiedPlaceType();
+    private static HashMap<String, Resource> val2type = new HashMap<>();
     
     private static Resource getNotSpecifiedPlaceType() {
         OntModel ontModel = MigrationHelpers.getOntologyModel();
@@ -61,6 +64,25 @@ public class PlaceMigration {
             System.exit(1);
             return null;
         }
+    }
+    
+    private static Resource lookupTypeValue(String typeValue, Resource main) {
+        Resource placeType = val2type.get(typeValue);
+        if (placeType != null) {
+            return placeType;
+        }
+
+        OntModel ontModel = MigrationHelpers.getOntologyModel();
+        ResIterator iter = ontModel.listSubjectsWithProperty(SKOS.notation, typeValue);
+        if (iter.hasNext()) {
+            placeType = iter.next();
+        } else {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "unknown original type: "+typeValue);
+            placeType = placeTypeNotSpec;
+        }
+        
+        val2type.put(typeValue, placeType);
+        return placeType;
     }
 
     private static String normalizePlaceType(String val) {
@@ -89,108 +111,99 @@ public class PlaceMigration {
     }
     
     private static Resource getPlaceType(Element root, Model model, Resource main) {
-        OntModel ontModel = MigrationHelpers.getOntologyModel();
         NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
-        String valStr = "";
-        Resource placeType = placeTypeNotSpec;
+        String typeValue = "";
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            valStr = current.getAttribute("type").trim();
-            if (valStr.isEmpty()) {
+            typeValue = current.getAttribute("type").trim();
+            if (typeValue.isEmpty()) {
                 continue;
             } else {
                 break;
             }
         }
         
-        if (valStr.isEmpty()) {
+        if (typeValue.isEmpty()) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "missing place type");
-            valStr = "notSpecified";
-        } else if (valStr.equals("notSpecified")) {
+            typeValue = "notSpecified";
+        } else if (typeValue.equals("notSpecified")) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "original type: notSpecified");
         }
         
-        valStr = normalizePlaceType(valStr);
+        typeValue = normalizePlaceType(typeValue);
         
-        ResIterator iter = ontModel.listSubjectsWithProperty(SKOS.notation, valStr);
-        if (iter.hasNext()) {
-            placeType = iter.next();
-        } else {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "unknown original type: "+valStr);
-        }
-       
-        return placeType;
+        return lookupTypeValue(typeValue, main);
     }
 	
 	public static Model MigratePlace(Document xmlDocument) {
-		Model m = ModelFactory.createDefaultModel();
-		setPrefixes(m, "place");
+		Model model = ModelFactory.createDefaultModel();
+		setPrefixes(model, "place");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-        Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Place");
+        Resource main = createRoot(model, BDR+root.getAttribute("RID"), BDO+"Place");
         Resource admMain = createAdminRoot(main);
-		Resource placeType = getPlaceType(root, m, main);
-		m.add(main, m.getProperty(BDO, "placeType"), placeType);
+		Resource placeType = getPlaceType(root, model, main);
+		model.add(main, model.getProperty(BDO, "placeType"), placeType);
 		
-		addStatus(m, admMain, root.getAttribute("status"));
-		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
+		addStatus(model, admMain, root.getAttribute("status"));
+		admMain.addProperty(model.getProperty(ADM, "metadataLegal"), model.createResource(BDA+"LD_BDRC_CC0"));
 
-		CommonMigration.addNames(m, root, main, PLXSDNS);
+		CommonMigration.addNames(model, root, main, PLXSDNS);
 		
-		CommonMigration.addNotes(m, root, main, PLXSDNS);
+		CommonMigration.addNotes(model, root, main, PLXSDNS);
 		
-		CommonMigration.addExternals(m, root, main, PLXSDNS);
+		CommonMigration.addExternals(model, root, main, PLXSDNS);
         
-        CommonMigration.addDescriptions(m, root, main, PLXSDNS);
+        CommonMigration.addDescriptions(model, root, main, PLXSDNS);
         
-        addEvents(m, root, main);
+        addEvents(model, root, main);
 		
-		CommonMigration.addLog(m, root, admMain, PLXSDNS);
+		CommonMigration.addLog(model, root, admMain, PLXSDNS);
 		
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "gis");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			addGis(m, current, main);
+			addGis(model, current, main);
 		}
 		
-		addSimpleObjectProp("isLocatedIn", "placeLocatedIn", m, main, root);
-		addSimpleObjectProp("near", "placeIsNear", m, main, root);
-		addSimpleObjectProp("contains", "placeContains", m, main, root);
+		addSimpleObjectProp("isLocatedIn", "placeLocatedIn", model, main, root);
+		addSimpleObjectProp("near", "placeIsNear", model, main, root);
+		addSimpleObjectProp("contains", "placeContains", model, main, root);
 		
 		// address
 		nodeList = root.getElementsByTagNameNS(PLXSDNS, "address");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			Resource address = getFacetNode(VCARD_ADDR, VCARD, main, VCARD_ADDR.getNodeType());
-			m.add(main, m.getProperty(BDO+"placeAddress"), address);
-			addSimpleAttr(current.getAttribute("city"), "city", VCARD+"locality", m, address);
-			addSimpleAttr(current.getAttribute("country"), "country", VCARD+"country-name", m, address);
-			addSimpleAttr(current.getAttribute("postal"), "postal", VCARD+"postal-code", m, address);
-			addSimpleAttr(current.getAttribute("state"), "state", VCARD+"region", m, address);
+			model.add(main, model.getProperty(BDO+"placeAddress"), address);
+			addSimpleAttr(current.getAttribute("city"), "city", VCARD+"locality", model, address);
+			addSimpleAttr(current.getAttribute("country"), "country", VCARD+"country-name", model, address);
+			addSimpleAttr(current.getAttribute("postal"), "postal", VCARD+"postal-code", model, address);
+			addSimpleAttr(current.getAttribute("state"), "state", VCARD+"region", model, address);
 			String streetAddress = current.getAttribute("number").trim()+" "+current.getAttribute("street").trim();
-			address.addProperty(m.getProperty(VCARD, "street-address"), m.createLiteral(streetAddress));
+			address.addProperty(model.getProperty(VCARD, "street-address"), model.createLiteral(streetAddress));
 		}
 		
 		// tlm
 		nodeList = root.getElementsByTagNameNS(PLXSDNS, "tlm");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
-			addTlm(m, admMain, current);
+			addTlm(model, admMain, current);
 		}
 		
 		// adding monastery foundation events from persons (should be merged with the current founding event if present)
 		PersonMigration.FoundingEvent fe = PersonMigration.placeEvents.get(main.getLocalName());
 		if (fe != null) {
-		    Resource event = getFacetNode(EVENT, main,  m.getResource(BDO+"PlaceFounded"));
+		    Resource event = getFacetNode(EVENT, main,  model.getResource(BDO+"PlaceFounded"));
 	        CommonMigration.addDates(fe.circa, event, main);
-	        m.add(event, m.createProperty(BDO, "eventWho"), m.createResource(BDR+fe.person));
-	        Property prop = m.getProperty(BDO+"placeEvent");
-	        m.add(main, prop, event);		    
+	        model.add(event, model.createProperty(BDO, "eventWho"), model.createResource(BDR+fe.person));
+	        Property prop = model.getProperty(BDO+"placeEvent");
+	        model.add(main, prop, event);		    
 		}
 				
-		SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
+		SymetricNormalization.insertMissingTriplesInModel(model, root.getAttribute("RID"));
 		
-		return m;
+		return model;
 	}
 
 	public static void addTlm(Model m, Resource main, Element tlmEl) {
