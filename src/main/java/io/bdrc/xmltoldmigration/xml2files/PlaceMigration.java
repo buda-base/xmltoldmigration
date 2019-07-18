@@ -322,7 +322,7 @@ public class PlaceMigration {
 	            value = value.substring(16);
 	            value = getUriFromTypeSubtype("eventType", value);
 	        }
-			Resource event = getFacetNode(EVENT, main);
+			Resource event = getFacetNode(EVENT, BDR, main, m.createResource(value));
 			CommonMigration.addDates(current.getAttribute("circa"), event, main);
 			value = current.getAttribute("circa").trim();
 			Property prop = m.getProperty(BDO+"placeEvent");

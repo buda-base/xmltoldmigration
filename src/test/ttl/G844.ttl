@@ -26,7 +26,7 @@ bda:LG6B068E49DCE4  a   adm:LogEntry ;
         adm:logMessage  "added place contained"@en ;
         adm:logWho      bdr:U00020 .
 
-bdr:EV213E4B9AED5E  a           :Event ;
+bdr:EV213E4B9AED5E  a           :PlaceFounded ;
         :note                   bdr:NT4F3D8005EA7F ;
         :onYear                 1187 ;
         :placeEventAffiliation  bdr:TraditionTest , bdr:TraditionKagyu .
@@ -60,7 +60,7 @@ bda:LG32AA3FB263A1  a   adm:LogEntry ;
         adm:logMessage  "added location"@en ;
         adm:logWho      bdr:U00007 .
 
-bdr:EV7E9BCA78C720  a  :Event ;
+bdr:EV7E9BCA78C720  a  :PlaceFounded ;
         :notAfter   1799 ;
         :notBefore  1300 .
 
