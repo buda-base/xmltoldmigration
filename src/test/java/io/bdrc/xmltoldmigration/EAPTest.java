@@ -49,7 +49,7 @@ public class EAPTest {
 //        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/EAPTest-correctModel.ttl"), "TTL");
 //        
         assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.ontologymodel) );
+        assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.getOntologyModel()) );
         //
         Model itemModel = resources.get(1).getModel();
         //MigrationHelpers.modelToOutputStream(itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, null);
@@ -60,7 +60,7 @@ public class EAPTest {
 //        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/EAPTest-item-correctModel.ttl"), "TTL");
 //        
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(itemModel, MigrationHelpers.ontologymodel) );
+        assertTrue( CommonMigration.rdfOkInOntology(itemModel, MigrationHelpers.getOntologyModel()) );
     }
 
 }

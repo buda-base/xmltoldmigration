@@ -62,7 +62,7 @@ public class MigrationTest
 	
 	@BeforeClass
 	public static void init() throws NoSuchAlgorithmException {
-		ontology = MigrationHelpers.ontologymodel;
+		ontology = MigrationHelpers.getOntologyModel();
 		SymetricNormalization.normalizeOneDirection(true, false);
 		WorkMigration.splitItems = false;
 		EtextMigration.testMode = true;
@@ -225,7 +225,7 @@ public class MigrationTest
 //        
 //    	// ==== TEMP DEBUG ====
 //    	fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-G844-fromXml.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-G844-correctModel.ttl"), "TTL");
+//    	correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/MIGRATION_TEST-G844-correctModel.ttl"), "TTL");
 //
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );

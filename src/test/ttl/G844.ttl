@@ -50,7 +50,7 @@ bdr:G844  a                   :Place ;
         :placeLocatedIn       bdr:G843 ;
         :placeLong            "91.22002" ;
         :placeRegionPoly      "Some polygon coordinates" ;
-        :placeType            bdr:PlaceTypeGzimsKhang ;
+        :placeType            bdr:PT0024 ;
         :placeWBArea          "test" ;
         skos:altLabel         "bya pa khri dpon gyi mnga' khongs/"@bo-x-ewts , "guán zǐ feng2"@zh-latn-pinyin , "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"@bo ;
         skos:prefLabel        "sman ri'i gling /"@bo-x-ewts , "guan zi feng"@zh-latn-pinyin-x-ndia .

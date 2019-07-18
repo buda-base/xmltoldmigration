@@ -82,14 +82,14 @@ public class MigrationApp
 
     private static Map<String,Boolean> workCreatedByOutline = new HashMap<>();
 
-    public static OntModel ontology = null;
+//    public static OntModel ontology = null;
     static {
         init();
     }
 
 
     public static void init() {
-        ontology = MigrationHelpers.getOntologyModel();
+//        ontology = MigrationHelpers.getOntologyModel();
     }
 
     public static void createDirIfNotExists(String dir) {

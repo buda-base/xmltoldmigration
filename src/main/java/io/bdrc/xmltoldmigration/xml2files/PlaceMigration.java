@@ -14,11 +14,14 @@ import static io.bdrc.libraries.Models.setPrefixes;
 import static io.bdrc.libraries.Models.FacetType.EVENT;
 import static io.bdrc.libraries.Models.FacetType.VCARD_ADDR;
 
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -44,6 +47,80 @@ public class PlaceMigration {
                return "";
         }
     }
+    
+    private static Resource placeTypeNotSpec = getNotSpecifiedPlaceType();
+    
+    private static Resource getNotSpecifiedPlaceType() {
+        OntModel ontModel = MigrationHelpers.getOntologyModel();
+        
+        ResIterator iter = ontModel.listSubjectsWithProperty(SKOS.notation, "notSpecified");
+        if (iter.hasNext()) {
+            return iter.next();
+        } else {
+            System.err.println("PlaceMigration could not find ontology resource for PlaceType notSpecified");
+            System.exit(1);
+            return null;
+        }
+    }
+
+    private static String normalizePlaceType(String val) {
+        switch(val) {
+        case "khul":
+            return "khul";
+        case "placeTypes:townshipSeats":
+            return "shang";
+        case "placeTypes:srolRgyunSaMing":
+            return "srolRgyunGyiSaMing";
+        case "placeTypes:tshoPa":
+            return "tshoBa";
+        case "placeTypes:rgyalKhams":
+            return "rgyalKhab";
+        case "placeTypes:traditionalPlaceName":
+            return "srolRgyunGyiSaMing";
+        case "placeTypes:residentialHouse":
+            return "gzimsKhang";
+        case "placeTypes:notSpecified":
+            return "notSpecified";
+        }
+        // starts with "placeTypes:"
+        val = val.substring(11);
+        val = CommonMigration.normalizePropName(val, "Class");
+        return val;
+    }
+    
+    private static Resource getPlaceType(Element root, Model model, Resource main) {
+        OntModel ontModel = MigrationHelpers.getOntologyModel();
+        NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
+        String valStr = "";
+        Resource placeType = placeTypeNotSpec;
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            valStr = current.getAttribute("type").trim();
+            if (valStr.isEmpty()) {
+                continue;
+            } else {
+                break;
+            }
+        }
+        
+        if (valStr.isEmpty()) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "missing place type");
+            valStr = "notSpecified";
+        } else if (valStr.equals("notSpecified")) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "original type: notSpecified");
+        }
+        
+        valStr = normalizePlaceType(valStr);
+        
+        ResIterator iter = ontModel.listSubjectsWithProperty(SKOS.notation, valStr);
+        if (iter.hasNext()) {
+            placeType = iter.next();
+        } else {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "unknown original type: "+valStr);
+        }
+       
+        return placeType;
+    }
 	
 	public static Model MigratePlace(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
@@ -52,8 +129,8 @@ public class PlaceMigration {
 		Element current;
         Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Place");
         Resource admMain = createAdminRoot(main);
-		String value = getTypeStr(root, m, main);
-		m.add(main, m.getProperty(BDO, "placeType"), m.createResource(BDR + "PlaceType"+value));
+		Resource placeType = getPlaceType(root, m, main);
+		m.add(main, m.getProperty(BDO, "placeType"), placeType);
 		
 		addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
@@ -216,49 +293,6 @@ public class PlaceMigration {
 	        }
 	    }
 
-	}
-
-	public static String normalizePlaceType(String val) {
-	    switch(val) {
-	    case "khul":
-	        return "Khul";
-	    case "placeTypes:townshipSeats":
-	        return "Shang";
-//	    case "placeTypes:srolRgyunGyiSaMing":
-//            return "SrolRgyunGyiSaMing";
-	    case "placeTypes:srolRgyunSaMing":
-            return "SrolRgyunGyiSaMing";
-	    case "placeTypes:tshoPa":
-            return "TshoBa";
-        case "placeTypes:rgyalKhams":
-            return "RgyalKhab";
-        case "placeTypes:traditionalPlaceName":
-            return "SrolRgyunGyiSaMing";
-        case "placeTypes:residentialHouse":
-            return "GzimsKhang";
-        case "placeTypes:notSpecified":
-            return "NotSpecified";
-	    }
-	    // starts with "placeTypes:"
-	    val = val.substring(11);
-	    val = CommonMigration.normalizePropName(val, "Class");
-	    return val;
-	}
-	
-	public static String getTypeStr(Element root, Model m, Resource main) {
-		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
-		String value = "NotSpecified";
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element current = (Element) nodeList.item(i);
-			value = current.getAttribute("type").trim();
-			String normalizedValue = normalizePlaceType(value);
-			if (normalizedValue.equals("NotSpecified")) {
-			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "unable to deterine place type, original type: `"+value+"`");
-			}
-			return normalizedValue;
-		}
-	    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "missing place type");
-		return value;
 	}
 	
 	public static void addEvents(Model m, Element root, Resource main) {

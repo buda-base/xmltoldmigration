@@ -114,10 +114,11 @@ public class MigrationHelpers {
 	public static boolean checkagainstXsd = false;
 	public static boolean deleteDbBeforeInsert = true;
 	
-	public static OntModel ontologymodel = MigrationHelpers.getOntologyModel();
+	private static OntModel ontologyModel = null;
+	
 	public static PrefixMap prefixMap = getPrefixMap();
 	// not used here but let's remember for updating the owl-schema/context.jsonld
-	public static final Map<String,Object> jsonldcontext = ContextGenerator.generateContextObject(ontologymodel, prefixMap, "bdo");
+	public static final Map<String,Object> jsonldcontext = ContextGenerator.generateContextObject(getOntologyModel(), prefixMap, "bdo");
 	
 	public static final String DB_PREFIX = "bdrc_";
 	// types in target DB
@@ -160,6 +161,8 @@ public class MigrationHelpers {
             // Well, that's a stupid try/catch...
             e.printStackTrace();
         }
+        
+        
         disconnectedRIds = setupDisconnectedRIDs();
         ridReplacements = setupRIDReplacements();
         setupSTTL();
@@ -554,7 +557,7 @@ public class MigrationHelpers {
             writeLog("error in "+fileName+" "+e.getMessage());
         }
         if (checkagainstOwl) {
-            CommonMigration.rdfOkInOntology(m, ontologymodel);
+            CommonMigration.rdfOkInOntology(m, getOntologyModel());
         }
         return m;
 	}
@@ -644,7 +647,15 @@ public class MigrationHelpers {
 	    }
 	}
 	
-	public static OntModel getOntologyModel()
+	public static OntModel getOntologyModel() {
+	    if (ontologyModel == null) {
+	        initOntologyModel();
+	    }
+	    
+	    return ontologyModel;
+	}
+	
+	private static void initOntologyModel()
 	{   
 		// the initial model from Protege is not considered valid by Openllet because
 		// it's RDF1.0, so we first open it with no reasoner:
@@ -663,10 +674,11 @@ public class MigrationHelpers {
 	    }
 	    // then we fix it by converting RDF-1.0 to RDF-1.1
 	    rdf10tordf11(ontoModel);
-	    return ontoModel;
+	    ontologyModel = ontoModel;
 	}
 	
-	public static OntModel getInferredModel(OntModel m) {
+	@SuppressWarnings("unused")
+    private static OntModel getInferredModel(OntModel m) {
 	    OntModel ontoModelInferred = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, m);
 	    ontoModelInferred.setStrictMode(false);
 	    return ontoModelInferred;
