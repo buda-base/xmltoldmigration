@@ -201,16 +201,31 @@ public class MigrationTest
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
-	
-	@Test
+    
+    @Test
+    public void testG488() throws JsonGenerationException, JsonLdError, IOException
+    {
+        System.out.println("testing G488");
+        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G488.xml");
+        Validator validator = MigrationHelpers.getValidatorFor("place");
+        assertFalse(CommonMigration.documentValidates(d, validator));
+        Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G488.ttl");
+        //MigrationHelpers.modelToOutputStream(fromXml, System.out, "place", MigrationHelpers.OUTPUT_STTL, "");
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
+    }
+    
+    @Test
     public void testG844() throws JsonGenerationException, JsonLdError, IOException
     {
-	    System.out.println("testing G844");
-    	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
-    	Validator validator = MigrationHelpers.getValidatorFor("place");
+        System.out.println("testing G844");
+        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/G844.xml");
+        Validator validator = MigrationHelpers.getValidatorFor("place");
         assertFalse(CommonMigration.documentValidates(d, validator));
-    	Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
-    	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G844.ttl");
+        Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G844.ttl");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

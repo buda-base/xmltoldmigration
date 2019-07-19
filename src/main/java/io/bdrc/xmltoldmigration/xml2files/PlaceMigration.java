@@ -116,7 +116,6 @@ public class PlaceMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             typeValue = current.getAttribute("type").trim();
-            System.err.println("===> getPlaceType ONE FOUND " + typeValue + " FOR " + main.getLocalName());
             if (typeValue.isEmpty()) {
                 continue;
             } else {
@@ -124,16 +123,14 @@ public class PlaceMigration {
             }
         }
         
-        System.err.println("===> getPlaceType TWO FOUND " + typeValue + " FOR " + main.getLocalName());
         if (typeValue.isEmpty()) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "missing place type");
             typeValue = "notSpecified";
         } else if (typeValue.equals("notSpecified")) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "original type: notSpecified");
         }
-        System.err.println("===> getPlaceType THREE FOUND " + typeValue + " FOR " + main.getLocalName());
+        
         typeValue = normalizePlaceType(typeValue);
-        System.err.println("===> getPlaceType FOUR FOUND " + typeValue + " FOR " + main.getLocalName());
         return lookupTypeValue(typeValue, main);
     }
 	
@@ -145,7 +142,6 @@ public class PlaceMigration {
         Resource main = createRoot(model, BDR+root.getAttribute("RID"), BDO+"Place");
         Resource admMain = createAdminRoot(main);
 		Resource placeType = getPlaceType(root, model, main);
-		System.err.println("===> MigratePlace called getPlaceType ONE and FOUND " + placeType + " FOR " + main.getLocalName());
 		model.add(main, model.getProperty(BDO, "placeType"), placeType);
 		
 		addStatus(model, admMain, root.getAttribute("status"));
