@@ -106,7 +106,7 @@ public class PlaceMigration {
         }
         // starts with "placeTypes:"
         val = val.substring(11);
-        val = CommonMigration.normalizePropName(val, "Class");
+        // val = CommonMigration.normalizePropName(val, "Class");
         return val;
     }
     
