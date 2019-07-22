@@ -1,6 +1,7 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
 import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
@@ -59,6 +60,13 @@ public class ProductMigration {
 			}
 			addAllows(m, admMain, current);
 			addOrgs(m, admMain, current);
+		}
+
+		List<String> workRIDs = WorkMigration.productWorks.get(main.getLocalName());
+		if (workRIDs != null) {
+		    for (final String workRID : workRIDs) {
+		        m.add(main, m.createProperty(ADM, "productHasWork"), m.createProperty(BDR+workRID));
+		    }
 		}
 
 		return m;
