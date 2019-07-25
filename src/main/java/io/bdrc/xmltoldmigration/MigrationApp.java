@@ -9,6 +9,7 @@ import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getMd5;
 import static io.bdrc.libraries.Models.setPrefixes;
+import static io.bdrc.libraries.GitHelpers.commitChanges;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -394,7 +395,7 @@ public class MigrationApp
         if (modifiedFiles == null)
             return;
         System.out.println(modifiedFiles.size()+" "+type+"s changed");
-        GitHelpers.commitChanges(type, commitMessage);
+        commitChanges(type, commitMessage);
     }
 
     public static void finishTypes() {
