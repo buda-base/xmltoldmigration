@@ -1,5 +1,8 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.libraries.GitHelpers.commitChanges;
+import static io.bdrc.libraries.GitHelpers.ensureGitRepo;
+import static io.bdrc.libraries.GitHelpers.getChanges;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
@@ -9,7 +12,6 @@ import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getMd5;
 import static io.bdrc.libraries.Models.setPrefixes;
-import static io.bdrc.libraries.GitHelpers.commitChanges;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +28,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -35,7 +36,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
-import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextMigration;
@@ -347,14 +347,14 @@ public class MigrationApp
         switch (type) {
         case "outline":
         case "scanrequest":
-            GitHelpers.ensureGitRepo("work");
+            ensureGitRepo("work", OUTPUT_DIR);
             break;
         case "work":
-            GitHelpers.ensureGitRepo("work");
-            GitHelpers.ensureGitRepo("item");
+            ensureGitRepo("work", OUTPUT_DIR);
+            ensureGitRepo("item", OUTPUT_DIR);
             break;
         default:
-            GitHelpers.ensureGitRepo(type);
+            ensureGitRepo(type, OUTPUT_DIR);
             break;
         }
         SymetricNormalization.reinit();
@@ -391,7 +391,7 @@ public class MigrationApp
     }
 
     public static void finishType(String type) {
-        Set<String> modifiedFiles = GitHelpers.getChanges(type);
+        Set<String> modifiedFiles = getChanges(type);
         if (modifiedFiles == null)
             return;
         System.out.println(modifiedFiles.size()+" "+type+"s changed");

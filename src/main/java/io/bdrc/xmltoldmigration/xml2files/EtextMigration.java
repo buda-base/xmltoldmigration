@@ -10,6 +10,7 @@ import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getAdminRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
+import static io.bdrc.libraries.GitHelpers.ensureGitRepo;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,7 +48,6 @@ import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
-import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 
 public class EtextMigration {
@@ -139,8 +139,8 @@ public class EtextMigration {
     public static void migrateEtexts() {
         System.out.println("migrate etexts");
         MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts");
-        GitHelpers.ensureGitRepo("etext");
-        GitHelpers.ensureGitRepo("etextcontent");
+        ensureGitRepo("etext", MigrationApp.OUTPUT_DIR);
+        ensureGitRepo("etextcontent", MigrationApp.OUTPUT_DIR);
         String dirName = MigrationApp.ETEXT_DIR;
         File[] filesL1 = new File(dirName).listFiles();
         for (File fl1 : filesL1) {

@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.libraries.GitHelpers.ensureGitRepo;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDR;
@@ -7,7 +8,6 @@ import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.vocabulary.RDF;
 
-import io.bdrc.xmltoldmigration.helpers.GitHelpers;
+//import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 
 /* This class does not do any actual migration of the rKTs data,
  * which is handled by https://github.com/BuddhistDigitalResourceCenter/rKTs-migration
@@ -72,7 +72,7 @@ public class rKTsTransfer {
     }
 
     public static void doTransfer() {
-        GitHelpers.ensureGitRepo("work");
+        ensureGitRepo("work", MigrationApp.OUTPUT_DIR);
         initLists();
         final File dir = new File(MigrationApp.RKTS_DIR);
         final File[] directoryListing = dir.listFiles();
