@@ -314,7 +314,7 @@ public class PlaceMigration {
 			Element current = (Element) nodeList.item(i);
 			value = current.getAttribute("type");
 			if (value.isEmpty()) {
-			    value = BDO+"PlaceEventTypeNotSpecified";
+			    value = BDO+"PlaceEventNotSpecified";
 			    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "event", "missing type for an event");
 	        } else {
 	            // should start with "placeEventTypes:"
