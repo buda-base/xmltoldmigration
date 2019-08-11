@@ -22,6 +22,7 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -174,6 +175,17 @@ public class PubinfoMigration {
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "encoding");
         if (!langTibetanDone && nodeList.getLength() == 0 && main.getLocalName().startsWith("W1FPL")) {
             m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiMymr"));
+        }
+        if (!langTibetanDone && nodeList.getLength() == 1 && main.getLocalName().startsWith("W1FEMC")) {
+            Node nd = nodeList.item(0); 
+            String str = nd.getTextContent();
+            if (str.contains("Pāli")) {
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiKhmr"));
+            } else if (str.contains("Khmer")) {
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"KmKhmr"));
+            } else { // for now default to Khmer
+                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"KmKhmr"));
+            }
         }
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
