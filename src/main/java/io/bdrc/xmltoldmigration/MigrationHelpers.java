@@ -385,7 +385,6 @@ public class MigrationHelpers {
                 }
             }
             modelToOutputStream(m, out, type, outputType, fname);
-            return;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return;
@@ -432,7 +431,7 @@ public class MigrationHelpers {
 		Document document = null;
 		// create a new builder at each document to parse in parallel
 		try {
-		    final DocumentBuilder builder = documentFactory.newDocumentBuilder();       
+		    final DocumentBuilder builder = documentFactory.newDocumentBuilder();   
 		    document = builder.parse(new File(fname));
 		}
 		catch (final ParserConfigurationException | SAXException | IOException e) {
