@@ -1126,13 +1126,13 @@ public class CommonMigration  {
 	    return getLiteral(e, dflt, m, propertyHint, RID, subRID, true);
 	}
 	
-	public static Literal getLiteral(Element e, String dflt, Model m, String propertyHint, String RID, String subRID, boolean normalize) {
-	        String value = e.getTextContent();
+	public static Literal getLiteral(Element elem, String dflt, Model m, String propertyHint, String RID, String subRID, boolean normalize) {
+	        String value = elem.getTextContent();
 	        value = normalize ? normalizeString(value) : value.trim();
 	        if (value.isEmpty()) return null;
 	        if (value.indexOf('\ufffd') != -1)
 	            ExceptionHelper.logException(ET_LANG, RID, subRID, propertyHint, "string contains invalid replacement character: `"+value+"`");
-	        String tag = getBCP47(e, dflt, propertyHint, RID, subRID);
+	        String tag = getBCP47(elem, dflt);
 	        if (tag.equals("bo")) {
 	            value = normalizeTibetan(value);
 	            if (EwtsConverter.isCombining(value.charAt(0))) {

@@ -1,0 +1,27 @@
+<w:work xmlns:w="http://www.tbrc.org/models/work#" RID="W1FEMC010006" status="released">
+    <w:title lang="pāli" encoding="km" type="khmerCorrectedOriginal">មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ</w:title>
+    <w:title lang="pāli" encoding="kmfemc" type="romanCorrectedOriginal">maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra</w:title>
+    <w:title lang="pāli" encoding="km" type="khmerOriginal">មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ</w:title>
+    <w:title lang="pāli" encoding="kmfemc" type="romanOriginal">maṅgaladīpanī aṭṭhakathāmaṅgalasūtra</w:title>
+    <w:hasPubInfo info="MW1FEMC010006"/>
+    <w:archiveInfo access="openAccess" license="ccby" vols="1"/>
+    <w:info nodeType="publishedWork"/>
+    <w:inProduct pid="PR1KDPP00">Khmer Digital Preservation Project</w:inProduct>
+    <w:inProduct pid="PR1FEMC01">Catalog: FEMC Volume I</w:inProduct>
+    <w:description type="runningNum">6</w:description>
+    <w:description type="catalogPage">54</w:description>
+    <w:description type="femcManuscriptCode">001-PP.00.02.07.VII</w:description>
+    <w:description type="filmCanister">IV</w:description>
+    <w:description type="filmStrip">16</w:description>
+    <w:description type="workNum">1</w:description>
+    <w:description type="fascicles">2, 7, 8, 10, 11</w:description>
+    <w:description type="beDate">2442</w:description>
+    <w:description type="complete">false</w:description>
+    <w:volumeMap>
+        <w:volume imagegroup="I1FEMC010006" num="1"/>
+    </w:volumeMap>
+    <w:log>
+        <entry when="20/07/19" who="Thaknita Mao">entered cataloging for W1FEMC010006</entry>
+        <entry when="2019-08-09T17:52:16.424Z" who="works-femc01-import.xql">imported FEMC 01 workW1FEMC010006</entry>
+    </w:log>
+</w:work>

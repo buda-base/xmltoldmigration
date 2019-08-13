@@ -1,0 +1,47 @@
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+bda:LG212C01852123  a   adm:LogEntry ;
+    adm:logMessage      "entered cataloging for W1FEMC010006"@en .
+
+bda:LG960F1961158F  a   adm:LogEntry ;
+    adm:logDate         "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
+    adm:logMessage      "imported FEMC 01 workW1FEMC010006"@en .
+
+bda:W1FEMC010006  a     adm:AdminData ;
+    :isRoot             true ;
+    adm:adminAbout      bdr:W1FEMC010006 ;
+    adm:facetIndex      7 ;
+    adm:gitPath         "0b/W1FEMC010006.trig" ;
+    adm:gitRepo         bda:GR0008 ;
+    adm:graphId         bdg:W1FEMC010006 ;
+    adm:logEntry        bda:LG212C01852123 , bda:LG960F1961158F ;
+    adm:metadataLegal   bda:LD_BDRC_CC0 ;
+    adm:status          bda:StatusReleased .
+
+bdr:TT001D753B6662  a   :WorkBibliographicalTitle ;
+    rdfs:label          "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc .
+
+bdr:TT082886A6DBCA  a   :WorkBibliographicalTitle ;
+    rdfs:label          "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr .
+
+bdr:TT1BB6D78B9E46  a   :WorkBibliographicalTitle ;
+    rdfs:label          "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr .
+
+bdr:TTE904A347F23C  a   :WorkBibliographicalTitle ;
+    rdfs:label          "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc .
+
+bdr:W1FEMC010006  a     :PublishedWork , :Work ;
+    skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr ;
+    :isRoot             true ;
+    :workNumberOfVolumes  1 ;
+    :workTitle          bdr:TT001D753B6662 , bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 , bdr:TTE904A347F23C .

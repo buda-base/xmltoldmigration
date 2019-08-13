@@ -1,5 +1,8 @@
 package io.bdrc.xmltoldmigration;
 
+import static io.bdrc.libraries.LangStrings.EWTS_TAG;
+import static io.bdrc.xmltoldmigration.MigrationHelpers.OUTPUT_STTL;
+import static io.bdrc.xmltoldmigration.MigrationHelpers.OUTPUT_TRIG;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.setPrefixes;
 import static org.junit.Assert.assertEquals;
@@ -104,23 +107,34 @@ public class MigrationTest
 	@Test
 	public void testGetLiteral() {
         try {
+            System.out.println("testing getLiteral");
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.newDocument();
-            Element elem = doc.createElement("title");
+            Element elem = doc.createElementNS("http://www.tbrc.org/models/work#", "w:title");
+
             elem.setTextContent("maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra");
             elem.setAttribute("lang", "pāli");
             elem.setAttribute("encoding", "kmfemc");
             Model model = ModelFactory.createDefaultModel();
-            String dflt = "ru";
-            String propHint = "workTitle";
+            String dflt = EWTS_TAG;
+            String propHint = "title";
             String RID = "W1FEMC010006";
-            String subRID = "W1FEMC010006_001";
-            Literal lit = CommonMigration.getLiteral(elem, dflt, model, propHint, RID, subRID);
+            Literal lit = CommonMigration.getLiteral(elem, dflt, model, propHint, RID, RID);
             assertTrue("pi-x-kmfemc".equals(lit.getLanguage()));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+	}
+	
+	@Test
+	public void testW1FEMC010006() {
+        System.out.println("testing W1FEMC010006");
+        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
+        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC010006");
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
 	}
 	
 	@Test
