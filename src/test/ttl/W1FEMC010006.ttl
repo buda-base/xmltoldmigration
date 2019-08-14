@@ -20,13 +20,16 @@ bda:LG960F1961158F  a   adm:LogEntry ;
 bda:W1FEMC010006  a     adm:AdminData ;
     :isRoot             true ;
     adm:adminAbout      bdr:W1FEMC010006 ;
-    adm:facetIndex      5 ;
+    adm:facetIndex      6 ;
     adm:gitPath         "0b/W1FEMC010006.trig" ;
     adm:gitRepo         bda:GR0008 ;
     adm:graphId         bdg:W1FEMC010006 ;
     adm:logEntry        bda:LG212C01852123 , bda:LG960F1961158F ;
     adm:metadataLegal   bda:LD_BDRC_CC0 ;
     adm:status          bda:StatusReleased .
+
+bdr:EV082886A6DBCA  a   :CompletedEvent ;
+    :onYear             "2442"^^:beDate .
 
 bdr:TT001D753B6662  a   :WorkBibliographicalTitle ;
     rdfs:label          "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
@@ -39,5 +42,6 @@ bdr:TT1BB6D78B9E46  a   :WorkBibliographicalTitle ;
 bdr:W1FEMC010006  a     :PublishedWork , :Work ;
     skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr , "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
     :isRoot             true ;
+    :workEvent          bdr:EV082886A6DBCA ;
     :workNumberOfVolumes  1 ;
     :workTitle          bdr:TT001D753B6662 , bdr:TT1BB6D78B9E46 .

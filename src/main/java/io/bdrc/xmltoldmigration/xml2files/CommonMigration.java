@@ -724,6 +724,17 @@ public class CommonMigration  {
             String type = current.getAttribute("type").trim();
             if (type.isEmpty())
                 type = "noType";
+            
+            if (type.equals("beDate") || type.equals("ceDate") || type.equals("csDate")) {
+                // a Khmer wok from FEMC
+                Resource event = getEvent(rez, "CompletedEvent", "workEvent");
+                try {
+                    final int exact = Integer.parseInt(value);
+                    m.add(event, m.getProperty(BDO, "onYear"), m.createTypedLiteral(exact, BDO+type));    
+                } catch (NumberFormatException ex) {}
+                continue;
+            }
+
             Literal lit;
             // we add some spaghettis for the case of R8LS13081 which has no description type
             // but needs to be added as label

@@ -133,7 +133,7 @@ public class MigrationTest
         Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
         Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
-//        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC010006");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC010006");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
     }
     
@@ -143,7 +143,7 @@ public class MigrationTest
         Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC020013.xml");
         Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC020013.ttl");
-//        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC020013");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC020013");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
     }
 	
