@@ -863,9 +863,99 @@ public class CommonMigration  {
             return m.createResource(BDO+"WorkBibliographicalTitle");
         }
     }
+    
+    private static void addFEMCTitle(Model m, Resource main, Element title, String type, Element orig, boolean addPref) {
+        String rid = main.getLocalName();
+        Literal lit = getLiteral(title, "km-x-unspec", m, "title", rid, rid);
+        
+        if (lit == null) return;
+        
+        Resource nodeType = getNodeType(type, false, main);
+        Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
+        titleNode.addProperty(RDFS.label, lit);
+        main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
+        if (addPref) {
+            main.addProperty(SKOS.prefLabel, lit);
+        }
+        if (orig != null) {
+            lit = getLiteral(orig, "km-x-unspec", m, "title", rid, rid);
+            titleNode.addProperty(m.getProperty(BDO, "correctionOf"), lit);
+        }
+    }
+    
+    private static void addFEMCTitles(Model m, Resource main, List<Element> nodeList) {
+        boolean biblioKhmer = false;
+        boolean biblioRoman = false;
+        
+        Element khmerStd = null;
+        Element romanStd = null;
+        Element khmerCor = null;
+        Element romanCor = null;
+        Element khmerOrg = null;
+        Element romanOrg = null;
+        
+        for (int i = 0; i < nodeList.size(); i++) {
+            Element current = (Element) nodeList.get(i);
+            String type = current.getAttribute("type");
+            if (type.isEmpty()) continue;
+            if (type.equals("khmerStandard"))
+                khmerStd = current;
+            if (type.equals("romanStandard"))
+                romanStd = current;
+            if (type.equals("khmerCorrectedOriginal"))
+                khmerCor = current;
+            if (type.equals("romanCorrectedOriginal"))
+                romanCor = current;
+            if (type.equals("khmerOriginal"))
+                khmerOrg = current;
+            if (type.equals("romanOriginal"))
+                romanOrg = current;
+        }
+
+        if (khmerStd != null) {
+            biblioKhmer = true;
+            addFEMCTitle(m, main, khmerStd, "bibliographicalTitle", null, true);
+        }
+        if (romanStd != null) {
+            biblioRoman = true;
+            addFEMCTitle(m, main, romanStd, "bibliographicalTitle", null, true);
+        }
+        
+        if (khmerCor != null) {
+            if (biblioKhmer) {
+                addFEMCTitle(m, main, khmerCor, "otherTitle", khmerOrg, false);
+            } else {
+                addFEMCTitle(m, main, khmerCor, "bibliographicalTitle", khmerOrg, true);
+            }
+        } else if (khmerOrg != null) {
+            if (biblioKhmer) {
+                addFEMCTitle(m, main, khmerOrg, "otherTitle", null, false);
+            } else {
+                addFEMCTitle(m, main, khmerOrg, "bibliographicalTitle", null, true);
+            }
+        }
+        
+        if (romanCor != null) {
+            if (biblioRoman) {
+                addFEMCTitle(m, main, romanCor, "otherTitle", romanOrg, false);
+            } else {
+                addFEMCTitle(m, main, romanCor, "bibliographicalTitle", romanOrg, true);
+            }
+        } else if (romanOrg != null) {
+            if (biblioRoman) {
+                addFEMCTitle(m, main, romanOrg, "otherTitle", null, false);
+            } else {
+                addFEMCTitle(m, main, romanOrg, "bibliographicalTitle", null, true);
+            }
+        }
+    }
 
     public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel, boolean outlineMode) {
         List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
+        if (main.getLocalName().contains("FEMC")) {
+            addFEMCTitles(m, main, nodeList);
+            return;
+        }
         Map<String,Boolean> labelDoneForLang = new HashMap<>();
         Map<String,Boolean> titleSeen = new HashMap<>();
         String typeUsedForLabel = null;

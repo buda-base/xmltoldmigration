@@ -1,0 +1,49 @@
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+bda:LG110B41FF1279  a   adm:LogEntry ;
+    adm:logDate         "2019-08-09T18:33:25.452Z"^^xsd:dateTime ;
+    adm:logMessage      "imported FEMC 01 workW1FEMC020013"@en .
+
+bda:LG5C8BA200C60B  a   adm:LogEntry ;
+    adm:logMessage      "entered cataloging for W1FEMC020013"@en .
+
+bda:W1FEMC020013  a     adm:AdminData ;
+    :isRoot             true ;
+    adm:adminAbout      bdr:W1FEMC020013 ;
+    adm:facetIndex      7 ;
+    adm:gitPath         "d5/W1FEMC020013.trig" ;
+    adm:gitRepo         bda:GR0008 ;
+    adm:graphId         bdg:W1FEMC020013 ;
+    adm:logEntry        bda:LG110B41FF1279 , bda:LG5C8BA200C60B ;
+    adm:metadataLegal   bda:LD_BDRC_CC0 ;
+    adm:status          bda:StatusReleased .
+
+bdr:TT043B7675220B  a   :WorkBibliographicalTitle ;
+    rdfs:label          "ច្បាប់ល្បើកថ្មី"@km .
+
+bdr:TT5BB5FE4E479C  a   :WorkOtherTitle ;
+    rdfs:label          "ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី"@km ;
+    :correctionOf       "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km .
+
+bdr:TT8428F1539EFF  a   :WorkBibliographicalTitle ;
+    rdfs:label          "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
+
+bdr:TTA119335AE164  a   :WorkOtherTitle ;
+    rdfs:label          "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
+    :correctionOf       "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmfemc .
+
+bdr:W1FEMC020013  a     :PublishedWork , :Work ;
+    skos:prefLabel      "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc ;
+    :isRoot             true ;
+    :workNumberOfVolumes  1 ;
+    :workTitle          bdr:TT043B7675220B , bdr:TT5BB5FE4E479C , bdr:TT8428F1539EFF , bdr:TTA119335AE164 .

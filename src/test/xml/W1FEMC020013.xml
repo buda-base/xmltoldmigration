@@ -1,0 +1,33 @@
+<w:work xmlns:w="http://www.tbrc.org/models/work#" RID="W1FEMC020013" status="released">
+    <w:title lang="khmer" encoding="km" type="khmerStandard">ច្បាប់ល្បើកថ្មី</w:title>
+    <w:title lang="khmer" encoding="kmfemc" type="romanStandard">cpāp' lpök​​ ​​thmī</w:title>
+    <w:title lang="khmer" encoding="km" type="khmerCorrectedOriginal">ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី</w:title>
+    <w:title lang="khmer" encoding="kmfemc" type="romanCorrectedOriginal">cpāp' lpök​​ ​​praṭau kūn prus srī</w:title>
+    <w:title lang="khmer" encoding="km" type="khmerOriginal">ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី</w:title>
+    <w:title lang="khmer" encoding="kmfemc" type="romanOriginal">cpāp lpök​​ ​​praṭau kuon pruḥ srī</w:title>
+    <w:hasPubInfo info="MW1FEMC020013"/>
+    <w:archiveInfo access="openAccess" license="ccby" vols="1"/>
+    <w:info nodeType="publishedWork"/>
+    <w:inProduct pid="PR1KDPP00">Khmer Digital Preservation Project</w:inProduct>
+    <w:inProduct pid="PR1FEMC02">Catalog: FEMC Volume II</w:inProduct>
+    <w:inProduct pid="PR1KDPP01">
+        Collection: Bibliothèque EFEO - Preah Vanarât Ken Vong
+    </w:inProduct>
+    <w:description type="runningNum">13</w:description>
+    <w:description type="catalogPage">3</w:description>
+    <w:description type="femcManuscriptCode">a.13.I.1</w:description>
+    <w:description type="filmCanister">18</w:description>
+    <w:description type="filmStrip">4</w:description>
+    <w:description type="workNum">1</w:description>
+    <w:description type="fascicles">1</w:description>
+    <w:description type="oldCodes">1389</w:description>
+    <w:description type="csDate">1123</w:description>
+    <w:description type="complete">true</w:description>
+    <w:volumeMap>
+        <w:volume imagegroup="I1FEMC020013" num="1"/>
+    </w:volumeMap>
+    <w:log>
+        <entry when="" who="">entered cataloging for W1FEMC020013</entry>
+        <entry when="2019-08-09T18:33:25.452Z" who="works-femc01-import.xql">imported FEMC 01 workW1FEMC020013</entry>
+    </w:log>
+</w:work>

@@ -20,7 +20,7 @@ bda:LG960F1961158F  a   adm:LogEntry ;
 bda:W1FEMC010006  a     adm:AdminData ;
     :isRoot             true ;
     adm:adminAbout      bdr:W1FEMC010006 ;
-    adm:facetIndex      7 ;
+    adm:facetIndex      5 ;
     adm:gitPath         "0b/W1FEMC010006.trig" ;
     adm:gitRepo         bda:GR0008 ;
     adm:graphId         bdg:W1FEMC010006 ;
@@ -29,19 +29,15 @@ bda:W1FEMC010006  a     adm:AdminData ;
     adm:status          bda:StatusReleased .
 
 bdr:TT001D753B6662  a   :WorkBibliographicalTitle ;
-    rdfs:label          "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc .
-
-bdr:TT082886A6DBCA  a   :WorkBibliographicalTitle ;
-    rdfs:label          "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr .
+    rdfs:label          "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
+    :correctionOf       "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc .
 
 bdr:TT1BB6D78B9E46  a   :WorkBibliographicalTitle ;
-    rdfs:label          "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr .
-
-bdr:TTE904A347F23C  a   :WorkBibliographicalTitle ;
-    rdfs:label          "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc .
+    rdfs:label          "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr ;
+    :correctionOf       "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr .
 
 bdr:W1FEMC010006  a     :PublishedWork , :Work ;
-    skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr ;
+    skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr , "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
     :isRoot             true ;
     :workNumberOfVolumes  1 ;
-    :workTitle          bdr:TT001D753B6662 , bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 , bdr:TTE904A347F23C .
+    :workTitle          bdr:TT001D753B6662 , bdr:TT1BB6D78B9E46 .
