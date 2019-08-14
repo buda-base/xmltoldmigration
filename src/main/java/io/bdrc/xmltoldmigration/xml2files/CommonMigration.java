@@ -734,6 +734,14 @@ public class CommonMigration  {
                 } catch (NumberFormatException ex) {}
                 continue;
             }
+            if (type.equals("oldCodes")) {
+                rez.addProperty(m.getProperty(BDO, "workKDPPOldId"), value);
+                continue;
+            }
+            if (type.equals("femcManuscriptCode")) {
+                rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
+                continue;
+            }
 
             Literal lit;
             // we add some spaghettis for the case of R8LS13081 which has no description type

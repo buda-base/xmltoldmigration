@@ -43,5 +43,6 @@ bdr:W1FEMC010006  a     :PublishedWork , :Work ;
     skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-Khmr , "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
     :isRoot             true ;
     :workEvent          bdr:EV082886A6DBCA ;
+    :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
     :workNumberOfVolumes  1 ;
     :workTitle          bdr:TT001D753B6662 , bdr:TT1BB6D78B9E46 .

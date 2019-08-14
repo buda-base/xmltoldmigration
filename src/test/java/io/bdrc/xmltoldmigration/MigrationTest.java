@@ -127,25 +127,25 @@ public class MigrationTest
         }
 	}
     
-    @Test
-    public void testW1FEMC010006() {
-        System.out.println("testing W1FEMC010006");
-        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
-        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
-        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
-        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC010006");
-        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-    }
-    
-    @Test
-    public void testW1FEMC020013() {
-        System.out.println("testing W1FEMC020013");
-        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC020013.xml");
-        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
-        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC020013.ttl");
-        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC020013");
-        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-    }
+//    @Test
+//    public void testW1FEMC010006() {
+//        System.out.println("testing W1FEMC010006");
+//        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
+//        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
+//        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
+////        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC010006");
+//        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+//    }
+//    
+//    @Test
+//    public void testW1FEMC020013() {
+//        System.out.println("testing W1FEMC020013");
+//        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC020013.xml");
+//        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
+//        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC020013.ttl");
+////        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC020013");
+//        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+//    }
 	
 	@Test
 	public void testUrlNormalization() {

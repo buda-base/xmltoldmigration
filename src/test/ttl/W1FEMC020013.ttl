@@ -49,5 +49,7 @@ bdr:W1FEMC020013  a     :PublishedWork , :Work ;
     skos:prefLabel      "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc ;
     :isRoot             true ;
     :workEvent          bdr:EV723D2BE55368 ;
+    :workFEMCManuscriptCode  "a.13.I.1" ;
+    :workKDPPOldId      "1389" ;
     :workNumberOfVolumes  1 ;
     :workTitle          bdr:TT043B7675220B , bdr:TT5BB5FE4E479C , bdr:TT8428F1539EFF , bdr:TTA119335AE164 .
