@@ -717,7 +717,7 @@ public class CommonMigration  {
             try {
                 final Integer val = Integer.parseInt(value);
                 event.addLiteral(m.getProperty(BDO, "onYear"), m.createTypedLiteral(val, XSDDatatype.XSDinteger));
-                event.addLiteral(m.getProperty(BDO, "dateType"), type);    
+                event.addProperty(m.getProperty(BDO, "dateType"), m.createResource(BDO+type));    
             } catch (NumberFormatException ex) {}
             return true;
         } else if (type.equals("oldCodes")) {
