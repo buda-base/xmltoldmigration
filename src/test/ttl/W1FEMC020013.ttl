@@ -20,7 +20,7 @@ bda:LG5C8BA200C60B  a   adm:LogEntry ;
 bda:W1FEMC020013  a     adm:AdminData ;
     :isRoot             true ;
     adm:adminAbout      bdr:W1FEMC020013 ;
-    adm:facetIndex      8 ;
+    adm:facetIndex      12 ;
     adm:gitPath         "d5/W1FEMC020013.trig" ;
     adm:gitRepo         bda:GR0008 ;
     adm:graphId         bdg:W1FEMC020013 ;
@@ -28,29 +28,45 @@ bda:W1FEMC020013  a     adm:AdminData ;
     adm:metadataLegal   bda:LD_BDRC_CC0 ;
     adm:status          bda:StatusReleased .
 
-bdr:EV723D2BE55368  a   :CompletedEvent ;
+bdr:EVE38A9ECDAD31  a   :CompletedEvent ;
     :dateType           :csDate ;
     :onYear             1123 .
 
+bdr:NT72F36A4CDF89  a   :Note ;
+    :noteText           "from romanStandard"@en .
+
+bdr:NTC052B984917D  a   :Note ;
+    :noteText           "from khmerStandard"@en .
+
+bdr:NTD4FE8CD21420  a   :Note ;
+    :noteText           "from romanCorrectedOriginal"@en .
+
+bdr:NTECE861E705E3  a   :Note ;
+    :noteText           "from khmerCorrectedOriginal"@en .
+
 bdr:TT043B7675220B  a   :WorkBibliographicalTitle ;
-    rdfs:label          "ច្បាប់ល្បើកថ្មី"@km .
+    rdfs:label          "ច្បាប់ល្បើកថ្មី"@km ;
+    :note               bdr:NTC052B984917D .
 
-bdr:TT5BB5FE4E479C  a   :WorkOtherTitle ;
-    rdfs:label          "ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី"@km ;
-    :correctionOf       "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km .
+bdr:TT5BB5FE4E479C  a   :WorkBibliographicalTitle ;
+    rdfs:label          "cpāp' lpök​​ ​​thmī"@km-x-kmfemc ;
+    :note               bdr:NT72F36A4CDF89 .
 
-bdr:TT8428F1539EFF  a   :WorkBibliographicalTitle ;
-    rdfs:label          "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
-
-bdr:TTA119335AE164  a   :WorkOtherTitle ;
+bdr:TT5FFD1A061FB7  a   :WorkOtherTitle ;
     rdfs:label          "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
-    :correctionOf       "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmfemc .
+    :correctionOf       "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmfemc ;
+    :note               bdr:NTD4FE8CD21420 .
+
+bdr:TT723D2BE55368  a   :WorkOtherTitle ;
+    rdfs:label          "ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី"@km ;
+    :correctionOf       "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km ;
+    :note               bdr:NTECE861E705E3 .
 
 bdr:W1FEMC020013  a     :PublishedWork , :Work ;
     skos:prefLabel      "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc ;
     :isRoot             true ;
-    :workEvent          bdr:EV723D2BE55368 ;
+    :workEvent          bdr:EVE38A9ECDAD31 ;
     :workFEMCManuscriptCode  "a.13.I.1" ;
     :workKDPPOldId      "1389" ;
     :workNumberOfVolumes  1 ;
-    :workTitle          bdr:TT043B7675220B , bdr:TT5BB5FE4E479C , bdr:TT8428F1539EFF , bdr:TTA119335AE164 .
+    :workTitle          bdr:TT043B7675220B , bdr:TT5BB5FE4E479C , bdr:TT5FFD1A061FB7 , bdr:TT723D2BE55368 .

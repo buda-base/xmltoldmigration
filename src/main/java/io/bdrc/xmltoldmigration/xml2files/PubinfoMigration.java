@@ -155,6 +155,15 @@ public class PubinfoMigration {
             case "blockprint":
                 m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeBlockPrint"));
                 break;
+            case "longPalmLeaf":
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeLongPalmLeaf"));
+                break;
+            case "shortPalmLeaf":
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeShortPalmLeaf"));
+                break;
+            case "leporello":
+                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeLeporello"));
+                break;
             case "computerInput":
                 m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
                 break;

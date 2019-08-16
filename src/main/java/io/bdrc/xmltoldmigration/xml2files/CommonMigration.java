@@ -894,11 +894,11 @@ public class CommonMigration  {
         }
     }
     
-    private static void addFEMCTitle(Model m, Resource main, Element title, String type, Element orig, boolean addPref) {
+    private static Resource addFEMCTitle(Model m, Resource main, Element title, String type, Element orig, boolean addPref) {
         String rid = main.getLocalName();
         Literal lit = getLiteral(title, "km-x-unspec", m, "title", rid, rid);
         
-        if (lit == null) return;
+        if (lit == null) return null;
         
         Resource nodeType = getNodeType(type, false, main);
         Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
@@ -911,6 +911,8 @@ public class CommonMigration  {
             lit = getLiteral(orig, "km-x-unspec", m, "title", rid, rid);
             titleNode.addProperty(m.getProperty(BDO, "correctionOf"), lit);
         }
+        
+        return titleNode;
     }
     
     private static void addFEMCTitles(Model m, Resource main, List<Element> nodeList) {
@@ -942,40 +944,51 @@ public class CommonMigration  {
                 romanOrg = current;
         }
 
+        Resource title;
         if (khmerStd != null) {
             biblioKhmer = true;
-            addFEMCTitle(m, main, khmerStd, "bibliographicalTitle", null, true);
+            title = addFEMCTitle(m, main, khmerStd, "bibliographicalTitle", null, true);
+            addNote(title, "from khmerStandard", "en", null, null);
         }
         if (romanStd != null) {
             biblioRoman = true;
-            addFEMCTitle(m, main, romanStd, "bibliographicalTitle", null, true);
+            title = addFEMCTitle(m, main, romanStd, "bibliographicalTitle", null, true);
+            addNote(title, "from romanStandard", "en", null, null);
         }
         
         if (khmerCor != null) {
             if (biblioKhmer) {
-                addFEMCTitle(m, main, khmerCor, "otherTitle", khmerOrg, false);
+                title = addFEMCTitle(m, main, khmerCor, "otherTitle", khmerOrg, false);
+                addNote(title, "from khmerCorrectedOriginal", "en", null, null);
             } else {
-                addFEMCTitle(m, main, khmerCor, "bibliographicalTitle", khmerOrg, true);
+                title = addFEMCTitle(m, main, khmerCor, "bibliographicalTitle", khmerOrg, true);
+                addNote(title, "from khmerCorrectedOriginal", "en", null, null);
             }
         } else if (khmerOrg != null) {
             if (biblioKhmer) {
-                addFEMCTitle(m, main, khmerOrg, "otherTitle", null, false);
+                title = addFEMCTitle(m, main, khmerOrg, "otherTitle", null, false);
+                addNote(title, "from khmerOriginal", "en", null, null);
             } else {
-                addFEMCTitle(m, main, khmerOrg, "bibliographicalTitle", null, true);
+                title = addFEMCTitle(m, main, khmerOrg, "bibliographicalTitle", null, true);
+                addNote(title, "from khmerOriginal", "en", null, null);
             }
         }
         
         if (romanCor != null) {
             if (biblioRoman) {
-                addFEMCTitle(m, main, romanCor, "otherTitle", romanOrg, false);
+                title = addFEMCTitle(m, main, romanCor, "otherTitle", romanOrg, false);
+                addNote(title, "from romanCorrectedOriginal", "en", null, null);
             } else {
-                addFEMCTitle(m, main, romanCor, "bibliographicalTitle", romanOrg, true);
+                title = addFEMCTitle(m, main, romanCor, "bibliographicalTitle", romanOrg, true);
+                addNote(title, "from romanCorrectedOriginal", "en", null, null);
             }
         } else if (romanOrg != null) {
             if (biblioRoman) {
-                addFEMCTitle(m, main, romanOrg, "otherTitle", null, false);
+                title = addFEMCTitle(m, main, romanOrg, "otherTitle", null, false);
+                addNote(title, "from romanOriginal", "en", null, null);
             } else {
-                addFEMCTitle(m, main, romanOrg, "bibliographicalTitle", null, true);
+                title = addFEMCTitle(m, main, romanOrg, "bibliographicalTitle", null, true);
+                addNote(title, "from romanOriginal", "en", null, null);
             }
         }
     }

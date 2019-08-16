@@ -136,7 +136,7 @@ public class MigrationTest
         Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
         Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
-//        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC010006");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC010006");
 //        MigrationHelpers.modelToOutputStream(correctModel, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC010006correct");
 //        
 //        Statement fromXmlEventStmt = null;
@@ -191,14 +191,42 @@ public class MigrationTest
     }
     
     @Test
+    public void testMW1FEMC010006() throws JsonLdError, JsonParseException, IOException
+    {
+        System.out.println("testing MW1FEMC010006");
+        WorkMigration.splitItems = false;
+        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/MW1FEMC010006.xml");  
+        Model fromXml = MigrationHelpers.xmlToRdf(d, "pubinfo");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/MW1FEMC010006.ttl");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/MW1FEMC010006");
+//        assertTrue( fromXml.isIsomorphicWith(correctModel) );
+//        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
+    }
+
+    @Test
     public void testW1FEMC020013() {
         System.out.println("testing W1FEMC020013");
         Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC020013.xml");
         Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC020013.ttl");
-//        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC020013");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC020013");
 //        MigrationHelpers.modelToOutputStream(correctModel, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC020013correct");
         assertTrue( fromXml.isIsomorphicWith(correctModel) );
+    }
+    
+    @Test
+    public void testMW1FEMC020013() throws JsonLdError, JsonParseException, IOException
+    {
+        System.out.println("testing MW1FEMC020013");
+        WorkMigration.splitItems = false;
+        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/MW1FEMC020013.xml");  
+        Model fromXml = MigrationHelpers.xmlToRdf(d, "pubinfo");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/MW1FEMC020013.ttl");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/MW1FEMC020013");
+//        assertTrue( fromXml.isIsomorphicWith(correctModel) );
+//        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
+        flushLog();
     }
 	
 	@Test

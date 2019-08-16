@@ -1,0 +1,14 @@
+<mw:pubinfo xmlns:mw="http://www.tbrc.org/models/pubinfo#" RID="MW1FEMC020013" status="released">
+    <mw:isPubInfoFor work="W1FEMC020013"/>
+    <mw:publisherName>Khmer Digital Preservation Project</mw:publisherName>
+    <mw:publisherLocation>Phnom Penh, Cambodia</mw:publisherLocation>
+    <mw:biblioNote encoding="native" lang="english">
+        This manuscript was digitized from a microfilm copy with the generous support of The Khmer Buddhist Temple Foundation and was made available by L'Ecole française d'Extrême-Orient (EFEO).
+    </mw:biblioNote>
+    <mw:printType type="longPalmLeaf"/>
+    <mw:encoding>In Khmer</mw:encoding>
+    <mw:tbrcHoldings>1</mw:tbrcHoldings>
+    <mw:log>
+        <entry when="2019-08-14T18:51:13.73Z" who="works-femc01-import.xql">imported pubinfo for W1FEMC020013</entry>
+    </mw:log>
+</mw:pubinfo>
