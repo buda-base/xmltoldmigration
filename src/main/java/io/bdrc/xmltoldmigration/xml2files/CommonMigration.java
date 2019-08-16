@@ -726,8 +726,25 @@ public class CommonMigration  {
         } else if (type.equals("femcManuscriptCode")) {
             rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
             return true;
+        } else if (type.equals("filmCanister")) {
+            Property mfp = m.getProperty(BDO+"workMicrofilm");
+            Resource mf = rez.getPropertyResourceValue(mfp);
+            if (mf == null) {
+                mf = getFacetNode(FacetType.MICROFILM, rez);
+                rez.addProperty(mfp, mf);
+            }
+            mf.addProperty(m.getProperty(BDO+"microfilmCanister"), value);
+        } else if (type.equals("filmStrip")) {
+            Property mfp = m.getProperty(BDO+"workMicrofilm");
+            Resource mf = rez.getPropertyResourceValue(m.getProperty(BDO+"workMicrofilm"));
+            if (mf == null) {
+                mf = getFacetNode(FacetType.MICROFILM, rez);
+                rez.addProperty(mfp, mf);
+            }
+            mf.addProperty(m.getProperty(BDO+"microfilmStrip"), value);
+            return true;
         }
-
+        
         return false;
     }
 
