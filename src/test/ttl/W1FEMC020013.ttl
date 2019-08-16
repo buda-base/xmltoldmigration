@@ -29,7 +29,8 @@ bda:W1FEMC020013  a     adm:AdminData ;
     adm:status          bda:StatusReleased .
 
 bdr:EV723D2BE55368  a   :CompletedEvent ;
-    :onYear             "1123"^^:csDate .
+    :dateType           "csDate" ;
+    :onYear             1123 .
 
 bdr:TT043B7675220B  a   :WorkBibliographicalTitle ;
     rdfs:label          "ច្បាប់ល្បើកថ្មី"@km .

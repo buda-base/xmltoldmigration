@@ -28,6 +28,9 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -127,25 +130,76 @@ public class MigrationTest
         }
 	}
     
-//    @Test
-//    public void testW1FEMC010006() {
-//        System.out.println("testing W1FEMC010006");
-//        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
-//        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
-//        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
-////        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC010006");
-//        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//    }
-//    
-//    @Test
-//    public void testW1FEMC020013() {
-//        System.out.println("testing W1FEMC020013");
-//        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC020013.xml");
-//        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
-//        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC020013.ttl");
-////        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER PROJECT/W1FEMC020013");
-//        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-//    }
+    @Test
+    public void testW1FEMC010006() {
+        System.out.println("testing W1FEMC010006");
+        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
+        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
+//        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC010006");
+//        MigrationHelpers.modelToOutputStream(correctModel, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC010006correct");
+//        
+//        Statement fromXmlEventStmt = null;
+//        Statement correctModelEventStmt = null;
+//        
+//        StmtIterator it = fromXml.listStatements();
+//        List<Statement> stmts = it.toList();
+//        for (Statement stmt : stmts) {
+//            System.err.println("====>>>> testW1FEMC010006 fromXml stmt: " + stmt);
+//            RDFNode obj = stmt.getObject();
+//            if (obj.isLiteral() && obj.asLiteral().getString().contains("2442")) {
+//                fromXmlEventStmt = stmt;
+//                break;
+//            }
+//        }    
+//        
+//        it = correctModel.listStatements();
+//        stmts = it.toList();
+//        for (Statement stmt : stmts) {
+//            System.err.println("====>>>> testW1FEMC010006 correctModel stmt: " + stmt);
+//            RDFNode obj = stmt.getObject();
+//            if (obj.isLiteral() && obj.asLiteral().getString().contains("2442")) {
+//                correctModelEventStmt = stmt;
+//                break;
+//            }
+//        }
+//
+//        System.err.println("====>>>> testW1FEMC010006 fromXmlEventStmt: " + fromXmlEventStmt + "  correctModelEventStmt: " + correctModelEventStmt);
+//        System.err.println("====>>>> testW1FEMC010006 ARE THEY EQUAL: " + fromXmlEventStmt.equals(correctModelEventStmt));
+//
+//        StmtIterator it = correctModel.listStatements();
+//        List<Statement> stmts = it.toList();
+//        
+//        System.err.println( "====>>>> testW1FEMC010006 correctModel size: " + correctModel.size() + "  fromXml size: " + fromXml.size());
+//
+//        for (Statement stmt : stmts) {
+//            System.err.println("====>>>> testW1FEMC010006 testing stmt: " + stmt);         
+//            try {
+//                if ( fromXml.contains(stmt) ) {
+//                    continue;
+//                } else {
+//                    System.err.println("====>>>> testW1FEMC010006 fromXml does NOT contain: " + stmt);
+//                }
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//
+//        System.err.println("====>>>> testW1FEMC010006 fromXml.isIsomorphicWith(correctModel): " + fromXml.isIsomorphicWith(correctModel) );
+//        
+        assertTrue( fromXml.isIsomorphicWith(correctModel) );
+    }
+    
+    @Test
+    public void testW1FEMC020013() {
+        System.out.println("testing W1FEMC020013");
+        Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC020013.xml");
+        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC020013.ttl");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC020013");
+        MigrationHelpers.modelToOutputStream(correctModel, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC020013correct");
+        assertTrue( fromXml.isIsomorphicWith(correctModel) );
+    }
 	
 	@Test
 	public void testUrlNormalization() {

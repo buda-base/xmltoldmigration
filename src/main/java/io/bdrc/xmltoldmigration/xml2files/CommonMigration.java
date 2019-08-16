@@ -33,6 +33,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Validator;
 
 import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.ontology.OntModel;
@@ -703,6 +704,32 @@ public class CommonMigration  {
             return null;
         }
     }
+    
+    private static boolean doFEMCDesc(Resource rez, String type, String value) {
+        if ( ! rez.getLocalName().contains("FEMC")) {
+            return false;
+        }
+
+        // a Khmer work from FEMC        
+        Model m = rez.getModel();
+        if (type.equals("beDate") || type.equals("ceDate") || type.equals("csDate")) {
+            Resource event = getEvent(rez, "CompletedEvent", "workEvent");
+            try {
+                final Integer val = Integer.parseInt(value);
+                event.addLiteral(m.getProperty(BDO, "onYear"), m.createTypedLiteral(val, XSDDatatype.XSDinteger));
+                event.addLiteral(m.getProperty(BDO, "dateType"), type);    
+            } catch (NumberFormatException ex) {}
+            return true;
+        } else if (type.equals("oldCodes")) {
+            rez.addProperty(m.getProperty(BDO, "workKDPPOldId"), value);
+            return true;
+        } else if (type.equals("femcManuscriptCode")) {
+            rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
+            return true;
+        }
+
+        return false;
+    }
 
     public static Map<String,Model> addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
         return addDescriptions(m, e, r, XsdPrefix, false);
@@ -725,24 +752,8 @@ public class CommonMigration  {
             if (type.isEmpty())
                 type = "noType";
             
-            if (type.equals("beDate") || type.equals("ceDate") || type.equals("csDate")) {
-                // a Khmer wok from FEMC
-                Resource event = getEvent(rez, "CompletedEvent", "workEvent");
-                try {
-                    final int exact = Integer.parseInt(value);
-                    m.add(event, m.getProperty(BDO, "onYear"), m.createTypedLiteral(exact, BDO+type));    
-                } catch (NumberFormatException ex) {}
-                continue;
-            }
-            if (type.equals("oldCodes")) {
-                rez.addProperty(m.getProperty(BDO, "workKDPPOldId"), value);
-                continue;
-            }
-            if (type.equals("femcManuscriptCode")) {
-                rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
-                continue;
-            }
-
+            if (doFEMCDesc(rez,  type,  value)) continue;
+            
             Literal lit;
             // we add some spaghettis for the case of R8LS13081 which has no description type
             // but needs to be added as label

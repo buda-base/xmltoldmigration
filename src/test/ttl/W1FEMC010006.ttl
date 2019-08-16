@@ -29,7 +29,8 @@ bda:W1FEMC010006  a     adm:AdminData ;
     adm:status          bda:StatusReleased .
 
 bdr:EV082886A6DBCA  a   :CompletedEvent ;
-    :onYear             "2442"^^:beDate .
+    :dateType           "beDate" ;
+    :onYear             "2442"^^xsd:integer .
 
 bdr:TT001D753B6662  a   :WorkBibliographicalTitle ;
     rdfs:label          "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
