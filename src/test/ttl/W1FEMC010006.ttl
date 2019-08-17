@@ -11,11 +11,13 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 bda:LG212C01852123  a   adm:LogEntry ;
-    adm:logMessage      "entered cataloging for W1FEMC010006"@en .
+    adm:logMessage      "entered cataloging for W1FEMC010006"@en ;
+    adm:logWhoStr       "Thaknita Mao" .
 
 bda:LG960F1961158F  a   adm:LogEntry ;
     adm:logDate         "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
-    adm:logMessage      "imported FEMC 01 workW1FEMC010006"@en .
+    adm:logMessage      "imported FEMC 01 workW1FEMC010006"@en ;
+    adm:logWhoStr       "works-femc01-import.xql" .
 
 bda:W1FEMC010006  a     adm:AdminData ;
     :isRoot             true ;

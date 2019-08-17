@@ -12,7 +12,8 @@
 
 bda:LG110B41FF1279  a   adm:LogEntry ;
     adm:logDate         "2019-08-09T18:33:25.452Z"^^xsd:dateTime ;
-    adm:logMessage      "imported FEMC 01 workW1FEMC020013"@en .
+    adm:logMessage      "imported FEMC 01 workW1FEMC020013"@en ;
+    adm:logWhoStr       "works-femc01-import.xql" .
 
 bda:LG5C8BA200C60B  a   adm:LogEntry ;
     adm:logMessage      "entered cataloging for W1FEMC020013"@en .

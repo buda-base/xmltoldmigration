@@ -622,7 +622,7 @@ public class CommonMigration  {
             prop = m.createProperty(ADM+"logWho");
             String uri = logWhoToUri.get(value);
             if (uri == null) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_who", "unknown who: "+value);    
+                m.add(logEntry, m.createProperty(ADM+"logWhoStr"), value);
             } else {
                 m.add(logEntry, prop, m.createResource(uri));
             }
