@@ -746,7 +746,9 @@ public class CommonMigration  {
             return true;
         } else if (type.equals("complete")) {
             if (value.equals("false")) {
-                rez.addLiteral(m.getProperty(BDO, "workIncomplete"), true);
+                rez.addLiteral(m.getProperty(BDO, "workComplete"), false);
+            } else {
+                rez.addLiteral(m.getProperty(BDO, "workComplete"), true);
             }
             return true;
         }

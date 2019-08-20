@@ -59,7 +59,7 @@ bdr:W1FEMC010006  a     :PublishedWork , :Work ;
     :isRoot             true ;
     :workEvent          bdr:EV0782755ABB25 ;
     :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
-    :workIncomplete     true ;
+    :workComplete       false ;
     :workMicrofilm      bdr:MF6973BEA6ED01 ;
     :workNumberOfVolumes  1 ;
     :workTitle          bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 .
