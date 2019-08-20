@@ -22,7 +22,7 @@ bda:LG960F1961158F  a   adm:LogEntry ;
 bda:W1FEMC010006  a     adm:AdminData ;
     :isRoot             true ;
     adm:adminAbout      bdr:W1FEMC010006 ;
-    adm:facetIndex      9 ;
+    adm:facetIndex      10 ;
     adm:gitPath         "0b/W1FEMC010006.trig" ;
     adm:gitRepo         bda:GR0008 ;
     adm:graphId         bdg:W1FEMC010006 ;
@@ -30,11 +30,15 @@ bda:W1FEMC010006  a     adm:AdminData ;
     adm:metadataLegal   bda:LD_BDRC_CC0 ;
     adm:status          bda:StatusReleased .
 
-bdr:EV0782755ABB25  a   :CompletedEvent ;
+bdr:CT6973BEA6ED01  a   :CatalogLocation ;
+    :catalog            bdr:PR1FEMC01 ;
+    :catalogPage        "54" .
+
+bdr:EVD19FFFF27FDB  a   :CompletedEvent ;
     :dateType           :beDate ;
     :onYear             2442 .
 
-bdr:MF6973BEA6ED01  a   :ObjectTypeMicrofilm ;
+bdr:MF0782755ABB25  a   :ObjectTypeMicrofilm ;
     :microfilmCanister  "IV" ;
     :microfilmStrip     "16" .
 
@@ -56,10 +60,11 @@ bdr:TT1BB6D78B9E46  a   :WorkBibliographicalTitle ;
 
 bdr:W1FEMC010006  a     :PublishedWork , :Work ;
     skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr , "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
+    :catalogLoc         bdr:CT6973BEA6ED01 ;
     :isRoot             true ;
-    :workEvent          bdr:EV0782755ABB25 ;
-    :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
     :workComplete       false ;
-    :workMicrofilm      bdr:MF6973BEA6ED01 ;
+    :workEvent          bdr:EVD19FFFF27FDB ;
+    :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
+    :workMicrofilm      bdr:MF0782755ABB25 ;
     :workNumberOfVolumes  1 ;
     :workTitle          bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 .

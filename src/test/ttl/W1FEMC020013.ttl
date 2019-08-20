@@ -21,7 +21,7 @@ bda:LG5C8BA200C60B  a   adm:LogEntry ;
 bda:W1FEMC020013  a     adm:AdminData ;
     :isRoot             true ;
     adm:adminAbout      bdr:W1FEMC020013 ;
-    adm:facetIndex      13 ;
+    adm:facetIndex      14 ;
     adm:gitPath         "d5/W1FEMC020013.trig" ;
     adm:gitRepo         bda:GR0008 ;
     adm:graphId         bdg:W1FEMC020013 ;
@@ -29,11 +29,15 @@ bda:W1FEMC020013  a     adm:AdminData ;
     adm:metadataLegal   bda:LD_BDRC_CC0 ;
     adm:status          bda:StatusReleased .
 
-bdr:EVDA88B89ACD5C  a   :CompletedEvent ;
+bdr:CTE38A9ECDAD31  a   :CatalogLocation ;
+    :catalog            bdr:PR1FEMC02 ;
+    :catalogPage        "3" .
+
+bdr:EV78265708B677  a   :CompletedEvent ;
     :dateType           :csDate ;
     :onYear             1123 .
 
-bdr:MFE38A9ECDAD31  a   :ObjectTypeMicrofilm ;
+bdr:MFDA88B89ACD5C  a   :ObjectTypeMicrofilm ;
     :microfilmCanister  "18" ;
     :microfilmStrip     "4" .
 
@@ -69,11 +73,13 @@ bdr:TT723D2BE55368  a   :WorkOtherTitle ;
 
 bdr:W1FEMC020013  a     :PublishedWork , :Work ;
     skos:prefLabel      "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc ;
+    :catalogLoc         bdr:CTE38A9ECDAD31 ;
     :isRoot             true ;
-    :workEvent          bdr:EVDA88B89ACD5C ;
-    :workFEMCManuscriptCode  "a.13.I.1" ;
+    :workCollection     bdr:PR1KDPP01 ;
     :workComplete       true ;
+    :workEvent          bdr:EV78265708B677 ;
+    :workFEMCManuscriptCode  "a.13.I.1" ;
     :workKDPPOldId      "1389" ;
-    :workMicrofilm      bdr:MFE38A9ECDAD31 ;
+    :workMicrofilm      bdr:MFDA88B89ACD5C ;
     :workNumberOfVolumes  1 ;
     :workTitle          bdr:TT043B7675220B , bdr:TT5BB5FE4E479C , bdr:TT5FFD1A061FB7 , bdr:TT723D2BE55368 .

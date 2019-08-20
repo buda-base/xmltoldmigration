@@ -41,6 +41,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -280,10 +281,23 @@ public class WorkMigration {
         nodeList = root.getElementsByTagNameNS(WXSDNS, "inProduct");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
+            String content = current.getTextContent().trim();
             value = current.getAttribute("pid").trim();
-            List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
-            worksForProduct.add(main.getLocalName());
-            //m.add(main, m.getProperty(ADM, "workInProduct"), m.createResource(BDR+value));
+
+            if (content.startsWith("Collection:")) {
+                main.addProperty(m.getProperty(BDO, "workCollection"), m.createResource(BDR+value));
+            } else if (content.startsWith("Catalog:")) {
+                Property clp = m.getProperty(BDO+"catalogLoc");
+                Resource cl = main.getPropertyResourceValue(clp);
+                if (cl == null) {
+                    cl = getFacetNode(FacetType.CATALOG, main);
+                    main.addProperty(clp, cl);
+                }
+                cl.addProperty(m.getProperty(BDO+"catalog"), m.createResource(BDR+value));
+            } else {
+                List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
+                worksForProduct.add(main.getLocalName());
+            }
         }
         
         // catalogInfo

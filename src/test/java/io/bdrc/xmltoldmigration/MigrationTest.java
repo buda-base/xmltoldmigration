@@ -136,7 +136,7 @@ public class MigrationTest
         Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
         Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
-//        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC010006");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC010006");
 //        MigrationHelpers.modelToOutputStream(correctModel, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC010006correct");
 //        
 //        Statement fromXmlEventStmt = null;
@@ -210,7 +210,7 @@ public class MigrationTest
         Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC020013.xml");
         Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC020013.ttl");
-//        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC020013");
+        MigrationHelpers.modelToOutputStream(fromXml, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC020013");
 //        MigrationHelpers.modelToOutputStream(correctModel, "work", OUTPUT_STTL, "/Users/chris/BUDA/KHMER_PROJECT/W1FEMC020013correct");
         assertTrue( fromXml.isIsomorphicWith(correctModel) );
     }

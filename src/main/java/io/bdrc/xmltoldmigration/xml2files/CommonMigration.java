@@ -737,12 +737,21 @@ public class CommonMigration  {
             return true;
         } else if (type.equals("filmStrip")) {
             Property mfp = m.getProperty(BDO+"workMicrofilm");
-            Resource mf = rez.getPropertyResourceValue(m.getProperty(BDO+"workMicrofilm"));
+            Resource mf = rez.getPropertyResourceValue(mfp);
             if (mf == null) {
                 mf = getFacetNode(FacetType.MICROFILM, rez);
                 rez.addProperty(mfp, mf);
             }
             mf.addProperty(m.getProperty(BDO+"microfilmStrip"), value);
+            return true;
+        } else if (type.equals("catalogPage")) {
+            Property clp = m.getProperty(BDO+"catalogLoc");
+            Resource cl = rez.getPropertyResourceValue(clp);
+            if (cl == null) {
+                cl = getFacetNode(FacetType.CATALOG, rez);
+                rez.addProperty(clp, cl);
+            }
+            cl.addProperty(m.getProperty(BDO+"catalogPage"), value);
             return true;
         } else if (type.equals("complete")) {
             if (value.equals("false")) {
