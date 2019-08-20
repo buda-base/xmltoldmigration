@@ -67,7 +67,7 @@ public class ProductMigration {
 		
 		CommonMigration.addLog(m, root, admMain, PRXSDNS);
 		
-		CommonMigration.addDescriptions(m, root, admMain, PRXSDNS, true);
+		CommonMigration.addDescriptions(m, root, main, PRXSDNS, true);
 		
 		// access (contains everything
         Element current;
