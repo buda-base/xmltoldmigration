@@ -57,6 +57,7 @@ import com.atlascopco.hunspell.Hunspell;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.libraries.BdrcDateType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.EwtsFixer;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -715,10 +716,9 @@ public class CommonMigration  {
         if (type.equals("beDate") || type.equals("ceDate") || type.equals("csDate")) {
             Resource event = getEvent(rez, "CompletedEvent", "workEvent");
             try {
-                final Integer val = Integer.parseInt(value);
-                event.addLiteral(m.getProperty(BDO, "onYear"), m.createTypedLiteral(val, XSDDatatype.XSDinteger));
-                event.addProperty(m.getProperty(BDO, "dateType"), m.createResource(BDO+type));    
-            } catch (NumberFormatException ex) {}
+                RDFDatatype dateType = BdrcDateType.get(type);
+                event.addLiteral(m.getProperty(BDO, "onYear"), m.createTypedLiteral(value, dateType));
+            } catch (DatatypeFormatException ex) {}
             return true;
         } else if (type.equals("oldCodes")) {
             rez.addProperty(m.getProperty(BDO, "workKDPPOldId"), value);

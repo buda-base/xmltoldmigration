@@ -34,8 +34,7 @@ bdr:CTE38A9ECDAD31  a   :CatalogLocation ;
     :catalogPage        "3" .
 
 bdr:EV78265708B677  a   :CompletedEvent ;
-    :dateType           :csDate ;
-    :onYear             1123 .
+    :onYear             "1123"^^:csDate .
 
 bdr:MFDA88B89ACD5C  a   :ObjectTypeMicrofilm ;
     :microfilmCanister  "18" ;

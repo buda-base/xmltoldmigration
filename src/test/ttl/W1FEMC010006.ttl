@@ -35,8 +35,7 @@ bdr:CT6973BEA6ED01  a   :CatalogLocation ;
     :catalogPage        "54" .
 
 bdr:EVD19FFFF27FDB  a   :CompletedEvent ;
-    :dateType           :beDate ;
-    :onYear             2442 .
+    :onYear             "2442"^^:beDate .
 
 bdr:MF0782755ABB25  a   :ObjectTypeMicrofilm ;
     :microfilmCanister  "IV" ;
