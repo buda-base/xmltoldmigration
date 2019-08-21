@@ -1,9 +1,8 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
 import static io.bdrc.libraries.Models.ADM;
-import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.BDA;
-import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
@@ -19,7 +18,6 @@ import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 
 import io.bdrc.libraries.Models.FacetType;
 
@@ -34,35 +32,14 @@ public class ProductMigration {
 		Model m = ModelFactory.createDefaultModel();
 		setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
-		
-		Resource main = null;
-		
-		NodeList nodes = root.getElementsByTagNameNS("http://www.tbrc.org/models/product#", "description");
-		for (int i = 0; i < nodes.getLength(); i++) {
-		    Element desc = (Element) nodes.item(i);
-		    String contents = desc.getTextContent().trim();
-		    if (contents.startsWith("Catalog:")) {
-		        main = m.createResource(BDR+root.getAttribute("RID"));
-		        main.addProperty(RDF.type, m.createResource(BDO+"Catalog"));
-		        break;
-		    } else if (contents.startsWith("Collection:")) {
-		        main = m.createResource(BDR+root.getAttribute("RID"));
-		        main.addProperty(RDF.type, m.createResource(BDO+"CollectionInstitution"));
-		        break;
-		    }
-		}
-
-		if (main == null) {
-		    main = m.createResource(BDA+root.getAttribute("RID"));
-		    main.addProperty(RDF.type, m.createResource(ADM + "Product"));
-		}
-
+		Resource main = m.createResource(BDA+root.getAttribute("RID"));
+		main.addProperty(RDF.type, m.createResource(ADM + "Product"));
 		Resource admMain = createAdminRoot(main);
 
 		addStatus(m, admMain, root.getAttribute("status"));
-		
+
 		CommonMigration.addNotes(m, root, admMain, PRXSDNS);
-		
+
 		CommonMigration.addExternals(m, root, admMain, PRXSDNS);
 		
 		CommonMigration.addLog(m, root, admMain, PRXSDNS);
