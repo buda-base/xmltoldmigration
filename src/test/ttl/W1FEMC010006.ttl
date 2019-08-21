@@ -30,10 +30,6 @@ bda:W1FEMC010006  a     adm:AdminData ;
     adm:metadataLegal   bda:LD_BDRC_CC0 ;
     adm:status          bda:StatusReleased .
 
-bdr:CT6973BEA6ED01  a   :CatalogLocation ;
-    :catalog            bdr:PR1FEMC01 ;
-    :catalogPage        "54" .
-
 bdr:EVD19FFFF27FDB  a   :CompletedEvent ;
     :onYear             "2442"^^:beDate .
 
@@ -43,6 +39,11 @@ bdr:MF0782755ABB25  a   :ObjectTypeMicrofilm ;
 
 bdr:NT297D85F7A6BE  a   :Note ;
     :noteText           "from khmerCorrectedOriginal"@en .
+
+bdr:NT6973BEA6ED01  a   :Note ;
+    :noteLocationStatement  "54" ;
+    :noteText           "Catalog" ;
+    :noteWork           bda:PR1FEMC01 .
 
 bdr:NTE53867E545D7  a   :Note ;
     :noteText           "from romanCorrectedOriginal"@en .
@@ -59,8 +60,8 @@ bdr:TT1BB6D78B9E46  a   :WorkBibliographicalTitle ;
 
 bdr:W1FEMC010006  a     :PublishedWork , :Work ;
     skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr , "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
-    :catalogLoc         bdr:CT6973BEA6ED01 ;
     :isRoot             true ;
+    :note               bdr:NT6973BEA6ED01 ;
     :workComplete       false ;
     :workEvent          bdr:EVD19FFFF27FDB ;
     :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;

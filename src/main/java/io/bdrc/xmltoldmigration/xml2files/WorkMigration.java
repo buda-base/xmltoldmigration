@@ -36,6 +36,8 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -285,15 +287,26 @@ public class WorkMigration {
             value = current.getAttribute("pid").trim();
 
             if (content.startsWith("Collection:")) {
-                main.addProperty(m.getProperty(BDO, "workCollection"), m.createResource(BDR+value));
+                CommonMigration.addNote(main, "Collection Institution", "",  (String) null, m.createResource(BDA+value));
             } else if (content.startsWith("Catalog:")) {
-                Property clp = m.getProperty(BDO+"catalogLoc");
-                Resource cl = main.getPropertyResourceValue(clp);
-                if (cl == null) {
-                    cl = getFacetNode(FacetType.CATALOG, main);
-                    main.addProperty(clp, cl);
+                Property notep = m.getProperty(BDO+"note");
+                Resource note = null;
+                StmtIterator notes = main.listProperties(notep);
+                while (notes.hasNext()) {
+                    Statement noteStmt = notes.next();
+                    Statement noteText = noteStmt.getResource().getProperty(m.getProperty(BDO+"noteText"));
+                    String noteTextStr = noteText.getString();
+                    if (noteTextStr.startsWith("Catalog")) {
+                        note = noteStmt.getResource();
+                        break;
+                    }
                 }
-                cl.addProperty(m.getProperty(BDO+"catalog"), m.createResource(BDR+value));
+                if (note == null) {
+                    note = getFacetNode(FacetType.NOTE, main);
+                    note.addProperty(m.getProperty(BDO+"noteText"), "Catalog");
+                    main.addProperty(notep, note);
+                }
+                note.addProperty(m.getProperty(BDO+"noteWork"), m.createResource(BDA+value));
             } else {
                 List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
                 worksForProduct.add(main.getLocalName());

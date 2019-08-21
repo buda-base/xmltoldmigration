@@ -21,17 +21,13 @@ bda:LG5C8BA200C60B  a   adm:LogEntry ;
 bda:W1FEMC020013  a     adm:AdminData ;
     :isRoot             true ;
     adm:adminAbout      bdr:W1FEMC020013 ;
-    adm:facetIndex      14 ;
+    adm:facetIndex      15 ;
     adm:gitPath         "d5/W1FEMC020013.trig" ;
     adm:gitRepo         bda:GR0008 ;
     adm:graphId         bdg:W1FEMC020013 ;
     adm:logEntry        bda:LG110B41FF1279 , bda:LG5C8BA200C60B ;
     adm:metadataLegal   bda:LD_BDRC_CC0 ;
     adm:status          bda:StatusReleased .
-
-bdr:CTE38A9ECDAD31  a   :CatalogLocation ;
-    :catalog            bdr:PR1FEMC02 ;
-    :catalogPage        "3" .
 
 bdr:EV78265708B677  a   :CompletedEvent ;
     :onYear             "1123"^^:csDate .
@@ -43,11 +39,20 @@ bdr:MFDA88B89ACD5C  a   :ObjectTypeMicrofilm ;
 bdr:NT72F36A4CDF89  a   :Note ;
     :noteText           "from romanStandard"@en .
 
+bdr:NTBA2765BFDBFA  a   :Note ;
+    :noteText           "Collection Institution" ;
+    :noteWork           bda:PR1KDPP01 .
+
 bdr:NTC052B984917D  a   :Note ;
     :noteText           "from khmerStandard"@en .
 
 bdr:NTD4FE8CD21420  a   :Note ;
     :noteText           "from romanCorrectedOriginal"@en .
+
+bdr:NTE38A9ECDAD31  a   :Note ;
+    :noteLocationStatement  "3" ;
+    :noteText           "Catalog" ;
+    :noteWork           bda:PR1FEMC02 .
 
 bdr:NTECE861E705E3  a   :Note ;
     :noteText           "from khmerCorrectedOriginal"@en .
@@ -72,9 +77,8 @@ bdr:TT723D2BE55368  a   :WorkOtherTitle ;
 
 bdr:W1FEMC020013  a     :PublishedWork , :Work ;
     skos:prefLabel      "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc ;
-    :catalogLoc         bdr:CTE38A9ECDAD31 ;
     :isRoot             true ;
-    :workCollection     bdr:PR1KDPP01 ;
+    :note               bdr:NTBA2765BFDBFA , bdr:NTE38A9ECDAD31 ;
     :workComplete       true ;
     :workEvent          bdr:EV78265708B677 ;
     :workFEMCManuscriptCode  "a.13.I.1" ;

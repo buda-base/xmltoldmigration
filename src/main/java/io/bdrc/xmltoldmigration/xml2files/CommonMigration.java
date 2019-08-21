@@ -42,6 +42,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.RDF;
@@ -471,7 +472,7 @@ public class CommonMigration  {
     }
 
     /**
-     *Adds a new named Note node and adds bdo:noye node to the supplied rez.
+     * Adds a new named Note node and adds bdo:note node to the supplied rez.
      * 
      * @param rez respource the note is attached to
      * @param noteText String note text content
@@ -488,7 +489,7 @@ public class CommonMigration  {
     }
 
     /**
-     *Adds a new named Note node and adds bdo:noye node to the supplied rez.
+     *Adds a new named Note node and adds bdo:note node to the supplied rez.
      * 
      * @param rez respource the note is attached to
      * @param noteText Literal note text content
@@ -745,13 +746,24 @@ public class CommonMigration  {
             mf.addProperty(m.getProperty(BDO+"microfilmStrip"), value);
             return true;
         } else if (type.equals("catalogPage")) {
-            Property clp = m.getProperty(BDO+"catalogLoc");
-            Resource cl = rez.getPropertyResourceValue(clp);
-            if (cl == null) {
-                cl = getFacetNode(FacetType.CATALOG, rez);
-                rez.addProperty(clp, cl);
+            Property notep = m.getProperty(BDO+"note");
+            Resource note = null;
+            StmtIterator notes = rez.listProperties(notep);
+            while (notes.hasNext()) {
+                Statement noteStmt = notes.next();
+                Statement noteText = noteStmt.getResource().getProperty(m.getProperty(BDO+"noteText"));
+                String noteTextStr = noteText.getString();
+                if (noteTextStr.startsWith("Catalog")) {
+                    note = noteStmt.getResource();
+                    break;
+                }
             }
-            cl.addProperty(m.getProperty(BDO+"catalogPage"), value);
+            if (note == null) {
+                note = getFacetNode(FacetType.NOTE, rez);
+                note.addProperty(m.getProperty(BDO+"noteText"), "Catalog");
+                rez.addProperty(notep, note);
+            }
+            note.addProperty(m.getProperty(BDO+"noteLocationStatement"), value);
             return true;
         } else if (type.equals("complete")) {
             if (value.equals("false")) {
@@ -761,7 +773,7 @@ public class CommonMigration  {
             }
             return true;
         }
-        
+
         return false;
     }
 
