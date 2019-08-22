@@ -37,26 +37,24 @@ bdr:MF0782755ABB25  a   :ObjectTypeMicrofilm ;
     :microfilmCanister  "IV" ;
     :microfilmStrip     "16" .
 
-bdr:NT297D85F7A6BE  a   :Note ;
-    :noteText           "from khmerCorrectedOriginal"@en .
-
 bdr:NT6973BEA6ED01  a   :Note ;
     :noteLocationStatement  "54" ;
     :noteText           "Catalog" ;
     :noteWork           bda:PR1FEMC01 .
 
-bdr:NTE53867E545D7  a   :Note ;
-    :noteText           "from romanCorrectedOriginal"@en .
+bdr:TT001D753B6662  a   :OriginalTitle , :WorkOtherTitle ;
+    rdfs:label          "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
-bdr:TT082886A6DBCA  a   :WorkBibliographicalTitle ;
+bdr:TT082886A6DBCA  a   :CorrectedTitle , :WorkBibliographicalTitle ;
     rdfs:label          "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
-    :correctionOf       "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
-    :note               bdr:NTE53867E545D7 .
+    :correctionOf       bdr:TTE904A347F23C .
 
-bdr:TT1BB6D78B9E46  a   :WorkBibliographicalTitle ;
+bdr:TT1BB6D78B9E46  a   :CorrectedTitle , :WorkBibliographicalTitle ;
     rdfs:label          "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr ;
-    :correctionOf       "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr ;
-    :note               bdr:NT297D85F7A6BE .
+    :correctionOf       bdr:TT001D753B6662 .
+
+bdr:TTE904A347F23C  a   :OriginalTitle , :WorkOtherTitle ;
+    rdfs:label          "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc .
 
 bdr:W1FEMC010006  a     :PublishedWork , :Work ;
     skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr , "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
@@ -67,4 +65,4 @@ bdr:W1FEMC010006  a     :PublishedWork , :Work ;
     :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
     :workMicrofilm      bdr:MF0782755ABB25 ;
     :workNumberOfVolumes  1 ;
-    :workTitle          bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 .
+    :workTitle          bdr:TT001D753B6662 , bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 , bdr:TTE904A347F23C .

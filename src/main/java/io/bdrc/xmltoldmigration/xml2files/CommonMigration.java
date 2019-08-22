@@ -42,6 +42,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.ValidityReport;
@@ -940,22 +941,23 @@ public class CommonMigration  {
         }
     }
     
-    private static Resource addFEMCTitle(Model m, Resource main, Element title, String type, Element orig, boolean addPref) {
+    private static Resource STD_TITLE = ResourceFactory.createResource(BDO+"StandardizedTitle");
+    private static Resource COR_TITLE = ResourceFactory.createResource(BDO+"CorrectedTitle");
+    private static Resource ORG_TITLE = ResourceFactory.createResource(BDO+"OriginalTitle");
+
+    private static Resource addFEMCTitle(Model m, Resource main, Element title, String type, boolean addPref, Resource titleVersion) {
         String rid = main.getLocalName();
         Literal lit = getLiteral(title, "km-x-unspec", m, "title", rid, rid);
         
         if (lit == null) return null;
         
         Resource nodeType = getNodeType(type, false, main);
-        Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
+        Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
+        titleNode.addProperty(RDF.type, titleVersion);
         titleNode.addProperty(RDFS.label, lit);
         main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
         if (addPref) {
             main.addProperty(SKOS.prefLabel, lit);
-        }
-        if (orig != null) {
-            lit = getLiteral(orig, "km-x-unspec", m, "title", rid, rid);
-            titleNode.addProperty(m.getProperty(BDO, "correctionOf"), lit);
         }
         
         return titleNode;
@@ -990,52 +992,60 @@ public class CommonMigration  {
                 romanOrg = current;
         }
 
-        Resource title;
+        Resource stdTitleKhm = null, 
+                stdTitleRom = null, 
+                corTitleKhm = null, 
+                corTitleRom = null, 
+                orgTitleKhm = null, 
+                orgTitleRom = null;
         if (khmerStd != null) {
             biblioKhmer = true;
-            title = addFEMCTitle(m, main, khmerStd, "bibliographicalTitle", null, true);
-            addNote(title, "from khmerStandard", "en", null, null);
+            stdTitleKhm = addFEMCTitle(m, main, khmerStd, "bibliographicalTitle", true, STD_TITLE);
         }
         if (romanStd != null) {
             biblioRoman = true;
-            title = addFEMCTitle(m, main, romanStd, "bibliographicalTitle", null, true);
-            addNote(title, "from romanStandard", "en", null, null);
+            stdTitleRom = addFEMCTitle(m, main, romanStd, "bibliographicalTitle", true, STD_TITLE);
         }
         
         if (khmerCor != null) {
             if (biblioKhmer) {
-                title = addFEMCTitle(m, main, khmerCor, "otherTitle", khmerOrg, false);
-                addNote(title, "from khmerCorrectedOriginal", "en", null, null);
+                corTitleKhm = addFEMCTitle(m, main, khmerCor, "otherTitle", false, COR_TITLE);
             } else {
-                title = addFEMCTitle(m, main, khmerCor, "bibliographicalTitle", khmerOrg, true);
-                addNote(title, "from khmerCorrectedOriginal", "en", null, null);
+                biblioKhmer = true;
+                corTitleKhm = addFEMCTitle(m, main, khmerCor, "bibliographicalTitle", true, COR_TITLE);
             }
-        } else if (khmerOrg != null) {
+        }
+        if (khmerOrg != null) {
             if (biblioKhmer) {
-                title = addFEMCTitle(m, main, khmerOrg, "otherTitle", null, false);
-                addNote(title, "from khmerOriginal", "en", null, null);
+                orgTitleKhm = addFEMCTitle(m, main, khmerOrg, "otherTitle", false, ORG_TITLE);
             } else {
-                title = addFEMCTitle(m, main, khmerOrg, "bibliographicalTitle", null, true);
-                addNote(title, "from khmerOriginal", "en", null, null);
+                biblioKhmer = true;
+                orgTitleKhm = addFEMCTitle(m, main, khmerOrg, "bibliographicalTitle", true, ORG_TITLE);
             }
         }
         
         if (romanCor != null) {
             if (biblioRoman) {
-                title = addFEMCTitle(m, main, romanCor, "otherTitle", romanOrg, false);
-                addNote(title, "from romanCorrectedOriginal", "en", null, null);
+                corTitleRom = addFEMCTitle(m, main, romanCor, "otherTitle", false, COR_TITLE);
             } else {
-                title = addFEMCTitle(m, main, romanCor, "bibliographicalTitle", romanOrg, true);
-                addNote(title, "from romanCorrectedOriginal", "en", null, null);
+                biblioRoman = true;
+                corTitleRom = addFEMCTitle(m, main, romanCor, "bibliographicalTitle", true, COR_TITLE);
             }
-        } else if (romanOrg != null) {
+        }
+        if (romanOrg != null) {
             if (biblioRoman) {
-                title = addFEMCTitle(m, main, romanOrg, "otherTitle", null, false);
-                addNote(title, "from romanOriginal", "en", null, null);
+                orgTitleRom = addFEMCTitle(m, main, romanOrg, "otherTitle", false, ORG_TITLE);
             } else {
-                title = addFEMCTitle(m, main, romanOrg, "bibliographicalTitle", null, true);
-                addNote(title, "from romanOriginal", "en", null, null);
+                biblioRoman = true;
+                orgTitleRom = addFEMCTitle(m, main, romanOrg, "bibliographicalTitle", true, ORG_TITLE);
             }
+        }
+
+        if (corTitleKhm != null && orgTitleKhm != null) {
+            corTitleKhm.addProperty(m.getProperty(BDO, "correctionOf"), orgTitleKhm);
+        }
+        if (corTitleRom != null && orgTitleRom != null) {
+            corTitleRom.addProperty(m.getProperty(BDO, "correctionOf"), orgTitleRom);
         }
     }
 
