@@ -22,7 +22,7 @@ bda:LG960F1961158F  a   adm:LogEntry ;
 bda:W1FEMC010006  a     adm:AdminData ;
     :isRoot             true ;
     adm:adminAbout      bdr:W1FEMC010006 ;
-    adm:facetIndex      10 ;
+    adm:facetIndex      12 ;
     adm:gitPath         "0b/W1FEMC010006.trig" ;
     adm:gitRepo         bda:GR0008 ;
     adm:graphId         bdg:W1FEMC010006 ;
@@ -30,17 +30,25 @@ bda:W1FEMC010006  a     adm:AdminData ;
     adm:metadataLegal   bda:LD_BDRC_CC0 ;
     adm:status          bda:StatusReleased .
 
-bdr:EVD19FFFF27FDB  a   :CompletedEvent ;
+bdr:EV40AA325C46CA  a   :CompletedEvent ;
     :onYear             "2442"^^:beDate .
 
 bdr:MF0782755ABB25  a   :ObjectTypeMicrofilm ;
     :microfilmCanister  "IV" ;
     :microfilmStrip     "16" .
 
+bdr:NT0A8ABBFD1119  a   :Note ;
+    :noteLocationStatement  "2, 7, 8, 10, 11" ;
+    :noteText           "Fascicles" .
+
 bdr:NT6973BEA6ED01  a   :Note ;
     :noteLocationStatement  "54" ;
     :noteText           "Catalog" ;
     :noteWork           bda:PR1FEMC01 .
+
+bdr:NTD19FFFF27FDB  a   :Note ;
+    :noteLocationStatement  "1" ;
+    :noteText           "Work Number" .
 
 bdr:TT001D753B6662  a   :OriginalTitle , :WorkOtherTitle ;
     rdfs:label          "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
@@ -59,9 +67,9 @@ bdr:TTE904A347F23C  a   :OriginalTitle , :WorkOtherTitle ;
 bdr:W1FEMC010006  a     :PublishedWork , :Work ;
     skos:prefLabel      "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr , "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
     :isRoot             true ;
-    :note               bdr:NT6973BEA6ED01 ;
+    :note               bdr:NT0A8ABBFD1119 , bdr:NT6973BEA6ED01 , bdr:NTD19FFFF27FDB ;
     :workComplete       false ;
-    :workEvent          bdr:EVD19FFFF27FDB ;
+    :workEvent          bdr:EV40AA325C46CA ;
     :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
     :workMicrofilm      bdr:MF0782755ABB25 ;
     :workNumberOfVolumes  1 ;

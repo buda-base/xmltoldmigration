@@ -773,6 +773,10 @@ public class CommonMigration  {
                 rez.addLiteral(m.getProperty(BDO, "workComplete"), true);
             }
             return true;
+        } else if (type.equals("fascicles")) {
+            addNote(rez, "Fascicles", "",  value, null);
+        } else if (type.equals("workNum")) {
+            addNote(rez, "Work Number", "",  value, null);
         }
 
         return false;
