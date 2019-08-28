@@ -36,7 +36,7 @@ import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 public class GRETILTransfer {
 
     public static final Map<String,String> rKTsRIDMap = EAPTransfer.getrKTsRIDMap();
-    public static final String ORIG_URL_BASE = "gretil.sub.uni-goettingen.de/";
+    public static final String ORIG_URL_BASE = "http://gretil.sub.uni-goettingen.de/gretil.html";
 
     public static final void transferGRETIL() {
         System.out.println("Transfering GRETIL works");
