@@ -21,7 +21,8 @@ bda:LG5C8BA200C60B  a   adm:LogEntry ;
 bda:W1FEMC020013  a     adm:AdminData ;
     :isRoot             true ;
     adm:adminAbout      bdr:W1FEMC020013 ;
-    adm:facetIndex      15 ;
+    adm:contentProvider  bda:CP041 ;
+    adm:facetIndex      12 ;
     adm:gitPath         "d5/W1FEMC020013.trig" ;
     adm:gitRepo         bda:GR0008 ;
     adm:graphId         bdg:W1FEMC020013 ;
@@ -29,7 +30,7 @@ bda:W1FEMC020013  a     adm:AdminData ;
     adm:metadataLegal   bda:LD_BDRC_CC0 ;
     adm:status          bda:StatusReleased .
 
-bdr:EV78265708B677  a   :CompletedEvent ;
+bdr:EVE38A9ECDAD31  a   :CompletedEvent ;
     :onYear             "1123"^^:csDate .
 
 bdr:MF94B84B608FC8  a   :ObjectTypeMicrofilm ;
@@ -37,21 +38,8 @@ bdr:MF94B84B608FC8  a   :ObjectTypeMicrofilm ;
     :microfilmStrip     "4" .
 
 bdr:NT5FFD1A061FB7  a   :Note ;
-    :noteLocationStatement  "3" ;
-    :noteText           "Catalog" ;
-    :noteWork           bda:PR1FEMC02 .
-
-bdr:NTBA2765BFDBFA  a   :Note ;
-    :noteText           "Collection Institution" ;
-    :noteWork           bda:PR1KDPP01 .
-
-bdr:NTDA88B89ACD5C  a   :Note ;
-    :noteLocationStatement  "1" ;
-    :noteText           "Fascicles" .
-
-bdr:NTE38A9ECDAD31  a   :Note ;
-    :noteLocationStatement  "1" ;
-    :noteText           "Work Number" .
+    :noteLocationStatement  "pg. 3" ;
+    :noteWork           bdr:W1FEMC02 .
 
 bdr:TT043B7675220B  a   :StandardizedTitle , :WorkBibliographicalTitle ;
     rdfs:label          "ច្បាប់ល្បើកថ្មី"@km .
@@ -75,10 +63,12 @@ bdr:TTA119335AE164  a   :OriginalTitle , :WorkOtherTitle ;
 
 bdr:W1FEMC020013  a     :PublishedWork , :Work ;
     skos:prefLabel      "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc ;
+    :hasFascicles       "1" ;
+    :hasWorkNum         "1" ;
     :isRoot             true ;
-    :note               bdr:NT5FFD1A061FB7 , bdr:NTBA2765BFDBFA , bdr:NTDA88B89ACD5C , bdr:NTE38A9ECDAD31 ;
+    :note               bdr:NT5FFD1A061FB7 ;
     :workComplete       true ;
-    :workEvent          bdr:EV78265708B677 ;
+    :workEvent          bdr:EVE38A9ECDAD31 ;
     :workFEMCManuscriptCode  "a.13.I.1" ;
     :workKDPPOldId      "1389" ;
     :workMicrofilm      bdr:MF94B84B608FC8 ;

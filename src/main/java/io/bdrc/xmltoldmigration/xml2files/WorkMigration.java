@@ -43,6 +43,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.libraries.Models;
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -287,7 +288,8 @@ public class WorkMigration {
             value = current.getAttribute("pid").trim();
 
             if (content.startsWith("Collection:")) {
-                CommonMigration.addNote(main, "Collection Institution", "",  (String) null, m.createResource(BDA+value));
+                String cpUri = BDA+"CP04"+value.substring(value.length()-1);
+                admMain.addProperty(m.createProperty(ADM+"contentProvider"), m.createResource(cpUri));
             } else if (content.startsWith("Catalog:")) {
                 Property notep = m.getProperty(BDO+"note");
                 Resource note = null;
@@ -298,6 +300,7 @@ public class WorkMigration {
                     String noteTextStr = noteText.getString();
                     if (noteTextStr.startsWith("Catalog")) {
                         note = noteStmt.getResource();
+                        m.remove(noteText);
                         break;
                     }
                 }
@@ -306,7 +309,10 @@ public class WorkMigration {
                     note.addProperty(m.getProperty(BDO+"noteText"), "Catalog");
                     main.addProperty(notep, note);
                 }
-                note.addProperty(m.getProperty(BDO+"noteWork"), m.createResource(BDA+value));
+                Resource cat = 
+                        value.equals("PR1FEMC01") ? m.createResource(BDR+"W1FEMC01") : 
+                       (value.equals("PR1FEMC02") ? m.createResource(BDR+"W1FEMC02") : m.createResource(BDA+value));
+                note.addProperty(m.getProperty(BDO+"noteWork"), cat);
             } else {
                 List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
                 worksForProduct.add(main.getLocalName());

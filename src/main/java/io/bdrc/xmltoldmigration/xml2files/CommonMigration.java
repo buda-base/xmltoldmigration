@@ -756,6 +756,7 @@ public class CommonMigration  {
                 String noteTextStr = noteText.getString();
                 if (noteTextStr.startsWith("Catalog")) {
                     note = noteStmt.getResource();
+                    m.remove(noteText);
                     break;
                 }
             }
@@ -764,7 +765,7 @@ public class CommonMigration  {
                 note.addProperty(m.getProperty(BDO+"noteText"), "Catalog");
                 rez.addProperty(notep, note);
             }
-            note.addProperty(m.getProperty(BDO+"noteLocationStatement"), value);
+            note.addProperty(m.getProperty(BDO+"noteLocationStatement"), "pg. "+value);
             return true;
         } else if (type.equals("complete")) {
             if (value.equals("false")) {
@@ -774,9 +775,9 @@ public class CommonMigration  {
             }
             return true;
         } else if (type.equals("fascicles")) {
-            addNote(rez, "Fascicles", "",  value, null);
+            rez.addProperty(m.getProperty(BDO+"hasFascicles"), value);
         } else if (type.equals("workNum")) {
-            addNote(rez, "Work Number", "",  value, null);
+            rez.addProperty(m.getProperty(BDO+"hasWorkNum"), value);
         }
 
         return false;
