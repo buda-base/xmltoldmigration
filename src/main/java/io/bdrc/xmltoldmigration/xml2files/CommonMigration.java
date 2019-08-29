@@ -950,9 +950,9 @@ public class CommonMigration  {
     private static Resource COR_TITLE = ResourceFactory.createResource(BDO+"CorrectedTitle");
     private static Resource ORG_TITLE = ResourceFactory.createResource(BDO+"OriginalTitle");
 
-    private static Resource addFEMCTitle(Model m, Resource main, Element title, String type, boolean addPref, Resource titleVersion) {
+    private static Resource addFEMCTitle(Resource main, Element title, String type, boolean addPref, Resource titleVersion) {
         String rid = main.getLocalName();
-        Literal lit = getLiteral(title, "km-x-unspec", m, "title", rid, rid);
+        Literal lit = getLiteral(title, "km-x-unspec", main.getModel(), "title", rid, rid);
         
         if (lit == null) return null;
         
@@ -960,7 +960,7 @@ public class CommonMigration  {
         Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
         titleNode.addProperty(RDF.type, titleVersion);
         titleNode.addProperty(RDFS.label, lit);
-        main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
+        main.addProperty(main.getModel().getProperty(BDO, "workTitle"), titleNode);
         if (addPref) {
             main.addProperty(SKOS.prefLabel, lit);
         }
@@ -968,7 +968,11 @@ public class CommonMigration  {
         return titleNode;
     }
     
-    private static void addFEMCTitles(Model m, Resource main, List<Element> nodeList) {
+    private static boolean addFEMCTitles(Resource main, List<Element> nodeList) {
+        String rid = main.getLocalName();
+        if (!rid.contains("FEMC") || rid.equals("W1FEMC01") || rid.equals("W1FEMC02")) {
+            return false;
+        }
         boolean biblioKhmer = false;
         boolean biblioRoman = false;
         
@@ -1005,59 +1009,60 @@ public class CommonMigration  {
                 orgTitleRom = null;
         if (khmerStd != null) {
             biblioKhmer = true;
-            stdTitleKhm = addFEMCTitle(m, main, khmerStd, "bibliographicalTitle", true, STD_TITLE);
+            stdTitleKhm = addFEMCTitle(main, khmerStd, "bibliographicalTitle", true, STD_TITLE);
         }
         if (romanStd != null) {
             biblioRoman = true;
-            stdTitleRom = addFEMCTitle(m, main, romanStd, "bibliographicalTitle", true, STD_TITLE);
+            stdTitleRom = addFEMCTitle(main, romanStd, "bibliographicalTitle", true, STD_TITLE);
         }
         
         if (khmerCor != null) {
             if (biblioKhmer) {
-                corTitleKhm = addFEMCTitle(m, main, khmerCor, "otherTitle", false, COR_TITLE);
+                corTitleKhm = addFEMCTitle(main, khmerCor, "otherTitle", false, COR_TITLE);
             } else {
                 biblioKhmer = true;
-                corTitleKhm = addFEMCTitle(m, main, khmerCor, "bibliographicalTitle", true, COR_TITLE);
+                corTitleKhm = addFEMCTitle(main, khmerCor, "bibliographicalTitle", true, COR_TITLE);
             }
         }
         if (khmerOrg != null) {
             if (biblioKhmer) {
-                orgTitleKhm = addFEMCTitle(m, main, khmerOrg, "otherTitle", false, ORG_TITLE);
+                orgTitleKhm = addFEMCTitle(main, khmerOrg, "otherTitle", false, ORG_TITLE);
             } else {
                 biblioKhmer = true;
-                orgTitleKhm = addFEMCTitle(m, main, khmerOrg, "bibliographicalTitle", true, ORG_TITLE);
+                orgTitleKhm = addFEMCTitle(main, khmerOrg, "bibliographicalTitle", true, ORG_TITLE);
             }
         }
         
         if (romanCor != null) {
             if (biblioRoman) {
-                corTitleRom = addFEMCTitle(m, main, romanCor, "otherTitle", false, COR_TITLE);
+                corTitleRom = addFEMCTitle(main, romanCor, "otherTitle", false, COR_TITLE);
             } else {
                 biblioRoman = true;
-                corTitleRom = addFEMCTitle(m, main, romanCor, "bibliographicalTitle", true, COR_TITLE);
+                corTitleRom = addFEMCTitle(main, romanCor, "bibliographicalTitle", true, COR_TITLE);
             }
         }
         if (romanOrg != null) {
             if (biblioRoman) {
-                orgTitleRom = addFEMCTitle(m, main, romanOrg, "otherTitle", false, ORG_TITLE);
+                orgTitleRom = addFEMCTitle(main, romanOrg, "otherTitle", false, ORG_TITLE);
             } else {
                 biblioRoman = true;
-                orgTitleRom = addFEMCTitle(m, main, romanOrg, "bibliographicalTitle", true, ORG_TITLE);
+                orgTitleRom = addFEMCTitle(main, romanOrg, "bibliographicalTitle", true, ORG_TITLE);
             }
         }
 
         if (corTitleKhm != null && orgTitleKhm != null) {
-            corTitleKhm.addProperty(m.getProperty(BDO, "correctionOf"), orgTitleKhm);
+            corTitleKhm.addProperty(main.getModel().getProperty(BDO, "correctionOf"), orgTitleKhm);
         }
         if (corTitleRom != null && orgTitleRom != null) {
-            corTitleRom.addProperty(m.getProperty(BDO, "correctionOf"), orgTitleRom);
+            corTitleRom.addProperty(main.getModel().getProperty(BDO, "correctionOf"), orgTitleRom);
         }
+        
+        return true;
     }
 
     public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel, boolean outlineMode) {
         List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
-        if (main.getLocalName().contains("FEMC")) {
-            addFEMCTitles(m, main, nodeList);
+        if (addFEMCTitles(main, nodeList)) {
             return;
         }
         Map<String,Boolean> labelDoneForLang = new HashMap<>();
