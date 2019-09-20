@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
@@ -35,7 +34,6 @@ import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 
 public class GRETILTransfer {
 
-    public static final Map<String,String> rKTsRIDMap = EAPTransfer.getrKTsRIDMap();
     public static final String ORIG_URL_BASE = "http://gretil.sub.uni-goettingen.de/gretil.html";
 
     public static final void transferGRETIL() {

@@ -116,7 +116,7 @@ public class EAPTransfer {
     }
 
     public static final String rKTsToBDR(String rKTs) {
-        if (rKTs == null || rKTs.isEmpty() || rKTs.contains("?") || rKTs.contains("&"))
+        if (rKTs == null || rKTs.isEmpty() || rKTs.contains("?") || rKTs.contains("&") || rKTs.contains("/"))
             return null;
         rKTs = rKTs.trim();
         if (rKTsRIDMap.containsKey(rKTs)) {
@@ -188,6 +188,7 @@ public class EAPTransfer {
         noteText.append(", recordID: "+line[0]);
         noteText.append(", MDARK: "+line[7]);
         CommonMigration.addNote(work, noteText.toString(), "en", null, null);
+        workModel.add(work, workModel.createProperty(BDO, "printMethod"), workModel.createResource(BDR+"PrintMethod_Manuscript"));
         
         // other metadata
         final String langCode = line[5];
@@ -246,7 +247,6 @@ public class EAPTransfer {
             }
         }
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+"MaterialPaper"));
-        workModel.add(work, workModel.createProperty(BDO, "workObjectType"), workModel.createResource(BDR+"ObjectTypeManuscript"));
         final String abstractWorkRID = rKTsToBDR(line[15]);
         if (abstractWorkRID != null) {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", RID, abstractWorkRID, null);

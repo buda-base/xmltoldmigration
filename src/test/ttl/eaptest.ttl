@@ -13,6 +13,7 @@
 bdr:WEAP676-1-10  a        :Work ;
         :isRoot            true ;
         :note              bdr:NT2CA53B29EAC0 ;
+        :printMethod       bdr:PrintMethod_Manuscript ;
         :workDimHeight     10.5 ;
         :workDimWidth      "21"^^xsd:decimal ;
         :workEvent         bdr:EVFD0FA279FE56 ;
@@ -22,7 +23,6 @@ bdr:WEAP676-1-10  a        :Work ;
         :workIsAbout       bdr:T619 ;
         :workLangScript    bdr:SaNewa ;
         :workMaterial      bdr:MaterialPaper ;
-        :workObjectType    bdr:ObjectTypeManuscript ;
         :workTitle         bdr:TT0A889662CC4A ;
         skos:prefLabel     "Namastāre Saptaka Viṁśatī"@sa-x-iast .
 

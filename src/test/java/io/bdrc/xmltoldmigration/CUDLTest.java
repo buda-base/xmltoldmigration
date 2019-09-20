@@ -41,6 +41,7 @@ public class CUDLTest {
         List<Resource> res= CUDLTransfer.getResourcesFromLine(line);
         reader.close();
         Model workModel = res.get(0).getModel();
+        workModel.write(System.out, "TTL");
         Model model = ModelFactory.createDefaultModel();
         model.read(new FileInputStream("src/test/ttl/cudltest.ttl"), null,"TTL");
 //        

@@ -43,7 +43,6 @@ public class CUDLTransfer {
 
     public static  List<String[]> lines;
 
-    public static final Map<String,String> rKTsRIDMap = getrKTsRIDMap();
     public static final HashMap<String,String> scripts = getScripts();
     public static final String ORIG_URL_BASE = "https://cudl.lib.cam.ac.uk/view/";
 
@@ -90,62 +89,13 @@ public class CUDLTransfer {
             break;
         case "nep_multi_layered_paper":
             r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"MaterialPaper"));
-            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"AppliedMaterial_Poison"));
+            r.addProperty(m.createProperty(BDO, "appliedMaterial"), m.createResource(BDR+"AppliedMaterial_Poison"));
             break;
         case "black_paper":
             r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"MaterialPaper"));
-            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"AppliedMaterial_IndigoDye"));
+            r.addProperty(m.createProperty(BDO, "appliedMaterial"), m.createResource(BDR+"AppliedMaterial_IndigoDye"));
             break;
         }
-    }
-
-    public static final Map<String,String> getrKTsRIDMap() {
-        final CSVReader reader;
-        final CSVParser parser = new CSVParserBuilder().build();
-        final Map<String,String> res = new HashMap<>();
-        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
-        final InputStream inputStream = classLoader.getResourceAsStream("abstract-rkts.csv");
-        final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-        reader = new CSVReaderBuilder(in)
-                .withCSVParser(parser)
-                .build();
-        String[] line = null;
-        try {
-            line = reader.readNext();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        while (line != null) {
-            if (line.length > 1 && !line[1].contains("?"))
-                res.put(line[1], line[0]);
-            try {
-                line = reader.readNext();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return res;
-    }
-
-    public static final String rKTsToBDR(String rKTs) {
-        if (rKTs == null || rKTs.isEmpty() || rKTs.contains("?") || rKTs.contains("&"))
-            return null;
-        rKTs = rKTs.trim();
-        if (rKTsRIDMap.containsKey(rKTs)) {
-            return rKTsRIDMap.get(rKTs);
-        }
-        String rktsid;
-        try {
-            rktsid = String.format("%04d", Integer.parseInt(rKTs.substring(1)));
-        } catch (Exception e) {
-            return null;
-        }
-        if (rKTs.startsWith("K")) {
-            return "W0RKA"+rktsid;
-        }
-        return "W0RTA"+rktsid;
     }
 
     public static final List<Resource> getResourcesFromLine(String[] line) {
@@ -192,13 +142,14 @@ public class CUDLTransfer {
             titleR.addProperty(RDFS.label, altTitle, "sa-x-iast");
         }
         
-        final String abstractWorkRID = rKTsToBDR(line[4]);
+        final String abstractWorkRID = EAPTransfer.rKTsToBDR(line[4]);
         if (abstractWorkRID != null) {
             SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", "W0CDL0"+rid, abstractWorkRID, null);
         }
         if(!line[5].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+line[5]));
         }
+        workModel.add(work, workModel.createProperty(BDO, "printMethod"), workModel.createResource(BDR+"PrintMethod_Manuscript"));
         addMaterial(work, line[9]);
         if(!line[14].equals("")) {
             workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14].toLowerCase())));

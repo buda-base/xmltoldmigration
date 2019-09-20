@@ -486,6 +486,7 @@ public class MigrationApp
         GRETILTransfer.transferGRETIL();
         EAPFondsTransfer.EAPFondsDoTransfer();
         CUDLTransfer.CUDLDoTransfer();
+        NSITransfer.transferNIS();
         migrateTaxonomies();
         CommonMigration.speller.close();
         MigrationHelpers.reportMissing();

@@ -41,7 +41,7 @@ public class EAPTest {
         System.out.println("RES 0 >>> "+resources);
         // work
         Model workModel = resources.get(0).getModel();
-        //MigrationHelpers.modelToOutputStream(workModel, System.out, "work", MigrationHelpers.OUTPUT_STTL, null);
+        //workModel.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest.ttl");
 //        
 //        // ==== TEMP DEBUG ====
@@ -52,7 +52,7 @@ public class EAPTest {
         assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.getOntologyModel()) );
         //
         Model itemModel = resources.get(1).getModel();
-        //MigrationHelpers.modelToOutputStream(itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, null);
+        //itemModel.write(System.out, "TTL");
         correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest-item.ttl");
 //        
 //        // ==== TEMP DEBUG ====
