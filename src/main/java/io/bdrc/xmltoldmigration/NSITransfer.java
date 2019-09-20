@@ -138,7 +138,7 @@ public class NSITransfer {
         noteText.append(", from the collection of  "+line[8]);
         CommonMigration.addNote(work, noteText.toString(), "en", null, null);
         
-        CommonMigration.addNote(work, "“Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive.", "en", null, null);
+        CommonMigration.addNote(work, "Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive.", "en", null, null);
         
         workModel.add(work, workModel.createProperty(BDO, "printMethod"), workModel.createResource(BDR+"PrintMethod_Manuscript"));
         
