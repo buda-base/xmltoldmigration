@@ -38,15 +38,15 @@ public class NSITest {
         List<Resource> resources = NSITransfer.getResourcesFromLine(line);
         // work
         Model workModel = resources.get(0).getModel();
-        MigrationHelpers.modelToOutputStream(workModel, System.out, "work", MigrationHelpers.OUTPUT_STTL, null);
+        //MigrationHelpers.modelToOutputStream(workModel, System.out, "work", MigrationHelpers.OUTPUT_STTL, null);
         Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/nsitest.ttl");
         
         assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
         //assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.getOntologyModel()) );
         //
         Model itemModel = resources.get(1).getModel();
-        MigrationHelpers.modelToOutputStream(itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, null);
-        correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest-item.ttl");  
+        //MigrationHelpers.modelToOutputStream(itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, null);
+        correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/nsitest-item.ttl");  
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctModel) );
         //assertTrue( CommonMigration.rdfOkInOntology(itemModel, MigrationHelpers.getOntologyModel()) );
     }

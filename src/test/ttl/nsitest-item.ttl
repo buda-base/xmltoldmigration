@@ -31,5 +31,5 @@ bdr:V1NPL1  a           :VolumeImageAsset ;
     :imageList          "" ;
     :volumeNumber       1 ;
     :volumeOf           bdr:I1NPL1 ;
-    :volumePagesTbrcIntro   0 ;
+    :volumePagesTbrcIntro  0 ;
     :volumePagesTotal   0 .
