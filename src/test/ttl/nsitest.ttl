@@ -24,7 +24,7 @@ bdr:EVD524A9468EEE  a   :CopyEvent ;
     :onYear             1843 .
 
 bdr:NT7AB0E6B37D14  a   :Note ;
-    :noteText           "“Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive."@en .
+    :noteText           "Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive."@en .
 
 bdr:NTE0971F9F944A  a   :Note ;
     :noteText           "Dhāraṇī, indicated date: NS 964, from the collection of  Yagya Ratna Shakya"@en .
