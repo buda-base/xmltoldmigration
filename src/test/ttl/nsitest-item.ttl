@@ -21,6 +21,10 @@ bda:I1NPL1  a           adm:AdminData ;
     adm:restrictedInChina  false ;
     adm:status          bda:StatusReleased .
 
+bda:V1NPL1  a           adm:AdminData ;
+    adm:adminAbout      bdr:V1NPL1 ;
+    adm:legacyImageGroupRID  "I1NPL1" .
+
 bdr:I1NPL1  a           :ItemImageAsset ;
     :isRoot             true ;
     :itemForWork        bdr:W1NPL1 ;
