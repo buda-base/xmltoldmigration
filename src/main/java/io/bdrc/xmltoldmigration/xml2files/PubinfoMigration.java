@@ -146,23 +146,25 @@ public class PubinfoMigration {
                 if (isComputerInputDbuMed(main.getLocalName()))
                     m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
                 else
-                    m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeManuscript"));
+                    m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
                 break;
             case "dbuCan":
                 langTibetanDone = true;
                 m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
                 break;
             case "blockprint":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeBlockPrint"));
+                m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Relief_WoodBlock"));
                 break;
             case "longPalmLeaf":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeLongPalmLeaf"));
+                m.add(main, m.getProperty(BDO, "material"), m.createResource(BDR+"MaterialPalmLeaf"));
+                m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
                 break;
             case "shortPalmLeaf":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeShortPalmLeaf"));
+                m.add(main, m.getProperty(BDO, "material"), m.createResource(BDR+"MaterialPalmLeaf"));
+                m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
                 break;
             case "leporello":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeLeporello"));
+                m.add(main, m.getProperty(BDO, "binding"), m.createResource(BDR+"Binding_Continuous_Leporello"));
                 break;
             case "computerInput":
                 m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
