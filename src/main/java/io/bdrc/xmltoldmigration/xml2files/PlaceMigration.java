@@ -61,7 +61,6 @@ public class PlaceMigration {
             return iter.next();
         } else {
             System.err.println("PlaceMigration could not find ontology resource for PlaceType notSpecified");
-            System.exit(1);
             return null;
         }
     }
