@@ -1,76 +1,82 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix bda:   <http://purl.bdrc.io/admindata/> .
-@prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rkts:  <http://purl.rkts.eu/resource/> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
+
+bdr:DTDA88B89ACD5C  a  :DateIndication ;
+        :era        bdr:EraCS ;
+        :yearInEra  1123 .
+
+bdr:EVE38A9ECDAD31  a    :CompletedEvent ;
+        :dateIndication  bdr:DTDA88B89ACD5C ;
+        :notAfter        "1761"^^xsd:gYear ;
+        :notBefore       "1760"^^xsd:gYear .
 
 bda:LG110B41FF1279  a   adm:LogEntry ;
-    adm:logDate         "2019-08-09T18:33:25.452Z"^^xsd:dateTime ;
-    adm:logMessage      "imported FEMC 01 workW1FEMC020013"@en ;
-    adm:logWhoStr       "works-femc01-import.xql" .
+        adm:logDate     "2019-08-09T18:33:25.452Z"^^xsd:dateTime ;
+        adm:logMessage  "imported FEMC 01 workW1FEMC020013"@en ;
+        adm:logWhoStr   "works-femc01-import.xql" .
+
+bdr:TT5BB5FE4E479C  a  :CorrectedTitle , :WorkOtherTitle ;
+        rdfs:label     "ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី"@km ;
+        :correctionOf  bdr:TTA119335AE164 .
 
 bda:LG5C8BA200C60B  a   adm:LogEntry ;
-    adm:logMessage      "entered cataloging for W1FEMC020013"@en .
+        adm:logMessage  "entered cataloging for W1FEMC020013"@en .
 
-bda:W1FEMC020013  a     adm:AdminData ;
-    :isRoot             true ;
-    adm:adminAbout      bdr:W1FEMC020013 ;
-    adm:contentProvider  bda:CP041 ;
-    adm:facetIndex      12 ;
-    adm:gitPath         "d5/W1FEMC020013.trig" ;
-    adm:gitRepo         bda:GR0008 ;
-    adm:graphId         bdg:W1FEMC020013 ;
-    adm:logEntry        bda:LG110B41FF1279 , bda:LG5C8BA200C60B ;
-    adm:metadataLegal   bda:LD_BDRC_CC0 ;
-    adm:status          bda:StatusReleased .
+bdr:TT2E35B3B44A91  a  :OriginalTitle , :WorkOtherTitle ;
+        rdfs:label  "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmfemc .
 
-bdr:EVE38A9ECDAD31  a   :CompletedEvent ;
-    :onYear             "1123"^^:csDate .
+bdr:TT723D2BE55368  a  :CorrectedTitle , :WorkOtherTitle ;
+        rdfs:label     "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
+        :correctionOf  bdr:TT2E35B3B44A91 .
 
-bdr:MF94B84B608FC8  a   :ObjectTypeMicrofilm ;
-    :microfilmCanister  "18" ;
-    :microfilmStrip     "4" .
+bdr:TTA119335AE164  a  :OriginalTitle , :WorkOtherTitle ;
+        rdfs:label  "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km .
 
-bdr:NT5FFD1A061FB7  a   :Note ;
-    :noteLocationStatement  "pg. 3" ;
-    :noteWork           bdr:W1FEMC02 .
+bdr:W1FEMC020013  a              :Work , :PublishedWork ;
+        :hasFascicles            "1" ;
+        :hasWorkNum              "1" ;
+        :isRoot                  true ;
+        :note                    bdr:NT5FFD1A061FB7 ;
+        :workComplete            true ;
+        :workEvent               bdr:EVE38A9ECDAD31 ;
+        :workFEMCManuscriptCode  "a.13.I.1" ;
+        :workKDPPOldId           "1389" ;
+        :workMicrofilm           bdr:MF94B84B608FC8 ;
+        :workNumberOfVolumes     1 ;
+        :workTitle               bdr:TTA119335AE164 , bdr:TT043B7675220B , bdr:TT5BB5FE4E479C , bdr:TT723D2BE55368 , bdr:TT2E35B3B44A91 , bdr:TT8428F1539EFF ;
+        skos:prefLabel           "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
 
-bdr:TT043B7675220B  a   :StandardizedTitle , :WorkBibliographicalTitle ;
-    rdfs:label          "ច្បាប់ល្បើកថ្មី"@km .
+bdr:NT5FFD1A061FB7  a           :Note ;
+        :noteLocationStatement  "pg. 3" ;
+        :noteWork               bdr:W1FEMC02 .
 
-bdr:TT2E35B3B44A91  a   :OriginalTitle , :WorkOtherTitle ;
-    rdfs:label          "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmfemc .
+bdr:TT043B7675220B  a  :StandardizedTitle , :WorkBibliographicalTitle ;
+        rdfs:label  "ច្បាប់ល្បើកថ្មី"@km .
 
-bdr:TT5BB5FE4E479C  a   :CorrectedTitle , :WorkOtherTitle ;
-    rdfs:label          "ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី"@km ;
-    :correctionOf       bdr:TTA119335AE164 .
+bdr:MF94B84B608FC8  a       :ObjectTypeMicrofilm ;
+        :microfilmCanister  "18" ;
+        :microfilmStrip     "4" .
 
-bdr:TT723D2BE55368  a   :CorrectedTitle , :WorkOtherTitle ;
-    rdfs:label          "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
-    :correctionOf       bdr:TT2E35B3B44A91 .
+bda:W1FEMC020013  a          adm:AdminData ;
+        adm:adminAbout       bdr:W1FEMC020013 ;
+        adm:contentProvider  bda:CP041 ;
+        adm:facetIndex       13 ;
+        adm:gitPath          "d5/W1FEMC020013.trig" ;
+        adm:gitRepo          bda:GR0008 ;
+        adm:graphId          bdg:W1FEMC020013 ;
+        adm:logEntry         bda:LG5C8BA200C60B , bda:LG110B41FF1279 ;
+        adm:metadataLegal    bda:LD_BDRC_CC0 ;
+        adm:status           bda:StatusReleased ;
+        :isRoot              true .
 
-bdr:TT8428F1539EFF  a   :StandardizedTitle , :WorkBibliographicalTitle ;
-    rdfs:label          "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
-
-bdr:TTA119335AE164  a   :OriginalTitle , :WorkOtherTitle ;
-    rdfs:label          "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km .
-
-bdr:W1FEMC020013  a     :PublishedWork , :Work ;
-    skos:prefLabel      "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc ;
-    :hasFascicles       "1" ;
-    :hasWorkNum         "1" ;
-    :isRoot             true ;
-    :note               bdr:NT5FFD1A061FB7 ;
-    :workComplete       true ;
-    :workEvent          bdr:EVE38A9ECDAD31 ;
-    :workFEMCManuscriptCode  "a.13.I.1" ;
-    :workKDPPOldId      "1389" ;
-    :workMicrofilm      bdr:MF94B84B608FC8 ;
-    :workNumberOfVolumes  1 ;
-    :workTitle          bdr:TT043B7675220B , bdr:TT2E35B3B44A91 , bdr:TT5BB5FE4E479C , bdr:TT723D2BE55368 , bdr:TT8428F1539EFF , bdr:TTA119335AE164 .
+bdr:TT8428F1539EFF  a  :StandardizedTitle , :WorkBibliographicalTitle ;
+        rdfs:label  "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .

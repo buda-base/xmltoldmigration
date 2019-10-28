@@ -59,7 +59,7 @@ import com.atlascopco.hunspell.Hunspell;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.libraries.Models.FacetType;
-import io.bdrc.libraries.BdrcDateType;
+//import io.bdrc.libraries.BdrcDateType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.EwtsFixer;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -169,6 +169,10 @@ public class CommonMigration  {
 
     public static Literal yearLit(Model m, String dateStr) throws NumberFormatException {
         int yr = Integer.parseInt(dateStr);
+        return yearLit(m, yr);
+    }
+
+    public static Literal yearLit(Model m, int yr) {
         String padded = String.format("%04d" , yr);
         return m.createTypedLiteral(padded, XSDDatatype.XSDgYear);
     }
@@ -709,6 +713,26 @@ public class CommonMigration  {
         }
     }
     
+    private static Resource getEra(String type) {
+        switch (type) {
+        case "beDate": return ResourceFactory.createResource(BDR+"EraBE");
+        case "ceDate": return ResourceFactory.createResource(BDR+"EraCE");
+        case "csDate": return ResourceFactory.createResource(BDR+"EraCS");
+        }
+        
+        return null;
+    }
+    
+    private static int getEraYearOffset(String type) {
+        switch (type) {
+        case "beDate": return -543;
+        case "ceDate": return 0;
+        case "csDate": return 638;
+        }
+        
+        return 0;
+    }
+    
     private static boolean doFEMCDesc(Resource rez, String type, String value) {
         if ( ! rez.getLocalName().contains("FEMC")) {
             return false;
@@ -719,8 +743,26 @@ public class CommonMigration  {
         if (type.equals("beDate") || type.equals("ceDate") || type.equals("csDate")) {
             Resource event = getEvent(rez, "CompletedEvent", "workEvent");
             try {
-                RDFDatatype dateType = BdrcDateType.get(type);
-                event.addLiteral(m.getProperty(BDO, "onYear"), m.createTypedLiteral(value, dateType));
+                int yrInEra = Integer.parseInt(value);
+                // add DateIndication
+                Resource dateInd = getFacetNode(FacetType.DATE_INDICATION, rez);
+                Resource era = getEra(type);
+                event.addProperty(m.getProperty(BDO, "dateIndication"), dateInd);
+                dateInd.addProperty(m.getProperty(BDO, "era"), era);
+                // the following is used to avoid the automatic generation of an xsd:long literal instead of an xsd:integer
+                Literal yrInEraLit = ResourceFactory.createTypedLiteral(value, XSDDatatype.XSDinteger);
+                dateInd.addLiteral(m.getProperty(BDO, "yearInEra"), yrInEraLit);
+                // add notBefore/notAfter or onYear
+                int yrOff = getEraYearOffset(type);
+                if (yrOff == 0) {
+                    event.addProperty(m.getProperty(BDO, "onYear"), yearLit(m, yrInEra));
+                } else {
+                    int notBefore = yrOff > 0 ? yrInEra+yrOff-1 : yrInEra+yrOff;
+                    int notAfter = yrOff > 0 ? yrInEra+yrOff : yrInEra+yrOff+1;
+                    event.addProperty(m.getProperty(BDO, "notBefore"), yearLit(m, notBefore));
+                    event.addProperty(m.getProperty(BDO, "notAfter"), yearLit(m, notAfter));
+                }
+                
             } catch (DatatypeFormatException ex) {}
             return true;
         } else if (type.equals("oldCodes")) {
