@@ -49,7 +49,7 @@ bdr:TTF8411F25C214  a  :WorkBibliographicalTitle ;
 
 bdr:EV88744000A978  a  :CompletedEvent ;
         :onOrAbout  "descriptionwithtypedate" ;
-        :onYear     1232 .
+        :onYear     "1232"^^xsd:gYear .
 
 bdr:TTB8AAD6436BFB  a  :WorkOtherTitle ;
         rdfs:label  "testcap/"@bo-x-ewts .

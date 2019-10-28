@@ -11,6 +11,7 @@ import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getEvent;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.yearLit;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -124,9 +125,9 @@ public class NSITransfer {
         
         // event
         if (line[14].endsWith(" CE")) {
-            int date = Integer.parseInt(line[14].substring(0, line[14].length()-3));
+            String dateStr = line[14].substring(0, line[14].length()-3);
             Resource copyEventR = getEvent(work, "CopyEvent", "workEvent");
-            copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(date, XSDDatatype.XSDinteger));
+            copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), yearLit(workModel, dateStr));
         }
         
         // notes

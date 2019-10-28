@@ -73,12 +73,12 @@ bda:LGA43719D60344  a   adm:LogEntry ;
     adm:logWho          bdr:U00007 .
 
 bdr:EV17426918F6CC  a   :PlaceFounded ;
-    :notAfter           1799 ;
-    :notBefore          1300 .
+    :notAfter           "1799"^^xsd:gYear ;
+    :notBefore          "1300"^^xsd:gYear .
 
 bdr:EV8FFB31DDE90B  a   :PlaceFounded ;
     :note               bdr:NTB43104885531 ;
-    :onYear             1187 ;
+    :onYear             "1187"^^xsd:gYear ;
     :placeEventAffiliation  bdr:TraditionKagyu , bdr:TraditionTest .
 
 bdr:G488  a             :Place ;

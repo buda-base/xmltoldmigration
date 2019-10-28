@@ -15,7 +15,7 @@
     <!-- from L8LS15627 --><lineage:alternative>
         <lineage:holder>
             <lineage:who RID="P1018"> byang chub rdo rje </lineage:who>
-            <lineage:received RID="P8LS15618" site="G844" circa="?"> A tsar+ya sa le </lineage:received>
+            <lineage:received RID="P8LS15618" site="G844" circa="??"> A tsar+ya sa le </lineage:received>
             <lineage:downFrom RID="L8LS15610">phur pa phrin las kyi brgyud pa/ </lineage:downFrom>
             <lineage:work RID="WTest">test work</lineage:work>
             <lineage:description type="note">test description</lineage:description>

@@ -40,7 +40,7 @@ bda:P1331  a               adm:AdminData ;
         :isRoot            true .
 
 bdr:EV4D6B8F9B0828  a  :PersonDeath ;
-        :onYear  1322 .
+        :onYear  "1322"^^xsd:gYear .
 
 bdr:NME51DB3F4D952  a  :PersonPrimaryName ;
         rdfs:label  "blo gros rnam dag"@bo-x-ewts .

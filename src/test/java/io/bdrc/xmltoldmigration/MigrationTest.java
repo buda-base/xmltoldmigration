@@ -10,6 +10,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -455,6 +456,11 @@ public class MigrationTest
         Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/L8LS14115.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "lineage", MigrationHelpers.OUTPUT_STTL, "");
+//      
+//      // ==== TEMP DEBUG ====
+//        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testL8LS14115-fromXml.ttl"), "TTL");
+//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testL8LS14115-correctModel.ttl"), "TTL");
+//
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

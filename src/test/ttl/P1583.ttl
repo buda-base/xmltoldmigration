@@ -17,15 +17,15 @@ bdr:NM6E5B539FC14B  a  :PersonPersonalName ;
         rdfs:label  "tshul khrims blo gros/"@bo-x-ewts .
 
 bdr:EVDAA95D67ECFA  a  :PersonEventNotSpecified ;
-        :onYear  1364 .
+        :onYear  "1364"^^xsd:gYear .
 
 bdr:NMF942A81B0A73  a  :PersonTitle ;
         rdfs:label  "klong chen rab 'byams/"@bo-x-ewts .
 
 bdr:EVF24F5C4DD814  a  :PersonInResidence ;
         :eventWhere  bdr:G20 ;
-        :notAfter    1735 ;
-        :notBefore   1734 .
+        :notAfter    "1735"^^xsd:gYear ;
+        :notBefore   "1734"^^xsd:gYear .
 
 bda:P1583  a               adm:AdminData ;
         rdfs:seeAlso       bdr:O1GS392481GS39291 ;
@@ -78,8 +78,8 @@ bdr:NMED06EB68CC7F  a  :PersonPrimaryName ;
         rdfs:label  "dri med 'od zer/"@bo-x-ewts .
 
 bdr:EV93D338F6A346  a  :PersonBirth ;
-        :notAfter   999 ;
-        :notBefore  900 .
+        :notAfter   "0999"^^xsd:gYear ;
+        :notBefore  "0900"^^xsd:gYear .
 
 bdr:NM9C8DEB6FF7CE  a  :PersonPrimaryName ;
         rdfs:label  "dri med 'od zer/ 2"@bo-x-ewts .
@@ -102,7 +102,7 @@ bdr:P1583  a                 :Person ;
 
 bdr:EVE1C8F77F6AFC  a     :PersonBirth ;
         :eventWhere       bdr:G967 ;
-        :onYear           1308 ;
+        :onYear           "1308"^^xsd:gYear ;
         :personEventRole  bdr:R123 .
 
 bdr:NT757F77D8BA18  a  :Note ;
@@ -115,8 +115,8 @@ bdr:NTAF7D0940EAE3  a           :Note ;
 
 bdr:EVB25CDA7F0516  a  :PersonAssumesOffice ;
         :eventWhere  bdr:G20 ;
-        :notAfter    1735 ;
-        :notBefore   1734 .
+        :notAfter    "1735"^^xsd:gYear ;
+        :notBefore   "1734"^^xsd:gYear .
 
 bdr:NTE1683F39A3E5  a           :Note ;
         :noteLocationStatement  "251" ;

@@ -10,7 +10,9 @@ import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getAdminData;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
+import static io.bdrc.xmltoldmigration.xml2files.CommonMigration.yearLit;
 import org.apache.jena.rdf.model.Literal;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -141,10 +143,10 @@ public class EAPFondsTransfer {
             }
             // TODO: add locations in other eap sheets
             if (notBefore.equals(notAfter)) {
-                workModel.add(event, workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(Integer.valueOf(notBefore), XSDDatatype.XSDinteger));    
+                workModel.add(event, workModel.createProperty(BDO, "onYear"), yearLit(workModel, notBefore));    
             } else {
-                workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(Integer.valueOf(notBefore), XSDDatatype.XSDinteger));
-                workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(Integer.valueOf(notAfter), XSDDatatype.XSDinteger));
+                workModel.add(event, workModel.createProperty(BDO, "notBefore"), yearLit(workModel, notBefore));    
+                workModel.add(event, workModel.createProperty(BDO, "notAfter"), yearLit(workModel, notAfter));    
             }
         }
     }

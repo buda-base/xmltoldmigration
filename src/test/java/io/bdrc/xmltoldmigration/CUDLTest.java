@@ -41,14 +41,9 @@ public class CUDLTest {
         List<Resource> res= CUDLTransfer.getResourcesFromLine(line);
         reader.close();
         Model workModel = res.get(0).getModel();
-        workModel.write(System.out, "TTL");
+//        workModel.write(System.out, "TTL");
         Model model = ModelFactory.createDefaultModel();
         model.read(new FileInputStream("src/test/ttl/cudltest.ttl"), null,"TTL");
-//        
-//        // ==== TEMP DEBUG ====
-//        workModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/CUDLTest-workModel.ttl"), "TTL");
-//        model.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/CUDLTest-correctModel.ttl"), "TTL");
-//
         assertTrue( workModel.isIsomorphicWith(model) );
     }
 

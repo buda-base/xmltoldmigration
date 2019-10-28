@@ -167,6 +167,12 @@ public class CommonMigration  {
         addDates(dateStr, event, null);
     }
 
+    public static Literal yearLit(Model m, String dateStr) throws NumberFormatException {
+        int yr = Integer.parseInt(dateStr);
+        String padded = String.format("%04d" , yr);
+        return m.createTypedLiteral(padded, XSDDatatype.XSDgYear);
+    }
+    
     public static void addDates(String dateStr, final Resource event, final Resource mainResource) {
         if (dateStr == null || dateStr.isEmpty())
             return;
@@ -187,8 +193,7 @@ public class CommonMigration  {
             dateStr = dateStr.substring(0, dateStr.length()-7);
         }
         try {
-            final int exact = Integer.parseInt(dateStr);
-            m.add(event, m.getProperty(BDO, "onYear"), m.createTypedLiteral(exact, XSDDatatype.XSDinteger));    
+            m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr));    
             return;
         } catch (NumberFormatException e) {}
         int slashidx = dateStr.indexOf('/');
@@ -204,14 +209,12 @@ public class CommonMigration  {
             firstDate = firstDate.replace('u', '0');
             secondDate = secondDate.replace('u', '9');
             try {
-                final int notBefore = Integer.parseInt(firstDate);
-                m.add(event, m.getProperty(BDO, "notBefore"), m.createTypedLiteral(notBefore, XSDDatatype.XSDinteger));    
+                m.add(event, m.getProperty(BDO, "notBefore"), yearLit(m, firstDate));    
             } catch (NumberFormatException e) { 
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
             try {
-                final int notAfter = Integer.parseInt(secondDate);
-                m.add(event, m.getProperty(BDO, "notAfter"), m.createTypedLiteral(notAfter, XSDDatatype.XSDinteger));    
+                m.add(event, m.getProperty(BDO, "notAfter"), yearLit(m, secondDate));    
             } catch (NumberFormatException e) { 
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
@@ -221,14 +224,12 @@ public class CommonMigration  {
             String firstDate = dateStr.replace('u', '0');
             String secondDate = dateStr.replace('u', '9');
             try {
-                final int notBefore = Integer.parseInt(firstDate);
-                m.add(event, m.getProperty(BDO, "notBefore"), m.createTypedLiteral(notBefore, XSDDatatype.XSDinteger));    
+                m.add(event, m.getProperty(BDO, "notBefore"), yearLit(m, firstDate));    
             } catch (NumberFormatException e) { 
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
             try {
-                final int notAfter = Integer.parseInt(secondDate);
-                m.add(event, m.getProperty(BDO, "notAfter"), m.createTypedLiteral(notAfter, XSDDatatype.XSDinteger));    
+                m.add(event, m.getProperty(BDO, "notAfter"), yearLit(m, secondDate));    
             } catch (NumberFormatException e) { 
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }

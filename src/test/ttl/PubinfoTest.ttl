@@ -35,7 +35,7 @@ bda:W1FPL1  a           adm:AdminData ;
     adm:logEntry        bda:LG725E8279E4B4 , bda:LGEAF54DACE95D , bda:LGEDA5DE9E3376 .
 
 bdr:EV1F91ADA2A1C7  a   :PublishedEvent ;
-    :onYear             2000 .
+    :onYear             "2000"^^xsd:gYear .
 
 bdr:I1FPL1_P001  a      :ItemPhysicalAsset ;
     :itemCopies         "1" ;
