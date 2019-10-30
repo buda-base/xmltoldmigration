@@ -24,22 +24,22 @@ bda:LG110B41FF1279  a   adm:LogEntry ;
         adm:logMessage  "imported FEMC 01 workW1FEMC020013"@en ;
         adm:logWhoStr   "works-femc01-import.xql" .
 
-bdr:TT5BB5FE4E479C  a  :CorrectedTitle , :WorkOtherTitle ;
-        rdfs:label     "ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី"@km ;
-        :correctionOf  bdr:TTA119335AE164 .
+bdr:TT5BB5FE4E479C  a      :WorkCoverTitle ;
+        rdfs:label         "ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី"@km ;
+        :femcConversionOf  bdr:TT723D2BE55368 .
 
 bda:LG5C8BA200C60B  a   adm:LogEntry ;
         adm:logMessage  "entered cataloging for W1FEMC020013"@en .
 
-bdr:TT2E35B3B44A91  a  :OriginalTitle , :WorkOtherTitle ;
-        rdfs:label  "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmfemc .
+bdr:TT2E35B3B44A91  a  :WorkCoverTitle ;
+        rdfs:label  "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-prem-kmfemc .
 
-bdr:TT723D2BE55368  a  :CorrectedTitle , :WorkOtherTitle ;
-        rdfs:label     "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
-        :correctionOf  bdr:TT2E35B3B44A91 .
+bdr:TT723D2BE55368  a  :WorkCoverTitle ;
+        rdfs:label  "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km-x-prem .
 
-bdr:TTA119335AE164  a  :OriginalTitle , :WorkOtherTitle ;
-        rdfs:label  "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km .
+bdr:TTA119335AE164  a      :WorkCoverTitle ;
+        rdfs:label         "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
+        :femcConversionOf  bdr:TT2E35B3B44A91 .
 
 bdr:W1FEMC020013  a              :Work , :PublishedWork ;
         :hasFascicles            "1" ;
@@ -59,7 +59,7 @@ bdr:NT5FFD1A061FB7  a           :Note ;
         :noteLocationStatement  "pg. 3" ;
         :noteWork               bdr:W1FEMC02 .
 
-bdr:TT043B7675220B  a  :StandardizedTitle , :WorkBibliographicalTitle ;
+bdr:TT043B7675220B  a  :WorkBibliographicalTitle ;
         rdfs:label  "ច្បាប់ល្បើកថ្មី"@km .
 
 bdr:MF94B84B608FC8  a       :ObjectTypeMicrofilm ;
@@ -78,5 +78,5 @@ bda:W1FEMC020013  a          adm:AdminData ;
         adm:status           bda:StatusReleased ;
         :isRoot              true .
 
-bdr:TT8428F1539EFF  a  :StandardizedTitle , :WorkBibliographicalTitle ;
+bdr:TT8428F1539EFF  a  :WorkBibliographicalTitle ;
         rdfs:label  "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .

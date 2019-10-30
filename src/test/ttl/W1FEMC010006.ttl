@@ -34,9 +34,8 @@ bda:W1FEMC010006  a        adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:TT082886A6DBCA  a  :CorrectedTitle , :WorkBibliographicalTitle ;
-        rdfs:label     "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
-        :correctionOf  bdr:TTE904A347F23C .
+bdr:TT082886A6DBCA  a  :WorkCoverTitle ;
+        rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr-x-prem .
 
 bdr:EVD19FFFF27FDB  a    :CompletedEvent ;
         :dateIndication  bdr:DT0A8ABBFD1119 ;
@@ -52,16 +51,17 @@ bdr:DT0A8ABBFD1119  a  :DateIndication ;
         :era        bdr:EraBE ;
         :yearInEra  2442 .
 
-bdr:TT001D753B6662  a  :OriginalTitle , :WorkOtherTitle ;
-        rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
+bdr:TT001D753B6662  a      :WorkBibliographicalTitle ;
+        rdfs:label         "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
+        :femcConversionOf  bdr:TTE904A347F23C .
 
 bdr:MF0782755ABB25  a       :ObjectTypeMicrofilm ;
         :microfilmCanister  "IV" ;
         :microfilmStrip     "16" .
 
-bdr:TT1BB6D78B9E46  a  :CorrectedTitle , :WorkBibliographicalTitle ;
-        rdfs:label     "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr ;
-        :correctionOf  bdr:TT001D753B6662 .
+bdr:TT1BB6D78B9E46  a      :WorkBibliographicalTitle ;
+        rdfs:label         "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr ;
+        :femcConversionOf  bdr:TT082886A6DBCA .
 
 bda:LG212C01852123  a   adm:LogEntry ;
         adm:logMessage  "entered cataloging for W1FEMC010006"@en ;
@@ -71,5 +71,5 @@ bdr:NT6973BEA6ED01  a           :Note ;
         :noteLocationStatement  "pg. 54" ;
         :noteWork               bdr:W1FEMC01 .
 
-bdr:TTE904A347F23C  a  :OriginalTitle , :WorkOtherTitle ;
-        rdfs:label  "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc .
+bdr:TTE904A347F23C  a  :WorkCoverTitle ;
+        rdfs:label  "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-prem-kmfemc .

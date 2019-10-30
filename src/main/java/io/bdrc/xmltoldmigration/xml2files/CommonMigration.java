@@ -988,20 +988,38 @@ public class CommonMigration  {
             return m.createResource(BDO+"WorkBibliographicalTitle");
         }
     }
-    
-    private static Resource STD_TITLE = ResourceFactory.createResource(BDO+"StandardizedTitle");
-    private static Resource COR_TITLE = ResourceFactory.createResource(BDO+"CorrectedTitle");
-    private static Resource ORG_TITLE = ResourceFactory.createResource(BDO+"OriginalTitle");
 
-    private static Resource addFEMCTitle(Resource main, Element title, String type, boolean addPref, Resource titleVersion) {
-        String rid = main.getLocalName();
-        Literal lit = getLiteral(title, "km-x-unspec", main.getModel(), "title", rid, rid);
+    private static Literal getFEMCLit(Element title, Model m) {
+        String value = title.getTextContent();
+        String lang = title.getAttribute("lang");
+        String type = title.getAttribute("type");
+        boolean prem = type.equals("khmerOriginal") || type.equals("romanOriginal");
+        boolean roman = type.contains("roman");
+        String tag = "km-x-unspec";
+        
+        if (lang.equals("khmer")) {
+            if (roman) {
+                tag = prem ? "km-x-prem-kmfemc" : "km-x-kmfemc" ;
+            } else {
+                tag = prem ? "km-x-prem" : "km" ;
+            }
+        } else if (lang.equals("pāli")) {
+            if (roman) {
+                tag = prem ? "pi-x-prem-kmfemc" : "pi-x-kmfemc" ;
+            } else {
+                tag = prem ? "pi-khmr-x-prem" : "pi-khmr" ;
+            }
+        }
+        
+        return m.createLiteral(value, tag);
+    }
+    private static Resource addFEMCTitle(Resource main, Element title, String type, boolean addPref) {
+        Literal lit = getFEMCLit(title, main.getModel());
         
         if (lit == null) return null;
         
         Resource nodeType = getNodeType(type, false, main);
         Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
-        titleNode.addProperty(RDF.type, titleVersion);
         titleNode.addProperty(RDFS.label, lit);
         main.addProperty(main.getModel().getProperty(BDO, "workTitle"), titleNode);
         if (addPref) {
@@ -1050,54 +1068,63 @@ public class CommonMigration  {
                 corTitleRom = null, 
                 orgTitleKhm = null, 
                 orgTitleRom = null;
+        
         if (khmerStd != null) {
-            biblioKhmer = true;
-            stdTitleKhm = addFEMCTitle(main, khmerStd, "bibliographicalTitle", true, STD_TITLE);
+            if (khmerStd.getTextContent().contentEquals("ទសជាតក")) {
+                stdTitleKhm = addFEMCTitle(main, khmerStd, "otherTitle", false);
+            } else {
+                biblioKhmer = true;
+                stdTitleKhm = addFEMCTitle(main, khmerStd, "bibliographicalTitle", true);
+            }
         }
         if (romanStd != null) {
-            biblioRoman = true;
-            stdTitleRom = addFEMCTitle(main, romanStd, "bibliographicalTitle", true, STD_TITLE);
+            if (romanStd.getTextContent().contentEquals("das jātak")) {
+                stdTitleRom = addFEMCTitle(main, khmerStd, "otherTitle", false);
+            } else {
+                biblioRoman = true;
+                stdTitleRom = addFEMCTitle(main, romanStd, "bibliographicalTitle", true);
+            }
         }
         
         if (khmerCor != null) {
             if (biblioKhmer) {
-                corTitleKhm = addFEMCTitle(main, khmerCor, "otherTitle", false, COR_TITLE);
+                corTitleKhm = addFEMCTitle(main, khmerCor, "coverTitle", false);
             } else {
                 biblioKhmer = true;
-                corTitleKhm = addFEMCTitle(main, khmerCor, "bibliographicalTitle", true, COR_TITLE);
+                corTitleKhm = addFEMCTitle(main, khmerCor, "bibliographicalTitle", true);
             }
-        }
-        if (khmerOrg != null) {
-            if (biblioKhmer) {
-                orgTitleKhm = addFEMCTitle(main, khmerOrg, "otherTitle", false, ORG_TITLE);
+        }        
+        if (romanCor != null) {
+            if (biblioRoman) {
+                corTitleRom = addFEMCTitle(main, romanCor, "coverTitle", false);
             } else {
-                biblioKhmer = true;
-                orgTitleKhm = addFEMCTitle(main, khmerOrg, "bibliographicalTitle", true, ORG_TITLE);
+                biblioRoman = true;
+                corTitleRom = addFEMCTitle(main, romanCor, "bibliographicalTitle", true);
             }
         }
         
-        if (romanCor != null) {
-            if (biblioRoman) {
-                corTitleRom = addFEMCTitle(main, romanCor, "otherTitle", false, COR_TITLE);
+        if (khmerOrg != null) {
+            if (biblioKhmer) {
+                orgTitleKhm = addFEMCTitle(main, khmerOrg, "coverTitle", false);
             } else {
-                biblioRoman = true;
-                corTitleRom = addFEMCTitle(main, romanCor, "bibliographicalTitle", true, COR_TITLE);
+                biblioKhmer = true;
+                orgTitleKhm = addFEMCTitle(main, khmerOrg, "bibliographicalTitle", true);
             }
         }
         if (romanOrg != null) {
             if (biblioRoman) {
-                orgTitleRom = addFEMCTitle(main, romanOrg, "otherTitle", false, ORG_TITLE);
+                orgTitleRom = addFEMCTitle(main, romanOrg, "coverTitle", false);
             } else {
                 biblioRoman = true;
-                orgTitleRom = addFEMCTitle(main, romanOrg, "bibliographicalTitle", true, ORG_TITLE);
+                orgTitleRom = addFEMCTitle(main, romanOrg, "bibliographicalTitle", true);
             }
         }
 
         if (corTitleKhm != null && orgTitleKhm != null) {
-            corTitleKhm.addProperty(main.getModel().getProperty(BDO, "correctionOf"), orgTitleKhm);
+            corTitleKhm.addProperty(main.getModel().getProperty(BDO, "femcConversionOf"), orgTitleKhm);
         }
         if (corTitleRom != null && orgTitleRom != null) {
-            corTitleRom.addProperty(main.getModel().getProperty(BDO, "correctionOf"), orgTitleRom);
+            corTitleRom.addProperty(main.getModel().getProperty(BDO, "femcConversionOf"), orgTitleRom);
         }
         
         return true;
