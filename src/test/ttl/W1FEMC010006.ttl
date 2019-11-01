@@ -35,7 +35,7 @@ bda:W1FEMC010006  a        adm:AdminData ;
         :isRoot            true .
 
 bdr:TT082886A6DBCA  a  :WorkCoverTitle ;
-        rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr-x-prem .
+        rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr-x-kmpre20c .
 
 bdr:EVD19FFFF27FDB  a    :CompletedEvent ;
         :dateIndication  bdr:DT0A8ABBFD1119 ;
@@ -72,4 +72,4 @@ bdr:NT6973BEA6ED01  a           :Note ;
         :noteWork               bdr:W1FEMC01 .
 
 bdr:TTE904A347F23C  a  :WorkCoverTitle ;
-        rdfs:label  "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-prem-kmfemc .
+        rdfs:label  "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmpre20c-kmfemc .

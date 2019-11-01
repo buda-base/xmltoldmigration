@@ -32,10 +32,10 @@ bda:LG5C8BA200C60B  a   adm:LogEntry ;
         adm:logMessage  "entered cataloging for W1FEMC020013"@en .
 
 bdr:TT2E35B3B44A91  a  :WorkCoverTitle ;
-        rdfs:label  "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-prem-kmfemc .
+        rdfs:label  "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmpre20c-kmfemc .
 
 bdr:TT723D2BE55368  a  :WorkCoverTitle ;
-        rdfs:label  "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km-x-prem .
+        rdfs:label  "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km-x-kmpre20c .
 
 bdr:TTA119335AE164  a      :WorkCoverTitle ;
         rdfs:label         "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;

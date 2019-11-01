@@ -999,15 +999,15 @@ public class CommonMigration  {
         
         if (lang.equals("khmer")) {
             if (roman) {
-                tag = prem ? "km-x-prem-kmfemc" : "km-x-kmfemc" ;
+                tag = prem ? "km-x-kmpre20c-kmfemc" : "km-x-kmfemc" ;
             } else {
-                tag = prem ? "km-x-prem" : "km" ;
+                tag = prem ? "km-x-kmpre20c" : "km" ;
             }
         } else if (lang.equals("pāli")) {
             if (roman) {
-                tag = prem ? "pi-x-prem-kmfemc" : "pi-x-kmfemc" ;
+                tag = prem ? "pi-x-kmpre20c-kmfemc" : "pi-x-kmfemc" ;
             } else {
-                tag = prem ? "pi-khmr-x-prem" : "pi-khmr" ;
+                tag = prem ? "pi-khmr-x-kmpre20c" : "pi-khmr" ;
             }
         }
         
