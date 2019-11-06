@@ -18,6 +18,7 @@ bdr:W1FEMC010006  a              :Work , :PublishedWork ;
         :workComplete            false ;
         :workEvent               bdr:EVD19FFFF27FDB ;
         :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
+        :workIsAbout             bdr:FEMC_Scheme_VII ;
         :workMicrofilm           bdr:MF0782755ABB25 ;
         :workNumberOfVolumes     1 ;
         :workTitle               bdr:TT001D753B6662 , bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 , bdr:TTE904A347F23C ;

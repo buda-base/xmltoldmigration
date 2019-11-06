@@ -770,6 +770,14 @@ public class CommonMigration  {
             return true;
         } else if (type.equals("femcManuscriptCode")) {
             rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
+            String[] pieces = value.split("\\.");
+            int len = pieces.length;
+            String subjCode = pieces[len-1];
+            if (pieces[len-1].matches("\\d")) {
+                subjCode = pieces[len-2]+"_"+pieces[len-1];
+            }
+            String subjId = "FEMC_Scheme_"+subjCode;
+            rez.addProperty(m.getProperty(BDO, "workIsAbout"), m.createResource(BDR+subjId));
             return true;
         } else if (type.equals("filmCanister")) {
             Property mfp = m.getProperty(BDO+"workMicrofilm");
@@ -1070,7 +1078,7 @@ public class CommonMigration  {
                 orgTitleRom = null;
         
         if (khmerStd != null) {
-            if (khmerStd.getTextContent().contentEquals("ទសជាតក")) {
+            if (romanStd.getTextContent().contentEquals("das jātak")) {
                 stdTitleKhm = addFEMCTitle(main, khmerStd, "otherTitle", false);
             } else {
                 biblioKhmer = true;

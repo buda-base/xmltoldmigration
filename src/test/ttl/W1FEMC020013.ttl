@@ -49,6 +49,7 @@ bdr:W1FEMC020013  a              :Work , :PublishedWork ;
         :workComplete            true ;
         :workEvent               bdr:EVE38A9ECDAD31 ;
         :workFEMCManuscriptCode  "a.13.I.1" ;
+        :workIsAbout             bdr:FEMC_Scheme_I_1 ;
         :workKDPPOldId           "1389" ;
         :workMicrofilm           bdr:MF94B84B608FC8 ;
         :workNumberOfVolumes     1 ;
