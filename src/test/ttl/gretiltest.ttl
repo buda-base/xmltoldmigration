@@ -29,7 +29,7 @@ bdr:CR96F00AAAE1EB  a  :AgentAsCreator ;
         :role   bdr:R0ER0019 .
 
 bdr:TT689E6F9C849A  a  :WorkBibliographicalTitle ;
-        rdfs:label  "Niṣpannayogāvali"@sa-x-iast .
+        rdfs:label  "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
 
 bdr:W0GR0001  a            :UnicodeWork ;
         :creator           bdr:CR96F00AAAE1EB ;
@@ -37,7 +37,8 @@ bdr:W0GR0001  a            :UnicodeWork ;
         :note              bdr:NTB2EC128E3232 , bdr:NTE0253A895570 ;
         :workExpressionOf  bdr:W0RTA1961 ;
         :workTitle         bdr:TT689E6F9C849A ;
-        skos:prefLabel     "Niṣpannayogāvali"@sa-x-iast , "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
+        skos:prefLabel     "Abhayakaragupta: Nispannayogavali, chapter 1"@en ;
+	skos:altLabel      "Niṣpannayogāvali"@sa-x-iast .
 
 bdr:NTE0253A895570  a  :Note ;
         :noteText  "Input by Klaus Wille (Göttingen, Germany)"@en .
