@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -140,6 +141,9 @@ public class CommonMigration  {
         return BDR+creatorMigrations.get(type);
     }
 
+    
+    public static final List<String> creatorForInstance = Arrays.asList(new String[]{"hasCalligrapher", "hasScribe", "hasEditor"});
+    
     /**
      * Creates a new named AgentAsCreator node and adds bdo:creator node to the supplied work.
      * 
@@ -150,7 +154,12 @@ public class CommonMigration  {
      */
     public static void addAgentAsCreator(Resource work, Resource person, String roleKey, Resource workA) {
         Model m = work.getModel();
-        Resource agentAsCreator = getFacetNode(FacetType.CREATOR, work);
+        Resource agentAsCreator;
+        if (workA != null && !creatorForInstance.contains(roleKey)) {
+            agentAsCreator = getFacetNode(FacetType.CREATOR, workA);
+        } else {
+            agentAsCreator = getFacetNode(FacetType.CREATOR, work);            
+        }
         work.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
         agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
         Resource role = m.createResource(getCreatorRoleUri(roleKey));
