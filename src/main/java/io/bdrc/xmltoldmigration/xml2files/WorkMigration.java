@@ -106,12 +106,25 @@ public class WorkMigration {
         Resource absWorkClass = m.createResource(BDO+"AbstractWork");
         return m.listStatements(work, RDF.type, absWorkClass).hasNext();
     }
+    
+    public static String getAbstractForRid(final String rid) {
+        // TODO: mechanize some conflation
+        return "WA"+rid.substring(1);
+    }
 	    
 	public static Model MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String workId = root.getAttribute("RID");
-        Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Work");
+		String aWorkId = getAbstractForRid(workId);
+        Resource main = createRoot(m, BDR+workId, BDO+"Work");
+        Resource mainA = null;
+        if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
+            mainA = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
+            main.addProperty(m.createProperty(BDO, "workExpressionOf"), mainA);
+            mainA.addProperty(m.createProperty(BDO, "workHasExpression"), main);
+        }
+        
         Resource admMain = createAdminRoot(main);
 		
 		addStatus(m, admMain, root.getAttribute("status"));        
@@ -123,11 +136,11 @@ public class WorkMigration {
 		Property prop;
 		
 		CommonMigration.addNotes(m, root, main, WXSDNS);
-	    CommonMigration.addExternals(m, root, main, WXSDNS);
+	    CommonMigration.addExternals(m, root, mainA, WXSDNS);
 	    CommonMigration.addLog(m, root, admMain, WXSDNS);
 		
-	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false);
-	    CommonMigration.addSubjects(m, main, root, WXSDNS);
+	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
+	    CommonMigration.addSubjects(m, mainA == null ? main : mainA, root, WXSDNS);
 	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS);
 	    if (itemModelsFromDesc != null) {
 	        if (!splitItems) {
@@ -275,7 +288,7 @@ public class WorkMigration {
             } else {
                 person = MigrationHelpers.sanitizeRID(main.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value);
+                    CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, mainA);
             }
         }
         

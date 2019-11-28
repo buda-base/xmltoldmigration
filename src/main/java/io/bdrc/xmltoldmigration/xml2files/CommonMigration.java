@@ -4,7 +4,6 @@ import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 import static io.bdrc.libraries.LangStrings.getBCP47;
 import static io.bdrc.libraries.LangStrings.isDeva;
 import static io.bdrc.libraries.LangStrings.isLikelyEnglish;
-import static io.bdrc.libraries.LangStrings.normalizeEwts;
 import static io.bdrc.libraries.LangStrings.normalizeTibetan;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
@@ -149,7 +148,7 @@ public class CommonMigration  {
      * @param roleKey the name of the type pof role of the creator
      * @param rootAdmWork the root AdminData that contains the adm:facetIndex
      */
-    public static void addAgentAsCreator(Resource work, Resource person, String roleKey) {
+    public static void addAgentAsCreator(Resource work, Resource person, String roleKey, Resource workA) {
         Model m = work.getModel();
         Resource agentAsCreator = getFacetNode(FacetType.CREATOR, work);
         work.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
@@ -977,11 +976,11 @@ public class CommonMigration  {
         case "dkarChagTitle":
         case "colophonTitle":
         case "coverTitle":
+        case "incipitTitle":
         case "halfTitle":
         case "otherTitle":
         case "spineTitle":
         case "copyrightPageTitle":
-        case "bibliographicalTitle":
             return m.createResource(BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1));
         case "sectionTitle":
         case "captionTitle":
@@ -991,9 +990,13 @@ public class CommonMigration  {
                 return m.createResource(BDO+"WorkOtherTitle");
         case "portion":
             return m.createResource(BDO+"WorkTitlePortion");
+        case "incipit":
+            return m.createResource(BDO+"WorkIncipitTitle");
+        case "bibliographicalTitle":
+            return m.createResource(BDO+"WorkTitle");
         default:
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, work.getLocalName(), work.getLocalName(), "title", "unknown title type `"+type+"`");
-            return m.createResource(BDO+"WorkBibliographicalTitle");
+            return m.createResource(BDO+"WorkTitle");
         }
     }
 
@@ -1138,7 +1141,21 @@ public class CommonMigration  {
         return true;
     }
 
-    public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel, boolean outlineMode) {
+    public static Literal abstractTitle(Literal l, Model m, String rid) {
+        if (l.getLanguage().equals("bo-x-ewts")) {
+            // TODO: remove first parenthesis, as in:
+            // "(ya) yang bzlog 'phyong /"
+            // "(ya)_gsang ba sbas ston las/_sman gyi gzhung shes yig chung /（phyi/_kha/_85）"
+            // "(ya)bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/"
+            String s = l.getString();
+            s = s.replaceAll("^\\([^\\) ]\\)", "");
+            s = s.replaceAll(" ?\\([^\\)]\\)$", "");
+            return m.createLiteral(s, l.getLanguage());
+        }
+        return l;
+    }
+    
+    public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel, boolean outlineMode, final Resource mainA) {
         List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
         if (addFEMCTitles(main, nodeList)) {
             return;
@@ -1146,6 +1163,7 @@ public class CommonMigration  {
         Map<String,Boolean> labelDoneForLang = new HashMap<>();
         Map<String,Boolean> titleSeen = new HashMap<>();
         String typeUsedForLabel = null;
+        
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
             Literal lit = getLiteral(current, EWTS_TAG, m, "title", main.getLocalName(), main.getLocalName());
@@ -1166,9 +1184,39 @@ public class CommonMigration  {
             if (type.isEmpty()) {
                 type = "bibliographicalTitle";
             }
+            // warning: incipit inconsistently represents the incipit title or the incipit...
             if (type.equals("incipit")) {
                 main.addProperty(m.getProperty(BDO, "workIncipit"), lit);
                 continue;
+            }
+            /* here we split the titles between the work and instance as follows:
+             * if we have bibliographicalTitle + another title, we promote the
+             * bibliographicalTitle as label for the abstract work and we don't consider it
+             * for the instance. If there's just one labe
+             */
+            if (mainA != null && type.equals("bibliographicalTitle")) {
+                if (i != 0) {
+                    //System.out.println("biblio in second position for RID "+main.getLocalName());
+                }
+                if (nodeList.size() > 1) {
+                    if (guessLabel) {
+                        String lang = lit.getLanguage().substring(0, 2);
+                        if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
+                            main.addProperty(SKOS.prefLabel, lit);
+                            Literal abstractLit = abstractTitle(lit, m, main.getLocalName());
+                            if (lit.getLanguage().equals("bo-x-ewts")) {
+                                ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+main.getLocalName()+":"+abstractLit.getString());
+                            }
+                            // this shouldn't add the same label twice because of the nature of triples
+                            mainA.addProperty(SKOS.prefLabel, abstractLit);
+                            labelDoneForLang.put(lang, true);
+                            typeUsedForLabel = type;
+                        } else {
+                            mainA.addProperty(SKOS.altLabel, lit);
+                        }
+                    }
+                    continue;
+                }
             }
 
             Resource nodeType = getNodeType(type, outlineMode, main);
@@ -1186,8 +1234,17 @@ public class CommonMigration  {
                 String lang = lit.getLanguage().substring(0, 2);
                 if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
                     main.addProperty(SKOS.prefLabel, lit);
+                    // this shouldn't add the same label twice because of the nature of triples
+                    if (mainA != null) {
+                        Literal abstractLit = abstractTitle(lit, m, main.getLocalName());
+                        if (lit.getLanguage().equals("bo-x-ewts")) {
+                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+main.getLocalName()+":"+abstractLit.getString());
+                        }
+                    }
                     labelDoneForLang.put(lang, true);
                     typeUsedForLabel = type;
+                } else if (mainA != null) {
+                    //mainA.addProperty(SKOS.altLabel, abstractTitle(lit, m, main.getLocalName()));
                 }
                 continue;
             }
@@ -1403,6 +1460,34 @@ public class CommonMigration  {
         return getLiteral(e, dflt, m, propertyHint, RID, subRID, true);
     }
 
+    // TODO: use the bdrclib version once there's a new release
+    public static String addEwtsShad(String s) {
+        // we suppose that there is no space at the end
+        if (s == null)
+            return s;
+        s = s.replaceAll("[ _/]+$", "");
+        final int sLen = s.length();
+        if (sLen < 2)
+            return s;
+        int last = s.codePointAt(sLen-1);
+        int finalidx = sLen-1;
+        if (last == 'a' || last == 'i' || last == 'e' || last == 'o') {
+            last = s.codePointAt(sLen-2);
+            finalidx = sLen-2;
+        }
+        if (sLen > 2 && last == 'g' && s.codePointAt(finalidx-1) == 'n')
+            return s+" /";
+        if (last == 'g' || last == 'k' || (sLen == 3 && last == 'h' && s.codePointAt(finalidx-1) == 's') || (sLen > 3 && last == 'h' && s.codePointAt(finalidx-1) == 's' && s.codePointAt(finalidx-2) != 't'))
+            return s;
+        if (last < 'A' || last > 'z' || (last > 'Z' && last < 'a'))  // string doesn't end with tibetan letter
+            return s;
+        return s+"/";
+    }
+
+    public static String normalizeEwts(final String s) {
+        return addEwtsShad(s.replace((char)0x2019, (char)0x27));
+    }
+    
     public static Literal getLiteral(Element elem, String dflt, Model m, String propertyHint, String RID, String subRID, boolean normalize) {
         String value = elem.getTextContent();
         value = normalize ? normalizeString(value) : value.trim();

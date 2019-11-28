@@ -126,6 +126,7 @@ public class PubinfoMigration {
             Literal l = CommonMigration.getLiteral(current, EWTS_TAG, m, "series", main.getLocalName(), null);
             if (l == null) continue;
             main.addProperty(prop, l);
+            // TODO: understand this part and change it with the abstract work
             Statement s = main.getProperty(m.getProperty(BDO, "workExpressionOf"));
             if (s != null) {
                 l = s.getLiteral();

@@ -111,7 +111,7 @@ public class GRETILTransfer {
         // creator
         String author=line[5];
         if(author!=null && !"".equals(author)) {
-            CommonMigration.addAgentAsCreator(work, workModel.createResource(BDR+author), "hasMainAuthor");
+            CommonMigration.addAgentAsCreator(work, workModel.createResource(BDR+author), "hasMainAuthor", null);
         }
         
         // subject

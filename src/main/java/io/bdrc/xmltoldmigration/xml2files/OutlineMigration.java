@@ -224,7 +224,8 @@ public class OutlineMigration {
 		CommonMigration.addDescriptions(m, root, admOutline, OXSDNS);
 		CommonMigration.addLocations(m, admOutline, root, OXSDNS, rootWork.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
-		addCreators(m, admOutline, root, true, rootWork);
+		// null?
+		addCreators(m, admOutline, root, true, rootWork, null);
 		
 		// case where there's an unnecessary unique top node (ex: W1GS61415 / O1LS4227)
 		final List<Element> nodeList2 = CommonMigration.getChildrenByTagName(root, OXSDNS, "node");
@@ -239,7 +240,7 @@ public class OutlineMigration {
 		return m;
 	}
 	
-	public static void addCreators(Model m, Resource rez, Element e, boolean isRoot, Resource rootWork) {
+	public static void addCreators(Model m, Resource rez, Element e, boolean isRoot, Resource rootWork, Resource nodeA) {
         // creator
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
         for (int j = 0; j < nodeList.size(); j++) {
@@ -264,7 +265,7 @@ public class OutlineMigration {
             } else {
                 person = MigrationHelpers.sanitizeRID(rez.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
-                    CommonMigration.addAgentAsCreator(rez, m.createResource(BDR+person), value);
+                    CommonMigration.addAgentAsCreator(rez, m.createResource(BDR+person), value, nodeA);
             }
         }
 	}
@@ -272,8 +273,23 @@ public class OutlineMigration {
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
 LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork) {
 	    curNode.i = curNode.i+1;
-	    String value = String.format("%04d", curNode.i);	    
-        Resource node = m.createResource(BDR+workId+"_"+value);
+	    String value = String.format("%04d", curNode.i);
+	    String nodeRID = workId+"_"+value;
+	    String ANodeRID = WorkMigration.getAbstractForRid(nodeRID);
+        Resource node = m.createResource(BDR+nodeRID);
+        value = e.getAttribute("type");
+        Resource nodeA = null;
+        if ("text".equals(value)) {
+             nodeA = m.createResource(BDR+ANodeRID);
+             node.addProperty(RDF.type, m.createResource(BDO+"AbstractWork"));
+             node.addProperty(m.createProperty(BDO, "workExpressionOf"), nodeA);
+             nodeA.addProperty(m.createProperty(BDO, "workHasExpression"), node);
+        }
+        if (!value.isEmpty()) {
+            value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);
+            m.add(node, m.getProperty(BDO, "workPartType"), m.getResource(BDR+value));
+        }
+
         node.addProperty(m.createProperty(BDO, "workPartTreeIndex"), thisPartTreeIndex);
         String RID = e.getAttribute("RID").trim();
         if (!value.isEmpty()) {
@@ -282,19 +298,15 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                 ridsToConvert.put(RID, workId+"_"+value);
             }
         }
-        value = e.getAttribute("type");
-        if (value.isEmpty()) {
-            value = "Node";// TODO: ?
-        }
-        value = "OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
+
+        
         m.add(node, RDF.type, m.getResource(BDO+"Work"));
         m.add(node, m.getProperty(BDO, "workPartIndex"), m.createTypedLiteral(partIndex, XSDDatatype.XSDinteger));
-        // there should be no such monstruosity
-        //m.add(node, m.getProperty(ADM, "outlineType"), m.getResource(BDR+value));
         
         // what's parent? ignoring
-//        value = e.getAttribute("parent").trim();
-//        if (!value.isEmpty())
+        value = e.getAttribute("parent").trim();
+        if (!value.isEmpty())
+            System.out.println(workId+" has a node with parent "+value);
 //            m.add(r, m.getProperty(BDO, "workPartOf"), m.createResource(BDR+value));
         
         if (addWorkHaspart)
@@ -304,7 +316,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         
         boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, BDO+"workPartLabel");
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
-        CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true);
+        CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true, nodeA);
         
         Statement labelSta = node.getProperty(SKOS.prefLabel);
         String label = null;
@@ -324,7 +336,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             }
         }
         
-        CommonMigration.addSubjects(m, node, e, OXSDNS);
+        CommonMigration.addSubjects(m, (nodeA != null) ? nodeA : node, e, OXSDNS);
         
         List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "site");
         for (int j = 0; j < nodeList.size(); j++) {
@@ -374,7 +386,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             }
         }
         
-        addCreators(m, node, e, false, rootWork);
+        addCreators(m, node, e, false, rootWork, nodeA);
         
         // sub nodes
         boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex, rootWork);
