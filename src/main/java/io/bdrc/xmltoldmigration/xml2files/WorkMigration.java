@@ -36,6 +36,8 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Selector;
+import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDF;
@@ -111,7 +113,19 @@ public class WorkMigration {
         // TODO: mechanize some conflation
         return "WA"+rid.substring(1);
     }
-	    
+	
+    public static List<Resource> getAbstractList(Model m, Resource mainA) {
+        List<Resource> res = new ArrayList<>();
+        Selector sel = new SimpleSelector(null, RDF.type, m.createResource(BDO+"AbstractWork"));
+        StmtIterator iter = m.listStatements(sel);
+        while (iter.hasNext()) {
+            Resource next = iter.next().getSubject();
+            if (!next.equals(mainA))
+                res.add(next);
+        }
+        return res;
+    }
+    
 	public static Model MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
@@ -271,7 +285,8 @@ public class WorkMigration {
         }
         
         // creator
-        
+        // this is a list of the abstract works of the part of the work
+        List <Resource> subAbstracts = null; 
         nodeList = root.getElementsByTagNameNS(WXSDNS, "creator");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
@@ -287,8 +302,17 @@ public class WorkMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
                 person = MigrationHelpers.sanitizeRID(main.getLocalName(), value, person);
-                if (!MigrationHelpers.isDisconnected(person))
+                if (!MigrationHelpers.isDisconnected(person)) {
+                    if (mainA != null && !CommonMigration.creatorForInstance.contains(value)) {
+                        if (subAbstracts == null) {
+                            subAbstracts = getAbstractList(m, mainA);
+                        }
+                        for (Resource r : subAbstracts) {
+                            CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, r);
+                        }
+                    }
                     CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, mainA);
+                }
             }
         }
         
@@ -396,7 +420,6 @@ public class WorkMigration {
                     missingVolumes.add(rangeB+"-"+rangeE);
             }
         }
-        
         
         SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
         
