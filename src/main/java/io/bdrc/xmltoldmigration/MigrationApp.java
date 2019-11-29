@@ -294,7 +294,8 @@ public class MigrationApp
                 File pubinfoFile = new File(pubinfoFileName);
                 if (pubinfoFile.exists()) {
                     d = MigrationHelpers.documentFromFileName(pubinfoFileName);
-                    m = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels);
+                    // TODO: this shouldn't be null all the time
+                    m = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, null);
                 } else {
                     MigrationHelpers.writeLog("missing "+pubinfoFileName);
                 }

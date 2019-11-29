@@ -53,7 +53,7 @@ public class PubinfoMigration {
             main = createRoot(m, BDR+value, BDO+"Work");
             createAdminRoot(main);
         }
-        MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>());
+        MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), null);
         return m;
 	}
 	
@@ -75,9 +75,13 @@ public class PubinfoMigration {
 	    }
 	    return false;
 	}
+
+	public static void addLangScript(final Model m, final Resource main, final Resource mainA, final String lang, final String script, final String langScript) {
+	    
+	}
 	
 	// use this giving a wkr:Work as main argument to fill the work data
-	public static Model MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels) {
+	public static Model MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, final Resource mainA) {
 		Element root = xmlDocument.getDocumentElement();
 		
         addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
@@ -143,6 +147,7 @@ public class PubinfoMigration {
             switch(value) {
             case "dbuMed":
                 langTibetanDone = true;
+                addLangScript(m, main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
                 m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
                 if (isComputerInputDbuMed(main.getLocalName()))
                     m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));

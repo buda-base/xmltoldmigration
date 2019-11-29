@@ -524,7 +524,7 @@ public class WorkMigration {
 	    StmtIterator iter = m.listStatements(sel);
         while (iter.hasNext()) {
             Resource next = iter.next().getSubject();
-            String title = next.getLocalName();
+            String title = next.getLocalName()+",";
             Selector selaac = new SimpleSelector(next, m.createProperty(BDO, "creator"), (Node) null);
             StmtIterator iteraac = m.listStatements(selaac);
             while (iteraac.hasNext()) {
@@ -533,14 +533,14 @@ public class WorkMigration {
                 if (role != null && ("R0ER0019".equals(role.getLocalName()) || "R0ER0025".equals(role.getLocalName()))) {
                     Resource agent = nextaac.getPropertyResourceValue(m.createProperty(BDO, "agent"));
                     if (agent != null) {
-                        title += ","+agent.getLocalName();
+                        title += agent.getLocalName()+":";
                         break;
                     }
                 }
             }
             Statement s = next.getProperty(SKOS.prefLabel, "bo-x-ewts");
             if (s != null) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+title+",\""+s.getString()+"\"");
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+title+s.getString());
             }
         }
 	}
