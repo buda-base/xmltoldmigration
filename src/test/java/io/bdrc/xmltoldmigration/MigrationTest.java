@@ -275,6 +275,7 @@ public class MigrationTest
         Validator validator = MigrationHelpers.getValidatorFor("work");
         assertFalse(CommonMigration.documentValidates(d, validator));
         Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
+        //fromXml.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);

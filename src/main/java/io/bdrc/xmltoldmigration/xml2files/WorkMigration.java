@@ -31,6 +31,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.graph.Node;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -41,6 +42,7 @@ import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -131,13 +133,29 @@ public class WorkMigration {
 		Element current;
 		String workId = root.getAttribute("RID");
 		String aWorkId = getAbstractForRid(workId);
-        Resource main = createRoot(m, BDR+workId, BDO+"Work");
-        Resource mainA = null;
-        if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
-            mainA = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
-            main.addProperty(m.createProperty(BDO, "workExpressionOf"), mainA);
-            mainA.addProperty(m.createProperty(BDO, "workHasExpression"), main);
+        
+        // first check info:
+        String nodeType = "";
+        NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "info");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            current = (Element) nodeList.item(i);
+            if (!nodeType.isEmpty())
+                nodeType = current.getAttribute("nodeType");
         }
+        
+        Resource mainA = null;
+        Resource main;
+        if (nodeType.equals("series") || nodeType.equals("conceptualWork")) {
+            main = createRoot(m, BDR+workId, BDO+"AbstractWork");
+        } else {
+            main = createRoot(m, BDR+workId, BDO+"Work");
+            //if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
+                mainA = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
+                main.addProperty(m.createProperty(BDO, "workExpressionOf"), mainA);
+                mainA.addProperty(m.createProperty(BDO, "workHasExpression"), main);
+            //}
+        }
+        
         
         Resource admMain = createAdminRoot(main);
 		
@@ -168,7 +186,7 @@ public class WorkMigration {
 		
 		// archiveInfo
 		
-		NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
+		nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
 		boolean hasArchiveInfo = false;
 		boolean hasAccess = false;
 		boolean hasLicense = false;
@@ -246,15 +264,15 @@ public class WorkMigration {
         nodeList = root.getElementsByTagNameNS(WXSDNS, "info");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            String nodeType = current.getAttribute("nodeType");
-            switch (nodeType) {
-            case "unicodeText": value = BDO+"UnicodeWork"; break;
-            case "conceptualWork": value = BDO+"AbstractWork"; break;
-            case "publishedWork": value = BDO+"PublishedWork"; break;
-            case "series": value = BDO+"SeriesWork"; break;
-            default: value = BDO+(hasArchiveInfo ? "PublishedWork" : "Work"); break;
-            }
-            main.addProperty(RDF.type, m.createResource(value));
+//            String nodeType = current.getAttribute("nodeType");
+//            switch (nodeType) {
+//            case "unicodeText": value = BDO+"UnicodeWork"; break;
+//            case "conceptualWork": value = BDO+"AbstractWork"; break;
+//            case "publishedWork": value = BDO+"PublishedWork"; break;
+//            case "series": value = BDO+"SeriesWork"; break;
+//            default: value = BDO+(hasArchiveInfo ? "PublishedWork" : "Work"); break;
+//            }
+//            main.addProperty(RDF.type, m.createResource(value));
             boolean numbered = false;
             // will be overwritten when reading the pubinfo
             value = current.getAttribute("number");
@@ -421,6 +439,8 @@ public class WorkMigration {
             }
         }
         
+        exportTitleInfo(m);
+        
         SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
         
 		return m;
@@ -498,4 +518,31 @@ public class WorkMigration {
         String missingVols = String.join(",", missingVolumes);
         return new ImageGroupInfo(missingVols, res, lastVolume);
 	}
+	
+	public static void exportTitleInfo(Model m) {
+	    Selector sel = new SimpleSelector(null, RDF.type, m.createResource(BDO+"AbstractWork"));
+	    StmtIterator iter = m.listStatements(sel);
+        while (iter.hasNext()) {
+            Resource next = iter.next().getSubject();
+            String title = next.getLocalName();
+            Selector selaac = new SimpleSelector(next, m.createProperty(BDO, "creator"), (Node) null);
+            StmtIterator iteraac = m.listStatements(selaac);
+            while (iteraac.hasNext()) {
+                Resource nextaac = iteraac.next().getObject().asResource();
+                Resource role = nextaac.getPropertyResourceValue(m.createProperty(BDO, "role"));
+                if (role != null && ("R0ER0019".equals(role.getLocalName()) || "R0ER0025".equals(role.getLocalName()))) {
+                    Resource agent = nextaac.getPropertyResourceValue(m.createProperty(BDO, "agent"));
+                    if (agent != null) {
+                        title += ","+agent.getLocalName();
+                        break;
+                    }
+                }
+            }
+            Statement s = next.getProperty(SKOS.prefLabel, "bo-x-ewts");
+            if (s != null) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+title+",\""+s.getString()+"\"");
+            }
+        }
+	}
+	
 }

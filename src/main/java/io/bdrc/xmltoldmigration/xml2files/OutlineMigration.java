@@ -281,7 +281,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         Resource nodeA = null;
         if ("text".equals(value)) {
              nodeA = m.createResource(BDR+ANodeRID);
-             node.addProperty(RDF.type, m.createResource(BDO+"AbstractWork"));
+             nodeA.addProperty(RDF.type, m.createResource(BDO+"AbstractWork"));
              node.addProperty(m.createProperty(BDO, "workExpressionOf"), nodeA);
              nodeA.addProperty(m.createProperty(BDO, "workHasExpression"), node);
         }
