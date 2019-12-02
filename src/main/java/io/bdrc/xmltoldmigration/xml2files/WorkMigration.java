@@ -149,11 +149,11 @@ public class WorkMigration {
             main = createRoot(m, BDR+workId, BDO+"AbstractWork");
         } else {
             main = createRoot(m, BDR+workId, BDO+"Work");
-            //if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
+            if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
                 mainA = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
                 main.addProperty(m.createProperty(BDO, "workExpressionOf"), mainA);
                 mainA.addProperty(m.createProperty(BDO, "workHasExpression"), main);
-            //}
+            }
         }
         
         
