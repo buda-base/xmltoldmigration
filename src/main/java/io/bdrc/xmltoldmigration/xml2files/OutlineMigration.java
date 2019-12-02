@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
@@ -127,6 +128,17 @@ public class OutlineMigration {
         ridsToIgnore.put("O2MS16391", true);
         ridsToIgnore.put("O00CR0008", true);
         
+        // Nyingma Gyubum
+        // O1CT1002
+        // O1CT1003
+        // O21939
+        // 
+        
+        // Rinchen Terdzo:
+        // O20578
+        // O4CZ337395
+        // 
+        
         ridsToConvert.put("O1AT3081AT374", null);
         ridsToConvert.put("O1AT3081AT380", null);
         ridsToConvert.put("O1GS392481GS39291", null);
@@ -241,7 +253,7 @@ public class OutlineMigration {
         }
 		
 		addNodes(m, rootWork, node2, rootWork.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "", rootWork);
-		
+		//WorkMigration.exportTitleInfo(workModel);
 		return m;
 	}
 	
@@ -275,6 +287,17 @@ public class OutlineMigration {
         }
 	}
 
+	public static Boolean isKarchak(Element e) {
+	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "title");
+        
+        for (int i = 0; i < nodeList.size(); i++) {
+            Element current = (Element) nodeList.get(i);
+            if (current.getTextContent().contains("dkar chag"))
+                return true;
+        }
+        return false;
+	}
+	
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
 LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork) {
 	    curNode.i = curNode.i+1;
@@ -283,17 +306,22 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 	    String ANodeRID = WorkMigration.getAbstractForRid(nodeRID);
         Resource node = m.createResource(BDR+nodeRID);
         value = e.getAttribute("type");
+        if (value == null || value.isEmpty()) {
+            value = "text";
+        }
+        if (isKarchak(e)) {
+            value = "tableOfContent";
+        }
+        
         Resource nodeA = null;
-        if ("text".equals(value)) {
+        if ("text".equals(value) || "collection".equals(value)) {
              nodeA = m.createResource(BDR+ANodeRID);
              nodeA.addProperty(RDF.type, m.createResource(BDO+"AbstractWork"));
              node.addProperty(m.createProperty(BDO, "workExpressionOf"), nodeA);
              nodeA.addProperty(m.createProperty(BDO, "workHasExpression"), node);
         }
-        if (!value.isEmpty()) {
-            value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);
-            m.add(node, m.getProperty(BDO, "workPartType"), m.getResource(BDR+value));
-        }
+        value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);
+        m.add(node, m.getProperty(BDO, "workPartType"), m.getResource(BDR+value));
 
         node.addProperty(m.createProperty(BDO, "workPartTreeIndex"), thisPartTreeIndex);
         String RID = e.getAttribute("RID").trim();
@@ -303,7 +331,6 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                 ridsToConvert.put(RID, workId+"_"+value);
             }
         }
-
         
         m.add(node, RDF.type, m.getResource(BDO+"Work"));
         m.add(node, m.getProperty(BDO, "workPartIndex"), m.createTypedLiteral(partIndex, XSDDatatype.XSDinteger));

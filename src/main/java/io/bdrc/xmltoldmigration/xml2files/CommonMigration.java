@@ -153,6 +153,10 @@ public class CommonMigration  {
      * @param rootAdmWork the root AdminData that contains the adm:facetIndex
      */
     public static void addAgentAsCreator(Resource work, Resource person, String roleKey, Resource workA) {
+        if (person.getLocalName().equals("P7326")) {
+            // this makes the data inconsistent
+            return;
+        }
         Model m = work.getModel();
         Resource agentAsCreator;
         if (workA != null && !creatorForInstance.contains(roleKey)) {
@@ -1153,12 +1157,14 @@ public class CommonMigration  {
 
     public static Literal abstractTitle(Literal l, Model m, String rid) {
         if (l.getLanguage().equals("bo-x-ewts")) {
-            // TODO: remove first parenthesis, as in:
+            // remove first parenthesis, as in:
             // "(ya) yang bzlog 'phyong /"
             // "(ya)_gsang ba sbas ston las/_sman gyi gzhung shes yig chung /（phyi/_kha/_85）"
             // "(ya)bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/"
             String s = l.getString().trim();
-            s = s.replaceAll("[\\(（][^\\)）༽]+[\\)）༽]", "");
+            s = s.replaceAll("_? ?[\\(（][^\\)）༽]+[\\)）༽]", "");
+            s = s.replaceAll("^[^ ]+\\)_?", "");
+            s = s.replaceAll(" *\" *", "");
             return m.createLiteral(s, l.getLanguage());
         }
         return l;
@@ -1249,11 +1255,12 @@ public class CommonMigration  {
                         //if (lit.getLanguage().equals("bo-x-ewts")) {
                         //    ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+main.getLocalName()+":"+abstractLit.getString());
                         //}
+                        mainA.addProperty(SKOS.prefLabel, abstractLit);
                     }
                     labelDoneForLang.put(lang, true);
                     typeUsedForLabel = type;
                 } else if (mainA != null) {
-                    //mainA.addProperty(SKOS.altLabel, abstractTitle(lit, m, main.getLocalName()));
+                    mainA.addProperty(SKOS.altLabel, abstractTitle(lit, m, main.getLocalName()));
                 }
                 continue;
             }
