@@ -1163,7 +1163,7 @@ public class CommonMigration  {
             // "(ya) yang bzlog 'phyong /"
             // "(ya)_gsang ba sbas ston las/_sman gyi gzhung shes yig chung /（phyi/_kha/_85）"
             // "(ya)bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/"
-            String s = l.getString().strip();
+            String s = l.getString().trim();
             s = s.replaceAll("_? ?[\\(（][^\\)）༽]+[\\)）༽]", "");
             s = s.replaceAll("^[^ ]+\\)_?", "");
             s = s.replaceAll(" *\" *", "");
