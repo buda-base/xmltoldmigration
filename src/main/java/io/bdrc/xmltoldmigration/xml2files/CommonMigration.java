@@ -158,17 +158,19 @@ public class CommonMigration  {
             return;
         }
         Model m = work.getModel();
-        Resource agentAsCreator;
+        Resource agentAsCreator = null;
         if (workA != null && !creatorForInstance.contains(roleKey)) {
             agentAsCreator = getFacetNode(FacetType.CREATOR, workA);
             workA.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
-        } else {
+        } else if (work != null) {
             agentAsCreator = getFacetNode(FacetType.CREATOR, work); 
             work.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
         }
-        agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
-        Resource role = m.createResource(getCreatorRoleUri(roleKey));
-        agentAsCreator.addProperty(m.createProperty(BDO+"role"), role);
+        if (agentAsCreator != null) {
+            agentAsCreator.addProperty(m.createProperty(BDO+"agent"), person);
+            Resource role = m.createResource(getCreatorRoleUri(roleKey));
+            agentAsCreator.addProperty(m.createProperty(BDO+"role"), role);
+        }
     }
 
     public static void addDatesToEvent(String dateStr, Resource r, String eventProp, String eventType) {
@@ -1155,7 +1157,7 @@ public class CommonMigration  {
         return true;
     }
 
-    public static Literal abstractTitle(Literal l, Model m, String rid) {
+    public static Literal abstractTitle(Literal l, Model m) {
         if (l.getLanguage().equals("bo-x-ewts")) {
             // remove first parenthesis, as in:
             // "(ya) yang bzlog 'phyong /"
@@ -1172,7 +1174,8 @@ public class CommonMigration  {
     
     public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel, boolean outlineMode, final Resource mainA) {
         List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
-        if (addFEMCTitles(main, nodeList)) {
+        // main == null in case of conceptual works
+        if (main != null && addFEMCTitles(main, nodeList)) {
             return;
         }
         Map<String,Boolean> labelDoneForLang = new HashMap<>();
@@ -1181,10 +1184,11 @@ public class CommonMigration  {
         
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
-            Literal lit = getLiteral(current, EWTS_TAG, m, "title", main.getLocalName(), main.getLocalName());
+            String localRid = main != null ? main.getLocalName() : mainA.getLocalName();
+            Literal lit = getLiteral(current, EWTS_TAG, m, "title", localRid, localRid);
             String nextTitle = null;
             if (lit == null) continue;
-            if (main.getLocalName().contains("FPL") && lit.getLanguage().equals("pi-x-iast") && lit.getString().contains("--")) {
+            if (main != null && main.getLocalName().contains("FPL") && lit.getLanguage().equals("pi-x-iast") && lit.getString().contains("--")) {
                 String[] split = lit.getString().split("--");
                 if (!split[1].isEmpty()) {
                     nextTitle = split[1];
@@ -1200,7 +1204,7 @@ public class CommonMigration  {
                 type = "bibliographicalTitle";
             }
             // warning: incipit inconsistently represents the incipit title or the incipit...
-            if (type.equals("incipit")) {
+            if (type.equals("incipit") && main != null) {
                 main.addProperty(m.getProperty(BDO, "workIncipit"), lit);
                 continue;
             }
@@ -1217,8 +1221,9 @@ public class CommonMigration  {
                     if (guessLabel) {
                         String lang = lit.getLanguage().substring(0, 2);
                         if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
-                            main.addProperty(SKOS.prefLabel, lit);
-                            Literal abstractLit = abstractTitle(lit, m, main.getLocalName());
+                            if (main != null)
+                                main.addProperty(SKOS.prefLabel, lit);
+                            Literal abstractLit = abstractTitle(lit, m);
                             //if (lit.getLanguage().equals("bo-x-ewts")) {
                             //    ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+main.getLocalName()+":"+abstractLit.getString());
                             //}
@@ -1233,25 +1238,28 @@ public class CommonMigration  {
                     continue;
                 }
             }
-
-            Resource nodeType = getNodeType(type, outlineMode, main);
-            Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
-            titleNode.addProperty(RDFS.label, lit);
-            main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
-
-            if (nextTitle != null) {
-                titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
-                titleNode.addProperty(RDFS.label, m.createLiteral(nextTitle, "pi-x-iast"));
+            
+            if (main != null) {
+                Resource nodeType = getNodeType(type, outlineMode, main);
+                Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
+                titleNode.addProperty(RDFS.label, lit);
                 main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
+    
+                if (nextTitle != null) {
+                    titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
+                    titleNode.addProperty(RDFS.label, m.createLiteral(nextTitle, "pi-x-iast"));
+                    main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
+                }
             }
 
             if (guessLabel) {
                 String lang = lit.getLanguage().substring(0, 2);
                 if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(type))) {
-                    main.addProperty(SKOS.prefLabel, lit);
+                    if (main != null)
+                        main.addProperty(SKOS.prefLabel, lit);
                     // this shouldn't add the same label twice because of the nature of triples
                     if (mainA != null) {
-                        Literal abstractLit = abstractTitle(lit, m, main.getLocalName());
+                        Literal abstractLit = abstractTitle(lit, m);
                         //if (lit.getLanguage().equals("bo-x-ewts")) {
                         //    ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+main.getLocalName()+":"+abstractLit.getString());
                         //}
@@ -1260,7 +1268,7 @@ public class CommonMigration  {
                     labelDoneForLang.put(lang, true);
                     typeUsedForLabel = type;
                 } else if (mainA != null) {
-                    mainA.addProperty(SKOS.altLabel, abstractTitle(lit, m, main.getLocalName()));
+                    mainA.addProperty(SKOS.altLabel, abstractTitle(lit, m));
                 }
                 continue;
             }

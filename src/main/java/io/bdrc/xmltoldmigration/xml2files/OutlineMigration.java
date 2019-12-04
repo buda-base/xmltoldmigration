@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -297,6 +298,17 @@ public class OutlineMigration {
         }
         return false;
 	}
+
+    public static Boolean hasShortTitle(Element e) {
+        List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "title");
+        
+        for (int i = 0; i < nodeList.size(); i++) {
+            Element current = (Element) nodeList.get(i);
+            if (StringUtils.countMatches(current.getTextContent().trim(), " ") > 1)
+                return false;
+        }
+        return true;
+    }
 	
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
 LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork) {
@@ -314,12 +326,13 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         }
         
         Resource nodeA = null;
-        if ("text".equals(value) || "collection".equals(value)) {
+        if ("text".equals(value) || "collection".equals(value) && !hasShortTitle(e)) {
              nodeA = m.createResource(BDR+ANodeRID);
              nodeA.addProperty(RDF.type, m.createResource(BDO+"AbstractWork"));
              node.addProperty(m.createProperty(BDO, "workExpressionOf"), nodeA);
              nodeA.addProperty(m.createProperty(BDO, "workHasExpression"), node);
         }
+        // TODO: don't create abstract works for one syllable title texts
         value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);
         m.add(node, m.getProperty(BDO, "workPartType"), m.getResource(BDR+value));
 

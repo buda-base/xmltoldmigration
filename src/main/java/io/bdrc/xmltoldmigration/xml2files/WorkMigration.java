@@ -144,9 +144,11 @@ public class WorkMigration {
         }
         
         Resource mainA = null;
-        Resource main;
+        boolean isConceptual = false;
+        Resource main = null;
         if (nodeType.equals("series") || nodeType.equals("conceptualWork")) {
             main = createRoot(m, BDR+workId, BDO+"AbstractWork");
+            isConceptual = true;
         } else {
             main = createRoot(m, BDR+workId, BDO+"Work");
             if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
@@ -329,120 +331,123 @@ public class WorkMigration {
                             CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, r);
                         }
                     }
-                    CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, mainA);
-                }
-            }
-        }
-        
-        // inProduct
-        
-        nodeList = root.getElementsByTagNameNS(WXSDNS, "inProduct");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            current = (Element) nodeList.item(i);
-            String content = current.getTextContent().trim();
-            value = current.getAttribute("pid").trim();
-
-            if (content.startsWith("Collection:")) {
-                String cpUri = BDA+"CP04"+value.substring(value.length()-1);
-                admMain.addProperty(m.createProperty(ADM+"contentProvider"), m.createResource(cpUri));
-            } else if (content.startsWith("Catalog:")) {
-                Property notep = m.getProperty(BDO+"note");
-                Resource note = null;
-                StmtIterator notes = main.listProperties(notep);
-                while (notes.hasNext()) {
-                    Statement noteStmt = notes.next();
-                    Statement noteText = noteStmt.getResource().getProperty(m.getProperty(BDO+"noteText"));
-                    String noteTextStr = noteText.getString();
-                    if (noteTextStr.startsWith("Catalog")) {
-                        note = noteStmt.getResource();
-                        m.remove(noteText);
-                        break;
+                    if (!isConceptual) {
+                        CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, mainA);
+                    } else {
+                        CommonMigration.addAgentAsCreator(null, m.createResource(BDR+person), value, main);
                     }
                 }
-                if (note == null) {
-                    note = getFacetNode(FacetType.NOTE, main);
-                    note.addProperty(m.getProperty(BDO+"noteText"), "Catalog");
-                    main.addProperty(notep, note);
+            }
+        }
+        if (!isConceptual) {        
+            // inProduct
+            
+            nodeList = root.getElementsByTagNameNS(WXSDNS, "inProduct");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                current = (Element) nodeList.item(i);
+                String content = current.getTextContent().trim();
+                value = current.getAttribute("pid").trim();
+    
+                if (content.startsWith("Collection:")) {
+                    String cpUri = BDA+"CP04"+value.substring(value.length()-1);
+                    admMain.addProperty(m.createProperty(ADM+"contentProvider"), m.createResource(cpUri));
+                } else if (content.startsWith("Catalog:")) {
+                    Property notep = m.getProperty(BDO+"note");
+                    Resource note = null;
+                    StmtIterator notes = main.listProperties(notep);
+                    while (notes.hasNext()) {
+                        Statement noteStmt = notes.next();
+                        Statement noteText = noteStmt.getResource().getProperty(m.getProperty(BDO+"noteText"));
+                        String noteTextStr = noteText.getString();
+                        if (noteTextStr.startsWith("Catalog")) {
+                            note = noteStmt.getResource();
+                            m.remove(noteText);
+                            break;
+                        }
+                    }
+                    if (note == null) {
+                        note = getFacetNode(FacetType.NOTE, main);
+                        note.addProperty(m.getProperty(BDO+"noteText"), "Catalog");
+                        main.addProperty(notep, note);
+                    }
+                    Resource cat = 
+                            value.equals("PR1FEMC01") ? m.createResource(BDR+"W1FEMC01") : 
+                           (value.equals("PR1FEMC02") ? m.createResource(BDR+"W1FEMC02") : m.createResource(BDA+value));
+                    note.addProperty(m.getProperty(BDO+"noteWork"), cat);
+                } else {
+                    List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
+                    worksForProduct.add(main.getLocalName());
                 }
-                Resource cat = 
-                        value.equals("PR1FEMC01") ? m.createResource(BDR+"W1FEMC01") : 
-                       (value.equals("PR1FEMC02") ? m.createResource(BDR+"W1FEMC02") : m.createResource(BDA+value));
-                note.addProperty(m.getProperty(BDO+"noteWork"), cat);
-            } else {
-                List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
-                worksForProduct.add(main.getLocalName());
             }
+            
+            // catalogInfo
+        
+            nodeList = root.getElementsByTagNameNS(WXSDNS, "catalogInfo");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                current = (Element) nodeList.item(i);
+                Literal l = CommonMigration.getLiteral(current, "en", m, "catalogInfo", main.getLocalName(), null);
+                if (l == null) continue;
+                main.addProperty(m.getProperty(BDO, "workCatalogInfo"), l);
+            }
+            
+            // scanInfo
+            
+            nodeList = root.getElementsByTagNameNS(WXSDNS, "scanInfo");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                current = (Element) nodeList.item(i);
+                Literal l = CommonMigration.getLiteral(current, "en", m, "scanInfo", main.getLocalName(), null);
+                if (l == null) continue;
+                main.addProperty(m.getProperty(BDO, "workScanInfo"), l);
+            }
+            
+            NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
+            int lastVolume = 0;
+            List<String> missingVolumes = new ArrayList<>();
+            for (int j = 0; j < volumes.getLength(); j++) {
+                // just adding an item if we have a volume list
+                if (j == 0) {
+                    String itemRid = BDR+"I"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
+                    Resource item = m.createResource(itemRid);
+                    if (WorkMigration.addWorkHasItem)
+                        m.add(main, m.getProperty(BDO, "workHasItem"), item);
+                }
+                // then curate the volume list to add missing volumes
+                Element volume = (Element) volumes.item(j);
+                String igId = volume.getAttribute("imagegroup").trim();
+                if (igId.isEmpty()) continue;
+                if (!igId.startsWith("I")) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "volume", "image group `"+igId+"` does not start with `I`");
+                    continue;
+                }
+                String num = volume.getAttribute("num").trim();
+                if (num.isEmpty()) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "missing volume number for image group `"+igId+"`");
+                    continue;
+                }
+                int thisVol;
+                try {
+                    thisVol = Integer.parseUnsignedInt(num);
+                } catch (NumberFormatException e) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "cannot parse volume number `"+num+"` for image group `"+igId+"`");
+                    continue;
+                }
+                if (thisVol <= lastVolume) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "volume list is not in the correct order (`"+lastVolume+"` before for image group `"+thisVol+"`)");
+                    continue;
+                }
+                if (thisVol != lastVolume+1) {
+                    int rangeB = lastVolume+1;
+                    int rangeE = thisVol-1;
+                    if (rangeB == rangeE)
+                        missingVolumes.add(Integer.toString(rangeB));
+                    else
+                        missingVolumes.add(rangeB+"-"+rangeE);
+                }
+            }
+            
+            exportTitleInfo(m);
         }
-        
-        // catalogInfo
-        
-        nodeList = root.getElementsByTagNameNS(WXSDNS, "catalogInfo");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            current = (Element) nodeList.item(i);
-            Literal l = CommonMigration.getLiteral(current, "en", m, "catalogInfo", main.getLocalName(), null);
-            if (l == null) continue;
-            main.addProperty(m.getProperty(BDO, "workCatalogInfo"), l);
-        }
-        
-        // scanInfo
-        
-        nodeList = root.getElementsByTagNameNS(WXSDNS, "scanInfo");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            current = (Element) nodeList.item(i);
-            Literal l = CommonMigration.getLiteral(current, "en", m, "scanInfo", main.getLocalName(), null);
-            if (l == null) continue;
-            main.addProperty(m.getProperty(BDO, "workScanInfo"), l);
-        }
-        
-        NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
-        int lastVolume = 0;
-        List<String> missingVolumes = new ArrayList<>();
-        for (int j = 0; j < volumes.getLength(); j++) {
-            // just adding an item if we have a volume list
-            if (j == 0) {
-                String itemRid = BDR+"I"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
-                Resource item = m.createResource(itemRid);
-                if (WorkMigration.addWorkHasItem)
-                    m.add(main, m.getProperty(BDO, "workHasItem"), item);
-            }
-            // then curate the volume list to add missing volumes
-            Element volume = (Element) volumes.item(j);
-            String igId = volume.getAttribute("imagegroup").trim();
-            if (igId.isEmpty()) continue;
-            if (!igId.startsWith("I")) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "volume", "image group `"+igId+"` does not start with `I`");
-                continue;
-            }
-            String num = volume.getAttribute("num").trim();
-            if (num.isEmpty()) {
-                ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "missing volume number for image group `"+igId+"`");
-                continue;
-            }
-            int thisVol;
-            try {
-                thisVol = Integer.parseUnsignedInt(num);
-            } catch (NumberFormatException e) {
-                ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "cannot parse volume number `"+num+"` for image group `"+igId+"`");
-                continue;
-            }
-            if (thisVol <= lastVolume) {
-                ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "volume", "volume list is not in the correct order (`"+lastVolume+"` before for image group `"+thisVol+"`)");
-                continue;
-            }
-            if (thisVol != lastVolume+1) {
-                int rangeB = lastVolume+1;
-                int rangeE = thisVol-1;
-                if (rangeB == rangeE)
-                    missingVolumes.add(Integer.toString(rangeB));
-                else
-                    missingVolumes.add(rangeB+"-"+rangeE);
-            }
-        }
-        
-        exportTitleInfo(m);
-        
         SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
-        
 		return m;
 	}
 	
