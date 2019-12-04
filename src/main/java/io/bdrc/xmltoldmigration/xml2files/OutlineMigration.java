@@ -10,6 +10,10 @@ import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +41,16 @@ public class OutlineMigration {
 	public static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 	
 	public static boolean splitOutlines = false;
+	
+	public static MessageDigest md5;
+	
+    static {
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
 	
     public static boolean addWorkHaspart = true;
     public static boolean addWorkPartOf = false;
@@ -310,14 +324,34 @@ public class OutlineMigration {
         return true;
     }
 	
+    public final static Map<String, Map<Integer,Literal>> workVolNames = new HashMap<>();
+    
+    public static String getMd5(String resId) {
+        try {
+            String message = resId;
+            final byte[] bytesOfMessage = message.getBytes("UTF-8");
+            final byte[] hashBytes = md5.digest(bytesOfMessage);
+            BigInteger bigInt = new BigInteger(1, hashBytes);
+            return String.format("%032x", bigInt).substring(0, 12);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static String getPartRID(String outlineRID, String workId, Integer partI) {
+        return workId+"_P"+getMd5(outlineRID); 
+        //return workId+"_"+String.format("%04d", partI);
+    }
+    
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
 LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork) {
 	    curNode.i = curNode.i+1;
-	    String value = String.format("%04d", curNode.i);
-	    String nodeRID = workId+"_"+value;
+	    String RID = e.getAttribute("RID").trim();
+	    String nodeRID = getPartRID(RID, workId, curNode.i);
 	    String ANodeRID = WorkMigration.getAbstractForRid(nodeRID);
         Resource node = m.createResource(BDR+nodeRID);
-        value = e.getAttribute("type");
+        String value = e.getAttribute("type");
         if (value == null || value.isEmpty()) {
             value = "text";
         }
@@ -337,11 +371,11 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         m.add(node, m.getProperty(BDO, "workPartType"), m.getResource(BDR+value));
 
         node.addProperty(m.createProperty(BDO, "workPartTreeIndex"), thisPartTreeIndex);
-        String RID = e.getAttribute("RID").trim();
+        
         if (!value.isEmpty()) {
             node.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), RID);
             if (ridsToConvert.containsKey(RID)) {
-                ridsToConvert.put(RID, workId+"_"+value);
+                ridsToConvert.put(RID, nodeRID);
             }
         }
         
@@ -365,12 +399,24 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         
         Statement labelSta = node.getProperty(SKOS.prefLabel);
         String label = null;
-        if (labelSta != null)
+        Literal labelL = null;
+        if (labelSta != null) {
             label = labelSta.getLiteral().getString();
+            labelL = labelSta.getLiteral();
+        }
         
         CommonMigration.LocationVolPage locVP =
                 CommonMigration.addLocations(m, node, e, OXSDNS, workId, legacyOutlineRID, RID, label);
-        if (locVP != null) locVP.RID = RID;
+        if (locVP != null) {
+            locVP.RID = RID;
+            if (labelL != null) {
+                Map<Integer,Literal> volLabels = workVolNames.computeIfAbsent(workId, x -> new HashMap<Integer,Literal>());
+                if (volLabels.containsKey(locVP.beginVolNum)) {
+                    // es gibt ein problem
+                }
+                volLabels.put(locVP.beginVolNum, labelL);
+            }
+        }
         
         // check if outlines cross
         if (locVP != null && previousLocVP != null) {

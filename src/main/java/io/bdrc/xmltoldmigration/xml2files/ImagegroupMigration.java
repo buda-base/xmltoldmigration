@@ -10,11 +10,15 @@ import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getAdminData;
 import static io.bdrc.libraries.Models.setPrefixes;
 
+import java.util.Map;
+
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -37,7 +41,7 @@ public class ImagegroupMigration {
         setPrefixes(m, "item");
         Resource item = createRoot(m, BDR+"TestItem", BDO+"ItemImageAsset");
         createAdminRoot(item);
-        MigrateImagegroup(xmlDocument, m, item, "testItem", 1, "testItem");
+        MigrateImagegroup(xmlDocument, m, item, "testItem", 1, "testItem", "testWork");
         return m;
 	}
 	
@@ -68,7 +72,7 @@ public class ImagegroupMigration {
         return false;
     }
 	
-	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource item, String volumeName, Integer volumeNumber, String volumesName) {
+	public static void MigrateImagegroup(Document xmlDocument, Model m, Resource item, String volumeName, Integer volumeNumber, String volumesName, String workId) {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
@@ -90,6 +94,12 @@ public class ImagegroupMigration {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
         }
         m.add(volR, m.getProperty(BDO, "volumeNumber"), m.createTypedLiteral(volumeNumber, XSDDatatype.XSDinteger));
+        if (OutlineMigration.workVolNames.containsKey(workId)) {
+            Map<Integer,Literal> volNames = OutlineMigration.workVolNames.get(workId);
+            if (volNames.containsKey(volumeNumber)) {
+                m.add(volR, SKOS.prefLabel, volNames.get(volumeNumber));
+            }
+        }
         
         if (addItemHasVolume)
             m.add(item, m.getProperty(BDO+"itemHasVolume"), volR);

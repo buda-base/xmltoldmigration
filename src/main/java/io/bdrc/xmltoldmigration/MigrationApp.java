@@ -283,7 +283,7 @@ public class MigrationApp
                     } else {
                         imageGroupWork.put(imagegroup, baseName);
                     }
-                    ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getKey(), itemName);
+                    ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getKey(), itemName, baseName);
                 }
                 String itemOutfileName = getDstFileName("item", itemName);
                 MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "item");
