@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -302,6 +303,31 @@ public class OutlineMigration {
         }
 	}
 
+	static List<String> keywordBlacklist = new ArrayList<>();
+	static {
+	    keywordBlacklist.add("dpe skrun gsal bshad");
+	    keywordBlacklist.add("sngon gleng");
+	    keywordBlacklist.add("rtsom bsgrigs pa'i gtam");
+	    keywordBlacklist.add("thor bu");
+	    keywordBlacklist.add("spar byang smon tshig");
+	    keywordBlacklist.add("mjug byang");
+	    keywordBlacklist.add("rtsom pa pos do snang mdzad dgos pa'i gnad don 'ga' zhig");
+	    keywordBlacklist.add("dus deb mngags nyo'i gsal brda");
+	    keywordBlacklist.add("dang po/_gleng gzhi dang gleng bslang ba'i le'u");
+	    keywordBlacklist.add("rtsom pa po'i ngo sprod mdor bsdus");
+	    keywordBlacklist.add("bsdu sgrig pa'i gleng brjod");
+	    keywordBlacklist.add("bsgrigs rjes kyi gtam/spar byang smon tshig");
+	    keywordBlacklist.add("mjug byang");
+	    keywordBlacklist.add("rtsom pa pos do snang mdzad dgos pa'i gnad don 'ga' zhig");
+	    keywordBlacklist.add("dus deb mngags nyo'i gsal brda");
+	    keywordBlacklist.add("gleng gzhi");
+	    keywordBlacklist.add("gleng bslang");
+	    keywordBlacklist.add("rtsom pa po'i ngo sprod mdor bsdus");
+	    keywordBlacklist.add("bsdu sgrig pa'i gleng brjod");
+	    keywordBlacklist.add("bsgrigs rjes kyi gtam");
+	    
+	}
+	
 	public static Boolean isKarchak(Element e) {
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "title");
         
@@ -318,7 +344,7 @@ public class OutlineMigration {
         
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
-            if (StringUtils.countMatches(current.getTextContent().trim(), " ") > 1)
+            if (StringUtils.countMatches(current.getTextContent().trim(), " ") > 2)
                 return false;
         }
         return true;

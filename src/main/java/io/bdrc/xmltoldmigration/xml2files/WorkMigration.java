@@ -139,8 +139,7 @@ public class WorkMigration {
         NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "info");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            if (!nodeType.isEmpty())
-                nodeType = current.getAttribute("nodeType");
+            nodeType = current.getAttribute("nodeType");
         }
         
         Resource mainA = null;
