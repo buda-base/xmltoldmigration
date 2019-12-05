@@ -56,6 +56,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.atlascopco.hunspell.Hunspell;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.libraries.Models.FacetType;
@@ -82,14 +86,39 @@ public class CommonMigration  {
     public static final Map<String, Boolean> genreTopics = new HashMap<>();
     public static final Map<Integer, Boolean> isTraditional = new HashMap<>();
     public static final Map<String, String> creatorMigrations = new HashMap<>();
+    public static final Map<String, String> abstractClusters;
 
     static {
         fillLogWhoToUri();
         fillGenreTopics();
         getTcList();
         initCreatorMigrations();
+        abstractClusters = getAbstractClusters();
     }
 
+    public static final Map<String,String> getAbstractClusters() {
+        final CSVReader reader;
+        final CSVParser parser = new CSVParserBuilder().build();
+        final Map<String,String> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("clusters.csv");
+        final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        reader = new CSVReaderBuilder(in)
+                .withCSVParser(parser)
+                .build();
+        String[] line = null;
+        while (line != null) {
+            res.put(line[0], line[1]);
+            try {
+                line = reader.readNext();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return res;
+    }
+    
     private static void initCreatorMigrations() {
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
         final InputStream inputStream = classLoader.getResourceAsStream("creator-migrations.txt");

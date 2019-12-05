@@ -169,13 +169,18 @@ public class WorkMigration {
             admMain = createAdminRoot(main);
             res.add(new WorkModelInfo(workId, m));
             if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
-                mA = ModelFactory.createDefaultModel();
-                setPrefixes(mA);
-                res.add(new WorkModelInfo(aWorkId, mA));
-                mainA = createRoot(mA, BDR+aWorkId, BDO+"AbstractWork");
-                Resource admMainA = createAdminRoot(mainA);
-                main.addProperty(m.createProperty(BDO, "workExpressionOf"), mainA);
-                mainA.addProperty(mA.createProperty(BDO, "workHasExpression"), main);
+                String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
+                if (otherAbstractRID == null) {
+                    mA = ModelFactory.createDefaultModel();
+                    setPrefixes(mA);
+                    res.add(new WorkModelInfo(aWorkId, mA));
+                    mainA = createRoot(mA, BDR+aWorkId, BDO+"AbstractWork");
+                    Resource admMainA = createAdminRoot(mainA);
+                    main.addProperty(m.createProperty(BDO, "workExpressionOf"), mainA);
+                    mainA.addProperty(mA.createProperty(BDO, "workHasExpression"), main);
+                } else {
+                    SymetricNormalization.addSymetricProperty(m, "workExpressionOf", workId, otherAbstractRID, null);
+                }
             }
         }
 		
@@ -464,8 +469,7 @@ public class WorkMigration {
                         missingVolumes.add(rangeB+"-"+rangeE);
                 }
             }
-            
-            exportTitleInfo(m);
+            //exportTitleInfo(m);
         }
         SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
 		return res;

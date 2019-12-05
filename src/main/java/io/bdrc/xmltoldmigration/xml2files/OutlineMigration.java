@@ -37,6 +37,7 @@ import org.w3c.dom.NodeList;
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
 
 public class OutlineMigration {
@@ -401,13 +402,20 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         }
         Resource nodeA = null;
         if ("text".equals(value) || "collection".equals(value) && !hasShortTitle(e) && isText(e)) {
-             Model mA = ModelFactory.createDefaultModel();
-             setPrefixes(mA);
-             res.add(new WorkModelInfo(ANodeRID, mA));
-             nodeA = createRoot(mA, BDR+ANodeRID, BDO+"AbstractWork");
-             Resource admMainA = createAdminRoot(nodeA);
-             node.addProperty(m.createProperty(BDO, "workExpressionOf"), nodeA);
-             nodeA.addProperty(m.createProperty(BDO, "workHasExpression"), node);
+             String otherAbstractRID = CommonMigration.abstractClusters.get(ANodeRID);
+             if (otherAbstractRID == null) {
+                 Model mA = ModelFactory.createDefaultModel();
+                 setPrefixes(mA);
+                 res.add(new WorkModelInfo(ANodeRID, mA));
+                 nodeA = createRoot(mA, BDR+ANodeRID, BDO+"AbstractWork");
+                 Resource admMainA = createAdminRoot(nodeA);
+                 // TODO: add language = BO
+                 nodeA.addProperty(mA.createProperty(BDO, "langage"), mA.createResource(BDR+"LangBo"));
+                 node.addProperty(m.createProperty(BDO, "workExpressionOf"), nodeA);
+                 nodeA.addProperty(mA.createProperty(BDO, "workHasExpression"), node);
+             } else {
+                 SymetricNormalization.addSymetricProperty(m, "workExpressionOf", workId, otherAbstractRID, null);
+             }
         }
         value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);
         m.add(node, m.getProperty(BDO, "workPartType"), m.getResource(BDR+value));

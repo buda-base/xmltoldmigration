@@ -76,8 +76,17 @@ public class PubinfoMigration {
 	    return false;
 	}
 
-	public static void addLangScript(final Model m, final Resource main, final Resource mainA, final String lang, final String script, final String langScript) {
-	    
+	public static void addLangScript(final Resource main, final Resource mainA, final String lang, final String script, final String langScript) {
+	    if (main != null) {
+	        Model m = main.getModel();
+	        main.addProperty(m.getProperty(BDO, "language"), BDR+lang);
+	        if (script != null)
+	            main.addProperty(m.getProperty(BDO, "script"), BDR+script);
+	    }
+	    if (mainA != null && script != null) {
+	        Model m = mainA.getModel();
+	        mainA.addProperty(m.getProperty(BDO, "script"), BDR+script);
+	    }
 	}
 	
 	// use this giving a wkr:Work as main argument to fill the work data
@@ -147,8 +156,8 @@ public class PubinfoMigration {
             switch(value) {
             case "dbuMed":
                 langTibetanDone = true;
-                addLangScript(m, main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
+                addLangScript(main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
+                //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
                 if (isComputerInputDbuMed(main.getLocalName()))
                     m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
                 else
@@ -156,7 +165,8 @@ public class PubinfoMigration {
                 break;
             case "dbuCan":
                 langTibetanDone = true;
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
+                addLangScript(main, mainA, "LangBo", "ScriptDbuCan", "BoDbuCan");
+                //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
                 break;
             case "blockprint":
                 m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Relief_WoodBlock"));
@@ -194,17 +204,21 @@ public class PubinfoMigration {
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "encoding");
         if (!langTibetanDone && nodeList.getLength() == 0 && main.getLocalName().startsWith("W1FPL")) {
-            m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiMymr"));
+            //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiMymr"));
+            addLangScript(main, mainA, "LangPi", "ScriptMymr", "PiMymr");
         }
         if (!langTibetanDone && nodeList.getLength() == 1 && main.getLocalName().startsWith("W1FEMC")) {
             Node nd = nodeList.item(0); 
             String str = nd.getTextContent();
             if (str.contains("Pāli")) {
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiKhmr"));
+                //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiKhmr"));
+                addLangScript(main, mainA, "LangPi", "ScriptKhmr", "PiKhmr");
             } else if (str.contains("Khmer")) {
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"KmKhmr"));
+                //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"KmKhmr"));
+                addLangScript(main, mainA, "LangKm", "ScriptKhmr", "KmKhmr");
             } else { // for now default to Khmer
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"KmKhmr"));
+                //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"KmKhmr"));
+                addLangScript(main, mainA, "LangKm", "ScriptKhmr", "KmKhmr");
             }
         }
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -278,16 +292,19 @@ public class PubinfoMigration {
             case "in tiobetan":
             case "ni tibetan":
             case "in tibtatan":
-                if (!langTibetanDone)
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                if (!langTibetanDone) {
+                    //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                }
                 break;
             case "extendedwylie":
             case "estended wylie":
             case "extended wylie":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoEwts"));
+                addLangScript(main, mainA, "LangBo", "ScriptLatn", "BoEwts");
                 break;
             case "in dzongkha":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"DzTibt"));
+                addLangScript(main, mainA, "LangDz", "ScriptTibt", "DzTibt");
+                //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"DzTibt"));
                 break;
             case "བོད་དབྱིན།":
             case "དབྱིན་ཡིག":
@@ -300,14 +317,17 @@ public class PubinfoMigration {
             case "in english and tibetan":
             case "in tibean & english":
             case "tibetan and english":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
-                if (!langTibetanDone)
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
+                addLangScript(main, mainA, "LangEn", null, "EnLatn");
+                if (!langTibetanDone) {
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                }
                 break;
             case "in chinese":
             case "in chinece":
             case "chinese":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh")); // TODO
+                //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh")); // TODO
+                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani");
                 break;
             case "in chinese & tibetan":
             case "in tibetan and chinese":
@@ -323,12 +343,13 @@ public class PubinfoMigration {
             case "in tibetan chinese":
             case "tobetan with chinece":
             case "in tibetab with chinece":
-                if (!langTibetanDone)
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh"));
+                if (!langTibetanDone) {
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                }
+                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani");
                 break;
             case "in sanskrit":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Sa"));
+                addLangScript(main, mainA, "LangSa", null, "Sa");
                 break;
             case "བོད་ཡིག་དང་རྒྱ་ཡིག།":
             case "in sanskrit & tibetan":
@@ -336,24 +357,24 @@ public class PubinfoMigration {
             case "in tibetan and sanskrit":
             case "in tibetan & sanskrit":
                 if (!langTibetanDone)
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Sa"));
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                addLangScript(main, mainA, "LangSa", null, "Sa");
                 break;
             case "in mongolian":
             case "mongolian":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Mn"));
+                addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong");
                 break;
             case "in tibetan and mongol":
             case "in tibetan and mongolian":
             case "in mongolian and tibetan":
                 if (!langTibetanDone)
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Mn"));
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong");
                 break;
             case "english":
             case "in english":
             case "en":
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
+                addLangScript(main, mainA, "LangEn", null, "EnLatn");
                 break;
             case "in tibetan, english and chinese":
             case "in chinese, tibetan and english":
@@ -365,9 +386,9 @@ public class PubinfoMigration {
             case "in chinese, english and tibetan":
             case "in english, tibetan and chinese":
                 if (!langTibetanDone)
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
-                m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh"));
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                addLangScript(main, mainA, "LangEn", null, "EnLatn");
+                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani");
                 break;
             case "in tibetan; an excerpt in english":
             case "in tibetan; notes in english":
@@ -383,37 +404,38 @@ public class PubinfoMigration {
             case "in tibetan; preface and acknowledge in english":
             case "in tibetan; prologue and acknowledgements in tibetan and english":
                 if (!langTibetanDone)
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                m.add(main, m.getProperty(BDO, "workOtherLangScript"), m.createResource(BDR+"EnLatn"));
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                addLangScript(main, mainA, "LangEn", null, "EnLatn");
                 break;
             default:
                 boolean langFound = false;
                 if (value.contains("chinese")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh"));
+                    addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani");
                 }
                 if (value.contains("english") || value.contains("དབྱིན") || value.contains("ཨིན")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
+                    addLangScript(main, mainA, "LangEn", null, "EnLatn");
                 }
                 if (value.contains("mongol")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Mn"));
+                    addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong");
                 }
                 if (value.contains("tibet") || value.contains("བོད")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
                 }
                 if (value.contains("sanskrit") || value.contains("རྒྱ")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Sa"));
+                    addLangScript(main, mainA, "LangSa", null, "Sa");
                 }
                 if (value.contains("dzongkha")) {
                     langFound = true;
-                    m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"DzTibt"));
+                    addLangScript(main, mainA, "LangDz", "ScriptTibt", "DzTibt");
                 }
                 if (value.contains("hindi")) {
                     langFound = true;
+                    addLangScript(main, mainA, "LangHi", null, "Hi");
                     m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Hi"));
                 }
 //                if (!langFound)
