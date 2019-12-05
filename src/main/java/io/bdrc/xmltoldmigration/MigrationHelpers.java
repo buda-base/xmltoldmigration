@@ -130,6 +130,8 @@ public class MigrationHelpers {
     public static final String PLACE = "place";
     public static final String TOPIC = "topic";
     public static final String VOLUMES = "volumes";
+    public static final String INSTANCE = "instance";
+    public static final String EINSTANCE = "einstance";
     public static final String ITEMS = "items";
     public static final String ITEM = "item";
     public static final String WORK = "work";
@@ -502,9 +504,9 @@ public class MigrationHelpers {
         case OFFICE:
             m = OfficeMigration.MigrateOffice(d);
             break;
-        case OUTLINE:
-            m = OutlineMigration.MigrateOutline(d);
-            break;
+//        case OUTLINE:
+//            m = OutlineMigration.MigrateOutline(d);
+//            break;
         case SCANREQUEST:
             m = ScanrequestMigration.MigrateScanrequest(d);
             break;
@@ -514,9 +516,9 @@ public class MigrationHelpers {
         case TAXONOMY:
             m = TaxonomyMigration.MigrateTaxonomy(d);
             break;
-	    case WORK:
-	        m = WorkMigration.MigrateWork(d);
-	        break;
+//	    case WORK:
+//	        m = WorkMigration.MigrateWork(d);
+//	        break;
 		default:
 			// arg
 			return m;

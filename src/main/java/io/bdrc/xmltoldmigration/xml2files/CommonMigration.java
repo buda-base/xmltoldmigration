@@ -157,7 +157,7 @@ public class CommonMigration  {
             // this makes the data inconsistent
             return;
         }
-        Model m = work.getModel();
+        Model m = work == null ? workA.getModel() : work.getModel();
         Resource agentAsCreator = null;
         if (workA != null && !creatorForInstance.contains(roleKey)) {
             agentAsCreator = getFacetNode(FacetType.CREATOR, workA);

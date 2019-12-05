@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
@@ -36,6 +37,7 @@ import org.w3c.dom.NodeList;
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
 
 public class OutlineMigration {
 
@@ -144,6 +146,9 @@ public class OutlineMigration {
         ridsToIgnore.put("O2MS16391", true);
         ridsToIgnore.put("O00CR0008", true);
         
+        // released outlines for withdrawn works:
+        ridsToIgnore.put("O1GS129876", true);
+        
         // Nyingma Gyubum
         // O1CT1002
         // O1CT1003
@@ -197,7 +202,7 @@ public class OutlineMigration {
         return null;
 	}
 	
-	public static Model MigrateOutline(Document xmlDocument) {
+	public static List<WorkModelInfo> MigrateOutline(Document xmlDocument) {
 	    Model workModel = ModelFactory.createDefaultModel();
 	    setPrefixes(workModel, "work");
 	    String workId = getWorkId(xmlDocument);
@@ -208,7 +213,7 @@ public class OutlineMigration {
 	    return MigrateOutline(xmlDocument, workModel, work);
 	}
 
-	public static Model MigrateOutline(Document xmlDocument, Model workModel, Resource rootWork) {
+	public static List<WorkModelInfo> MigrateOutline(Document xmlDocument, Model workModel, Resource rootWork) {
 		Model m;
 		if (splitOutlines) {
 		    m = ModelFactory.createDefaultModel();
@@ -216,6 +221,8 @@ public class OutlineMigration {
 		} else {
 		    m = workModel;
 		}
+		List<WorkModelInfo> res = new ArrayList<>();
+		res.add(new WorkModelInfo(rootWork.getLocalName(), workModel));
 		
         Resource admOutline = createAdminRoot(rootWork);
 
@@ -268,9 +275,9 @@ public class OutlineMigration {
             node2 = nodeList2.get(0);
         }
 		
-		addNodes(m, rootWork, node2, rootWork.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "", rootWork);
+		addNodes(m, rootWork, node2, rootWork.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "", rootWork, res);
 		//WorkMigration.exportTitleInfo(workModel);
-		return m;
+		return res;
 	}
 	
 	public static void addCreators(Model m, Resource rez, Element e, boolean isRoot, Resource rootWork, Resource nodeA) {
@@ -304,6 +311,7 @@ public class OutlineMigration {
 	}
 
 	static List<String> keywordBlacklist = new ArrayList<>();
+	static Pattern blacklistP;
 	static {
 	    keywordBlacklist.add("dpe skrun gsal bshad");
 	    keywordBlacklist.add("sngon gleng");
@@ -313,20 +321,27 @@ public class OutlineMigration {
 	    keywordBlacklist.add("mjug byang");
 	    keywordBlacklist.add("rtsom pa pos do snang mdzad dgos pa'i gnad don 'ga' zhig");
 	    keywordBlacklist.add("dus deb mngags nyo'i gsal brda");
-	    keywordBlacklist.add("dang po/_gleng gzhi dang gleng bslang ba'i le'u");
-	    keywordBlacklist.add("rtsom pa po'i ngo sprod mdor bsdus");
-	    keywordBlacklist.add("bsdu sgrig pa'i gleng brjod");
-	    keywordBlacklist.add("bsgrigs rjes kyi gtam/spar byang smon tshig");
-	    keywordBlacklist.add("mjug byang");
-	    keywordBlacklist.add("rtsom pa pos do snang mdzad dgos pa'i gnad don 'ga' zhig");
-	    keywordBlacklist.add("dus deb mngags nyo'i gsal brda");
-	    keywordBlacklist.add("gleng gzhi");
-	    keywordBlacklist.add("gleng bslang");
 	    keywordBlacklist.add("rtsom pa po'i ngo sprod mdor bsdus");
 	    keywordBlacklist.add("bsdu sgrig pa'i gleng brjod");
 	    keywordBlacklist.add("bsgrigs rjes kyi gtam");
-	    
+	    keywordBlacklist.add("spar byang smon tshig");
+	    keywordBlacklist.add("preface");
+	    //keywordBlacklist.add("gleng gzhi"); means preface but also other things...
+	    String patternS = "("+String.join("|", keywordBlacklist)+")";
+	    blacklistP = Pattern.compile(patternS);
 	}
+	
+    public static Boolean isText(Element e) {
+        List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "title");
+        
+        for (int i = 0; i < nodeList.size(); i++) {
+            Element current = (Element) nodeList.get(i);
+            String title = current.getTextContent();
+            if (blacklistP.matcher(title).find())
+                return false;
+        }
+        return true;
+    }
 	
 	public static Boolean isKarchak(Element e) {
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "title");
@@ -349,7 +364,7 @@ public class OutlineMigration {
         }
         return true;
     }
-	
+
     public final static Map<String, Map<Integer,Literal>> workVolNames = new HashMap<>();
     
     public static String getMd5(String resId) {
@@ -371,7 +386,7 @@ public class OutlineMigration {
     }
     
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
-LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork) {
+LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork, List<WorkModelInfo> res) {
 	    curNode.i = curNode.i+1;
 	    String RID = e.getAttribute("RID").trim();
 	    String nodeRID = getPartRID(RID, workId, curNode.i);
@@ -384,15 +399,16 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         if (isKarchak(e)) {
             value = "tableOfContent";
         }
-        
         Resource nodeA = null;
-        if ("text".equals(value) || "collection".equals(value) && !hasShortTitle(e)) {
-             nodeA = m.createResource(BDR+ANodeRID);
-             nodeA.addProperty(RDF.type, m.createResource(BDO+"AbstractWork"));
+        if ("text".equals(value) || "collection".equals(value) && !hasShortTitle(e) && isText(e)) {
+             Model mA = ModelFactory.createDefaultModel();
+             setPrefixes(mA);
+             res.add(new WorkModelInfo(ANodeRID, mA));
+             nodeA = createRoot(mA, BDR+ANodeRID, BDO+"AbstractWork");
+             Resource admMainA = createAdminRoot(nodeA);
              node.addProperty(m.createProperty(BDO, "workExpressionOf"), nodeA);
              nodeA.addProperty(m.createProperty(BDO, "workHasExpression"), node);
         }
-        // TODO: don't create abstract works for one syllable title texts
         value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);
         m.add(node, m.getProperty(BDO, "workPartType"), m.getResource(BDR+value));
 
@@ -506,7 +522,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         addCreators(m, node, e, false, rootWork, nodeA);
         
         // sub nodes
-        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex, rootWork);
+        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex, rootWork, res);
         
         if (!hasChildren && (locVP == null)) {
 //            labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
@@ -529,7 +545,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 	    return String.format("%03d", index);
 	}
 	
-	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex, Resource rootWork) {
+	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex, Resource rootWork, List<WorkModelInfo> wmires) {
 	    CommonMigration.LocationVolPage endLocVP = null;
 	    boolean res = false;
 	    final List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
@@ -543,7 +559,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             } else {
                 thisPartTreeIndex = curPartTreeIndex+"."+getPartTreeIndexStr(i+1, nbChildren);
             }
-            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex, rootWork);
+            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex, rootWork, wmires);
             if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {
                 // check if beginning of child node is before beginning of parent
                 if (parentLocVP.beginVolNum > endLocVP.beginVolNum

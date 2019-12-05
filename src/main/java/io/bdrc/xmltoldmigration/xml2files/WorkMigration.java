@@ -97,7 +97,7 @@ public class WorkMigration {
     }
 	    
 	// testing only
-    public static Model MigrateWork(Document xmlDocument) {
+    public static List<WorkModelInfo> MigrateWork(Document xmlDocument) {
         Model m = ModelFactory.createDefaultModel();
         setPrefixes(m, "work");
         return MigrateWork(xmlDocument, m, new HashMap<>());
@@ -128,11 +128,22 @@ public class WorkMigration {
         return res;
     }
     
-	public static Model MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
+    public static final class WorkModelInfo {
+        public String resourceName;
+        public Model m;
+        
+        public WorkModelInfo(String resourceName, Model m) {
+            this.resourceName = resourceName;
+            this.m = m;
+        }
+    }
+    
+	public static List<WorkModelInfo> MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String workId = root.getAttribute("RID");
 		String aWorkId = getAbstractForRid(workId);
+		List<WorkModelInfo> res = new ArrayList<>();
         
         // first check info:
         String nodeType = "";
@@ -142,27 +153,34 @@ public class WorkMigration {
             nodeType = current.getAttribute("nodeType");
         }
         
+        Model mA = null;
         Resource mainA = null;
         boolean isConceptual = false;
         Resource main = null;
-        if (nodeType.equals("series") || nodeType.equals("conceptualWork")) {
+        Resource admMain = null;
+        if (nodeType.equals("series") || nodeType.equals("conceptualWork") && !root.getAttribute("status").contentEquals("withdrawn")) {
             main = createRoot(m, BDR+workId, BDO+"AbstractWork");
+            admMain = createAdminRoot(main);
             isConceptual = true;
+            res.add(null);
+            res.add(new WorkModelInfo(workId, m));
         } else {
             main = createRoot(m, BDR+workId, BDO+"Work");
+            admMain = createAdminRoot(main);
+            res.add(new WorkModelInfo(workId, m));
             if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
-                mainA = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
+                mA = ModelFactory.createDefaultModel();
+                setPrefixes(mA);
+                res.add(new WorkModelInfo(aWorkId, mA));
+                mainA = createRoot(mA, BDR+aWorkId, BDO+"AbstractWork");
+                Resource admMainA = createAdminRoot(mainA);
                 main.addProperty(m.createProperty(BDO, "workExpressionOf"), mainA);
-                mainA.addProperty(m.createProperty(BDO, "workHasExpression"), main);
+                mainA.addProperty(mA.createProperty(BDO, "workHasExpression"), main);
             }
         }
-        
-        
-        Resource admMain = createAdminRoot(main);
 		
 		addStatus(m, admMain, root.getAttribute("status"));        
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
-
 		
 		String value = null;
 		Literal lit = null;
@@ -173,7 +191,10 @@ public class WorkMigration {
 	    CommonMigration.addLog(m, root, admMain, WXSDNS);
 		
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
-	    CommonMigration.addSubjects(m, mainA == null ? main : mainA, root, WXSDNS);
+	    if (mainA == null)
+	        CommonMigration.addSubjects(m, main, root, WXSDNS);
+	    else
+	        CommonMigration.addSubjects(mA, mainA, root, WXSDNS);
 	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS);
 	    if (itemModelsFromDesc != null) {
 	        if (!splitItems) {
@@ -447,7 +468,7 @@ public class WorkMigration {
             exportTitleInfo(m);
         }
         SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
-		return m;
+		return res;
 	}
 	
 	public static class ImageGroupInfo {
