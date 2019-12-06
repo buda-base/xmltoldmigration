@@ -586,7 +586,7 @@ public class CommonMigration  {
         if (value.isEmpty()) return;
         if (value.contains("treasuryoflives.org")) {
             value = normalizeToLUrl(value);
-            admR.addProperty(m.createProperty(ADM, "seeOtherToL"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
+            rez.addProperty(m.createProperty(ADM, "seeOtherToL"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
             return;
         }
         if (value.contains("blog.tbrc.org")) return;
