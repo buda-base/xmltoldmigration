@@ -63,7 +63,6 @@ import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.libraries.Models.FacetType;
-//import io.bdrc.libraries.BdrcDateType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.EwtsFixer;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -630,7 +629,7 @@ public class CommonMigration  {
         if (value.isEmpty()) return;
         if (value.contains("treasuryoflives.org")) {
             value = normalizeToLUrl(value);
-            admR.addProperty(m.createProperty(ADM, "seeOtherToL"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
+            rez.addProperty(m.createProperty(ADM, "seeOtherToL"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
             return;
         }
         if (value.contains("blog.tbrc.org")) return;

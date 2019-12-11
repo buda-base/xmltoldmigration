@@ -165,21 +165,21 @@ public class WorkMigration {
             res.add(null);
             res.add(new WorkModelInfo(workId, m));
         } else {
-            main = createRoot(m, BDR+workId, BDO+"Work");
+            main = createRoot(m, BDR+workId, BDO+"AbstractWork");
             admMain = createAdminRoot(main);
             res.add(new WorkModelInfo(workId, m));
-            if (!workId.contains("FPL") && !workId.contains("DDD") && root.getAttribute("status").equals("released")) {
+            if (!root.getAttribute("status").equals("withdrawn")) {
                 String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
                 if (otherAbstractRID == null) {
                     mA = ModelFactory.createDefaultModel();
                     setPrefixes(mA);
                     res.add(new WorkModelInfo(aWorkId, mA));
-                    mainA = createRoot(mA, BDR+aWorkId, BDO+"AbstractWork");
+                    mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
                     Resource admMainA = createAdminRoot(mainA);
-                    main.addProperty(m.createProperty(BDO, "workExpressionOf"), mainA);
-                    mainA.addProperty(mA.createProperty(BDO, "workHasExpression"), main);
+                    main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
+                    mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
-                    SymetricNormalization.addSymetricProperty(m, "workExpressionOf", workId, otherAbstractRID, null);
+                    SymetricNormalization.addSymetricProperty(m, "instanceOf", workId, otherAbstractRID, null);
                 }
             }
         }
@@ -304,17 +304,18 @@ public class WorkMigration {
             // will be overwritten when reading the pubinfo
             value = current.getAttribute("number");
             if (!value.isEmpty()) {
+                // this has to be on the SerialMemberInstance - FIX_THIS
                 main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(value));
                 numbered = true;
             };
             value = current.getAttribute("numbered"); 
-            if (!value.isEmpty()) {
+            if ("true".equals(value)) {
                 numbered = true;
             }
-            if (numbered) {
-                prop = m.getProperty(BDO, "workIsNumbered");
-                m.add(main, prop, m.createTypedLiteral(true));
-            }
+//            if (numbered) {   no longeruse this boolean
+//                prop = m.getProperty(BDO, "workIsNumbered");
+//                m.add(main, prop, m.createTypedLiteral(true));
+//            }
             value = current.getAttribute("parent").trim();
             if (!value.isEmpty() && !value.contains("LEGACY")) {
                 if (value.equals(main.getLocalName())) {
