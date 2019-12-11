@@ -39,6 +39,7 @@ public class SymetricNormalization {
         }
     }
     
+    //AbstractWorks_CheckThis - may need tweaking for item/work relations
     public static void normalizeOneDirection(boolean oneDirectionArg, boolean preferManyOverOne) {
         fillMap(preferManyOverOne);
         oneDirection = oneDirectionArg;
@@ -68,11 +69,10 @@ public class SymetricNormalization {
         propInfos.put("placeLocatedIn", new SymetryInfo("placeContains", oneInt));
         // let's not care about placeIsNear
         //propInfos.put("placeIsNear", new SymetryInfo("placeIsNear", 2));
-        propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", oneInt));
-        propInfos.put("workHasExpression", new SymetryInfo("workExpressionOf", manyInt));
-        propInfos.put("workExpressionOf", new SymetryInfo("workHasExpression", oneInt));
-        propInfos.put("workNumberOf", new SymetryInfo("workHasNumber", oneInt));
-        propInfos.put("workHasNumber", new SymetryInfo("workNumberOf", manyInt));
+        propInfos.put("instanceOf", new SymetryInfo("workHasInstance", oneInt));
+        propInfos.put("workHasInstance", new SymetryInfo("instanceOf", manyInt));
+        propInfos.put("serialMemberOf", new SymetryInfo("serialHasMember", oneInt));
+        propInfos.put("serialHasMember", new SymetryInfo("serialMemberOf", manyInt));
         // TODO: these are handled in the code directly:
         // - workPartOf       vs. workHaspart
         // - workHasItem      vs. itemForWork
