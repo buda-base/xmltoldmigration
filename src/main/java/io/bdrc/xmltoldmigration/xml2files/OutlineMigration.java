@@ -407,14 +407,14 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  Model mA = ModelFactory.createDefaultModel();
                  setPrefixes(mA);
                  res.add(new WorkModelInfo(ANodeRID, mA));
-                 nodeA = createRoot(mA, BDR+ANodeRID, BDO+"AbstractWork");
+                 nodeA = createRoot(mA, BDR+ANodeRID, BDO+"Work");
                  Resource admMainA = createAdminRoot(nodeA);
                  // TODO: add language = BO
                  nodeA.addProperty(mA.createProperty(BDO, "langage"), mA.createResource(BDR+"LangBo"));
-                 node.addProperty(m.createProperty(BDO, "workExpressionOf"), nodeA);
-                 nodeA.addProperty(mA.createProperty(BDO, "workHasExpression"), node);
+                 node.addProperty(m.createProperty(BDO, "workInstanceOf"), nodeA);
+                 nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
              } else {
-                 SymetricNormalization.addSymetricProperty(m, "workExpressionOf", workId, otherAbstractRID, null);
+                 SymetricNormalization.addSymetricProperty(m, "workInstanceOf", workId, otherAbstractRID, null);
              }
         }
         value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);

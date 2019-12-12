@@ -77,9 +77,12 @@ public class GRETILTransfer {
         // Work model
         final Model workModel = ModelFactory.createDefaultModel();
         setPrefixes(workModel);
-        Resource work = createRoot(workModel, BDR+line[0], BDO+"UnicodeWork");
+        Resource work = createRoot(workModel, BDR+line[0], BDO+"EtextInstance");
         Resource admWork = createAdminRoot(work);
 
+        Resource workA = createRoot(workModel, BDR+"WA"+line[0].substring(1), BDO+"Work");
+        Resource admWorkA = createAdminRoot(workA);
+        
         // Work AdminData
         addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_GRETIL")); // ?

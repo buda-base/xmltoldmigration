@@ -202,13 +202,13 @@ public class MigrationApp
             if (workId == null || workId.isEmpty())
                 return;
             String srItemName = "I"+workId.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
-            String itemFileName = getDstFileName("einstance", srItemName, ".trig");
+            String itemFileName = getDstFileName("iinstance", srItemName, ".trig");
             itemModel = MigrationHelpers.modelFromFileName(itemFileName);
             if (itemModel == null)
                 return;
             item = itemModel.getResource(BDR+srItemName);
             itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
-            MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "einstance");
+            MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "iinstance");
             break;
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -244,7 +244,7 @@ public class MigrationApp
                 if (s != null)
                     nbVolsTotal = s.getObject().asLiteral().getInt();
     
-                // migrate einstance
+                // migrate iinstance
                 ImageGroupInfo imageGroups = WorkMigration.getImageGroupList(d, nbVolsTotal);
                 Map<Integer,String> vols = imageGroups.imageGroupList;
                 if (vols.size() > 0) {
@@ -255,11 +255,11 @@ public class MigrationApp
                     }
                     String itemName = "I"+baseName.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                     if (WorkMigration.addWorkHasItem) {
-                        m.add(workR, m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
+                        m.add(workR, m.getProperty(BDO, "workHasImageInstance"), m.createResource(BDR+itemName));
                     }
                     itemModel = ModelFactory.createDefaultModel();
                     setPrefixes(itemModel);
-                    item = createRoot(itemModel, BDR+itemName, BDO+"ItemImageAsset");
+                    item = createRoot(itemModel, BDR+itemName, BDO+"ImageInstance");
                     
                     admItem = createAdminRoot(item);
                     addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
@@ -270,7 +270,7 @@ public class MigrationApp
                     if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                         item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
                     if (WorkMigration.addItemForWork) {
-                        itemModel.add(item, itemModel.getProperty(BDO, "itemForWork"), itemModel.createResource(BDR + baseName));
+                        itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR + baseName));
                     }
                     // workHasItem already added in WorkMigration
                     for (Map.Entry<Integer,String> vol : vols.entrySet()) {
@@ -296,8 +296,8 @@ public class MigrationApp
                         }
                         ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getKey(), itemName, baseName);
                     }
-                    String itemOutfileName = getDstFileName("einstance", itemName);
-                    MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "einstance");
+                    String itemOutfileName = getDstFileName("iinstance", itemName);
+                    MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "iinstance");
                 }
             
                 // migrate pubinfo
@@ -364,6 +364,8 @@ public class MigrationApp
         }
     }
 
+    static Map<String,Map<String,List<String>>> outlineTriplesToAdd = null;
+    
     public static void migrateType(String type, String mustStartWith) {
         switch (type) {
         case "outline":
@@ -371,9 +373,14 @@ public class MigrationApp
             ensureGitRepo("work", OUTPUT_DIR);
             ensureGitRepo("instance", OUTPUT_DIR);
             break;
+        case "etext":
+            ensureGitRepo("einstance", OUTPUT_DIR);
+            ensureGitRepo("work", OUTPUT_DIR);
+            ensureGitRepo("instance", OUTPUT_DIR);
         case "work":
             ensureGitRepo("work", OUTPUT_DIR);
             ensureGitRepo("item", OUTPUT_DIR);
+            ensureGitRepo("iinstance", OUTPUT_DIR);
             ensureGitRepo("einstance", OUTPUT_DIR);
             ensureGitRepo("instance", OUTPUT_DIR);
             break;
@@ -382,6 +389,9 @@ public class MigrationApp
             break;
         }
         SymetricNormalization.reinit();
+        if (type.equals("work") && outlineTriplesToAdd != null) {
+            SymetricNormalization.triplesToAdd = outlineTriplesToAdd;
+        }
         File logfile = new File(OUTPUT_DIR+type+"s-migration.log");
         PrintWriter pw;
         try {
@@ -397,7 +407,11 @@ public class MigrationApp
         //Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
         Stream.of(files).forEach(file -> migrateOneFile(file, type, mustStartWith));
         pw.close();
-        insertMissingSymetricTriples(type);
+        if (type.equals("outline")) {
+            outlineTriplesToAdd = SymetricNormalization.triplesToAdd;
+        } else {
+            insertMissingSymetricTriples(type);
+        }
         if (type.equals("person"))
             System.out.println("recorded "+PersonMigration.placeEvents.size()+" events to migrate to places");
     }
@@ -424,7 +438,7 @@ public class MigrationApp
 
     public static void finishTypes() {
         System.out.println("committing modifications");
-        List<String> types = Arrays.asList("work", "item", "instance", "place", "person", "product", "corporation", "office", "lineage", "topic", "etext", "etextcontent", "einstance");
+        List<String> types = Arrays.asList("work", "item", "instance", "place", "person", "product", "corporation", "office", "lineage", "topic", "etext", "etextcontent", "iinstance", "einstance");
         for (String type : types) {
             finishType(type);
         }

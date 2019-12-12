@@ -131,6 +131,7 @@ public class MigrationHelpers {
     public static final String TOPIC = "topic";
     public static final String VOLUMES = "volumes";
     public static final String INSTANCE = "instance";
+    public static final String IINSTANCE = "iinstance";
     public static final String EINSTANCE = "einstance";
     public static final String ITEMS = "items";
     public static final String ITEM = "item";

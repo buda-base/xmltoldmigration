@@ -63,13 +63,13 @@ public class CUDLTransfer {
     public static final HashMap<String,String> getScripts() {
 
         final HashMap<String,String> res = new HashMap<>();
-        res.put("nepālākṣarā","SaNepaleseHooked");
-        res.put("pāla","SaRanj");
-        res.put("sinhala","SaSinh");
-        res.put("devanāgarī","SaDeva");
-        res.put("rañjanā","SaRanj");
-        res.put("bengali","SaBeng");
-        res.put("naipālanāgarī","SaDeva");
+        res.put("nepālākṣarā","ScriptNepaleseHooked");
+        res.put("pāla","ScriptRanj");
+        res.put("sinhala","ScriptSinh");
+        res.put("devanāgarī","ScriptDeva");
+        res.put("rañjanā","ScriptRanj");
+        res.put("bengali","ScriptBeng");
+        res.put("naipālanāgarī","ScriptDeva");
         return res;
     }
 
@@ -105,7 +105,7 @@ public class CUDLTransfer {
         String rid=line[0];
         
         // Work model
-        Resource work = createRoot(workModel, BDR+"W0CDL0"+rid, BDO+"Work");
+        Resource work = createRoot(workModel, BDR+"W0CDL0"+rid, BDO+"Instance");
         Resource admWork = createAdminRoot(work);
         res.add(work);
 
@@ -115,44 +115,74 @@ public class CUDLTransfer {
         final String origUrl = ORIG_URL_BASE+line[0];
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
 
-        // bdo:Work
+        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[4]);
+        Model mA = null;
+        Resource workA = null;
+        Resource admWorkA = null;
+        if (abstractWorkRID == null) {
+            abstractWorkRID = "WA0CDL0"+rid;
+            mA = ModelFactory.createDefaultModel();
+            setPrefixes(mA);
+            workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
+            admWorkA = createAdminRoot(work);
+            res.add(workA);
+            work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
+            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+        } else {
+            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", "W0CDL0"+rid, abstractWorkRID, null);
+        }
+        
         workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));
-        workModel.add(work,workModel.createProperty(BDO,"workBiblioNote"),workModel.createLiteral(line[2], "en"));
-        String mainTitle=line[6];
+        
         String title=line[3];
+        String mainTitle=line[6];
+        if (mainTitle.equals(title)) {
+            mainTitle = "";
+        }
+        String altTitle=line[7];
         Literal lit=null;
-        if(title.endsWith("@en")) {
-            lit=workModel.createLiteral(title);
-        }else {
-            lit=workModel.createLiteral(title,"sa-x-iast");
+        if (title.endsWith("@en")) {
+            lit = workModel.createLiteral(title.substring(0, title.length()-3), "en");
+        } else {
+            lit = workModel.createLiteral(title,"sa-x-iast");
         }
         workModel.add(work, SKOS.prefLabel, lit);
-        
-        Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
+        Resource titleType = workModel.createResource(BDO+"WorkTitle");
         Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
         work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
-        titleR.addProperty(RDFS.label, (mainTitle.equals("") ? lit : workModel.createLiteral(mainTitle, "sa-x-iast")));
+        titleR.addProperty(RDFS.label, lit);
+        
+        // if mainTitle is present, we prefer it over title for the abstract work
+        if (!mainTitle.equals("")) {
+            if (workA == null) {
+                workModel.add(work, SKOS.altLabel, workModel.createLiteral(mainTitle, "sa-x-iast"));
+            } else {
+                mA.add(work, SKOS.prefLabel, mA.createLiteral(mainTitle, "sa-x-iast"));
+            }
+        } else if (workA != null) {
+            mA.add(work, SKOS.prefLabel, lit);
+        }
 
-        String altTitle=line[7];
         if(!altTitle.equals("")) {
-            workModel.add(work, SKOS.altLabel, workModel.createLiteral(altTitle, "sa-x-iast")); // DO WE REALLY NEED THIS??
-            titleType = workModel.createResource(BDO+"WorkOtherTitle");
-            titleR = getFacetNode(FacetType.TITLE, work, titleType);
-            work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
-            titleR.addProperty(RDFS.label, altTitle, "sa-x-iast");
+            String[] altTitles = altTitle.split(",");
+            for (int i = 0; i < altTitles.length; i++) { 
+                String at = altTitles[i];
+                if (workA != null)
+                    mA.add(workA, SKOS.altLabel, workModel.createLiteral(at, "sa-x-iast"));
+                else
+                    workModel.add(work, SKOS.altLabel, workModel.createLiteral(at, "sa-x-iast"));
+            }
         }
         
-        final String abstractWorkRID = EAPTransfer.rKTsToBDR(line[4]);
-        if (abstractWorkRID != null) {
-            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", "W0CDL0"+rid, abstractWorkRID, null);
-        }
-        if(!line[5].equals("")) {
-            workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+line[5]));
+        if(!line[5].equals("") && workA != null) {
+            mA.add(workA, mA.createProperty(BDO, "workIsAbout"), mA.createResource(BDR+line[5]));
         }
         workModel.add(work, workModel.createProperty(BDO, "printMethod"), workModel.createResource(BDR+"PrintMethod_Manuscript"));
         addMaterial(work, line[9]);
         if(!line[14].equals("")) {
-            workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+scripts.get(line[14].toLowerCase())));
+            workModel.add(work, workModel.createProperty(BDO, "script"), workModel.createResource(BDR+scripts.get(line[14].toLowerCase())));
+            if (workA != null)
+                mA.add(workA, mA.createProperty(BDO, "language"), mA.createResource(BDR+"LangSa"));
         }
         if (!line[19].isEmpty()) {
             work.addProperty(workModel.createProperty(BDO, "workDimWidth"), line[19].replace(',','.').trim(), XSDDatatype.XSDdecimal);
@@ -171,12 +201,12 @@ public class CUDLTransfer {
         final Model itemModel = ModelFactory.createDefaultModel();
         setPrefixes(itemModel);
         final String itemRID = "I0CDL0"+rid;
-        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
+        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
         Resource itemAdm = createAdminRoot(item);
         res.add(item);
         
         if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "workHasItem"), workModel.createResource(BDR+itemRID));
+            workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), workModel.createResource(BDR+itemRID));
         }
         
         // Item adm:AdminData
@@ -202,13 +232,14 @@ public class CUDLTransfer {
         if (ImagegroupMigration.addVolumeOf)
             itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
         if (ImagegroupMigration.addItemHasVolume)
-            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(line[8]));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         
-        if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W0CDL0"+rid));
-        }
+        //if (WorkMigration.addItemForWork) {
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"W0CDL0"+rid));
+            SymetricNormalization.addSymetricProperty(itemModel, "workInstanceOf", itemRID, abstractWorkRID, null);
+        //}
 
         return res;
     }
@@ -221,9 +252,13 @@ public class CUDLTransfer {
                     final String workOutfileName = MigrationApp.getDstFileName("work", r.getLocalName());
                     MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), workOutfileName, "work");
                     break;
-                case "http://purl.bdrc.io/ontology/core/ItemImageAsset":
-                    final String itemOutfileName = MigrationApp.getDstFileName("item", r.getLocalName());
-                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), itemOutfileName, "item");
+                case "http://purl.bdrc.io/ontology/core/Instance":
+                    final String iOutfileName = MigrationApp.getDstFileName("instance", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), iOutfileName, "instance");
+                    break;
+                case "http://purl.bdrc.io/ontology/core/ImageInstance":
+                    final String itemOutfileName = MigrationApp.getDstFileName("iinstance", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), itemOutfileName, "iinstance");
                     break;
             }
         }
