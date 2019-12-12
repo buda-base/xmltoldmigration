@@ -128,6 +128,8 @@ public class CUDLTransfer {
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+            addReleased(mA, admWorkA);
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
         } else {
             SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", "W0CDL0"+rid, abstractWorkRID, null);
         }

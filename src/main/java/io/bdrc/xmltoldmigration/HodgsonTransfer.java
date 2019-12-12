@@ -77,12 +77,18 @@ public class HodgsonTransfer {
 
     public static final void writeHodgsonFiles(List<Resource> resources) {
         final Resource work = resources.get(0);
-        final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
-        MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
+        final String workOutfileName = MigrationApp.getDstFileName("instance", work.getLocalName());
+        MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "instance");
         
         final Resource item = resources.get(1);
-        final String itemOutfileName = MigrationApp.getDstFileName("item", item.getLocalName());
-        MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "item");
+        final String itemOutfileName = MigrationApp.getDstFileName("iinstance", item.getLocalName());
+        MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "iinstance");
+        
+        if (resources.size() > 2) {
+            final Resource workA = resources.get(2);
+            final String workAOutfileName = MigrationApp.getDstFileName("iinstance", workA.getLocalName());
+            MigrationHelpers.outputOneModel(workA.getModel(), workA.getLocalName(), workAOutfileName, "work");
+        }
     }
 
     public static final List<Resource> getResourcesFromLine(String[] line) {

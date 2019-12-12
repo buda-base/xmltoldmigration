@@ -80,8 +80,30 @@ public class GRETILTransfer {
         Resource work = createRoot(workModel, BDR+line[0], BDO+"EtextInstance");
         Resource admWork = createAdminRoot(work);
 
-        Resource workA = createRoot(workModel, BDR+"WA"+line[0].substring(1), BDO+"Work");
-        Resource admWorkA = createAdminRoot(workA);
+        Model mA = null;
+        Resource workA = null;
+        String abstractWorkRID = null;
+        Resource admWorkA = null;
+        
+        // rKTs metadata
+        String rkts = line[2];
+        if (rkts != null) {
+            if(rkts.contains(",")) {
+                rkts=rkts.substring(0,rkts.indexOf(","));
+            }
+            abstractWorkRID = EAPTransfer.rKTsToBDR(line[2]);
+        }
+        if (abstractWorkRID != null) {
+            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", line[0], abstractWorkRID, null);
+        } else {
+            mA = ModelFactory.createDefaultModel();
+            setPrefixes(mA);
+            workA = createRoot(mA, BDR+"WA"+line[0].substring(1), BDO+"Work");
+            admWorkA = createAdminRoot(workA);
+            addReleased(mA, admWorkA);
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_GRETIL")); // ?
+        }        
+        
         
         // Work AdminData
         addReleased(workModel, admWork);
@@ -94,36 +116,26 @@ public class GRETILTransfer {
         // titles
         work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[1], "en"));
         work.addProperty(SKOS.altLabel, workModel.createLiteral(line[3], "sa-x-iast"));
-        Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
+        Resource titleType = workModel.createResource(BDO+"WorkTitle");
         Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
         work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
         titleR.addProperty(RDFS.label, workModel.createLiteral(line[1], "en"));
 
-        // rKTs metadata
-        String rkts=line[2];
-        if(rkts!=null) {
-            if(rkts.contains(",")) {
-                rkts=rkts.substring(0,rkts.indexOf(","));
-            }
-            final String abstractWorkRID = EAPTransfer.rKTsToBDR(line[2]);
-            if (abstractWorkRID != null) {
-                SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", line[0], abstractWorkRID, null);
-            }
-        }
+
         
         // creator
         String author=line[5];
-        if(author!=null && !"".equals(author)) {
-            CommonMigration.addAgentAsCreator(work, workModel.createResource(BDR+author), "hasMainAuthor", null);
+        if(author!=null && !"".equals(author) && workA != null) {
+            CommonMigration.addAgentAsCreator(workA, mA.createResource(BDR+author), "hasMainAuthor", null);
         }
         
         // subject
         String topic=line[6];
-        if(topic!=null && !"".equals(topic)) {
+        if(topic!=null && !"".equals(topic) && workA != null) {
             // Basic cchecking but some validation of the topic should occur here
             //We might need to query ldspdi for the list of all topics
             if(topic.startsWith("T")) {
-                workModel.add(work, workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+topic));
+                mA.add(workA, mA.createProperty(BDO, "workIsAbout"), mA.createResource(BDR+topic));
             }
         }
         
