@@ -65,6 +65,9 @@ public class WorkMigration {
 	
 	public static Map<String,List<String>> productWorks = new HashMap<>();
 	
+	public static List<WorkModelInfo> serialWorks = new ArrayList<>();
+	public static List<WorkModelInfo> serialMembers = new ArrayList<>();
+	
     private static HashMap<String, String> workAccessMap = new HashMap<>();
     private static HashMap<String, String> workLegalMap = new HashMap<>();
     private static HashMap<String, Boolean> workRestrictedInChina = new HashMap<>();
@@ -143,14 +146,21 @@ public class WorkMigration {
 		Element current;
 		String workId = root.getAttribute("RID");
 		String aWorkId = getAbstractForRid(workId);
+		String status = root.getAttribute("status");
 		List<WorkModelInfo> res = new ArrayList<>();
         
         // first check info:
-        String nodeType = "";
+        String infoNodeType = "";
+        String infoNumber = "";
+        String infoParent = "";
+        boolean isSeriesMember = false;
         NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "info");
         for (int i = 0; i < nodeList.getLength(); i++) {
             current = (Element) nodeList.item(i);
-            nodeType = current.getAttribute("nodeType");
+            infoNodeType = current.getAttribute("nodeType").trim();
+            infoNumber = current.getAttribute("number").trim();
+            isSeriesMember = !infoNumber.isEmpty();
+            infoParent = current.getAttribute("parent").trim();
         }
         
         Model mA = null;
@@ -158,23 +168,30 @@ public class WorkMigration {
         boolean isConceptual = false;
         Resource main = null;
         Resource admMain = null;
-        if (nodeType.equals("series") || nodeType.equals("conceptualWork") && !root.getAttribute("status").contentEquals("withdrawn")) {
+        if (isSeriesMember && !status.equals("withdrawn")) {
+            // TODO: Must add the SerialMember for this SerialMemberInstance
+            main = createRoot(m, BDR+workId, BDO+"SerialMemberInstance");
+            admMain = createAdminRoot(main);
+            res.add(null);
+            res.add(new WorkModelInfo(workId, m));
+        }
+        if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
             main = createRoot(m, BDR+workId, BDO+"AbstractWork");
             admMain = createAdminRoot(main);
             isConceptual = true;
             res.add(null);
             res.add(new WorkModelInfo(workId, m));
         } else {
-            main = createRoot(m, BDR+workId, BDO+"AbstractWork");
+            main = createRoot(m, BDR+workId, BDO+"Work");
             admMain = createAdminRoot(main);
             res.add(new WorkModelInfo(workId, m));
-            if (!root.getAttribute("status").equals("withdrawn")) {
+            if (!status.equals("withdrawn")) {
                 String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
                 if (otherAbstractRID == null) {
                     mA = ModelFactory.createDefaultModel();
                     setPrefixes(mA);
                     res.add(new WorkModelInfo(aWorkId, mA));
-                    mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
+                    mainA = createRoot(mA, BDR+aWorkId, BDO+"AbstractWork");
                     Resource admMainA = createAdminRoot(mainA);
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
@@ -184,7 +201,7 @@ public class WorkMigration {
             }
         }
 		
-		addStatus(m, admMain, root.getAttribute("status"));        
+		addStatus(m, admMain, status);        
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		
 		String value = null;
@@ -286,49 +303,25 @@ public class WorkMigration {
         workLegalMap.put(workId, legalUri);
         workRestrictedInChina.put(workId, isRestrictedInChina);
 
-        // info
         
-        nodeList = root.getElementsByTagNameNS(WXSDNS, "info");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            current = (Element) nodeList.item(i);
-//            String nodeType = current.getAttribute("nodeType");
-//            switch (nodeType) {
-//            case "unicodeText": value = BDO+"UnicodeWork"; break;
-//            case "conceptualWork": value = BDO+"AbstractWork"; break;
-//            case "publishedWork": value = BDO+"PublishedWork"; break;
-//            case "series": value = BDO+"SeriesWork"; break;
-//            default: value = BDO+(hasArchiveInfo ? "PublishedWork" : "Work"); break;
-//            }
-//            main.addProperty(RDF.type, m.createResource(value));
-            boolean numbered = false;
-            // will be overwritten when reading the pubinfo
-            value = current.getAttribute("number");
-            if (!value.isEmpty()) {
-                // this has to be on the SerialMemberInstance - FIX_THIS
-                main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(value));
-                numbered = true;
-            };
-            value = current.getAttribute("numbered"); 
-            if ("true".equals(value)) {
-                numbered = true;
+        // info - add triples based on values in <info/> which are extracted above
+        
+        if (isSeriesMember) {
+            // at this point main should be a SerialMemberInstance ?!
+            main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
+            // TODO: need to deal with adding a SerialWork and doing bookkeeping on for PubInfo
+        };
+        if (!infoParent.isEmpty() && !infoParent.contains("LEGACY")) {
+            if (infoParent.equals(main.getLocalName())) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info", "parent set to the resource RID");
             }
-//            if (numbered) {   no longeruse this boolean
-//                prop = m.getProperty(BDO, "workIsNumbered");
-//                m.add(main, prop, m.createTypedLiteral(true));
-//            }
-            value = current.getAttribute("parent").trim();
-            if (!value.isEmpty() && !value.contains("LEGACY")) {
-                if (value.equals(main.getLocalName())) {
-                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info", "parent set to the resource RID");
-                    continue;
-                }
-                if (numbered) {
-                    SymetricNormalization.addSymetricProperty(m, "workNumberOf", main.getLocalName(), value, null);
-                } else {
-                    SymetricNormalization.addSymetricProperty(m, "workExpressionOf", main.getLocalName(), value, null);
-                }
+            if (isSeriesMember) {
+                SymetricNormalization.addSymetricProperty(m, "serialInstanceOf", main.getLocalName(), value, null);
+            } else {
+                SymetricNormalization.addSymetricProperty(m, "instanceOf", main.getLocalName(), value, null);
             }
         }
+        
         
         // creator
         // this is a list of the abstract works of the part of the work
