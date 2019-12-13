@@ -98,6 +98,27 @@ public class HodgsonTransfer {
         final String baseRID = line[0].trim();
         Resource work = createRoot(workModel, BDR+"W"+baseRID, BDO+"Work");
         res.add(work);
+        
+        
+        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[5]);
+
+        Model mA = null;
+        Resource workA = null;
+        Resource admWorkA = null;
+        if (abstractWorkRID == null) {
+            abstractWorkRID = "WA"+baseRID;
+            mA = ModelFactory.createDefaultModel();
+            setPrefixes(mA);
+            workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
+            admWorkA = createAdminRoot(work);
+            res.add(workA);
+            work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
+            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+            addReleased(mA, admWorkA);
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_IA_Metadata")); // ?
+        } else {
+            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", "W"+baseRID, abstractWorkRID, null);
+        }
 
         // adm:AdminData
         Resource admWork = createAdminRoot(work);
@@ -106,11 +127,14 @@ public class HodgsonTransfer {
 
         // title
         String title = line[2].trim();
-        Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
+        Resource titleType = workModel.createResource(BDO+"WorkTitle");
         Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
         work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
         titleR.addProperty(RDFS.label, workModel.createLiteral(title, "sa-x-iast"));
         work.addLiteral(SKOS.prefLabel, workModel.createLiteral(title, "sa-x-iast"));
+        if (workA != null) {
+            workA.addLiteral(SKOS.prefLabel, mA.createLiteral(title, "sa-x-iast"));
+        }
         
         if (!line[3].trim().isEmpty()) {
             title = line[3].trim();
@@ -118,9 +142,12 @@ public class HodgsonTransfer {
             work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
             titleR.addProperty(RDFS.label, workModel.createLiteral(title, "sa-x-iast"));
             work.addLiteral(SKOS.altLabel, workModel.createLiteral(title, "sa-x-iast"));
+            if (workA != null) {
+                workA.addLiteral(SKOS.altLabel, mA.createLiteral(title, "sa-x-iast"));
+            }
         }
         
-        CommonMigration.addNote(work, "From the Hodgson Collection, digitized by Internet Archive.", "en", null, null);
+        CommonMigration.addNote(work, "From the Hodgson Collection", "en", null, null);
         
         if (line.length > 9 && !line[10].trim().isEmpty()) {
             CommonMigration.addNote(work, line[10], "en", null, null);
@@ -138,16 +165,13 @@ public class HodgsonTransfer {
         work.addProperty(workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral("https://archive.org/details/"+line[1].trim(), XSDDatatype.XSDanyURI));
         
         // Topics and Genres, they should go with the abstract text
-        if (!line[6].isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+line[6].trim()));
+        if (!line[6].isEmpty() && workA != null) {
+            workA.addProperty(mA.createProperty(BDO, "workIsAbout"), mA.createResource(BDR+line[6].trim()));
         }
-        if (!line[7].isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workGenre"), workModel.createResource(BDR+line[7].trim()));
+        if (!line[7].isEmpty() && workA != null) {
+            work.addProperty(mA.createProperty(BDO, "workGenre"), mA.createResource(BDR+line[7].trim()));
         }
-        final String abstractWorkRID = EAPTransfer.rKTsToBDR(line[5]);
-        if (abstractWorkRID != null) {
-            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", "W"+baseRID, abstractWorkRID, null);
-        }
+
         
         // bdo:Item for current bdo:Work
         final Model itemModel = ModelFactory.createDefaultModel();
@@ -155,11 +179,11 @@ public class HodgsonTransfer {
         final String itemRID = "I"+baseRID;
         
         // Item for Work
-        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
+        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
         res.add(item);
 
         if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "workHasItem"), item);
+            workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
         }
 
         // Item adm:AdminData
@@ -176,11 +200,12 @@ public class HodgsonTransfer {
         if (ImagegroupMigration.addVolumeOf)
             itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
         if (ImagegroupMigration.addItemHasVolume)
-            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource("https://iiif.archivelab.org/iiif/"+line[1].trim()+"/manifest.json"));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+baseRID));
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"W"+baseRID));
+            SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
         }
 
 

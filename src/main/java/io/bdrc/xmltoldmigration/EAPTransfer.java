@@ -144,6 +144,25 @@ public class EAPTransfer {
         Resource work = createRoot(workModel, BDR+RID, BDO+"Work");
         res.add(work);
 
+        String abstractWorkRID = rKTsToBDR(line[15]);
+        Model mA = null;
+        Resource workA = null;
+        Resource admWorkA = null;
+        if (abstractWorkRID == null) {
+            abstractWorkRID = "WA"+baseRid;
+            mA = ModelFactory.createDefaultModel();
+            setPrefixes(mA);
+            workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
+            admWorkA = createAdminRoot(work);
+            res.add(workA);
+            work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
+            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+            addReleased(mA, admWorkA);
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
+        } else {
+            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", RID, abstractWorkRID, null);
+        }
+        
         // adm:AdminData
         Resource admWork = createAdminRoot(work);
         addReleased(workModel, admWork);
@@ -158,13 +177,16 @@ public class EAPTransfer {
             title = title.substring(0, title.length()-3);
             titleLang = "en";
         } else {
-            Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
+            Resource titleType = workModel.createResource(BDO+"WorkTitle");
             Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
             work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
             titleR.addProperty(RDFS.label, workModel.createLiteral(title, titleLang));
         }
         int linelen = line.length;
         work.addLiteral(SKOS.prefLabel, workModel.createLiteral(title, titleLang));
+        if (workA != null) {
+            workA.addLiteral(SKOS.prefLabel, mA.createLiteral(title, titleLang));
+        }
         
         // event
         if (!line[3].isEmpty()) {
@@ -193,36 +215,37 @@ public class EAPTransfer {
         // other metadata
         final String langCode = line[5];
         final String scriptCode = line[6];
+        if (scriptCode.equals("Newa")) {
+            workModel.add(work, workModel.createProperty(BDO, "script"), workModel.createResource(BDR+"ScriptNewa"));
+        } else if (scriptCode.equals("Ranj")) {
+            workModel.add(work, workModel.createProperty(BDO, "script"), workModel.createResource(BDR+"ScriptRanj"));
+        } else if (scriptCode.equals("Beng")) {
+            workModel.add(work, workModel.createProperty(BDO, "script"), workModel.createResource(BDR+"ScriptBeng"));
+        } else {
+            workModel.add(work, workModel.createProperty(BDO, "script"), workModel.createResource(BDR+"ScriptDeva"));
+        }
         switch(langCode) {
         case "san":
-            if (scriptCode.equals("Newa")) {
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaNewa"));
-            } else if (scriptCode.equals("Ranj")) {
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaRanj"));
-            } else if (scriptCode.equals("Beng")) {
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaBeng"));
-            } else {
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaDeva"));
-            }
+            if (workA != null) 
+                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangNew"));
+            workModel.add(work, workModel.createProperty(BDO, "language"), workModel.createResource(BDR+"LangNew"));
             break;
         case "new":
-            if (scriptCode.equals("Newa")) {
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"NewNewa"));
-            } else {
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"NewDeva"));
-            }
+            if (workA != null) 
+                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangNew"));
+            workModel.add(work, workModel.createProperty(BDO, "language"), workModel.createResource(BDR+"LangNew"));
             break;
         case "san;new":
-            if (scriptCode.equals("Newa")) {
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaNewa"));
-                workModel.add(work, workModel.createProperty(BDO, "workOtherLangScript"), workModel.createResource(BDR+"NewNewa"));
-            } else {
-                workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"SaDeva"));
-                workModel.add(work, workModel.createProperty(BDO, "workOtherLangScript"), workModel.createResource(BDR+"NewDeva"));
+            if (workA != null) {
+                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangNew"));
+                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangSa"));
             }
+            workModel.add(work, workModel.createProperty(BDO, "language"), workModel.createResource(BDR+"LangNew"));
+            workModel.add(work, workModel.createProperty(BDO, "language"), workModel.createResource(BDR+"LangSa"));
             break;
         case "tib":
-            workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+"BoDeva"));
+            if (workA != null) 
+                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangBo"));
             break;
         }
         if (!line[9].isEmpty()) {
@@ -231,26 +254,24 @@ public class EAPTransfer {
         if (!line[10].isEmpty()) {
             work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[10], XSDDatatype.XSDdecimal);
         }
-        // Topics and Genres, they should go with the abstract text
-        if (linelen > 16 && !line[16].isEmpty()) {
-            final String[] topics = line[16].split(",");
-            for (int i = 0; i < topics.length; i++)
-            {
-                work.addProperty(workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+topics[i]));
+        if (workA != null) {
+            if (linelen > 16 && !line[16].isEmpty()) {
+                final String[] topics = line[16].split(",");
+                for (int i = 0; i < topics.length; i++)
+                {
+                    workA.addProperty(mA.createProperty(BDO, "workIsAbout"), mA.createResource(BDR+topics[i]));
+                }
             }
-        }
-        if (linelen > 17 && !line[17].isEmpty()) {
-            final String[] genres = line[17].split(",");
-            for (int i = 0; i < genres.length; i++)
-            {
-                work.addProperty(workModel.createProperty(BDO, "workGenre"), workModel.createResource(BDR+genres[i]));
+            if (linelen > 17 && !line[17].isEmpty()) {
+                final String[] genres = line[17].split(",");
+                for (int i = 0; i < genres.length; i++)
+                {
+                    workA.addProperty(mA.createProperty(BDO, "workGenre"), mA.createResource(BDR+genres[i]));
+                }
             }
         }
         workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+"MaterialPaper"));
-        final String abstractWorkRID = rKTsToBDR(line[15]);
-        if (abstractWorkRID != null) {
-            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", RID, abstractWorkRID, null);
-        }
+
         final String iiifManifestUrl = origUrl+"/manifest";
         
         
@@ -264,7 +285,7 @@ public class EAPTransfer {
         res.add(item);
 
         if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "workHasItem"), item);
+            workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
         }
 
         // Item adm:AdminData
@@ -281,11 +302,11 @@ public class EAPTransfer {
         if (ImagegroupMigration.addVolumeOf)
             itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
         if (ImagegroupMigration.addItemHasVolume)
-            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(iiifManifestUrl));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+RID));
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+RID));
         }
         
         // there doesn't appear to be an original url for the volume to record in the Volume AdminData
