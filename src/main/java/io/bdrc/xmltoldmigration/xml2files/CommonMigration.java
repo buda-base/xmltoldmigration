@@ -33,7 +33,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Validator;
 
 import org.apache.jena.datatypes.DatatypeFormatException;
-import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.ontology.OntModel;
@@ -86,38 +85,40 @@ public class CommonMigration  {
     public static final Map<Integer, Boolean> isTraditional = new HashMap<>();
     public static final Map<String, String> creatorMigrations = new HashMap<>();
     public static final Map<String, String> abstractClusters;
+    public static final Map<String, String> seriesClusters;
 
     static {
         fillLogWhoToUri();
         fillGenreTopics();
         getTcList();
         initCreatorMigrations();
-        abstractClusters = getAbstractClusters();
+        abstractClusters = getClusters("clusters.csv");
+        seriesClusters = getClusters("reconcileseries-clustered-inv.csv");
     }
 
-    public static final Map<String,String> getAbstractClusters() {
+    public static final Map<String,String> getClusters(String csvName) {
         final CSVReader reader;
         final CSVParser parser = new CSVParserBuilder().build();
         final Map<String,String> res = new HashMap<>();
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
-        final InputStream inputStream = classLoader.getResourceAsStream("clusters.csv");
+        final InputStream inputStream = classLoader.getResourceAsStream(csvName);
         final BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         reader = new CSVReaderBuilder(in)
                 .withCSVParser(parser)
                 .build();
-        String[] line = null;
-        while (line != null) {
-            res.put(line[0], line[1]);
-            try {
+        try {
+            String[] line = reader.readNext();
+            while (line != null) {
+                res.put(line[0], line[1]);
                 line = reader.readNext();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
         return res;
     }
-    
+   
     private static void initCreatorMigrations() {
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
         final InputStream inputStream = classLoader.getResourceAsStream("creator-migrations.txt");
