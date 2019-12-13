@@ -36,6 +36,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Selector;
 import org.apache.jena.rdf.model.SimpleSelector;
@@ -152,7 +153,7 @@ public class WorkMigration {
         // first check info:
         String infoNodeType = "";
         String infoNumber = "";
-        String infoParent = "";
+        String infoParentId = "";
         boolean isSeriesMember = false;
         NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "info");
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -160,22 +161,53 @@ public class WorkMigration {
             infoNodeType = current.getAttribute("nodeType").trim();
             infoNumber = current.getAttribute("number").trim();
             isSeriesMember = !infoNumber.isEmpty();
-            infoParent = current.getAttribute("parent").trim();
+            infoParentId = current.getAttribute("parent").trim();
         }
         
         Model mA = null;
         Resource mainA = null;
+        Model mS = null;
+        Resource serialW = null;
         boolean isConceptual = false;
         Resource main = null;
         Resource admMain = null;
+        String seriesWorkId = "";
         if (isSeriesMember && !status.equals("withdrawn")) {
-            // TODO: Must add the SerialMember for this SerialMemberInstance
+            String otherMemberRID = CommonMigration.seriesClusters.get(workId);
+            if (otherMemberRID == null) {
+                otherMemberRID = workId;
+            }
             main = createRoot(m, BDR+workId, BDO+"SerialMemberInstance");
             admMain = createAdminRoot(main);
             res.add(null);
             res.add(new WorkModelInfo(workId, m));
-        }
-        if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
+
+            String seriesMemberId = "WM" + workId.substring(1);
+            mA = ModelFactory.createDefaultModel();
+            setPrefixes(mA);
+            mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
+            Resource admMainA = createAdminRoot(mainA);
+            main.addProperty(m.createProperty(BDO, "serialInstanceOf"), mainA);
+            mainA.addProperty(mA.createProperty(BDO, "serialHasInstance"), main);
+            res.add(new WorkModelInfo(seriesMemberId, mA));
+
+            seriesWorkId = CommonMigration.seriesMembersToWorks.get(otherMemberRID);
+            if (seriesWorkId == null) {
+                if (infoParentId.isEmpty()) {
+                    seriesWorkId = "WS" + otherMemberRID.substring(1);
+                } else {
+                    seriesWorkId = infoParentId;
+                }
+                CommonMigration.seriesMembersToWorks.put(otherMemberRID, seriesWorkId);
+            }
+            mS = ModelFactory.createDefaultModel();
+            setPrefixes(mS);
+            serialW = createRoot(mA, BDR+seriesWorkId, BDO+"SerialWork");
+            Resource admSerialW = createAdminRoot(serialW);
+            mainA.addProperty(m.createProperty(BDO, "serialMemberOf"), serialW);
+            serialW.addProperty(mA.createProperty(BDO, "serialHasMember"), mainA);
+            res.add(new WorkModelInfo(seriesWorkId, mS));
+        } else if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
             main = createRoot(m, BDR+workId, BDO+"AbstractWork");
             admMain = createAdminRoot(main);
             isConceptual = true;
@@ -213,6 +245,21 @@ public class WorkMigration {
 	    CommonMigration.addLog(m, root, admMain, WXSDNS);
 		
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
+	    // put a prefLabel on the serialW if needed
+	    if (isSeriesMember) {
+	        RDFNode serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(seriesWorkId);
+	        if (serialWorkLabel == null ) {
+	            Statement s = mainA.getProperty(SKOS.prefLabel);
+	            if (s == null) {
+	                s = main.getProperty(SKOS.prefLabel);
+	            }
+	            if (s != null) {
+	                serialW.addProperty(SKOS.prefLabel, s.getObject());
+	                CommonMigration.seriesMembersToWorkLabels.put(seriesWorkId, s.getObject());
+	            }
+	        }
+	    }
+
 	    if (mainA == null)
 	        CommonMigration.addSubjects(m, main, root, WXSDNS);
 	    else
@@ -311,8 +358,8 @@ public class WorkMigration {
             main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
             // TODO: need to deal with adding a SerialWork and doing bookkeeping on for PubInfo
         };
-        if (!infoParent.isEmpty() && !infoParent.contains("LEGACY")) {
-            if (infoParent.equals(main.getLocalName())) {
+        if (!infoParentId.isEmpty() && !infoParentId.contains("LEGACY")) {
+            if (infoParentId.equals(main.getLocalName())) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info", "parent set to the resource RID");
             }
             if (isSeriesMember) {

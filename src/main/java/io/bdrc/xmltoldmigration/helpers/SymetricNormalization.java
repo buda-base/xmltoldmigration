@@ -73,6 +73,8 @@ public class SymetricNormalization {
         propInfos.put("workHasInstance", new SymetryInfo("instanceOf", manyInt));
         propInfos.put("serialMemberOf", new SymetryInfo("serialHasMember", oneInt));
         propInfos.put("serialHasMember", new SymetryInfo("serialMemberOf", manyInt));
+        propInfos.put("serialInstanceOf", new SymetryInfo("serialHasInstance", oneInt));
+        propInfos.put("serialHasInstance", new SymetryInfo("serialInstanceOf", manyInt));
         // TODO: these are handled in the code directly:
         // - workPartOf       vs. workHaspart
         // - workHasItem      vs. itemForWork

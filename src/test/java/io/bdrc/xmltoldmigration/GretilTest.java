@@ -37,7 +37,7 @@ public class GretilTest {
                     .withCSVParser(parser)
                     .build();
         String[] line = reader.readNext();
-        Resource work= GRETILTransfer.getWorkFromLine(line);
+        Resource work= GRETILTransfer.getWorkFromLine(line).get(0);
         reader.close();
         Model workModel = work.getModel();
         Model correctModel = ModelFactory.createDefaultModel();

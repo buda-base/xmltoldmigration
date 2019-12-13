@@ -40,6 +40,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
@@ -86,6 +87,8 @@ public class CommonMigration  {
     public static final Map<String, String> creatorMigrations = new HashMap<>();
     public static final Map<String, String> abstractClusters;
     public static final Map<String, String> seriesClusters;
+    public static final Map<String, String> seriesMembersToWorks = new HashMap<>();;
+    public static final Map<String, RDFNode> seriesMembersToWorkLabels = new HashMap<>();;
 
     static {
         fillLogWhoToUri();
