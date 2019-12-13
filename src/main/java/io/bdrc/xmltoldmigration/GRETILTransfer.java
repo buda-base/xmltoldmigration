@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
@@ -55,7 +56,7 @@ public class GRETILTransfer {
             while (line != null) {
                 //avoiding identical originalRecords
                 if(line[8]!=null && !processed.contains(line[8])) {
-                    Resource work = getWorkFromLine(line);
+                    List<Resource> work = getWorkFromLine(line);
                     writeGRETILFiles(work);
                     processed.add(line[8]);
                 }
@@ -68,16 +69,23 @@ public class GRETILTransfer {
         MigrationApp.insertMissingSymetricTriples("work");
     }
 
-    public static final void writeGRETILFiles(Resource work) {
-        final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
-        MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
+    public static final void writeGRETILFiles(List<Resource> res) {
+        String workOutfileName = MigrationApp.getDstFileName("einstance", res.get(0).getLocalName());
+        MigrationHelpers.outputOneModel(res.get(0).getModel(), res.get(0).getLocalName(), workOutfileName, "einstance");
+        if (res.size() > 1) {
+            workOutfileName = MigrationApp.getDstFileName("work", res.get(1).getLocalName());
+            MigrationHelpers.outputOneModel(res.get(1).getModel(), res.get(1).getLocalName(), workOutfileName, "work");
+        }
     }
     
-    public static final Resource getWorkFromLine(String[] line) {        
+    public static final List<Resource> getWorkFromLine(String[] line) {        
         // Work model
         final Model workModel = ModelFactory.createDefaultModel();
         setPrefixes(workModel);
+        final List<Resource> res = new ArrayList<>();
+        
         Resource work = createRoot(workModel, BDR+line[0], BDO+"EtextInstance");
+        res.add(work);
         Resource admWork = createAdminRoot(work);
 
         Model mA = null;
@@ -99,6 +107,7 @@ public class GRETILTransfer {
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
             workA = createRoot(mA, BDR+"WA"+line[0].substring(1), BDO+"Work");
+            res.add(workA);
             admWorkA = createAdminRoot(workA);
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_GRETIL")); // ?
@@ -149,7 +158,7 @@ public class GRETILTransfer {
             CommonMigration.addNote(work, "Based on "+note, "en", null, null);
         }
         
-        return work;
+        return res;
     }
 
 }

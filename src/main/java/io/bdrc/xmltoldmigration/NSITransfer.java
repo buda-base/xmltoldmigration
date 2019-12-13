@@ -89,12 +89,18 @@ public class NSITransfer {
 
     public static final void writeNSIFiles(List<Resource> resources) {
         final Resource work = resources.get(0);
-        final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
-        MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
+        final String workOutfileName = MigrationApp.getDstFileName("instance", work.getLocalName());
+        MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "instance");
         
         final Resource item = resources.get(1);
-        final String itemOutfileName = MigrationApp.getDstFileName("item", item.getLocalName());
-        MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "item");
+        final String itemOutfileName = MigrationApp.getDstFileName("iinstance", item.getLocalName());
+        MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "iinstance");
+        
+        if (resources.size() > 2) {
+            final Resource workA = resources.get(2);
+            final String workAOutfileName = MigrationApp.getDstFileName("work", workA.getLocalName());
+            MigrationHelpers.outputOneModel(workA.getModel(), workA.getLocalName(), workAOutfileName, "work");
+        }
     }
 
     public static final List<Resource> getResourcesFromLine(String[] line) {
@@ -110,18 +116,42 @@ public class NSITransfer {
         addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_BDRC_CC0")); // ?
 
+        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[19]);
+        Model mA = null;
+        Resource workA = null;
+        Resource admWorkA = null;
+        if (abstractWorkRID == null) {
+            abstractWorkRID = "WA"+WRID.substring(1);
+            mA = ModelFactory.createDefaultModel();
+            setPrefixes(mA);
+            workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
+            admWorkA = createAdminRoot(work);
+            work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
+            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+            addReleased(mA, admWorkA);
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
+        } else {
+            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", WRID, abstractWorkRID, null);
+        }
+        if (abstractWorkRID != null) {
+            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", WRID, abstractWorkRID, null);
+        }
+        
         // title
         String title = line[4].trim();
         String titleLang = "sa-x-iast";
-        if ("Undefined".equals(title)) {
+        if ("Unidentified".equals(title)) {
             titleLang = "en";
         }
-        Resource titleType = workModel.createResource(BDO+"WorkBibliographicalTitle");
+        Resource titleType = workModel.createResource(BDO+"WorkTitle");
         Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
         work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
         titleR.addProperty(RDFS.label, workModel.createLiteral(title, titleLang));
         int linelen = line.length;
         work.addLiteral(SKOS.prefLabel, workModel.createLiteral(title, titleLang));
+        if (workA != null) {
+            workA.addLiteral(SKOS.prefLabel, mA.createLiteral(title, titleLang));
+        }
         
         // event
         if (line[14].endsWith(" CE")) {
@@ -153,9 +183,11 @@ public class NSITransfer {
         case "Yellow Paper":
             work.addProperty(workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+"MaterialPaper"));   
             work.addProperty(workModel.createProperty(BDO, "appliedMaterial"), workModel.createResource(BDR+"AppliedMaterial_Poison"));
+            workModel.add(work, workModel.createProperty(BDO, "binding"), workModel.createResource(BDR+"Binding_LooseLeaf"));
             break;
         case "Bound Mss.":
-            //workModel.add(work, workModel.createProperty(BDO, "printMethod"), workModel.createResource(BDR+"PrintMethod_Manuscript"));
+            workModel.add(work, workModel.createProperty(BDO, "printMethod"), workModel.createResource(BDR+"PrintMethod_Manuscript"));
+            workModel.add(work, workModel.createProperty(BDO, "binding"), workModel.createResource(BDR+"Binding_Codex_Sewn"));
             // not sure what that means...
             break;
         case "Thyāsaphū":
@@ -176,10 +208,6 @@ public class NSITransfer {
                 work.addProperty(workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+topics[i].trim()));
             }
         }
-        final String abstractWorkRID = EAPTransfer.rKTsToBDR(line[19]);
-        if (abstractWorkRID != null) {
-            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", WRID, abstractWorkRID, null);
-        }
         
         // bdo:Item for current bdo:Work
         final Model itemModel = ModelFactory.createDefaultModel();
@@ -187,11 +215,11 @@ public class NSITransfer {
         final String itemRID = line[2].trim();
         
         // Item for Work
-        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
+        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
         res.add(item);
 
         if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "workHasItem"), item);
+            workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
         }
 
         // Item adm:AdminData
@@ -216,13 +244,17 @@ public class NSITransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumePagesTbrcIntro"), itemModel.createTypedLiteral(0, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+WRID));
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+WRID));
+            SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
         }
         // the rest is just so that it looks normal so that it's fetched by requests in a normal way
         itemModel.add(volume, itemModel.createProperty(BDO, "imageList"), itemModel.createLiteral(""));
         itemModel.add(volume, itemModel.createProperty(BDO, "imageCount"), itemModel.createTypedLiteral(0, XSDDatatype.XSDinteger));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumePagesTotal"), itemModel.createTypedLiteral(0, XSDDatatype.XSDinteger));
 
+        if (workA != null)
+            res.add(workA);
+        
         return res;
     }
     

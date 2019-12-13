@@ -86,7 +86,7 @@ public class HodgsonTransfer {
         
         if (resources.size() > 2) {
             final Resource workA = resources.get(2);
-            final String workAOutfileName = MigrationApp.getDstFileName("iinstance", workA.getLocalName());
+            final String workAOutfileName = MigrationApp.getDstFileName("work", workA.getLocalName());
             MigrationHelpers.outputOneModel(workA.getModel(), workA.getLocalName(), workAOutfileName, "work");
         }
     }

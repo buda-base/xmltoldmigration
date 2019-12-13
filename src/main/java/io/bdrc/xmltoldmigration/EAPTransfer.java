@@ -281,7 +281,7 @@ public class EAPTransfer {
         final String itemRID = 'I'+baseRid;
         
         // Item for Work
-        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ItemImageAsset");
+        Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
         res.add(item);
 
         if (WorkMigration.addWorkHasItem) {
@@ -307,6 +307,7 @@ public class EAPTransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
             itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+RID));
+            SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
         }
         
         // there doesn't appear to be an original url for the volume to record in the Volume AdminData
