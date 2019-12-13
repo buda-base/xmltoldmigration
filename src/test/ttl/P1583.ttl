@@ -36,7 +36,6 @@ bda:P1583  a               adm:AdminData ;
         adm:graphId        bdg:P1583 ;
         adm:logEntry       bda:LG650F49A48542 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:seeOtherToL    "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
@@ -88,6 +87,7 @@ bdr:NMFB54273C9888  a  :PersonPrimaryTitle ;
         rdfs:label  "klong chen rab 'byams pa dri med 'od zer/"@bo-x-ewts .
 
 bdr:P1583  a                 :Person ;
+        adm:seeOtherToL      "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
         :hasUnknownKinship   bdr:P1584 ;
         :incarnationGeneral  bdr:P561654 ;
         :incarnationMind     bdr:P561654 ;
