@@ -214,7 +214,11 @@ public class WorkMigration {
             res.add(null);
             res.add(new WorkModelInfo(workId, m));
         } else {
-            main = createRoot(m, BDR+workId, BDO+"Work");
+            if (infoNodeType.equals("unicodeText")) {
+                main = createRoot(m, BDR+workId, BDO+"EtextInstance");
+            } else {
+                main = createRoot(m, BDR+workId, BDO+"Instance"); // physical?
+            }
             admMain = createAdminRoot(main);
             res.add(new WorkModelInfo(workId, m));
             if (!status.equals("withdrawn")) {
@@ -223,7 +227,7 @@ public class WorkMigration {
                     mA = ModelFactory.createDefaultModel();
                     setPrefixes(mA);
                     res.add(new WorkModelInfo(aWorkId, mA));
-                    mainA = createRoot(mA, BDR+aWorkId, BDO+"AbstractWork");
+                    mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
                     Resource admMainA = createAdminRoot(mainA);
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
@@ -590,7 +594,7 @@ public class WorkMigration {
 	}
 	
 	public static void exportTitleInfo(Model m) {
-	    Selector sel = new SimpleSelector(null, RDF.type, m.createResource(BDO+"AbstractWork"));
+	    Selector sel = new SimpleSelector(null, RDF.type, m.createResource(BDO+"Work"));
 	    StmtIterator iter = m.listStatements(sel);
         while (iter.hasNext()) {
             Resource next = iter.next().getSubject();
