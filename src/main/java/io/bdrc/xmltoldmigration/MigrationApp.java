@@ -224,6 +224,7 @@ public class MigrationApp
                 return;
             }
             Model m = null;
+            Resource serialWork = null; // collects the SerialWork optionally created in MigratePubinfo
             if (workCreatedByOutline.containsKey(baseName)) {
                 m = MigrationHelpers.modelFromFileName(getDstFileName("work", baseName, ".trig"));
             }
@@ -243,7 +244,7 @@ public class MigrationApp
                 if (s != null)
                     nbVolsTotal = s.getObject().asLiteral().getInt();
     
-                // migrate iinstance
+                // migrate instance
                 ImageGroupInfo imageGroups = WorkMigration.getImageGroupList(d, nbVolsTotal);
                 Map<Integer,String> vols = imageGroups.imageGroupList;
                 if (vols.size() > 0) {
@@ -304,8 +305,13 @@ public class MigrationApp
                 File pubinfoFile = new File(pubinfoFileName);
                 if (pubinfoFile.exists()) {
                     d = MigrationHelpers.documentFromFileName(pubinfoFileName);
-                    // TODO: this shouldn't be null all the time
-                    m = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, null);
+                    if (models.size() >1) {
+                        WorkModelInfo abstractMI = models.get(1);
+                        Resource mainA = abstractMI.m.getResource(BDR+abstractMI.resourceName);
+                        serialWork = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, mainA);
+                    } else {
+                        serialWork = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, null);
+                    }
                 } else {
                     MigrationHelpers.writeLog("missing "+pubinfoFileName);
                 }
@@ -325,6 +331,14 @@ public class MigrationApp
                 WorkModelInfo abstractMI = models.get(1);
                 workOutFileName = getDstFileName("work", abstractMI.resourceName);
                 MigrationHelpers.outputOneModel(abstractMI.m, abstractMI.resourceName, workOutFileName, "work");
+            }
+            if (models.size() >2) {
+                WorkModelInfo serialMI = models.get(2);
+                workOutFileName = getDstFileName("work", serialMI.resourceName);
+                MigrationHelpers.outputOneModel(serialMI.m, serialMI.resourceName, workOutFileName, "work");
+            } else if ( serialWork != null) {
+                workOutFileName = getDstFileName("work", serialWork.getLocalName());
+                MigrationHelpers.outputOneModel(serialWork.getModel(), serialWork.getLocalName(), workOutFileName, "work");
             }
             break;
         default:

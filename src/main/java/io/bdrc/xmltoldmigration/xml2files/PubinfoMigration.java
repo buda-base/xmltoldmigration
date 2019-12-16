@@ -17,6 +17,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
@@ -26,6 +27,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
 
 
 public class PubinfoMigration {
@@ -88,9 +90,33 @@ public class PubinfoMigration {
 	        mainA.addProperty(m.getProperty(BDO, "script"), BDR+script);
 	    }
 	}
+    
+    public static RDFNode getSeriesName(Element root, Model model) {
+        Literal seriesNameLiteral = null;
+        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "seriesName");
+        String rid = root.getAttribute("RID");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            seriesNameLiteral = CommonMigration.getLiteral(current, EWTS_TAG, model, "seriesName", rid, null);
+        }
+        return seriesNameLiteral;
+    }
+    
+    public static RDFNode getSeriesNumber(Element root, Model model) {
+        Literal seriesNumberLiteral = null;
+        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "seriesName");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String value = current.getTextContent().trim();
+            if (!value.isEmpty()) {
+                seriesNumberLiteral = model.createLiteral(value);
+            }
+        }
+        return seriesNumberLiteral;
+    }
 	
-	// use this giving a wkr:Work as main argument to fill the work data
-	public static Model MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, final Resource mainA) {
+    // use this giving a bdr:Work as main argument to fill the work data
+	public static Resource MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, final Resource mainA) {
 		Element root = xmlDocument.getDocumentElement();
 		
         addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
@@ -109,11 +135,42 @@ public class PubinfoMigration {
         addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"workDimensions", null, root, m, main);
         addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
-        addSimpleElement("seriesName", BDO+"workSeriesName", EWTS_TAG, root, m, main);
-        addSimpleElement("seriesNumber", BDO+"workSeriesNumber", null, root, m, main);
         addSimpleElement("biblioNote", BDO+"workBiblioNote", "en", root, m, main);
         addSimpleElement("sourceNote", BDO+"workSourceNote", "en", root, m, main);
         addSimpleElement("editionStatement", BDO+"workEditionStatement", EWTS_TAG, root, m, main);
+        
+        // handle series info
+        Resource serialWork = null;
+        String workRid = root.getAttribute("RID").substring(1);
+        String serialWorkId = null;
+        RDFNode seriesName = getSeriesName(root, m);
+        Model mA = mainA.getModel();
+        if (seriesName != null) {
+            String otherRID = CommonMigration.seriesClusters.get(workRid);
+            if (otherRID == null) {
+                otherRID = workRid;
+            }
+            serialWorkId = CommonMigration.seriesMembersToWorks.get(otherRID);
+            if (serialWorkId == null) {
+                serialWorkId = "WS" + otherRID.substring(1);
+                CommonMigration.seriesMembersToWorks.put(otherRID, serialWorkId);
+                Model mS = ModelFactory.createDefaultModel();
+                setPrefixes(mS);
+                serialWork = createRoot(mS, BDR+serialWorkId, BDO+"SerialWork");
+                Resource admSerialW = createAdminRoot(serialWork);
+                mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), serialWork);
+            } else { // serialWork already created just link to it
+                mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDO+serialWorkId));
+            }
+            mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
+        }
+        RDFNode seriesNumber = getSeriesNumber(root, m);
+        if (seriesNumber != null) {
+            main.addProperty(m.createProperty(BDO+"workSeriesNumber"), seriesNumber);
+            main.addProperty(RDF.type, m.createResource(BDO+"SerialInstance"));
+            mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
+            main.addProperty(m.createProperty(BDO+"serialInstanceOf"), mainA);
+        }
         
         // TODO: this goes in the item
         addSimpleElement("tbrcHoldings", BDO+"itemBDRCHoldingStatement", null, root, m, main);
@@ -123,32 +180,8 @@ public class PubinfoMigration {
         
         Resource admMain = getAdminRoot(main, true);
         CommonMigration.addLog(m, root, admMain, WPXSDNS);
-        
-        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "series");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element current = (Element) nodeList.item(i);
-            String value = current.getAttribute("name").trim();
-            if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "workSeriesName"), m.createLiteral(value));
-            value = current.getAttribute("number").trim();
-            if (!value.isEmpty()) {
-                m.add(main, m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(value));
-                m.add(main, m.getProperty(BDO, "workIsNumbered"), m.createTypedLiteral(true));
-            }
-            Property prop = m.getProperty(BDO, "workSeriesContent");
-            Literal l = CommonMigration.getLiteral(current, EWTS_TAG, m, "series", main.getLocalName(), null);
-            if (l == null) continue;
-            main.addProperty(prop, l);
-            // TODO: understand this part and change it with the abstract work
-            Statement s = main.getProperty(m.getProperty(BDO, "workExpressionOf"));
-            if (s != null) {
-                l = s.getLiteral();
-                main.removeAll(m.getProperty(BDO, "workExpressionOf"));
-                main.addProperty(m.getProperty(BDO, "workNumberOf"), l);
-            }
-        }
-        
-        nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");
+
+        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");
         boolean langTibetanDone = false;
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
@@ -505,7 +538,7 @@ public class PubinfoMigration {
                 // ignore @code and content
             }
         }
-		return m;
+		return serialWork;
 	}
 
 	   public static void addSimpleElementUC(String elementName, String propName, String defaultLang, Element root, Model m, Resource main) {

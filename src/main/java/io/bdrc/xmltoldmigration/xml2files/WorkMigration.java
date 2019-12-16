@@ -171,7 +171,7 @@ public class WorkMigration {
         boolean isConceptual = false;
         Resource main = null;
         Resource admMain = null;
-        String seriesWorkId = "";
+        String serialWorkId = "";
         if (isSeriesMember && !status.equals("withdrawn")) {
             String otherMemberRID = CommonMigration.seriesClusters.get(workId);
             if (otherMemberRID == null) {
@@ -181,6 +181,7 @@ public class WorkMigration {
             admMain = createAdminRoot(main);
             res.add(null);
             res.add(new WorkModelInfo(workId, m));
+            main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
 
             String seriesMemberId = "WM" + workId.substring(1);
             mA = ModelFactory.createDefaultModel();
@@ -188,25 +189,25 @@ public class WorkMigration {
             mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
             Resource admMainA = createAdminRoot(mainA);
             main.addProperty(m.createProperty(BDO, "serialInstanceOf"), mainA);
-            mainA.addProperty(mA.createProperty(BDO, "serialHasInstance"), main);
             res.add(new WorkModelInfo(seriesMemberId, mA));
 
-            seriesWorkId = CommonMigration.seriesMembersToWorks.get(otherMemberRID);
-            if (seriesWorkId == null) {
+            serialWorkId = CommonMigration.seriesMembersToWorks.get(otherMemberRID);
+            if (serialWorkId == null) {
                 if (infoParentId.isEmpty()) {
-                    seriesWorkId = "WS" + otherMemberRID.substring(1);
+                    serialWorkId = "WS" + otherMemberRID.substring(1);
                 } else {
-                    seriesWorkId = infoParentId;
+                    serialWorkId = infoParentId;
                 }
-                CommonMigration.seriesMembersToWorks.put(otherMemberRID, seriesWorkId);
+                CommonMigration.seriesMembersToWorks.put(otherMemberRID, serialWorkId);
+
+                mS = ModelFactory.createDefaultModel();
+                setPrefixes(mS);
+                serialW = createRoot(mA, BDR+serialWorkId, BDO+"SerialWork");
+                Resource admSerialW = createAdminRoot(serialW);
+                res.add(new WorkModelInfo(serialWorkId, mS));
+            } else { // serialWork already created just link to it
+                mainA.addProperty(m.createProperty(BDO, "serialMemberOf"), m.createResource(BDO+serialWorkId));
             }
-            mS = ModelFactory.createDefaultModel();
-            setPrefixes(mS);
-            serialW = createRoot(mA, BDR+seriesWorkId, BDO+"SerialWork");
-            Resource admSerialW = createAdminRoot(serialW);
-            mainA.addProperty(m.createProperty(BDO, "serialMemberOf"), serialW);
-            serialW.addProperty(mA.createProperty(BDO, "serialHasMember"), mainA);
-            res.add(new WorkModelInfo(seriesWorkId, mS));
         } else if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
             main = createRoot(m, BDR+workId, BDO+"AbstractWork");
             admMain = createAdminRoot(main);
@@ -251,7 +252,7 @@ public class WorkMigration {
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
 	    // put a prefLabel on the serialW if needed
 	    if (isSeriesMember) {
-	        RDFNode serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(seriesWorkId);
+	        RDFNode serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(serialWorkId);
 	        if (serialWorkLabel == null ) {
 	            Statement s = mainA.getProperty(SKOS.prefLabel);
 	            if (s == null) {
@@ -259,7 +260,7 @@ public class WorkMigration {
 	            }
 	            if (s != null) {
 	                serialW.addProperty(SKOS.prefLabel, s.getObject());
-	                CommonMigration.seriesMembersToWorkLabels.put(seriesWorkId, s.getObject());
+	                CommonMigration.seriesMembersToWorkLabels.put(serialWorkId, s.getObject());
 	            }
 	        }
 	    }
@@ -357,11 +358,6 @@ public class WorkMigration {
         
         // info - add triples based on values in <info/> which are extracted above
         
-        if (isSeriesMember) {
-            // at this point main should be a SerialMemberInstance ?!
-            main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
-            // TODO: need to deal with adding a SerialWork and doing bookkeeping on for PubInfo
-        };
         if (!infoParentId.isEmpty() && !infoParentId.contains("LEGACY")) {
             if (infoParentId.equals(main.getLocalName())) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info", "parent set to the resource RID");
