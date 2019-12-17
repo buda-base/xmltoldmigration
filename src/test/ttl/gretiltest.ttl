@@ -13,6 +13,9 @@
 bda:W0GR0001  a             adm:AdminData ;
         adm:adminAbout      bdr:W0GR0001 ;
         adm:facetIndex      4 ;
+        adm:gitPath         "f5/W0GR0001.trig" ;
+        adm:gitRepo         bda:GR0013 ;
+        adm:graphId         bdg:W0GR0001 ;
         adm:metadataLegal   bda:LD_GRETIL ;
         adm:originalRecord  "http://gretil.sub.uni-goettingen.de/gretil.html#AbhNisp"^^xsd:anyURI ;
         adm:status          bda:StatusReleased ;

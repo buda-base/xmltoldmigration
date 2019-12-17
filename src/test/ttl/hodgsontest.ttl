@@ -43,6 +43,9 @@ bda:I0IA_HOD46  a              adm:AdminData ;
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:I0IA_HOD46 ;
         adm:contentLegal       bda:LD_IA_PD ;
+        adm:gitPath            "94/I0IA_HOD46.trig" ;
+        adm:gitRepo            bda:GR0014 ;
+        adm:graphId            bdg:I0IA_HOD46 ;
         adm:restrictedInChina  false ;
         adm:status             bda:StatusReleased ;
         :isRoot                true .

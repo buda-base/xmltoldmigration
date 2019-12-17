@@ -19,6 +19,9 @@ bda:I0CDL0MS-ADD-01691-00003
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:I0CDL0MS-ADD-01691-00003 ;
         adm:contentLegal       bda:LD_CUDL_content ;
+        adm:gitPath            "a3/I0CDL0MS-ADD-01691-00003.trig" ;
+        adm:gitRepo            bda:GR0014 ;
+        adm:graphId            bdg:I0CDL0MS-ADD-01691-00003 ;
         adm:restrictedInChina  false ;
         adm:status             bda:StatusReleased ;
         :isRoot                true .
@@ -52,6 +55,9 @@ bda:W0CDL0MS-ADD-01691-00003
         a                   adm:AdminData ;
         adm:adminAbout      bdr:W0CDL0MS-ADD-01691-00003 ;
         adm:facetIndex      3 ;
+        adm:gitPath         "6f/W0CDL0MS-ADD-01691-00003.trig" ;
+        adm:gitRepo         bda:GR0012 ;
+        adm:graphId         bdg:W0CDL0MS-ADD-01691-00003 ;
         adm:metadataLegal   bda:LD_CUDL_metadata ;
         adm:originalRecord  "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
         adm:status          bda:StatusReleased ;

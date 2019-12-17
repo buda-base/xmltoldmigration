@@ -438,7 +438,7 @@ public class EtextMigration {
         }
         String abstractWorkId = WorkMigration.getAbstractForRid(indicatedWorkId);        
         String otherAbstractRID = CommonMigration.abstractClusters.get(abstractWorkId);
-        if (otherAbstractRID == null) {
+        if (otherAbstractRID != null) {
             abstractWorkId = otherAbstractRID;
         }
         
@@ -454,7 +454,7 @@ public class EtextMigration {
 
         
         if (first) { // initialize the :ItemEtext
-            Resource workA = itemModel.getResource(BDR+indicatedWorkId);
+            Resource workA = itemModel.getResource(BDR+abstractWorkId);
             Resource iInstance = itemModel.getResource(BDR+iInstanceId);
             Resource item = createRoot(itemModel, BDR+eInstanceId, BDO+"EtextInstance");
             // TODO: +(isPaginated?"Paginated":"NonPaginated")
@@ -469,8 +469,9 @@ public class EtextMigration {
 
             // Item metadata
 
-            if (WorkMigration.addWorkHasItem)
+            if (WorkMigration.addWorkHasItem) {
                 addInstanceToWork(abstractWorkId, eInstanceId, etextId, isPaginated);
+            }
 
             if (!bornDigital) {
                 // false should be true in the case of KarmaDelek and GuruLama

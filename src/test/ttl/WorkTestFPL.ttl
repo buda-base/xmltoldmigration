@@ -69,6 +69,9 @@ bda:LG7E331F54F258  a   adm:LogEntry ;
 bda:WM12837FPL  a       adm:AdminData ;
         adm:adminAbout  bdr:WM12837FPL ;
         adm:facetIndex  2 ;
+        adm:gitPath     "0d/WM12837FPL.trig" ;
+        adm:gitRepo     bda:GR0008 ;
+        adm:graphId     bdg:WM12837FPL ;
         :isRoot         true .
 
 bdr:NTF8411F25C214  a  :Note ;
@@ -106,11 +109,11 @@ bda:LGA31364CA97C9  a   adm:LogEntry ;
 bdr:TTE97A0FB4E947  a  :WorkTitlePageTitle ;
         rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
 
-bdr:I12837FPL_P001  a       :Item ;
-        :itemHasVolume  bdr:VL05B2BD4860AC ;
-        :itemForInstance    bdr:W12837FPL ;
-        :itemLibrary        bdr:G1TLMFPL000001 ;
-        :itemShelf          "3A|110" .
+bdr:I12837FPL_P001  a     :Item ;
+        :itemForInstance  bdr:W12837FPL ;
+        :itemHasVolume    bdr:VL05B2BD4860AC ;
+        :itemLibrary      bdr:G1TLMFPL000001 ;
+        :itemShelf        "3A|110" .
 
 bda:LGD87EBF2311F0  a   adm:LogEntry ;
         adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;

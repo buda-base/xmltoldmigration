@@ -73,6 +73,9 @@ bda:I1NPL1  a                  adm:AdminData ;
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:I1NPL1 ;
         adm:contentLegal       bda:LD_BDRC_PD ;
+        adm:gitPath            "1d/I1NPL1.trig" ;
+        adm:gitRepo            bda:GR0014 ;
+        adm:graphId            bdg:I1NPL1 ;
         adm:restrictedInChina  false ;
         adm:status             bda:StatusReleased ;
         :isRoot                true .

@@ -32,7 +32,10 @@ bdr:EV1F91ADA2A1C7  a  :PublishedEvent ;
 bda:W1FPL1  a           adm:AdminData ;
         adm:adminAbout  bdr:W1FPL1 ;
         adm:facetIndex  5 ;
-        adm:logEntry    bda:LG725E8279E4B4 , bda:LGEAF54DACE95D , bda:LGEDA5DE9E3376 ;
+        adm:gitPath     "56/W1FPL1.trig" ;
+        adm:gitRepo     bda:GR0012 ;
+        adm:graphId     bdg:W1FPL1 ;
+        adm:logEntry    bda:LG725E8279E4B4 , bda:LGEDA5DE9E3376 , bda:LGEAF54DACE95D ;
         :isRoot         true .
 
 bda:LGEDA5DE9E3376  a   adm:LogEntry ;
