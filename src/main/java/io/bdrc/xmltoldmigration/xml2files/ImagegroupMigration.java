@@ -102,7 +102,7 @@ public class ImagegroupMigration {
         }
         
         if (addItemHasVolume)
-            m.add(item, m.getProperty(BDO+"itemHasVolume"), volR);
+            m.add(item, m.getProperty(BDO+"instanceHasVolume"), volR);
         
         if (addVolumeOf)
             m.add(volR, m.getProperty(BDO+"volumeOf"), item);

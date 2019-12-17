@@ -106,11 +106,11 @@ bda:LGA31364CA97C9  a   adm:LogEntry ;
 bdr:TTE97A0FB4E947  a  :WorkTitlePageTitle ;
         rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
 
-bdr:I12837FPL_P001  a     :Item ;
-        :itemForInstance  bdr:W12837FPL ;
-        :itemHasVolume    bdr:VL05B2BD4860AC ;
-        :itemLibrary      bdr:G1TLMFPL000001 ;
-        :itemShelf        "3A|110" .
+bdr:I12837FPL_P001  a       :Item ;
+        :itemHasVolume  bdr:VL05B2BD4860AC ;
+        :itemForInstance    bdr:W12837FPL ;
+        :itemLibrary        bdr:G1TLMFPL000001 ;
+        :itemShelf          "3A|110" .
 
 bda:LGD87EBF2311F0  a   adm:LogEntry ;
         adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;

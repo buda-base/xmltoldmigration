@@ -37,30 +37,11 @@ public class EAPTest {
                     .withCSVParser(parser)
                     .build();
         String[] line = reader.readNext();
-        List<Resource> resources = EAPTransfer.getResourcesFromLine(line);
-        System.out.println("RES 0 >>> "+resources);
-        // work
-        Model workModel = resources.get(0).getModel();
+        Model workModel = MigrationTest.mergeResources(EAPTransfer.getResourcesFromLine(line));
         //workModel.write(System.out, "TTL");
-        Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest.ttl");
-//        
-//        // ==== TEMP DEBUG ====
-//        workModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/EAPTest-workModel.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/EAPTest-correctModel.ttl"), "TTL");
-//        
+        Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest.ttl");    
         assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.getOntologyModel()) );
-        //
-        Model itemModel = resources.get(1).getModel();
-        //itemModel.write(System.out, "TTL");
-        correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest-item.ttl");
-//        
-//        // ==== TEMP DEBUG ====
-//        itemModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/EAPTest-item-itemModel.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/EAPTest-item-correctModel.ttl"), "TTL");
-//        
-        assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(itemModel, MigrationHelpers.getOntologyModel()) );
     }
 
 }

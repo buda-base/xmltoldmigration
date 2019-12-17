@@ -414,7 +414,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  node.addProperty(m.createProperty(BDO, "instanceOf"), nodeA);
                  nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
              } else {
-                 SymetricNormalization.addSymetricProperty(m, "workInstanceOf", workId, otherAbstractRID, null);
+                 SymetricNormalization.addSymetricProperty(m, "instanceOf", workId, otherAbstractRID, null);
              }
         }
         value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);

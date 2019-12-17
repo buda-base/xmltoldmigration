@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,39 +10,54 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:WEAP676-1-10  a        :Work ;
-        :isRoot            true ;
-        :note              bdr:NT2CA53B29EAC0 ;
-        :printMethod       bdr:PrintMethod_Manuscript ;
-        :workDimHeight     10.5 ;
-        :workDimWidth      "21"^^xsd:decimal ;
-        :workEvent         bdr:EVFD0FA279FE56 ;
-        :workExpressionOf  bdr:W22003 ;
-        :workGenre         bdr:T123 , bdr:T321 ;
-        :workHasItem       bdr:IEAP676-1-10 ;
-        :workIsAbout       bdr:T619 ;
-        :workLangScript    bdr:SaNewa ;
-        :workMaterial      bdr:MaterialPaper ;
-        :workTitle         bdr:TT0A889662CC4A ;
-        skos:prefLabel     "Namastāre Saptaka Viṁśatī"@sa-x-iast .
+bdr:WEAP676-1-10  a               :Instance ;
+        :instanceHasReproduction  bdr:IEAP676-1-10 ;
+        :instanceOf               bdr:W22003 ;
+        :isRoot                   true ;
+        :language                 bdr:LangSa ;
+        :note                     bdr:NT2CA53B29EAC0 ;
+        :printMethod              bdr:PrintMethod_Manuscript ;
+        :script                   bdr:ScriptNewa ;
+        :workDimHeight            10.5 ;
+        :workDimWidth             "21"^^xsd:decimal ;
+        :workEvent                bdr:EVFD0FA279FE56 ;
+        :workMaterial             bdr:MaterialPaper ;
+        :workTitle                bdr:TT0A889662CC4A ;
+        skos:prefLabel            "Namastāre Saptaka Viṁśatī"@sa-x-iast .
 
 bda:WEAP676-1-10  a         adm:AdminData ;
         adm:adminAbout      bdr:WEAP676-1-10 ;
         adm:facetIndex      4 ;
-        adm:gitPath         "0e/WEAP676-1-10.trig" ;
-        adm:gitRepo         bda:GR0008 ;
-        adm:graphId         bdg:WEAP676-1-10 ;
         adm:metadataLegal   bda:LD_EAP_metadata ;
         adm:originalRecord  "https://eap.bl.uk/archive-file/EAP676-1-10"^^xsd:anyURI ;
         adm:status          bda:StatusReleased ;
         :isRoot             true .
 
+bdr:VEAP676-1-10  a       :VolumeImageAsset ;
+        :hasIIIFManifest  <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> ;
+        :volumeNumber     1 ;
+        :volumeOf         bdr:IEAP676-1-10 .
+
+bdr:IEAP676-1-10  a              :ImageInstance ;
+        :instanceHasVolume       bdr:VEAP676-1-10 ;
+        :instanceOf              bdr:W22003 ;
+        :instanceReproductionOf  bdr:WEAP676-1-10 ;
+        :isRoot                  true .
+
 bdr:NT2CA53B29EAC0  a  :Note ;
         :noteText  "This test is an eulogy of goddess Tārā. It praises her. Devotees recite it while praying her. It has 4 folios written in Sanskrit. It is in Sanskrit  language. Its paper content looks old. This is the complete text., recordID: 040-002851178, MDARK: ark:/81055/vdc_100023625596.0x00000b"@en .
+
+bda:IEAP676-1-10  a            adm:AdminData ;
+        adm:access             bda:AccessOpen ;
+        adm:adminAbout         bdr:IEAP676-1-10 ;
+        adm:contentLegal       bda:LD_EAP_content ;
+        adm:restrictedInChina  false ;
+        adm:status             bda:StatusReleased ;
+        :isRoot                true .
 
 bdr:EVFD0FA279FE56  a  :CopyEvent ;
         :notAfter   1999 ;
         :notBefore  1600 .
 
-bdr:TT0A889662CC4A  a  :WorkBibliographicalTitle ;
+bdr:TT0A889662CC4A  a  :WorkTitle ;
         rdfs:label  "Namastāre Saptaka Viṁśatī"@sa-x-iast .

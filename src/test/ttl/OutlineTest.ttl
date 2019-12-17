@@ -108,7 +108,7 @@ bdr:W30020_Pf9754de1ff8c
 
 bdr:W30020  a            :Work ;
         :isRoot          true ;
-        :workInstanceOf  bdr:WA30020_Pf9754de1ff8c ;
+        :instanceOf  bdr:WA30020_Pf9754de1ff8c ;
         :workPagination  bdr:PaginationAbsolute .
 
 bdr:TT94B94E122343  a  :WorkTitle ;

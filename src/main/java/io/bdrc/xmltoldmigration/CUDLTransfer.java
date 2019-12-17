@@ -126,12 +126,12 @@ public class CUDLTransfer {
             workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
             admWorkA = createAdminRoot(work);
             res.add(workA);
-            work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
+            work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", "W0CDL0"+rid, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "W0CDL0"+rid, abstractWorkRID, null);
         }
         
         workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));

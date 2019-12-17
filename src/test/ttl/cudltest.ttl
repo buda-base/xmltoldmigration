@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,42 +10,56 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:TTF89C4D245695  a  :WorkOtherTitle ;
-        rdfs:label  "Divyāvadānamālā"@sa-x-iast .
+bdr:EVF89C4D245695  a  :PublishedEvent ;
+        :notAfter   1500 ;
+        :notBefore  1301 .
 
-bdr:TT3D5436600134  a  :WorkBibliographicalTitle ;
-        rdfs:label  "Āryāvalokiteśvarasya Nāmāṣṭaśatakam"@sa-x-iast .
+bda:I0CDL0MS-ADD-01691-00003
+        a                      adm:AdminData ;
+        adm:access             bda:AccessOpen ;
+        adm:adminAbout         bdr:I0CDL0MS-ADD-01691-00003 ;
+        adm:contentLegal       bda:LD_CUDL_content ;
+        adm:restrictedInChina  false ;
+        adm:status             bda:StatusReleased ;
+        :isRoot                true .
+
+bdr:V0CDL0MS-ADD-01691-00003
+        a                 :VolumeImageAsset ;
+        :hasIIIFManifest  <https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01691-00003> ;
+        :volumeNumber     1 ;
+        :volumeOf         bdr:I0CDL0MS-ADD-01691-00003 .
+
+bdr:TT3D5436600134  a  :WorkTitle ;
+        rdfs:label  "Abhiṣekavidhi"@sa-x-iast .
 
 bdr:W0CDL0MS-ADD-01691-00003
-        a                  :Work ;
-        :isRoot            true ;
-        :printMethod       bdr:PrintMethod_Manuscript ;
-        :workBiblioNote    "This Nepalese palm-leaf manuscript from the 15th century contains a tantric initiation manual called Abhiṣekavidhi, which"@en ;
-        :workCatalogInfo   "This Nepalese palm-leaf manuscript from the 15th century contains a tantric initiation manual called Abhiṣekavidhi, which describes the rituals to be performed at various stages of the consecration procedure (carefully marked with a final rubric for each subsection). This manual is apparently an excerpt from the Vajrāvalī of Abhayākaragupta, a long and complex work on tantric rituals."@en ;
-        :workDimHeight     3.5 ;
-        :workDimWidth      27.5 ;
-        :workEvent         bdr:EVC81E409385A6 ;
-        :workExpressionOf  bdr:W0RTA1946 ;
-        :workHasItem       bdr:I0CDL0MS-ADD-01691-00003 ;
-        :workIsAbout       bdr:T626 ;
-        :workLangScript    bdr:SaRanj ;
-        :workMaterial      bdr:MaterialPalmyraPalmLeaf ;
-        :workTitle         bdr:TTF89C4D245695 , bdr:TT3D5436600134 ;
-        skos:altLabel      "Divyāvadānamālā"@sa-x-iast ;
-        skos:prefLabel     "Abhiṣekavidhi"@sa-x-iast .
+        a                         :Instance ;
+        :instanceHasReproduction  bdr:I0CDL0MS-ADD-01691-00003 ;
+        :instanceOf               bdr:W0RTA1946 ;
+        :isRoot                   true ;
+        :printMethod              bdr:PrintMethod_Manuscript ;
+        :script                   bdr:ScriptRanj ;
+        :workCatalogInfo          "This Nepalese palm-leaf manuscript from the 15th century contains a tantric initiation manual called Abhiṣekavidhi, which describes the rituals to be performed at various stages of the consecration procedure (carefully marked with a final rubric for each subsection). This manual is apparently an excerpt from the Vajrāvalī of Abhayākaragupta, a long and complex work on tantric rituals."@en ;
+        :workDimHeight            3.5 ;
+        :workDimWidth             27.5 ;
+        :workEvent                bdr:EVF89C4D245695 ;
+        :workMaterial             bdr:MaterialPalmyraPalmLeaf ;
+        :workTitle                bdr:TT3D5436600134 ;
+        skos:altLabel             "Āryāvalokiteśvarasya Nāmāṣṭaśatakam"@sa-x-iast , "Divyāvadānamālā"@sa-x-iast ;
+        skos:prefLabel            "Abhiṣekavidhi"@sa-x-iast .
 
 bda:W0CDL0MS-ADD-01691-00003
         a                   adm:AdminData ;
         adm:adminAbout      bdr:W0CDL0MS-ADD-01691-00003 ;
-        adm:facetIndex      4 ;
-        adm:gitPath         "6f/W0CDL0MS-ADD-01691-00003.trig" ;
-        adm:gitRepo         bda:GR0008 ;
-        adm:graphId         bdg:W0CDL0MS-ADD-01691-00003 ;
+        adm:facetIndex      3 ;
         adm:metadataLegal   bda:LD_CUDL_metadata ;
         adm:originalRecord  "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
         adm:status          bda:StatusReleased ;
         :isRoot             true .
 
-bdr:EVC81E409385A6  a  :PublishedEvent ;
-        :notAfter   1500 ;
-        :notBefore  1301 .
+bdr:I0CDL0MS-ADD-01691-00003
+        a                        :ImageInstance ;
+        :instanceHasVolume       bdr:V0CDL0MS-ADD-01691-00003 ;
+        :instanceOf              bdr:W0RTA1946 ;
+        :instanceReproductionOf  bdr:W0CDL0MS-ADD-01691-00003 ;
+        :isRoot                  true .

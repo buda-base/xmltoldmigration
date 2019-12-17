@@ -13,22 +13,41 @@
 bdr:NT1B57432CDA8E  a  :Note ;
         :noteText  "test note"@en .
 
-bdr:W0IA_HOD46  a           :Work ;
-        adm:originalRecord  "https://archive.org/details/rashodgson46"^^xsd:anyURI ;
-        :isRoot             true ;
-        :note               bdr:NT88E9935FB4D9 , bdr:NT1B57432CDA8E ;
-        :printMethod        bdr:PrintMethod_Manuscript ;
-        :workColophon       "ityekallavīraṃ nāma caṇḍamahāroṣaṇatantraṃ samāptaṃ"@sa-x-iast ;
-        :workGenre          bdr:T2 ;
-        :workHasItem        bdr:I0IA_HOD46 ;
-        :workIncipit        "Evaṃ mayā śrutamekasminsamaye bhagavān vajrasatvaḥ - ityekallavīrākhye śrīcaṇḍamahāroṣaṇatantre tantrāvatāraṇapaṭalaḥ prathamaḥ"@sa-x-iast ;
-        :workIsAbout        bdr:T1 ;
-        :workMaterial       bdr:MaterialPalmLeaf ;
-        :workTitle          bdr:TTAB0BFD2556B8 , bdr:TT62D1FD513743 ;
-        skos:altLabel       "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
-        skos:prefLabel      "Ekallavīratantram"@sa-x-iast .
+bdr:W0IA_HOD46  a                 :Work ;
+        adm:originalRecord        "https://archive.org/details/rashodgson46"^^xsd:anyURI ;
+        :instanceHasReproduction  bdr:I0IA_HOD46 ;
+        :instanceOf               bdr:WA0IA_HOD46 ;
+        :isRoot                   true ;
+        :note                     bdr:NT88E9935FB4D9 , bdr:NT1B57432CDA8E ;
+        :printMethod              bdr:PrintMethod_Manuscript ;
+        :workColophon             "ityekallavīraṃ nāma caṇḍamahāroṣaṇatantraṃ samāptaṃ"@sa-x-iast ;
+        :workGenre                bdr:T2 ;
+        :workIncipit              "Evaṃ mayā śrutamekasminsamaye bhagavān vajrasatvaḥ - ityekallavīrākhye śrīcaṇḍamahāroṣaṇatantre tantrāvatāraṇapaṭalaḥ prathamaḥ"@sa-x-iast ;
+        :workMaterial             bdr:MaterialPalmLeaf ;
+        :workTitle                bdr:TTAB0BFD2556B8 , bdr:TT62D1FD513743 ;
+        skos:altLabel             "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
+        skos:prefLabel            "Ekallavīratantram"@sa-x-iast .
 
-bdr:TT62D1FD513743  a  :WorkBibliographicalTitle ;
+bdr:V0IA_HOD46  a         :VolumeImageAsset ;
+        :hasIIIFManifest  <https://iiif.archivelab.org/iiif/rashodgson46/manifest.json> ;
+        :volumeNumber     1 ;
+        :volumeOf         bdr:I0IA_HOD46 .
+
+bdr:I0IA_HOD46  a                :ImageInstance ;
+        :instanceHasVolume       bdr:V0IA_HOD46 ;
+        :instanceOf              bdr:WA0IA_HOD46 ;
+        :instanceReproductionOf  bdr:W0IA_HOD46 ;
+        :isRoot                  true .
+
+bda:I0IA_HOD46  a              adm:AdminData ;
+        adm:access             bda:AccessOpen ;
+        adm:adminAbout         bdr:I0IA_HOD46 ;
+        adm:contentLegal       bda:LD_IA_PD ;
+        adm:restrictedInChina  false ;
+        adm:status             bda:StatusReleased ;
+        :isRoot                true .
+
+bdr:TT62D1FD513743  a  :WorkTitle ;
         rdfs:label  "Ekallavīratantram"@sa-x-iast .
 
 bda:W0IA_HOD46  a          adm:AdminData ;
@@ -41,8 +60,15 @@ bda:W0IA_HOD46  a          adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:TTAB0BFD2556B8  a  :WorkBibliographicalTitle ;
-        rdfs:label  "Caṇḍamahāroṣaṇatantram"@sa-x-iast .
+bdr:WA0IA_HOD46  a        :Work ;
+        :isRoot           true ;
+        :workHasInstance  bdr:W0IA_HOD46 ;
+        :workIsAbout      bdr:T1 ;
+        skos:altLabel     "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
+        skos:prefLabel    "Ekallavīratantram"@sa-x-iast .
 
 bdr:NT88E9935FB4D9  a  :Note ;
-        :noteText  "From the Hodgson Collection, digitized by Internet Archive."@en .
+        :noteText  "From the Hodgson Collection"@en .
+
+bdr:TTAB0BFD2556B8  a  :WorkTitle ;
+        rdfs:label  "Caṇḍamahāroṣaṇatantram"@sa-x-iast .

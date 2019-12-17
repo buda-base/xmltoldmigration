@@ -126,15 +126,15 @@ public class NSITransfer {
             setPrefixes(mA);
             workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
             admWorkA = createAdminRoot(work);
-            work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
+            work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", WRID, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", WRID, abstractWorkRID, null);
         }
         if (abstractWorkRID != null) {
-            SymetricNormalization.addSymetricProperty(workModel, "workExpressionOf", WRID, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", WRID, abstractWorkRID, null);
         }
         
         // title
@@ -240,7 +240,7 @@ public class NSITransfer {
         if (ImagegroupMigration.addVolumeOf)
             itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
         if (ImagegroupMigration.addItemHasVolume)
-            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumePagesTbrcIntro"), itemModel.createTypedLiteral(0, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {

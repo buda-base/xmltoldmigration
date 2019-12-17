@@ -38,6 +38,7 @@ import org.w3c.dom.Element;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+import io.bdrc.xmltoldmigration.xml2files.EtextMigration;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
@@ -530,28 +531,28 @@ public class MigrationApp
         long startTime = System.currentTimeMillis();
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondence, for externals
         if (!noXmlMigration) {
-            //migrateType(OUTLINE, "O");
-//            migrateType(PERSON, "P");
-//            migrateType(PLACE, "G");
-//            migrateType(OFFICE, "R");
-//            migrateType(CORPORATION, "C");
-//            migrateType(LINEAGE, "L");
-//            migrateType(TOPIC, "T");
+            migrateType(OUTLINE, "O");
+            migrateType(PERSON, "P");
+            migrateType(PLACE, "G");
+            migrateType(OFFICE, "R");
+            migrateType(CORPORATION, "C");
+            migrateType(LINEAGE, "L");
+            migrateType(TOPIC, "T");
             migrateType(WORK, "W"); // also does pubinfos and imagegroups
-            //migrateType(SCANREQUEST, "SR"); // requires works to be finished
-            //migrateType(PRODUCT, "PR");
+            migrateType(SCANREQUEST, "SR"); // requires works to be finished
+            migrateType(PRODUCT, "PR");
             //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
             //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
-            //EtextMigration.migrateEtexts();
+            EtextMigration.migrateEtexts();
         }
-//        if (RKTS_DIR != null) {
-//            rKTsTransfer.doTransfer();
-//        }
-//        EAPTransfer.transferEAP();
-//        GRETILTransfer.transferGRETIL();
-//        EAPFondsTransfer.EAPFondsDoTransfer();
-//        CUDLTransfer.CUDLDoTransfer();
-//        NSITransfer.transferNIS();
+        if (RKTS_DIR != null) {
+            rKTsTransfer.doTransfer();
+        }
+        EAPTransfer.transferEAP();
+        GRETILTransfer.transferGRETIL();
+        EAPFondsTransfer.EAPFondsDoTransfer();
+        CUDLTransfer.CUDLDoTransfer();
+        NSITransfer.transferNIS();
         migrateTaxonomies();
         CommonMigration.speller.close();
         MigrationHelpers.reportMissing();

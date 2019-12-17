@@ -30,6 +30,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.junit.AfterClass;
@@ -284,7 +285,7 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
-        //fromXml.write(System.out, "TTL");
+        fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -300,6 +301,16 @@ public class MigrationTest
            return res;
        }
 
+       public static Model mergeResources(List<Resource> list) {
+           Model res = ModelFactory.createDefaultModel();
+           setPrefixes(res);
+           for (Resource r : list) {
+               if (r != null)
+                   res.add(r.getModel());
+           }
+           return res;
+       }
+       
        public static Model mergeModelInfoList(List<WorkModelInfo> list) {
            Model res = ModelFactory.createDefaultModel();
            setPrefixes(res);

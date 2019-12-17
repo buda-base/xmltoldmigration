@@ -102,7 +102,7 @@ public class GRETILTransfer {
             abstractWorkRID = EAPTransfer.rKTsToBDR(line[2]);
         }
         if (abstractWorkRID != null) {
-            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", line[0], abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", line[0], abstractWorkRID, null);
         } else {
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);

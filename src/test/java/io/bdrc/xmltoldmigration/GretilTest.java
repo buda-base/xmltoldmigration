@@ -37,16 +37,11 @@ public class GretilTest {
                     .withCSVParser(parser)
                     .build();
         String[] line = reader.readNext();
-        Resource work= GRETILTransfer.getWorkFromLine(line).get(0);
+        Model workModel = MigrationTest.mergeResources(GRETILTransfer.getWorkFromLine(line));
         reader.close();
-        Model workModel = work.getModel();
+        //workModel.write(System.out, "TTL");
         Model correctModel = ModelFactory.createDefaultModel();
         correctModel.read(new FileInputStream("src/test/ttl/gretiltest.ttl"), null,"TTL");
-//        
-//        // ==== TEMP DEBUG ====
-//        workModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/GRETIL_TEST-testGretil-workModel.ttl"), "TTL");
-//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/GRETIL_TEST-testGretil-correctModel.ttl"), "TTL");
-//        
         assertTrue( workModel.isIsomorphicWith(correctModel) );
     }
 

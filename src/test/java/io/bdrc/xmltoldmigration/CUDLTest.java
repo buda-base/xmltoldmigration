@@ -38,10 +38,9 @@ public class CUDLTest {
                     .withCSVParser(parser)
                     .build();
         String[] line = reader.readNext();
-        List<Resource> res= CUDLTransfer.getResourcesFromLine(line);
+        Model workModel = MigrationTest.mergeResources(CUDLTransfer.getResourcesFromLine(line));
         reader.close();
-        Model workModel = res.get(0).getModel();
-//        workModel.write(System.out, "TTL");
+        //workModel.write(System.out, "TTL");
         Model model = ModelFactory.createDefaultModel();
         model.read(new FileInputStream("src/test/ttl/cudltest.ttl"), null,"TTL");
         assertTrue( workModel.isIsomorphicWith(model) );

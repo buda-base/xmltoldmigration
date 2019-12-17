@@ -112,12 +112,12 @@ public class HodgsonTransfer {
             workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
             admWorkA = createAdminRoot(work);
             res.add(workA);
-            work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
+            work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_IA_Metadata")); // ?
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", "W"+baseRID, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "W"+baseRID, abstractWorkRID, null);
         }
 
         // adm:AdminData

@@ -36,21 +36,11 @@ public class HodgsonTest {
                     .build();
         reader.readNext();
         String[] line = reader.readNext();
-        List<Resource> resources = HodgsonTransfer.getResourcesFromLine(line);
-        System.out.println("RES 0 >>> "+resources);
-        // work
-        Model workModel = resources.get(0).getModel();
+        Model workModel = MigrationTest.mergeResources(HodgsonTransfer.getResourcesFromLine(line));
         //workModel.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/hodgsontest.ttl");
  
         assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
         //assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.getOntologyModel()) );
-        //
-        Model itemModel = resources.get(1).getModel();
-        //itemModel.write(System.out, "TTL");
-        correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/hodgsontest-item.ttl");
-
-        assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctModel) );
-        //assertTrue( CommonMigration.rdfOkInOntology(itemModel, MigrationHelpers.getOntologyModel()) );
     }
 }

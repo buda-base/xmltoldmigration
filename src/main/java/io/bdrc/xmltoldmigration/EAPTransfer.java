@@ -141,7 +141,7 @@ public class EAPTransfer {
         setPrefixes(workModel);
         final String baseRid = line[2].replace('/', '-');
         final String RID = 'W'+baseRid;
-        Resource work = createRoot(workModel, BDR+RID, BDO+"Work");
+        Resource work = createRoot(workModel, BDR+RID, BDO+"Instance");
         res.add(work);
 
         String abstractWorkRID = rKTsToBDR(line[15]);
@@ -155,12 +155,12 @@ public class EAPTransfer {
             workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
             admWorkA = createAdminRoot(work);
             res.add(workA);
-            work.addProperty(workModel.createProperty(BDO, "workInstanceOf"), workA);
+            work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             addReleased(mA, admWorkA);
-            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "workInstanceOf", RID, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", RID, abstractWorkRID, null);
         }
         
         // adm:AdminData
@@ -227,8 +227,8 @@ public class EAPTransfer {
         switch(langCode) {
         case "san":
             if (workA != null) 
-                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangNew"));
-            workModel.add(work, workModel.createProperty(BDO, "language"), workModel.createResource(BDR+"LangNew"));
+                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangSa"));
+            workModel.add(work, workModel.createProperty(BDO, "language"), workModel.createResource(BDR+"LangSa"));
             break;
         case "new":
             if (workA != null) 
