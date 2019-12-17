@@ -145,6 +145,7 @@ public class MigrationTest
 //        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testW1FEMC010006-fromXml.ttl"), "TTL");
 //        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testW1FEMC010006-correctModel.ttl"), "TTL");
 //
+        //fromXml.write(System.out, "TTL");
         assertTrue( fromXml.isIsomorphicWith(correctModel) );
     }
 
@@ -159,6 +160,7 @@ public class MigrationTest
 //        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testW1FEMC020013-fromXml.ttl"), "TTL");
 //        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testW1FEMC020013-correctModel.ttl"), "TTL");
 //
+        fromXml.write(System.out, "TTL");
         assertTrue( fromXml.isIsomorphicWith(correctModel) );
     }
 	
@@ -282,7 +284,7 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
-        fromXml.write(System.out, "TTL");
+        //fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();

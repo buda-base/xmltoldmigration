@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -19,6 +19,10 @@ bdr:EVE38A9ECDAD31  a    :CompletedEvent ;
         :notAfter        "1761"^^xsd:gYear ;
         :notBefore       "1760"^^xsd:gYear .
 
+bdr:WA1FEMC020013  a      :Work ;
+        :isRoot           true ;
+        :workHasInstance  bdr:W1FEMC020013 .
+
 bda:LG110B41FF1279  a   adm:LogEntry ;
         adm:logDate     "2019-08-09T18:33:25.452Z"^^xsd:dateTime ;
         adm:logMessage  "imported FEMC 01 workW1FEMC020013"@en ;
@@ -34,16 +38,10 @@ bda:LG5C8BA200C60B  a   adm:LogEntry ;
 bdr:TT2E35B3B44A91  a  :WorkCoverTitle ;
         rdfs:label  "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmpre20c-kmfemc .
 
-bdr:TT723D2BE55368  a  :WorkCoverTitle ;
-        rdfs:label  "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km-x-kmpre20c .
-
-bdr:TTA119335AE164  a      :WorkCoverTitle ;
-        rdfs:label         "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
-        :femcConversionOf  bdr:TT2E35B3B44A91 .
-
-bdr:W1FEMC020013  a              :Work , :PublishedWork ;
+bdr:W1FEMC020013  a              :Instance ;
         :hasFascicles            "1" ;
         :hasWorkNum              "1" ;
+        :instanceOf              bdr:WA1FEMC020013 ;
         :isRoot                  true ;
         :note                    bdr:NT5FFD1A061FB7 ;
         :workComplete            true ;
@@ -56,11 +54,18 @@ bdr:W1FEMC020013  a              :Work , :PublishedWork ;
         :workTitle               bdr:TTA119335AE164 , bdr:TT043B7675220B , bdr:TT5BB5FE4E479C , bdr:TT723D2BE55368 , bdr:TT2E35B3B44A91 , bdr:TT8428F1539EFF ;
         skos:prefLabel           "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
 
+bdr:TTA119335AE164  a      :WorkCoverTitle ;
+        rdfs:label         "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
+        :femcConversionOf  bdr:TT2E35B3B44A91 .
+
+bdr:TT723D2BE55368  a  :WorkCoverTitle ;
+        rdfs:label  "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km-x-kmpre20c .
+
 bdr:NT5FFD1A061FB7  a           :Note ;
         :noteLocationStatement  "pg. 3" ;
         :noteWork               bdr:W1FEMC02 .
 
-bdr:TT043B7675220B  a  :WorkBibliographicalTitle ;
+bdr:TT043B7675220B  a  :WorkTitle ;
         rdfs:label  "ច្បាប់ល្បើកថ្មី"@km .
 
 bdr:MF94B84B608FC8  a       :ObjectTypeMicrofilm ;
@@ -71,13 +76,17 @@ bda:W1FEMC020013  a          adm:AdminData ;
         adm:adminAbout       bdr:W1FEMC020013 ;
         adm:contentProvider  bda:CP041 ;
         adm:facetIndex       13 ;
-        adm:gitPath          "d5/W1FEMC020013.trig" ;
-        adm:gitRepo          bda:GR0008 ;
-        adm:graphId          bdg:W1FEMC020013 ;
         adm:logEntry         bda:LG5C8BA200C60B , bda:LG110B41FF1279 ;
         adm:metadataLegal    bda:LD_BDRC_CC0 ;
         adm:status           bda:StatusReleased ;
         :isRoot              true .
 
-bdr:TT8428F1539EFF  a  :WorkBibliographicalTitle ;
+bda:WA1FEMC020013  a    adm:AdminData ;
+        adm:adminAbout  bdr:WA1FEMC020013 ;
+        adm:gitPath     "0b/WA1FEMC020013.trig" ;
+        adm:gitRepo     bda:GR0008 ;
+        adm:graphId     bdg:WA1FEMC020013 ;
+        :isRoot         true .
+
+bdr:TT8428F1539EFF  a  :WorkTitle ;
         rdfs:label  "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
