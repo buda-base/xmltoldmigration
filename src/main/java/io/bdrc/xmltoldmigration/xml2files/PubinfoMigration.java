@@ -64,9 +64,12 @@ public class PubinfoMigration {
             mainA = createRoot(m, BDR+"WA"+value.substring(1), BDO+"Work");
             createAdminRoot(main);
         }
-        Resource seriesMainA = MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), mainA);
-        if (seriesMainA != null)
-            res.add(seriesMainA.getModel());
+        List<Resource> resFromCall = MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), mainA);
+        if (resFromCall != null) {
+            for (Resource r : resFromCall) {
+                res.add(r.getModel());
+            }
+        }
         return res;
 	}
 	
@@ -127,9 +130,9 @@ public class PubinfoMigration {
     }
 	
     // use this giving a bdr:Work as main argument to fill the work data
-	public static Resource MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, final Resource mainA) {
+	public static List<Resource> MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, Resource mainA) {
 		Element root = xmlDocument.getDocumentElement();
-		
+		List<Resource> res = new ArrayList<>();
 		String workRid = root.getAttribute("RID").substring(1);
 		if (!workRid.contains("FPL") && !workRid.contains("FEMC") &&  !workRid.contains("W1EAP")) {
 		    addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
@@ -158,7 +161,9 @@ public class PubinfoMigration {
         
         String serialWorkId = null;
         RDFNode seriesName = getSeriesName(root, m);
-        Model mA = mainA.getModel();
+        Model mA = null;
+        if (mainA != null)
+            mA = mainA.getModel();
         if (seriesName != null) {
             String otherRID = CommonMigration.seriesClusters.get(workRid);
             if (otherRID == null) {
@@ -172,18 +177,36 @@ public class PubinfoMigration {
                 setPrefixes(mS);
                 serialWork = createRoot(mS, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialWork);
+                res.add(serialWork);
+                if (mainA == null) {
+                    // this is the case where a work is in a series but is also an instance of another abstract work
+                    // for instance W1KG5476 is a series member but also shares its abstract work with W1KG23131
+                    // TODO: I think we have a problem if WorkMigration creates an abstract work (the mainA argument of this function)
+                    // which will become a member in this function, but is shared with non-members...
+                    mA = ModelFactory.createDefaultModel();
+                    setPrefixes(mA);
+                    mainA = createRoot(mA, BDR+"WA"+workRid.substring(1), BDO+"SerialMember");
+                    res.add(mainA);
+                    createAdminRoot(mainA);
+                    main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
+                    mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
+                }
                 mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), serialWork);
             } else { // serialWork already created just link to it
-                mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDO+serialWorkId));
+                if (mainA != null)
+                    mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDO+serialWorkId));
             }
-            mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
+            if (mainA != null)
+                mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
         }
         RDFNode seriesNumber = getSeriesNumber(root, m);
         if (seriesNumber != null) {
             main.addProperty(m.createProperty(BDO+"workSeriesNumber"), seriesNumber);
             main.addProperty(RDF.type, m.createResource(BDO+"SerialInstance"));
-            mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
-            main.addProperty(m.createProperty(BDO+"serialInstanceOf"), mainA);
+            if (mainA != null) { // TODO: this is a bit too simple
+                mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
+                main.addProperty(m.createProperty(BDO+"serialInstanceOf"), mainA);
+            }
         }
         
         // TODO: this goes in the item
@@ -552,7 +575,7 @@ public class PubinfoMigration {
                 // ignore @code and content
             }
         }
-		return serialWork;
+		return res;
 	}
 
 	   public static void addSimpleElementUC(String elementName, String propName, String defaultLang, Element root, Model m, Resource main) {

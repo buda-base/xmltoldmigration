@@ -305,12 +305,21 @@ public class MigrationApp
                 File pubinfoFile = new File(pubinfoFileName);
                 if (pubinfoFile.exists()) {
                     d = MigrationHelpers.documentFromFileName(pubinfoFileName);
+                    List<Resource> resPubMigration = null; 
                     if (models.size() >1 && models.get(1) != null) {
                         WorkModelInfo abstractMI = models.get(1);
                         Resource mainA = abstractMI.m.getResource(BDR+abstractMI.resourceName);
-                        serialWork = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, mainA);
+                        resPubMigration = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, mainA);
                     } else {
-                        serialWork = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, null);
+                        resPubMigration = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, null);
+                    }
+                    if (resPubMigration.size() > 0) {
+                        serialWork = resPubMigration.get(0);
+                    }
+                    if (resPubMigration.size() > 1) {
+                        Resource serialMemberWork = resPubMigration.get(1);
+                        workOutFileName = getDstFileName("work", serialMemberWork.getLocalName());
+                        MigrationHelpers.outputOneModel(serialMemberWork.getModel(), serialMemberWork.getLocalName(), workOutFileName, "work");
                     }
                 } else {
                     MigrationHelpers.writeLog("missing "+pubinfoFileName);
@@ -521,7 +530,7 @@ public class MigrationApp
         long startTime = System.currentTimeMillis();
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondence, for externals
         if (!noXmlMigration) {
-            migrateType(OUTLINE, "O");
+            //migrateType(OUTLINE, "O");
 //            migrateType(PERSON, "P");
 //            migrateType(PLACE, "G");
 //            migrateType(OFFICE, "R");

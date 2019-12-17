@@ -266,7 +266,11 @@ public class WorkMigration {
 		Property prop;
 		
 		CommonMigration.addNotes(m, root, main, WXSDNS);
-	    CommonMigration.addExternals(m, root, mainA, WXSDNS);
+		// TODO: this could be handled better:
+		if (mainA != null)
+		    CommonMigration.addExternals(m, root, mainA, WXSDNS);
+		else 
+		    CommonMigration.addExternals(m, root, main, WXSDNS);
 	    CommonMigration.addLog(m, root, admMain, WXSDNS);
 		
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
@@ -278,7 +282,7 @@ public class WorkMigration {
 	            if (s == null) {
 	                s = main.getProperty(SKOS.prefLabel);
 	            }
-	            if (s != null) {
+	            if (s != null && serialW != null) { // TODO: why would serialW be null?
 	                serialW.addProperty(SKOS.prefLabel, s.getObject());
 	                CommonMigration.seriesMembersToWorkLabels.put(serialWorkId, s.getObject());
 	            }

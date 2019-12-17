@@ -160,7 +160,7 @@ public class MigrationTest
 //        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testW1FEMC020013-fromXml.ttl"), "TTL");
 //        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testW1FEMC020013-correctModel.ttl"), "TTL");
 //
-        fromXml.write(System.out, "TTL");
+        //fromXml.write(System.out, "TTL");
         assertTrue( fromXml.isIsomorphicWith(correctModel) );
     }
 	
