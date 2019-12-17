@@ -305,7 +305,7 @@ public class MigrationApp
                 File pubinfoFile = new File(pubinfoFileName);
                 if (pubinfoFile.exists()) {
                     d = MigrationHelpers.documentFromFileName(pubinfoFileName);
-                    if (models.size() >1) {
+                    if (models.size() >1 && models.get(1) != null) {
                         WorkModelInfo abstractMI = models.get(1);
                         Resource mainA = abstractMI.m.getResource(BDR+abstractMI.resourceName);
                         serialWork = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, mainA);
@@ -327,18 +327,23 @@ public class MigrationApp
                 workOutFileName = getDstFileName("instance", baseName);
                 MigrationHelpers.outputOneModel(instanceMI.m, instanceMI.resourceName, workOutFileName, "instance");
             }
-            if (models.size() >1) {
+            if (models.size() >1 && models.get(1) != null) {
                 WorkModelInfo abstractMI = models.get(1);
                 workOutFileName = getDstFileName("work", abstractMI.resourceName);
                 MigrationHelpers.outputOneModel(abstractMI.m, abstractMI.resourceName, workOutFileName, "work");
             }
-            if (models.size() >2) {
+            if (models.size() >2 && models.get(2) != null) {
                 WorkModelInfo serialMI = models.get(2);
                 workOutFileName = getDstFileName("work", serialMI.resourceName);
                 MigrationHelpers.outputOneModel(serialMI.m, serialMI.resourceName, workOutFileName, "work");
             } else if ( serialWork != null) {
                 workOutFileName = getDstFileName("work", serialWork.getLocalName());
                 MigrationHelpers.outputOneModel(serialWork.getModel(), serialWork.getLocalName(), workOutFileName, "work");
+            }
+            if (models.size() >3 && models.get(3) != null) {
+                WorkModelInfo einstanceMI = models.get(3);
+                workOutFileName = getDstFileName("einstance", einstanceMI.resourceName);
+                MigrationHelpers.outputOneModel(einstanceMI.m, einstanceMI.resourceName, workOutFileName, "einstance");
             }
             break;
         default:

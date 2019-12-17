@@ -40,6 +40,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -140,6 +141,7 @@ public class EtextMigration {
         System.out.println("migrate etexts");
         MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts");
         ensureGitRepo("etext", MigrationApp.OUTPUT_DIR);
+        ensureGitRepo("einstance", MigrationApp.OUTPUT_DIR);
         ensureGitRepo("etextcontent", MigrationApp.OUTPUT_DIR);
         String dirName = MigrationApp.ETEXT_DIR;
         File[] filesL1 = new File(dirName).listFiles();
@@ -206,8 +208,8 @@ public class EtextMigration {
                 }
                 
                 if (itemId != null) { // null in the case of blacklisted works
-                    String dst = MigrationApp.getDstFileName("item", itemId);
-                    MigrationHelpers.outputOneModel(itemModel, itemId, dst, "item");
+                    String dst = MigrationApp.getDstFileName("einstance", itemId);
+                    MigrationHelpers.outputOneModel(itemModel, itemId, dst, "einstance");
                 }
                 // TODO: write work->item link
             }
@@ -228,8 +230,8 @@ public class EtextMigration {
         }
     }
     
-    public static String itemIdFromWorkId(final String workId) {
-        return "I"+workId.substring(1)+"_E001";
+    public static String instanceIdFromWorkId(final String indicatedWorkId) {
+        return "IE"+indicatedWorkId.substring(1);
     }
     
     public static Literal getLiteral(String s, Model m, String etextId) {
@@ -309,7 +311,7 @@ public class EtextMigration {
     }
     
     private static String lastWorkId = null;
-    public static void addItemToWork(String workId, String itemId, String etextId, boolean isPaginated) {
+    public static void addInstanceToWork(String workId, String instanceId, String etextId, boolean isPaginated) {
         if (workId.equals(lastWorkId))
             return;
         final String workPath = MigrationApp.getDstFileName("work", workId, ".trig");
@@ -319,15 +321,32 @@ public class EtextMigration {
             return;
         }
         final Resource workR = workModel.getResource(BDR+workId);
-        Property p = workModel.getProperty(BDO, "workHasItem");
-        workR.addProperty(p, workModel.createResource(BDR+itemId));
+        Property p = workModel.getProperty(BDO, "workHasInstance");
+        workR.addProperty(p, workModel.createResource(BDR+instanceId));
         MigrationHelpers.outputOneModel(workModel, workId, workPath, "work");
         lastWorkId = workId;
     }
     
+    private static String lastInstanceId = null;
+    public static void addReproToInstance(String iInstanceId, String eInstanceId, String etextId, boolean sameOriginAs, boolean isPaginated) {
+        if (iInstanceId.equals(lastInstanceId))
+            return;
+        final String workPath = MigrationApp.getDstFileName("iinstance", iInstanceId, ".trig");
+        final Model workModel = MigrationHelpers.modelFromFileName(workPath);
+        if (workModel == null) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+workPath);
+            return;
+        }
+        final Resource iInstanceR = workModel.getResource(BDR+iInstanceId);
+        Property p = workModel.getProperty(BDO, "instanceHasReproduction");
+        iInstanceR.addProperty(p, workModel.createResource(BDR+eInstanceId));
+        MigrationHelpers.outputOneModel(workModel, iInstanceId, workPath, "iinstance");
+        lastInstanceId = iInstanceId;
+    }
+    
     public static Resource getItemEtextPart(Model itemModel, String itemId, int volume, int seqNum) {
         final Resource item = itemModel.getResource(BDR+itemId);
-        final Property itemHasVolume = itemModel.getProperty(BDO, "itemHasVolume");
+        final Property itemHasVolume = itemModel.getProperty(BDO, "instanceHasVolume");
         final Property volumeHasEtext = itemModel.getProperty(BDO, "volumeHasEtext");
         Resource volumeRes = null;
         
@@ -407,8 +426,19 @@ public class EtextMigration {
             e1.printStackTrace();
             return null;
         }
-        final String workId = e.getTextContent().trim();
-        final String itemId = itemIdFromWorkId(workId);
+        final String indicatedWorkId = e.getTextContent().trim();
+        String eInstanceId = instanceIdFromWorkId(indicatedWorkId);
+        String iInstanceId = "I"+indicatedWorkId.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
+        boolean bornDigital = false;
+        if (WorkMigration.etextInstances.containsKey(indicatedWorkId)) {
+            eInstanceId = indicatedWorkId;
+            bornDigital = true;
+        }
+        String abstractWorkId = WorkMigration.getAbstractForRid(indicatedWorkId);        
+        String otherAbstractRID = CommonMigration.abstractClusters.get(abstractWorkId);
+        if (otherAbstractRID == null) {
+            abstractWorkId = otherAbstractRID;
+        }
         
         try {
             e = (Element) ((NodeList)xPath.evaluate("tei:idno[@type='TBRC_TEXT_RID']",
@@ -420,31 +450,40 @@ public class EtextMigration {
         final String etextId = e.getTextContent().trim().replace('-', '_');
         Resource etext = createRoot(etextModel, BDR+etextId, BDO+"Etext"+(isPaginated?"Paginated":"NonPaginated"));
 
+        
         if (first) { // initialize the :ItemEtext
-            Resource work = itemModel.getResource(BDR+workId);
-            Resource item = createRoot(itemModel, BDR+itemId, BDO+"ItemEtext"+(isPaginated?"Paginated":"NonPaginated"));
+            Resource workA = itemModel.getResource(BDR+indicatedWorkId);
+            Resource iInstance = itemModel.getResource(BDR+iInstanceId);
+            Resource item = createRoot(itemModel, BDR+eInstanceId, BDO+"EtextInstance");
+            // TODO: +(isPaginated?"Paginated":"NonPaginated")
 
             // Item AdminData
             Resource admItem = createAdminRoot(item);                           
             admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
             admItem.addProperty(itemModel.getProperty(ADM, "metadataLegal"), itemModel.createResource(BDA+"LD_BDRC_CC0"));
-            MigrationApp.moveAdminInfo(itemModel, work, admItem);
+            // TODO: not sure how it should work...
+            //MigrationApp.moveAdminInfo(itemModel, iInstance, admItem);
             addReleased(itemModel, admItem);
 
             // Item metadata
 
             if (WorkMigration.addWorkHasItem)
-                addItemToWork(workId, itemId, etextId, isPaginated);
+                addInstanceToWork(abstractWorkId, eInstanceId, etextId, isPaginated);
 
+            if (!bornDigital) {
+                // false should be true in the case of KarmaDelek and GuruLama
+                addReproToInstance(iInstanceId, eInstanceId, etextId, false, isPaginated);
+            }
+            
             if (WorkMigration.addItemForWork) {
-                item.addProperty(itemModel.getProperty(BDO, "itemForWork"), work);
+                item.addProperty(itemModel.getProperty(BDO, "instanceOf"), workA);
             }
         }
 
         if (addEtextInItem)
             etextModel.add(etext,
-                    etextModel.getProperty(BDO, "eTextInItem"),
-                    etextModel.getResource(BDR+itemId));
+                    etextModel.getProperty(BDO, "eTextInInstance"),
+                    etextModel.getResource(BDR+eInstanceId));
 
         etextModel.add(etext,
                 RDF.type,
@@ -455,15 +494,15 @@ public class EtextMigration {
         
         Model imageItemModel = null;
         if (isPaginated && !testMode) {
-            imageItemModel = getItemModel(workId, etextId);
+            imageItemModel = getItemModel(indicatedWorkId, etextId);
             if (imageItemModel == null) {
-                System.err.println("error: cannot retrieve item model for "+workId);
+                System.err.println("error: cannot retrieve item model for "+indicatedWorkId);
                 return null;
             }
         }
         
         final int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel, imageItemModel);
-        itemModel.add(getItemEtextPart(itemModel, itemId, volSeqNumInfos[0], volSeqNumInfos[1]),
+        itemModel.add(getItemEtextPart(itemModel, eInstanceId, volSeqNumInfos[0], volSeqNumInfos[1]),
                 itemModel.getProperty(BDO, "eTextResource"),
                 itemModel.createResource(BDR+etextId));
         
@@ -481,7 +520,8 @@ public class EtextMigration {
                 continue;
             if (!titlesList.contains(titleStr)) {
                 etextModel.add(etext,
-                        etextModel.getProperty(BDO, "eTextTitle"),
+                        //etextModel.getProperty(BDO, "eTextTitle"),
+                        SKOS.prefLabel,
                         getLiteral(titleStr, etextModel, etextId));
             }
         }
@@ -499,7 +539,7 @@ public class EtextMigration {
         
         EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId, imageNumPageNum, needsPageNameTranslation, isPaginated);
         
-        return new EtextInfos(etextModel, workId, itemId, etextId);
+        return new EtextInfos(etextModel, indicatedWorkId, eInstanceId, etextId);
     }
     
     // https://stackoverflow.com/a/6392700/2560906

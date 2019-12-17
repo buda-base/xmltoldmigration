@@ -116,7 +116,6 @@ public class WorkMigration {
     }
     
     public static String getAbstractForRid(final String rid) {
-        // TODO: mechanize some conflation
         return "WA"+rid.substring(1);
     }
 	
@@ -141,6 +140,8 @@ public class WorkMigration {
             this.m = m;
         }
     }
+    
+    public static final Map<String,Boolean> etextInstances = new HashMap<>();
     
 	public static List<WorkModelInfo> MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
@@ -217,11 +218,16 @@ public class WorkMigration {
         } else {
             if (infoNodeType.equals("unicodeText")) {
                 main = createRoot(m, BDR+workId, BDO+"EtextInstance");
+                res.add(null);
+                res.add(null);
+                res.add(null);
+                res.add(new WorkModelInfo(workId, m));
+                etextInstances.put(workId, true);
             } else {
                 main = createRoot(m, BDR+workId, BDO+"Instance"); // physical?
+                res.add(new WorkModelInfo(workId, m));
             }
             admMain = createAdminRoot(main);
-            res.add(new WorkModelInfo(workId, m));
             if (!status.equals("withdrawn")) {
                 String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
                 if (otherAbstractRID == null) {

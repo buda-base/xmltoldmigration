@@ -181,7 +181,7 @@ public class CommonMigration  {
      * 
      * @param work that the AgentAsCreator is a creator for
      * @param person that is the creating agent
-     * @param roleKey the name of the type pof role of the creator
+     * @param roleKey the name of the type of role of the creator
      * @param rootAdmWork the root AdminData that contains the adm:facetIndex
      */
     public static void addAgentAsCreator(Resource work, Resource person, String roleKey, Resource workA) {

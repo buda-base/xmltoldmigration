@@ -119,8 +119,11 @@ public class PubinfoMigration {
 	public static Resource MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, final Resource mainA) {
 		Element root = xmlDocument.getDocumentElement();
 		
-        addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
-        addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
+		String workRid = root.getAttribute("RID").substring(1);
+		if (!workRid.contains("FPL") && !workRid.contains("FEMC") &&  !workRid.contains("W1EAP")) {
+		    addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
+            addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
+		}
         addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
         addSimpleDateElement("publisherDate", "PublishedEvent", root, main);
         addSimpleElementUC("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
@@ -141,7 +144,7 @@ public class PubinfoMigration {
         
         // handle series info
         Resource serialWork = null;
-        String workRid = root.getAttribute("RID").substring(1);
+        
         String serialWorkId = null;
         RDFNode seriesName = getSeriesName(root, m);
         Model mA = mainA.getModel();
