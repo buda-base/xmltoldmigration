@@ -1129,7 +1129,7 @@ public class CommonMigration  {
                 orgTitleRom = null;
         
         if (khmerStd != null) {
-            if (romanStd.getTextContent().contentEquals("das jātak")) {
+            if (romanStd != null && romanStd.getTextContent().contentEquals("das jātak")) {
                 stdTitleKhm = addFEMCTitle(main, khmerStd, "otherTitle", false);
             } else {
                 biblioKhmer = true;
