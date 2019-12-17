@@ -164,6 +164,13 @@ public class WorkMigration {
             isSeriesMember = !infoNumber.isEmpty();
             infoParentId = current.getAttribute("parent").trim();
         }
+        if (infoParentId.contains("LEGACY"))
+            infoParentId = "";
+       
+        if (infoParentId.equals(workId)) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, workId, workId, "info", "parent set to the resource RID");
+            infoParentId = "";
+        }
         
         Model mA = null;
         Resource mainA = null;
@@ -173,6 +180,7 @@ public class WorkMigration {
         Resource main = null;
         Resource admMain = null;
         String serialWorkId = "";
+       
         if (isSeriesMember && !status.equals("withdrawn")) {
             String otherMemberRID = CommonMigration.seriesClusters.get(workId);
             if (otherMemberRID == null) {
@@ -190,6 +198,7 @@ public class WorkMigration {
             mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
             Resource admMainA = createAdminRoot(mainA);
             main.addProperty(m.createProperty(BDO, "serialInstanceOf"), mainA);
+            mainA.addProperty(mA.createProperty(BDO, "serialHasInstance"), main);
             res.add(new WorkModelInfo(seriesMemberId, mA));
 
             serialWorkId = CommonMigration.seriesMembersToWorks.get(otherMemberRID);
@@ -206,8 +215,11 @@ public class WorkMigration {
                 serialW = createRoot(mA, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialW);
                 res.add(new WorkModelInfo(serialWorkId, mS));
+                mainA.addProperty(mA.createProperty(BDO, "serialMemberOf"), mA.createResource(BDR+serialWorkId));
+                serialW.addProperty(mS.createProperty(BDO, "serialHasMember"), mainA);
             } else { // serialWork already created just link to it
-                mainA.addProperty(m.createProperty(BDO, "serialMemberOf"), m.createResource(BDO+serialWorkId));
+                mainA.addProperty(mA.createProperty(BDO, "serialMemberOf"), mA.createResource(BDR+serialWorkId));
+                SymetricNormalization.addSymetricProperty(mA, "serialMemberOf", seriesMemberId, serialWorkId, null);
             }
         } else if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
             main = createRoot(m, BDR+workId, BDO+"AbstractWork");
@@ -230,6 +242,8 @@ public class WorkMigration {
             admMain = createAdminRoot(main);
             if (!status.equals("withdrawn")) {
                 String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
+                if (otherAbstractRID == null && !infoParentId.isEmpty())
+                    otherAbstractRID = infoParentId;
                 if (otherAbstractRID == null) {
                     mA = ModelFactory.createDefaultModel();
                     setPrefixes(mA);
@@ -361,21 +375,6 @@ public class WorkMigration {
         workLegalMap.put(workId, legalUri);
         workRestrictedInChina.put(workId, isRestrictedInChina);
 
-        
-        // info - add triples based on values in <info/> which are extracted above
-        
-        if (!infoParentId.isEmpty() && !infoParentId.contains("LEGACY")) {
-            if (infoParentId.equals(main.getLocalName())) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info", "parent set to the resource RID");
-            }
-            if (isSeriesMember) {
-                SymetricNormalization.addSymetricProperty(m, "serialInstanceOf", main.getLocalName(), value, null);
-            } else {
-                SymetricNormalization.addSymetricProperty(m, "instanceOf", main.getLocalName(), value, null);
-            }
-        }
-        
-        
         // creator
         // this is a list of the abstract works of the part of the work
         List <Resource> subAbstracts = null; 
