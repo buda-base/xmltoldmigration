@@ -138,7 +138,7 @@ public class MigrationTest
     public void testW1FEMC010006() throws IOException {
         System.out.println("testing W1FEMC010006");
         Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC010006.xml");
-        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
+        Model fromXml = mergeModelInfoList(WorkMigration.MigrateWork(doc));
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC010006.ttl");
 //      
 //      // ==== TEMP DEBUG ====
@@ -152,7 +152,7 @@ public class MigrationTest
     public void testW1FEMC020013() throws IOException {
         System.out.println("testing W1FEMC020013");
         Document doc = MigrationHelpers.documentFromFileName(TESTDIR+"xml/W1FEMC020013.xml");
-        Model fromXml = MigrationHelpers.xmlToRdf(doc, "work");
+        Model fromXml = mergeModelInfoList(WorkMigration.MigrateWork(doc));
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/W1FEMC020013.ttl");
 //      
 //      // ==== TEMP DEBUG ====
@@ -277,11 +277,12 @@ public class MigrationTest
         Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/WorkTestFPL.xml");  
         Validator validator = MigrationHelpers.getValidatorFor("work");
         assertFalse(CommonMigration.documentValidates(d, validator));
-        Model fromXml = MigrationHelpers.xmlToRdf(d, "work");
+        Model fromXml = mergeModelInfoList(WorkMigration.MigrateWork(d));
         //fromXml.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
+        fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
@@ -333,7 +334,7 @@ public class MigrationTest
            Model fromXml = mergeModelList(PubinfoMigration.MigratePubinfo(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
-           fromXml.write(System.out, "TTL");
+           //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
@@ -480,8 +481,8 @@ public class MigrationTest
         setPrefixes(itemModel, "item");
         EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true, BDA+"CP001");
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
-        assertTrue(ei.itemId.equals("I1CZ2485_E001"));
-        assertTrue(ei.workId.equals("W1CZ2485"));
+        assertTrue(ei.eInstanceId.equals("IE1CZ2485"));
+        assertTrue(ei.indicatedWorkId.equals("W1CZ2485"));
         assertTrue(ei.etextId.equals("UT1CZ2485_001_0000"));
         //MigrationHelpers.modelToOutputStream(ei.etextModel, System.out, "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
         //MigrationHelpers.modelToOutputStream(itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, ei.itemId);
@@ -489,7 +490,9 @@ public class MigrationTest
         Model correctEtextModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-etext.ttl");
         Model correctItemModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/EtextTest-item.ttl");
         String correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content.txt")));
+        //ei.etextModel.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
+        //itemModel.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctItemModel) );
         assertTrue(computedContent.equals(correctContent.trim()));
         assertFalse(EtextBodyMigration.rtfP.matcher(" 9 ").find());

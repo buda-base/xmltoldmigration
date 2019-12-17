@@ -191,10 +191,10 @@ public class EtextMigration {
                            return;
                        }
                        
-                       if (itemId != null && !ei.itemId.equals(itemId))
-                           ExceptionHelper.logException(ExceptionHelper.ET_GEN, fl2.getName(), fl2.getName(), "got two different itemIds: "+itemId+" and "+ei.itemId);
+                       if (itemId != null && !ei.eInstanceId.equals(itemId))
+                           ExceptionHelper.logException(ExceptionHelper.ET_GEN, fl2.getName(), fl2.getName(), "got two different itemIds: "+itemId+" and "+ei.eInstanceId);
                        if (itemId == null) {
-                           itemId = ei.itemId;
+                           itemId = ei.eInstanceId;
                        }
                        if (itemId == null) {
                            System.err.println("arg!");
@@ -218,15 +218,17 @@ public class EtextMigration {
     
     public static class EtextInfos {
         public Model etextModel;
-        public String workId;
-        public String itemId;
+        public String indicatedWorkId;
+        public String eInstanceId;
         public String etextId;
+        public String abstractWorkId;
         
-        public EtextInfos(Model etextModel, String workId, String itemId, String etextId) {
+        public EtextInfos(Model etextModel, String indicatedWorkId, String eInstanceId, String etextId, String abstractWorkId) {
             this.etextModel = etextModel;
-            this.workId = workId;
-            this.itemId = itemId;
+            this.indicatedWorkId = indicatedWorkId;
+            this.eInstanceId = eInstanceId;
             this.etextId = etextId;
+            this.abstractWorkId = abstractWorkId;
         }
     }
     
@@ -539,7 +541,7 @@ public class EtextMigration {
         
         EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId, imageNumPageNum, needsPageNameTranslation, isPaginated);
         
-        return new EtextInfos(etextModel, indicatedWorkId, eInstanceId, etextId);
+        return new EtextInfos(etextModel, indicatedWorkId, eInstanceId, etextId, abstractWorkId);
     }
     
     // https://stackoverflow.com/a/6392700/2560906

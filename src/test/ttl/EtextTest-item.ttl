@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,27 +10,24 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:VLC927251E24B2  a    :VolumeEtextAsset ;
-        :volumeHasEtext  bdr:ER0847257BD8E3 ;
-        :volumeNumber    1 ;
-        :volumeOf        bdr:I1CZ2485_E001 .
-
-bdr:ER0847257BD8E3  a   :EtextRef ;
-        :eTextResource  bdr:UT1CZ2485_001_0000 ;
-        :seqNum         1 .
-
-bdr:I1CZ2485_E001  a    :ItemEtextPaginated ;
-        :isRoot         true ;
-        :itemForWork    bdr:W1CZ2485 ;
-        :itemHasVolume  bdr:VLC927251E24B2 .
-
-bda:I1CZ2485_E001  a         adm:AdminData ;
-        adm:adminAbout       bdr:I1CZ2485_E001 ;
+bda:IE1CZ2485  a             adm:AdminData ;
+        adm:adminAbout       bdr:IE1CZ2485 ;
         adm:contentProvider  bda:CP001 ;
         adm:facetIndex       3 ;
-        adm:gitPath          "7c/I1CZ2485_E001.trig" ;
-        adm:gitRepo          bda:GR0003 ;
-        adm:graphId          bdg:I1CZ2485_E001 ;
         adm:metadataLegal    bda:LD_BDRC_CC0 ;
         adm:status           bda:StatusReleased ;
         :isRoot              true .
+
+bdr:VL790698AD9F9D  a    :VolumeEtextAsset ;
+        :volumeHasEtext  bdr:ER430069C0A8DB ;
+        :volumeNumber    1 ;
+        :volumeOf        bdr:IE1CZ2485 .
+
+bdr:ER430069C0A8DB  a   :EtextRef ;
+        :eTextResource  bdr:UT1CZ2485_001_0000 ;
+        :seqNum         1 .
+
+bdr:IE1CZ2485  a            :EtextInstance ;
+        :instanceHasVolume  bdr:VL790698AD9F9D ;
+        :instanceOf         bdr:W1CZ2485 ;
+        :isRoot             true .
