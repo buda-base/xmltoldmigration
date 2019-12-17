@@ -50,8 +50,11 @@ import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextBodyMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextMigration.EtextInfos;
+import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
+import io.bdrc.xmltoldmigration.xml2files.PubinfoMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
+import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
 
 
 /**
@@ -284,6 +287,26 @@ public class MigrationTest
         flushLog();
     }
 	   
+       public static Model mergeModelList(List<Model> list) {
+           Model res = ModelFactory.createDefaultModel();
+           setPrefixes(res);
+           for (Model m : list) {
+               if (m != null)
+                   res.add(m);
+           }
+           return res;
+       }
+
+       public static Model mergeModelInfoList(List<WorkModelInfo> list) {
+           Model res = ModelFactory.createDefaultModel();
+           setPrefixes(res);
+           for (WorkModelInfo mi : list) {
+               if (mi != null && mi.m != null)
+                   res.add(mi.m);
+           }
+           return res;
+       }
+       
        @Test
        public void testOutline() throws JsonParseException, IOException, JsonLdError
        {
@@ -291,10 +314,10 @@ public class MigrationTest
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/OutlineTest.xml");  
            Validator validator = MigrationHelpers.getValidatorFor("outline");
            assertTrue(CommonMigration.documentValidates(d, validator));
-           Model fromXml = MigrationHelpers.xmlToRdf(d, "outline");
+           Model fromXml = mergeModelInfoList(OutlineMigration.MigrateOutline(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
-           //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "W30020");
            //showDifference(fromXml, correctModel);
+           //fromXml.write(System.out, "TURTLE");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
@@ -307,10 +330,10 @@ public class MigrationTest
            WorkMigration.splitItems = false;
            Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/PubinfoTest.xml");  
            //assertTrue(CommonMigration.documentValidates(d, pubinfoValidator));
-           Model fromXml = MigrationHelpers.xmlToRdf(d, "pubinfo");
+           Model fromXml = mergeModelList(PubinfoMigration.MigratePubinfo(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
-           //fromXml.write(System.out, "TTL");
+           fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

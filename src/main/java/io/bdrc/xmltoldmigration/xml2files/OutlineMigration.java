@@ -411,7 +411,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  Resource admMainA = createAdminRoot(nodeA);
                  // TODO: add language = BO
                  nodeA.addProperty(mA.createProperty(BDO, "langage"), mA.createResource(BDR+"LangBo"));
-                 node.addProperty(m.createProperty(BDO, "workInstanceOf"), nodeA);
+                 node.addProperty(m.createProperty(BDO, "instanceOf"), nodeA);
                  nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
              } else {
                  SymetricNormalization.addSymetricProperty(m, "workInstanceOf", workId, otherAbstractRID, null);
@@ -429,7 +429,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             }
         }
         
-        m.add(node, RDF.type, m.getResource(BDO+"Work"));
+        m.add(node, RDF.type, m.getResource(BDO+"Instance"));
         m.add(node, m.getProperty(BDO, "workPartIndex"), m.createTypedLiteral(partIndex, XSDDatatype.XSDinteger));
         
         // what's parent? ignoring

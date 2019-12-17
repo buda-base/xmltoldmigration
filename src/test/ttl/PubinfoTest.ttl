@@ -1,65 +1,63 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix bda:   <http://purl.bdrc.io/admindata/> .
-@prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rkts:  <http://purl.rkts.eu/resource/> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LG725E8279E4B4  a   adm:LogEntry ;
-    adm:logDate         "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
-    adm:logMessage      "added print type and source printery"@en ;
-    adm:logWho          bdr:U00013 .
+        adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
+        adm:logMessage  "added print type and source printery"@en ;
+        adm:logWho      bdr:U00013 .
 
-bda:LGEAF54DACE95D  a   adm:LogEntry ;
-    adm:logDate         "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
-    adm:logMessage      "normalize encoding field for pub info"@en ;
-    adm:logWho          bdr:U00012 .
+bdr:I1FPL1_P001  a        :Item ;
+        :itemCopies       "1" ;
+        :itemException    "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo ;
+        :itemForInstance  bdr:W1FPL1 ;
+        :itemLibrary      bdr:G1TLMTGA000001 ;
+        :itemShelf        "ཇ|ཇ|༣||001278" .
 
-bda:LGEDA5DE9E3376  a   adm:LogEntry ;
-    adm:logDate         "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
-    adm:logMessage      "added hollis field to pub info"@en ;
-    adm:logWho          bdr:U00006 .
+bdr:WA1FPL1  a     :Work ;
+        :isRoot    true ;
+        :language  bdr:LangBo .
+
+bdr:EV1F91ADA2A1C7  a  :PublishedEvent ;
+        :onYear  "2000"^^xsd:gYear .
 
 bda:W1FPL1  a           adm:AdminData ;
-    :isRoot             true ;
-    adm:adminAbout      bdr:W1FPL1 ;
-    adm:facetIndex      5 ;
-    adm:gitPath         "56/W1FPL1.trig" ;
-    adm:gitRepo         bda:GR0008 ;
-    adm:graphId         bdg:W1FPL1 ;
-    adm:logEntry        bda:LG725E8279E4B4 , bda:LGEAF54DACE95D , bda:LGEDA5DE9E3376 .
+        adm:adminAbout  bdr:W1FPL1 ;
+        adm:facetIndex  5 ;
+        adm:logEntry    bda:LG725E8279E4B4 , bda:LGEAF54DACE95D , bda:LGEDA5DE9E3376 ;
+        :isRoot         true .
 
-bdr:EV1F91ADA2A1C7  a   :PublishedEvent ;
-    :onYear             "2000"^^xsd:gYear .
+bda:LGEDA5DE9E3376  a   adm:LogEntry ;
+        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+        adm:logMessage  "added hollis field to pub info"@en ;
+        adm:logWho      bdr:U00006 .
 
-bdr:I1FPL1_P001  a      :ItemPhysicalAsset ;
-    :itemCopies         "1" ;
-    :itemException      "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo ;
-    :itemForWork        bdr:W1FPL1 ;
-    :itemLibrary        bdr:G1TLMTGA000001 ;
-    :itemShelf          "ཇ|ཇ|༣||001278" .
+bdr:W1FPL1  a                       :Instance ;
+        :isRoot                     true ;
+        :itemBDRCHoldingStatement   "1" ;
+        :language                   bdr:LangBo ;
+        :printMethod                bdr:PrintMethod_Manuscript ;
+        :script                     bdr:ScriptDbuMed ;
+        :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
+        :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
+        :workEvent                  bdr:EV1F91ADA2A1C7 ;
+        :workExtentStatement        "177 ff." ;
+        :workHasSourcePrintery      bdr:G1PD129184 ;
+        :workHollis                 "014254679" ;
+        :workLcCallNumber           "BQ7662.4 .G77 1979" ;
+        :workPublisherLocation      "[lha sa]"@en ;
+        :workPublisherName          "[zhol par khang]"@en ;
+        :workSourcePrintery_string  "test sourcePrintery with no place" .
 
-bdr:W1FPL1  a           :Work ;
-    :isRoot             true ;
-    :itemBDRCHoldingStatement  "1" ;
-    :printMethod        bdr:PrintMethod_Manuscript ;
-    :workAuthorshipStatement  "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
-    :workBiblioNote     "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
-    :workEvent          bdr:EV1F91ADA2A1C7 ;
-    :workExtentStatement  "177 ff." ;
-    :workHasSourcePrintery  bdr:G1PD129184 ;
-    :workHollis         "014254679" ;
-    :workIsNumbered     true ;
-    :workLangScript     bdr:BoDbuMed ;
-    :workLcCallNumber   "BQ7662.4 .G77 1979" ;
-    :workPublisherLocation  "[lha sa]"@en ;
-    :workPublisherName  "[zhol par khang]"@en ;
-    :workSeriesContent  "test series content"@en ;
-    :workSeriesName     "oral history series" ;
-    :workSeriesNumber   "no. 16" ;
-    :workSourcePrintery_string  "test sourcePrintery with no place" .
+bda:LGEAF54DACE95D  a   adm:LogEntry ;
+        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+        adm:logMessage  "normalize encoding field for pub info"@en ;
+        adm:logWho      bdr:U00012 .

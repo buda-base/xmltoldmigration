@@ -493,9 +493,6 @@ public class MigrationHelpers {
 		case PRODUCT:
 			m = ProductMigration.MigrateProduct(d);
 			break;
-		case PUBINFO:
-            m = PubinfoMigration.MigratePubinfo(d);
-            break;
 		case IMAGEGROUP:
             m = ImagegroupMigration.MigrateImagegroup(d);
             break;

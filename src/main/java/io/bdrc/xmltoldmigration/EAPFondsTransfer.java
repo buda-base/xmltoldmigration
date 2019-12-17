@@ -98,10 +98,13 @@ public class EAPFondsTransfer {
                     final String workOutfileName = MigrationApp.getDstFileName("work", r.getLocalName());
                     MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), workOutfileName, "work");
                     break;
-                case "ItemImageAsset":
+                case "ImageInstance":
+                    final String instanceOutfileName = MigrationApp.getDstFileName("instance", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), instanceOutfileName, "instance");
+                    break;
                 case "Item":
-                    final String itemOutfileName = MigrationApp.getDstFileName("item", r.getLocalName());
-                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), itemOutfileName, "item");
+                    final String iInstanceOutfileName = MigrationApp.getDstFileName("iinstance", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), iInstanceOutfileName, "iinstance");
                     break;
             }
         }

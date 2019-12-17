@@ -18,18 +18,18 @@
             <outline:description encoding="native" lang="english" type="gse bris number ">test broken property type</outline:description>
         </outline:node>
     </outline:node>
-    <outline:node RID="O2DB875722DB87583" type="class" value="varia">
+    <outline:node RID="O2DB875722DB87583" type="class" value="secion">
         <outline:name encoding="extendedWylie" lang="tibetan">2 (smad  cha)</outline:name>
         <outline:location vol="2" page="12" work="W30020"/>
         <outline:location vol="2" page="24" work="W30020"/>
-        <outline:node RID="O2DB875722DB875732DB87599" class="T977" type="class">
+        <outline:node RID="O2DB875722DB875732DB87599" class="T977" type="text">
             <outline:title encoding="extendedWylie" lang="tibetan" type="incipit">gleng gzhi/</outline:title>
             <outline:title encoding="extendedWylie" lang="tibetan" type="sectionTitle">testsec</outline:title>
             <outline:location page="11" vol="2" work="W30020"/>
             <outline:location page="18" vol="2" work="W30020"/>
             <outline:description encoding="native" lang="english" type="note">p. 1 (1st group)</outline:description>
         </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87600" class="T977" type="class">
+        <outline:node RID="O2DB875722DB875732DB87600" type="text">
             <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">bza' btung tshogs mchod 'dod yon lam khyer/</outline:title>
             <outline:title encoding="extendedWylie" lang="tibetan" type="captionTitle">bza' btung tshogs mchod 'dod yon lam khyer/</outline:title>
             <outline:location page="17" vol="2" work="W30020"/>
@@ -40,34 +40,10 @@
             <outline:creator person="P20" type="hasTranslator"> rin chen mchog </outline:creator>
             <outline:creator person="P21" type="hasReviserOfTranslation">P21</outline:creator>
         </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87601" type="class">
+        <outline:node RID="O2DB875722DB875732DB87601" type="volume">
             <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
         </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87602" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
-        </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87603" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
-        </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87604" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
-        </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87605" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
-        </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87606" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
-        </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87607" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
-        </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87608" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
-        </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87609" type="class">
-            <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
-        </outline:node>
-        <outline:node RID="O2DB875722DB875732DB87610" type="class">
+        <outline:node RID="O2DB875722DB875732DB87602" type="volume">
             <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi2/</outline:title>
         </outline:node>
     </outline:node>

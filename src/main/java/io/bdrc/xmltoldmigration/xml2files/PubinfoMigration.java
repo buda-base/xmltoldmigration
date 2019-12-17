@@ -9,7 +9,9 @@ import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getAdminRoot;
 import static io.bdrc.libraries.Models.setPrefixes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.validator.routines.ISBNValidator;
@@ -37,26 +39,35 @@ public class PubinfoMigration {
 	static final ISBNValidator isbnvalidator = ISBNValidator.getInstance(false);
 
 	// used for testing only
-	public static Model MigratePubinfo(Document xmlDocument) {
+	public static List<Model> MigratePubinfo(Document xmlDocument) {
+	    List<Model> res = new ArrayList<>();
 	    Model m = ModelFactory.createDefaultModel();
         setPrefixes(m, "work");
+        res.add(m);
         Element root = xmlDocument.getDocumentElement();
         Resource main = null;
-        
+        Resource mainA = null;
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "isPubInfoFor");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("work");
             if (value.isEmpty()) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "work", "missing work ID!");
-                return m;
+                return res;
             }
             
-            main = createRoot(m, BDR+value, BDO+"Work");
+            main = createRoot(m, BDR+value, BDO+"Instance");
+            createAdminRoot(main);
+            Model mA = ModelFactory.createDefaultModel();
+            res.add(mA);
+            setPrefixes(mA);
+            mainA = createRoot(m, BDR+"WA"+value.substring(1), BDO+"Work");
             createAdminRoot(main);
         }
-        MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), null);
-        return m;
+        Resource seriesMainA = MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), mainA);
+        if (seriesMainA != null)
+            res.add(seriesMainA.getModel());
+        return res;
 	}
 	
 	public static boolean isComputerInputDbuMed(String RID) {
@@ -81,13 +92,13 @@ public class PubinfoMigration {
 	public static void addLangScript(final Resource main, final Resource mainA, final String lang, final String script, final String langScript) {
 	    if (main != null) {
 	        Model m = main.getModel();
-	        main.addProperty(m.getProperty(BDO, "language"), BDR+lang);
+	        main.addProperty(m.getProperty(BDO, "language"), m.createResource(BDR+lang));
 	        if (script != null)
-	            main.addProperty(m.getProperty(BDO, "script"), BDR+script);
+	            main.addProperty(m.getProperty(BDO, "script"), m.createResource(BDR+script));
 	    }
 	    if (mainA != null && script != null) {
 	        Model m = mainA.getModel();
-	        mainA.addProperty(m.getProperty(BDO, "script"), BDR+script);
+	        mainA.addProperty(m.getProperty(BDO, "language"), m.createResource(BDR+lang));
 	    }
 	}
     
@@ -508,9 +519,9 @@ public class PubinfoMigration {
                 itemModels.put(itemName, itemModel);
             }
             Resource holding = itemModel.createResource(BDR+itemName);
-            itemModel.add(holding, RDF.type, itemModel.getResource(BDO+"ItemPhysicalAsset"));
+            itemModel.add(holding, RDF.type, itemModel.getResource(BDO+"Item"));
             if (WorkMigration.addItemForWork)
-                itemModel.add(holding, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(main.getURI()));
+                itemModel.add(holding, itemModel.createProperty(BDO, "itemForInstance"), itemModel.createResource(main.getURI()));
             if (WorkMigration.addWorkHasItem) {
                 m.add(main, m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
             }
