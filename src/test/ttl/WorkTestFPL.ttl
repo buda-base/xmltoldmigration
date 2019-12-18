@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -25,6 +25,9 @@ bda:I12837FPL_P001  a   adm:AdminData ;
 bda:W12837FPL  a           adm:AdminData ;
         adm:adminAbout     bdr:W12837FPL ;
         adm:facetIndex     12 ;
+        adm:gitPath        "55/W12837FPL.trig" ;
+        adm:gitRepo        bda:GR0012 ;
+        adm:graphId        bdg:W12837FPL ;
         adm:logEntry       bda:LGA31364CA97C9 , bda:LGD87EBF2311F0 , bda:LGFB1A36806E27 , bda:LG7E331F54F258 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
@@ -77,7 +80,7 @@ bda:WM12837FPL  a       adm:AdminData ;
 bdr:NTF8411F25C214  a  :Note ;
         :noteText  "description with type note" .
 
-bdr:W12837FPL  a              :SerialMemberInstance ;
+bdr:W12837FPL  a              :SerialInstance ;
         rdfs:comment          "description with no type" ;
         :isRoot               true ;
         :note                 bdr:NTF8411F25C214 , bdr:NT3F0F87B07E32 ;

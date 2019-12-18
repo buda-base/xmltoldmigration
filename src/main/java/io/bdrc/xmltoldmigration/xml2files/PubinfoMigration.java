@@ -30,6 +30,7 @@ import org.w3c.dom.NodeList;
 
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
+import org.apache.jena.vocabulary.SKOS;
 
 
 public class PubinfoMigration {
@@ -133,6 +134,8 @@ public class PubinfoMigration {
 	public static List<Resource> MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, Resource mainA) {
 		Element root = xmlDocument.getDocumentElement();
 		List<Resource> res = new ArrayList<>();
+        Model mA = mainA != null ? mainA.getModel() : null;
+        
 		String workRid = root.getAttribute("RID").substring(1);
 		if (!workRid.contains("FPL") && !workRid.contains("FEMC") &&  !workRid.contains("W1EAP")) {
 		    addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
@@ -156,48 +159,47 @@ public class PubinfoMigration {
         addSimpleElement("sourceNote", BDO+"workSourceNote", "en", root, m, main);
         addSimpleElement("editionStatement", BDO+"workEditionStatement", EWTS_TAG, root, m, main);
         
-        // handle series info
-        Resource serialWork = null;
-        
-        String serialWorkId = null;
+        // handle series info        
         RDFNode seriesName = getSeriesName(root, m);
-        Model mA = null;
-        if (mainA != null)
-            mA = mainA.getModel();
         if (seriesName != null) {
+            if (mainA == null) {
+                // this is the case where a work is in a series but is also an instance of another abstract work
+                // for instance W1KG5476 is a series member but also shares its abstract work with W1KG23131
+                // TODO: I think we have a problem if WorkMigration creates an abstract work (the mainA argument of this function)
+                // which will become a member in this function, but is shared with non-members...
+                mA = ModelFactory.createDefaultModel();
+                setPrefixes(mA);
+                mainA = createRoot(mA, BDR+"WA"+workRid.substring(1), BDO+"Work");
+                res.add(mainA);
+                createAdminRoot(mainA);
+                main.addProperty(m.createProperty(BDO+"instanceOf"), mainA);
+                mainA.addProperty(mA.createProperty(BDO+"workHasInstance"), main);
+            }
             String otherRID = CommonMigration.seriesClusters.get(workRid);
             if (otherRID == null) {
                 otherRID = workRid;
             }
-            serialWorkId = CommonMigration.seriesMembersToWorks.get(otherRID);
-            if (serialWorkId == null) {
+            String serialWorkId = CommonMigration.seriesMembersToWorks.get(otherRID);
+            if (serialWorkId == null) { // need to create a SerialWork
                 serialWorkId = "WS" + otherRID.substring(1);
                 CommonMigration.seriesMembersToWorks.put(otherRID, serialWorkId);
                 Model mS = ModelFactory.createDefaultModel();
                 setPrefixes(mS);
-                serialWork = createRoot(mS, BDR+serialWorkId, BDO+"SerialWork");
+                Resource serialWork = createRoot(mS, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialWork);
-                res.add(serialWork);
-                if (mainA == null) {
-                    // this is the case where a work is in a series but is also an instance of another abstract work
-                    // for instance W1KG5476 is a series member but also shares its abstract work with W1KG23131
-                    // TODO: I think we have a problem if WorkMigration creates an abstract work (the mainA argument of this function)
-                    // which will become a member in this function, but is shared with non-members...
-                    mA = ModelFactory.createDefaultModel();
-                    setPrefixes(mA);
-                    mainA = createRoot(mA, BDR+"WA"+workRid.substring(1), BDO+"SerialMember");
-                    res.add(mainA);
-                    createAdminRoot(mainA);
-                    main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
-                    mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
+                // put a prefLabel on the serialWork if needed
+                // at this point the label should == null
+                RDFNode serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(serialWorkId);
+                if (serialWorkLabel == null ) {
+                    serialWork.addProperty(SKOS.prefLabel, seriesName);
+                    CommonMigration.seriesMembersToWorkLabels.put(serialWorkId, seriesName);
                 }
-                mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), serialWork);
-            } else { // serialWork already created just link to it
-                if (mainA != null)
-                    mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDO+serialWorkId));
+                res.add(serialWork);
             }
-            if (mainA != null)
-                mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
+            mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
+            mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDO+serialWorkId));
+            main.addProperty(m.createProperty(BDO+"serialInstanceOf"), mainA);
+            mainA.addProperty(mA.createProperty(BDO+"serialHasInstance"), main);
         }
         RDFNode seriesNumber = getSeriesNumber(root, m);
         if (seriesNumber != null) {

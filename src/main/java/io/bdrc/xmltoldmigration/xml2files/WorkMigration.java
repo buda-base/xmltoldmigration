@@ -186,7 +186,7 @@ public class WorkMigration {
             if (otherMemberRID == null) {
                 otherMemberRID = workId;
             }
-            main = createRoot(m, BDR+workId, BDO+"SerialMemberInstance");
+            main = createRoot(m, BDR+workId, BDO+"SerialInstance");
             admMain = createAdminRoot(main);
             res.add(null);
             res.add(new WorkModelInfo(workId, m));
