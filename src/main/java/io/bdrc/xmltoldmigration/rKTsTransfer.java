@@ -58,7 +58,7 @@ public class rKTsTransfer {
     
     public static void initListsForRID(String rid) {
         RIDList.add(rid);
-        final String workFileName = MigrationApp.getDstFileName("work", rid, ".trig");
+        final String workFileName = MigrationApp.getDstFileName("instance", rid, ".trig");
         Model m = MigrationHelpers.modelFromFileName(workFileName);
         RidModels.put(rid, m);
     }
@@ -66,7 +66,7 @@ public class rKTsTransfer {
     public static void finishEditions() {
         for (String rid : RIDList) {
             Model m = RidModels.get(rid);
-            final String workFileName = MigrationApp.getDstFileName("work", rid);
+            final String workFileName = MigrationApp.getDstFileName("instance", rid);
             MigrationHelpers.outputOneModel(m, rid, workFileName, "work");
         }
     }
