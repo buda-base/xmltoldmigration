@@ -319,7 +319,7 @@ public class EtextMigration {
         final String workPath = MigrationApp.getDstFileName("work", workId, ".trig");
         final Model workModel = MigrationHelpers.modelFromFileName(workPath);
         if (workModel == null) {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+workPath);
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read work model for image name translation on "+workPath);
             return;
         }
         final Resource workR = workModel.getResource(BDR+workId);
@@ -336,7 +336,7 @@ public class EtextMigration {
         final String workPath = MigrationApp.getDstFileName("iinstance", iInstanceId, ".trig");
         final Model workModel = MigrationHelpers.modelFromFileName(workPath);
         if (workModel == null) {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+workPath);
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read image instance model for image name translation on "+workPath);
             return;
         }
         final Resource iInstanceR = workModel.getResource(BDR+iInstanceId);
@@ -390,7 +390,7 @@ public class EtextMigration {
         if (lastModelId != null && lastModelId.equals(imageItemId)) {
             return lastModel;
         }
-        String imageItemPath = MigrationApp.getDstFileName("item", imageItemId, ".trig");
+        String imageItemPath = MigrationApp.getDstFileName("iinstance", imageItemId, ".trig");
         Model imageItemModel = MigrationHelpers.modelFromFileName(imageItemPath);
         if (imageItemModel == null) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+imageItemPath);
@@ -436,7 +436,7 @@ public class EtextMigration {
             eInstanceId = indicatedWorkId;
             bornDigital = true;
         }
-        String abstractWorkId = WorkMigration.getAbstractForRid(indicatedWorkId);        
+        String abstractWorkId = WorkMigration.getAbstractForRid(indicatedWorkId);
         String otherAbstractRID = CommonMigration.abstractClusters.get(abstractWorkId);
         if (otherAbstractRID != null) {
             abstractWorkId = otherAbstractRID;
