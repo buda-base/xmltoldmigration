@@ -118,7 +118,7 @@ public class PubinfoMigration {
     
     public static RDFNode getSeriesNumber(Element root, Model model) {
         Literal seriesNumberLiteral = null;
-        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "seriesName");
+        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "seriesNumber");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getTextContent().trim();
