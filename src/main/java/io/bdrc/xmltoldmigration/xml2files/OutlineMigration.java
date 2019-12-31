@@ -9,6 +9,7 @@ import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
+import static io.bdrc.libraries.Models.addStatus;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -409,8 +410,8 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  res.add(new WorkModelInfo(ANodeRID, mA));
                  nodeA = createRoot(mA, BDR+ANodeRID, BDO+"Work");
                  Resource admMainA = createAdminRoot(nodeA);
-                 // TODO: add language = BO
-                 nodeA.addProperty(mA.createProperty(BDO, "langage"), mA.createResource(BDR+"LangBo"));
+                 nodeA.addProperty(mA.createProperty(BDO, "language"), mA.createResource(BDR+"LangBo"));
+                 addStatus(mA, admMainA, "released");
                  node.addProperty(m.createProperty(BDO, "instanceOf"), nodeA);
                  nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
              } else {

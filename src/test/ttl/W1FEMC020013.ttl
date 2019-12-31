@@ -89,6 +89,7 @@ bda:WA1FEMC020013  a    adm:AdminData ;
         adm:gitPath     "0b/WA1FEMC020013.trig" ;
         adm:gitRepo     bda:GR0008 ;
         adm:graphId     bdg:WA1FEMC020013 ;
+        adm:status      bda:StatusReleased ;
         :isRoot         true .
 
 bdr:TT8428F1539EFF  a  :WorkTitle ;

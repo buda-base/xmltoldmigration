@@ -197,6 +197,7 @@ public class WorkMigration {
             setPrefixes(mA);
             mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
             Resource admMainA = createAdminRoot(mainA);
+            addStatus(mA, admMainA, "released");
             main.addProperty(m.createProperty(BDO, "serialInstanceOf"), mainA);
             mainA.addProperty(mA.createProperty(BDO, "serialHasInstance"), main);
             res.add(new WorkModelInfo(seriesMemberId, mA));
@@ -214,6 +215,7 @@ public class WorkMigration {
                 setPrefixes(mS);
                 serialW = createRoot(mA, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialW);
+                addStatus(mS, admSerialW, "released");
                 res.add(new WorkModelInfo(serialWorkId, mS));
                 mainA.addProperty(mA.createProperty(BDO, "serialMemberOf"), mA.createResource(BDR+serialWorkId));
                 serialW.addProperty(mS.createProperty(BDO, "serialHasMember"), mainA);
@@ -250,6 +252,7 @@ public class WorkMigration {
                     res.add(new WorkModelInfo(aWorkId, mA));
                     mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
                     Resource admMainA = createAdminRoot(mainA);
+                    addStatus(mA, admMainA, "released");
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {

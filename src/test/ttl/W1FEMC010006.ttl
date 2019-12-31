@@ -30,6 +30,7 @@ bda:WA1FEMC010006  a    adm:AdminData ;
         adm:gitPath     "73/WA1FEMC010006.trig" ;
         adm:gitRepo     bda:GR0008 ;
         adm:graphId     bdg:WA1FEMC010006 ;
+        adm:status      bda:StatusReleased ;
         :isRoot         true .
 
 bda:W1FEMC010006  a        adm:AdminData ;

@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -48,6 +48,7 @@ bda:W12345  a           adm:AdminData ;
         adm:gitPath     "63/W12345.trig" ;
         adm:gitRepo     bda:GR0008 ;
         adm:graphId     bdg:W12345 ;
+        adm:status      bda:StatusReleased ;
         :isRoot         true .
 
 bdr:EVB8AAD6436BFB  a  :CompletedEvent ;
@@ -75,6 +76,7 @@ bda:WM12837FPL  a       adm:AdminData ;
         adm:gitPath     "0d/WM12837FPL.trig" ;
         adm:gitRepo     bda:GR0008 ;
         adm:graphId     bdg:WM12837FPL ;
+        adm:status      bda:StatusReleased ;
         :isRoot         true .
 
 bdr:NTF8411F25C214  a  :Note ;

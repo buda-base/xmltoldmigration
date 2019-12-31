@@ -5,6 +5,7 @@ import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.addReleased;
+import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
@@ -108,6 +109,7 @@ public class GRETILTransfer {
             setPrefixes(mA);
             workA = createRoot(mA, BDR+"WA"+line[0].substring(1), BDO+"Work");
             res.add(workA);
+            addStatus(mA, workA, "released");
             admWorkA = createAdminRoot(workA);
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_GRETIL")); // ?

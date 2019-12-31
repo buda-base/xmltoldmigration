@@ -26,7 +26,7 @@ bdr:TTCDA063880276  a  :WorkRunningTitle ;
 bdr:WA30020_Pf9754de1ff8c
         a                 :Work ;
         :isRoot           true ;
-        :langage          bdr:LangBo ;
+        :language         bdr:LangBo ;
         :workHasInstance  bdr:W30020_Pf9754de1ff8c ;
         skos:prefLabel    "gleng gzhi/"@bo-x-ewts .
 
@@ -91,6 +91,7 @@ bda:WA30020_P74bfe0d47cbb
         adm:gitPath     "76/WA30020_P74bfe0d47cbb.trig" ;
         adm:gitRepo     bda:GR0008 ;
         adm:graphId     bdg:WA30020_P74bfe0d47cbb ;
+        adm:status      bda:StatusReleased ;
         :isRoot         true .
 
 bdr:W30020_Pf9754de1ff8c
@@ -107,8 +108,8 @@ bdr:W30020_Pf9754de1ff8c
         skos:prefLabel         "gleng gzhi/"@bo-x-ewts .
 
 bdr:W30020  a            :Work ;
+        :instanceOf      bdr:WA30020_Pf9754de1ff8c ;
         :isRoot          true ;
-        :instanceOf  bdr:WA30020_Pf9754de1ff8c ;
         :workPagination  bdr:PaginationAbsolute .
 
 bdr:TT94B94E122343  a  :WorkTitle ;
@@ -122,7 +123,7 @@ bdr:WA30020_P74bfe0d47cbb
         a                 :Work ;
         :creator          bdr:CR0F34B3FDE84B , bdr:CR1CA9EBA34098 , bdr:CRD0190569C5D7 ;
         :isRoot           true ;
-        :langage          bdr:LangBo ;
+        :language         bdr:LangBo ;
         :workHasInstance  bdr:W30020_P74bfe0d47cbb ;
         skos:prefLabel    "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
 
@@ -216,6 +217,7 @@ bda:WA30020_Pf9754de1ff8c
         adm:gitPath     "68/WA30020_Pf9754de1ff8c.trig" ;
         adm:gitRepo     bda:GR0008 ;
         adm:graphId     bdg:WA30020_Pf9754de1ff8c ;
+        adm:status      bda:StatusReleased ;
         :isRoot         true .
 
 bdr:CRD0190569C5D7  a  :AgentAsCreator ;
