@@ -239,6 +239,12 @@ public class MigrationApp
             if (!WorkMigration.isAbstract(m, baseName)) {
                 
                 Resource workR = m.getResource(BDR+baseName);
+                
+                WorkModelInfo abstractMI = null;
+                
+                if (models.size() >1 && models.get(1) != null) {
+                    abstractMI = models.get(1);
+                }
 
                 int nbVolsTotal = 0;
                 Statement s = workR.getProperty(m.getProperty(BDO, "workNumberOfVolumes"));
@@ -255,9 +261,7 @@ public class MigrationApp
                         workR.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                     }
                     String itemName = "I"+baseName.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
-                    if (WorkMigration.addWorkHasItem) {
-                        m.add(workR, m.getProperty(BDO, "workHasImageInstance"), m.createResource(BDR+itemName));
-                    }
+
                     itemModel = ModelFactory.createDefaultModel();
                     setPrefixes(itemModel);
                     item = createRoot(itemModel, BDR+itemName, BDO+"ImageInstance");
@@ -266,7 +270,18 @@ public class MigrationApp
                     addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                     admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
                     moveAdminInfo(itemModel, workR, admItem);
-    
+
+                    if (WorkMigration.addWorkHasItem) {
+                        if (abstractMI != null) {
+                            Resource abstractW = abstractMI.m.createResource(BDR+abstractMI.resourceName);
+                            abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
+                        } else {
+                            String otherAbstractRID = CommonMigration.abstractClusters.get(WorkMigration.getAbstractForRid(baseName));
+                            if (otherAbstractRID != null)
+                                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemName, otherAbstractRID, null);
+                        }
+                    }
+                    
                     itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
                     if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                         item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
@@ -308,7 +323,7 @@ public class MigrationApp
                     d = MigrationHelpers.documentFromFileName(pubinfoFileName);
                     List<Resource> resPubMigration = null; 
                     if (models.size() >1 && models.get(1) != null) {
-                        WorkModelInfo abstractMI = models.get(1);
+                        abstractMI = models.get(1);
                         Resource mainA = abstractMI.m.getResource(BDR+abstractMI.resourceName);
                         resPubMigration = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, mainA);
                     } else {
