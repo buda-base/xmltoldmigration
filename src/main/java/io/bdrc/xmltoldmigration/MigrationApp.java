@@ -272,9 +272,11 @@ public class MigrationApp
                     moveAdminInfo(itemModel, workR, admItem);
 
                     if (WorkMigration.addWorkHasItem) {
+                        m.add(workR, m.getProperty(BDO, "instanceHasReproduction"), m.createResource(BDR + itemName));
                         if (abstractMI != null) {
                             Resource abstractW = abstractMI.m.createResource(BDR+abstractMI.resourceName);
                             abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
+                            itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractMI.resourceName));
                         } else {
                             String otherAbstractRID = CommonMigration.abstractClusters.get(WorkMigration.getAbstractForRid(baseName));
                             if (otherAbstractRID != null)
@@ -286,8 +288,9 @@ public class MigrationApp
                     if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                         item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
                     if (WorkMigration.addItemForWork) {
-                        itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR + baseName));
+                        itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + baseName));
                     }
+                    
                     // workHasItem already added in WorkMigration
                     for (Map.Entry<Integer,String> vol : vols.entrySet()) {
                         String imagegroup = vol.getValue();
