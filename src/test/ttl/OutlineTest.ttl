@@ -33,6 +33,7 @@ bdr:WA30020_Pf9754de1ff8c
 bdr:W30020_Pff0e27e929d1
         a                      :Instance ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87602" ;
+        :partRoot              bdr:W30020 ;
         :workPartIndex         4 ;
         :workPartOf            bdr:W30020_P3cf7e02d5002 ;
         :workPartTreeIndex     "2.4" ;
@@ -63,6 +64,7 @@ bdr:W30020_P9a656a4ada8a
         a                      :Instance ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" ;
         :note                  bdr:NTB785F18A1EC5 ;
+        :partRoot              bdr:W30020 ;
         :workIncipit           "gleng gzhi/"@bo-x-ewts ;
         :workLocation          bdr:WLDD4675143C6B ;
         :workPartIndex         1 ;
@@ -98,6 +100,7 @@ bdr:W30020_Pf9754de1ff8c
         a                      :Instance ;
         :instanceOf            bdr:WA30020_Pf9754de1ff8c ;
         :legacyOutlineNodeRID  "O2DB875722DB87573" ;
+        :partRoot              bdr:W30020 ;
         :workKaTenSiglaG       "test broken property type" ;
         :workLocation          bdr:WL40E1D7F148F9 ;
         :workPartIndex         1 ;
@@ -149,6 +152,7 @@ bdr:CR0F34B3FDE84B  a  :AgentAsCreator ;
 bdr:W30020_P3cf7e02d5002
         a                      :Instance ;
         :legacyOutlineNodeRID  "O2DB875722DB87583" ;
+        :partRoot              bdr:W30020 ;
         :workLocation          bdr:WL5664B868531A ;
         :workPartIndex         2 ;
         :workPartLabel         "2 (smad cha)"@bo-x-ewts ;
@@ -160,6 +164,7 @@ bdr:W30020_P3cf7e02d5002
 bdr:W30020_P6e8660304600
         a                      :Instance ;
         :legacyOutlineNodeRID  "O2DB875722DB87582" ;
+        :partRoot              bdr:W30020 ;
         :workEvent             bdr:EVDFEA4ABBC451 ;
         :workGenre             bdr:T208 ;
         :workLocation          bdr:WLCEE35F848B2F ;
@@ -192,6 +197,7 @@ bda:W30020  a                       adm:AdminData , adm:Outline ;
 bdr:W30020_P7c6e5bc5bc29
         a                      :Instance ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87601" ;
+        :partRoot              bdr:W30020 ;
         :workPartIndex         3 ;
         :workPartOf            bdr:W30020_P3cf7e02d5002 ;
         :workPartTreeIndex     "2.3" ;
@@ -204,6 +210,7 @@ bdr:W30020_P74bfe0d47cbb
         :instanceOf            bdr:WA30020_P74bfe0d47cbb ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87600" ;
         :note                  bdr:NT1DE04F582269 ;
+        :partRoot              bdr:W30020 ;
         :workLocation          bdr:WLAF5EDFA335F4 ;
         :workPartIndex         2 ;
         :workPartOf            bdr:W30020_P3cf7e02d5002 ;

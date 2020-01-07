@@ -444,6 +444,8 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         if (addWorkPartOf)
             m.add(node, m.getProperty(BDO, "workPartOf"), r);
         
+        m.add(node, m.getProperty(BDO, "partRoot"), rootWork);
+        
         boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, BDO+"workPartLabel");
         CommonMigration.addDescriptions(m, e, node, OXSDNS);
         CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true, nodeA);
