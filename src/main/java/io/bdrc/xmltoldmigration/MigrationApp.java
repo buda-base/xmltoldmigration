@@ -214,8 +214,8 @@ public class MigrationApp
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Element root = d.getDocumentElement();
             MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
-            String workOutFileName = getDstFileName("work", baseName);
-            if (!MigrationHelpers.mustBeMigrated(root, "work", root.getAttribute("status"))) {
+            String workOutFileName = getDstFileName("instance", baseName);
+            if (!MigrationHelpers.mustBeMigrated(root, "instance", root.getAttribute("status"))) {
                 // case of released outlines of withdrawn works (ex: O1GS129876 / W18311)
                 File outWorkFile = new File(workOutFileName);
                 if (outWorkFile.exists()) {
@@ -227,7 +227,7 @@ public class MigrationApp
             Model m = null;
             Resource serialWork = null; // collects the SerialWork optionally created in MigratePubinfo
             if (workCreatedByOutline.containsKey(baseName)) {
-                m = MigrationHelpers.modelFromFileName(getDstFileName("work", baseName, ".trig"));
+                m = MigrationHelpers.modelFromFileName(getDstFileName("instance", baseName, ".trig"));
             }
             if (m == null) {
                 m = ModelFactory.createDefaultModel();
