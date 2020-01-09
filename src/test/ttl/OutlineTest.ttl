@@ -62,6 +62,7 @@ bdr:NTB785F18A1EC5  a  :Note ;
 
 bdr:W30020_P9a656a4ada8a
         a                      :Instance ;
+        :instanceOf            bdr:WA30020_Pf9754de1ff8c ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" ;
         :note                  bdr:NTB785F18A1EC5 ;
         :partRoot              bdr:W30020 ;
@@ -111,7 +112,6 @@ bdr:W30020_Pf9754de1ff8c
         skos:prefLabel         "gleng gzhi/"@bo-x-ewts .
 
 bdr:W30020  a            :Work ;
-        :instanceOf      bdr:WA30020_Pf9754de1ff8c ;
         :isRoot          true ;
         :workPagination  bdr:PaginationAbsolute .
 
