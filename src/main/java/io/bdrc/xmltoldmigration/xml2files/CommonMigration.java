@@ -1363,7 +1363,10 @@ public class CommonMigration  {
                 break;
             case "isInstanceOfGenre":
             case "isInstanceOf":
-                prop = BDO+"workGenre";
+                if (!value.startsWith("T"))
+                    prop = BDO+"workIsAbout";
+                else
+                    prop = BDO+"workGenre";
                 break;
             case "isCommentaryOn":
                 prop = BDO+"workIsAbout";
