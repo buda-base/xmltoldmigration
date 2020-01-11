@@ -1376,8 +1376,11 @@ public class CommonMigration  {
                 prop = BDO+"workIsAbout";
                 break;
             }
+            // what previously happened doesn't matter, it's all, an illusion
             if (genreTopics.containsKey(rid)) {
                 prop = BDO+"workGenre"; 
+            } else {
+                prop = BDO+"workIsAbout";
             }
             rid = MigrationHelpers.sanitizeRID(main.getLocalName(), value, rid);
             if (!MigrationHelpers.isDisconnected(rid))
