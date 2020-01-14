@@ -43,13 +43,14 @@ bdr:W12345  a             :SerialWork ;
         :serialHasMember  bdr:WM12837FPL ;
         skos:prefLabel    "vinayavinicchaya"@pi-x-iast .
 
-bda:W12345  a           adm:AdminData ;
-        adm:adminAbout  bdr:W12345 ;
-        adm:gitPath     "63/W12345.trig" ;
-        adm:gitRepo     bda:GR0008 ;
-        adm:graphId     bdg:W12345 ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
+bda:W12345  a              adm:AdminData ;
+        adm:adminAbout     bdr:W12345 ;
+        adm:gitPath        "63/W12345.trig" ;
+        adm:gitRepo        bda:GR0008 ;
+        adm:graphId        bdg:W12345 ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
 
 bdr:EVB8AAD6436BFB  a  :CompletedEvent ;
         :onOrAbout  "descriptionwithtypedate" ;
@@ -70,14 +71,15 @@ bda:LG7E331F54F258  a   adm:LogEntry ;
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdr:U00001 .
 
-bda:WM12837FPL  a       adm:AdminData ;
-        adm:adminAbout  bdr:WM12837FPL ;
-        adm:facetIndex  2 ;
-        adm:gitPath     "0d/WM12837FPL.trig" ;
-        adm:gitRepo     bda:GR0008 ;
-        adm:graphId     bdg:WM12837FPL ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
+bda:WM12837FPL  a          adm:AdminData ;
+        adm:adminAbout     bdr:WM12837FPL ;
+        adm:facetIndex     2 ;
+        adm:gitPath        "0d/WM12837FPL.trig" ;
+        adm:gitRepo        bda:GR0008 ;
+        adm:graphId        bdg:WM12837FPL ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
 
 bdr:NTF8411F25C214  a  :Note ;
         :noteText  "description with type note" .

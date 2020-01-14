@@ -198,6 +198,7 @@ public class WorkMigration {
             mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
             Resource admMainA = createAdminRoot(mainA);
             addStatus(mA, admMainA, "released");
+            admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
             main.addProperty(m.createProperty(BDO, "serialInstanceOf"), mainA);
             mainA.addProperty(mA.createProperty(BDO, "serialHasInstance"), main);
             res.add(new WorkModelInfo(seriesMemberId, mA));
@@ -216,6 +217,7 @@ public class WorkMigration {
                 serialW = createRoot(mA, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialW);
                 addStatus(mS, admSerialW, "released");
+                admSerialW.addProperty(mS.getProperty(ADM, "metadataLegal"), mS.createResource(BDA+"LD_BDRC_CC0"));
                 res.add(new WorkModelInfo(serialWorkId, mS));
                 mainA.addProperty(mA.createProperty(BDO, "serialMemberOf"), mA.createResource(BDR+serialWorkId));
                 serialW.addProperty(mS.createProperty(BDO, "serialHasMember"), mainA);

@@ -412,6 +412,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  Resource admMainA = createAdminRoot(nodeA);
                  nodeA.addProperty(mA.createProperty(BDO, "language"), mA.createResource(BDR+"LangBo"));
                  addStatus(mA, admMainA, "released");
+                 admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
                  node.addProperty(m.createProperty(BDO, "instanceOf"), nodeA);
                  nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
              } else {
