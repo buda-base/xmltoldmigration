@@ -245,7 +245,12 @@ public class NSITransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "volumePagesTbrcIntro"), itemModel.createTypedLiteral(0, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
             itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+WRID));
-            SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
+            if (workA != null) {
+                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
+                item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);
+            } else {
+                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
+            }
         }
         // the rest is just so that it looks normal so that it's fetched by requests in a normal way
         itemModel.add(volume, itemModel.createProperty(BDO, "imageList"), itemModel.createLiteral(""));

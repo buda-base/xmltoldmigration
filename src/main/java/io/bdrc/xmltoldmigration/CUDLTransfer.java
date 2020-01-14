@@ -240,7 +240,12 @@ public class CUDLTransfer {
         
         //if (WorkMigration.addItemForWork) {
             itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"W0CDL0"+rid));
-            SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
+            if (workA != null) {
+                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
+                item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);
+            } else {
+                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
+            }
         //}
 
         return res;

@@ -571,6 +571,7 @@ public class MigrationApp
         EAPFondsTransfer.EAPFondsDoTransfer();
         CUDLTransfer.CUDLDoTransfer();
         NSITransfer.transferNIS();
+        HodgsonTransfer.transfer();
         migrateTaxonomies();
         CommonMigration.speller.close();
         MigrationHelpers.reportMissing();

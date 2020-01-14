@@ -12,7 +12,7 @@
 
 bdr:WA1NPL1  a            :Work ;
         :isRoot           true ;
-        :workHasInstance  bdr:W1NPL1 ;
+        :workHasInstance  bdr:W1NPL1 , bdr:I1NPL1 ;
         skos:prefLabel    "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
 
 bdr:NTE0971F9F944A  a  :Note ;

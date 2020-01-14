@@ -48,7 +48,7 @@ public class HodgsonTransfer {
         langScriptMap.put("Pracalit", Arrays.asList("SaNewa"));
     }
     
-    public static final void transferNIS() {
+    public static final void transfer() {
         System.out.println("Transfering Hodgson collection from Internet Archive works");
         SymetricNormalization.reinit();
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
@@ -205,7 +205,12 @@ public class HodgsonTransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
             itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"W"+baseRID));
-            SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
+            if (workA != null) {
+                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
+                item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);
+            } else {
+                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
+            }
         }
 
 

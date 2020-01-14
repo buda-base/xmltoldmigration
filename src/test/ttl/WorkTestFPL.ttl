@@ -101,8 +101,8 @@ bdr:WM12837FPL  a           :SerialMember ;
         :isRoot             true ;
         :serialHasInstance  bdr:W12837FPL ;
         :serialMemberOf     bdr:W12345 ;
-        :workGenre          bdr:T62 , bdr:T132 ;
-        :workIsAbout        bdr:W976 , bdr:G844 ;
+        :workGenre          bdr:T132 ;
+        :workIsAbout        bdr:W976 , bdr:G844 , bdr:T62 ;
         skos:altLabel       "testcap/"@bo-x-ewts , "test pali title"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
         skos:prefLabel      "vinayavinicchaya"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
 

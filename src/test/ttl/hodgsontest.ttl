@@ -65,7 +65,7 @@ bda:W0IA_HOD46  a          adm:AdminData ;
 
 bdr:WA0IA_HOD46  a        :Work ;
         :isRoot           true ;
-        :workHasInstance  bdr:W0IA_HOD46 ;
+        :workHasInstance  bdr:W0IA_HOD46 , bdr:I0IA_HOD46 ;
         :workIsAbout      bdr:T1 ;
         skos:altLabel     "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
         skos:prefLabel    "Ekallavīratantram"@sa-x-iast .
