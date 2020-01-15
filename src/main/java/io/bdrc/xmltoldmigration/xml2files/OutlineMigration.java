@@ -402,7 +402,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             value = "tableOfContent";
         }
         Resource nodeA = null;
-        if ("text".equals(value) || "collection".equals(value) && !hasShortTitle(e) && isText(e)) {
+        if (("text".equals(value) || "collection".equals(value)) && !hasShortTitle(e) && isText(e)) {
              String otherAbstractRID = CommonMigration.abstractClusters.get(ANodeRID);
              if (otherAbstractRID == null) {
                  Model mA = ModelFactory.createDefaultModel();

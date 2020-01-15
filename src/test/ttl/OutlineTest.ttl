@@ -23,13 +23,6 @@ bdr:WL5664B868531A  a         :WorkLocation ;
 bdr:TTCDA063880276  a  :WorkRunningTitle ;
         rdfs:label  "testsec/"@bo-x-ewts .
 
-bdr:WA30020_Pf9754de1ff8c
-        a                 :Work ;
-        :isRoot           true ;
-        :language         bdr:LangBo ;
-        :workHasInstance  bdr:W30020_Pf9754de1ff8c ;
-        skos:prefLabel    "gleng gzhi/"@bo-x-ewts .
-
 bdr:W30020_Pff0e27e929d1
         a                      :Instance ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87602" ;
@@ -62,7 +55,6 @@ bdr:NTB785F18A1EC5  a  :Note ;
 
 bdr:W30020_P9a656a4ada8a
         a                      :Instance ;
-        :instanceOf            bdr:WA30020_Pf9754de1ff8c ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" ;
         :note                  bdr:NTB785F18A1EC5 ;
         :partRoot              bdr:W30020 ;
@@ -100,7 +92,6 @@ bda:WA30020_P74bfe0d47cbb
 
 bdr:W30020_Pf9754de1ff8c
         a                      :Instance ;
-        :instanceOf            bdr:WA30020_Pf9754de1ff8c ;
         :legacyOutlineNodeRID  "O2DB875722DB87573" ;
         :partRoot              bdr:W30020 ;
         :workKaTenSiglaG       "test broken property type" ;
@@ -218,16 +209,6 @@ bdr:W30020_P74bfe0d47cbb
         :workPartTreeIndex     "2.2" ;
         :workPartType          bdr:WorkText ;
         skos:prefLabel         "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
-
-bda:WA30020_Pf9754de1ff8c
-        a                  adm:AdminData ;
-        adm:adminAbout     bdr:WA30020_Pf9754de1ff8c ;
-        adm:gitPath        "68/WA30020_Pf9754de1ff8c.trig" ;
-        adm:gitRepo        bda:GR0008 ;
-        adm:graphId        bdg:WA30020_Pf9754de1ff8c ;
-        adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
 
 bdr:CRD0190569C5D7  a  :AgentAsCreator ;
         :agent  bdr:P21 ;
