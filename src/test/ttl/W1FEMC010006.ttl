@@ -25,13 +25,14 @@ bdr:W1FEMC010006  a              :Instance ;
         :workTitle               bdr:TT001D753B6662 , bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 , bdr:TTE904A347F23C ;
         skos:prefLabel           "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
-bda:WA1FEMC010006  a    adm:AdminData ;
-        adm:adminAbout  bdr:WA1FEMC010006 ;
-        adm:gitPath     "73/WA1FEMC010006.trig" ;
-        adm:gitRepo     bda:GR0008 ;
-        adm:graphId     bdg:WA1FEMC010006 ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
+bda:WA1FEMC010006  a       adm:AdminData ;
+        adm:adminAbout     bdr:WA1FEMC010006 ;
+        adm:gitPath        "73/WA1FEMC010006.trig" ;
+        adm:gitRepo        bda:GR0008 ;
+        adm:graphId        bdg:WA1FEMC010006 ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
 
 bda:W1FEMC010006  a        adm:AdminData ;
         adm:adminAbout     bdr:W1FEMC010006 ;

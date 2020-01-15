@@ -255,6 +255,7 @@ public class WorkMigration {
                     mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
                     Resource admMainA = createAdminRoot(mainA);
                     addStatus(mA, admMainA, "released");
+                    admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
