@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
@@ -205,6 +206,11 @@ public class SymetricNormalization {
     
     public static void addSymetricProperty(Model m, final String propertyName, final String sourceName, final String destName, final Integer gender) {
         SymetryInfo symInfos;
+        if (MigrationHelpers.ridReplacements.containsKey(sourceName)) {
+            // we're in a withdrawn resource, we don't want the symmetric property!
+            m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
+            return;
+        }
         if (gender != null && !propertyName.equals("personHasConsort")) {
             symInfos = getKinSymInfo(propertyName, gender);
         } else {

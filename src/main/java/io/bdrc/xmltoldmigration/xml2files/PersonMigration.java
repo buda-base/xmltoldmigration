@@ -300,6 +300,7 @@ public class PersonMigration {
 	        for (int i1 = 0; i1 < nodeList.getLength(); ) {
 	            Element current = (Element) nodeList.item(i1);
 	            place = current.getAttribute("pid").trim();
+	            place = MigrationHelpers.sanitizeRID(person.getLocalName(), "event/place", place);
 	            break;
 	        }
 	        if (place != null && !circa.isEmpty()) {
