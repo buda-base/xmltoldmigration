@@ -108,7 +108,7 @@ public class NSITransfer {
         final List<Resource> res = new ArrayList<>();
         setPrefixes(workModel);
         final String WRID = line[1].trim();
-        Resource work = createRoot(workModel, BDR+WRID, BDO+"Work");
+        Resource work = createRoot(workModel, BDR+WRID, BDO+"Instance");
         res.add(work);
 
         // adm:AdminData

@@ -13,7 +13,7 @@
 bdr:NT1B57432CDA8E  a  :Note ;
         :noteText  "test note"@en .
 
-bdr:W0IA_HOD46  a                 :Work ;
+bdr:W0IA_HOD46  a                 :Instance ;
         adm:originalRecord        "https://archive.org/details/rashodgson46"^^xsd:anyURI ;
         :instanceHasReproduction  bdr:I0IA_HOD46 ;
         :instanceOf               bdr:WA0IA_HOD46 ;
@@ -57,7 +57,7 @@ bda:W0IA_HOD46  a          adm:AdminData ;
         adm:adminAbout     bdr:W0IA_HOD46 ;
         adm:facetIndex     5 ;
         adm:gitPath        "6c/W0IA_HOD46.trig" ;
-        adm:gitRepo        bda:GR0008 ;
+        adm:gitRepo        bda:GR0012 ;
         adm:graphId        bdg:W0IA_HOD46 ;
         adm:metadataLegal  bda:LD_IA_Metadata ;
         adm:status         bda:StatusReleased ;

@@ -96,7 +96,7 @@ public class HodgsonTransfer {
         final List<Resource> res = new ArrayList<>();
         setPrefixes(workModel);
         final String baseRID = line[0].trim();
-        Resource work = createRoot(workModel, BDR+"W"+baseRID, BDO+"Work");
+        Resource work = createRoot(workModel, BDR+"W"+baseRID, BDO+"Instance");
         res.add(work);
         
         
@@ -105,7 +105,7 @@ public class HodgsonTransfer {
         Model mA = null;
         Resource workA = null;
         Resource admWorkA = null;
-        if (abstractWorkRID == null) {
+        if (abstractWorkRID ==  null) {
             abstractWorkRID = "WA"+baseRID;
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
