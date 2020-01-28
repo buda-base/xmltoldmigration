@@ -946,7 +946,7 @@ public class CommonMigration  {
                     resModel = ModelFactory.createDefaultModel();
                     setPrefixes(resModel, "item");
                     String workId = rez.getLocalName();
-                    fplItem = resModel.createResource(BDR+"I"+workId.substring(1)+"_P001");
+                    fplItem = resModel.createResource(BDR+"IT"+workId.substring(1));
                     admFplItem = createAdminRoot(fplItem);
                     if (WorkMigration.addItemForWork) {
                         fplItem.addProperty(resModel.getProperty(BDO, "itemForInstance"), rez);

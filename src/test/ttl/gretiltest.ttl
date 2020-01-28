@@ -10,30 +10,33 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:W0GR0001  a             adm:AdminData ;
-        adm:adminAbout      bdr:W0GR0001 ;
+bdr:IE0GR0001  a        :EtextInstance ;
+        :instanceOf     bdr:WA0RT1961 ;
+        :isRoot         true ;
+        :note           bdr:NT4FED036864251590 , bdr:NT4FA903F4925E71A1 ;
+        :workTitle      bdr:TTFDD5AB6556F5F9F8 ;
+        skos:altLabel   "Niṣpannayogāvali"@sa-x-iast ;
+        skos:prefLabel  "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
+
+bda:IE0GR0001  a            adm:AdminData ;
+        adm:adminAbout      bdr:IE0GR0001 ;
         adm:facetIndex      4 ;
-        adm:gitPath         "f5/W0GR0001.trig" ;
+        adm:gitPath         "50/IE0GR0001.trig" ;
         adm:gitRepo         bda:GR0013 ;
-        adm:graphId         bdg:W0GR0001 ;
+        adm:graphId         bdg:IE0GR0001 ;
         adm:metadataLegal   bda:LD_GRETIL ;
         adm:originalRecord  "http://gretil.sub.uni-goettingen.de/gretil.html#AbhNisp"^^xsd:anyURI ;
         adm:status          bda:StatusReleased ;
         :isRoot             true .
 
-bdr:TT689E6F9C849A  a  :WorkTitle ;
+bdr:TTFDD5AB6556F5F9F8
+        a           :WorkTitle ;
         rdfs:label  "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
 
-bdr:NT96F00AAAE1EB  a  :Note ;
+bdr:NT4FED036864251590
+        a          :Note ;
         :noteText  "Input by Klaus Wille (Göttingen, Germany)"@en .
 
-bdr:W0GR0001  a         :EtextInstance ;
-        :instanceOf     bdr:W0RTA1961 ;
-        :isRoot         true ;
-        :note           bdr:NT96F00AAAE1EB , bdr:NTE0253A895570 ;
-        :workTitle      bdr:TT689E6F9C849A ;
-        skos:altLabel   "Niṣpannayogāvali"@sa-x-iast ;
-        skos:prefLabel  "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
-
-bdr:NTE0253A895570  a  :Note ;
+bdr:NT4FA903F4925E71A1
+        a          :Note ;
         :noteText  "Based on the edition by R.O. Meisezahl: \"Akṣobhya-Mañjuvajra, Ikonographie und Ikonologie des Ekonaviṃśadātmakamañjuvajramaṇḍala\", Oriens 25-26 (1976), pp. 190-274. = Am"@en .

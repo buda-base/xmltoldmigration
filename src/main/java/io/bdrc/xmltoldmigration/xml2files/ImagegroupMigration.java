@@ -80,7 +80,7 @@ public class ImagegroupMigration {
         final String imageGroupStatus = root.getAttribute("status").trim();
 		
 		final String itemId = item.getLocalName();
-		final String volumeId = "V"+itemId.substring(1)+"_"+imageGroupRID;
+		final String volumeId = imageGroupRID;
 		
         Resource volR = m.createResource(BDR+volumeId);
         volR.addProperty(RDF.type, m.getResource(BDO+"VolumeImageAsset"));
@@ -88,6 +88,8 @@ public class ImagegroupMigration {
         // when used in MigrationTest.testImagegroup() w/o previously the containing Item
         Resource admVol = getAdminData(volR);
 
+        // we leave it for some time, as some requests count on it but we'll remove it
+        // in the future
 		admVol.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
         if (volumeNumber < 1) {

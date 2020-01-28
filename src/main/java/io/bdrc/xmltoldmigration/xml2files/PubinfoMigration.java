@@ -96,11 +96,12 @@ public class PubinfoMigration {
 	public static void addLangScript(final Resource main, final Resource mainA, final String lang, final String script, final String langScript) {
 	    if (main != null) {
 	        Model m = main.getModel();
-	        main.addProperty(m.getProperty(BDO, "language"), m.createResource(BDR+lang));
+	        if (mainA == null)
+	            main.addProperty(m.getProperty(BDO, "language"), m.createResource(BDR+lang));
 	        if (script != null)
 	            main.addProperty(m.getProperty(BDO, "script"), m.createResource(BDR+script));
 	    }
-	    if (mainA != null && script != null) {
+	    if (mainA != null) {
 	        Model m = mainA.getModel();
 	        mainA.addProperty(m.getProperty(BDO, "language"), m.createResource(BDR+lang));
 	    }
@@ -181,7 +182,7 @@ public class PubinfoMigration {
             }
             String serialWorkId = CommonMigration.seriesMembersToWorks.get(otherRID);
             if (serialWorkId == null) { // need to create a SerialWork
-                serialWorkId = "WS" + otherRID.substring(1);
+                serialWorkId = "WAS" + otherRID.substring(1);
                 CommonMigration.seriesMembersToWorks.put(otherRID, serialWorkId);
                 Model mS = ModelFactory.createDefaultModel();
                 setPrefixes(mS);
@@ -536,7 +537,7 @@ public class PubinfoMigration {
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "holding");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            String itemName = "I"+main.getLocalName().substring(1)+"_P"+String.format("%03d", i+1);
+            String itemName = "IT"+main.getLocalName().substring(1)+"_"+String.format("%03d", i+1);
             Model itemModel = m;
             if (WorkMigration.splitItems) {
                 itemModel = ModelFactory.createDefaultModel();

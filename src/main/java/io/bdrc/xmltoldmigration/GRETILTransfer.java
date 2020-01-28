@@ -107,7 +107,7 @@ public class GRETILTransfer {
         } else {
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
-            workA = createRoot(mA, BDR+"WA"+line[0].substring(1), BDO+"Work");
+            workA = createRoot(mA, BDR+"WA"+line[0].substring(2), BDO+"Work");
             res.add(workA);
             addStatus(mA, workA, "released");
             admWorkA = createAdminRoot(workA);

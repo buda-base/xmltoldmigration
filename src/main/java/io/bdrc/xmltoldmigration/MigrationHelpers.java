@@ -572,6 +572,7 @@ public class MigrationHelpers {
         Model m = xmlToRdf(xmlDocument, type);
         Resource admMain = getAdminRoot(m);
         Resource main = admMain.getPropertyResourceValue(m.createProperty(ADM+"adminAbout"));
+        String thisRID = root.getAttribute("RID");
                 
         final String XsdPrefix = typeToXsdPrefix.get(type);
         NodeList nodeList = root.getElementsByTagNameNS(XsdPrefix, "log");
@@ -594,14 +595,18 @@ public class MigrationHelpers {
             }
         }
         
-        if (withdrawnmsg != null) {
+        
+        if (ridReplacements.containsKey(thisRID)) {
+            final String rid = ridReplacements.get(thisRID);
+            admMain.addProperty(m.createProperty(ADM, "replaceWith"), m.createResource(BDR+rid));
+        } else if (withdrawnmsg != null) {
             Matcher matcher = withdrawnPattern.matcher(withdrawnmsg);
             if (!matcher.matches()) {
                 System.out.println("possible typo in withdrawing log message in "+main.getLocalName()+": "+withdrawnmsg);
             } else {
                 final String rid = matcher.group(1).toUpperCase();
                 admMain.addProperty(m.createProperty(ADM, "replaceWith"), m.createResource(BDR+rid));
-                resourceReplacedWith(root.getAttribute("RID"), rid);
+                resourceReplacedWith(thisRID, rid);
             }
         }
         

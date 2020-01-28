@@ -143,6 +143,14 @@ public class WorkMigration {
     
     public static final Map<String,Boolean> etextInstances = new HashMap<>();
     
+    public static void addRedirection(String oldRid, String newRid, Model m) {
+        Resource oldRes = m.createResource(BDR+oldRid);
+        Resource newRes = m.createResource(BDR+newRid);
+        Resource admOldRes = createAdminRoot(oldRes);
+        addStatus(m, admOldRes, "withdrawn");
+        admOldRes.addProperty(m.createProperty(ADM, "replaceWith"), newRes);
+    }
+    
 	public static List<WorkModelInfo> MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
@@ -206,7 +214,7 @@ public class WorkMigration {
             serialWorkId = CommonMigration.seriesMembersToWorks.get(otherMemberRID);
             if (serialWorkId == null) {
                 if (infoParentId.isEmpty()) {
-                    serialWorkId = "WS" + otherMemberRID.substring(1);
+                    serialWorkId = "WAS" + otherMemberRID.substring(1);
                 } else {
                     serialWorkId = infoParentId;
                 }
@@ -226,14 +234,16 @@ public class WorkMigration {
                 SymetricNormalization.addSymetricProperty(mA, "serialMemberOf", seriesMemberId, serialWorkId, null);
             }
         } else if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
-            main = createRoot(m, BDR+workId, BDO+"AbstractWork");
+            addRedirection(workId, aWorkId, m);
+            main = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
             admMain = createAdminRoot(main);
             isConceptual = true;
             res.add(null);
             res.add(new WorkModelInfo(workId, m));
         } else {
             if (infoNodeType.equals("unicodeText")) {
-                main = createRoot(m, BDR+workId, BDO+"EtextInstance");
+                addRedirection(workId, "IE"+workId.substring(1), m);
+                main = createRoot(m, BDR+"IE"+workId.substring(1), BDO+"EtextInstance");
                 res.add(null);
                 res.add(null);
                 res.add(null);
@@ -487,10 +497,10 @@ public class WorkMigration {
             for (int j = 0; j < volumes.getLength(); j++) {
                 // just adding an item if we have a volume list
                 if (j == 0) {
-                    String itemRid = BDR+"I"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
+                    String itemRid = BDR+"W"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                     Resource item = m.createResource(itemRid);
                     if (WorkMigration.addWorkHasItem)
-                        m.add(main, m.getProperty(BDO, "workHasItem"), item);
+                        m.add(main, m.getProperty(BDO, "workHasInstance"), item);
                 }
                 // then curate the volume list to add missing volumes
                 Element volume = (Element) volumes.item(j);

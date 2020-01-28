@@ -146,7 +146,7 @@ public class MigrationTest
 //        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testW1FEMC010006-fromXml.ttl"), "TTL");
 //        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testW1FEMC010006-correctModel.ttl"), "TTL");
 //
-        //fromXml.write(System.out, "TTL");
+        fromXml.write(System.out, "TTL");
         assertTrue( fromXml.isIsomorphicWith(correctModel) );
     }
 
@@ -331,7 +331,7 @@ public class MigrationTest
            Model fromXml = mergeModelInfoList(OutlineMigration.MigrateOutline(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
            //showDifference(fromXml, correctModel);
-           //fromXml.write(System.out, "TURTLE");
+           fromXml.write(System.out, "TURTLE");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

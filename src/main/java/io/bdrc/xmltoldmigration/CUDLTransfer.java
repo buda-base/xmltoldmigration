@@ -105,7 +105,7 @@ public class CUDLTransfer {
         String rid=line[0];
         
         // Work model
-        Resource work = createRoot(workModel, BDR+"W0CDL0"+rid, BDO+"Instance");
+        Resource work = createRoot(workModel, BDR+"MW0CDL0"+rid, BDO+"Instance");
         Resource admWork = createAdminRoot(work);
         res.add(work);
 
@@ -131,7 +131,7 @@ public class CUDLTransfer {
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "W0CDL0"+rid, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "MW0CDL0"+rid, abstractWorkRID, null);
         }
         
         workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));
@@ -193,7 +193,7 @@ public class CUDLTransfer {
             work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[18].replace(',','.').trim(), XSDDatatype.XSDdecimal);
         }
         if(!line[10].equals("") && !line[11].equals("")) {
-            Resource event = getEvent(work, "PublishedEvent", "workEvent");
+            Resource event = getEvent(work, "CopyEvent", "workEvent");
             workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(line[11], XSDDatatype.XSDinteger));
             workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(line[10], XSDDatatype.XSDinteger));
         }
@@ -202,7 +202,7 @@ public class CUDLTransfer {
         // Item model
         final Model itemModel = ModelFactory.createDefaultModel();
         setPrefixes(itemModel);
-        final String itemRID = "I0CDL0"+rid;
+        final String itemRID = "W0CDL0"+rid;
         Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
         Resource itemAdm = createAdminRoot(item);
         res.add(item);
@@ -218,7 +218,7 @@ public class CUDLTransfer {
         itemModel.addLiteral(itemAdm, itemModel.getProperty(ADM, "restrictedInChina"), false);
                
         // bdo:ItemImageAsset
-        final String volumeRID = "V0CDL0"+rid;
+        final String volumeRID = "I0CDL0"+rid;
         
         // Volume of Item
         Resource volume = itemModel.createResource(BDR+volumeRID);
@@ -239,7 +239,7 @@ public class CUDLTransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         
         //if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"W0CDL0"+rid));
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW0CDL0"+rid));
             if (workA != null) {
                 workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
                 item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);

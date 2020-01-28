@@ -108,7 +108,7 @@ public class NSITransfer {
         final List<Resource> res = new ArrayList<>();
         setPrefixes(workModel);
         final String WRID = line[1].trim();
-        Resource work = createRoot(workModel, BDR+WRID, BDO+"Instance");
+        Resource work = createRoot(workModel, BDR+'M'+WRID, BDO+"Instance");
         res.add(work);
 
         // adm:AdminData
@@ -131,10 +131,10 @@ public class NSITransfer {
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", WRID, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", 'M'+WRID, abstractWorkRID, null);
         }
         if (abstractWorkRID != null) {
-            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", WRID, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", 'M'+WRID, abstractWorkRID, null);
         }
         
         // title
@@ -212,7 +212,7 @@ public class NSITransfer {
         // bdo:Item for current bdo:Work
         final Model itemModel = ModelFactory.createDefaultModel();
         setPrefixes(itemModel);
-        final String itemRID = line[2].trim();
+        final String itemRID = line[1].trim();
         
         // Item for Work
         Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
@@ -230,13 +230,13 @@ public class NSITransfer {
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_BDRC_PD"));
 
         // Volume for Item
-        final String volumeRID = 'V'+itemRID.substring(1);
+        final String volumeRID = line[2].trim();
         Resource volume = itemModel.createResource(BDR+volumeRID);
         Resource volumeA = itemModel.createResource(BDA+volumeRID);
         itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
         itemModel.add(volumeA, RDF.type, itemModel.createResource(ADM+"AdminData"));
         itemModel.add(volumeA, itemModel.createProperty(ADM, "adminAbout"), volume);
-        itemModel.add(volumeA, itemModel.createProperty(ADM, "legacyImageGroupRID"), itemModel.createLiteral(itemRID));
+        itemModel.add(volumeA, itemModel.createProperty(ADM, "legacyImageGroupRID"), itemModel.createLiteral(volumeRID));
         if (ImagegroupMigration.addVolumeOf)
             itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
         if (ImagegroupMigration.addItemHasVolume)
@@ -244,7 +244,7 @@ public class NSITransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumePagesTbrcIntro"), itemModel.createTypedLiteral(0, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+WRID));
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"M"+WRID));
             if (workA != null) {
                 workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
                 item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);

@@ -69,7 +69,7 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <jena.version>3.9.0</jena.version>
+    <jena.version>3.13.0</jena.version>
     <jackson.version>2.8.0</jackson.version>
   </properties>
   <dependencies>
@@ -187,7 +187,7 @@
     <dependency>
       <groupId>io.bdrc.libraries</groupId>
       <artifactId>bdrc-libraries</artifactId>
-      <version>0.6.5</version>
+      <version>0.8.0</version>
     </dependency>
     <dependency>
         <groupId>org.slf4j</groupId>

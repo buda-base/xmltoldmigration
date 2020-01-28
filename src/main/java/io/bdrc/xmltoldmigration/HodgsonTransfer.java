@@ -96,7 +96,7 @@ public class HodgsonTransfer {
         final List<Resource> res = new ArrayList<>();
         setPrefixes(workModel);
         final String baseRID = line[0].trim();
-        Resource work = createRoot(workModel, BDR+"W"+baseRID, BDO+"Instance");
+        Resource work = createRoot(workModel, BDR+"MW"+baseRID, BDO+"Instance");
         res.add(work);
         
         
@@ -110,7 +110,7 @@ public class HodgsonTransfer {
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
             workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
-            admWorkA = createAdminRoot(work);
+            admWorkA = createAdminRoot(workA);
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
@@ -176,7 +176,7 @@ public class HodgsonTransfer {
         // bdo:Item for current bdo:Work
         final Model itemModel = ModelFactory.createDefaultModel();
         setPrefixes(itemModel);
-        final String itemRID = "I"+baseRID;
+        final String itemRID = "W"+baseRID;
         
         // Item for Work
         Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
@@ -194,7 +194,7 @@ public class HodgsonTransfer {
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_IA_PD"));
 
         // Volume for Item
-        final String volumeRID = 'V'+baseRID;
+        final String volumeRID = 'I'+baseRID;
         Resource volume = itemModel.createResource(BDR+volumeRID);
         itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
         if (ImagegroupMigration.addVolumeOf)
@@ -204,7 +204,7 @@ public class HodgsonTransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource("https://iiif.archivelab.org/iiif/"+line[1].trim()+"/manifest.json"));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"W"+baseRID));
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW"+baseRID));
             if (workA != null) {
                 workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
                 item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);

@@ -15,15 +15,52 @@ bdr:W1FEMC010006  a              :Instance ;
         :hasWorkNum              "1" ;
         :instanceOf              bdr:WA1FEMC010006 ;
         :isRoot                  true ;
-        :note                    bdr:NT6973BEA6ED01 ;
+        :note                    bdr:NT6973BEA6ED01E0AC ;
         :workComplete            false ;
-        :workEvent               bdr:EVD19FFFF27FDB ;
+        :workEvent               bdr:EVD19FFFF27FDBACC0 ;
         :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
         :workIsAbout             bdr:FEMC_Scheme_VII ;
-        :workMicrofilm           bdr:MF0782755ABB25 ;
+        :workMicrofilm           bdr:MF0782755ABB25C5C5 ;
         :workNumberOfVolumes     1 ;
-        :workTitle               bdr:TT001D753B6662 , bdr:TT082886A6DBCA , bdr:TT1BB6D78B9E46 , bdr:TTE904A347F23C ;
+        :workTitle               bdr:TTE904A347F23C1654 , bdr:TT001D753B666220C7 , bdr:TT1BB6D78B9E46E30F , bdr:TT082886A6DBCA9CDF ;
         skos:prefLabel           "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
+
+bdr:MF0782755ABB25C5C5
+        a                   :ObjectTypeMicrofilm ;
+        :microfilmCanister  "IV" ;
+        :microfilmStrip     "16" .
+
+bdr:TT001D753B666220C7
+        a                  :WorkTitle ;
+        rdfs:label         "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
+        :femcConversionOf  bdr:TTE904A347F23C1654 .
+
+bdr:TT1BB6D78B9E46E30F
+        a                  :WorkTitle ;
+        rdfs:label         "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr ;
+        :femcConversionOf  bdr:TT082886A6DBCA9CDF .
+
+bda:LG960F1961158F0FB3
+        a               adm:LogEntry ;
+        adm:logDate     "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
+        adm:logMessage  "imported FEMC 01 workW1FEMC010006"@en ;
+        adm:logWhoStr   "works-femc01-import.xql" .
+
+bda:W1FEMC010006  a        adm:AdminData ;
+        adm:adminAbout     bdr:W1FEMC010006 ;
+        adm:facetIndex     11 ;
+        adm:gitPath        "0b/W1FEMC010006.trig" ;
+        adm:gitRepo        bda:GR0012 ;
+        adm:graphId        bdg:W1FEMC010006 ;
+        adm:logEntry       bda:LG212C018521239D6D , bda:LG960F1961158F0FB3 ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
+
+bdr:DT0A8ABBFD11192FE7
+        a           :DateIndication ;
+        :era        bdr:EraBE ;
+        :yearInEra  2442 .
 
 bda:WA1FEMC010006  a       adm:AdminData ;
         adm:adminAbout     bdr:WA1FEMC010006 ;
@@ -34,57 +71,30 @@ bda:WA1FEMC010006  a       adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bda:W1FEMC010006  a        adm:AdminData ;
-        adm:adminAbout     bdr:W1FEMC010006 ;
-        adm:facetIndex     11 ;
-        adm:gitPath        "0b/W1FEMC010006.trig" ;
-        adm:gitRepo        bda:GR0012 ;
-        adm:graphId        bdg:W1FEMC010006 ;
-        adm:logEntry       bda:LG212C01852123 , bda:LG960F1961158F ;
-        adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
-
-bdr:TT082886A6DBCA  a  :WorkCoverTitle ;
-        rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr-x-kmpre20c .
-
-bdr:EVD19FFFF27FDB  a    :CompletedEvent ;
-        :dateIndication  bdr:DT0A8ABBFD1119 ;
-        :notAfter        "1900"^^xsd:gYear ;
-        :notBefore       "1899"^^xsd:gYear .
-
-bda:LG960F1961158F  a   adm:LogEntry ;
-        adm:logDate     "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
-        adm:logMessage  "imported FEMC 01 workW1FEMC010006"@en ;
-        adm:logWhoStr   "works-femc01-import.xql" .
-
-bdr:DT0A8ABBFD1119  a  :DateIndication ;
-        :era        bdr:EraBE ;
-        :yearInEra  2442 .
-
-bdr:TT001D753B6662  a      :WorkTitle ;
-        rdfs:label         "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
-        :femcConversionOf  bdr:TTE904A347F23C .
-
-bda:LG212C01852123  a   adm:LogEntry ;
+bda:LG212C018521239D6D
+        a               adm:LogEntry ;
         adm:logMessage  "entered cataloging for W1FEMC010006"@en ;
         adm:logWhoStr   "Thaknita Mao" .
 
-bdr:MF0782755ABB25  a       :ObjectTypeMicrofilm ;
-        :microfilmCanister  "IV" ;
-        :microfilmStrip     "16" .
+bdr:NT6973BEA6ED01E0AC
+        a                       :Note ;
+        :noteLocationStatement  "pg. 54" ;
+        :noteWork               bdr:W1FEMC01 .
 
-bdr:TT1BB6D78B9E46  a      :WorkTitle ;
-        rdfs:label         "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr ;
-        :femcConversionOf  bdr:TT082886A6DBCA .
+bdr:EVD19FFFF27FDBACC0
+        a                :CompletedEvent ;
+        :dateIndication  bdr:DT0A8ABBFD11192FE7 ;
+        :notAfter        "1900"^^xsd:gYear ;
+        :notBefore       "1899"^^xsd:gYear .
 
 bdr:WA1FEMC010006  a      :Work ;
         :isRoot           true ;
         :workHasInstance  bdr:W1FEMC010006 .
 
-bdr:NT6973BEA6ED01  a           :Note ;
-        :noteLocationStatement  "pg. 54" ;
-        :noteWork               bdr:W1FEMC01 .
+bdr:TT082886A6DBCA9CDF
+        a           :WorkCoverTitle ;
+        rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr-x-kmpre20c .
 
-bdr:TTE904A347F23C  a  :WorkCoverTitle ;
+bdr:TTE904A347F23C1654
+        a           :WorkCoverTitle ;
         rdfs:label  "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmpre20c-kmfemc .

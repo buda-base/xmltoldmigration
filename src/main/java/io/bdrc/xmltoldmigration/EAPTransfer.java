@@ -129,9 +129,9 @@ public class EAPTransfer {
             return null;
         }
         if (rKTs.startsWith("K")) {
-            return "W0RKA"+rktsid;
+            return "WA0RK"+rktsid;
         }
-        return "W0RTA"+rktsid;
+        return "WA0RT"+rktsid;
     }
 
 
@@ -141,7 +141,7 @@ public class EAPTransfer {
         setPrefixes(workModel);
         final String baseRid = line[2].replace('/', '-');
         final String RID = 'W'+baseRid;
-        Resource work = createRoot(workModel, BDR+RID, BDO+"Instance");
+        Resource work = createRoot(workModel, BDR+'M'+RID, BDO+"Instance");
         res.add(work);
 
         String abstractWorkRID = rKTsToBDR(line[15]);
@@ -160,7 +160,7 @@ public class EAPTransfer {
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", RID, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", 'M'+RID, abstractWorkRID, null);
         }
         
         // adm:AdminData
@@ -278,7 +278,7 @@ public class EAPTransfer {
         // bdo:Item for current bdo:Work
         final Model itemModel = ModelFactory.createDefaultModel();
         setPrefixes(itemModel);
-        final String itemRID = 'I'+baseRid;
+        final String itemRID = 'W'+baseRid;
         
         // Item for Work
         Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
@@ -296,7 +296,7 @@ public class EAPTransfer {
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_EAP_content")); // ?
 
         // Volume for Item
-        final String volumeRID = 'V'+itemRID.substring(1);
+        final String volumeRID = 'I'+itemRID.substring(1);
         Resource volume = itemModel.createResource(BDR+volumeRID);
         itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
         if (ImagegroupMigration.addVolumeOf)
@@ -306,7 +306,7 @@ public class EAPTransfer {
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(iiifManifestUrl));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+RID));
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"M"+RID));
             if (workA != null) {
                 workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
                 item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);

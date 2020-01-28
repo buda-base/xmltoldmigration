@@ -175,7 +175,7 @@ public class EAPFondsTransfer {
         // Work model
         Model workModel = ModelFactory.createDefaultModel();
         setPrefixes(workModel);
-        Resource work = createRoot(workModel, BDR+"W"+serieID, BDO+"Instance");
+        Resource work = createRoot(workModel, BDR+"MW"+serieID, BDO+"Instance");
         Resource admWork = createAdminRoot(work);
         res.add(work);
 
@@ -212,7 +212,7 @@ public class EAPFondsTransfer {
         // Item model
         Model itemModel = ModelFactory.createDefaultModel();
         setPrefixes(itemModel);
-        Resource item = createRoot(itemModel, BDR+"I"+serieID, BDO+"ItemImageAsset");
+        Resource item = createRoot(itemModel, BDR+"W"+serieID, BDO+"ImageInstance");
         Resource admItem = createAdminRoot(item);
         res.add(item);
 
@@ -233,7 +233,7 @@ public class EAPFondsTransfer {
         for(int x=0;x<volumes.size();x++) {
             final String[] volume = volumes.get(x);
             String ref=(simplified ? volume[1] : volume[4]).replace('/', '-');
-            Resource vol = itemModel.createResource(BDR+"V"+ref);
+            Resource vol = itemModel.createResource(BDR+"I"+ref);
             itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), vol);
             itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
             String volName = simplified ? volume[9] : volume[39];
@@ -264,7 +264,7 @@ public class EAPFondsTransfer {
             setPrefixes(itemModel);
             Resource ldEAPc = workModel.createResource(BDA+"LD_EAP_content");
             Resource ldEAPm = workModel.createResource(BDA+"LD_EAP_metadata");
-            Resource work = createRoot(workModel, BDR+"W"+ref, BDO+"Instance");
+            Resource work = createRoot(workModel, BDR+"MW"+ref, BDO+"Instance");
             Resource workAdm = createAdminRoot(work);
             
             String abstractWorkRID = "WA"+ref;
@@ -289,16 +289,16 @@ public class EAPFondsTransfer {
             addNote(serieLine, workModel, work);
             //workModel.add(work, SKOS.prefLabel, getLiteral(simplified ? serieLine[9] : serieLine[39], workModel));
             addEvent(serieLine, workModel, work);
-            Resource item = createRoot(itemModel, BDR+"I"+ref, BDO+"ImageInstance");
+            Resource item = createRoot(itemModel, BDR+"W"+ref, BDO+"ImageInstance");
             Resource itemAdm = createAdminRoot(item);
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"W"+ref));
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW"+ref));
             itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
             itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
             itemModel.addLiteral(itemAdm, itemModel.getProperty(ADM+"restrictedInChina"), false);
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), ldEAPc);
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm);
-            Resource volume = itemModel.createResource(BDR+"V"+ref);
+            Resource volume = itemModel.createResource(BDR+"I"+ref);
             itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
             itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
             String name = simplified ? workLine[9] : workLine[39];

@@ -375,7 +375,7 @@ public class OutlineMigration {
             final byte[] bytesOfMessage = message.getBytes("UTF-8");
             final byte[] hashBytes = md5.digest(bytesOfMessage);
             BigInteger bigInt = new BigInteger(1, hashBytes);
-            return String.format("%032x", bigInt).substring(0, 12);
+            return String.format("%032X", bigInt).substring(0, 12);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return null;
@@ -383,7 +383,7 @@ public class OutlineMigration {
     }
     
     public static String getPartRID(String outlineRID, String workId, Integer partI) {
-        return workId+"_P"+getMd5(outlineRID); 
+        return "WA0XL"+getMd5(outlineRID); 
         //return workId+"_"+String.format("%04d", partI);
     }
     
