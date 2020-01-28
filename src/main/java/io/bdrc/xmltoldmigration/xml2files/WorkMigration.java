@@ -257,11 +257,15 @@ public class WorkMigration {
             if (!status.equals("withdrawn")) {
                 String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
                 if (otherAbstractRID == null && !infoParentId.isEmpty())
-                    otherAbstractRID = infoParentId;
+                    otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);
                 if (otherAbstractRID == null) {
                     mA = ModelFactory.createDefaultModel();
                     setPrefixes(mA);
-                    res.add(new WorkModelInfo(aWorkId, mA));
+                    if (res.size() == 1) {
+                        res.add(new WorkModelInfo(aWorkId, mA));
+                    } else {
+                        res.set(1, new WorkModelInfo(aWorkId, mA));
+                    }
                     mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
                     Resource admMainA = createAdminRoot(mainA);
                     addStatus(mA, admMainA, "released");

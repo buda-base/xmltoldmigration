@@ -226,8 +226,8 @@ public class MigrationApp
             }
             Model m = null;
             Resource serialWork = null; // collects the SerialWork optionally created in MigratePubinfo
-            if (workCreatedByOutline.containsKey(baseName)) {
-                m = MigrationHelpers.modelFromFileName(getDstFileName("instance", baseName, ".trig"));
+            if (workCreatedByOutline.containsKey('M'+baseName)) {
+                m = MigrationHelpers.modelFromFileName(getDstFileName("instance", 'M'+baseName, ".trig"));
             }
             if (m == null) {
                 m = ModelFactory.createDefaultModel();
@@ -236,7 +236,7 @@ public class MigrationApp
             final Map<String, Model> itemModels = new HashMap<>();
             List<WorkModelInfo> models = WorkMigration.MigrateWork(d, m, itemModels);
 
-            if (!WorkMigration.isAbstract(m, baseName)) {
+            if (models.size() != 0 && models.get(0) != null) {
                 
                 Resource workR = m.getResource(BDR+'M'+baseName);
                 
@@ -288,7 +288,7 @@ public class MigrationApp
                     if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                         item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
                     if (WorkMigration.addItemForWork) {
-                        itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + baseName));
+                        itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + 'M'+baseName));
                     }
                     
                     // workHasItem already added in WorkMigration
@@ -401,7 +401,9 @@ public class MigrationApp
                 String inFileName = getDstFileName(type, s, ".trig");
                 Model m = MigrationHelpers.modelFromFileName(inFileName);
                 if (m == null) {
-                    System.out.println("cannot open "+inFileName);
+                    Map<String,List<String>> o = SymetricNormalization.triplesToAdd.get(s);
+                    System.out.println("cannot open "+inFileName+"to write: ");
+                    System.out.println(o);
                     continue;
                 }
                 SymetricNormalization.insertMissingTriplesInModel(m, s, false);
