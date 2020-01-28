@@ -1,123 +1,138 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix bda:   <http://purl.bdrc.io/admindata/> .
-@prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rkts:  <http://purl.rkts.eu/resource/> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:G488  a             adm:AdminData ;
-    :isRoot             true ;
-    adm:adminAbout      bdr:G488 ;
-    adm:facetIndex      16 ;
-    adm:gitPath         "5d/G488.trig" ;
-    adm:gitRepo         bda:GR0005 ;
-    adm:graphId         bdg:G488 ;
-    adm:logEntry        bda:LG1CBDD898D572 , bda:LG20FF66808E17 , bda:LG36685753B2F2 , bda:LG498FA81DA800 , bda:LG6A07AEAFCD13 , bda:LG6D882BB8A436 , bda:LG7FCB6B3A94B4 , bda:LGA43719D60344 ;
-    adm:metadataLegal   bda:LD_BDRC_CC0 ;
-    adm:place_TLM_accession  "004476" ;
-    adm:place_TLM_admin  "tgaAdmin" ;
-    adm:place_TLM_adminEmail  "xxx" ;
-    adm:place_TLM_code  "TGA" ;
-    adm:place_TLM_librarian  "tgaLibrarian" ;
-    adm:place_TLM_librarianEmail  "xxx" ;
-    adm:place_TLM_num   "003159" ;
-    adm:place_TLM_taxonomy  bdr:O1TLMXXX000011 ;
-    adm:place_id_TBRC   "540102200:540101145" ;
-    adm:place_id_lex    "540102200:540101145" ;
-    adm:status          bda:StatusReleased .
+bda:LG36685753B2F2BA3E
+        a               adm:LogEntry ;
+        adm:logDate     "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
+        adm:logMessage  "added contain"@en ;
+        adm:logWho      bdr:U00007 .
 
-bda:LG1CBDD898D572  a   adm:LogEntry ;
-    adm:logDate         "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
-    adm:logMessage      "added contain"@en ;
-    adm:logWho          bdr:U00007 .
+bdr:EV17426918F6CC57DE
+        a           :PlaceFounded ;
+        :notAfter   "1799"^^xsd:gYear ;
+        :notBefore  "1300"^^xsd:gYear .
 
-bda:LG20FF66808E17  a   adm:LogEntry ;
-    adm:logDate         "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
-    adm:logMessage      "added byams pa chos gling gzhis ka'i par khang"@en ;
-    adm:logWho          bdr:U00013 .
+bda:LG498FA81DA8005BF4
+        a               adm:LogEntry ;
+        adm:logDate     "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
+        adm:logMessage  "added name & note"@en ;
+        adm:logWho      bdr:U00007 .
 
-bda:LG36685753B2F2  a   adm:LogEntry ;
-    adm:logDate         "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
-    adm:logMessage      "added contain"@en ;
-    adm:logWho          bdr:U00007 .
+bdr:EV8FFB31DDE90B0817
+        a                       :PlaceFounded ;
+        :note                   bdr:NT8B8EBE3AF90A7E2F ;
+        :onYear                 "1187"^^xsd:gYear ;
+        :placeEventAffiliation  bdr:TraditionTest , bdr:TraditionKagyu .
 
-bda:LG498FA81DA800  a   adm:LogEntry ;
-    adm:logDate         "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
-    adm:logMessage      "added name & note"@en ;
-    adm:logWho          bdr:U00007 .
+bda:G488  a                           adm:AdminData ;
+        adm:adminAbout                bdr:G488 ;
+        adm:facetIndex                16 ;
+        adm:gitPath                   "5d/G488.trig" ;
+        adm:gitRepo                   bda:GR0005 ;
+        adm:graphId                   bdg:G488 ;
+        adm:logEntry                  bda:LG20FF66808E17B299 , bda:LGA43719D6034498F3 , bda:LG6A07AEAFCD139EC4 , bda:LG1CBDD898D5725A4A , bda:LG6D882BB8A436EC56 , bda:LG7FCB6B3A94B46774 , bda:LG36685753B2F2BA3E , bda:LG498FA81DA8005BF4 ;
+        adm:metadataLegal             bda:LD_BDRC_CC0 ;
+        adm:place_TLM_accession       "004476" ;
+        adm:place_TLM_admin           "tgaAdmin" ;
+        adm:place_TLM_adminEmail      "xxx" ;
+        adm:place_TLM_code            "TGA" ;
+        adm:place_TLM_librarian       "tgaLibrarian" ;
+        adm:place_TLM_librarianEmail  "xxx" ;
+        adm:place_TLM_num             "003159" ;
+        adm:place_TLM_taxonomy        bdr:O1TLMXXX000011 ;
+        adm:place_id_TBRC             "540102200:540101145" ;
+        adm:place_id_lex              "540102200:540101145" ;
+        adm:status                    bda:StatusReleased ;
+        :isRoot                       true .
 
-bda:LG6A07AEAFCD13  a   adm:LogEntry ;
-    adm:logDate         "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
-    adm:logMessage      "added location"@en ;
-    adm:logWho          bdr:U00007 .
+bda:LG1CBDD898D5725A4A
+        a               adm:LogEntry ;
+        adm:logDate     "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
+        adm:logMessage  "added contain"@en ;
+        adm:logWho      bdr:U00007 .
 
-bda:LG6D882BB8A436  a   adm:LogEntry ;
-    adm:logDate         "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
-    adm:logMessage      "added place contained"@en ;
-    adm:logWho          bdr:U00020 .
+bdr:NT8B8EBE3AF90A7E2F
+        a                       :Note ;
+        :noteLocationStatement  "test" ;
+        :noteText               "event note test"@en ;
+        :noteWork               bdr:Wtest .
 
-bda:LG7FCB6B3A94B4  a   adm:LogEntry ;
-    adm:logDate         "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
-    adm:logMessage      "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
-    adm:logWho          bdr:U00020 .
+bda:LG20FF66808E17B299
+        a               adm:LogEntry ;
+        adm:logDate     "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
+        adm:logMessage  "added byams pa chos gling gzhis ka'i par khang"@en ;
+        adm:logWho      bdr:U00013 .
 
-bda:LGA43719D60344  a   adm:LogEntry ;
-    adm:logDate         "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
-    adm:logMessage      "added type & location & contains"@en ;
-    adm:logWho          bdr:U00007 .
+bda:LG7FCB6B3A94B46774
+        a               adm:LogEntry ;
+        adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
+        adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
+        adm:logWho      bdr:U00020 .
 
-bdr:EV17426918F6CC  a   :PlaceFounded ;
-    :notAfter           "1799"^^xsd:gYear ;
-    :notBefore          "1300"^^xsd:gYear .
+bda:LGA43719D6034498F3
+        a               adm:LogEntry ;
+        adm:logDate     "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
+        adm:logMessage  "added type & location & contains"@en ;
+        adm:logWho      bdr:U00007 .
 
-bdr:EV8FFB31DDE90B  a   :PlaceFounded ;
-    :note               bdr:NTB43104885531 ;
-    :onYear             "1187"^^xsd:gYear ;
-    :placeEventAffiliation  bdr:TraditionKagyu , bdr:TraditionTest .
+bda:LG6D882BB8A436EC56
+        a               adm:LogEntry ;
+        adm:logDate     "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
+        adm:logMessage  "added place contained"@en ;
+        adm:logWho      bdr:U00020 .
 
-bdr:G488  a             :Place ;
-    skos:altLabel       "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"@bo , "bya pa khri dpon gyi mnga' khongs/"@bo-x-ewts , "guán zǐ feng2"@zh-latn-pinyin ;
-    skos:prefLabel      "sman ri'i gling /"@bo-x-ewts , "guan zi feng"@zh-latn-pinyin-x-ndia ;
-    :isRoot             true ;
-    :note               bdr:NT585206D37BCF , bdr:NT66184C4FDD55 , bdr:NTEC7A7B10B098 ;
-    :placeAddress       vcard:VA76B6649907E8 ;
-    :placeChgisId       "854" ;
-    :placeEvent         bdr:EV17426918F6CC , bdr:EV8FFB31DDE90B ;
-    :placeGonpaPerEcumen  "7.51" ;
-    :placeLat           "29.63984" ;
-    :placeLocatedIn     bdr:G843 ;
-    :placeLong          "91.22002" ;
-    :placeRegionPoly    "Some polygon coordinates" ;
-    :placeType          bdr:PT0037 ;
-    :placeWBArea        "test" .
+bda:LG6A07AEAFCD139EC4
+        a               adm:LogEntry ;
+        adm:logDate     "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
+        adm:logMessage  "added location"@en ;
+        adm:logWho      bdr:U00007 .
 
-bdr:NT585206D37BCF  a   :Note ;
-    :noteLocationStatement  "V.3, p.47" ;
-    :noteText           "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo ;
-    :noteWork           bdr:W23847 .
+vcard:VA76B6649907E8086A
+        a                     vcard:Address ;
+        vcard:country-name    "India" ;
+        vcard:locality        "Chauntra" ;
+        vcard:postal-code     "175032" ;
+        vcard:region          "Himachal Pradesh" ;
+        vcard:street-address  "མི་གསལ། Dzongsar Institute" .
 
-bdr:NT66184C4FDD55  a   :Note ;
-    :noteText           "the region of the rulers of the bya principality in southern tibet"@en .
+bdr:NT585206D37BCF0D38
+        a                       :Note ;
+        :noteLocationStatement  "V.3, p.47" ;
+        :noteText               "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo ;
+        :noteWork               bdr:W23847 .
 
-bdr:NTB43104885531  a   :Note ;
-    :noteLocationStatement  "test" ;
-    :noteText           "event note test"@en ;
-    :noteWork           bdr:Wtest .
+bdr:NT66184C4FDD5538BE
+        a          :Note ;
+        :noteText  "the region of the rulers of the bya principality in southern tibet"@en .
 
-bdr:NTEC7A7B10B098  a   :Note ;
-    :noteLocationStatement  "p.1467-1468" ;
-    :noteText           "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"@bo ;
-    :noteWork           bdr:W26372 .
+bdr:G488  a                   :Place ;
+        :isRoot               true ;
+        :note                 bdr:NT66184C4FDD5538BE , bdr:NT585206D37BCF0D38 , bdr:NTEC7A7B10B09836B6 ;
+        :placeAddress         vcard:VA76B6649907E8086A ;
+        :placeChgisId         "854" ;
+        :placeEvent           bdr:EV17426918F6CC57DE , bdr:EV8FFB31DDE90B0817 ;
+        :placeGonpaPerEcumen  "7.51" ;
+        :placeLat             "29.63984" ;
+        :placeLocatedIn       bdr:G843 ;
+        :placeLong            "91.22002" ;
+        :placeRegionPoly      "Some polygon coordinates" ;
+        :placeType            bdr:PT0037 ;
+        :placeWBArea          "test" ;
+        skos:altLabel         "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"@bo , "guán zǐ feng2"@zh-latn-pinyin , "bya pa khri dpon gyi mnga' khongs/"@bo-x-ewts ;
+        skos:prefLabel        "guan zi feng"@zh-latn-pinyin-x-ndia , "sman ri'i gling /"@bo-x-ewts .
 
-vcard:VA76B6649907E8  a  vcard:Address ;
-    vcard:country-name  "India" ;
-    vcard:locality      "Chauntra" ;
-    vcard:postal-code   "175032" ;
-    vcard:region        "Himachal Pradesh" ;
-    vcard:street-address  "མི་གསལ། Dzongsar Institute" .
+bdr:NTEC7A7B10B09836B6
+        a                       :Note ;
+        :noteLocationStatement  "p.1467-1468" ;
+        :noteText               "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"@bo ;
+        :noteWork               bdr:W26372 .

@@ -87,8 +87,8 @@ public class CommonMigration  {
     public static final Map<String, String> creatorMigrations = new HashMap<>();
     public static final Map<String, String> abstractClusters;
     public static final Map<String, String> seriesClusters;
-    public static final Map<String, String> seriesMembersToWorks = new HashMap<>();;
-    public static final Map<String, RDFNode> seriesMembersToWorkLabels = new HashMap<>();;
+    public static final Map<String, String> seriesMembersToWorks = new HashMap<>();
+    public static final Map<String, RDFNode> seriesMembersToWorkLabels = new HashMap<>();
 
     static {
         fillLogWhoToUri();
@@ -1088,7 +1088,8 @@ public class CommonMigration  {
         return titleNode;
     }
     
-    private static boolean addFEMCTitles(Resource main, List<Element> nodeList) {
+    private static boolean addFEMCTitles(Resource main, List<Element> nodeList, Resource mainA) {
+        // TODO: add a skos:prefLabel to mainA (if it exists)
         String rid = main.getLocalName();
         if (!rid.contains("FEMC") || rid.equals("W1FEMC01") || rid.equals("W1FEMC02")) {
             return false;
@@ -1207,7 +1208,7 @@ public class CommonMigration  {
     public static void addTitles(Model m, Resource main, Element root, String XsdPrefix, boolean guessLabel, boolean outlineMode, final Resource mainA) {
         List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "title");
         // main == null in case of conceptual works
-        if (main != null && addFEMCTitles(main, nodeList)) {
+        if (main != null && addFEMCTitles(main, nodeList, mainA)) {
             return;
         }
         Map<String,Boolean> labelDoneForLang = new HashMap<>();

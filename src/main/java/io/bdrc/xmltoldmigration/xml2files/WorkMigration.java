@@ -194,13 +194,13 @@ public class WorkMigration {
             if (otherMemberRID == null) {
                 otherMemberRID = workId;
             }
-            main = createRoot(m, BDR+workId, BDO+"SerialInstance");
+            main = createRoot(m, BDR+"MWM"+workId.substring(1), BDO+"SerialInstance");
             admMain = createAdminRoot(main);
             res.add(null);
             res.add(new WorkModelInfo(workId, m));
             main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
 
-            String seriesMemberId = "WM" + workId.substring(1);
+            String seriesMemberId = "WAM" + workId.substring(1);
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
             mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
@@ -216,7 +216,7 @@ public class WorkMigration {
                 if (infoParentId.isEmpty()) {
                     serialWorkId = "WAS" + otherMemberRID.substring(1);
                 } else {
-                    serialWorkId = infoParentId;
+                    serialWorkId = "WAS" + infoParentId.substring(1);
                 }
                 CommonMigration.seriesMembersToWorks.put(otherMemberRID, serialWorkId);
 
@@ -250,8 +250,8 @@ public class WorkMigration {
                 res.add(new WorkModelInfo(workId, m));
                 etextInstances.put(workId, true);
             } else {
-                main = createRoot(m, BDR+workId, BDO+"Instance"); // physical?
-                res.add(new WorkModelInfo(workId, m));
+                main = createRoot(m, BDR+'M'+workId, BDO+"Instance"); // physical?
+                res.add(new WorkModelInfo('M'+workId, m));
             }
             admMain = createAdminRoot(main);
             if (!status.equals("withdrawn")) {
@@ -269,12 +269,12 @@ public class WorkMigration {
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
-                    SymetricNormalization.addSymetricProperty(m, "instanceOf", workId, otherAbstractRID, null);
+                    SymetricNormalization.addSymetricProperty(m, "instanceOf", 'M'+workId, otherAbstractRID, null);
                 }
             }
         }
 		
-		addStatus(m, admMain, status);        
+		addStatus(m, admMain, status);
         admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		
 		String value = null;

@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,24 +10,31 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bdr:EV4D6B8F9B08287205
+        a        :PersonDeath ;
+        :onYear  "1322"^^xsd:gYear .
+
 bdr:P1331  a            :Person ;
         :isRoot         true ;
-        :note           bdr:NT7219361C1AA8 ;
-        :personEvent    bdr:EV12DC80761AF6 , bdr:EV4D6B8F9B0828 ;
+        :note           bdr:NT7219361C1AA8E1A9 ;
+        :personEvent    bdr:EV12DC80761AF6EB6D , bdr:EV4D6B8F9B08287205 ;
         :personGender   bdr:GenderMale ;
-        :personName     bdr:NM4A638B850908 , bdr:NME51DB3F4D952 ;
+        :personName     bdr:NM4A638B850908AF82 , bdr:NME51DB3F4D95210F5 ;
         skos:prefLabel  "blo gros rnam dag"@bo-x-ewts .
 
-bdr:NT7219361C1AA8  a           :Note ;
+bdr:NME51DB3F4D95210F5
+        a           :PersonPrimaryName ;
+        rdfs:label  "blo gros rnam dag"@bo-x-ewts .
+
+bdr:NT7219361C1AA8E1A9
+        a                       :Note ;
         :noteLocationStatement  "p. 359" ;
         :noteText               "date of death from this source"@en ;
         :noteWork               bdr:W20115 .
 
-bdr:EV12DC80761AF6  a  :PersonOccupiesSeat ;
+bdr:EV12DC80761AF6EB6D
+        a            :PersonOccupiesSeat ;
         :eventWhere  bdr:G844 .
-
-bdr:NM4A638B850908  a  :PersonPrimaryTitle ;
-        rdfs:label  "bya yul blo bzang rnam dag"@bo-x-ewts .
 
 bda:P1331  a               adm:AdminData ;
         adm:adminAbout     bdr:P1331 ;
@@ -39,8 +46,6 @@ bda:P1331  a               adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:EV4D6B8F9B0828  a  :PersonDeath ;
-        :onYear  "1322"^^xsd:gYear .
-
-bdr:NME51DB3F4D952  a  :PersonPrimaryName ;
-        rdfs:label  "blo gros rnam dag"@bo-x-ewts .
+bdr:NM4A638B850908AF82
+        a           :PersonPrimaryTitle ;
+        rdfs:label  "bya yul blo bzang rnam dag"@bo-x-ewts .

@@ -10,37 +10,49 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:VL05B2BD4860AC  a               :VolumePhysicalAsset ;
-        :volumeNumber               1 ;
-        :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en .
-
-bdr:NT3F0F87B07E32  a  :Note ;
-        :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
-
-bda:I12837FPL_P001  a   adm:AdminData ;
-        adm:adminAbout  bdr:I12837FPL_P001 ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
-
-bda:W12837FPL  a           adm:AdminData ;
-        adm:adminAbout     bdr:W12837FPL ;
+bda:MWM12837FPL  a         adm:AdminData ;
+        adm:adminAbout     bdr:MWM12837FPL ;
         adm:facetIndex     12 ;
-        adm:gitPath        "55/W12837FPL.trig" ;
+        adm:gitPath        "0a/MWM12837FPL.trig" ;
         adm:gitRepo        bda:GR0012 ;
-        adm:graphId        bdg:W12837FPL ;
-        adm:logEntry       bda:LGA31364CA97C9 , bda:LGD87EBF2311F0 , bda:LGFB1A36806E27 , bda:LG7E331F54F258 ;
+        adm:graphId        bdg:MWM12837FPL ;
+        adm:logEntry       bda:LGDDB0945A6B376CE3 , bda:LG7687083210B4255F , bda:LGECDA05CC52A94359 , bda:LG741A919F3670B2B2 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bda:LGFB1A36806E27  a   adm:LogEntry ;
-        adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized catalog info"@en ;
-        adm:logWho      bdr:U00012 .
+bdr:EV35B83BD895D4749F
+        a           :CompletedEvent ;
+        :onOrAbout  "descriptionwithtypedate" ;
+        :onYear     "1232"^^xsd:gYear .
+
+bdr:NT531278235C7918E2
+        a          :Note ;
+        :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
+
+bda:LGECDA05CC52A94359
+        a               adm:LogEntry ;
+        adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
+        adm:logMessage  "cataloging reviewed"@en ;
+        adm:logWho      bdr:U00001 .
+
+bdr:MWM12837FPL  a            :SerialInstance ;
+        rdfs:comment          "description with no type" ;
+        :isRoot               true ;
+        :note                 bdr:NT34F0EEC409CDBEC1 , bdr:NT531278235C7918E2 ;
+        :serialInstanceOf     bdr:WAM12837FPL ;
+        :workCatalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
+        :workEvent            bdr:EV35B83BD895D4749F ;
+        :workIncipit          "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
+        :workNumberOfVolumes  1 ;
+        :workScanInfo         "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
+        :workSeriesNumber     "2" ;
+        :workTitle            bdr:TT15ED3B92D25DDB21 , bdr:TT3CBDE3A243BE57CF , bdr:TT86C328CD33E9538B ;
+        skos:prefLabel        "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast .
 
 bdr:W12345  a             :SerialWork ;
         :isRoot           true ;
-        :serialHasMember  bdr:WM12837FPL ;
+        :serialHasMember  bdr:WAM12837FPL ;
         skos:prefLabel    "vinayavinicchaya"@pi-x-iast .
 
 bda:W12345  a              adm:AdminData ;
@@ -52,77 +64,77 @@ bda:W12345  a              adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:EVB8AAD6436BFB  a  :CompletedEvent ;
-        :onOrAbout  "descriptionwithtypedate" ;
-        :onYear     "1232"^^xsd:gYear .
+bdr:TT86C328CD33E9538B
+        a           :WorkOtherTitle ;
+        rdfs:label  "testcap/"@bo-x-ewts .
 
-bdr:TT4802878668DC  a  :WorkOtherTitle ;
-        rdfs:label  "test pali title"@pi-x-iast .
+bda:LG741A919F3670B2B2
+        a               adm:LogEntry ;
+        adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized catalog info"@en ;
+        adm:logWho      bdr:U00012 .
 
-bdr:CRF0D34F505951  a  :AgentAsCreator ;
+bdr:TT15ED3B92D25DDB21
+        a           :WorkTitlePageTitle ;
+        rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
+
+bdr:ITWM12837FPL  a       :Item ;
+        :itemForInstance  bdr:MWM12837FPL ;
+        :itemHasVolume    bdr:VLF70401471942BE32 ;
+        :itemLibrary      bdr:G1TLMFPL000001 ;
+        :itemShelf        "3A|110" .
+
+bdr:CR2D01023E230E08C2
+        a       :AgentAsCreator ;
         :agent  bdr:P1591 ;
         :role   bdr:R0ER0019 .
 
-bdr:TTE1AD1BBEF536  a  :WorkOtherTitle ;
-        rdfs:label  "testcap/"@bo-x-ewts .
-
-bda:LG7E331F54F258  a   adm:LogEntry ;
-        adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
-        adm:logMessage  "cataloging reviewed"@en ;
-        adm:logWho      bdr:U00001 .
-
-bda:WM12837FPL  a          adm:AdminData ;
-        adm:adminAbout     bdr:WM12837FPL ;
-        adm:facetIndex     2 ;
-        adm:gitPath        "0d/WM12837FPL.trig" ;
-        adm:gitRepo        bda:GR0008 ;
-        adm:graphId        bdg:WM12837FPL ;
-        adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
-
-bdr:NTF8411F25C214  a  :Note ;
-        :noteText  "description with type note" .
-
-bdr:W12837FPL  a              :SerialInstance ;
-        rdfs:comment          "description with no type" ;
-        :isRoot               true ;
-        :note                 bdr:NTF8411F25C214 , bdr:NT3F0F87B07E32 ;
-        :serialInstanceOf     bdr:WM12837FPL ;
-        :workCatalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
-        :workEvent            bdr:EVB8AAD6436BFB ;
-        :workIncipit          "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
-        :workNumberOfVolumes  1 ;
-        :workScanInfo         "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
-        :workSeriesNumber     "2" ;
-        :workTitle            bdr:TT4802878668DC , bdr:TTE1AD1BBEF536 , bdr:TTE97A0FB4E947 ;
-        skos:prefLabel        "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast .
-
-bdr:WM12837FPL  a           :SerialMember ;
-        :creator            bdr:CRF0D34F505951 ;
+bdr:WAM12837FPL  a          :SerialMember ;
+        :creator            bdr:CR2D01023E230E08C2 ;
         :isRoot             true ;
-        :serialHasInstance  bdr:W12837FPL ;
+        :serialHasInstance  bdr:MWM12837FPL ;
         :serialMemberOf     bdr:W12345 ;
         :workGenre          bdr:T132 ;
-        :workIsAbout        bdr:W976 , bdr:G844 , bdr:T62 ;
+        :workIsAbout        bdr:G844 , bdr:T62 , bdr:W976 ;
         skos:altLabel       "testcap/"@bo-x-ewts , "test pali title"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
-        skos:prefLabel      "vinayavinicchaya"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
+        skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast .
 
-bda:LGA31364CA97C9  a   adm:LogEntry ;
+bda:LG7687083210B4255F
+        a               adm:LogEntry ;
         adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
         adm:logMessage  "added print type and source printery"@en ;
         adm:logWho      bdr:U00013 .
 
-bdr:TTE97A0FB4E947  a  :WorkTitlePageTitle ;
-        rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
+bdr:VLF70401471942BE32
+        a                           :VolumePhysicalAsset ;
+        :volumeNumber               1 ;
+        :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en .
 
-bdr:I12837FPL_P001  a     :Item ;
-        :itemForInstance  bdr:W12837FPL ;
-        :itemHasVolume    bdr:VL05B2BD4860AC ;
-        :itemLibrary      bdr:G1TLMFPL000001 ;
-        :itemShelf        "3A|110" .
+bdr:TT3CBDE3A243BE57CF
+        a           :WorkOtherTitle ;
+        rdfs:label  "test pali title"@pi-x-iast .
 
-bda:LGD87EBF2311F0  a   adm:LogEntry ;
-        adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
+bda:LGDDB0945A6B376CE3
+        a               adm:LogEntry ;
+        adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
         adm:logMessage  "normalized catalog info"@en ;
         adm:logWho      bdr:U00012 .
+
+bdr:NT34F0EEC409CDBEC1
+        a          :Note ;
+        :noteText  "description with type note" .
+
+bda:WAM12837FPL  a         adm:AdminData ;
+        adm:adminAbout     bdr:WAM12837FPL ;
+        adm:facetIndex     2 ;
+        adm:gitPath        "93/WAM12837FPL.trig" ;
+        adm:gitRepo        bda:GR0008 ;
+        adm:graphId        bdg:WAM12837FPL ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
+
+bda:ITWM12837FPL  a     adm:AdminData ;
+        adm:adminAbout  bdr:ITWM12837FPL ;
+        adm:status      bda:StatusReleased ;
+        :isRoot         true .

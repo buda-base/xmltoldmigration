@@ -2,8 +2,10 @@ package io.bdrc.xmltoldmigration.xml2files;
 
 import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getAdminRoot;
@@ -170,7 +172,7 @@ public class PubinfoMigration {
                 // which will become a member in this function, but is shared with non-members...
                 mA = ModelFactory.createDefaultModel();
                 setPrefixes(mA);
-                mainA = createRoot(mA, BDR+"WA"+workRid.substring(1), BDO+"Work");
+                mainA = createRoot(mA, BDR+"WAM"+workRid.substring(1), BDO+"Work");
                 res.add(mainA);
                 createAdminRoot(mainA);
                 main.addProperty(m.createProperty(BDO+"instanceOf"), mainA);
@@ -186,8 +188,11 @@ public class PubinfoMigration {
                 CommonMigration.seriesMembersToWorks.put(otherRID, serialWorkId);
                 Model mS = ModelFactory.createDefaultModel();
                 setPrefixes(mS);
+                WorkMigration.addRedirection(otherRID, serialWorkId, mS);
                 Resource serialWork = createRoot(mS, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialWork);
+                addStatus(mS, admSerialW, "released");
+                admSerialW.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
                 // put a prefLabel on the serialWork if needed
                 // at this point the label should == null
                 RDFNode serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(serialWorkId);

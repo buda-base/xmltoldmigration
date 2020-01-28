@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,24 +10,17 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:CM7872F5FD7506  a       :CorporationMemberNotSpecified ;
-        :corporationMember  bdr:P1856 .
-
 bdr:C11MS170  a                :Corporation ;
         rdfs:comment           "some description" ;
-        :corporationHasMember  bdr:CM7872F5FD7506 , bdr:CMF428C2DEB2CD ;
+        :corporationHasMember  bdr:CMF428C2DEB2CDEFAF , bdr:CM7872F5FD75068B81 ;
         :corporationRegion     bdr:G934 ;
         :isRoot                true ;
-        :note                  bdr:NTF247E9C5ACE9 , bdr:NTAA3AC231C721 ;
+        :note                  bdr:NTF247E9C5ACE9527A , bdr:NTAA3AC231C7216B0B ;
         skos:prefLabel         "Dranka"@en-x-mixed , "bran ka"@bo-x-phon-en-m-tbrc .
 
-bdr:NTF247E9C5ACE9  a  :Note ;
-        :noteText  "associated w / 11th cent. master, P4CZ15480 ?"@en .
-
-bda:LG74E16D28D450  a   adm:LogEntry ;
-        adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
-        adm:logMessage  "created new corp."@en ;
-        adm:logWho      bdr:U00020 .
+bdr:CMF428C2DEB2CDEFAF
+        a                   :CorporationMemberUnknown ;
+        :corporationMember  bdr:P1857 .
 
 bda:C11MS170  a            adm:AdminData ;
         adm:adminAbout     bdr:C11MS170 ;
@@ -35,13 +28,25 @@ bda:C11MS170  a            adm:AdminData ;
         adm:gitPath        "9a/C11MS170.trig" ;
         adm:gitRepo        bda:GR0001 ;
         adm:graphId        bdg:C11MS170 ;
-        adm:logEntry       bda:LG74E16D28D450 ;
+        adm:logEntry       bda:LG74E16D28D4502097 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:NTAA3AC231C721  a  :Note ;
-        :noteText  "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en .
+bda:LG74E16D28D4502097
+        a               adm:LogEntry ;
+        adm:logDate     "2014-10-23T10:26:04.725Z"^^xsd:dateTime ;
+        adm:logMessage  "created new corp."@en ;
+        adm:logWho      bdr:U00020 .
 
-bdr:CMF428C2DEB2CD  a       :CorporationMemberUnknown ;
-        :corporationMember  bdr:P1857 .
+bdr:NTF247E9C5ACE9527A
+        a          :Note ;
+        :noteText  "associated w / 11th cent. master, P4CZ15480 ?"@en .
+
+bdr:CM7872F5FD75068B81
+        a                   :CorporationMemberNotSpecified ;
+        :corporationMember  bdr:P1856 .
+
+bdr:NTAA3AC231C7216B0B
+        a          :Note ;
+        :noteText  "The Dranka clan originated in the Yarlung dynasty period, in the reign of Tibet's Fortieth King Mutik Tsenpo (mu gtig btsan po). His minister Dranka Yonten was from the Dranka clan."@en .
