@@ -210,7 +210,7 @@ public class OutlineMigration {
 	    String workId = getWorkId(xmlDocument);
 	    if (workId == null || workId.isEmpty())
 	        return null;
-	    Resource work = createRoot(workModel, BDR+'M'+workId, BDO+"Work");
+	    Resource work = createRoot(workModel, BDR+workId, BDO+"Work");
         //CommonMigration.addStatus(workModel, work, root.getAttribute("status"));
 	    return MigrateOutline(xmlDocument, workModel, work);
 	}
