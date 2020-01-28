@@ -36,6 +36,11 @@ bda:LGECDA05CC52A94359
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdr:U00001 .
 
+bdr:WAS12345  a           :SerialWork ;
+        :isRoot           true ;
+        :serialHasMember  bdr:WAM12837FPL ;
+        skos:prefLabel    "vinayavinicchaya"@pi-x-iast .
+
 bdr:MWM12837FPL  a            :SerialInstance ;
         rdfs:comment          "description with no type" ;
         :isRoot               true ;
@@ -49,20 +54,6 @@ bdr:MWM12837FPL  a            :SerialInstance ;
         :workSeriesNumber     "2" ;
         :workTitle            bdr:TT15ED3B92D25DDB21 , bdr:TT3CBDE3A243BE57CF , bdr:TT86C328CD33E9538B ;
         skos:prefLabel        "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast .
-
-bdr:W12345  a             :SerialWork ;
-        :isRoot           true ;
-        :serialHasMember  bdr:WAM12837FPL ;
-        skos:prefLabel    "vinayavinicchaya"@pi-x-iast .
-
-bda:W12345  a              adm:AdminData ;
-        adm:adminAbout     bdr:W12345 ;
-        adm:gitPath        "63/W12345.trig" ;
-        adm:gitRepo        bda:GR0008 ;
-        adm:graphId        bdg:W12345 ;
-        adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
 
 bdr:TT86C328CD33E9538B
         a           :WorkOtherTitle ;
@@ -93,7 +84,7 @@ bdr:WAM12837FPL  a          :SerialMember ;
         :creator            bdr:CR2D01023E230E08C2 ;
         :isRoot             true ;
         :serialHasInstance  bdr:MWM12837FPL ;
-        :serialMemberOf     bdr:W12345 ;
+        :serialMemberOf     bdr:WAS12345 ;
         :workGenre          bdr:T132 ;
         :workIsAbout        bdr:G844 , bdr:T62 , bdr:W976 ;
         skos:altLabel       "testcap/"@bo-x-ewts , "test pali title"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
@@ -124,9 +115,18 @@ bdr:NT34F0EEC409CDBEC1
         a          :Note ;
         :noteText  "description with type note" .
 
+bda:WAS12345  a            adm:AdminData ;
+        adm:adminAbout     bdr:WAS12345 ;
+        adm:facetIndex     2 ;
+        adm:gitPath        "4a/WAS12345.trig" ;
+        adm:gitRepo        bda:GR0008 ;
+        adm:graphId        bdg:WAS12345 ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
+
 bda:WAM12837FPL  a         adm:AdminData ;
         adm:adminAbout     bdr:WAM12837FPL ;
-        adm:facetIndex     2 ;
         adm:gitPath        "93/WAM12837FPL.trig" ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WAM12837FPL ;

@@ -59,7 +59,7 @@ public class PubinfoMigration {
                 return res;
             }
             
-            main = createRoot(m, BDR+value, BDO+"Instance");
+            main = createRoot(m, BDR+'M'+value, BDO+"Instance");
             createAdminRoot(main);
             Model mA = ModelFactory.createDefaultModel();
             res.add(mA);
@@ -217,7 +217,7 @@ public class PubinfoMigration {
             }
         }
         
-        // TODO: this goes in the item
+        // TODO: this goes in the item 
         addSimpleElement("tbrcHoldings", BDO+"itemBDRCHoldingStatement", null, root, m, main);
         
         CommonMigration.addNotes(m, root, main, WPXSDNS);

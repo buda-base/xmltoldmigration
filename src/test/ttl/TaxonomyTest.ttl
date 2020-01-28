@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -23,11 +23,6 @@ bdr:O9TAXTBRC201605_0010
         :taxHasSubClass  bdr:O9TAXTBRC201605_0011 ;
         skos:prefLabel   "大藏经"@zh-hans , "Buddhist Canonical Texts"@en , "bka' bstan/"@bo-x-ewts .
 
-bda:LG73FFF6A15429  a   adm:LogEntry ;
-        adm:logDate     "2016-05-23T10:58:27.909Z"^^xsd:dateTime ;
-        adm:logMessage  "added topics"@en ;
-        adm:logWho      bdr:U00016 .
-
 bdr:O9TAXTBRC201605_0002
         a                :Taxonomy ;
         :taxHasSubClass  bdr:T298 , bdr:T2123 , bdr:T4CZ2366 , bdr:T13 , bdr:T2196 , bdr:T00KG02662 , bdr:T1485 ;
@@ -36,10 +31,16 @@ bdr:O9TAXTBRC201605_0002
 bda:O9TAXTBRC201605  a  adm:AdminData ;
         adm:adminAbout  bdr:O9TAXTBRC201605 ;
         adm:facetIndex  2 ;
-        adm:logEntry    bda:LG73FFF6A15429 ;
+        adm:logEntry    bda:LG73FFF6A154290507 ;
         :isRoot         true .
 
 bdr:O9TAXTBRC201605_0011
         a                :Taxonomy ;
         :taxHasSubClass  bdr:T2423 ;
         skos:prefLabel   "甘珠尔"@zh-hans , "Kajur"@en , "bka' 'gyur/"@bo-x-ewts .
+
+bda:LG73FFF6A154290507
+        a               adm:LogEntry ;
+        adm:logDate     "2016-05-23T10:58:27.909Z"^^xsd:dateTime ;
+        adm:logMessage  "added topics"@en ;
+        adm:logWho      bdr:U00016 .

@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,10 +10,40 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bda:LG7838958C9FDB06CE
+        a               adm:LogEntry ;
+        adm:logDate     "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;
+        adm:logMessage  "cataloging reviewed"@en ;
+        adm:logWho      bdr:U00001 .
+
+bda:I4158  a                     adm:AdminData ;
+        adm:adminAbout           bdr:I4158 ;
+        adm:legacyImageGroupRID  "I4158" ;
+        adm:logEntry             bda:LG2B928E4933E80098 , bda:LG7838958C9FDB06CE , bda:LG773F06A19C958A4E , bda:LGC0B23029C293039C ;
+        adm:metadataLegal        bda:LD_BDRC_CC0 ;
+        adm:status               bda:StatusReleased ;
+        adm:volumeQcDate         "12/03" ;
+        adm:volumeQcNote         "qc notes" ;
+        adm:volumeQcPerson       "khedup" .
+
 bdr:TestItem  a  :ItemImageAsset ;
         :isRoot  true .
 
-bdr:VestItem_I4158  a          :VolumeImageAsset ;
+bda:LG2B928E4933E80098
+        a               adm:LogEntry ;
+        adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
+        adm:logMessage  "Added ondisk"@en ;
+        adm:logWho      bdr:U00006 .
+
+bda:TestItem  a         adm:AdminData ;
+        adm:adminAbout  bdr:TestItem ;
+        adm:facetIndex  5 ;
+        adm:gitPath     "2d/TestItem.trig" ;
+        adm:gitRepo     bda:GR0003 ;
+        adm:graphId     bdg:TestItem ;
+        :isRoot         true .
+
+bdr:I4158  a                   :VolumeImageAsset ;
         :imageCount            352 ;
         :imageList             "41580001.tif:54|41580055.jpg|41580056.tif:23|41580082.tif:26|42580108.tif|41580109.tif:88|garbage|41580198.tif:54|41580253.tif:104" ;
         :imagesMissing         "79-81,252" ;
@@ -24,40 +54,14 @@ bdr:VestItem_I4158  a          :VolumeImageAsset ;
         :volumePagesText       2 ;
         :volumePagesTotal      356 .
 
-bda:LG012EB7E318FD  a   adm:LogEntry ;
-        adm:logDate     "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;
-        adm:logMessage  "cataloging reviewed"@en ;
-        adm:logWho      bdr:U00001 .
-
-bda:TestItem  a         adm:AdminData ;
-        adm:adminAbout  bdr:TestItem ;
-        adm:facetIndex  5 ;
-        adm:gitPath     "2d/TestItem.trig" ;
-        adm:gitRepo     bda:GR0003 ;
-        adm:graphId     bdg:TestItem ;
-        :isRoot         true .
-
-bda:LG3851E8262B9D  a   adm:LogEntry ;
-        adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
-        adm:logMessage  "Added ondisk"@en ;
-        adm:logWho      bdr:U00006 .
-
-bda:LGFC9B5FCCA8D3  a   adm:LogEntry ;
-        adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
-        adm:logMessage  "Updated total pages"@en ;
-        adm:logWho      bdr:U00006 .
-
-bda:VestItem_I4158  a            adm:AdminData ;
-        adm:adminAbout           bdr:VestItem_I4158 ;
-        adm:legacyImageGroupRID  "I4158" ;
-        adm:logEntry             bda:LGFC9B5FCCA8D3 , bda:LG3851E8262B9D , bda:LG012EB7E318FD , bda:LGC589389A74ED ;
-        adm:metadataLegal        bda:LD_BDRC_CC0 ;
-        adm:status               bda:StatusReleased ;
-        adm:volumeQcDate         "12/03" ;
-        adm:volumeQcNote         "qc notes" ;
-        adm:volumeQcPerson       "khedup" .
-
-bda:LGC589389A74ED  a   adm:LogEntry ;
+bda:LGC0B23029C293039C
+        a               adm:LogEntry ;
         adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages and added page list"@en ;
+        adm:logWho      bdr:U00006 .
+
+bda:LG773F06A19C958A4E
+        a               adm:LogEntry ;
+        adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
+        adm:logMessage  "Updated total pages"@en ;
         adm:logWho      bdr:U00006 .

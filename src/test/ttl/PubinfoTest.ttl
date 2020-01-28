@@ -10,48 +10,56 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:LG725E8279E4B4  a   adm:LogEntry ;
-        adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
-        adm:logMessage  "added print type and source printery"@en ;
-        adm:logWho      bdr:U00013 .
-
-bdr:I1FPL1_P001  a        :Item ;
-        :itemCopies       "1" ;
-        :itemException    "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo ;
-        :itemForInstance  bdr:W1FPL1 ;
-        :itemLibrary      bdr:G1TLMTGA000001 ;
-        :itemShelf        "ཇ|ཇ|༣||001278" .
+bda:LG9C64AEBD23CBF0A3
+        a               adm:LogEntry ;
+        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+        adm:logMessage  "added hollis field to pub info"@en ;
+        adm:logWho      bdr:U00006 .
 
 bdr:WA1FPL1  a     :Work ;
         :isRoot    true ;
         :language  bdr:LangBo .
 
-bdr:EV1F91ADA2A1C7  a  :PublishedEvent ;
+bdr:EVB0BA72AF962CC892
+        a        :PublishedEvent ;
         :onYear  "2000"^^xsd:gYear .
 
-bda:W1FPL1  a           adm:AdminData ;
-        adm:adminAbout  bdr:W1FPL1 ;
+bda:LGE0F0D4471E6CE01A
+        a               adm:LogEntry ;
+        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+        adm:logMessage  "normalize encoding field for pub info"@en ;
+        adm:logWho      bdr:U00012 .
+
+bdr:ITW1FPL1_001  a       :Item ;
+        :itemCopies       "1" ;
+        :itemException    "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo ;
+        :itemForInstance  bdr:MW1FPL1 ;
+        :itemLibrary      bdr:G1TLMTGA000001 ;
+        :itemShelf        "ཇ|ཇ|༣||001278" .
+
+bda:MW1FPL1  a          adm:AdminData ;
+        adm:adminAbout  bdr:MW1FPL1 ;
         adm:facetIndex  5 ;
-        adm:gitPath     "56/W1FPL1.trig" ;
+        adm:gitPath     "81/MW1FPL1.trig" ;
         adm:gitRepo     bda:GR0012 ;
-        adm:graphId     bdg:W1FPL1 ;
-        adm:logEntry    bda:LG725E8279E4B4 , bda:LGEDA5DE9E3376 , bda:LGEAF54DACE95D ;
+        adm:graphId     bdg:MW1FPL1 ;
+        adm:logEntry    bda:LG9C64AEBD23CBF0A3 , bda:LG4AF69EDA5BFE4E04 , bda:LGE0F0D4471E6CE01A ;
         :isRoot         true .
 
-bda:LGEDA5DE9E3376  a   adm:LogEntry ;
-        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
-        adm:logMessage  "added hollis field to pub info"@en ;
-        adm:logWho      bdr:U00006 .
+bda:LG4AF69EDA5BFE4E04
+        a               adm:LogEntry ;
+        adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
+        adm:logMessage  "added print type and source printery"@en ;
+        adm:logWho      bdr:U00013 .
 
-bdr:W1FPL1  a                       :Instance ;
+bdr:MW1FPL1  a                      :Instance ;
         :isRoot                     true ;
         :itemBDRCHoldingStatement   "1" ;
-        :language                   bdr:LangBo ;
         :printMethod                bdr:PrintMethod_Manuscript ;
         :script                     bdr:ScriptDbuMed ;
         :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
         :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
-        :workEvent                  bdr:EV1F91ADA2A1C7 ;
+        :workEvent                  bdr:EVB0BA72AF962CC892 ;
         :workExtentStatement        "177 ff." ;
         :workHasSourcePrintery      bdr:G1PD129184 ;
         :workHollis                 "014254679" ;
@@ -59,8 +67,3 @@ bdr:W1FPL1  a                       :Instance ;
         :workPublisherLocation      "[lha sa]"@en ;
         :workPublisherName          "[zhol par khang]"@en ;
         :workSourcePrintery_string  "test sourcePrintery with no place" .
-
-bda:LGEAF54DACE95D  a   adm:LogEntry ;
-        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
-        adm:logMessage  "normalize encoding field for pub info"@en ;
-        adm:logWho      bdr:U00012 .

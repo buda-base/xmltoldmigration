@@ -1,8 +1,8 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,31 +10,22 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:LHD3068D370498  a     :LineageHolder ;
-        :lineageDownFrom  bdr:L8LS15610 ;
-        :lineageReceived  bdr:EV08E7C6B1F9BF ;
-        :lineageWho       bdr:P1018 ;
-        :lineageWork      bdr:WTest ;
-        :note             bdr:NT90EDF4B929F1 .
-
-bda:LG96B065B1B67F  a  adm:LogEntry ;
+bda:LG96B065B1B67F2C86
+        a            adm:LogEntry ;
         adm:logDate  "2014-07-28T11:30:18.879Z"^^xsd:dateTime ;
         adm:logWho   bdr:U00019 .
 
-bda:LGAE337746AFB0  a   adm:LogEntry ;
-        adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized names of who and received elements"@en ;
-        adm:logWho      bdr:U00006 .
+bdr:EV1C15C9CBCFC6FF17
+        a             :LineageEvent ;
+        :lineageFrom  bdr:P1132 ;
+        :onOrAbout    "testcirca" .
 
-bdr:NT90EDF4B929F1  a  :Note ;
+bdr:NT7E05A41908C244A3
+        a          :Note ;
         :noteText  "test description" .
 
-bda:LG80A1FAA25E83  a   adm:LogEntry ;
-        adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized names of who and received elements - yet again"@en ;
-        adm:logWho      bdr:U00006 .
-
-bda:LGBF7F6269805E  a   adm:LogEntry ;
+bda:LGBF7F6269805E6223
+        a               adm:LogEntry ;
         adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
         adm:logMessage  "changed type"@en ;
         adm:logWho      bdr:U00019 .
@@ -42,12 +33,24 @@ bda:LGBF7F6269805E  a   adm:LogEntry ;
 bdr:L8LS14115  a        :Lineage ;
         rdfs:comment    "initiation transmission of clear light blessing of rakta yamari"@en ;
         :isRoot         true ;
-        :lineageHolder  bdr:LH624305BFA552 , bdr:LHD3068D370498 , bdr:LHC366A00C3BAE ;
+        :lineageHolder  bdr:LH624305BFA55288BB , bdr:LHC366A00C3BAE4664 , bdr:LHD3068D3704989044 ;
         :lineageObject  bdr:T1613 ;
         :lineageRef     bdr:L1RKL2042 ;
         :lineageType    bdr:LineageDbang ;
-        :workLocation   bdr:WLC0BD672AF6D3 ;
+        :workLocation   bdr:WLC0BD672AF6D364D1 ;
         skos:prefLabel  "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"@bo-x-ewts .
+
+bda:LG6B9FE548306F2453
+        a               adm:LogEntry ;
+        adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
+        adm:logMessage  "added location"@en ;
+        adm:logWho      bdr:U00019 .
+
+bda:LGAE337746AFB02C13
+        a               adm:LogEntry ;
+        adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized names of who and received elements"@en ;
+        adm:logWho      bdr:U00006 .
 
 bda:L8LS14115  a           adm:AdminData ;
         adm:adminAbout     bdr:L8LS14115 ;
@@ -55,38 +58,47 @@ bda:L8LS14115  a           adm:AdminData ;
         adm:gitPath        "86/L8LS14115.trig" ;
         adm:gitRepo        bda:GR0004 ;
         adm:graphId        bdg:L8LS14115 ;
-        adm:logEntry       bda:LG96B065B1B67F , bda:LGBF7F6269805E , bda:LG80A1FAA25E83 , bda:LGAE337746AFB0 , bda:LG7D6D1032AD23 , bda:LG6B9FE548306F ;
+        adm:logEntry       bda:LG7D6D1032AD23F04D , bda:LGAE337746AFB02C13 , bda:LG6B9FE548306F2453 , bda:LG80A1FAA25E833871 , bda:LGBF7F6269805E6223 , bda:LG96B065B1B67F2C86 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:EV08E7C6B1F9BF  a  :LineageEvent ;
+bda:LG7D6D1032AD23F04D
+        a            adm:LogEntry ;
+        adm:logDate  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
+        adm:logWho   bdr:U00019 .
+
+bdr:EV790DECFA3070BBC0
+        a             :LineageEvent ;
         :eventWhere   bdr:G844 ;
         :lineageFrom  bdr:P8LS15618 .
 
-bdr:EV085EF39BA874  a  :LineageEvent ;
-        :lineageFrom  bdr:P1132 ;
-        :onOrAbout    "testcirca" ;
-        .
+bdr:LH624305BFA55288BB
+        a               :LineageHolder ;
+        :lineageDownTo  bdr:L8LS15728 ;
+        :lineageWho     bdr:P1132 .
 
-bdr:WLC0BD672AF6D3  a        :WorkLocation ;
+bdr:LHC366A00C3BAE4664
+        a                 :LineageHolder ;
+        :lineageReceived  bdr:EV1C15C9CBCFC6FF17 ;
+        :lineageWho       bdr:P1040 .
+
+bdr:LHD3068D3704989044
+        a                 :LineageHolder ;
+        :lineageDownFrom  bdr:L8LS15610 ;
+        :lineageReceived  bdr:EV790DECFA3070BBC0 ;
+        :lineageWho       bdr:P1018 ;
+        :lineageWork      bdr:WTest ;
+        :note             bdr:NT7E05A41908C244A3 .
+
+bdr:WLC0BD672AF6D364D1
+        a                    :WorkLocation ;
         :workLocationPage    236 ;
         :workLocationVolume  1 ;
         :workLocationWork    bdr:W1PD107937 .
 
-bda:LG6B9FE548306F  a   adm:LogEntry ;
-        adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
-        adm:logMessage  "added location"@en ;
-        adm:logWho      bdr:U00019 .
-
-bdr:LH624305BFA552  a   :LineageHolder ;
-        :lineageDownTo  bdr:L8LS15728 ;
-        :lineageWho     bdr:P1132 .
-
-bdr:LHC366A00C3BAE  a     :LineageHolder ;
-        :lineageReceived  bdr:EV085EF39BA874 ;
-        :lineageWho       bdr:P1040 .
-
-bda:LG7D6D1032AD23  a  adm:LogEntry ;
-        adm:logDate  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
-        adm:logWho   bdr:U00019 .
+bda:LG80A1FAA25E833871
+        a               adm:LogEntry ;
+        adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized names of who and received elements - yet again"@en ;
+        adm:logWho      bdr:U00006 .

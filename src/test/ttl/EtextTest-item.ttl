@@ -21,16 +21,18 @@ bda:IE1CZ2485  a             adm:AdminData ;
         adm:status           bda:StatusReleased ;
         :isRoot              true .
 
-bdr:VL790698AD9F9D  a    :VolumeEtextAsset ;
-        :volumeHasEtext  bdr:ER430069C0A8DB ;
-        :volumeNumber    1 ;
-        :volumeOf        bdr:IE1CZ2485 .
-
-bdr:ER430069C0A8DB  a   :EtextRef ;
+bdr:ER430069C0A8DBEADA
+        a               :EtextRef ;
         :eTextResource  bdr:UT1CZ2485_001_0000 ;
         :seqNum         1 .
 
+bdr:VL790698AD9F9DEAE4
+        a                :VolumeEtextAsset ;
+        :volumeHasEtext  bdr:ER430069C0A8DBEADA ;
+        :volumeNumber    1 ;
+        :volumeOf        bdr:IE1CZ2485 .
+
 bdr:IE1CZ2485  a            :EtextInstance ;
-        :instanceHasVolume  bdr:VL790698AD9F9D ;
+        :instanceHasVolume  bdr:VL790698AD9F9DEAE4 ;
         :instanceOf         bdr:WA1CZ2485 ;
         :isRoot             true .

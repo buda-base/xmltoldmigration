@@ -210,7 +210,7 @@ public class OutlineMigration {
 	    String workId = getWorkId(xmlDocument);
 	    if (workId == null || workId.isEmpty())
 	        return null;
-	    Resource work = createRoot(workModel, BDR+workId, BDO+"Work");
+	    Resource work = createRoot(workModel, BDR+'M'+workId, BDO+"Work");
         //CommonMigration.addStatus(workModel, work, root.getAttribute("status"));
 	    return MigrateOutline(xmlDocument, workModel, work);
 	}
@@ -383,7 +383,12 @@ public class OutlineMigration {
     }
     
     public static String getPartRID(String outlineRID, String workId, Integer partI) {
-        return "WA0XL"+getMd5(outlineRID); 
+        return workId+"_"+getMd5(outlineRID); 
+        //return workId+"_"+String.format("%04d", partI);
+    }
+    
+    public static String getPartRIDA(String outlineRID, String workId, Integer partI) {
+        return "W0XL"+getMd5(outlineRID); 
         //return workId+"_"+String.format("%04d", partI);
     }
     
