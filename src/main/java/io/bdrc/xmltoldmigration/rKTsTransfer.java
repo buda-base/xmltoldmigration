@@ -34,26 +34,26 @@ public class rKTsTransfer {
     public static Map<String, Model> RidModels = new HashMap<>();
     
     public static void initLists() {
-        initListsForRID("W22084");
-        initListsForRID("W30532");
-        initListsForRID("W4CZ5369");
-        initListsForRID("W1PD96682");
-        initListsForRID("W4CZ7445");
-        initListsForRID("W22703");
-        initListsForRID("W26071");
-        initListsForRID("W29468");
-        initListsForRID("W1PD96685");
-        initListsForRID("W22083");
-        initListsForRID("W1GS66030");
-        initListsForRID("W23703");
-        initListsForRID("W22704");
-        initListsForRID("W1KG13126");
-        initListsForRID("W1PD95844");
-        initListsForRID("W23702");
-        initListsForRID("W1PD96684");
-        initListsForRID("W1PD127393");
-        initListsForRID("W1KG14700");
-        initListsForRID("W4PD3142");
+        initListsForRID("MW22084");
+        initListsForRID("MW30532");
+        initListsForRID("MW4CZ5369");
+        initListsForRID("MW1PD96682");
+        initListsForRID("MW4CZ7445");
+        initListsForRID("MW22703");
+        initListsForRID("MW26071");
+        initListsForRID("MW29468");
+        initListsForRID("MW1PD96685");
+        initListsForRID("MW22083");
+        initListsForRID("MW1GS66030");
+        initListsForRID("MW23703");
+        initListsForRID("MW22704");
+        initListsForRID("MW1KG13126");
+        initListsForRID("MW1PD95844");
+        initListsForRID("MW23702");
+        initListsForRID("MW1PD96684");
+        initListsForRID("MW1PD127393");
+        initListsForRID("MW1KG14700");
+        initListsForRID("MW4PD3142");
     }
     
     public static void initListsForRID(String rid) {
@@ -90,7 +90,7 @@ public class rKTsTransfer {
                     baseRid = fileBaseName.substring(0, underIndex);
                 final Model m =  RidModels.get(baseRid);
                 if (m == null) {
-                    System.err.println("hmm, I think I have a problem here...");
+                    System.err.println("rKTs-migration: cannot find "+baseRid+" ("+rid+")");
                     continue;
                 }
                 final InputStream in;

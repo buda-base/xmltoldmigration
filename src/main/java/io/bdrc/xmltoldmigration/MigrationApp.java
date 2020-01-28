@@ -201,7 +201,7 @@ public class MigrationApp
             String workId = ScanrequestMigration.getWork(srd);
             if (workId == null || workId.isEmpty())
                 return;
-            String srItemName = "I"+workId.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
+            String srItemName = workId;
             String itemFileName = getDstFileName("iinstance", srItemName, ".trig");
             itemModel = MigrationHelpers.modelFromFileName(itemFileName);
             if (itemModel == null)
@@ -238,7 +238,7 @@ public class MigrationApp
 
             if (!WorkMigration.isAbstract(m, baseName)) {
                 
-                Resource workR = m.getResource(BDR+baseName);
+                Resource workR = m.getResource(BDR+'M'+baseName);
                 
                 WorkModelInfo abstractMI = null;
                 
@@ -260,7 +260,7 @@ public class MigrationApp
                         workR.removeAll(m.getProperty(BDO, "workNumberOfVolumes"));
                         workR.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                     }
-                    String itemName = "I"+baseName.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
+                    String itemName = baseName;
 
                     itemModel = ModelFactory.createDefaultModel();
                     setPrefixes(itemModel);
@@ -352,7 +352,7 @@ public class MigrationApp
             }
             WorkModelInfo instanceMI = models.get(0);
             if (instanceMI != null) {
-                workOutFileName = getDstFileName("instance", baseName);
+                workOutFileName = getDstFileName("instance", instanceMI.resourceName);
                 MigrationHelpers.outputOneModel(instanceMI.m, instanceMI.resourceName, workOutFileName, "instance");
             }
             if (models.size() >1 && models.get(1) != null) {

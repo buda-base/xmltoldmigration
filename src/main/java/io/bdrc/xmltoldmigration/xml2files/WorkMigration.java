@@ -111,7 +111,7 @@ public class WorkMigration {
         if (m == null || baseName == null)
             return false; // ?
         final Resource work = m.getResource(BDR+baseName);
-        Resource absWorkClass = m.createResource(BDO+"AbstractWork");
+        Resource absWorkClass = m.createResource(BDO+"Work");
         return m.listStatements(work, RDF.type, absWorkClass).hasNext();
     }
     
@@ -121,7 +121,7 @@ public class WorkMigration {
 	
     public static List<Resource> getAbstractList(Model m, Resource mainA) {
         List<Resource> res = new ArrayList<>();
-        Selector sel = new SimpleSelector(null, RDF.type, m.createResource(BDO+"AbstractWork"));
+        Selector sel = new SimpleSelector(null, RDF.type, m.createResource(BDO+"Work"));
         StmtIterator iter = m.listStatements(sel);
         while (iter.hasNext()) {
             Resource next = iter.next().getSubject();
@@ -197,7 +197,7 @@ public class WorkMigration {
             main = createRoot(m, BDR+"MWM"+workId.substring(1), BDO+"SerialInstance");
             admMain = createAdminRoot(main);
             res.add(null);
-            res.add(new WorkModelInfo(workId, m));
+            res.add(new WorkModelInfo("MWM"+workId, m));
             main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
 
             String seriesMemberId = "WAM" + workId.substring(1);
@@ -239,7 +239,7 @@ public class WorkMigration {
             admMain = createAdminRoot(main);
             isConceptual = true;
             res.add(null);
-            res.add(new WorkModelInfo(workId, m));
+            res.add(new WorkModelInfo(aWorkId, m));
         } else {
             if (infoNodeType.equals("unicodeText")) {
                 addRedirection(workId, "IE"+workId.substring(1), m);
@@ -247,7 +247,7 @@ public class WorkMigration {
                 res.add(null);
                 res.add(null);
                 res.add(null);
-                res.add(new WorkModelInfo(workId, m));
+                res.add(new WorkModelInfo("IE"+workId.substring(1), m));
                 etextInstances.put(workId, true);
             } else {
                 main = createRoot(m, BDR+'M'+workId, BDO+"Instance"); // physical?

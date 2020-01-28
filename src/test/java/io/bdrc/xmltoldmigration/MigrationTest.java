@@ -282,7 +282,7 @@ public class MigrationTest
         Validator validator = MigrationHelpers.getValidatorFor("work");
         assertFalse(CommonMigration.documentValidates(d, validator));
         Model fromXml = mergeModelInfoList(WorkMigration.MigrateWork(d));
-        fromXml.write(System.out, "TTL");
+        //fromXml.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
@@ -332,7 +332,7 @@ public class MigrationTest
            Model fromXml = mergeModelInfoList(OutlineMigration.MigrateOutline(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
            //showDifference(fromXml, correctModel);
-           //fromXml.write(System.out, "TURTLE");
+           fromXml.write(System.out, "TURTLE");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();

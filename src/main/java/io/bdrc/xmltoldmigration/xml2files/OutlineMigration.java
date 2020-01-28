@@ -198,7 +198,7 @@ public class OutlineMigration {
             Element current = (Element) nodeList.item(i);
             String workId = current.getAttribute("work").trim();
             if (!workId.isEmpty())
-                return workId;
+                return 'M'+workId;
         }
         ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "type", "missing work ID, cannot migrate outline");
         return null;
@@ -369,13 +369,13 @@ public class OutlineMigration {
 
     public final static Map<String, Map<Integer,Literal>> workVolNames = new HashMap<>();
     
-    public static String getMd5(String resId) {
+    public static String getMd5(String resId, int nbChars) {
         try {
             String message = resId;
             final byte[] bytesOfMessage = message.getBytes("UTF-8");
             final byte[] hashBytes = md5.digest(bytesOfMessage);
             BigInteger bigInt = new BigInteger(1, hashBytes);
-            return String.format("%032X", bigInt).substring(0, 12);
+            return String.format("%032X", bigInt).substring(0, nbChars);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return null;
@@ -383,12 +383,12 @@ public class OutlineMigration {
     }
     
     public static String getPartRID(String outlineRID, String workId, Integer partI) {
-        return workId+"_"+getMd5(outlineRID); 
+        return workId+"_"+getMd5(outlineRID, 6); 
         //return workId+"_"+String.format("%04d", partI);
     }
     
     public static String getPartRIDA(String outlineRID, String workId, Integer partI) {
-        return "W0XL"+getMd5(outlineRID); 
+        return "WA0XL"+getMd5(outlineRID, 12); 
         //return workId+"_"+String.format("%04d", partI);
     }
     
@@ -397,7 +397,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 	    curNode.i = curNode.i+1;
 	    String RID = e.getAttribute("RID").trim();
 	    String nodeRID = getPartRID(RID, workId, curNode.i);
-	    String ANodeRID = WorkMigration.getAbstractForRid(nodeRID);
+	    String ANodeRID = getPartRIDA(RID, workId, curNode.i);
         Resource node = m.createResource(BDR+nodeRID);
         String value = e.getAttribute("type");
         if (value == null || value.isEmpty()) {
