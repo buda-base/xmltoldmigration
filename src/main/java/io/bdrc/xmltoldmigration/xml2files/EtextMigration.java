@@ -386,7 +386,7 @@ public class EtextMigration {
     private static Model lastModel = null;
     private static String lastModelId = null;
     public static Model getItemModel(String workId, String etextId) {
-        String imageItemId = "I"+workId.substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
+        String imageItemId = workId;
         if (lastModelId != null && lastModelId.equals(imageItemId)) {
             return lastModel;
         }
