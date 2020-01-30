@@ -113,7 +113,7 @@ public class MigrationApp
 
     public static String getDstFileName(String type, String baseName, String extension) {
         final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product");
-        String res = OUTPUT_DIR+type+"s/";
+        String res = type.equals("office") ? OUTPUT_DIR+"roles/" : OUTPUT_DIR+type+"s/";
         if (needsHash) {
             String hashtext = getMd5(baseName);
             res = res+hashtext.toString()+"/";
@@ -416,6 +416,9 @@ public class MigrationApp
     
     public static void migrateType(String type, String mustStartWith) {
         switch (type) {
+        case "office":
+            ensureGitRepo("role", OUTPUT_DIR);
+            break;
         case "outline":
         case "scanrequest":
             ensureGitRepo("work", OUTPUT_DIR);
