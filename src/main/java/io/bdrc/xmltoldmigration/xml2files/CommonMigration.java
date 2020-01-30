@@ -1384,8 +1384,15 @@ public class CommonMigration  {
                 prop = BDO+"workIsAbout";
             }
             rid = MigrationHelpers.sanitizeRID(main.getLocalName(), value, rid);
-            if (!MigrationHelpers.isDisconnected(rid))
+            if (!MigrationHelpers.isDisconnected(rid)) {
+                if (rid.startsWith("W") && !rid.startsWith("WA")) {
+                    rid = WorkMigration.getAbstractForRid(rid);
+                    String otherAbstractRID = CommonMigration.abstractClusters.get(rid);
+                    if (otherAbstractRID != null)
+                        rid = otherAbstractRID;
+                }
                 m.add(main, m.getProperty(prop), m.createResource(BDR+rid));
+            }
         }
         if (needsCommentaryTopic && !hasCommentaryTopic) {
             m.add(main, m.getProperty(BDO, "workGenre"), m.createResource(BDR+"T132"));
