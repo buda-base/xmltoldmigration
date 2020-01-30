@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
@@ -56,7 +57,16 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(i);
             value = current.getAttribute("RID").trim();
             if (!value.isEmpty()) {
-                m.add(main, m.getProperty(BDO, "lineageObject"), m.getResource(BDR+value));
+                rid = MigrationHelpers.sanitizeRID(main.getLocalName(), "object", value);
+                if (!MigrationHelpers.isDisconnected(rid)) {
+                    if (rid.startsWith("W") && !rid.startsWith("WA")) {
+                        rid = WorkMigration.getAbstractForRid(rid);
+                        String otherAbstractRID = CommonMigration.abstractClusters.get(rid);
+                        if (otherAbstractRID != null)
+                            rid = otherAbstractRID;
+                    }
+                    m.add(main, m.getProperty(BDO, "lineageObject"), m.getResource(BDR+value));
+                }
             }
         }
         
@@ -101,6 +111,7 @@ public class LineageMigration {
             Element current = (Element) nodeList.item(j);
             value = current.getAttribute("RID");
             if (!value.isEmpty()) {
+                value = MigrationHelpers.sanitizeRID(rez.getLocalName(), "who", value);
                 m.add(holder, m.getProperty(BDO, "lineageWho"), m.getResource(BDR+value));
             }
         }
@@ -109,24 +120,38 @@ public class LineageMigration {
         for (int j = 0; j < nodeList.getLength(); j++) {
             Element current = (Element) nodeList.item(j);
             value = current.getAttribute("RID");
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
+                value = MigrationHelpers.sanitizeRID(rez.getLocalName(), "downTo", value);
                 m.add(holder, m.getProperty(BDO, "lineageDownTo"), m.getResource(BDR+value));
+            }
         }
         
         nodeList = e.getElementsByTagNameNS(LXSDNS, "downFrom");
         for (int j = 0; j < nodeList.getLength(); j++) {
             Element current = (Element) nodeList.item(j);
             value = current.getAttribute("RID");
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
+                value = MigrationHelpers.sanitizeRID(rez.getLocalName(), "downFrom", value);
                 m.add(holder, m.getProperty(BDO, "lineageDownFrom"), m.getResource(BDR+value));
+            }
         }
         
         nodeList = e.getElementsByTagNameNS(LXSDNS, "work");
         for (int j = 0; j < nodeList.getLength(); j++) {
             Element current = (Element) nodeList.item(j);
             value = current.getAttribute("RID");
-            if (!value.isEmpty())
-                m.add(holder, m.getProperty(BDO, "lineageWork"), m.getResource(BDR+value));
+            if (!value.isEmpty()) {
+                String rid = MigrationHelpers.sanitizeRID(rez.getLocalName(), "object", value);
+                if (!MigrationHelpers.isDisconnected(rid)) {
+                    if (rid.startsWith("W") && !rid.startsWith("WA")) {
+                        rid = WorkMigration.getAbstractForRid(rid);
+                        String otherAbstractRID = CommonMigration.abstractClusters.get(rid);
+                        if (otherAbstractRID != null)
+                            rid = otherAbstractRID;
+                    }
+                    m.add(holder, m.getProperty(BDO, "lineageWork"), m.getResource(BDR+rid));
+                }
+            }
         }
         
         nodeList = e.getElementsByTagNameNS(LXSDNS, "received");
@@ -151,8 +176,11 @@ public class LineageMigration {
             }
 
             value = current.getAttribute("site");
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
+                value = MigrationHelpers.sanitizeRID(rez.getLocalName(), "eventWhere", value);
                 m.add(received, m.getProperty(BDO, "eventWhere"), m.getResource(BDR+value));
+            }
+                
             CommonMigration.addDates(current.getAttribute("circa"), received);
         }
 	}

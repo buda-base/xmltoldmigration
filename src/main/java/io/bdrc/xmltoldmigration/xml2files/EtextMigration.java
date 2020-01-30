@@ -329,10 +329,11 @@ public class EtextMigration {
         lastWorkId = workId;
     }
     
-    private static String lastInstanceId = null;
-    public static void addReproToInstance(String iInstanceId, String eInstanceId, String etextId, boolean sameOriginAs, boolean isPaginated) {
-        if (iInstanceId.equals(lastInstanceId))
+    private static String lastIndicatedWorkId = null;
+    public static void addReproToInstance(String indicatedWorkId, String eInstanceId, String etextId, boolean sameOriginAs, boolean isPaginated) {
+        if (indicatedWorkId.equals(lastIndicatedWorkId))
             return;
+        final String iInstanceId = indicatedWorkId;
         final String workPath = MigrationApp.getDstFileName("iinstance", iInstanceId, ".trig");
         final Model workModel = MigrationHelpers.modelFromFileName(workPath);
         if (workModel == null) {
@@ -343,7 +344,7 @@ public class EtextMigration {
         Property p = workModel.getProperty(BDO, "instanceHasReproduction");
         iInstanceR.addProperty(p, workModel.createResource(BDR+eInstanceId));
         MigrationHelpers.outputOneModel(workModel, iInstanceId, workPath, "iinstance");
-        lastInstanceId = iInstanceId;
+        lastIndicatedWorkId = indicatedWorkId;
     }
     
     public static Resource getItemEtextPart(Model itemModel, String itemId, int volume, int seqNum) {
@@ -393,7 +394,7 @@ public class EtextMigration {
         String imageItemPath = MigrationApp.getDstFileName("iinstance", imageItemId, ".trig");
         Model imageItemModel = MigrationHelpers.modelFromFileName(imageItemPath);
         if (imageItemModel == null) {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read item model for image name translation on "+imageItemPath);
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read image instance model for image name translation on "+imageItemPath);
             return null;
         }
         lastModelId = imageItemId;
@@ -430,7 +431,7 @@ public class EtextMigration {
         }
         final String indicatedWorkId = e.getTextContent().trim();
         String eInstanceId = instanceIdFromWorkId(indicatedWorkId);
-        String iInstanceId = "MW"+indicatedWorkId.substring(1);
+        String iInstanceId = "W"+indicatedWorkId.substring(1);
         boolean bornDigital = false;
         if (WorkMigration.etextInstances.containsKey(indicatedWorkId)) {
             eInstanceId = indicatedWorkId;
@@ -475,7 +476,7 @@ public class EtextMigration {
 
             if (!bornDigital) {
                 // false should be true in the case of KarmaDelek and GuruLama
-                addReproToInstance(iInstanceId, eInstanceId, etextId, false, isPaginated);
+                addReproToInstance(indicatedWorkId, eInstanceId, etextId, false, isPaginated);
             }
             
             if (WorkMigration.addItemForWork) {
@@ -499,7 +500,7 @@ public class EtextMigration {
         if (isPaginated && !testMode) {
             imageItemModel = getItemModel(indicatedWorkId, etextId);
             if (imageItemModel == null) {
-                System.err.println("error: cannot retrieve item model for "+indicatedWorkId);
+                System.err.println("error: cannot retrieve image instance model for "+indicatedWorkId+"(referenced in "+path+")");
                 return null;
             }
         }
