@@ -70,7 +70,6 @@ bdr:EV93D338F6A346B51D
         :notBefore  "0900"^^xsd:gYear .
 
 bda:P1583  a               adm:AdminData ;
-        rdfs:seeAlso       bdr:O1GS392481GS39291 ;
         adm:adminAbout     bdr:P1583 ;
         adm:facetIndex     25 ;
         adm:gitPath        "fa/P1583.trig" ;
@@ -116,6 +115,7 @@ bdr:NT6B646336F5EE567D
         :noteWork               bdr:W19801 .
 
 bdr:P1583  a                 :Person ;
+        rdfs:seeAlso         bdr:O1GS392481GS39291 ;
         adm:seeOtherToL      "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
         :hasUnknownKinship   bdr:P1584 ;
         :incarnationGeneral  bdr:P561654 ;

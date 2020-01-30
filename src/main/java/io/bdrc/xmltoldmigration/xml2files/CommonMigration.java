@@ -628,7 +628,6 @@ public class CommonMigration  {
     }
 
     public static void addExternal(Model m, Element e, Resource rez, int i) {
-        Resource admR = getAdminData(rez);
         String value = e.getAttribute("data").trim();
         if (value.isEmpty()) return;
         if (value.contains("treasuryoflives.org")) {
@@ -639,9 +638,11 @@ public class CommonMigration  {
         if (value.contains("blog.tbrc.org")) return;
         if (value.contains("tbrc.org")) {
             value = getRIDFromTbrcUrl(value);
-            // TODO: map outline nodes to new ones
-            admR.addProperty(m.createProperty(RDFS.getURI(), "seeAlso"), m.createResource(BDR+value));
+            // TODO: more of a work location?
+            rez.addProperty(RDFS.seeAlso, m.createResource(BDR+value));
+            return;
         }
+        rez.addProperty(RDFS.seeAlso, m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
     }
 
     public static void addExternals(Model m, Element e, Resource r, String XsdPrefix) {
