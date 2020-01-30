@@ -88,7 +88,7 @@ bdr:LHD3068D3704989044
         :lineageDownFrom  bdr:L8LS15610 ;
         :lineageReceived  bdr:EV790DECFA3070BBC0 ;
         :lineageWho       bdr:P1018 ;
-        :lineageWork      bdr:WTest ;
+        :lineageWork      bdr:WATest ;
         :note             bdr:NT7E05A41908C244A3 .
 
 bdr:WLC0BD672AF6D364D1
