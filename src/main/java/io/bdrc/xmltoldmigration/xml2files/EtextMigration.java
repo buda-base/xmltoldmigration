@@ -476,6 +476,7 @@ public class EtextMigration {
 
             if (!bornDigital) {
                 // false should be true in the case of KarmaDelek and GuruLama
+                item.addProperty(itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+indicatedWorkId));
                 addReproToInstance(indicatedWorkId, eInstanceId, etextId, false, isPaginated);
             }
             
