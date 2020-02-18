@@ -453,10 +453,10 @@ public class CommonMigration  {
         case "gser_bri_number":       return BDO+"workKaTenSiglaG";
         case "gser_bris_nimber":      return BDO+"workKaTenSiglaG";
         case "gser_bris_number":      return BDO+"workKaTenSiglaG";
-        case "colopho":               return BDO+"workColophon";
-        case "colophon":              return BDO+"workColophon";
-        case "colophn":               return BDO+"workColophon";
-        case "colophone":             return BDO+"workColophon";
+        case "colopho":               return BDO+"colophon";
+        case "colophon":              return BDO+"colophon";
+        case "colophn":               return BDO+"colophon";
+        case "colophone":             return BDO+"colophon";
         case "sde_gde_number":        return BDO+"workKaTenSiglaD";
         case "de_dge_number":         return BDO+"workKaTenSiglaD";
         case "sdg_dge_number":        return BDO+"workKaTenSiglaD";
