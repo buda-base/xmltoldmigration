@@ -250,7 +250,7 @@ public class EAPFondsTransfer {
             numVol++;
         }
         itemModel.add(item, itemModel.createProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(numVol));
-        workModel.add(work, workModel.createProperty(BDO, "workNumberOfVolumes"), workModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
+        workModel.add(work, workModel.createProperty(BDO, "numberOfVolumes"), workModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
     }
 
     public void addSeries(String[] serieLine, List<Resource> res, String serie) {

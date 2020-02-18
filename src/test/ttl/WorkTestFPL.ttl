@@ -49,7 +49,7 @@ bdr:MWM12837FPL  a            :SerialInstance ;
         :catalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
         :workEvent            bdr:EV35B83BD895D4749F ;
         :incipit          "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
-        :workNumberOfVolumes  1 ;
+        :numberOfVolumes  1 ;
         :workScanInfo         "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
         :workSeriesNumber     "2" ;
         :workTitle            bdr:TT15ED3B92D25DDB21 , bdr:TT3CBDE3A243BE57CF , bdr:TT86C328CD33E9538B ;

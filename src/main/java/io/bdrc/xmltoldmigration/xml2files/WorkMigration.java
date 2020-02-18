@@ -364,7 +364,7 @@ public class WorkMigration {
             try {
                 nbvols = Integer.parseUnsignedInt(nbVolsStr);
                 if (nbvols != 0) {
-                    prop = m.getProperty(BDO, "workNumberOfVolumes");
+                    prop = m.getProperty(BDO, "numberOfVolumes");
                     lit = m.createTypedLiteral(nbvols, XSDDatatype.XSDinteger);
                     m.add(main, prop, lit);
                 }

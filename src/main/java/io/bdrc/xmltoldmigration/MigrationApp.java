@@ -247,7 +247,7 @@ public class MigrationApp
                 }
 
                 int nbVolsTotal = 0;
-                Statement s = workR.getProperty(m.getProperty(BDO, "workNumberOfVolumes"));
+                Statement s = workR.getProperty(m.getProperty(BDO, "numberOfVolumes"));
                 if (s != null)
                     nbVolsTotal = s.getObject().asLiteral().getInt();
     
@@ -255,10 +255,10 @@ public class MigrationApp
                 ImageGroupInfo imageGroups = WorkMigration.getImageGroupList(d, nbVolsTotal);
                 Map<Integer,String> vols = imageGroups.imageGroupList;
                 if (vols.size() > 0) {
-                    // replace workNumberOfVolumes by the corrected value
+                    // replace numberOfVolumes by the corrected value
                     if (imageGroups.totalVolumes > nbVolsTotal) {
-                        workR.removeAll(m.getProperty(BDO, "workNumberOfVolumes"));
-                        workR.addProperty(m.getProperty(BDO, "workNumberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
+                        workR.removeAll(m.getProperty(BDO, "numberOfVolumes"));
+                        workR.addProperty(m.getProperty(BDO, "numberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                     }
                     String itemName = baseName;
 
