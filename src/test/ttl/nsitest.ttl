@@ -68,7 +68,7 @@ bdr:MW1NPL1  a                    :Instance ;
         :workDimWidth             25.0 ;
         :workEvent                bdr:EVDA35DE703590E610 ;
         :workIsAbout              bdr:T933 ;
-        :workLangScript           bdr:SaNewa ;
+        :langScript           bdr:SaNewa ;
         :workTitle                bdr:TTCCD2BE298D1044C7 ;
         skos:prefLabel            "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
 

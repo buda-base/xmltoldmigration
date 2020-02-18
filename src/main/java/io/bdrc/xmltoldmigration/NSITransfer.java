@@ -177,7 +177,7 @@ public class NSITransfer {
         final String langScript = line[9].trim()+";"+line[10].trim();
         List<String> langScripts = langScriptMap.get(langScript);
         for (String ls : langScripts) {
-            workModel.add(work, workModel.createProperty(BDO, "workLangScript"), workModel.createResource(BDR+ls));
+            workModel.add(work, workModel.createProperty(BDO, "langScript"), workModel.createResource(BDR+ls));
         }
         switch(line[17].trim()) {
         case "Yellow Paper":
