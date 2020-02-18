@@ -134,7 +134,7 @@ public class CUDLTransfer {
             SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "MW0CDL0"+rid, abstractWorkRID, null);
         }
         
-        workModel.add(work,workModel.createProperty(BDO,"workCatalogInfo"),workModel.createLiteral(line[1], "en"));
+        workModel.add(work,workModel.createProperty(BDO,"catalogInfo"),workModel.createLiteral(line[1], "en"));
         
         String title=line[3];
         String mainTitle=line[6];

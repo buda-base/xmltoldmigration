@@ -46,7 +46,7 @@ bdr:MWM12837FPL  a            :SerialInstance ;
         :isRoot               true ;
         :note                 bdr:NT34F0EEC409CDBEC1 , bdr:NT531278235C7918E2 ;
         :serialInstanceOf     bdr:WAM12837FPL ;
-        :workCatalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
+        :catalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
         :workEvent            bdr:EV35B83BD895D4749F ;
         :workIncipit          "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
         :workNumberOfVolumes  1 ;
