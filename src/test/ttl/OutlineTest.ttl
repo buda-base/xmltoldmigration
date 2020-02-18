@@ -61,7 +61,7 @@ bdr:MW30020_9A656A  a          :Instance ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" ;
         :note                  bdr:NTFB0562979CCDB6B6 ;
         :partRoot              bdr:MW30020 ;
-        :workIncipit           "gleng gzhi/"@bo-x-ewts ;
+        :incipit           "gleng gzhi/"@bo-x-ewts ;
         :workLocation          bdr:WLB8EE02E1E8DC26BC ;
         :workPartIndex         1 ;
         :workPartOf            bdr:MW30020_3CF7E0 ;

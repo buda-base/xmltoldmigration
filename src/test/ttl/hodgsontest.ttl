@@ -25,7 +25,7 @@ bdr:MW0IA_HOD46  a                :Instance ;
         :printMethod              bdr:PrintMethod_Manuscript ;
         :colophon             "ityekallavīraṃ nāma caṇḍamahāroṣaṇatantraṃ samāptaṃ"@sa-x-iast ;
         :workGenre                bdr:T2 ;
-        :workIncipit              "Evaṃ mayā śrutamekasminsamaye bhagavān vajrasatvaḥ - ityekallavīrākhye śrīcaṇḍamahāroṣaṇatantre tantrāvatāraṇapaṭalaḥ prathamaḥ"@sa-x-iast ;
+        :incipit              "Evaṃ mayā śrutamekasminsamaye bhagavān vajrasatvaḥ - ityekallavīrākhye śrīcaṇḍamahāroṣaṇatantre tantrāvatāraṇapaṭalaḥ prathamaḥ"@sa-x-iast ;
         :workMaterial             bdr:MaterialPalmLeaf ;
         :workTitle                bdr:TTA1D05226DDA49ED8 , bdr:TT0CF378B84813E3DF ;
         skos:altLabel             "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;

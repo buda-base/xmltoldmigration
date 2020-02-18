@@ -157,7 +157,7 @@ public class HodgsonTransfer {
             work.addProperty(workModel.createProperty(BDO, "colophon"), workModel.createLiteral(line[9], "sa-x-iast"));
         }
         if (line.length > 7 && !line[8].trim().isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workIncipit"), workModel.createLiteral(line[8], "sa-x-iast"));
+            work.addProperty(workModel.createProperty(BDO, "incipit"), workModel.createLiteral(line[8], "sa-x-iast"));
         }
         
         workModel.add(work, workModel.createProperty(BDO, "printMethod"), workModel.createResource(BDR+"PrintMethod_Manuscript"));

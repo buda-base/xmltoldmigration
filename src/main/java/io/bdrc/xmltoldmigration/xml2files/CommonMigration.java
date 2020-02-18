@@ -424,7 +424,7 @@ public class CommonMigration  {
         case "noType":                return RDFS.getURI()+"comment";
         case "status":                return RDFS.getURI()+"comment";
         case "authorship":            return BDO+"authorshipStatement";
-        case "incipit":               return BDO+"workIncipit";
+        case "incipit":               return BDO+"incipit";
         case "note":                  return BDO+"note";
         case "notes":                 return BDO+"note";
         case "chapter":               return BDO+"work_desc_chapters";
@@ -1239,7 +1239,7 @@ public class CommonMigration  {
             }
             // warning: incipit inconsistently represents the incipit title or the incipit...
             if (type.equals("incipit") && main != null) {
-                main.addProperty(m.getProperty(BDO, "workIncipit"), lit);
+                main.addProperty(m.getProperty(BDO, "incipit"), lit);
                 continue;
             }
             /* here we split the titles between the work and instance as follows:
