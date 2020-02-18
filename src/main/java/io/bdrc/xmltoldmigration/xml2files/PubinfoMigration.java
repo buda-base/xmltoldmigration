@@ -152,7 +152,7 @@ public class PubinfoMigration {
         addSimpleElement("seeHarvard", BDO+"workSeeHarvard", null, root, m, main);
         addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
         addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
-        addSimpleElement("authorshipStatement", BDO+"workAuthorshipStatement", EWTS_TAG, root, m, main);
+        addSimpleElement("authorshipStatement", BDO+"instanceAuthorshipStatement", EWTS_TAG, root, m, main);
         addSimpleDateElement("dateOfWriting", "CompletedEvent", root, main);
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"workIllustrations", null, root, m, main);

@@ -423,7 +423,7 @@ public class CommonMigration  {
         switch (res) {
         case "noType":                return RDFS.getURI()+"comment";
         case "status":                return RDFS.getURI()+"comment";
-        case "authorship":            return BDO+"workAuthorshipStatement";
+        case "authorship":            return BDO+"instanceAuthorshipStatement";
         case "incipit":               return BDO+"workIncipit";
         case "note":                  return BDO+"note";
         case "notes":                 return BDO+"note";

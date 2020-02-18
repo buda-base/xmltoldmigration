@@ -57,7 +57,7 @@ bdr:MW1FPL1  a                      :Instance ;
         :itemBDRCHoldingStatement   "1" ;
         :printMethod                bdr:PrintMethod_Manuscript ;
         :script                     bdr:ScriptDbuMed ;
-        :workAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
+        :instanceAuthorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
         :workBiblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
         :workEvent                  bdr:EVB0BA72AF962CC892 ;
         :workExtentStatement        "177 ff." ;
