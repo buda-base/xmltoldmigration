@@ -12,7 +12,7 @@
 
 bdr:MW1FEMC020013  a             :Instance ;
         :hasFascicles            "1" ;
-        :hasWorkNum              "1" ;
+        :hasInstanceNum              "1" ;
         :instanceOf              bdr:WA1FEMC020013 ;
         :isRoot                  true ;
         :note                    bdr:NT43895F96F66FA39A ;

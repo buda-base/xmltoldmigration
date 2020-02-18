@@ -51,7 +51,7 @@ bdr:NT6A5E503DD47337CF
 
 bdr:MW1FEMC010006  a             :Instance ;
         :hasFascicles            "2, 7, 8, 10, 11" ;
-        :hasWorkNum              "1" ;
+        :hasInstanceNum              "1" ;
         :instanceOf              bdr:WA1FEMC010006 ;
         :isRoot                  true ;
         :note                    bdr:NT6A5E503DD47337CF ;
