@@ -160,7 +160,7 @@ public class PubinfoMigration {
         addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
         addSimpleElement("biblioNote", BDO+"instanceBiblioNote", "en", root, m, main);
         addSimpleElement("sourceNote", BDO+"workSourceNote", "en", root, m, main);
-        addSimpleElement("editionStatement", BDO+"workEditionStatement", EWTS_TAG, root, m, main);
+        addSimpleElement("editionStatement", BDO+"editionStatement", EWTS_TAG, root, m, main);
         
         // handle series info        
         RDFNode seriesName = getSeriesName(root, m);
