@@ -64,6 +64,6 @@ bdr:MW1FPL1  a                      :Instance ;
         :workHasSourcePrintery      bdr:G1PD129184 ;
         :workHollis                 "014254679" ;
         :workLcCallNumber           "BQ7662.4 .G77 1979" ;
-        :workPublisherLocation      "[lha sa]"@en ;
-        :workPublisherName          "[zhol par khang]"@en ;
+        :publisherLocation      "[lha sa]"@en ;
+        :publisherName          "[zhol par khang]"@en ;
         :workSourcePrintery_string  "test sourcePrintery with no place" .

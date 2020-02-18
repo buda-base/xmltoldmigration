@@ -141,8 +141,8 @@ public class PubinfoMigration {
         
 		String workRid = root.getAttribute("RID").substring(1);
 		if (!workRid.contains("FPL") && !workRid.contains("FEMC") &&  !workRid.contains("W1EAP")) {
-		    addSimpleElement("publisherName", BDO+"workPublisherName", "en", root, m, main);
-            addSimpleElement("publisherLocation", BDO+"workPublisherLocation", "en", root, m, main);
+		    addSimpleElement("publisherName", BDO+"publisherName", "en", root, m, main);
+            addSimpleElement("publisherLocation", BDO+"publisherLocation", "en", root, m, main);
 		}
         addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
         addSimpleDateElement("publisherDate", "PublishedEvent", root, main);
