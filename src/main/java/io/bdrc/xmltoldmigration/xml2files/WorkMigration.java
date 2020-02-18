@@ -4,24 +4,11 @@ import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.BDR;
-import static io.bdrc.libraries.Models.BDG;
-import static io.bdrc.libraries.Models.VCARD;
-import static io.bdrc.libraries.Models.FacetType;
-import static io.bdrc.libraries.Models.FacetType.EVENT;
-import static io.bdrc.libraries.Models.FacetType.NAME;
-import static io.bdrc.libraries.Models.FacetType.VCARD_ADDR;
-import static io.bdrc.libraries.Models.addReleased;
 import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
-import static io.bdrc.libraries.Models.getAdminData;
-import static io.bdrc.libraries.Models.getAdminRoot;
-import static io.bdrc.libraries.Models.getEvent;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
-
-import static io.bdrc.libraries.LangStrings.normalizeTibetan;
-import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +35,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import io.bdrc.libraries.Models;
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -395,9 +381,9 @@ public class WorkMigration {
         
         // these maps are queried in ImagegroupMigration and EtextMigration 
         // to fill in the corresponding Item via MigrationApp.moveAdminInfo()
-        workAccessMap.put(workId, accessUri);
-        workLegalMap.put(workId, legalUri);
-        workRestrictedInChina.put(workId, isRestrictedInChina);
+        workAccessMap.put('M'+workId, accessUri);
+        workLegalMap.put('M'+workId, legalUri);
+        workRestrictedInChina.put('M'+workId, isRestrictedInChina);
 
         // creator
         // this is a list of the abstract works of the part of the work
@@ -504,7 +490,7 @@ public class WorkMigration {
                     String itemRid = BDR+"W"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                     Resource item = m.createResource(itemRid);
                     if (WorkMigration.addWorkHasItem)
-                        m.add(main, m.getProperty(BDO, "workHasInstance"), item);
+                        m.add(main, m.getProperty(BDO, "instanceHasReproduction"), item);
                 }
                 // then curate the volume list to add missing volumes
                 Element volume = (Element) volumes.item(j);
