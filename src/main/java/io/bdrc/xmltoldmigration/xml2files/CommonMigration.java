@@ -437,7 +437,7 @@ public class CommonMigration  {
         case "extent":                return BDO+"workExtentStatement";
         case "id":                    return "__fpl";
         case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
-        case "location":              return BDO+"workLocationStatement";
+        case "location":              return BDO+"instanceLocationStatement";
         case "remarks":               return "__fpl";
         case "room":                  return "__fpl";
         case "summary":               return RDFS.getURI()+"comment";
