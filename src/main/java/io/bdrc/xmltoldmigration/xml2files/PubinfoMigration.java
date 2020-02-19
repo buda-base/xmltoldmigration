@@ -528,11 +528,11 @@ public class PubinfoMigration {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("place").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "workHasSourcePrintery"), m.createResource(BDR+value));
+                m.add(main, m.getProperty(BDO, "hasSourcePrintery"), m.createResource(BDR+value));
             else {
                 value = current.getTextContent().trim();
                 if (!value.isEmpty()) {
-                    m.add(main, m.getProperty(BDO, "workSourcePrintery_string"), m.createLiteral(value));
+                    m.add(main, m.getProperty(BDO, "sourcePrinteryStatement"), m.createLiteral(value));
                 } else {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "sourcePrintery", "missing source printery ID!");
                 }
