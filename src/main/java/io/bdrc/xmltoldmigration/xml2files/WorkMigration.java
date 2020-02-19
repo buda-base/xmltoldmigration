@@ -478,7 +478,7 @@ public class WorkMigration {
                 current = (Element) nodeList.item(i);
                 Literal l = CommonMigration.getLiteral(current, "en", m, "scanInfo", main.getLocalName(), null);
                 if (l == null) continue;
-                main.addProperty(m.getProperty(BDO, "workScanInfo"), l);
+                main.addProperty(m.getProperty(BDO, "scanInfo"), l);
             }
             
             NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
