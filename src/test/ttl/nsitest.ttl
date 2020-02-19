@@ -12,6 +12,7 @@
 
 bdr:WA1NPL1  a            :Work ;
         :isRoot           true ;
+        :language         bdr:Sa ;
         :workHasInstance  bdr:MW1NPL1 , bdr:W1NPL1 ;
         skos:prefLabel    "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
 
@@ -64,11 +65,11 @@ bdr:MW1NPL1  a                    :Instance ;
         :isRoot                   true ;
         :note                     bdr:NTC95D37D872B56DA9 , bdr:NTFE307A6AEDE42D33 ;
         :printMethod              bdr:PrintMethod_Manuscript ;
+        :script                   bdr:Newa ;
         :workDimHeight            7.6 ;
         :workDimWidth             25.0 ;
         :workEvent                bdr:EVDA35DE703590E610 ;
         :workIsAbout              bdr:T933 ;
-        :langScript           bdr:SaNewa ;
         :workTitle                bdr:TTCCD2BE298D1044C7 ;
         skos:prefLabel            "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
 
