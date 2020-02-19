@@ -45,19 +45,31 @@ import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 public class NSITransfer {
 
 
-    public static final Map<String,List<String>> langScriptMap = new HashMap<>();
+    public static final Map<String,List<String>> langMap = new HashMap<>();
+    public static final Map<String,List<String>> scriptMap = new HashMap<>();
     static {
-        langScriptMap.put("Sanskrit;Pracalita",  Arrays.asList("SaNewa"));
-        langScriptMap.put("Nepal Bhasa;Devanagari", Arrays.asList("NewDeva"));
-        langScriptMap.put("Sanskrit;Devanagari", Arrays.asList("SaDeva"));
-        langScriptMap.put("Nepal Bhasa;Pracalita", Arrays.asList("NewNewa"));
-        langScriptMap.put("Nepali;Devanagari", Arrays.asList("NeDeva"));
-        langScriptMap.put("Sanskrit;Bhujimol", Arrays.asList("SaNepaleseHooked"));
-        langScriptMap.put("Sanskrit/Nepal Bhasa;Pracalita", Arrays.asList("SaNewa", "NewNewa"));
-        langScriptMap.put("Sanskrit;Nagari", Arrays.asList("SaNagari"));
-        langScriptMap.put("Sanskrit/Nepal Bhasa;Devanagari", Arrays.asList("SaDeva", "NewDeva"));
-        langScriptMap.put("Sanskrit;Ranjana/Pracalita", Arrays.asList("SaRanj", "SaNewa"));
-        langScriptMap.put("Sanskrit;Ranjana", Arrays.asList("SaRanj"));
+        langMap.put("Sanskrit;Pracalita",  Arrays.asList("Sa"));
+        langMap.put("Nepal Bhasa;Devanagari", Arrays.asList("New"));
+        langMap.put("Sanskrit;Devanagari", Arrays.asList("Sa"));
+        langMap.put("Nepal Bhasa;Pracalita", Arrays.asList("New"));
+        langMap.put("Nepali;Devanagari", Arrays.asList("Ne"));
+        langMap.put("Sanskrit;Bhujimol", Arrays.asList("Sa"));
+        langMap.put("Sanskrit/Nepal Bhasa;Pracalita", Arrays.asList("Sa", "New"));
+        langMap.put("Sanskrit;Nagari", Arrays.asList("Sa"));
+        langMap.put("Sanskrit/Nepal Bhasa;Devanagari", Arrays.asList("Sa", "New"));
+        langMap.put("Sanskrit;Ranjana/Pracalita", Arrays.asList("Sa"));
+        langMap.put("Sanskrit;Ranjana", Arrays.asList("Ranj"));
+        scriptMap.put("Sanskrit;Pracalita",  Arrays.asList("Newa"));
+        scriptMap.put("Nepal Bhasa;Devanagari", Arrays.asList("Deva"));
+        scriptMap.put("Sanskrit;Devanagari", Arrays.asList("Deva"));
+        scriptMap.put("Nepal Bhasa;Pracalita", Arrays.asList("Newa"));
+        scriptMap.put("Nepali;Devanagari", Arrays.asList("Deva"));
+        scriptMap.put("Sanskrit;Bhujimol", Arrays.asList("NepaleseHooked"));
+        scriptMap.put("Sanskrit/Nepal Bhasa;Pracalita", Arrays.asList("Newa"));
+        scriptMap.put("Sanskrit;Nagari", Arrays.asList("Nagari"));
+        scriptMap.put("Sanskrit/Nepal Bhasa;Devanagari", Arrays.asList("Deva"));
+        scriptMap.put("Sanskrit;Ranjana/Pracalita", Arrays.asList("Ranj", "Newa"));
+        scriptMap.put("Sanskrit;Ranjana", Arrays.asList("Ranj"));
     }
     
     public static final void transferNIS() {
@@ -175,9 +187,15 @@ public class NSITransfer {
         
         // other metadata
         final String langScript = line[9].trim()+";"+line[10].trim();
-        List<String> langScripts = langScriptMap.get(langScript);
-        for (String ls : langScripts) {
-            workModel.add(work, workModel.createProperty(BDO, "langScript"), workModel.createResource(BDR+ls));
+        if (mA != null) {
+            List<String> langs = langMap.get(langScript);
+            for (String ls : langs) {
+                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+ls));
+            }
+        }
+        List<String> scripts = scriptMap.get(langScript);
+        for (String ls : scripts) {
+            workModel.add(work, workModel.createProperty(BDO, "script"), workModel.createResource(BDR+ls));
         }
         switch(line[17].trim()) {
         case "Yellow Paper":

@@ -514,7 +514,6 @@ public class PubinfoMigration {
                 if (value.contains("hindi")) {
                     langFound = true;
                     addLangScript(main, mainA, "LangHi", null, "Hi");
-                    m.add(main, m.getProperty(BDO, "langScript"), m.createResource(BDR+"Hi"));
                 }
 //                if (!langFound)
 //                    System.out.println(main.getLocalName()+" "+value);
