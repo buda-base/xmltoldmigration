@@ -42,8 +42,8 @@ bdr:MW0CDL0MS-ADD-01691-00003
         :printMethod              bdr:PrintMethod_Manuscript ;
         :script                   bdr:ScriptRanj ;
         :catalogInfo          "This Nepalese palm-leaf manuscript from the 15th century contains a tantric initiation manual called Abhiṣekavidhi, which describes the rituals to be performed at various stages of the consecration procedure (carefully marked with a final rubric for each subsection). This manual is apparently an excerpt from the Vajrāvalī of Abhayākaragupta, a long and complex work on tantric rituals."@en ;
-        :workDimHeight            3.5 ;
-        :workDimWidth             27.5 ;
+        :dimHeight            3.5 ;
+        :dimWidth             27.5 ;
         :workEvent                bdr:EVB11167779AA5CB54 ;
         :workMaterial             bdr:MaterialPalmyraPalmLeaf ;
         :workTitle                bdr:TT1ACFA685925520E4 ;
