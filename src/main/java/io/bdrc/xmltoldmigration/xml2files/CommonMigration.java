@@ -1453,7 +1453,7 @@ public class CommonMigration  {
         int page1 = -1;
         int page2 = -1;
 
-        Resource loc = getFacetNode(FacetType.WORK_LOC, main);
+        Resource loc = getFacetNode(FacetType.CONTENT_LOC, main);
         LocationVolPage res = null;
         for (i = 0; i < nodeList.size(); i++) {
             if (i > 1) {
@@ -1466,26 +1466,26 @@ public class CommonMigration  {
                 //String value = getSubResourceName(main, WORK_PREFIX, "Location", i+1);
                 String value = current.getAttribute("type");
                 if (value.equals("folio")) {
-                    loc.addProperty(m.getProperty(BDO, "workLocationByFolio"), m.createTypedLiteral(true));
+                    loc.addProperty(m.getProperty(BDO, "contentLocationByFolio"), m.createTypedLiteral(true));
                 }    
             }
 
             String value = current.getAttribute("work").trim();
             if (workId.isEmpty()) {
                 if (!value.isEmpty())
-                    loc.addProperty(m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+value));
+                    loc.addProperty(m.getProperty(BDO, "contentLocationInstance"), m.createResource(BDR+value));
             } else if (!value.isEmpty() && !value.equals(workId)) {
                 String error = "title: \""+outlineNodeTitle+"\" has locations in work "+value+" instead of "+workId;
                 ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, error);
             }
 
             String endString = (i == 0) ? "" : "End";
-            int volume = addLocationIntOrString(m, main, loc, current, "vol", "workLocation"+endString+"Volume", volume1);
+            int volume = addLocationIntOrString(m, main, loc, current, "vol", "contentLocation"+endString+"Volume", volume1);
             if (i == 0) volume1 = volume;
             if (i == 1 && volume != -1 && volume1 != -1 && volume < volume1) {
                 ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", end location volume is before beginning location volume");
             }
-            int page = addLocationIntOrString(m, main, loc, current, "page", "workLocation"+endString+"Page", null);
+            int page = addLocationIntOrString(m, main, loc, current, "page", "contentLocation"+endString+"Page", null);
             if (i == 0) {
                 page1 = page;
             } else {
@@ -1494,8 +1494,8 @@ public class CommonMigration  {
             if (i == 1 && page != -1 && page1 != -1 && page < page1 && volume == volume1) {
                 ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\", end location page is before beginning location");
             }
-            addLocationIntOrString(m, main, loc, current, "phrase", "workLocation"+endString+"Phrase", null);
-            addLocationIntOrString(m, main, loc, current, "line", "workLocation"+endString+"Line", null);
+            addLocationIntOrString(m, main, loc, current, "phrase", "contentLocation"+endString+"Phrase", null);
+            addLocationIntOrString(m, main, loc, current, "line", "contentLocation"+endString+"Line", null);
 
             if (i == 1 && page != -1) {
                 res = new LocationVolPage(volume1, page1, volume, page, null);
@@ -1503,17 +1503,17 @@ public class CommonMigration  {
 
             value = current.getAttribute("side");
             if (!value.isEmpty())
-                m.add(loc, m.getProperty(BDO, "workLocation"+endString+"Side"), m.createLiteral(value));
+                m.add(loc, m.getProperty(BDO, "contentLocation"+endString+"Side"), m.createLiteral(value));
 
         }
 
         // only add locations with statements
         StmtIterator locProps = loc.listProperties();
         if (locProps.hasNext()) {
-            m.add(main, m.getProperty(BDO, "workLocation"), loc);
-            // comment to remove workLocationWork in outline nodes
+            m.add(main, m.getProperty(BDO, "contentLocation"), loc);
+            // comment to remove contentLocationInstance in outline nodes
             if (!workId.isEmpty())
-                m.add(loc, m.getProperty(BDO, "workLocationWork"), m.createResource(BDR+workId));
+                m.add(loc, m.getProperty(BDO, "contentLocationInstance"), m.createResource(BDR+workId));
         } else {
             m.removeAll(loc, null, null);
         }

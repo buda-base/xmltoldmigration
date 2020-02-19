@@ -333,6 +333,11 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
            //showDifference(fromXml, correctModel);
            //fromXml.write(System.out, "TURTLE");
+//         
+//         // ==== TEMP DEBUG ====
+//           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testOutline-fromXml.ttl"), "TTL");
+//           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testOutline-correctModel.ttl"), "TTL");
+//
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
@@ -451,6 +456,11 @@ public class MigrationTest
         Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/L8LS14115.ttl");
         //fromXml.write(System.out, "TTL");
+//      
+//      // ==== TEMP DEBUG ====
+//        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testL8LS14115-fromXml.ttl"), "TTL");
+//        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testL8LS14115-correctModel.ttl"), "TTL");
+//
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
