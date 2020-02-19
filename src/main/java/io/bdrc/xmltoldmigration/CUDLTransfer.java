@@ -187,10 +187,10 @@ public class CUDLTransfer {
                 mA.add(workA, mA.createProperty(BDO, "language"), mA.createResource(BDR+"LangSa"));
         }
         if (!line[19].isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workDimWidth"), line[19].replace(',','.').trim(), XSDDatatype.XSDdecimal);
+            work.addProperty(workModel.createProperty(BDO, "dimWidth"), line[19].replace(',','.').trim(), XSDDatatype.XSDdecimal);
         }
         if (!line[18].isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[18].replace(',','.').trim(), XSDDatatype.XSDdecimal);
+            work.addProperty(workModel.createProperty(BDO, "dimHeight"), line[18].replace(',','.').trim(), XSDDatatype.XSDdecimal);
         }
         if(!line[10].equals("") && !line[11].equals("")) {
             Resource event = getEvent(work, "CopyEvent", "workEvent");

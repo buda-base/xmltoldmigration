@@ -61,9 +61,9 @@ bdr:MW1FPL1  a                      :Instance ;
         :biblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
         :workEvent                  bdr:EVB0BA72AF962CC892 ;
         :workExtentStatement        "177 ff." ;
-        :workHasSourcePrintery      bdr:G1PD129184 ;
+        :hasSourcePrintery      bdr:G1PD129184 ;
         :workHollis                 "014254679" ;
         :workLcCallNumber           "BQ7662.4 .G77 1979" ;
         :publisherLocation      "[lha sa]"@en ;
         :publisherName          "[zhol par khang]"@en ;
-        :workSourcePrintery_string  "test sourcePrintery with no place" .
+        :sourcePrinteryStatement  "test sourcePrintery with no place" .

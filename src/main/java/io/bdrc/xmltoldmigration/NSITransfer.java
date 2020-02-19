@@ -215,8 +215,8 @@ public class NSITransfer {
         if (line[15].length() > 3 && line[16].length() > 3) {
             float dim1 = Float.parseFloat(line[15].substring(0, line[15].length()-3).trim());
             float dim2 = Float.parseFloat(line[16].substring(0, line[16].length()-3).trim());
-            work.addProperty(workModel.createProperty(BDO, "workDimWidth"), String.valueOf(Math.max(dim1, dim2)), XSDDatatype.XSDdecimal);
-            work.addProperty(workModel.createProperty(BDO, "workDimHeight"), String.valueOf(Math.min(dim1, dim2)), XSDDatatype.XSDdecimal);
+            work.addProperty(workModel.createProperty(BDO, "dimWidth"), String.valueOf(Math.max(dim1, dim2)), XSDDatatype.XSDdecimal);
+            work.addProperty(workModel.createProperty(BDO, "dimHeight"), String.valueOf(Math.min(dim1, dim2)), XSDDatatype.XSDdecimal);
         }
         // Topics and Genres, they should go with the abstract text
         if (linelen > 16 && !line[16].isEmpty()) {

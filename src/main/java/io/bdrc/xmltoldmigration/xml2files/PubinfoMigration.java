@@ -156,7 +156,7 @@ public class PubinfoMigration {
         addSimpleDateElement("dateOfWriting", "CompletedEvent", root, main);
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"illustrations", null, root, m, main);
-        addSimpleElement("dimensions", BDO+"workDimensions", null, root, m, main);
+        addSimpleElement("dimensions", BDO+"dimensionsStatement", null, root, m, main);
         addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
         addSimpleElement("biblioNote", BDO+"biblioNote", "en", root, m, main);
         addSimpleElement("sourceNote", BDO+"sourceNote", "en", root, m, main);
@@ -527,11 +527,11 @@ public class PubinfoMigration {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("place").trim();
             if (!value.isEmpty())
-                m.add(main, m.getProperty(BDO, "workHasSourcePrintery"), m.createResource(BDR+value));
+                m.add(main, m.getProperty(BDO, "hasSourcePrintery"), m.createResource(BDR+value));
             else {
                 value = current.getTextContent().trim();
                 if (!value.isEmpty()) {
-                    m.add(main, m.getProperty(BDO, "workSourcePrintery_string"), m.createLiteral(value));
+                    m.add(main, m.getProperty(BDO, "sourcePrinteryStatement"), m.createLiteral(value));
                 } else {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "sourcePrintery", "missing source printery ID!");
                 }

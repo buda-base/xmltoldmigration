@@ -249,10 +249,10 @@ public class EAPTransfer {
             break;
         }
         if (!line[9].isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workDimWidth"), line[9], XSDDatatype.XSDdecimal);
+            work.addProperty(workModel.createProperty(BDO, "dimWidth"), line[9], XSDDatatype.XSDdecimal);
         }
         if (!line[10].isEmpty()) {
-            work.addProperty(workModel.createProperty(BDO, "workDimHeight"), line[10], XSDDatatype.XSDdecimal);
+            work.addProperty(workModel.createProperty(BDO, "dimHeight"), line[10], XSDDatatype.XSDdecimal);
         }
         if (workA != null) {
             if (linelen > 16 && !line[16].isEmpty()) {
