@@ -85,14 +85,14 @@ public class CUDLTransfer {
         case "paper":
         case "corypha_palm_leaf":
         case "mixed":
-            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+res.get(matStr)));
+            r.addProperty(m.createProperty(BDO, "material"), m.createResource(BDR+res.get(matStr)));
             break;
         case "nep_multi_layered_paper":
-            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"MaterialPaper"));
+            r.addProperty(m.createProperty(BDO, "material"), m.createResource(BDR+"MaterialPaper"));
             r.addProperty(m.createProperty(BDO, "appliedMaterial"), m.createResource(BDR+"AppliedMaterial_Poison"));
             break;
         case "black_paper":
-            r.addProperty(m.createProperty(BDO, "workMaterial"), m.createResource(BDR+"MaterialPaper"));
+            r.addProperty(m.createProperty(BDO, "material"), m.createResource(BDR+"MaterialPaper"));
             r.addProperty(m.createProperty(BDO, "appliedMaterial"), m.createResource(BDR+"AppliedMaterial_IndigoDye"));
             break;
         }

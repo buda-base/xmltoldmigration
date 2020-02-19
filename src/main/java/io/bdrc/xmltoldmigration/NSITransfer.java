@@ -181,7 +181,7 @@ public class NSITransfer {
         }
         switch(line[17].trim()) {
         case "Yellow Paper":
-            work.addProperty(workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+"MaterialPaper"));   
+            work.addProperty(workModel.createProperty(BDO, "material"), workModel.createResource(BDR+"MaterialPaper"));   
             work.addProperty(workModel.createProperty(BDO, "appliedMaterial"), workModel.createResource(BDR+"AppliedMaterial_Poison"));
             workModel.add(work, workModel.createProperty(BDO, "binding"), workModel.createResource(BDR+"Binding_LooseLeaf"));
             break;

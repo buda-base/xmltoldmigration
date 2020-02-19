@@ -161,7 +161,7 @@ public class HodgsonTransfer {
         }
         
         workModel.add(work, workModel.createProperty(BDO, "printMethod"), workModel.createResource(BDR+"PrintMethod_Manuscript"));
-        work.addProperty(workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+"MaterialPalmLeaf"));
+        work.addProperty(workModel.createProperty(BDO, "material"), workModel.createResource(BDR+"MaterialPalmLeaf"));
         work.addProperty(workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral("https://archive.org/details/"+line[1].trim(), XSDDatatype.XSDanyURI));
         
         // Topics and Genres, they should go with the abstract text

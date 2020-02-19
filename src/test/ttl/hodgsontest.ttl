@@ -26,7 +26,7 @@ bdr:MW0IA_HOD46  a                :Instance ;
         :colophon             "ityekallavīraṃ nāma caṇḍamahāroṣaṇatantraṃ samāptaṃ"@sa-x-iast ;
         :workGenre                bdr:T2 ;
         :incipit              "Evaṃ mayā śrutamekasminsamaye bhagavān vajrasatvaḥ - ityekallavīrākhye śrīcaṇḍamahāroṣaṇatantre tantrāvatāraṇapaṭalaḥ prathamaḥ"@sa-x-iast ;
-        :workMaterial             bdr:MaterialPalmLeaf ;
+        :material             bdr:MaterialPalmLeaf ;
         :workTitle                bdr:TTA1D05226DDA49ED8 , bdr:TT0CF378B84813E3DF ;
         skos:altLabel             "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
         skos:prefLabel            "Ekallavīratantram"@sa-x-iast .

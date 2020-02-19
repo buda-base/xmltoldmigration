@@ -53,7 +53,7 @@ bdr:MWEAP676-1-10  a              :Instance ;
         :dimHeight            10.5 ;
         :dimWidth             "21"^^xsd:decimal ;
         :workEvent                bdr:EV24D69E0F299DE851 ;
-        :workMaterial             bdr:MaterialPaper ;
+        :material             bdr:MaterialPaper ;
         :workTitle                bdr:TT3F47A61E957C3105 ;
         skos:prefLabel            "Namastāre Saptaka Viṁśatī"@sa-x-iast .
 

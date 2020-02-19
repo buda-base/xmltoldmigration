@@ -270,7 +270,7 @@ public class EAPTransfer {
                 }
             }
         }
-        workModel.add(work, workModel.createProperty(BDO, "workMaterial"), workModel.createResource(BDR+"MaterialPaper"));
+        workModel.add(work, workModel.createProperty(BDO, "material"), workModel.createResource(BDR+"MaterialPaper"));
 
         final String iiifManifestUrl = origUrl+"/manifest";
         

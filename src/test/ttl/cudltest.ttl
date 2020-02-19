@@ -45,7 +45,7 @@ bdr:MW0CDL0MS-ADD-01691-00003
         :dimHeight            3.5 ;
         :dimWidth             27.5 ;
         :workEvent                bdr:EVB11167779AA5CB54 ;
-        :workMaterial             bdr:MaterialPalmyraPalmLeaf ;
+        :material             bdr:MaterialPalmyraPalmLeaf ;
         :workTitle                bdr:TT1ACFA685925520E4 ;
         skos:altLabel             "Āryāvalokiteśvarasya Nāmāṣṭaśatakam"@sa-x-iast , "Divyāvadānamālā"@sa-x-iast ;
         skos:prefLabel            "Abhiṣekavidhi"@sa-x-iast .
