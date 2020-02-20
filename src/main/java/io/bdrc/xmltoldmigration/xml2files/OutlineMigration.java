@@ -437,7 +437,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         }
         
         m.add(node, RDF.type, m.getResource(BDO+"Instance"));
-        m.add(node, m.getProperty(BDO, "workPartIndex"), m.createTypedLiteral(partIndex, XSDDatatype.XSDinteger));
+        m.add(node, m.getProperty(BDO, "partIndex"), m.createTypedLiteral(partIndex, XSDDatatype.XSDinteger));
         
         // what's parent? ignoring
         value = e.getAttribute("parent").trim();
@@ -452,7 +452,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         
         m.add(node, m.getProperty(BDO, "inRootInstance"), rootWork);
         
-        boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, BDO+"workPartLabel");
+        boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, BDO+"partLabel");
         CommonMigration.addDescriptions(m, e, node, OXSDNS, false, nodeA);
         CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true, nodeA);
         

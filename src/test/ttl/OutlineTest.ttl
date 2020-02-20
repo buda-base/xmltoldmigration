@@ -36,12 +36,12 @@ bdr:MW30020_6E8660  a          :Instance ;
         :contentLocation       bdr:CLF6B8FFCB603AA31A ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB87582" ;
+        :partIndex             1 ;
+        :partLabel             "1 (stod cha)"@bo-x-ewts ;
         :partOf                bdr:MW30020 ;
         :partTreeIndex         "1" ;
         :partType              bdr:PartTypeVolume ;
         :workGenre             bdr:T208 ;
-        :workPartIndex         1 ;
-        :workPartLabel         "1 (stod cha)"@bo-x-ewts ;
         skos:prefLabel         "1 (stod cha)"@bo-x-ewts .
 
 bda:WA0XL74BFE0D47CBB
@@ -68,10 +68,10 @@ bdr:MW30020_9A656A  a          :Instance ;
         :incipit               "gleng gzhi/"@bo-x-ewts ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" ;
         :note                  bdr:NTCF836DD72496E6A6 ;
+        :partIndex             1 ;
         :partOf                bdr:MW30020_3CF7E0 ;
         :partTreeIndex         "2.1" ;
         :partType              bdr:PartTypeText ;
-        :workPartIndex         1 ;
         skos:prefLabel         "testsec/"@bo-x-ewts .
 
 bdr:CLF6B8FFCB603AA31A
@@ -126,11 +126,11 @@ bdr:MW30020_3CF7E0  a          :Instance ;
         :contentLocation       bdr:CL5098FD25173ECE7C ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB87583" ;
+        :partIndex             2 ;
+        :partLabel             "2 (smad cha)"@bo-x-ewts ;
         :partOf                bdr:MW30020 ;
         :partTreeIndex         "2" ;
         :partType              bdr:PartTypeClass ;
-        :workPartIndex         2 ;
-        :workPartLabel         "2 (smad cha)"@bo-x-ewts ;
         skos:prefLabel         "2 (smad cha)"@bo-x-ewts .
 
 bdr:CRE46771E44D0F98F3
@@ -153,10 +153,10 @@ bdr:MW30020_FF0E27  a          :Instance ;
         :hasTitle              bdr:TT5C0AE34687AED059 ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87602" ;
+        :partIndex             4 ;
         :partOf                bdr:MW30020_3CF7E0 ;
         :partTreeIndex         "2.4" ;
         :partType              bdr:PartTypeVolume ;
-        :workPartIndex         4 ;
         skos:prefLabel         "gleng gzhi2"@bo-x-ewts .
 
 bdr:TT2166CE8D25796FFA
@@ -167,10 +167,10 @@ bdr:MW30020_7C6E5B  a          :Instance ;
         :hasTitle              bdr:TT2166CE8D25796FFA ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87601" ;
+        :partIndex             3 ;
         :partOf                bdr:MW30020_3CF7E0 ;
         :partTreeIndex         "2.3" ;
         :partType              bdr:PartTypeVolume ;
-        :workPartIndex         3 ;
         skos:prefLabel         "gleng gzhi2"@bo-x-ewts .
 
 bdr:CLC4AFCDEBF3DC7747
@@ -185,11 +185,11 @@ bdr:MW30020_F9754D  a          :Instance ;
         :hasTitle              bdr:TTB1BC2C3828D35655 ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB87573" ;
+        :partIndex             1 ;
         :partOf                bdr:MW30020_6E8660 ;
         :partTreeIndex         "1.1" ;
         :partType              bdr:PartTypeText ;
         :workKaTenSiglaG       "test broken property type" ;
-        :workPartIndex         1 ;
         skos:prefLabel         "gleng gzhi/"@bo-x-ewts .
 
 bdr:NT04C2BEFBB1882DBB
@@ -202,10 +202,10 @@ bdr:MW30020_74BFE0  a          :Instance ;
         :instanceOf            bdr:WA0XL74BFE0D47CBB ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87600" ;
         :note                  bdr:NT04C2BEFBB1882DBB ;
+        :partIndex             2 ;
         :partOf                bdr:MW30020_3CF7E0 ;
         :partTreeIndex         "2.2" ;
         :partType              bdr:PartTypeText ;
-        :workPartIndex         2 ;
         skos:prefLabel         "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
 
 bdr:MW30020  a           :Work ;
