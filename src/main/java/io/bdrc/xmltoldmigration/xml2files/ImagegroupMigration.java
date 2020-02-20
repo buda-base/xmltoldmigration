@@ -39,9 +39,9 @@ public class ImagegroupMigration {
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
         setPrefixes(m, "item");
-        Resource item = createRoot(m, BDR+"TestItem", BDO+"ItemImageAsset");
+        Resource item = createRoot(m, BDR+"WTestInstance", BDO+"ImageInstance");
         createAdminRoot(item);
-        MigrateImagegroup(xmlDocument, m, item, "testItem", 1, "testItem", "testWork");
+        MigrateImagegroup(xmlDocument, m, item, "testVolName", 1, "testVolumesName", "testWork");
         return m;
 	}
 	
@@ -83,7 +83,7 @@ public class ImagegroupMigration {
 		final String volumeId = imageGroupRID;
 		
         Resource volR = m.createResource(BDR+volumeId);
-        volR.addProperty(RDF.type, m.getResource(BDO+"VolumeImageAsset"));
+        volR.addProperty(RDF.type, m.getResource(BDO+"ImageGroup"));
         // create AdminData if it doesn't already exist - should only be created 
         // when used in MigrationTest.testImagegroup() w/o previously the containing Item
         Resource admVol = getAdminData(volR);

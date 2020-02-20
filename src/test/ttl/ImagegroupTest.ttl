@@ -26,29 +26,26 @@ bda:I4158  a                     adm:AdminData ;
         adm:volumeQcNote         "qc notes" ;
         adm:volumeQcPerson       "khedup" .
 
-bdr:TestItem  a  :ItemImageAsset ;
-        :isRoot  true .
-
 bda:LG2B928E4933E80098
         a               adm:LogEntry ;
         adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
         adm:logMessage  "Added ondisk"@en ;
         adm:logWho      bdr:U00006 .
 
-bda:TestItem  a         adm:AdminData ;
-        adm:adminAbout  bdr:TestItem ;
+bda:WTestInstance  a    adm:AdminData ;
+        adm:adminAbout  bdr:WTestInstance ;
         adm:facetIndex  5 ;
-        adm:gitPath     "2d/TestItem.trig" ;
-        adm:gitRepo     bda:GR0003 ;
-        adm:graphId     bdg:TestItem ;
+        adm:gitPath     "84/WTestInstance.trig" ;
+        adm:gitRepo     bda:GR0014 ;
+        adm:graphId     bdg:WTestInstance ;
         :isRoot         true .
 
-bdr:I4158  a                   :VolumeImageAsset ;
+bdr:I4158  a                   :ImageGroup ;
         :imageCount            352 ;
         :imageList             "41580001.tif:54|41580055.jpg|41580056.tif:23|41580082.tif:26|42580108.tif|41580109.tif:88|garbage|41580198.tif:54|41580253.tif:104" ;
         :imagesMissing         "79-81,252" ;
         :volumeNumber          1 ;
-        :volumeOf              bdr:TestItem ;
+        :volumeOf              bdr:WTestInstance ;
         :volumePagesIntro      0 ;
         :volumePagesTbrcIntro  1 ;
         :volumePagesText       2 ;
@@ -65,3 +62,6 @@ bda:LG773F06A19C958A4E
         adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages"@en ;
         adm:logWho      bdr:U00006 .
+
+bdr:WTestInstance  a  :ImageInstance ;
+        :isRoot  true .

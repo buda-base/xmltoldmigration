@@ -235,7 +235,7 @@ public class EAPFondsTransfer {
             String ref=(simplified ? volume[1] : volume[4]).replace('/', '-');
             Resource vol = itemModel.createResource(BDR+"I"+ref);
             itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), vol);
-            itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+            itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"ImageGroup"));
             String volName = simplified ? volume[9] : volume[39];
             itemModel.add(vol, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREFIX+ref+"/manifest"));
             //itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),getLiteral(name, workModel));
@@ -300,7 +300,7 @@ public class EAPFondsTransfer {
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm);
             Resource volume = itemModel.createResource(BDR+"I"+ref);
             itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
-            itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+            itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"ImageGroup"));
             String name = simplified ? workLine[9] : workLine[39];
             workModel.add(work, SKOS.prefLabel,getLiteral(name, workModel));
             itemModel.add(volume, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREFIX+ref+"/manifest"));

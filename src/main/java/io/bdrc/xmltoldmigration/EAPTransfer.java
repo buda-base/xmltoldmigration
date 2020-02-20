@@ -298,7 +298,7 @@ public class EAPTransfer {
         // Volume for Item
         final String volumeRID = 'I'+itemRID.substring(1);
         Resource volume = itemModel.createResource(BDR+volumeRID);
-        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"ImageGroup"));
         if (ImagegroupMigration.addVolumeOf)
             itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
         if (ImagegroupMigration.addItemHasVolume)

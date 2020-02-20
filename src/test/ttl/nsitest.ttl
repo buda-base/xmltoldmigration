@@ -51,7 +51,7 @@ bdr:W1NPL1  a                    :ImageInstance ;
         :instanceReproductionOf  bdr:MW1NPL1 ;
         :isRoot                  true .
 
-bdr:I1NPL1  a                  :VolumeImageAsset ;
+bdr:I1NPL1  a                  :ImageGroup ;
         :imageCount            0 ;
         :imageList             "" ;
         :volumeNumber          1 ;

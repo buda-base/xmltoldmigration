@@ -63,7 +63,7 @@ bda:W0CDL0MS-ADD-01691-00003
         :isRoot                true .
 
 bdr:I0CDL0MS-ADD-01691-00003
-        a                 :VolumeImageAsset ;
+        a                 :ImageGroup ;
         :hasIIIFManifest  <https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01691-00003> ;
         :volumeNumber     1 ;
         :volumeOf         bdr:W0CDL0MS-ADD-01691-00003 .

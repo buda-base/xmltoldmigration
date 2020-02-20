@@ -31,7 +31,7 @@ bdr:MW0IA_HOD46  a                :Instance ;
         skos:altLabel             "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
         skos:prefLabel            "Ekallavīratantram"@sa-x-iast .
 
-bdr:I0IA_HOD46  a         :VolumeImageAsset ;
+bdr:I0IA_HOD46  a         :ImageGroup ;
         :hasIIIFManifest  <https://iiif.archivelab.org/iiif/rashodgson46/manifest.json> ;
         :volumeNumber     1 ;
         :volumeOf         bdr:W0IA_HOD46 .

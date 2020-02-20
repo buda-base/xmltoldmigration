@@ -230,7 +230,7 @@ public class CUDLTransfer {
 //        origUrl = ManifestPREF+ref;
 //        itemModel.add(admVol, itemModel.createProperty(ADM, "originalRecord"), itemModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
 
-        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"ImageGroup"));
         if (ImagegroupMigration.addVolumeOf)
             itemModel.add(volume, itemModel.createProperty(BDO, "volumeOf"), item);
         if (ImagegroupMigration.addItemHasVolume)

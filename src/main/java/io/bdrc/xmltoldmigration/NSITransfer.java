@@ -251,7 +251,7 @@ public class NSITransfer {
         final String volumeRID = line[2].trim();
         Resource volume = itemModel.createResource(BDR+volumeRID);
         Resource volumeA = itemModel.createResource(BDA+volumeRID);
-        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"VolumeImageAsset"));
+        itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"ImageGroup"));
         itemModel.add(volumeA, RDF.type, itemModel.createResource(ADM+"AdminData"));
         itemModel.add(volumeA, itemModel.createProperty(ADM, "adminAbout"), volume);
         itemModel.add(volumeA, itemModel.createProperty(ADM, "legacyImageGroupRID"), itemModel.createLiteral(volumeRID));
