@@ -27,10 +27,10 @@ bdr:NME51DB3F4D95210F5
         rdfs:label  "blo gros rnam dag"@bo-x-ewts .
 
 bdr:NT7219361C1AA8E1A9
-        a                       :Note ;
-        :noteLocationStatement  "p. 359" ;
-        :noteText               "date of death from this source"@en ;
-        :noteWork               bdr:W20115 .
+        a                   :Note ;
+        :locationStatement  "p. 359" ;
+        :noteSource         bdr:MW20115 ;
+        :noteText           "date of death from this source"@en .
 
 bdr:EV12DC80761AF6EB6D
         a            :PersonOccupiesSeat ;

@@ -62,10 +62,10 @@ bda:LG1CBDD898D5725A4A
         adm:logWho      bdr:U00007 .
 
 bdr:NT8B8EBE3AF90A7E2F
-        a                       :Note ;
-        :noteLocationStatement  "test" ;
-        :noteText               "event note test"@en ;
-        :noteWork               bdr:Wtest .
+        a                   :Note ;
+        :locationStatement  "test" ;
+        :noteSource         bdr:MWtest ;
+        :noteText           "event note test"@en .
 
 bda:LG20FF66808E17B299
         a               adm:LogEntry ;
@@ -106,10 +106,10 @@ vcard:VA76B6649907E8086A
         vcard:street-address  "མི་གསལ། Dzongsar Institute" .
 
 bdr:NT585206D37BCF0D38
-        a                       :Note ;
-        :noteLocationStatement  "V.3, p.47" ;
-        :noteText               "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo ;
-        :noteWork               bdr:W23847 .
+        a                   :Note ;
+        :locationStatement  "V.3, p.47" ;
+        :noteSource         bdr:MW23847 ;
+        :noteText           "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo .
 
 bdr:NT66184C4FDD5538BE
         a          :Note ;
@@ -132,7 +132,7 @@ bdr:G488  a                   :Place ;
         skos:prefLabel        "guan zi feng"@zh-latn-pinyin-x-ndia , "sman ri'i gling /"@bo-x-ewts .
 
 bdr:NTEC7A7B10B09836B6
-        a                       :Note ;
-        :noteLocationStatement  "p.1467-1468" ;
-        :noteText               "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"@bo ;
-        :noteWork               bdr:W26372 .
+        a                   :Note ;
+        :locationStatement  "p.1467-1468" ;
+        :noteSource         bdr:MW26372 ;
+        :noteText           "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"@bo .

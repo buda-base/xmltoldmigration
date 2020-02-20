@@ -559,10 +559,10 @@ public class CommonMigration  {
             noteR.addProperty(m.createProperty(BDO+"noteText"), noteText);
         }
         if (loc != null && !loc.isEmpty()) {
-            noteR.addProperty(m.createProperty(BDO+"noteLocationStatement"), loc);
+            noteR.addProperty(m.createProperty(BDO+"locationStatement"), loc);
         }
         if (ref != null) {
-            noteR.addProperty(m.getProperty(BDO, "noteWork"), ref);
+            noteR.addProperty(m.getProperty(BDO, "noteSource"), ref);
         }
     }
 
@@ -577,7 +577,7 @@ public class CommonMigration  {
         String workRid = e.getAttribute("work").trim();
         Resource noteWork = null;
         if (!workRid.isEmpty()) {
-            workRid = MigrationHelpers.sanitizeRID(rez.getLocalName(), "noteWork", workRid);
+            workRid = MigrationHelpers.sanitizeRID(rez.getLocalName(), "noteSource", 'M'+workRid);
             if (!MigrationHelpers.isDisconnected(workRid))
                 noteWork = m.createResource(BDR+workRid);
         }

@@ -45,20 +45,20 @@ bda:LG650F49A48542C160
         adm:logWho      bdr:U00015 .
 
 bdr:NTE1683F39A3E5756E
-        a                       :Note ;
-        :noteLocationStatement  "251" ;
-        :noteText               "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."@en ;
-        :noteWork               bdr:W27401 .
+        a                   :Note ;
+        :locationStatement  "251" ;
+        :noteSource         bdr:MW27401 ;
+        :noteText           "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."@en .
 
 bdr:NMF942A81B0A73E4AA
         a           :PersonTitle ;
         rdfs:label  "klong chen rab 'byams/"@bo-x-ewts .
 
 bdr:NTAF7D0940EAE3607E
-        a                       :Note ;
-        :noteLocationStatement  "v. 2, pp.104-112" ;
-        :noteText               "biography\ndates: 1308-1363"@en ;
-        :noteWork               bdr:W25268 .
+        a                   :Note ;
+        :locationStatement  "v. 2, pp.104-112" ;
+        :noteSource         bdr:MW25268 ;
+        :noteText           "biography\ndates: 1308-1363"@en .
 
 bdr:NM9C8DEB6FF7CEC129
         a           :PersonPrimaryName ;
@@ -93,9 +93,9 @@ bdr:NM81A442B676BCDB2A
         rdfs:label  "shantideva"@sa-x-rma .
 
 bdr:NT5A51821BAE247EF6
-        a                       :Note ;
-        :noteLocationStatement  "p. 6" ;
-        :noteWork               bdr:W19822 .
+        a                   :Note ;
+        :locationStatement  "p. 6" ;
+        :noteSource         bdr:MW19822 .
 
 bdr:NM27A9E6B52AE2AFD6
         a           :PersonPrimaryName ;
@@ -110,9 +110,9 @@ bdr:NT0648F5705843763B
         :noteText  "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."@en .
 
 bdr:NT6B646336F5EE567D
-        a                       :Note ;
-        :noteLocationStatement  "p. 77" ;
-        :noteWork               bdr:W19801 .
+        a                   :Note ;
+        :locationStatement  "p. 77" ;
+        :noteSource         bdr:MW19801 .
 
 bdr:P1583  a                 :Person ;
         rdfs:seeAlso         bdr:O1GS392481GS39291 ;
