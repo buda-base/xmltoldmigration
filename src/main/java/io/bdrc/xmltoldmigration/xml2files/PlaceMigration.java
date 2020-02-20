@@ -264,6 +264,12 @@ public class PlaceMigration {
 	    for (int i = 0; i < nodeList.getLength(); i++) {
 	        Element current = (Element) nodeList.item(i);
 	        value = current.getAttribute("type");
+	        if (value.equals("chgis_id")) {
+	            // The CHGIS Ids in our database are not the actual ones, so we
+	            // compute the correct ones instead:
+	            CommonMigration.addIdentifier(main, BDR+"CHGISId", "TBRC_"+main.getLocalName());
+	            continue;
+	        }
 	        value = gisIdToUri(value);
 	        if (value.isEmpty()) continue;
 	        prop = m.getProperty(value);

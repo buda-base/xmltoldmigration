@@ -9,6 +9,7 @@ import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.BF;
 import static io.bdrc.libraries.Models.addReleased;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.getAdminData;
@@ -433,52 +434,52 @@ public class CommonMigration  {
         case "contents":              return RDFS.getURI()+"comment";
         case "completionDate":        return BDO+"work_desc_completionDate"; // this one and the next one are handled separately
         case "date":                  return ADM+"work_desc_date";
-        case "errata":                return BDO+"workErrata";
-        case "extent":                return BDO+"workExtentStatement";
+        case "errata":                return BDO+"instanceErrata";
+        case "extent":                return BDO+"instanceExtentStatement";
         case "id":                    return "__fpl";
         case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
-        case "location":              return BDO+"instanceLocationStatement";
+        case "location":              return BDO+"locationStatement";
         case "remarks":               return "__fpl";
         case "room":                  return "__fpl";
         case "summary":               return RDFS.getURI()+"comment";
-        case "snar_bstan_number":     return BDO+"workKaTenSiglaN";
-        case "snr_thang_number":      return BDO+"workKaTenSiglaN";
-        case "snar_thang_number":     return BDO+"workKaTenSiglaN"; 
-        case "gser_bris_numbr":       return BDO+"workKaTenSiglaG";
-        case "gser_birs_number":      return BDO+"workKaTenSiglaG";
-        case "gse_bris_number":       return BDO+"workKaTenSiglaG";
-        case "sger_bris_number":      return BDO+"workKaTenSiglaG";
-        case "gser_bri_numer":        return BDO+"workKaTenSiglaG";
-        case "gser_dris_number":      return BDO+"workKaTenSiglaG";
-        case "gser_bri_number":       return BDO+"workKaTenSiglaG";
-        case "gser_bris_nimber":      return BDO+"workKaTenSiglaG";
-        case "gser_bris_number":      return BDO+"workKaTenSiglaG";
+        case "snar_bstan_number":     return "__id:"+BDR+"KaTenSiglaN";
+        case "snr_thang_number":      return "__id:"+BDR+"KaTenSiglaN";
+        case "snar_thang_number":     return "__id:"+BDR+"KaTenSiglaN"; 
+        case "gser_bris_numbr":       return "__id:"+BDR+"KaTenSiglaG";
+        case "gser_birs_number":      return "__id:"+BDR+"KaTenSiglaG";
+        case "gse_bris_number":       return "__id:"+BDR+"KaTenSiglaG";
+        case "sger_bris_number":      return "__id:"+BDR+"KaTenSiglaG";
+        case "gser_bri_numer":        return "__id:"+BDR+"KaTenSiglaG";
+        case "gser_dris_number":      return "__id:"+BDR+"KaTenSiglaG";
+        case "gser_bri_number":       return "__id:"+BDR+"KaTenSiglaG";
+        case "gser_bris_nimber":      return "__id:"+BDR+"KaTenSiglaG";
+        case "gser_bris_number":      return "__id:"+BDR+"KaTenSiglaG";
         case "colopho":               return BDO+"colophon";
         case "colophon":              return BDO+"colophon";
         case "colophn":               return BDO+"colophon";
         case "colophone":             return BDO+"colophon";
-        case "sde_gde_number":        return BDO+"workKaTenSiglaD";
-        case "de_dge_number":         return BDO+"workKaTenSiglaD";
-        case "sdg_dge_number":        return BDO+"workKaTenSiglaD";
-        case "sdr_dge_number":        return BDO+"workKaTenSiglaD";
-        case "sde_dge_number":        return BDO+"workKaTenSiglaD";
-        case "lhasa_number":          return BDO+"workKaTenSiglaH";
-        case "stog_numbe":            return BDO+"workKaTenSiglaS";
-        case "stog_unmber":           return BDO+"workKaTenSiglaS";
-        case "stog_number":           return BDO+"workKaTenSiglaS";
-        case "stogNumber":            return BDO+"workKaTenSiglaS";
-        case "toh_number":            return BDO+"workKaTenSiglaD";
-        case "toh":                   return BDO+"workKaTenSiglaD";
-        case "otani_number":          return BDO+"workKaTenSiglaQ";
-        case "otani":                 return BDO+"workKaTenSiglaQ";
-        case "otani_beijing":         return BDO+"workKaTenSiglaQ";
-        case "sheyNumber":            return BDO+"workKaTenSiglaZ";
-        case "shey_number":           return BDO+"workKaTenSiglaZ";
-        case "rKTsReference":         return BDO+"workKaTenRefrKTs";
-        case "bon_bka_gyur_number":   return BDO+"workKaTenSiglaBon";
-        case "urga_number":           return BDO+"workKaTenSiglaU";
-        case "isIAO":                 return BDO+"workRefIsIAO";
-        case "catalogue_number":      return BDO+"workRefChokLing";
+        case "sde_gde_number":        return "__id:"+BDR+"KaTenSiglaD";
+        case "de_dge_number":         return "__id:"+BDR+"KaTenSiglaD";
+        case "sdg_dge_number":        return "__id:"+BDR+"KaTenSiglaD";
+        case "sdr_dge_number":        return "__id:"+BDR+"KaTenSiglaD";
+        case "sde_dge_number":        return "__id:"+BDR+"KaTenSiglaD";
+        case "lhasa_number":          return "__id:"+BDR+"KaTenSiglaH";
+        case "stog_numbe":            return "__id:"+BDR+"KaTenSiglaS";
+        case "stog_unmber":           return "__id:"+BDR+"KaTenSiglaS";
+        case "stog_number":           return "__id:"+BDR+"KaTenSiglaS";
+        case "stogNumber":            return "__id:"+BDR+"KaTenSiglaS";
+        case "toh_number":            return "__id:"+BDR+"KaTenSiglaD";
+        case "toh":                   return "__id:"+BDR+"KaTenSiglaD";
+        case "otani_number":          return "__id:"+BDR+"KaTenSiglaQ";
+        case "otani":                 return "__id:"+BDR+"KaTenSiglaQ";
+        case "otani_beijing":         return "__id:"+BDR+"KaTenSiglaQ";
+        case "sheyNumber":            return "__id:"+BDR+"KaTenSiglaZ";
+        case "shey_number":           return "__id:"+BDR+"KaTenSiglaZ";
+        case "rKTsReference":         return "__id:"+BDR+"RefrKTsK";
+        case "bon_bka_gyur_number":   return "__id:"+BDR+"KaTenSiglaBon";
+        case "urga_number":           return "__id:"+BDR+"KaTenSiglaU";
+        case "isIAO":                 return "__id:"+BDR+"RefIsIAO";
+        case "catalogue_number":      return "__id:"+BDR+"RefChokLing";
         case "gonpaPerEcumen":        return BDO+"placeGonpaPerEcumen";
         case "nameLex":
         case "nameKR":
@@ -659,6 +660,16 @@ public class CommonMigration  {
         return m.createTypedLiteral(dateTime);
     }
 
+    public static void addIdentifier(Resource r, String typeUri, String value) {
+        Model m = r.getModel();
+        Resource t = m.createResource(typeUri);
+        Resource idNode = getFacetNode(FacetType.IDENTIFIER, BDR, r, t);
+        Property prop = m.getProperty(BF, "identifiedBy");
+        m.add(r, prop, idNode);
+        m.add(idNode, RDF.type, t);
+        m.add(idNode, RDF.value, m.createLiteral(value));
+    }
+    
     public static void addLogEntry(Model m, Element e, Resource rez) {
         if (e == null) return;
         Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
@@ -950,6 +961,11 @@ public class CommonMigration  {
             }
             //			if (!guessLabel && type.equals("noType"))
             //			    l = m.createLiteral(l.getString()+" - was description with no type", l.getLanguage());
+            if (propUri != null && propUri.startsWith("__id")) {
+                String typeUri = propUri.substring(5);
+                addIdentifier(rez, typeUri, normalizeString(value)); 
+                continue;
+            }
             if (propUri != null && propUri.equals("__fpl")) {
                 if (fplItem == null) {
                     resModel = ModelFactory.createDefaultModel();

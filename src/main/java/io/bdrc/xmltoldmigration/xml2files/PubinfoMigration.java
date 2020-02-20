@@ -4,6 +4,7 @@ import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
+import static io.bdrc.libraries.Models.BF;
 import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
@@ -146,12 +147,12 @@ public class PubinfoMigration {
 		}
         addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
         addSimpleDateElement("publisherDate", "PublishedEvent", root, main, "instanceEvent");
-        addSimpleElementUC("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
-        addSimpleElement("lccn", BDO+"workLccn", null, root, m, main);
-        addSimpleElement("hollis", BDO+"workHollis", null, root, m, main);
-        addSimpleElement("seeHarvard", BDO+"workSeeHarvard", null, root, m, main);
-        addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
-        addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
+        addSimpleIdElement("lcCallNumber", BF+"ShelfMarkLcc", root, m, main);
+        addSimpleIdElement("lccn", BF+"Lccn", root, m, main);
+        addSimpleIdElement("hollis", BDR+"HollisId", root, m, main);
+        addSimpleIdElement("seeHarvard", BDR+"HarvardShelfId", root, m, main);
+        addSimpleIdElement("pl480", BDR+"PL480", root, m, main);
+        addSimpleIdElement("isbn", BF+"Isbn", root, m, main);
         addSimpleElement("authorshipStatement", BDO+"authorshipStatement", EWTS_TAG, root, m, main);
         addSimpleDateElement("dateOfWriting", "CompletedEvent", root, mainA, "workEvent");
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
@@ -553,7 +554,7 @@ public class PubinfoMigration {
             if (WorkMigration.addItemForWork)
                 itemModel.add(holding, itemModel.createProperty(BDO, "itemForInstance"), itemModel.createResource(main.getURI()));
             if (WorkMigration.addWorkHasItem) {
-                m.add(main, m.getProperty(BDO, "workHasItem"), m.createResource(BDR+itemName));
+                m.add(main, m.getProperty(BDO, "instanceHasItem"), m.createResource(BDR+itemName));
             }
 
             addSimpleElement("exception", BDO+"itemException", EWTS_TAG, current, itemModel, holding);
@@ -585,17 +586,6 @@ public class PubinfoMigration {
 		return res;
 	}
 
-	   public static void addSimpleElementUC(String elementName, String propName, String defaultLang, Element root, Model m, Resource main) {
-	        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
-	        for (int i = 0; i < nodeList.getLength(); i++) {
-	            Element current = (Element) nodeList.item(i);
-	            String value = null;
-	            value = current.getTextContent().trim();
-	            if (value.isEmpty()) return;
-	            m.add(main, m.createProperty(propName), m.createLiteral(value.toUpperCase()));
-	        }
-	    }
-	
 	public static void addSimpleElement(String elementName, String propName, String defaultLang, Element root, Model m, Resource main) {
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
         String rid = root.getAttribute("RID");
@@ -624,6 +614,26 @@ public class PubinfoMigration {
         }
     }
 
+	   public static void addSimpleIdElement(String elementName, String typeUri, Element root, Model m, Resource main) {
+	        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	            Element current = (Element) nodeList.item(i);
+	            String value = null;
+	                value = current.getTextContent().trim();
+	                if (value.isEmpty()) return;
+	                if (elementName.equals("lcCallNumber")) {value = value.toUpperCase();}
+	                if (elementName.equals("isbn")) {
+	                    final String validIsbn = isbnvalidator.validate(value);
+	                    if (validIsbn != null) {
+	                        value = validIsbn;
+	                    } else {
+	                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "isbn", "invalid isbn: "+value);
+	                    }
+	                }
+	            CommonMigration.addIdentifier(main, typeUri, value);
+	        }
+	    }
+	
     private static void addSimpleDateElement(String elementName, String eventType, Element root, Resource main, String propLocalName) {
         if (main == null)
             return;
