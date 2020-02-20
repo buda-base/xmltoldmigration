@@ -177,9 +177,9 @@ public class EAPTransfer {
             title = title.substring(0, title.length()-3);
             titleLang = "en";
         } else {
-            Resource titleType = workModel.createResource(BDO+"WorkTitle");
+            Resource titleType = workModel.createResource(BDO+"Title");
             Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
-            work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+            work.addProperty(workModel.createProperty(BDO, "hasTitle"), titleR);
             titleR.addProperty(RDFS.label, workModel.createLiteral(title, titleLang));
         }
         int linelen = line.length;
@@ -192,7 +192,7 @@ public class EAPTransfer {
         if (!line[3].isEmpty()) {
             int startDate = Integer.parseInt(line[3]);
             int endDate = Integer.parseInt(line[4]);
-            Resource copyEventR = getEvent(work, "CopyEvent", "workEvent");
+            Resource copyEventR = getEvent(work, "CopyEvent", "instanceEvent");
             if (startDate == endDate) {
                 copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(startDate, XSDDatatype.XSDinteger));
             } else {

@@ -11,10 +11,10 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:IE0GR0001  a        :EtextInstance ;
+        :hasTitle       bdr:TTFDD5AB6556F5F9F8 ;
         :instanceOf     bdr:WA0RT1961 ;
         :isRoot         true ;
         :note           bdr:NT4FED036864251590 , bdr:NT4FA903F4925E71A1 ;
-        :workTitle      bdr:TTFDD5AB6556F5F9F8 ;
         skos:altLabel   "Niṣpannayogāvali"@sa-x-iast ;
         skos:prefLabel  "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
 
@@ -30,7 +30,7 @@ bda:IE0GR0001  a            adm:AdminData ;
         :isRoot             true .
 
 bdr:TTFDD5AB6556F5F9F8
-        a           :WorkTitle ;
+        a           :Title ;
         rdfs:label  "Abhayakaragupta: Nispannayogavali, chapter 1"@en .
 
 bdr:NT4FED036864251590

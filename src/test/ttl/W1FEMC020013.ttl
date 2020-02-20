@@ -12,26 +12,31 @@
 
 bdr:MW1FEMC020013  a             :Instance ;
         :hasFascicles            "1" ;
-        :hasInstanceNum              "1" ;
+        :hasInstanceNum          "1" ;
+        :hasTitle                bdr:TTE13B3C661F81E2B5 , bdr:TT987B7799B2FAE16A , bdr:TT788AFA8EE8D9A109 , bdr:TT7DE5A25AA387B539 , bdr:TT003927A987D548C4 , bdr:TT823A7C4B2DD3D68C ;
         :instanceOf              bdr:WA1FEMC020013 ;
+        :isComplete              true ;
         :isRoot                  true ;
         :note                    bdr:NT43895F96F66FA39A ;
-        :workComplete            true ;
-        :workEvent               bdr:EV02A43377C1CE1A7A ;
+        :numberOfVolumes         1 ;
         :workFEMCManuscriptCode  "a.13.I.1" ;
         :workIsAbout             bdr:FEMC_Scheme_I_1 ;
         :workKDPPOldId           "1389" ;
         :workMicrofilm           bdr:MF40E76702244D0F72 ;
-        :numberOfVolumes     1 ;
-        :workTitle               bdr:TT7DE5A25AA387B539 , bdr:TTE13B3C661F81E2B5 , bdr:TT003927A987D548C4 , bdr:TT823A7C4B2DD3D68C , bdr:TT987B7799B2FAE16A , bdr:TT788AFA8EE8D9A109 ;
         skos:prefLabel           "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
 
+bdr:DT75B46CB18150A20F
+        a           :DateIndication ;
+        :era        bdr:EraCS ;
+        :yearInEra  1123 .
+
 bdr:TT003927A987D548C4
-        a           :WorkTitle ;
+        a           :Title ;
         rdfs:label  "ច្បាប់ល្បើកថ្មី"@km .
 
 bdr:WA1FEMC020013  a      :Work ;
         :isRoot           true ;
+        :workEvent        bdr:EVD0E325D98EEF80BA ;
         :workHasInstance  bdr:MW1FEMC020013 .
 
 bda:LGE0C940E0B41E5BAB
@@ -39,15 +44,15 @@ bda:LGE0C940E0B41E5BAB
         adm:logMessage  "entered cataloging for W1FEMC020013"@en .
 
 bdr:TT823A7C4B2DD3D68C
-        a           :WorkTitle ;
+        a           :Title ;
         rdfs:label  "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
 
 bdr:TT7DE5A25AA387B539
-        a           :WorkCoverTitle ;
+        a           :CoverTitle ;
         rdfs:label  "cpāp lpök​​ ​​praṭau kuon pruḥ srī"@km-x-kmpre20c-kmfemc .
 
 bdr:TT788AFA8EE8D9A109
-        a                  :WorkCoverTitle ;
+        a                  :CoverTitle ;
         rdfs:label         "cpāp' lpök​​ ​​praṭau kūn prus srī"@km-x-kmfemc ;
         :femcConversionOf  bdr:TT7DE5A25AA387B539 .
 
@@ -62,15 +67,16 @@ bdr:MF40E76702244D0F72
         :microfilmCanister  "18" ;
         :microfilmStrip     "4" .
 
-bdr:DT0CC9E742297EFA64
-        a           :DateIndication ;
-        :era        bdr:EraCS ;
-        :yearInEra  1123 .
+bdr:EVD0E325D98EEF80BA
+        a                :CompletedEvent ;
+        :dateIndication  bdr:DT75B46CB18150A20F ;
+        :notAfter        "1761"^^xsd:gYear ;
+        :notBefore       "1760"^^xsd:gYear .
 
 bda:MW1FEMC020013  a         adm:AdminData ;
         adm:adminAbout       bdr:MW1FEMC020013 ;
         adm:contentProvider  bda:CP041 ;
-        adm:facetIndex       13 ;
+        adm:facetIndex       11 ;
         adm:gitPath          "3b/MW1FEMC020013.trig" ;
         adm:gitRepo          bda:GR0012 ;
         adm:graphId          bdg:MW1FEMC020013 ;
@@ -79,14 +85,9 @@ bda:MW1FEMC020013  a         adm:AdminData ;
         adm:status           bda:StatusReleased ;
         :isRoot              true .
 
-bdr:EV02A43377C1CE1A7A
-        a                :CompletedEvent ;
-        :dateIndication  bdr:DT0CC9E742297EFA64 ;
-        :notAfter        "1761"^^xsd:gYear ;
-        :notBefore       "1760"^^xsd:gYear .
-
 bda:WA1FEMC020013  a       adm:AdminData ;
         adm:adminAbout     bdr:WA1FEMC020013 ;
+        adm:facetIndex     3 ;
         adm:gitPath        "0b/WA1FEMC020013.trig" ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WA1FEMC020013 ;
@@ -100,10 +101,10 @@ bdr:NT43895F96F66FA39A
         :noteWork               bdr:W1FEMC02 .
 
 bdr:TT987B7799B2FAE16A
-        a                  :WorkCoverTitle ;
+        a                  :CoverTitle ;
         rdfs:label         "ច្បាប់ល្បើកប្រដៅកូន​ប្រុសស្រី"@km ;
         :femcConversionOf  bdr:TTE13B3C661F81E2B5 .
 
 bdr:TTE13B3C661F81E2B5
-        a           :WorkCoverTitle ;
+        a           :CoverTitle ;
         rdfs:label  "ច្បាបល្បេិកប្រដៅកួនប្រុះស្រី"@km-x-kmpre20c .

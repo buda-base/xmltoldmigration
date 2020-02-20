@@ -155,9 +155,9 @@ public class NSITransfer {
         if ("Unidentified".equals(title)) {
             titleLang = "en";
         }
-        Resource titleType = workModel.createResource(BDO+"WorkTitle");
+        Resource titleType = workModel.createResource(BDO+"Title");
         Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
-        work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+        work.addProperty(workModel.createProperty(BDO, "hasTitle"), titleR);
         titleR.addProperty(RDFS.label, workModel.createLiteral(title, titleLang));
         int linelen = line.length;
         work.addLiteral(SKOS.prefLabel, workModel.createLiteral(title, titleLang));
@@ -168,7 +168,7 @@ public class NSITransfer {
         // event
         if (line[14].endsWith(" CE")) {
             String dateStr = line[14].substring(0, line[14].length()-3);
-            Resource copyEventR = getEvent(work, "CopyEvent", "workEvent");
+            Resource copyEventR = getEvent(work, "CopyEvent", "instanceEvent");
             copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), yearLit(workModel, dateStr));
         }
         

@@ -299,7 +299,7 @@ public class WorkMigration {
 	        CommonMigration.addSubjects(m, main, root, WXSDNS);
 	    else
 	        CommonMigration.addSubjects(mA, mainA, root, WXSDNS);
-	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS);
+	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS, false, mainA);
 	    if (itemModelsFromDesc != null) {
 	        if (!splitItems) {
 	            for (Model itemModel : itemModelsFromDesc.values()) {

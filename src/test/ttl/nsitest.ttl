@@ -60,21 +60,21 @@ bdr:I1NPL1  a                  :VolumeImageAsset ;
         :volumePagesTotal      0 .
 
 bdr:MW1NPL1  a                    :Instance ;
+        :dimHeight                7.6 ;
+        :dimWidth                 25.0 ;
+        :hasTitle                 bdr:TTCCD2BE298D1044C7 ;
+        :instanceEvent            bdr:EVDA35DE703590E610 ;
         :instanceHasReproduction  bdr:W1NPL1 ;
         :instanceOf               bdr:WA1NPL1 ;
         :isRoot                   true ;
         :note                     bdr:NTC95D37D872B56DA9 , bdr:NTFE307A6AEDE42D33 ;
         :printMethod              bdr:PrintMethod_Manuscript ;
         :script                   bdr:Newa ;
-        :dimHeight            7.6 ;
-        :dimWidth             25.0 ;
-        :workEvent                bdr:EVDA35DE703590E610 ;
         :workIsAbout              bdr:T933 ;
-        :workTitle                bdr:TTCCD2BE298D1044C7 ;
         skos:prefLabel            "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
 
 bdr:TTCCD2BE298D1044C7
-        a           :WorkTitle ;
+        a           :Title ;
         rdfs:label  "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
 
 bda:I1NPL1  a                    adm:AdminData ;

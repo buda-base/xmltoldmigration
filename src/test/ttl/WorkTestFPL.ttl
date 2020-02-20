@@ -41,22 +41,22 @@ bdr:WAS12345  a           :SerialWork ;
         :serialHasMember  bdr:WAM12837FPL ;
         skos:prefLabel    "vinayavinicchaya"@pi-x-iast .
 
-bdr:MWM12837FPL  a            :SerialInstance ;
-        rdfs:comment          "description with no type" ;
-        :isRoot               true ;
-        :note                 bdr:NT34F0EEC409CDBEC1 , bdr:NT531278235C7918E2 ;
-        :serialInstanceOf     bdr:WAM12837FPL ;
-        :catalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
-        :workEvent            bdr:EV35B83BD895D4749F ;
-        :incipit          "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
-        :numberOfVolumes  1 ;
-        :scanInfo         "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
-        :workSeriesNumber     "2" ;
-        :workTitle            bdr:TT15ED3B92D25DDB21 , bdr:TT3CBDE3A243BE57CF , bdr:TT86C328CD33E9538B ;
-        skos:prefLabel        "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast .
+bdr:MWM12837FPL  a         :SerialInstance ;
+        rdfs:comment       "description with no type" ;
+        :catalogInfo       "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
+        :hasTitle          bdr:TT86C328CD33E9538B , bdr:TT3CBDE3A243BE57CF , bdr:TT15ED3B92D25DDB21 ;
+        :incipit           "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
+        :isRoot            true ;
+        :note              bdr:NT34F0EEC409CDBEC1 , bdr:NT531278235C7918E2 ;
+        :numberOfVolumes   1 ;
+        :scanInfo          "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
+        :serialInstanceOf  bdr:WAM12837FPL ;
+        :workEvent         bdr:EV35B83BD895D4749F ;
+        :workSeriesNumber  "2" ;
+        skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast .
 
 bdr:TT86C328CD33E9538B
-        a           :WorkOtherTitle ;
+        a           :OtherTitle ;
         rdfs:label  "testcap/"@bo-x-ewts .
 
 bda:LG741A919F3670B2B2
@@ -66,7 +66,7 @@ bda:LG741A919F3670B2B2
         adm:logWho      bdr:U00012 .
 
 bdr:TT15ED3B92D25DDB21
-        a           :WorkTitlePageTitle ;
+        a           :TitlePageTitle ;
         rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
 
 bdr:ITWM12837FPL  a       :Item ;
@@ -102,7 +102,7 @@ bdr:VLF70401471942BE32
         :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en .
 
 bdr:TT3CBDE3A243BE57CF
-        a           :WorkOtherTitle ;
+        a           :OtherTitle ;
         rdfs:label  "test pali title"@pi-x-iast .
 
 bda:LGDDB0945A6B376CE3

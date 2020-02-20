@@ -216,7 +216,7 @@ public class EAPFondsTransfer {
         Resource admItem = createAdminRoot(item);
         res.add(item);
 
-        workModel.add(work, workModel.createProperty(BDO,"workHasItem"), item);
+        workModel.add(work, workModel.createProperty(BDO,"instanceHasReproduction"), item);
 
         // Item adm:AdminData
         itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
@@ -226,7 +226,7 @@ public class EAPFondsTransfer {
         itemModel.addLiteral(admItem, itemModel.getProperty(ADM+"restrictedInChina"), false);
         itemModel.add(admItem, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
         
-        itemModel.add(item, itemModel.createProperty(BDO, "itemForWork"), itemModel.createResource(BDR+"W"+serieID));
+        itemModel.add(item, itemModel.createProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractWorkRID));
         
         List<String[]> volumes = getVolumes(serie);
         int numVol=0;

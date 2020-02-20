@@ -127,9 +127,9 @@ public class HodgsonTransfer {
 
         // title
         String title = line[2].trim();
-        Resource titleType = workModel.createResource(BDO+"WorkTitle");
+        Resource titleType = workModel.createResource(BDO+"Title");
         Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
-        work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+        work.addProperty(workModel.createProperty(BDO, "hasTitle"), titleR);
         titleR.addProperty(RDFS.label, workModel.createLiteral(title, "sa-x-iast"));
         work.addLiteral(SKOS.prefLabel, workModel.createLiteral(title, "sa-x-iast"));
         if (workA != null) {
@@ -139,7 +139,7 @@ public class HodgsonTransfer {
         if (!line[3].trim().isEmpty()) {
             title = line[3].trim();
             titleR = getFacetNode(FacetType.TITLE, work, titleType);
-            work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+            work.addProperty(workModel.createProperty(BDO, "hasTitle"), titleR);
             titleR.addProperty(RDFS.label, workModel.createLiteral(title, "sa-x-iast"));
             work.addLiteral(SKOS.altLabel, workModel.createLiteral(title, "sa-x-iast"));
             if (workA != null) {

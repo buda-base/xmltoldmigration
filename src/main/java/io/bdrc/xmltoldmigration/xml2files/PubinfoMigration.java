@@ -145,7 +145,7 @@ public class PubinfoMigration {
             addSimpleElement("publisherLocation", BDO+"publisherLocation", "en", root, m, main);
 		}
         addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
-        addSimpleDateElement("publisherDate", "PublishedEvent", root, main);
+        addSimpleDateElement("publisherDate", "PublishedEvent", root, main, "instanceEvent");
         addSimpleElementUC("lcCallNumber", BDO+"workLcCallNumber", null, root, m, main);
         addSimpleElement("lccn", BDO+"workLccn", null, root, m, main);
         addSimpleElement("hollis", BDO+"workHollis", null, root, m, main);
@@ -153,7 +153,7 @@ public class PubinfoMigration {
         addSimpleElement("pl480", BDO+"workPL480", null, root, m, main);
         addSimpleElement("isbn", BDO+"workIsbn", null, root, m, main);
         addSimpleElement("authorshipStatement", BDO+"authorshipStatement", EWTS_TAG, root, m, main);
-        addSimpleDateElement("dateOfWriting", "CompletedEvent", root, main);
+        addSimpleDateElement("dateOfWriting", "CompletedEvent", root, mainA, "workEvent");
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"illustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"dimensionsStatement", null, root, m, main);
@@ -624,13 +624,15 @@ public class PubinfoMigration {
         }
     }
 
-    private static void addSimpleDateElement(String elementName, String eventType, Element root, Resource main) {
+    private static void addSimpleDateElement(String elementName, String eventType, Element root, Resource main, String propLocalName) {
+        if (main == null)
+            return;
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getTextContent().trim();
             if (value.isEmpty()) return;
-            CommonMigration.addDatesToEvent(value, main, "workEvent", eventType);
+            CommonMigration.addDatesToEvent(value, main, propLocalName, eventType);
         }
     }
 	

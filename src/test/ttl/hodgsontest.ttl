@@ -18,16 +18,16 @@ bdr:W0IA_HOD46  a                :ImageInstance ;
 
 bdr:MW0IA_HOD46  a                :Instance ;
         adm:originalRecord        "https://archive.org/details/rashodgson46"^^xsd:anyURI ;
+        :colophon                 "ityekallavīraṃ nāma caṇḍamahāroṣaṇatantraṃ samāptaṃ"@sa-x-iast ;
+        :hasTitle                 bdr:TTA1D05226DDA49ED8 , bdr:TT0CF378B84813E3DF ;
+        :incipit                  "Evaṃ mayā śrutamekasminsamaye bhagavān vajrasatvaḥ - ityekallavīrākhye śrīcaṇḍamahāroṣaṇatantre tantrāvatāraṇapaṭalaḥ prathamaḥ"@sa-x-iast ;
         :instanceHasReproduction  bdr:W0IA_HOD46 ;
         :instanceOf               bdr:WA0IA_HOD46 ;
         :isRoot                   true ;
+        :material                 bdr:MaterialPalmLeaf ;
         :note                     bdr:NT6758702028C37DDF , bdr:NTF7D64BC292DA2E2B ;
         :printMethod              bdr:PrintMethod_Manuscript ;
-        :colophon             "ityekallavīraṃ nāma caṇḍamahāroṣaṇatantraṃ samāptaṃ"@sa-x-iast ;
         :workGenre                bdr:T2 ;
-        :incipit              "Evaṃ mayā śrutamekasminsamaye bhagavān vajrasatvaḥ - ityekallavīrākhye śrīcaṇḍamahāroṣaṇatantre tantrāvatāraṇapaṭalaḥ prathamaḥ"@sa-x-iast ;
-        :material             bdr:MaterialPalmLeaf ;
-        :workTitle                bdr:TTA1D05226DDA49ED8 , bdr:TT0CF378B84813E3DF ;
         skos:altLabel             "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
         skos:prefLabel            "Ekallavīratantram"@sa-x-iast .
 
@@ -60,7 +60,7 @@ bda:WA0IA_HOD46  a         adm:AdminData ;
         :isRoot            true .
 
 bdr:TTA1D05226DDA49ED8
-        a           :WorkTitle ;
+        a           :Title ;
         rdfs:label  "Ekallavīratantram"@sa-x-iast .
 
 bdr:NT6758702028C37DDF
@@ -86,5 +86,5 @@ bdr:WA0IA_HOD46  a        :Work ;
         skos:prefLabel    "Ekallavīratantram"@sa-x-iast .
 
 bdr:TT0CF378B84813E3DF
-        a           :WorkTitle ;
+        a           :Title ;
         rdfs:label  "Caṇḍamahāroṣaṇatantram"@sa-x-iast .

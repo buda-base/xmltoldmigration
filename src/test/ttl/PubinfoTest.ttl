@@ -52,18 +52,18 @@ bda:LG4AF69EDA5BFE4E04
         adm:logMessage  "added print type and source printery"@en ;
         adm:logWho      bdr:U00013 .
 
-bdr:MW1FPL1  a                      :Instance ;
-        :isRoot                     true ;
-        :itemBDRCHoldingStatement   "1" ;
-        :printMethod                bdr:PrintMethod_Manuscript ;
-        :script                     bdr:ScriptDbuMed ;
-        :authorshipStatement    "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
-        :biblioNote             "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
-        :workEvent                  bdr:EVB0BA72AF962CC892 ;
-        :workExtentStatement        "177 ff." ;
-        :hasSourcePrintery      bdr:G1PD129184 ;
-        :workHollis                 "014254679" ;
-        :workLcCallNumber           "BQ7662.4 .G77 1979" ;
-        :publisherLocation      "[lha sa]"@en ;
-        :publisherName          "[zhol par khang]"@en ;
-        :sourcePrinteryStatement  "test sourcePrintery with no place" .
+bdr:MW1FPL1  a                     :Instance ;
+        :authorshipStatement       "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
+        :biblioNote                "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
+        :hasSourcePrintery         bdr:G1PD129184 ;
+        :instanceEvent             bdr:EVB0BA72AF962CC892 ;
+        :isRoot                    true ;
+        :itemBDRCHoldingStatement  "1" ;
+        :printMethod               bdr:PrintMethod_Manuscript ;
+        :publisherLocation         "[lha sa]"@en ;
+        :publisherName             "[zhol par khang]"@en ;
+        :script                    bdr:ScriptDbuMed ;
+        :sourcePrinteryStatement   "test sourcePrintery with no place" ;
+        :workExtentStatement       "177 ff." ;
+        :workHollis                "014254679" ;
+        :workLcCallNumber          "BQ7662.4 .G77 1979" .

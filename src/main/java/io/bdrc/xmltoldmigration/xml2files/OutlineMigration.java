@@ -424,10 +424,10 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  SymetricNormalization.addSymetricProperty(m, "instanceOf", nodeRID, otherAbstractRID, null);
              }
         }
-        value = "Work"+value.substring(0,1).toUpperCase()+value.substring(1);
-        m.add(node, m.getProperty(BDO, "workPartType"), m.getResource(BDR+value));
+        value = "PartType"+value.substring(0,1).toUpperCase()+value.substring(1);
+        m.add(node, m.getProperty(BDO, "partType"), m.getResource(BDR+value));
 
-        node.addProperty(m.createProperty(BDO, "workPartTreeIndex"), thisPartTreeIndex);
+        node.addProperty(m.createProperty(BDO, "partTreeIndex"), thisPartTreeIndex);
         
         if (!value.isEmpty()) {
             node.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), RID);
@@ -446,14 +446,14 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 //            m.add(r, m.getProperty(BDO, "workPartOf"), m.createResource(BDR+value));
         
         if (addWorkHaspart)
-            m.add(r, m.getProperty(BDO, "workHasPart"), node);
+            m.add(r, m.getProperty(BDO, "hasPart"), node);
         if (addWorkPartOf)
-            m.add(node, m.getProperty(BDO, "workPartOf"), r);
+            m.add(node, m.getProperty(BDO, "partOf"), r);
         
-        m.add(node, m.getProperty(BDO, "partRoot"), rootWork);
+        m.add(node, m.getProperty(BDO, "inRootInstance"), rootWork);
         
         boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, BDO+"workPartLabel");
-        CommonMigration.addDescriptions(m, e, node, OXSDNS);
+        CommonMigration.addDescriptions(m, e, node, OXSDNS, false, nodeA);
         CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true, nodeA);
         
         Statement labelSta = node.getProperty(SKOS.prefLabel);
@@ -494,20 +494,28 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             
             String type = null;
             value = current.getAttribute("type").trim().toLowerCase();
+            Resource eventMain = node;
+            String propLocalName = "instanceEvent";
             if (!value.isEmpty())  {
                 switch(value) {
                 case "started":
                     type = "OriginatedEvent";
+                    eventMain = nodeA;
+                    propLocalName = "workEvent";
                     break;
                 case "completed":
                 case "written":
                     type = "CompletedEvent";
+                    eventMain = nodeA;
+                    propLocalName = "workEvent";
                     break;
                 case "edited":
                     type = "EditedEvent";
                     break;
                 case "revealed":
                     type = "RevealedEvent";
+                    eventMain = nodeA;
+                    propLocalName = "workEvent";
                     break;
                 case "printedat":
                     type = "PrintedEvent";
@@ -518,21 +526,24 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             }
             if (type == null) {
                 type = "WorkEvent";
+                eventMain = nodeA;
+                propLocalName = "workEvent";
             }
 
-            Resource site = getFacetNode(FacetType.EVENT,  node, m.createResource(BDO+type));
-            m.add(node, m.getProperty(BDO, "workEvent"), site);
-            
-            CommonMigration.addDates(current.getAttribute("circa"), site, r);
-            
-            value = current.getAttribute("place").trim();
-            if (!value.isEmpty())
-                m.add(site, m.getProperty(BDO, "eventWhere"), m.getResource(BDR+value));
+            if (eventMain != null) {
+                Model eventM = eventMain.getModel();
+                Resource site = getFacetNode(FacetType.EVENT,  eventMain, eventM.createResource(BDO+type));
+                eventMain.addProperty(eventM.getProperty(BDO, propLocalName), site);
+                CommonMigration.addDates(current.getAttribute("circa"), site, r);
+                value = current.getAttribute("place").trim();
+                if (!value.isEmpty())
+                    eventM.add(site, eventM.getProperty(BDO, "eventWhere"), eventM.getResource(BDR+value));
 
-            // TODO: what about current.getTextContent()?
-            value = current.getTextContent();
-            if (value != null && !value.isEmpty()) {
-                site.addLiteral(m.getProperty(BDO, "eventText"), m.createLiteral(value));
+                // TODO: what about current.getTextContent()?
+                value = current.getTextContent();
+                if (value != null && !value.isEmpty()) {
+                    site.addLiteral(eventM.getProperty(BDO, "eventText"), eventM.createLiteral(value));
+                }
             }
         }
         

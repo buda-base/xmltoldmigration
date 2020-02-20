@@ -781,7 +781,7 @@ public class CommonMigration  {
         return 0;
     }
     
-    private static boolean doFEMCDesc(Resource rez, String type, String value) {
+    private static boolean doFEMCDesc(Resource rez, String type, String value, Resource mainA) {
         if ( ! rez.getLocalName().contains("FEMC")) {
             return false;
         }
@@ -789,29 +789,32 @@ public class CommonMigration  {
         // a Khmer work from FEMC        
         Model m = rez.getModel();
         if (type.equals("beDate") || type.equals("ceDate") || type.equals("csDate")) {
-            Resource event = getEvent(rez, "CompletedEvent", "workEvent");
-            try {
-                int yrInEra = Integer.parseInt(value);
-                // add DateIndication
-                Resource dateInd = getFacetNode(FacetType.DATE_INDICATION, rez);
-                Resource era = getEra(type);
-                event.addProperty(m.getProperty(BDO, "dateIndication"), dateInd);
-                dateInd.addProperty(m.getProperty(BDO, "era"), era);
-                // the following is used to avoid the automatic generation of an xsd:long literal instead of an xsd:integer
-                Literal yrInEraLit = ResourceFactory.createTypedLiteral(value, XSDDatatype.XSDinteger);
-                dateInd.addLiteral(m.getProperty(BDO, "yearInEra"), yrInEraLit);
-                // add notBefore/notAfter or onYear
-                int yrOff = getEraYearOffset(type);
-                if (yrOff == 0) {
-                    event.addProperty(m.getProperty(BDO, "onYear"), yearLit(m, yrInEra));
-                } else {
-                    int notBefore = yrOff > 0 ? yrInEra+yrOff-1 : yrInEra+yrOff;
-                    int notAfter = yrOff > 0 ? yrInEra+yrOff : yrInEra+yrOff+1;
-                    event.addProperty(m.getProperty(BDO, "notBefore"), yearLit(m, notBefore));
-                    event.addProperty(m.getProperty(BDO, "notAfter"), yearLit(m, notAfter));
-                }
-                
-            } catch (DatatypeFormatException ex) {}
+            if (mainA != null) {
+                Model mA = mainA.getModel();
+                Resource event = getEvent(mainA, "CompletedEvent", "workEvent");
+                try {
+                    int yrInEra = Integer.parseInt(value);
+                    // add DateIndication
+                    Resource dateInd = getFacetNode(FacetType.DATE_INDICATION, mainA);
+                    Resource era = getEra(type);
+                    event.addProperty(mA.getProperty(BDO, "dateIndication"), dateInd);
+                    dateInd.addProperty(mA.getProperty(BDO, "era"), era);
+                    // the following is used to avoid the automatic generation of an xsd:long literal instead of an xsd:integer
+                    Literal yrInEraLit = ResourceFactory.createTypedLiteral(value, XSDDatatype.XSDinteger);
+                    dateInd.addLiteral(mA.getProperty(BDO, "yearInEra"), yrInEraLit);
+                    // add notBefore/notAfter or onYear
+                    int yrOff = getEraYearOffset(type);
+                    if (yrOff == 0) {
+                        event.addProperty(mA.getProperty(BDO, "onYear"), yearLit(mA, yrInEra));
+                    } else {
+                        int notBefore = yrOff > 0 ? yrInEra+yrOff-1 : yrInEra+yrOff;
+                        int notAfter = yrOff > 0 ? yrInEra+yrOff : yrInEra+yrOff+1;
+                        event.addProperty(mA.getProperty(BDO, "notBefore"), yearLit(mA, notBefore));
+                        event.addProperty(mA.getProperty(BDO, "notAfter"), yearLit(mA, notAfter));
+                    }
+                    
+                } catch (DatatypeFormatException ex) {}
+            }
             return true;
         } else if (type.equals("oldCodes")) {
             rez.addProperty(m.getProperty(BDO, "workKDPPOldId"), value);
@@ -837,6 +840,7 @@ public class CommonMigration  {
             mf.addProperty(m.getProperty(BDO+"microfilmCanister"), value);
             return true;
         } else if (type.equals("filmStrip")) {
+            // TODO: create item
             Property mfp = m.getProperty(BDO+"workMicrofilm");
             Resource mf = rez.getPropertyResourceValue(mfp);
             if (mf == null) {
@@ -868,9 +872,9 @@ public class CommonMigration  {
             return true;
         } else if (type.equals("complete")) {
             if (value.equals("false")) {
-                rez.addLiteral(m.getProperty(BDO, "workComplete"), false);
+                rez.addLiteral(m.getProperty(BDO, "isComplete"), false);
             } else {
-                rez.addLiteral(m.getProperty(BDO, "workComplete"), true);
+                rez.addLiteral(m.getProperty(BDO, "isComplete"), true);
             }
             return true;
         } else if (type.equals("fascicles")) {
@@ -883,10 +887,14 @@ public class CommonMigration  {
     }
 
     public static Map<String,Model> addDescriptions(Model m, Element e, Resource r, String XsdPrefix) {
-        return addDescriptions(m, e, r, XsdPrefix, false);
+        return addDescriptions(m, e, r, XsdPrefix, false, null);
     }
 
     public static Map<String,Model> addDescriptions(Model m, Element e, Resource rez, String XsdPrefix, boolean guessLabel) {
+        return addDescriptions(m, e, rez, XsdPrefix, guessLabel, null);
+    }
+    
+    public static Map<String,Model> addDescriptions(Model m, Element e, Resource rez, String XsdPrefix, boolean guessLabel, Resource mainA) {
         List<Element> nodeList = getChildrenByTagName(e, XsdPrefix, "description");
         Map<String,Boolean> labelDoneForLang = new HashMap<>();
         Resource fplItem = null;
@@ -903,7 +911,7 @@ public class CommonMigration  {
             if (type.isEmpty())
                 type = "noType";
             
-            if (doFEMCDesc(rez,  type,  value)) continue;
+            if (doFEMCDesc(rez,  type,  value, mainA)) continue;
             
             Literal lit;
             // we add some spaghettis for the case of R8LS13081 which has no description type
@@ -1022,7 +1030,6 @@ public class CommonMigration  {
         case "fullTitle":
         case "subtitle":
         case "runningTitle":
-        case "dkarChagTitle":
         case "colophonTitle":
         case "coverTitle":
         case "incipitTitle":
@@ -1030,22 +1037,24 @@ public class CommonMigration  {
         case "otherTitle":
         case "spineTitle":
         case "copyrightPageTitle":
-            return m.createResource(BDO+"Work"+type.substring(0, 1).toUpperCase() + type.substring(1));
+            return m.createResource(BDO+type.substring(0, 1).toUpperCase() + type.substring(1));
+        case "dkarChagTitle":
+            return m.createResource(BDO+"ToCTitle");
         case "sectionTitle":
         case "captionTitle":
             if (outlineMode)
-                return m.createResource(BDO+"WorkRunningTitle");
+                return m.createResource(BDO+"RunningTitle");
             else
-                return m.createResource(BDO+"WorkOtherTitle");
+                return m.createResource(BDO+"OtherTitle");
         case "portion":
-            return m.createResource(BDO+"WorkTitlePortion");
+            return m.createResource(BDO+"TitlePortion");
         case "incipit":
-            return m.createResource(BDO+"WorkIncipitTitle");
+            return m.createResource(BDO+"IncipitTitle");
         case "bibliographicalTitle":
-            return m.createResource(BDO+"WorkTitle");
+            return m.createResource(BDO+"Title");
         default:
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, work.getLocalName(), work.getLocalName(), "title", "unknown title type `"+type+"`");
-            return m.createResource(BDO+"WorkTitle");
+            return m.createResource(BDO+"Title");
         }
     }
 
@@ -1081,7 +1090,7 @@ public class CommonMigration  {
         Resource nodeType = getNodeType(type, false, main);
         Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
         titleNode.addProperty(RDFS.label, lit);
-        main.addProperty(main.getModel().getProperty(BDO, "workTitle"), titleNode);
+        main.addProperty(main.getModel().getProperty(BDO, "hasTitle"), titleNode);
         if (addPref) {
             main.addProperty(SKOS.prefLabel, lit);
         }
@@ -1277,12 +1286,12 @@ public class CommonMigration  {
                 Resource nodeType = getNodeType(type, outlineMode, main);
                 Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
                 titleNode.addProperty(RDFS.label, lit);
-                main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
+                main.addProperty(m.getProperty(BDO, "hasTitle"), titleNode);
     
                 if (nextTitle != null) {
                     titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
                     titleNode.addProperty(RDFS.label, m.createLiteral(nextTitle, "pi-x-iast"));
-                    main.addProperty(m.getProperty(BDO, "workTitle"), titleNode);
+                    main.addProperty(m.getProperty(BDO, "hasTitle"), titleNode);
                 }
             }
 

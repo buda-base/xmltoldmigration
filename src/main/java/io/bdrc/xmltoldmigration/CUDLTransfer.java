@@ -149,9 +149,9 @@ public class CUDLTransfer {
             lit = workModel.createLiteral(title,"sa-x-iast");
         }
         workModel.add(work, SKOS.prefLabel, lit);
-        Resource titleType = workModel.createResource(BDO+"WorkTitle");
+        Resource titleType = workModel.createResource(BDO+"Title");
         Resource titleR = getFacetNode(FacetType.TITLE, work, titleType);
-        work.addProperty(workModel.createProperty(BDO, "workTitle"), titleR);
+        work.addProperty(workModel.createProperty(BDO, "hasTitle"), titleR);
         titleR.addProperty(RDFS.label, lit);
         
         // if mainTitle is present, we prefer it over title for the abstract work
