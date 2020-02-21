@@ -46,7 +46,7 @@ bda:LG650F49A48542C160
 
 bdr:NTE1683F39A3E5756E
         a                   :Note ;
-        :locationStatement  "251" ;
+        :contentLocationStatement  "251" ;
         :noteSource         bdr:MW27401 ;
         :noteText           "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."@en .
 
@@ -56,7 +56,7 @@ bdr:NMF942A81B0A73E4AA
 
 bdr:NTAF7D0940EAE3607E
         a                   :Note ;
-        :locationStatement  "v. 2, pp.104-112" ;
+        :contentLocationStatement  "v. 2, pp.104-112" ;
         :noteSource         bdr:MW25268 ;
         :noteText           "biography\ndates: 1308-1363"@en .
 
@@ -94,7 +94,7 @@ bdr:NM81A442B676BCDB2A
 
 bdr:NT5A51821BAE247EF6
         a                   :Note ;
-        :locationStatement  "p. 6" ;
+        :contentLocationStatement  "p. 6" ;
         :noteSource         bdr:MW19822 .
 
 bdr:NM27A9E6B52AE2AFD6
@@ -111,7 +111,7 @@ bdr:NT0648F5705843763B
 
 bdr:NT6B646336F5EE567D
         a                   :Note ;
-        :locationStatement  "p. 77" ;
+        :contentLocationStatement  "p. 77" ;
         :noteSource         bdr:MW19801 .
 
 bdr:P1583  a                 :Person ;

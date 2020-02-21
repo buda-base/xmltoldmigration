@@ -28,7 +28,7 @@ bdr:NME51DB3F4D95210F5
 
 bdr:NT7219361C1AA8E1A9
         a                   :Note ;
-        :locationStatement  "p. 359" ;
+        :contentLocationStatement  "p. 359" ;
         :noteSource         bdr:MW20115 ;
         :noteText           "date of death from this source"@en .
 

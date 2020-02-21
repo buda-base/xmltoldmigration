@@ -47,7 +47,7 @@ bdr:TT008B758142301FF1
 
 bdr:NT6A5E503DD47337CF
         a                       :Note ;
-        :noteLocationStatement  "pg. 54" ;
+        :contentLocationStatement  "pg. 54" ;
         :noteWork               bdr:W1FEMC01 .
 
 bdr:MW1FEMC010006  a             :Instance ;

@@ -438,7 +438,7 @@ public class CommonMigration  {
         case "extent":                return BDO+"instanceExtentStatement";
         case "id":                    return "__fpl";
         case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
-        case "location":              return BDO+"locationStatement";
+        case "location":              return BDO+"contentLocationStatement";
         case "remarks":               return "__fpl";
         case "room":                  return "__fpl";
         case "summary":               return RDFS.getURI()+"comment";
@@ -560,7 +560,7 @@ public class CommonMigration  {
             noteR.addProperty(m.createProperty(BDO+"noteText"), noteText);
         }
         if (loc != null && !loc.isEmpty()) {
-            noteR.addProperty(m.createProperty(BDO+"locationStatement"), loc);
+            noteR.addProperty(m.createProperty(BDO+"contentLocationStatement"), loc);
         }
         if (ref != null) {
             noteR.addProperty(m.getProperty(BDO, "noteSource"), ref);
@@ -879,7 +879,7 @@ public class CommonMigration  {
                 note.addProperty(m.getProperty(BDO+"noteText"), "Catalog");
                 rez.addProperty(notep, note);
             }
-            note.addProperty(m.getProperty(BDO+"noteLocationStatement"), "pg. "+value);
+            note.addProperty(m.getProperty(BDO+"contentLocationStatement"), "pg. "+value);
             return true;
         } else if (type.equals("complete")) {
             if (value.equals("false")) {
