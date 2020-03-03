@@ -79,7 +79,7 @@ bdr:TT9F5DB6BC1BDA7180
         rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr-x-kmpre20c .
 
 bdr:MF011BF57819D67C4D
-        a                   :ObjectTypeMicrofilm ;
+        a                   :ItemMicrofilmAsset ;
         :microfilmCanister  "IV" ;
         :microfilmStrip     "16" .
 

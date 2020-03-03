@@ -63,7 +63,7 @@ bda:LG5574F1EFE2125B54
         adm:logWhoStr   "works-femc01-import.xql" .
 
 bdr:MF40E76702244D0F72
-        a                   :ObjectTypeMicrofilm ;
+        a                   :ItemMicrofilmAsset ;
         :microfilmCanister  "18" ;
         :microfilmStrip     "4" .
 
