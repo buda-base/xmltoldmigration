@@ -238,7 +238,7 @@ public class PubinfoMigration {
                 addLangScript(main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
                 if (isComputerInputDbuMed(main.getLocalName()))
-                    m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
+                    m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
                 else
                     m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
                 break;
@@ -265,16 +265,16 @@ public class PubinfoMigration {
                 m.add(main, m.getProperty(BDO, "binding"), m.createResource(BDR+"Binding_Continuous_Leporello"));
                 break;
             case "computerInput":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeComputerInput"));
+                m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
                 break;
             case "OCR":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeOCR"));
+                m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_OCR"));
                 break;
             case "typeSet":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeTypeSet"));
+                m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_TypeSet"));
                 break;
             case "facsimile":
-                m.add(main, m.getProperty(BDO, "workObjectType"), m.createResource(BDR+"ObjectTypeFacsimile"));
+                m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_Facsimile"));
                 break;
             default:
                 break;
