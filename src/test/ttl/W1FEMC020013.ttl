@@ -22,7 +22,7 @@ bdr:MW1FEMC020013  a             :Instance ;
         :workFEMCManuscriptCode  "a.13.I.1" ;
         :workIsAbout             bdr:FEMC_Scheme_I_1 ;
         :workKDPPOldId           "1389" ;
-        :workMicrofilm           bdr:MF40E76702244D0F72 ;
+        :microfilmItem           bdr:MF40E76702244D0F72 ;
         skos:prefLabel           "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
 
 bdr:DT75B46CB18150A20F

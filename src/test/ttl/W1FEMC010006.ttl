@@ -61,7 +61,7 @@ bdr:MW1FEMC010006  a             :Instance ;
         :numberOfVolumes         1 ;
         :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
         :workIsAbout             bdr:FEMC_Scheme_VII ;
-        :workMicrofilm           bdr:MF011BF57819D67C4D ;
+        :microfilmItem           bdr:MF011BF57819D67C4D ;
         skos:prefLabel           "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
 bdr:DT2B0D8CE58D1F97E8
