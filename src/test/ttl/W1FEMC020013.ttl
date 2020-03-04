@@ -98,7 +98,7 @@ bda:WA1FEMC020013  a       adm:AdminData ;
 bdr:NT43895F96F66FA39A
         a                       :Note ;
         :contentLocationStatement  "pg. 3" ;
-        :noteWork               bdr:W1FEMC02 .
+        :noteSource             bdr:W1FEMC02 .
 
 bdr:TT987B7799B2FAE16A
         a                  :CoverTitle ;

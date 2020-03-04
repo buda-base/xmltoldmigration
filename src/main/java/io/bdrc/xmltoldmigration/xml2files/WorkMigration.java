@@ -454,7 +454,7 @@ public class WorkMigration {
                     Resource cat = 
                             value.equals("PR1FEMC01") ? m.createResource(BDR+"W1FEMC01") : 
                            (value.equals("PR1FEMC02") ? m.createResource(BDR+"W1FEMC02") : m.createResource(BDA+value));
-                    note.addProperty(m.getProperty(BDO+"noteWork"), cat);
+                    note.addProperty(m.getProperty(BDO+"noteSource"), cat);
                 } else {
                     List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
                     worksForProduct.add(main.getLocalName());

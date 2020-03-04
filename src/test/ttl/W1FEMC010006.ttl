@@ -48,7 +48,7 @@ bdr:TT008B758142301FF1
 bdr:NT6A5E503DD47337CF
         a                       :Note ;
         :contentLocationStatement  "pg. 54" ;
-        :noteWork               bdr:W1FEMC01 .
+        :noteSource             bdr:W1FEMC01 .
 
 bdr:MW1FEMC010006  a             :Instance ;
         :hasFascicles            "2, 7, 8, 10, 11" ;
