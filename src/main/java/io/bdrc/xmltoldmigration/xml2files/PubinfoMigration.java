@@ -189,7 +189,8 @@ public class PubinfoMigration {
                 CommonMigration.seriesMembersToWorks.put(otherRID, serialWorkId);
                 Model mS = ModelFactory.createDefaultModel();
                 setPrefixes(mS);
-                WorkMigration.addRedirection(otherRID, serialWorkId, mS);
+                // TODO: not sure what this was...
+                //WorkMigration.addRedirection(otherRID, serialWorkId, mS);
                 Resource serialWork = createRoot(mS, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialWork);
                 addStatus(mS, admSerialW, "released");
