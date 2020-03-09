@@ -842,7 +842,7 @@ public class CommonMigration  {
             rez.addProperty(m.getProperty(BDO, "workIsAbout"), m.createResource(BDR+subjId));
             return true;
         } else if (type.equals("filmCanister")) {
-            Property mfp = m.getProperty(BDO+"workMicrofilm");
+            Property mfp = m.getProperty(BDO+"microfilmItem");
             Resource mf = rez.getPropertyResourceValue(mfp);
             if (mf == null) {
                 mf = getFacetNode(FacetType.MICROFILM, rez);
@@ -852,7 +852,7 @@ public class CommonMigration  {
             return true;
         } else if (type.equals("filmStrip")) {
             // TODO: create item
-            Property mfp = m.getProperty(BDO+"workMicrofilm");
+            Property mfp = m.getProperty(BDO+"microfilmItem");
             Resource mf = rez.getPropertyResourceValue(mfp);
             if (mf == null) {
                 mf = getFacetNode(FacetType.MICROFILM, rez);

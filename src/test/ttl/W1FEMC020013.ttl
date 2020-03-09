@@ -22,7 +22,7 @@ bdr:MW1FEMC020013  a             :Instance ;
         :workFEMCManuscriptCode  "a.13.I.1" ;
         :workIsAbout             bdr:FEMC_Scheme_I_1 ;
         :workKDPPOldId           "1389" ;
-        :workMicrofilm           bdr:MF40E76702244D0F72 ;
+        :microfilmItem           bdr:MF40E76702244D0F72 ;
         skos:prefLabel           "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-kmfemc .
 
 bdr:DT75B46CB18150A20F
@@ -63,7 +63,7 @@ bda:LG5574F1EFE2125B54
         adm:logWhoStr   "works-femc01-import.xql" .
 
 bdr:MF40E76702244D0F72
-        a                   :ObjectTypeMicrofilm ;
+        a                   :ItemMicrofilmAsset ;
         :microfilmCanister  "18" ;
         :microfilmStrip     "4" .
 
@@ -98,7 +98,7 @@ bda:WA1FEMC020013  a       adm:AdminData ;
 bdr:NT43895F96F66FA39A
         a                       :Note ;
         :contentLocationStatement  "pg. 3" ;
-        :noteWork               bdr:W1FEMC02 .
+        :noteSource             bdr:W1FEMC02 .
 
 bdr:TT987B7799B2FAE16A
         a                  :CoverTitle ;

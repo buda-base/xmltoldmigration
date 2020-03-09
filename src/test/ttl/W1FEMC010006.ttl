@@ -48,7 +48,7 @@ bdr:TT008B758142301FF1
 bdr:NT6A5E503DD47337CF
         a                       :Note ;
         :contentLocationStatement  "pg. 54" ;
-        :noteWork               bdr:W1FEMC01 .
+        :noteSource             bdr:W1FEMC01 .
 
 bdr:MW1FEMC010006  a             :Instance ;
         :hasFascicles            "2, 7, 8, 10, 11" ;
@@ -61,7 +61,7 @@ bdr:MW1FEMC010006  a             :Instance ;
         :numberOfVolumes         1 ;
         :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
         :workIsAbout             bdr:FEMC_Scheme_VII ;
-        :workMicrofilm           bdr:MF011BF57819D67C4D ;
+        :microfilmItem           bdr:MF011BF57819D67C4D ;
         skos:prefLabel           "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
 bdr:DT2B0D8CE58D1F97E8
@@ -79,7 +79,7 @@ bdr:TT9F5DB6BC1BDA7180
         rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr-x-kmpre20c .
 
 bdr:MF011BF57819D67C4D
-        a                   :ObjectTypeMicrofilm ;
+        a                   :ItemMicrofilmAsset ;
         :microfilmCanister  "IV" ;
         :microfilmStrip     "16" .
 
