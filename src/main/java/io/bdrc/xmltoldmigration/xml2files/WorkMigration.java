@@ -168,9 +168,9 @@ public class WorkMigration {
         
         Model mA = null;
         Resource mainA = null;
+        Resource admMainA = null;
         Model mS = null;
         Resource serialW = null;
-        boolean isConceptual = false;
         Resource main = null;
         Resource admMain = null;
         String serialWorkId = "";
@@ -190,13 +190,10 @@ public class WorkMigration {
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
             mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
-            Resource admMainA = createAdminRoot(mainA);
-            addStatus(mA, admMainA, "released");
-            admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
+            admMainA = createAdminRoot(mainA);
             main.addProperty(m.createProperty(BDO, "serialInstanceOf"), mainA);
             mainA.addProperty(mA.createProperty(BDO, "serialHasInstance"), main);
             res.add(new WorkModelInfo(seriesMemberId, mA));
-
             serialWorkId = CommonMigration.seriesMembersToWorks.get(otherMemberRID);
             if (serialWorkId == null) {
                 if (infoParentId.isEmpty()) {
@@ -221,9 +218,11 @@ public class WorkMigration {
             }
         } else if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
             addRedirection(workId, aWorkId, m);
-            main = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
-            admMain = createAdminRoot(main);
-            isConceptual = true;
+            main = null;
+            admMain = null;
+            mainA = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
+            admMainA = createAdminRoot(mainA);
+            mA = ModelFactory.createDefaultModel();
             res.add(null);
             res.add(new WorkModelInfo(aWorkId, m));
         } else {
@@ -253,9 +252,7 @@ public class WorkMigration {
                         res.set(1, new WorkModelInfo(aWorkId, mA));
                     }
                     mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
-                    Resource admMainA = createAdminRoot(mainA);
-                    addStatus(mA, admMainA, "released");
-                    admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
+                    admMainA = createAdminRoot(mainA);
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
@@ -264,21 +261,28 @@ public class WorkMigration {
             }
         }
 		
-		addStatus(m, admMain, status);
-        admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
+        if (admMain != null) {
+            addStatus(m, admMain, status);
+            admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
+        } 
+        if (admMainA != null) {
+            addStatus(mA, admMainA, "released");
+            admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
+        }
 		
 		String value = null;
 		Literal lit = null;
 		Property prop;
-		
-		CommonMigration.addNotes(m, root, main, WXSDNS);
-		// TODO: this could be handled better:
-		if (mainA != null)
-		    CommonMigration.addExternals(m, root, mainA, WXSDNS);
-		else 
+		if (admMain != null) {
+		    CommonMigration.addNotes(m, root, main, WXSDNS);
 		    CommonMigration.addExternals(m, root, main, WXSDNS);
-	    CommonMigration.addLog(m, root, admMain, WXSDNS);
-		
+		    CommonMigration.addLog(m, root, admMain, WXSDNS);
+		} else {
+		    CommonMigration.addNotes(mA, root, mainA, WXSDNS);
+		    CommonMigration.addExternals(mA, root, mainA, WXSDNS);
+		    CommonMigration.addLog(mA, root, admMainA, WXSDNS);
+		}
+
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
 	    // put a prefLabel on the serialW if needed
 	    if (isSeriesMember) {
@@ -299,92 +303,95 @@ public class WorkMigration {
 	        CommonMigration.addSubjects(m, main, root, WXSDNS);
 	    else
 	        CommonMigration.addSubjects(mA, mainA, root, WXSDNS);
-	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS, false, mainA);
-	    if (itemModelsFromDesc != null) {
-	        if (!splitItems) {
-	            for (Model itemModel : itemModelsFromDesc.values()) {
-	                m.add(itemModel);
-	            }
-	        } else {
-	            itemModels.putAll(itemModelsFromDesc);
-	        }
-	    }
+	    
+	    if (main != null) {
+    	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS, false, mainA);
+    	    if (itemModelsFromDesc != null) {
+    	        if (!splitItems) {
+    	            for (Model itemModel : itemModelsFromDesc.values()) {
+    	                m.add(itemModel);
+    	            }
+    	        } else {
+    	            itemModels.putAll(itemModelsFromDesc);
+    	        }
+    	    }
 		
-		// archiveInfo
-		
-		nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
-		boolean hasArchiveInfo = false;
-		boolean hasAccess = false;
-		boolean hasLicense = false;
-		String accessUri = null;
-		String legalUri = null;
-		boolean isRestrictedInChina = false;
-		int nbvols = -1;
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            hasArchiveInfo = true;
-            current = (Element) nodeList.item(i);
-            String licenseValue = current.getAttribute("license").trim();
-            if (licenseValue.equals("copyright")) 
-                licenseValue = BDA+"LD_BDRC_Copyright";
-            else
-                licenseValue = BDA+"LD_BDRC_PD";
-            hasLicense = true;
-            
-            value = current.getAttribute("access").trim();
-            switch (value) {
-            case "openAccess":
-                value = "AccessOpen"; 
-                break;
-            case "fairUse": 
-                // just in case...
-                // https://github.com/BuddhistDigitalResourceCenter/library-issues/issues/59
-                licenseValue = BDA+"LD_BDRC_Copyright"; 
-                value = "AccessFairUse";
-                break;
-            case "restrictedSealed": value = "AccessRestrictedSealed"; break;
-            case "temporarilyRestricted": value = "AccessRestrictedTemporarily"; break;
-            case "restrictedByQuality": value = "AccessRestrictedByQuality"; break;
-            case "restrictedByTbrc": value = "AccessRestrictedByTbrc"; break;
-            case "restrictedInChina":
-                value = (licenseValue.contains("Copyright") ? "AccessFairUse" : "AccessOpen");
-                isRestrictedInChina = true;
-                break;
-            default: value = ""; break;
-            }
-            if (!value.isEmpty()) {
-                accessUri = BDA+value;
-                hasAccess = true;
-            }
-            legalUri = licenseValue;
-
-            String nbVolsStr = current.getAttribute("vols").trim();
-            if (nbVolsStr.isEmpty())
-                continue;
-            
-            try {
-                nbvols = Integer.parseUnsignedInt(nbVolsStr);
-                if (nbvols != 0) {
-                    prop = m.getProperty(BDO, "numberOfVolumes");
-                    lit = m.createTypedLiteral(nbvols, XSDDatatype.XSDinteger);
-                    m.add(main, prop, lit);
+    		// archiveInfo
+    		
+    		nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
+    		boolean hasArchiveInfo = false;
+    		boolean hasAccess = false;
+    		boolean hasLicense = false;
+    		String accessUri = null;
+    		String legalUri = null;
+    		boolean isRestrictedInChina = false;
+    		int nbvols = -1;
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                hasArchiveInfo = true;
+                current = (Element) nodeList.item(i);
+                String licenseValue = current.getAttribute("license").trim();
+                if (licenseValue.equals("copyright")) 
+                    licenseValue = BDA+"LD_BDRC_Copyright";
+                else
+                    licenseValue = BDA+"LD_BDRC_PD";
+                hasLicense = true;
+                
+                value = current.getAttribute("access").trim();
+                switch (value) {
+                case "openAccess":
+                    value = "AccessOpen"; 
+                    break;
+                case "fairUse": 
+                    // just in case...
+                    // https://github.com/BuddhistDigitalResourceCenter/library-issues/issues/59
+                    licenseValue = BDA+"LD_BDRC_Copyright"; 
+                    value = "AccessFairUse";
+                    break;
+                case "restrictedSealed": value = "AccessRestrictedSealed"; break;
+                case "temporarilyRestricted": value = "AccessRestrictedTemporarily"; break;
+                case "restrictedByQuality": value = "AccessRestrictedByQuality"; break;
+                case "restrictedByTbrc": value = "AccessRestrictedByTbrc"; break;
+                case "restrictedInChina":
+                    value = (licenseValue.contains("Copyright") ? "AccessFairUse" : "AccessOpen");
+                    isRestrictedInChina = true;
+                    break;
+                default: value = ""; break;
                 }
-            } catch (NumberFormatException e) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "archiveInfo/vols", "cannot parse number of volumes `"+current.getAttribute("vols").trim()+"`");
+                if (!value.isEmpty()) {
+                    accessUri = BDA+value;
+                    hasAccess = true;
+                }
+                legalUri = licenseValue;
+    
+                String nbVolsStr = current.getAttribute("vols").trim();
+                if (nbVolsStr.isEmpty())
+                    continue;
+                
+                try {
+                    nbvols = Integer.parseUnsignedInt(nbVolsStr);
+                    if (nbvols != 0) {
+                        prop = m.getProperty(BDO, "numberOfVolumes");
+                        lit = m.createTypedLiteral(nbvols, XSDDatatype.XSDinteger);
+                        m.add(main, prop, lit);
+                    }
+                } catch (NumberFormatException e) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "archiveInfo/vols", "cannot parse number of volumes `"+current.getAttribute("vols").trim()+"`");
+                }
             }
-        }
-        if (hasArchiveInfo && !hasAccess) {
-            accessUri = BDA+"AccessOpen";
-        }        
-        if (hasArchiveInfo && !hasLicense) {
-            legalUri = BDA+"LD_BDRC_PD";
-        }
-        
-        // these maps are queried in ImagegroupMigration and EtextMigration 
-        // to fill in the corresponding Item via MigrationApp.moveAdminInfo()
-        workAccessMap.put('M'+workId, accessUri);
-        workLegalMap.put('M'+workId, legalUri);
-        workRestrictedInChina.put('M'+workId, isRestrictedInChina);
 
+            if (hasArchiveInfo && !hasAccess) {
+                accessUri = BDA+"AccessOpen";
+            }        
+            if (hasArchiveInfo && !hasLicense) {
+                legalUri = BDA+"LD_BDRC_PD";
+            }
+            
+            // these maps are queried in ImagegroupMigration and EtextMigration 
+            // to fill in the corresponding Item via MigrationApp.moveAdminInfo()
+            workAccessMap.put('M'+workId, accessUri);
+            workLegalMap.put('M'+workId, legalUri);
+            workRestrictedInChina.put('M'+workId, isRestrictedInChina);
+        }
         // creator
         // this is a list of the abstract works of the part of the work
         List <Resource> subAbstracts = null; 
@@ -395,6 +402,10 @@ public class WorkMigration {
             if (value.isEmpty()) {
                 value = "hasMainAuthor";
             }
+            // temporary fix: let's not add creators for abstract works, as most of them are canonical texts
+            if (main == null && !value.equals("hasMainAuthor")) {
+                continue;
+            }
             String person = current.getAttribute("person").trim(); // required
             if (person.isEmpty()) continue;
             if (person.equals("Add to DLMS")) {
@@ -402,7 +413,7 @@ public class WorkMigration {
                 if (!person.isEmpty())
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, main.getLocalName(), main.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
-                person = MigrationHelpers.sanitizeRID(main.getLocalName(), value, person);
+                person = MigrationHelpers.sanitizeRID(root.getAttribute("RID"), value, person);
                 if (!MigrationHelpers.isDisconnected(person)) {
                     if (mainA != null && !CommonMigration.creatorForInstance.contains(value)) {
                         if (subAbstracts == null) {
@@ -412,15 +423,11 @@ public class WorkMigration {
                             CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, r);
                         }
                     }
-                    if (!isConceptual) {
-                        CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, mainA);
-                    } else {
-                        CommonMigration.addAgentAsCreator(null, m.createResource(BDR+person), value, main);
-                    }
+                    CommonMigration.addAgentAsCreator(main, m.createResource(BDR+person), value, mainA);
                 }
             }
         }
-        if (!isConceptual) {        
+        if (main != null) {        
             // inProduct
             
             nodeList = root.getElementsByTagNameNS(WXSDNS, "inProduct");
