@@ -119,11 +119,14 @@ public class rKTsTransfer {
                 }
                 final String workName = fileBaseName.substring(0, fileBaseName.length()-4);
                 final String workOutFileName = MigrationApp.getDstFileName("work", workName, ".trig");
-                if (!workName.startsWith("W0R")) {
+                if (!workName.startsWith("WA0R")) {
                     Model existingM = MigrationHelpers.modelFromFileName(workOutFileName);
                     if (existingM != null) {
                         // maybe the sa-x-ndia strings should be removed?
                         m.add(existingM);
+                        //Resource admin = m.createResource(BDA+workName);
+                        //admin.removeAll(m.getProperty(ADM, "metadataLegal"));
+                        //admin.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_rKTs_CC0"));
                     }
                 } else {
                     Resource admin = m.createResource(BDA+workName);
