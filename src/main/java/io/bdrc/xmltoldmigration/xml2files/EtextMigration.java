@@ -431,10 +431,9 @@ public class EtextMigration {
         }
         final String indicatedWorkId = e.getTextContent().trim();
         String eInstanceId = instanceIdFromWorkId(indicatedWorkId);
-        String iInstanceId = "W"+indicatedWorkId.substring(1);
+        String iInstanceId = indicatedWorkId;
         boolean bornDigital = false;
         if (WorkMigration.etextInstances.containsKey(indicatedWorkId)) {
-            eInstanceId = indicatedWorkId;
             bornDigital = true;
         }
         String abstractWorkId = WorkMigration.getAbstractForRid(indicatedWorkId);

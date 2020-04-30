@@ -220,7 +220,7 @@ public class WorkMigration {
             addRedirection(workId, aWorkId, m);
             main = null;
             admMain = null;
-            mainA = createRoot(m, BDR+aWorkId, BDO+"AbstractWork");
+            mainA = createRoot(m, BDR+aWorkId, BDO+"Work");
             admMainA = createAdminRoot(mainA);
             mA = ModelFactory.createDefaultModel();
             res.add(null);
