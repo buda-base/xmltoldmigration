@@ -453,7 +453,12 @@ public class MigrationApp
         }
         MigrationHelpers.writeLogsTo(pw);
         String dirName = XML_DIR+"tbrc-"+type+"s";
+        System.out.println("listing files in "+dirName);
         File[] files = new File(dirName).listFiles();
+        if (files == null) {
+            System.out.println("couldn't find any file");
+            return;
+        }
         System.out.println("converting "+files.length+" "+type+" files");
         //Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
         Stream.of(files).forEach(file -> migrateOneFile(file, type, mustStartWith));
@@ -525,7 +530,6 @@ public class MigrationApp
             if (arg.equals("-onlyOneSymetricDirection=0")) {
                 oneDirection = false;
             }
-            SymetricNormalization.normalizeOneDirection(oneDirection, manyOverOne);
 		    if (arg.equals("-datadir")) {
                 DATA_DIR = args[i+1];
                 if (!DATA_DIR.endsWith("/")) {
@@ -544,7 +548,8 @@ public class MigrationApp
                 commitMessage = args[i+1];
             }
 		}
-
+		SymetricNormalization.normalizeOneDirection(oneDirection, manyOverOne);
+		System.out.println("data dir is "+DATA_DIR);
         File theDir = new File(OUTPUT_DIR);
         if (!theDir.exists()) {
             System.out.println("considering that this is the first migration");
