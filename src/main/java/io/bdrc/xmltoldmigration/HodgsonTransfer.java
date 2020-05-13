@@ -117,7 +117,7 @@ public class HodgsonTransfer {
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_IA_Metadata")); // ?
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "W"+baseRID, abstractWorkRID, null);
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "MW"+baseRID, abstractWorkRID, null);
         }
 
         // adm:AdminData
