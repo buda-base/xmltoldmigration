@@ -1267,12 +1267,26 @@ public class CommonMigration  {
                 main.addProperty(m.getProperty(BDO, "incipit"), lit);
                 continue;
             }
+            
+            if (main != null) {
+                Resource nodeType = getNodeType(type, outlineMode, main);
+                Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
+                titleNode.addProperty(RDFS.label, lit);
+                main.addProperty(m.getProperty(BDO, "hasTitle"), titleNode);
+    
+                if (nextTitle != null) {
+                    titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
+                    titleNode.addProperty(RDFS.label, m.createLiteral(nextTitle, "pi-x-iast"));
+                    main.addProperty(m.getProperty(BDO, "hasTitle"), titleNode);
+                }
+            }
+            
             /* here we split the titles between the work and instance as follows:
              * if we have bibliographicalTitle + another title, we promote the
              * bibliographicalTitle as label for the abstract work and we don't consider it
              * for the instance. If there's just one labe
              */
-            if (mainA != null && type.equals("bibliographicalTitle")) {
+            if (mainA != null) {
                 if (i != 0) {
                     //System.out.println("biblio in second position for RID "+main.getLocalName());
                 }
@@ -1289,7 +1303,7 @@ public class CommonMigration  {
                             // this shouldn't add the same label twice because of the nature of triples
                             mainA.addProperty(SKOS.prefLabel, abstractLit);
                             labelDoneForLang.put(lang, true);
-                            typeUsedForLabel = type;
+                            //typeUsedForLabel = type;
                         } else {
                             mainA.addProperty(SKOS.altLabel, lit);
                         }
@@ -1298,18 +1312,7 @@ public class CommonMigration  {
                 }
             }
             
-            if (main != null) {
-                Resource nodeType = getNodeType(type, outlineMode, main);
-                Resource titleNode = getFacetNode(FacetType.TITLE, main, nodeType);        
-                titleNode.addProperty(RDFS.label, lit);
-                main.addProperty(m.getProperty(BDO, "hasTitle"), titleNode);
-    
-                if (nextTitle != null) {
-                    titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
-                    titleNode.addProperty(RDFS.label, m.createLiteral(nextTitle, "pi-x-iast"));
-                    main.addProperty(m.getProperty(BDO, "hasTitle"), titleNode);
-                }
-            }
+
 
             if (guessLabel) {
                 String lang = lit.getLanguage().substring(0, 2);
@@ -1325,11 +1328,10 @@ public class CommonMigration  {
                         mainA.addProperty(SKOS.prefLabel, abstractLit);
                     }
                     labelDoneForLang.put(lang, true);
-                    typeUsedForLabel = type;
+                    //typeUsedForLabel = type;
                 } else if (mainA != null) {
                     mainA.addProperty(SKOS.altLabel, abstractTitle(lit, m));
                 }
-                continue;
             }
         }
     }

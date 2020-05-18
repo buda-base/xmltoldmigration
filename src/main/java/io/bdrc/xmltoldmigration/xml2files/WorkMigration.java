@@ -630,6 +630,12 @@ public class WorkMigration {
                     }
                 }
             }
+            selaac = new SimpleSelector(next, m.createProperty(BDO, "language"), (Node) null);
+            iteraac = m.listStatements(selaac);
+            while (iteraac.hasNext()) {
+                Resource nextaac = iteraac.next().getObject().asResource();
+                title += nextaac.getLocalName()+":";
+            }
             Statement s = next.getProperty(SKOS.prefLabel, "bo-x-ewts");
             if (s != null) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+title+s.getString());

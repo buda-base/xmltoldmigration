@@ -1,6 +1,7 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -10,9 +11,13 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bdr:TT35B83BD895D4749F
+        a           :OtherTitle ;
+        rdfs:label  "testcap/"@bo-x-ewts .
+
 bda:MWM12837FPL  a         adm:AdminData ;
         adm:adminAbout     bdr:MWM12837FPL ;
-        adm:facetIndex     12 ;
+        adm:facetIndex     15 ;
         adm:gitPath        "0a/MWM12837FPL.trig" ;
         adm:gitRepo        bda:GR0012 ;
         adm:graphId        bdg:MWM12837FPL ;
@@ -21,7 +26,7 @@ bda:MWM12837FPL  a         adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bdr:EV35B83BD895D4749F
+bdr:EVB68A1432EFFF5DF0
         a           :CompletedEvent ;
         :onOrAbout  "descriptionwithtypedate" ;
         :onYear     "1232"^^xsd:gYear .
@@ -39,25 +44,30 @@ bda:LGECDA05CC52A94359
 bdr:WAS12345  a           :SerialWork ;
         :isRoot           true ;
         :serialHasMember  bdr:WAM12837FPL ;
-        skos:prefLabel    "vinayavinicchaya"@pi-x-iast .
+        skos:prefLabel    "test pali title"@pi-x-iast .
 
 bdr:MWM12837FPL  a         :SerialInstance ;
         rdfs:comment       "description with no type" ;
         :catalogInfo       "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
-        :hasTitle          bdr:TT86C328CD33E9538B , bdr:TT3CBDE3A243BE57CF , bdr:TT15ED3B92D25DDB21 ;
+        :hasTitle          bdr:TT86C328CD33E9538B , bdr:TT35B83BD895D4749F , bdr:TT3CBDE3A243BE57CF , bdr:TT15ED3B92D25DDB21 , bdr:TT34F0EEC409CDBEC1 , bdr:TTF70401471942BE32 ;
         :incipit           "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
         :isRoot            true ;
-        :note              bdr:NT34F0EEC409CDBEC1 , bdr:NT531278235C7918E2 ;
+        :note              bdr:NTCF97E7D8D6990417 , bdr:NT531278235C7918E2 ;
         :numberOfVolumes   1 ;
         :scanInfo          "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
         :serialInstanceOf  bdr:WAM12837FPL ;
-        :workEvent         bdr:EV35B83BD895D4749F ;
+        :workEvent         bdr:EVB68A1432EFFF5DF0 ;
         :workSeriesNumber  "2" ;
-        skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast .
+        skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
+
+bdr:VL1D616A8134D99C23
+        a                           :VolumePhysicalAsset ;
+        :volumeNumber               1 ;
+        :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en .
 
 bdr:TT86C328CD33E9538B
-        a           :OtherTitle ;
-        rdfs:label  "testcap/"@bo-x-ewts .
+        a           :TitlePageTitle ;
+        rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
 
 bda:LG741A919F3670B2B2
         a               adm:LogEntry ;
@@ -65,20 +75,13 @@ bda:LG741A919F3670B2B2
         adm:logMessage  "normalized catalog info"@en ;
         adm:logWho      bdr:U00012 .
 
+bdr:NTCF97E7D8D6990417
+        a          :Note ;
+        :noteText  "description with type note" .
+
 bdr:TT15ED3B92D25DDB21
-        a           :TitlePageTitle ;
-        rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
-
-bdr:ITWM12837FPL  a       :Item ;
-        :itemForInstance  bdr:MWM12837FPL ;
-        :itemHasVolume    bdr:VLF70401471942BE32 ;
-        :itemLibrary      bdr:G1TLMFPL000001 ;
-        :itemShelf        "3A|110" .
-
-bdr:CR2D01023E230E08C2
-        a       :AgentAsCreator ;
-        :agent  bdr:P1591 ;
-        :role   bdr:R0ER0019 .
+        a           :OtherTitle ;
+        rdfs:label  "test pali title"@pi-x-iast .
 
 bdr:WAM12837FPL  a          :SerialMember ;
         :creator            bdr:CR2D01023E230E08C2 ;
@@ -87,8 +90,19 @@ bdr:WAM12837FPL  a          :SerialMember ;
         :serialMemberOf     bdr:WAS12345 ;
         :workGenre          bdr:T132 ;
         :workIsAbout        bdr:G844 , bdr:WA976 , bdr:T62 ;
-        skos:altLabel       "testcap/"@bo-x-ewts , "test pali title"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
-        skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast .
+        skos:altLabel       "testcap/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
+        skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
+
+bdr:CR2D01023E230E08C2
+        a       :AgentAsCreator ;
+        :agent  bdr:P1591 ;
+        :role   bdr:R0ER0019 .
+
+bdr:ITWM12837FPL  a       :Item ;
+        :itemForInstance  bdr:MWM12837FPL ;
+        :itemHasVolume    bdr:VL1D616A8134D99C23 ;
+        :itemLibrary      bdr:G1TLMFPL000001 ;
+        :itemShelf        "3A|110" .
 
 bda:LG7687083210B4255F
         a               adm:LogEntry ;
@@ -96,24 +110,23 @@ bda:LG7687083210B4255F
         adm:logMessage  "added print type and source printery"@en ;
         adm:logWho      bdr:U00013 .
 
-bdr:VLF70401471942BE32
-        a                           :VolumePhysicalAsset ;
-        :volumeNumber               1 ;
-        :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en .
+bdr:TTF70401471942BE32
+        a           :Title ;
+        rdfs:label  "vinayavinicchaya pāṭh nisya"@pi-x-iast .
 
 bdr:TT3CBDE3A243BE57CF
-        a           :OtherTitle ;
-        rdfs:label  "test pali title"@pi-x-iast .
+        a           :Title ;
+        rdfs:label  "kun rig rnam bshad/"@bo-x-ewts .
+
+bdr:TT34F0EEC409CDBEC1
+        a           :Title ;
+        rdfs:label  "vinayavinicchaya"@pi-x-iast .
 
 bda:LGDDB0945A6B376CE3
         a               adm:LogEntry ;
         adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
         adm:logMessage  "normalized catalog info"@en ;
         adm:logWho      bdr:U00012 .
-
-bdr:NT34F0EEC409CDBEC1
-        a          :Note ;
-        :noteText  "description with type note" .
 
 bda:WAS12345  a            adm:AdminData ;
         adm:adminAbout     bdr:WAS12345 ;
