@@ -36,6 +36,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -191,6 +192,41 @@ public class OutlineMigration {
 	    public int i = 0;
 	}
 	
+
+    public static List<Element> getCreatorAncestorsForWork(String workId) {
+        List<Element> res = new ArrayList<>();
+        String fileName = MigrationApp.XML_DIR+"tbrc-works/"+workId+".xml";
+        Document d = MigrationHelpers.documentFromFileName(fileName);
+        Element root = d.getDocumentElement();
+        // for non-sung bum, this seems to introduce more errors than it solves
+        // so first determine if it's a sungbum :
+        boolean issungbum = false;
+        NodeList nodeList = root.getElementsByTagNameNS(WorkMigration.WXSDNS, "subject");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String topic = current.getAttribute("class").trim();
+            if (topic.equals("T208")) {
+                issungbum = true;
+                break;
+            }
+        }
+        if (!issungbum) {
+            return res;
+        }
+        nodeList = root.getElementsByTagNameNS(WorkMigration.WXSDNS, "creator");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String value = current.getAttribute("type").trim();
+            if (!value.isEmpty() && !value.equals("hasMainAuthor")) {
+                continue;
+            }
+            String person = current.getAttribute("person").trim(); // required
+            if (person.isEmpty() || person.equals("Add to DLMS")) continue;
+            res.add(current);
+        }
+        return res;
+    }
+	
 	public static String getWorkId(Document xmlDocument) {
         Element root = xmlDocument.getDocumentElement();
         NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
@@ -212,10 +248,11 @@ public class OutlineMigration {
 	        return null;
 	    Resource work = createRoot(workModel, BDR+workId, BDO+"Work");
         //CommonMigration.addStatus(workModel, work, root.getAttribute("status"));
-	    return MigrateOutline(xmlDocument, workModel, work);
+	    List<Element> ancestorCreators = new ArrayList<>();
+	    return MigrateOutline(xmlDocument, workModel, work, ancestorCreators);
 	}
 
-	public static List<WorkModelInfo> MigrateOutline(Document xmlDocument, Model workModel, Resource rootWork) {
+	public static List<WorkModelInfo> MigrateOutline(Document xmlDocument, Model workModel, Resource rootWork, List<Element> ancestorCreators) {
 		Model m;
 		if (splitOutlines) {
 		    m = ModelFactory.createDefaultModel();
@@ -267,7 +304,7 @@ public class OutlineMigration {
 		CommonMigration.addLocations(m, admOutline, root, OXSDNS, rootWork.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
 		// null?
-		addCreators(m, admOutline, root, true, rootWork, null);
+		addCreators(m, admOutline, root, true, rootWork, null, ancestorCreators);
 		
 		// case where there's an unnecessary unique top node (ex: W1GS61415 / O1LS4227)
 		final List<Element> nodeList2 = CommonMigration.getChildrenByTagName(root, OXSDNS, "node");
@@ -277,14 +314,39 @@ public class OutlineMigration {
             node2 = nodeList2.get(0);
         }
 		
-		addNodes(m, rootWork, node2, rootWork.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "", rootWork, res);
+		addNodes(m, rootWork, node2, rootWork.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "", rootWork, res, ancestorCreators);
 		//WorkMigration.exportTitleInfo(workModel);
 		return res;
 	}
 	
-	public static void addCreators(Model m, Resource rez, Element e, boolean isRoot, Resource rootWork, Resource nodeA) {
-        // creator
+	public static List<Element> addCreators(Model m, Resource rez, Element e, boolean isRoot, Resource rootWork, Resource nodeA, List<Element> oldElements) {
 	    List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "creator");
+
+	    // first going through the list of ancestor elements to add the author to works corresponding
+	    // to outline nodes 
+	    if (nodeA != null) {
+            for (Element current : oldElements) {
+                String value = current.getAttribute("type").trim();
+                if (value.isEmpty()) {
+                    value = "hasMainAuthor";
+                }
+                if (isRoot) {
+                    continue;
+                }
+                String person = current.getAttribute("person").trim(); // required
+                person = MigrationHelpers.sanitizeRID(rez.getLocalName(), value, person);
+                if (!MigrationHelpers.isDisconnected(person))
+                    CommonMigration.addAgentAsCreator(null, nodeA.getModel().createResource(BDR+person), value, nodeA);
+            }
+	    }
+
+        if (nodeList.size() == 0) {
+            return oldElements;
+        }
+        
+        List<Element> res = new ArrayList<>(oldElements);
+	    
+        // then through the actual list
         for (int j = 0; j < nodeList.size(); j++) {
             Element current = (Element) nodeList.get(j);
             String value = current.getAttribute("type").trim();
@@ -305,11 +367,16 @@ public class OutlineMigration {
                 if (!person.isEmpty())
                     ExceptionHelper.logException(ExceptionHelper.ET_MISSING, rez.getLocalName(), rez.getLocalName(), "creator", "needs to be added to dlms: `"+value+"`");
             } else {
+                if (value.equals("hasMainAuthor") && oldElements != null) {
+                    // looking at W00JW501203, it seems that this introduced errors
+                    res.add(current);
+                }
                 person = MigrationHelpers.sanitizeRID(rez.getLocalName(), value, person);
                 if (!MigrationHelpers.isDisconnected(person))
                     CommonMigration.addAgentAsCreator(rez, m.createResource(BDR+person), value, nodeA);
             }
         }
+        return res;
 	}
 
 	static List<String> keywordBlacklist = new ArrayList<>();
@@ -393,7 +460,7 @@ public class OutlineMigration {
     }
     
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
-LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork, List<WorkModelInfo> res) {
+LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork, List<WorkModelInfo> res, List<Element> ancestorCreators) {
 	    curNode.i = curNode.i+1;
 	    String RID = e.getAttribute("RID").trim();
 	    String nodeRID = getPartRID(RID, workId, curNode.i);
@@ -547,10 +614,10 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             }
         }
         
-        addCreators(m, node, e, false, rootWork, nodeA);
+        ancestorCreators = addCreators(m, node, e, false, rootWork, nodeA, ancestorCreators);
         
         // sub nodes
-        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex, rootWork, res);
+        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex, rootWork, res, ancestorCreators);
         
         if (!hasChildren && (locVP == null)) {
 //            labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
@@ -573,7 +640,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 	    return String.format("%03d", index);
 	}
 	
-	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex, Resource rootWork, List<WorkModelInfo> wmires) {
+	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex, Resource rootWork, List<WorkModelInfo> wmires, List<Element> ancestorCreators) {
 	    CommonMigration.LocationVolPage endLocVP = null;
 	    boolean res = false;
 	    final List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
@@ -587,7 +654,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             } else {
                 thisPartTreeIndex = curPartTreeIndex+"."+getPartTreeIndexStr(i+1, nbChildren);
             }
-            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex, rootWork, wmires);
+            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex, rootWork, wmires, ancestorCreators);
             if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {
                 // check if beginning of child node is before beginning of parent
                 if (parentLocVP.beginVolNum > endLocVP.beginVolNum

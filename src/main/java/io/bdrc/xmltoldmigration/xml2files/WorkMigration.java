@@ -239,7 +239,7 @@ public class WorkMigration {
                 res.add(new WorkModelInfo('M'+workId, m));
             }
             admMain = createAdminRoot(main);
-            if (!status.equals("withdrawn")) {
+            if (!status.equals("withdrawn") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
                 String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
                 if (otherAbstractRID == null && !infoParentId.isEmpty())
                     otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);
@@ -612,13 +612,23 @@ public class WorkMigration {
 	}
 	
 	public static void exportTitleInfo(Model m) {
+	    if (true) {
+	        return;
+	    }
 	    Selector sel = new SimpleSelector(null, RDF.type, m.createResource(BDO+"Work"));
 	    StmtIterator iter = m.listStatements(sel);
         while (iter.hasNext()) {
             Resource next = iter.next().getSubject();
-            String title = next.getLocalName()+",";
-            Selector selaac = new SimpleSelector(next, m.createProperty(BDO, "creator"), (Node) null);
+            Selector selaac = new SimpleSelector(next, m.createProperty(BDO, "workHasInstance"), (RDFNode) null);
             StmtIterator iteraac = m.listStatements(selaac);
+            String title = "";
+            while (iteraac.hasNext()) {
+                Statement saac = iteraac.next();
+                Resource nextaac = saac.getObject().asResource();
+                title += saac.getSubject().getLocalName()+","+nextaac.getLocalName()+",";
+            }
+            selaac = new SimpleSelector(next, m.createProperty(BDO, "creator"), (Node) null);
+            iteraac = m.listStatements(selaac);
             while (iteraac.hasNext()) {
                 Resource nextaac = iteraac.next().getObject().asResource();
                 Resource role = nextaac.getPropertyResourceValue(m.createProperty(BDO, "role"));
@@ -636,7 +646,7 @@ public class WorkMigration {
                 Resource nextaac = iteraac.next().getObject().asResource();
                 title += nextaac.getLocalName()+":";
             }
-            Statement s = next.getProperty(SKOS.prefLabel, "bo-x-ewts");
+            Statement s = next.getProperty(SKOS.prefLabel);
             if (s != null) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+title+s.getString());
             }

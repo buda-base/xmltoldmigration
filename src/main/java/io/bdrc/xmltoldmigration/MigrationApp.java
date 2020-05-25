@@ -179,7 +179,9 @@ public class MigrationApp
             Model workModel = ModelFactory.createDefaultModel();
             setPrefixes(workModel, "work");
             Resource work = workModel.createResource(BDR+outWorkId);
-            List<WorkModelInfo> wmiList = OutlineMigration.MigrateOutline(outd, workModel, work); 
+            
+            List<Element> ancestorCreators = OutlineMigration.getCreatorAncestorsForWork(outWorkId.substring(1));
+            List<WorkModelInfo> wmiList = OutlineMigration.MigrateOutline(outd, workModel, work, ancestorCreators); 
             Model outlineModel = wmiList.get(0).m;
             if (OutlineMigration.splitOutlines) {
                 String outlineFileName = getDstFileName("instance", outWorkId+"_O001");
@@ -192,6 +194,7 @@ public class MigrationApp
             // abstract works created in the outlines:
             for (int i = 1 ; i < wmiList.size() ; i++) {
                 WorkModelInfo wmi = wmiList.get(i);
+                WorkMigration.exportTitleInfo(wmi.m);
                 String workFileName = getDstFileName("work", wmi.resourceName);
                 MigrationHelpers.outputOneModel(wmi.m, wmi.resourceName, workFileName, "work");
             }
@@ -357,6 +360,7 @@ public class MigrationApp
             }
             if (models.size() >1 && models.get(1) != null) {
                 WorkModelInfo abstractMI = models.get(1);
+                WorkMigration.exportTitleInfo(abstractMI.m);
                 workOutFileName = getDstFileName("work", abstractMI.resourceName);
                 MigrationHelpers.outputOneModel(abstractMI.m, abstractMI.resourceName, workOutFileName, "work");
             }
@@ -461,6 +465,7 @@ public class MigrationApp
         }
         System.out.println("converting "+files.length+" "+type+" files");
         //Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
+        //migrateOneFile(new File(XML_DIR+"tbrc-outlines/O21018.xml"), type, mustStartWith);
         Stream.of(files).forEach(file -> migrateOneFile(file, type, mustStartWith));
         pw.close();
         if (type.equals("outline")) {

@@ -1,6 +1,7 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -26,16 +27,6 @@ bda:MW1FEMC010006  a       adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bda:WA1FEMC010006  a       adm:AdminData ;
-        adm:adminAbout     bdr:WA1FEMC010006 ;
-        adm:facetIndex     3 ;
-        adm:gitPath        "73/WA1FEMC010006.trig" ;
-        adm:gitRepo        bda:GR0008 ;
-        adm:graphId        bdg:WA1FEMC010006 ;
-        adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
-
 bdr:TTDDC4AE34F5AA838F
         a           :CoverTitle ;
         rdfs:label  "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmpre20c-kmfemc .
@@ -46,33 +37,22 @@ bdr:TT008B758142301FF1
         :femcConversionOf  bdr:TT9F5DB6BC1BDA7180 .
 
 bdr:NT6A5E503DD47337CF
-        a                       :Note ;
+        a                          :Note ;
         :contentLocationStatement  "pg. 54" ;
-        :noteSource             bdr:W1FEMC01 .
+        :noteSource                bdr:W1FEMC01 .
 
 bdr:MW1FEMC010006  a             :Instance ;
         :hasFascicles            "2, 7, 8, 10, 11" ;
         :hasInstanceNum          "1" ;
         :hasTitle                bdr:TT008B758142301FF1 , bdr:TT11AA6B09252B9225 , bdr:TTDDC4AE34F5AA838F , bdr:TT9F5DB6BC1BDA7180 ;
-        :instanceOf              bdr:WA1FEMC010006 ;
         :isComplete              false ;
         :isRoot                  true ;
+        :microfilmItem           bdr:MF011BF57819D67C4D ;
         :note                    bdr:NT6A5E503DD47337CF ;
         :numberOfVolumes         1 ;
         :workFEMCManuscriptCode  "001-PP.00.02.07.VII" ;
         :workIsAbout             bdr:FEMC_Scheme_VII ;
-        :microfilmItem           bdr:MF011BF57819D67C4D ;
         skos:prefLabel           "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
-
-bdr:DT2B0D8CE58D1F97E8
-        a           :DateIndication ;
-        :era        bdr:EraBE ;
-        :yearInEra  2442 .
-
-bdr:WA1FEMC010006  a      :Work ;
-        :isRoot           true ;
-        :workEvent        bdr:EV0DCDFD936B62FAEA ;
-        :workHasInstance  bdr:MW1FEMC010006 .
 
 bdr:TT9F5DB6BC1BDA7180
         a           :CoverTitle ;
@@ -82,12 +62,6 @@ bdr:MF011BF57819D67C4D
         a                   :ItemMicrofilmAsset ;
         :microfilmCanister  "IV" ;
         :microfilmStrip     "16" .
-
-bdr:EV0DCDFD936B62FAEA
-        a                :CompletedEvent ;
-        :dateIndication  bdr:DT2B0D8CE58D1F97E8 ;
-        :notAfter        "1900"^^xsd:gYear ;
-        :notBefore       "1899"^^xsd:gYear .
 
 bda:LG0D38536E20CD98A7
         a               adm:LogEntry ;
