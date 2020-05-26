@@ -660,11 +660,19 @@ public class WorkMigration {
             for (String l : languages) {
                 title += l+":";
             }
-            Statement s = next.getProperty(SKOS.prefLabel);
-            if (s == null) {
+            selaac = new SimpleSelector(next, SKOS.prefLabel, (Node) null);
+            iteraac = m.listStatements(selaac);
+            String label = null;
+            while (iteraac.hasNext()) {
+                Literal nextaac = iteraac.next().getObject().asLiteral();
+                if (nextaac.getLanguage().equals("bo-x-ewts") || label == null)
+                    label = nextaac.getString();
+            }
+            if (label == null) {
                 return;
             }
-            title += s.getString();
+            title += label;
+            title = title.replace("\"", "").replace(",", "");
             values[2] = title;
             MigrationApp.csvWriter.writeNext(values);
         }

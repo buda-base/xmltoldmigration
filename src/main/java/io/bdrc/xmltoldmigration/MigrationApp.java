@@ -567,11 +567,7 @@ public class MigrationApp
 		CommonMigration.initClusters(exportTitles);
 		if (exportTitles) {
 		    titleswriter = Files.newBufferedWriter(Paths.get("titles.csv"));
-		    csvWriter = new CSVWriter(titleswriter,
-                    CSVWriter.DEFAULT_SEPARATOR,
-                    CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
+		    csvWriter = new CSVWriter(titleswriter);
 		}
 		SymetricNormalization.normalizeOneDirection(oneDirection, manyOverOne);
 		System.out.println("data dir is "+DATA_DIR);
