@@ -11,6 +11,7 @@ import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -612,44 +614,59 @@ public class WorkMigration {
 	}
 	
 	public static void exportTitleInfo(Model m) {
-	    if (true) {
+	    if (!MigrationApp.exportTitles) {
 	        return;
 	    }
 	    Selector sel = new SimpleSelector(null, RDF.type, m.createResource(BDO+"Work"));
 	    StmtIterator iter = m.listStatements(sel);
         while (iter.hasNext()) {
             Resource next = iter.next().getSubject();
+            String[] values = new String[3];
+            values[0] = next.getLocalName();
             Selector selaac = new SimpleSelector(next, m.createProperty(BDO, "workHasInstance"), (RDFNode) null);
             StmtIterator iteraac = m.listStatements(selaac);
             String title = "";
             while (iteraac.hasNext()) {
                 Statement saac = iteraac.next();
                 Resource nextaac = saac.getObject().asResource();
-                title += saac.getSubject().getLocalName()+","+nextaac.getLocalName()+",";
+                if (!nextaac.getLocalName().startsWith("M")) continue;
+                values[1] = nextaac.getLocalName();
             }
             selaac = new SimpleSelector(next, m.createProperty(BDO, "creator"), (Node) null);
             iteraac = m.listStatements(selaac);
+            List<String> creators = new ArrayList<>();
             while (iteraac.hasNext()) {
                 Resource nextaac = iteraac.next().getObject().asResource();
                 Resource role = nextaac.getPropertyResourceValue(m.createProperty(BDO, "role"));
                 if (role != null && ("R0ER0019".equals(role.getLocalName()) || "R0ER0025".equals(role.getLocalName()))) {
                     Resource agent = nextaac.getPropertyResourceValue(m.createProperty(BDO, "agent"));
                     if (agent != null) {
-                        title += agent.getLocalName()+":";
-                        break;
+                        creators.add(agent.getLocalName());
                     }
                 }
             }
+            Collections.sort(creators);
+            for (String c : creators) {
+                title += c+":";
+            }
             selaac = new SimpleSelector(next, m.createProperty(BDO, "language"), (Node) null);
             iteraac = m.listStatements(selaac);
+            List<String> languages = new ArrayList<>();
             while (iteraac.hasNext()) {
                 Resource nextaac = iteraac.next().getObject().asResource();
-                title += nextaac.getLocalName()+":";
+                languages.add(nextaac.getLocalName());
+            }
+            Collections.sort(languages);
+            for (String l : languages) {
+                title += l+":";
             }
             Statement s = next.getProperty(SKOS.prefLabel);
-            if (s != null) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, "", "", "title: "+title+s.getString());
+            if (s == null) {
+                return;
             }
+            title += s.getString();
+            values[2] = title;
+            MigrationApp.csvWriter.writeNext(values);
         }
 	}
 	

@@ -423,6 +423,17 @@ public class OutlineMigration {
         return false;
 	}
 
+	   public static Boolean isChapter(Element e) {
+	        List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "title");
+	        
+	        for (int i = 0; i < nodeList.size(); i++) {
+	            Element current = (Element) nodeList.get(i);
+	            if (current.getTextContent().endsWith("le'u/"))
+	                return true;
+	        }
+	        return false;
+	    }
+	
     public static Boolean hasShortTitle(Element e) {
         List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "title");
         
@@ -472,6 +483,9 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         }
         if (isKarchak(e)) {
             value = "tableOfContent";
+        }
+        if (isChapter(e)) {
+            value = "chapter";
         }
         Resource nodeA = null;
         if (("text".equals(value) || "collection".equals(value)) && !hasShortTitle(e) && isText(e)) {

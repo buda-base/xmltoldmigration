@@ -86,8 +86,8 @@ public class CommonMigration  {
     public static final Map<String, Boolean> genreTopics = new HashMap<>();
     public static final Map<Integer, Boolean> isTraditional = new HashMap<>();
     public static final Map<String, String> creatorMigrations = new HashMap<>();
-    public static final Map<String, String> abstractClusters;
-    public static final Map<String, String> seriesClusters;
+    public static Map<String, String> abstractClusters = new HashMap<>();
+    public static Map<String, String> seriesClusters = new HashMap<>();
     public static final Map<String, String> seriesMembersToWorks = new HashMap<>();
     public static final Map<String, RDFNode> seriesMembersToWorkLabels = new HashMap<>();
 
@@ -96,6 +96,10 @@ public class CommonMigration  {
         fillGenreTopics();
         getTcList();
         initCreatorMigrations();
+    }
+    
+    public static void initClusters(boolean exportTitles) {
+        if (exportTitles) return;
         abstractClusters = getClusters("clusters.csv");
         seriesClusters = getClusters("reconcileseries-clustered-inv.csv");
     }
@@ -1226,6 +1230,7 @@ public class CommonMigration  {
             s = s.replaceAll("_? ?[\\(（][^\\)）༽]+[\\)）༽]", "");
             s = s.replaceAll("^[^ ]+\\)_?", "");
             s = s.replaceAll(" *\" *", "");
+            s = s.replaceAll("^_+", "");
             return m.createLiteral(s, l.getLanguage());
         }
         return l;

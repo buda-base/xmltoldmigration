@@ -18,6 +18,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,6 +37,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.opencsv.CSVWriter;
 
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -66,6 +71,9 @@ public class MigrationApp
     public static boolean firstMigration = false;
     public static boolean noXmlMigration = false;
     public static boolean useHash = true;
+    public static boolean exportTitles = false;
+    public static Writer titleswriter = null;
+    public static CSVWriter csvWriter = null;
 
     public static final String CORPORATION = MigrationHelpers.CORPORATION;
     public static final String LINEAGE = MigrationHelpers.LINEAGE;
@@ -523,6 +531,9 @@ public class MigrationApp
             if (arg.equals("-rKTsDir")) {
                 RKTS_DIR = args[i+1];
             }
+            if (arg.equals("-exporttitles")) {
+                exportTitles = true;
+            }
             if (arg.equals("-preferManyOverOne=1")) {
                 manyOverOne = true;
             }
@@ -552,6 +563,15 @@ public class MigrationApp
             if (arg.equals("-commitMessage")) {
                 commitMessage = args[i+1];
             }
+		}
+		CommonMigration.initClusters(exportTitles);
+		if (exportTitles) {
+		    titleswriter = Files.newBufferedWriter(Paths.get("titles.csv"));
+		    csvWriter = new CSVWriter(titleswriter,
+                    CSVWriter.DEFAULT_SEPARATOR,
+                    CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
 		}
 		SymetricNormalization.normalizeOneDirection(oneDirection, manyOverOne);
 		System.out.println("data dir is "+DATA_DIR);
@@ -587,6 +607,10 @@ public class MigrationApp
         CUDLTransfer.CUDLDoTransfer();
         NSITransfer.transferNIS();
         HodgsonTransfer.transfer();
+        if (exportTitles) {
+            csvWriter.close();
+            titleswriter.close();
+        }
         migrateTaxonomies();
         CommonMigration.speller.close();
         MigrationHelpers.reportMissing();
