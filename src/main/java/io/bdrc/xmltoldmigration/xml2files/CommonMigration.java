@@ -659,8 +659,20 @@ public class CommonMigration  {
     }
 
     public static Literal literalFromXsdDate(Model m, String s) {
-        // was quite difficult to find...
-        XSDDateTime dateTime = (XSDDateTime)XSDDatatype.XSDdateTime.parse(s);
+        XSDDateTime dateTime;
+        if (s.contains("/")) {
+            String[] parts = s.split("/");
+            if (parts.length == 3) {
+                String yr = parts[2].length() == 2 ? "20"+parts[2] : parts[2];
+                String mo = parts[1].length() == 1 ? "0"+parts[1] : parts[1];
+                String dy = parts[0].length() == 1 ? "0"+parts[0] : parts[0];
+                s = yr+"-"+mo+"-"+dy;
+            }
+            dateTime = (XSDDateTime) XSDDatatype.XSDdate.parse(s);
+        } else {
+            // was quite difficult to find...
+            dateTime = (XSDDateTime) XSDDatatype.XSDdateTime.parse(s);
+        }
         return m.createTypedLiteral(dateTime);
     }
 

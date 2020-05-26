@@ -13,6 +13,7 @@
 
 bda:LGB5715A26D84756E4
         a               adm:LogEntry ;
+        adm:logDate     "2019-07-20"^^xsd:date ;
         adm:logMessage  "entered cataloging for W1FEMC010006"@en ;
         adm:logWhoStr   "Thaknita Mao" .
 
