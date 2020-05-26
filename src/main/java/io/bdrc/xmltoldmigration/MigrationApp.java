@@ -474,6 +474,7 @@ public class MigrationApp
         System.out.println("converting "+files.length+" "+type+" files");
         //Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
         //migrateOneFile(new File(XML_DIR+"tbrc-outlines/O21018.xml"), type, mustStartWith);
+        //migrateOneFile(new File(XML_DIR+"tbrc-works/W12827.xml"), type, mustStartWith);
         Stream.of(files).forEach(file -> migrateOneFile(file, type, mustStartWith));
         pw.close();
         if (type.equals("outline")) {
@@ -581,28 +582,34 @@ public class MigrationApp
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondence, for externals
         if (!noXmlMigration) {
             migrateType(OUTLINE, "O");
-            migrateType(PERSON, "P");
-            migrateType(PLACE, "G");
-            migrateType(OFFICE, "R");
-            migrateType(CORPORATION, "C");
-            migrateType(LINEAGE, "L");
-            migrateType(TOPIC, "T");
+            if (!exportTitles) {
+                migrateType(PERSON, "P");
+                migrateType(PLACE, "G");
+                migrateType(OFFICE, "R");
+                migrateType(CORPORATION, "C");
+                migrateType(LINEAGE, "L");
+                migrateType(TOPIC, "T");
+            }
             migrateType(WORK, "W"); // also does pubinfos and imagegroups
-            migrateType(SCANREQUEST, "SR"); // requires works to be finished
-            migrateType(PRODUCT, "PR");
-            //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
-            //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
-            EtextMigration.migrateEtexts();
+            if (!exportTitles) {
+                migrateType(SCANREQUEST, "SR"); // requires works to be finished
+                migrateType(PRODUCT, "PR");
+                //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
+                //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
+                EtextMigration.migrateEtexts();
+            }
         }
-        if (RKTS_DIR != null) {
+        if (RKTS_DIR != null && !exportTitles) {
             rKTsTransfer.doTransfer();
         }
-        EAPTransfer.transferEAP();
-        GRETILTransfer.transferGRETIL();
-        EAPFondsTransfer.EAPFondsDoTransfer();
-        CUDLTransfer.CUDLDoTransfer();
-        NSITransfer.transferNIS();
-        HodgsonTransfer.transfer();
+        if (!exportTitles) {
+            EAPTransfer.transferEAP();
+            GRETILTransfer.transferGRETIL();
+            EAPFondsTransfer.EAPFondsDoTransfer();
+            CUDLTransfer.CUDLDoTransfer();
+            NSITransfer.transferNIS();
+            HodgsonTransfer.transfer();
+        }
         if (exportTitles) {
             csvWriter.close();
             titleswriter.close();

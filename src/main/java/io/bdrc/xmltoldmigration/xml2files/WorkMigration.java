@@ -622,6 +622,7 @@ public class WorkMigration {
         while (iter.hasNext()) {
             Resource next = iter.next().getSubject();
             String[] values = new String[3];
+            
             values[0] = next.getLocalName();
             Selector selaac = new SimpleSelector(next, m.createProperty(BDO, "workHasInstance"), (RDFNode) null);
             StmtIterator iteraac = m.listStatements(selaac);
@@ -635,14 +636,21 @@ public class WorkMigration {
             selaac = new SimpleSelector(next, m.createProperty(BDO, "creator"), (Node) null);
             iteraac = m.listStatements(selaac);
             List<String> creators = new ArrayList<>();
+            boolean hasCommentator = false;
             while (iteraac.hasNext()) {
                 Resource nextaac = iteraac.next().getObject().asResource();
                 Resource role = nextaac.getPropertyResourceValue(m.createProperty(BDO, "role"));
-                if (role != null && ("R0ER0019".equals(role.getLocalName()) || "R0ER0025".equals(role.getLocalName()))) {
+                if (hasCommentator == false && role != null && ("R0ER0019".equals(role.getLocalName()) || "R0ER0025".equals(role.getLocalName()))) {
                     Resource agent = nextaac.getPropertyResourceValue(m.createProperty(BDO, "agent"));
-                    if (agent != null) {
+                    if (agent != null)
                         creators.add(agent.getLocalName());
-                    }
+                } else if (role != null && "R0ER0014".equals(role.getLocalName())) {
+                    if (!hasCommentator)
+                        creators.clear();
+                    hasCommentator = true;
+                    Resource agent = nextaac.getPropertyResourceValue(m.createProperty(BDO, "agent"));
+                    if (agent != null)
+                        creators.add(agent.getLocalName());
                 }
             }
             Collections.sort(creators);
