@@ -301,7 +301,8 @@ public class OutlineMigration {
 		CommonMigration.addExternals(m, root, admOutline, OXSDNS);
 		CommonMigration.addLog(m, root, admOutline, OXSDNS);
 		CommonMigration.addDescriptions(m, root, admOutline, OXSDNS);
-		CommonMigration.addLocations(m, admOutline, root, OXSDNS, rootWork.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
+		// no location on outlines root nodes
+		//CommonMigration.addLocations(m, admOutline, root, OXSDNS, rootWork.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
 		// null?
 		addCreators(m, admOutline, root, true, rootWork, null, ancestorCreators);
