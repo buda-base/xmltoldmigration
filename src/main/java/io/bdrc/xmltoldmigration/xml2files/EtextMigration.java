@@ -466,6 +466,13 @@ public class EtextMigration {
             // TODO: not sure how it should work...
             //MigrationApp.moveAdminInfo(itemModel, iInstance, admItem);
             addReleased(itemModel, admItem);
+            
+            if (WorkMigration.workRestrictedInChina.getOrDefault("M"+indicatedWorkId, false)) {
+                admItem.addLiteral(itemModel.getProperty(ADM, "restrictedInChina"), true);
+            }
+            String accessUri = WorkMigration.workAccessMap.get("M"+indicatedWorkId);
+            if (accessUri == null) accessUri = "http://purl.bdrc.io/admindata/AccessOpen";
+            admItem.addProperty(itemModel.getProperty(ADM, "access"), itemModel.getResource(accessUri));
 
             // Item metadata
 

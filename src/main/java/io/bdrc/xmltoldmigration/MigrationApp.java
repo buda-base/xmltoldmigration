@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -281,6 +282,14 @@ public class MigrationApp
                     addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                     admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
                     moveAdminInfo(itemModel, workR, admItem);
+                    
+                    // move scaninfo to the image instance:
+                    Statement scanInfoS = workR.getProperty(workR.getModel().getProperty(BDO, "scanInfo"));
+                    if (scanInfoS != null) {
+                        Literal scanInfo = scanInfoS.getLiteral();
+                        workR.removeAll(workR.getModel().getProperty(BDO, "scanInfo"));
+                        item.addProperty(itemModel.getProperty(BDO, "scanInfo"), scanInfo);
+                    }
 
                     if (WorkMigration.addWorkHasItem) {
                         m.add(workR, m.getProperty(BDO, "instanceHasReproduction"), m.createResource(BDR + itemName));

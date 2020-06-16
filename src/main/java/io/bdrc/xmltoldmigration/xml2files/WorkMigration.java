@@ -57,9 +57,9 @@ public class WorkMigration {
 	public static List<WorkModelInfo> serialWorks = new ArrayList<>();
 	public static List<WorkModelInfo> serialMembers = new ArrayList<>();
 	
-    private static HashMap<String, String> workAccessMap = new HashMap<>();
+    static HashMap<String, String> workAccessMap = new HashMap<>();
     private static HashMap<String, String> workLegalMap = new HashMap<>();
-    private static HashMap<String, Boolean> workRestrictedInChina = new HashMap<>();
+    public static HashMap<String, Boolean> workRestrictedInChina = new HashMap<>();
     
     public static Resource getAccess(Model itemModel, Resource work) {
         String legalUri = workAccessMap.get(work.getLocalName());
@@ -393,7 +393,14 @@ public class WorkMigration {
             workAccessMap.put('M'+workId, accessUri);
             workLegalMap.put('M'+workId, legalUri);
             workRestrictedInChina.put('M'+workId, isRestrictedInChina);
+            if (isRestrictedInChina) {
+                admMain.addLiteral(m.getProperty(ADM, "restrictedInChina"), isRestrictedInChina);
+                if (mainA != null) {
+                    admMainA.addLiteral(mA.getProperty(ADM, "restrictedInChina"), isRestrictedInChina);
+                }
+            }
         }
+	    
         // creator
         // this is a list of the abstract works of the part of the work
         List <Resource> subAbstracts = null; 

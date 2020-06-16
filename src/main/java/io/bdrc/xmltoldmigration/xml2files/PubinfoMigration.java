@@ -688,7 +688,6 @@ public class PubinfoMigration {
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "isbn", "invalid isbn: "+value);
                     }
                 }
-                
                 m.add(main, m.createProperty(propName), m.createLiteral(value));
             }
         }
