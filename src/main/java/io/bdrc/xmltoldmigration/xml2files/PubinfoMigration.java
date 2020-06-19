@@ -252,6 +252,7 @@ public class PubinfoMigration {
                 langTibetanDone = true;
                 foundLangs.add("bo");
                 addLangScript(main, mainA, "LangBo", "ScriptDbuCan", "BoDbuCan");
+                m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
                 break;
             case "blockprint":
