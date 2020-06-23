@@ -68,7 +68,6 @@ bdr:MW1FPL1  a                     :Instance ;
         :hasSourcePrintery         bdr:G1PD129184 ;
         :instanceEvent             bdr:EVB0BA72AF962CC892 ;
         :isRoot                    true ;
-        :itemBDRCHoldingStatement  "1" ;
         :printMethod               bdr:PrintMethod_Manuscript ;
         :publisherLocation         "[lha sa]"@en ;
         :publisherName             "[zhol par khang]"@en ;

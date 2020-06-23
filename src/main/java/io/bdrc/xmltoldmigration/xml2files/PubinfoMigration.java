@@ -222,8 +222,9 @@ public class PubinfoMigration {
             }
         }
         
-        // TODO: this goes in the item 
-        addSimpleElement("tbrcHoldings", BDO+"itemBDRCHoldingStatement", null, root, m, main);
+        // tbrcHoldings is representing many unrelated things, mostly irrelevant now, see
+        // https://github.com/buda-base/library-issues/issues/275
+        //addSimpleElement("tbrcHoldings", BDO+"itemBDRCHoldingStatement", null, root, m, main);
         
         CommonMigration.addNotes(m, root, main, WPXSDNS);
         CommonMigration.addExternals(m, root, main, WPXSDNS);
