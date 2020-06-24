@@ -661,8 +661,6 @@ public class MigrationHelpers {
 	
 	private static void initOntologyModel()
 	{   
-		// the initial model from Protege is not considered valid by Openllet because
-		// it's RDF1.0, so we first open it with no reasoner:
 		OntModel ontoModel = null;
 	    try {
 	        OntDocumentManager mgrImporting = new OntDocumentManager("owl-file/ont-policy.rdf");
@@ -676,8 +674,6 @@ public class MigrationHelpers {
 	        System.err.println(e.getMessage());
 	        System.exit(1);
 	    }
-	    // then we fix it by converting RDF-1.0 to RDF-1.1
-	    rdf10tordf11(ontoModel);
 	    ontologyModel = ontoModel;
 	}
 	

@@ -50,20 +50,7 @@ public class PlaceMigration {
         }
     }
     
-    private static Resource placeTypeNotSpec = getNotSpecifiedPlaceType();
     private static HashMap<String, Resource> val2type = new HashMap<>();
-    
-    private static Resource getNotSpecifiedPlaceType() {
-        OntModel ontModel = MigrationHelpers.getOntologyModel();
-        
-        ResIterator iter = ontModel.listSubjectsWithProperty(SKOS.notation, "notSpecified");
-        if (iter.hasNext()) {
-            return iter.next();
-        } else {
-            System.err.println("PlaceMigration could not find ontology resource for PlaceType notSpecified");
-            return null;
-        }
-    }
     
     private static Resource lookupTypeValue(String typeValue, Resource main) {
         Resource placeType = val2type.get(typeValue);
@@ -77,7 +64,7 @@ public class PlaceMigration {
             placeType = iter.next();
         } else {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "unknown original type: "+typeValue);
-            placeType = placeTypeNotSpec;
+            placeType = null;
         }
         
         val2type.put(typeValue, placeType);
@@ -124,9 +111,10 @@ public class PlaceMigration {
         
         if (typeValue.isEmpty()) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "missing place type");
-            typeValue = "notSpecified";
+            return null;
         } else if (typeValue.equals("notSpecified")) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "original type: notSpecified");
+            return null;
         }
         
         typeValue = normalizePlaceType(typeValue);
@@ -141,7 +129,8 @@ public class PlaceMigration {
         Resource main = createRoot(model, BDR+root.getAttribute("RID"), BDO+"Place");
         Resource admMain = createAdminRoot(main);
 		Resource placeType = getPlaceType(root, model, main);
-		model.add(main, model.getProperty(BDO, "placeType"), placeType);
+		if (placeType != null)
+		    model.add(main, model.getProperty(BDO, "placeType"), placeType);
 		
 		addStatus(model, admMain, root.getAttribute("status"));
 		admMain.addProperty(model.getProperty(ADM, "metadataLegal"), model.createResource(BDA+"LD_BDRC_CC0"));
