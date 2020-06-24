@@ -64,12 +64,10 @@ import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
 public class MigrationTest 
 {
 	final static String TESTDIR = "src/test/";
-	public static OntModel ontology = null;
 	public static final EwtsConverter converter = new EwtsConverter();
 	
 	@BeforeClass
 	public static void init() throws NoSuchAlgorithmException {
-		ontology = MigrationHelpers.getOntologyModel();
 		SymetricNormalization.normalizeOneDirection(true, false);
 		WorkMigration.splitItems = false;
 		EtextMigration.testMode = true;
@@ -195,7 +193,6 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/P1331.ttl");
         //fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
 	
@@ -210,7 +207,6 @@ public class MigrationTest
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/P1583.ttl");
     	//fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
     
@@ -223,9 +219,8 @@ public class MigrationTest
         assertFalse(CommonMigration.documentValidates(d, validator));
         Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G488.ttl");
-        //fromXml.write(System.out, "TTL");
+        fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
     
@@ -240,7 +235,6 @@ public class MigrationTest
         //fromXml.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G844.ttl");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
 	
@@ -255,7 +249,6 @@ public class MigrationTest
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PR99NCUL01.ttl");
     	//fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
 	
@@ -270,7 +263,6 @@ public class MigrationTest
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
 		//fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
 	
@@ -288,7 +280,6 @@ public class MigrationTest
         //showDifference(fromXml, correctModel);
         //fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
 	   
@@ -339,7 +330,6 @@ public class MigrationTest
 //           correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testOutline-correctModel.ttl"), "TTL");
 //
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
        
@@ -354,7 +344,6 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
 //           fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
 	   
@@ -369,7 +358,6 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OfficeTest.ttl");
            //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
        
@@ -384,7 +372,6 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/TopicTest.ttl");
            //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
 
@@ -399,7 +386,6 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/TaxonomyTest.ttl");
            //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
        
@@ -414,7 +400,6 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ScanrequestTest.ttl");
            //MigrationHelpers.modelToOutputStream(fromXml, System.out, "item", MigrationHelpers.OUTPUT_STTL);
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
 
@@ -427,7 +412,6 @@ public class MigrationTest
            //fromXml.write(System.out, "TTL");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/withdrawn-test.ttl");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
        
@@ -442,7 +426,6 @@ public class MigrationTest
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ImagegroupTest.ttl");
            //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-           assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
            flushLog();
        }
 
@@ -462,7 +445,6 @@ public class MigrationTest
 //        correctModel.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testL8LS14115-correctModel.ttl"), "TTL");
 //
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(fromXml, ontology) );
         flushLog();
     }
 	

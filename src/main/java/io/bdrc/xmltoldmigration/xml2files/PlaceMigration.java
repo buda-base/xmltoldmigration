@@ -15,15 +15,13 @@ import static io.bdrc.libraries.Models.FacetType.EVENT;
 import static io.bdrc.libraries.Models.FacetType.VCARD_ADDR;
 
 import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -48,27 +46,6 @@ public class PlaceMigration {
         default:
                return "";
         }
-    }
-    
-    private static HashMap<String, Resource> val2type = new HashMap<>();
-    
-    private static Resource lookupTypeValue(String typeValue, Resource main) {
-        Resource placeType = val2type.get(typeValue);
-        if (placeType != null) {
-            return placeType;
-        }
-
-        OntModel ontModel = MigrationHelpers.getOntologyModel();
-        ResIterator iter = ontModel.listSubjectsWithProperty(SKOS.notation, typeValue);
-        if (iter.hasNext()) {
-            placeType = iter.next();
-        } else {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "info/type", "unknown original type: "+typeValue);
-            placeType = null;
-        }
-        
-        val2type.put(typeValue, placeType);
-        return placeType;
     }
 
     private static String normalizePlaceType(String val) {
@@ -96,6 +73,95 @@ public class PlaceMigration {
         return val;
     }
     
+    private static Map<String,String> typeToLocalName = new HashMap<>();
+    static {
+        typeToLocalName.put("yulSde", "PT0001");
+        typeToLocalName.put("rangSkyongKhul", "PT0002");
+        typeToLocalName.put("rangSkyongLjongs", "PT0003");
+        typeToLocalName.put("zamPa", "PT0004");
+        typeToLocalName.put("rong", "PT0005");
+        typeToLocalName.put("durKhrod", "PT0006");
+        typeToLocalName.put("skor", "PT0007");
+        typeToLocalName.put("grongKhyer", "PT0008");
+        typeToLocalName.put("dengRabsSaGnas", "PT0009");
+        typeToLocalName.put("rgyalKhab", "PT0010");
+        typeToLocalName.put("rdzong", "PT0011");
+        typeToLocalName.put("chus", "PT0012");
+        typeToLocalName.put("cholKha", "PT0013");
+        typeToLocalName.put("saKhul", "PT0014");
+        typeToLocalName.put("gzhisKa", "PT0015");
+        typeToLocalName.put("gruKha", "PT0016");
+        typeToLocalName.put("nagsTshal", "PT0017");
+        typeToLocalName.put("mkharRnying", "PT0018");
+        typeToLocalName.put("beHu", "PT0019");
+        typeToLocalName.put("sdeTsho", "PT0020");
+        typeToLocalName.put("riKhrod", "PT0021");
+        typeToLocalName.put("sbasYul", "PT0022");
+        typeToLocalName.put("smanKhang", "PT0023");
+        typeToLocalName.put("gzimsKhang", "PT0024");
+        typeToLocalName.put("khyimTshang", "PT0025");
+        typeToLocalName.put("gling", "PT0026");
+        typeToLocalName.put("rgyalPhran", "PT0027");
+        typeToLocalName.put("mtsho", "PT0028");
+        typeToLocalName.put("yulChen", "PT0029");
+        typeToLocalName.put("dpeMdzodKhang", "PT0030");
+        typeToLocalName.put("mda'", "PT0031");
+        typeToLocalName.put("khriSde", "PT0032");
+        typeToLocalName.put("maNiRdoPhung", "PT0033");
+        typeToLocalName.put("gzimsShag", "PT0034");
+        typeToLocalName.put("tshong'Dus", "PT0035");
+        typeToLocalName.put("sgrubPhug", "PT0036");
+        typeToLocalName.put("dgonPa", "PT0037");
+        typeToLocalName.put("bshadGrwa", "PT0038");
+        typeToLocalName.put("khamsTshan", "PT0039");
+        typeToLocalName.put("grwaTshang", "PT0040");
+        typeToLocalName.put("blaBrang", "PT0041");
+        typeToLocalName.put("riBo", "PT0042");
+        typeToLocalName.put("laKha", "PT0043");
+        typeToLocalName.put("riRgyud", "PT0044");
+        typeToLocalName.put("grongRdal", "PT0045");
+        typeToLocalName.put("khriSkor", "PT0046");
+        typeToLocalName.put("rangByung'KhorYug", "PT0047");
+        typeToLocalName.put("'brogSde", "PT0048");
+        typeToLocalName.put("btsunDgon", "PT0050");
+        typeToLocalName.put("phoBrang", "PT0051");
+        typeToLocalName.put("glingKha", "PT0052");
+        typeToLocalName.put("gnasChen", "PT0053");
+        typeToLocalName.put("rdoRing", "PT0054");
+        typeToLocalName.put("thang", "PT0055");
+        typeToLocalName.put("sngarGyiRdzong", "PT0056");
+        typeToLocalName.put("khul", "PT0057");
+        typeToLocalName.put("sdeDponMnga'Ris", "PT0058");
+        typeToLocalName.put("parKhang", "PT0059");
+        typeToLocalName.put("zhingChen", "PT0060");
+        typeToLocalName.put("ru", "PT0061");
+        typeToLocalName.put("sgang", "PT0062");
+        typeToLocalName.put("rtenGzhiYulLung", "PT0063");
+        typeToLocalName.put("sgrubGrwa", "PT0064");
+        typeToLocalName.put("chuBo", "PT0065");
+        typeToLocalName.put("chuRgyud", "PT0066");
+        typeToLocalName.put("slobGrwa", "PT0067");
+        typeToLocalName.put("tshoBa", "PT0068");
+        typeToLocalName.put("brtenPaGnasKhang", "PT0069");
+        typeToLocalName.put("yulPhran", "PT0070");
+        typeToLocalName.put("chuMig", "PT0071");
+        typeToLocalName.put("mchodRten", "PT0072");
+        typeToLocalName.put("stongSde", "PT0073");
+        typeToLocalName.put("lhaKhang", "PT0074");
+        typeToLocalName.put("gtsugLagKhang", "PT0075");
+        typeToLocalName.put("bangSo", "PT0076");
+        typeToLocalName.put("shang", "PT0077");
+        typeToLocalName.put("srolRgyunGyiSaMing", "PT0078");
+        typeToLocalName.put("srolRgyunSaKhul", "PT0079");
+        typeToLocalName.put("gterGnas", "PT0080");
+        typeToLocalName.put("ruSde", "PT0081");
+        typeToLocalName.put("phu", "PT0082");
+        typeToLocalName.put("lungPa", "PT0083");
+        typeToLocalName.put("grongTsho", "PT0084");
+        typeToLocalName.put("grongSde", "PT0085");
+        typeToLocalName.put("rdzongSridGzhungGnasSa", "PT0086");
+    }
+    
     private static Resource getPlaceType(Element root, Model model, Resource main) {
         NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "info");
         String typeValue = "";
@@ -118,7 +184,12 @@ public class PlaceMigration {
         }
         
         typeValue = normalizePlaceType(typeValue);
-        return lookupTypeValue(typeValue, main);
+        
+        String localName = typeToLocalName.get(typeValue);
+        if (localName == null)
+            return null;
+        
+        return model.createResource(BDR+localName);
     }
 	
 	public static Model MigratePlace(Document xmlDocument) {

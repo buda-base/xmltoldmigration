@@ -41,7 +41,6 @@ public class EAPTest {
         //workModel.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest.ttl");    
         assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
-        assertTrue( CommonMigration.rdfOkInOntology(workModel, MigrationHelpers.getOntologyModel()) );
     }
 
 }

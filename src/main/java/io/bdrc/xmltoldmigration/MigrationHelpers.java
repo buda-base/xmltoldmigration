@@ -114,11 +114,7 @@ public class MigrationHelpers {
 	public static boolean checkagainstXsd = false;
 	public static boolean deleteDbBeforeInsert = true;
 	
-	private static OntModel ontologyModel = null;
-	
 	public static PrefixMap prefixMap = getPrefixMap();
-	// not used here but let's remember for updating the owl-schema/context.jsonld
-	public static final Map<String,Object> jsonldcontext = ContextGenerator.generateContextObject(getOntologyModel(), prefixMap, "bdo");
 	
 	public static final String DB_PREFIX = "bdrc_";
 	// types in target DB
@@ -555,9 +551,6 @@ public class MigrationHelpers {
         } catch (IllegalArgumentException e) {
             writeLog("error in "+fileName+" "+e.getMessage());
         }
-        if (checkagainstOwl) {
-            CommonMigration.rdfOkInOntology(m, getOntologyModel());
-        }
         return m;
 	}
 	
@@ -620,28 +613,6 @@ public class MigrationHelpers {
         }
 	}
 	
-	// change Range Datatypes from rdf:PlainLitteral to rdf:langString
-	public static void rdf10tordf11(OntModel o) {
-		Resource RDFPL = o.getResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral");
-		Resource RDFLS = o.getResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
-		ExtendedIterator<DatatypeProperty> it = o.listDatatypeProperties();
-	    while(it.hasNext()) {
-			DatatypeProperty p = it.next();
-			if (p.hasRange(RDFPL)) {
-			    p.removeRange(RDFPL);
-			    p.addRange(RDFLS);
-			}
-	    }
-	    ExtendedIterator<Restriction> it2 = o.listRestrictions();
-	    while(it2.hasNext()) {
-            Restriction r = it2.next();
-            Statement s = r.getProperty(OWL2.onDataRange); // is that code obvious? no
-            if (s != null && s.getObject().asResource().equals(RDFPL)) {
-                s.changeObject(RDFLS);
-            }
-        }
-	}
-	
 	public static void removeIndividuals(OntModel o) {
 		ExtendedIterator<Individual> it = o.listIndividuals();
 	    while(it.hasNext()) {
@@ -650,32 +621,7 @@ public class MigrationHelpers {
 			i.remove();
 	    }
 	}
-	
-	public static OntModel getOntologyModel() {
-	    if (ontologyModel == null) {
-	        initOntologyModel();
-	    }
-	    
-	    return ontologyModel;
-	}
-	
-	private static void initOntologyModel()
-	{   
-		OntModel ontoModel = null;
-	    try {
-	        OntDocumentManager mgrImporting = new OntDocumentManager("owl-file/ont-policy.rdf");
-	        mgrImporting.setProcessImports(true);
-	        
-	        OntModelSpec ontSpecImporting = new OntModelSpec(OntModelSpec.OWL_DL_MEM);
-	        ontSpecImporting.setDocumentManager(mgrImporting);
-	        
-	        ontoModel = mgrImporting.getOntology(ADM, ontSpecImporting);
-	    } catch (Exception e) {
-	        System.err.println(e.getMessage());
-	        System.exit(1);
-	    }
-	    ontologyModel = ontoModel;
-	}
+
 	
 	@SuppressWarnings("unused")
     private static OntModel getInferredModel(OntModel m) {
