@@ -90,6 +90,9 @@ public class PersonMigration {
 		String RID = root.getAttribute("RID");
         Resource main = createRoot(m, BDR+RID, BDO+"Person");
         Resource admMain = createAdminRoot(main);
+        if (MigrationHelpers.ricrid.containsKey(RID)) {
+            admMain.addLiteral(admMain.getModel().createProperty(ADM, "isRestrictedInChina"), true);
+        }
 		addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		int gender = SymetricNormalization.GENDER_U;

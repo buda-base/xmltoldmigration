@@ -152,6 +152,7 @@ public class MigrationHelpers {
     
     public static final Map<String, Boolean> disconnectedRIds;
     public static final Map<String, String> ridReplacements;
+    public static final Map<String, Boolean> ricrid;
 
     static {
         try {
@@ -163,6 +164,7 @@ public class MigrationHelpers {
         
         
         disconnectedRIds = setupDisconnectedRIDs();
+        ricrid = setupRICRID();
         ridReplacements = setupRIDReplacements();
         setupSTTL();
         typeToXsdPrefix.put(CORPORATION, CorporationMigration.CXSDNS);
@@ -203,6 +205,22 @@ public class MigrationHelpers {
         return res;
     }
 
+    public static Map<String, Boolean> setupRICRID() {
+        final Map<String,Boolean> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("rid-ric.txt");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while(reader.ready()) {
+                 String line = reader.readLine();
+                 res.put(line, true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
     public static Map<String, String> setupRIDReplacements() {
         final Map<String,String> res = new HashMap<>();
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();

@@ -199,6 +199,9 @@ public class PlaceMigration {
 		Element current;
         Resource main = createRoot(model, BDR+root.getAttribute("RID"), BDO+"Place");
         Resource admMain = createAdminRoot(main);
+        if (MigrationHelpers.ricrid.containsKey(root.getAttribute("RID"))) {
+            admMain.addLiteral(admMain.getModel().createProperty(ADM, "isRestrictedInChina"), true);
+        }
 		Resource placeType = getPlaceType(root, model, main);
 		if (placeType != null)
 		    model.add(main, model.getProperty(BDO, "placeType"), placeType);

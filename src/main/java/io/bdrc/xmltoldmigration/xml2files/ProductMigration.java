@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 
 
 public class ProductMigration {
@@ -35,6 +36,9 @@ public class ProductMigration {
 		Resource main = m.createResource(BDA+root.getAttribute("RID"));
 		main.addProperty(RDF.type, m.createResource(ADM + "Product"));
 		Resource admMain = createAdminRoot(main);
+		if (MigrationHelpers.ricrid.containsKey(root.getAttribute("RID"))) {
+		    admMain.addLiteral(admMain.getModel().createProperty(ADM, "isRestrictedInChina"), true);
+		}
 
 		addStatus(m, admMain, root.getAttribute("status"));
 

@@ -17,6 +17,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
+
 
 public class TopicMigration {
 
@@ -30,6 +32,9 @@ public class TopicMigration {
         Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Topic");
         Resource admMain = createAdminRoot(main);
 		addStatus(m, admMain, root.getAttribute("status"));
+		if (MigrationHelpers.ricrid.containsKey(root.getAttribute("RID"))) {
+            admMain.addLiteral(admMain.getModel().createProperty(ADM, "isRestrictedInChina"), true);
+        }
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 
 		CommonMigration.addNames(m, root, main, TXSDNS);
