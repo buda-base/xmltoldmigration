@@ -11,7 +11,7 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:WEAP676-1-10  a              :ImageInstance ;
-        :instanceHasVolume       bdr:IEAP676-1-10 ;
+        :instanceHasVolume       bdr:I0EAP676-1-10 ;
         :instanceOf              bdr:WA22003 ;
         :instanceReproductionOf  bdr:MWEAP676-1-10 ;
         :isRoot                  true .
@@ -66,7 +66,7 @@ bdr:TT3F47A61E957C3105
         a           :Title ;
         rdfs:label  "Namastāre Saptaka Viṁśatī"@sa-x-iast .
 
-bdr:IEAP676-1-10  a       :ImageGroup ;
+bdr:I0EAP676-1-10  a       :ImageGroup ;
         :hasIIIFManifest  <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> ;
         :volumeNumber     1 ;
         :volumeOf         bdr:WEAP676-1-10 .

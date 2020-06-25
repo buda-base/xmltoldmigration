@@ -233,7 +233,7 @@ public class EAPFondsTransfer {
         for(int x=0;x<volumes.size();x++) {
             final String[] volume = volumes.get(x);
             String ref=(simplified ? volume[1] : volume[4]).replace('/', '-');
-            Resource vol = itemModel.createResource(BDR+"I"+ref);
+            Resource vol = itemModel.createResource(BDR+"I0"+ref);
             itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), vol);
             itemModel.add(vol, RDF.type, itemModel.createResource(BDO+"ImageGroup"));
             String volName = simplified ? volume[9] : volume[39];

@@ -106,13 +106,19 @@ public class EAPTransfer {
     }
 
     public static final void writeEAPFiles(List<Resource> resources) {
-        final Resource work = resources.get(0);
-        final String workOutfileName = MigrationApp.getDstFileName("work", work.getLocalName());
-        MigrationHelpers.outputOneModel(work.getModel(), work.getLocalName(), workOutfileName, "work");
+        Resource r = resources.get(0);
+        String rOutfileName = MigrationApp.getDstFileName("instance", r.getLocalName());
+        MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), rOutfileName, "instance");
         
-        final Resource item = resources.get(1);
-        final String itemOutfileName = MigrationApp.getDstFileName("item", item.getLocalName());
-        MigrationHelpers.outputOneModel(item.getModel(), item.getLocalName(), itemOutfileName, "item");
+        r = resources.get(1);
+        if (r != null) {
+            rOutfileName = MigrationApp.getDstFileName("work", r.getLocalName());
+            MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), rOutfileName, "work");
+        }
+        
+        r = resources.get(2);
+        rOutfileName = MigrationApp.getDstFileName("iinstance", r.getLocalName());
+        MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), rOutfileName, "iinstance");
     }
 
     public static final String rKTsToBDR(String rKTs) {
@@ -161,6 +167,7 @@ public class EAPTransfer {
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
         } else {
             SymetricNormalization.addSymetricProperty(workModel, "instanceOf", 'M'+RID, abstractWorkRID, null);
+            res.add(null);
         }
         
         // adm:AdminData
@@ -296,7 +303,7 @@ public class EAPTransfer {
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_EAP_content")); // ?
 
         // Volume for Item
-        final String volumeRID = 'I'+itemRID.substring(1);
+        final String volumeRID = "I0"+itemRID.substring(1);
         Resource volume = itemModel.createResource(BDR+volumeRID);
         itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"ImageGroup"));
         if (ImagegroupMigration.addVolumeOf)
