@@ -1,6 +1,7 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -45,20 +46,20 @@ bda:LG650F49A48542C160
         adm:logWho      bdr:U00015 .
 
 bdr:NTE1683F39A3E5756E
-        a                   :Note ;
+        a                          :Note ;
         :contentLocationStatement  "251" ;
-        :noteSource         bdr:MW27401 ;
-        :noteText           "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."@en .
+        :noteSource                bdr:MW27401 ;
+        :noteText                  "biodata\n\nSubsequent main lineage holders include lha btsun chen po/ gter chen 'gyur med rdo rje/ 'bri gung rin chen phun tshogs/ rig 'dzin 'jigs med gling pa/ mi 'gyur nam mkha'i rdo rje/ 'jam dbyangs mkhyen brtse'i dbang po\n\nAmong them, 'jigs med gling pa received the nye brgyud via direct vision of klong chen pa.  'jigs med gling pa passed his lineage to rdo grub phrin las 'od zer, who passed it to mi 'gyur nam mkha' rdo rje, who in turn had a vision of klong chen pa and received the yang tig from him."@en .
 
 bdr:NMF942A81B0A73E4AA
         a           :PersonTitle ;
         rdfs:label  "klong chen rab 'byams/"@bo-x-ewts .
 
 bdr:NTAF7D0940EAE3607E
-        a                   :Note ;
+        a                          :Note ;
         :contentLocationStatement  "v. 2, pp.104-112" ;
-        :noteSource         bdr:MW25268 ;
-        :noteText           "biography\ndates: 1308-1363"@en .
+        :noteSource                bdr:MW25268 ;
+        :noteText                  "biography\ndates: 1308-1363"@en .
 
 bdr:NM9C8DEB6FF7CEC129
         a           :PersonPrimaryName ;
@@ -93,9 +94,9 @@ bdr:NM81A442B676BCDB2A
         rdfs:label  "shantideva"@sa-x-rma .
 
 bdr:NT5A51821BAE247EF6
-        a                   :Note ;
+        a                          :Note ;
         :contentLocationStatement  "p. 6" ;
-        :noteSource         bdr:MW19822 .
+        :noteSource                bdr:MW19822 .
 
 bdr:NM27A9E6B52AE2AFD6
         a           :PersonPrimaryName ;
@@ -110,13 +111,12 @@ bdr:NT0648F5705843763B
         :noteText  "L. v.d. Kuijp has verified that the date of death of the subject was January, 1364. Also the unrecorded teacher Ston tshul may have been Btsun pa Ston tshul, Sa-skya scholar and author of at least two works on Tshad ma."@en .
 
 bdr:NT6B646336F5EE567D
-        a                   :Note ;
+        a                          :Note ;
         :contentLocationStatement  "p. 77" ;
-        :noteSource         bdr:MW19801 .
+        :noteSource                bdr:MW19801 .
 
 bdr:P1583  a                 :Person ;
         rdfs:seeAlso         bdr:O1GS392481GS39291 ;
-        adm:seeOtherToL      "https://www.treasuryoflives.org/biographies/abc"^^xsd:anyURI ;
         :hasUnknownKinship   bdr:P1584 ;
         :incarnationGeneral  bdr:P561654 ;
         :incarnationMind     bdr:P561654 ;

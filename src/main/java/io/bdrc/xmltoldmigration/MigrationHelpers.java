@@ -152,6 +152,8 @@ public class MigrationHelpers {
     
     public static final Map<String, Boolean> disconnectedRIds;
     public static final Map<String, String> ridReplacements;
+    public static final Map<String, String> tol;
+    
     public static final Map<String, Boolean> ricrid;
 
     static {
@@ -166,6 +168,7 @@ public class MigrationHelpers {
         disconnectedRIds = setupDisconnectedRIDs();
         ricrid = setupRICRID();
         ridReplacements = setupRIDReplacements();
+        tol = setupTol();
         setupSTTL();
         typeToXsdPrefix.put(CORPORATION, CorporationMigration.CXSDNS);
         typeToXsdPrefix.put(LINEAGE, LineageMigration.LXSDNS);
@@ -214,6 +217,22 @@ public class MigrationHelpers {
             while(reader.ready()) {
                  String line = reader.readLine();
                  res.put(line, true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public static Map<String, String> setupTol() {
+        final Map<String,String> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("tol.csv");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while(reader.ready()) {
+                 String[] line = reader.readLine().split(",");
+                 res.put(line[1], line[2]);
             }
         } catch (IOException e) {
             e.printStackTrace();

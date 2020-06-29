@@ -16,6 +16,7 @@ import static io.bdrc.libraries.Models.FacetType.NAME;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -93,6 +94,10 @@ public class PersonMigration {
         if (MigrationHelpers.ricrid.containsKey(RID)) {
             admMain.addLiteral(admMain.getModel().createProperty(ADM, "restrictedInChina"), true);
         }
+        if (MigrationHelpers.tol.containsKey(RID)) {
+            admMain.addProperty(m.createProperty(ADM, "seeOtherToL"), m.createTypedLiteral(MigrationHelpers.tol.get(RID), XSDDatatype.XSDanyURI));
+        }
+        
 		addStatus(m, admMain, root.getAttribute("status"));
 		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 		int gender = SymetricNormalization.GENDER_U;

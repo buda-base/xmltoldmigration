@@ -636,8 +636,6 @@ public class CommonMigration  {
         String value = e.getAttribute("data").trim();
         if (value.isEmpty()) return;
         if (value.contains("treasuryoflives.org")) {
-            value = normalizeToLUrl(value);
-            rez.addProperty(m.createProperty(ADM, "seeOtherToL"), m.createTypedLiteral(value, XSDDatatype.XSDanyURI));
             return;
         }
         if (value.contains("blog.tbrc.org")) return;
