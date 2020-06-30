@@ -37,5 +37,5 @@ bdr:VL790698AD9F9DEAE4
 bdr:IE1CZ2485  a                 :EtextInstance ;
         :instanceHasVolume       bdr:VL790698AD9F9DEAE4 ;
         :instanceOf              bdr:WA1CZ2485 ;
-        :instanceReproductionOf  bdr:W1CZ2485 ;
+        :instanceReproductionOf  bdr:MW1CZ2485 , bdr:W1CZ2485 ;
         :isRoot                  true .
