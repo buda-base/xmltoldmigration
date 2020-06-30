@@ -159,7 +159,7 @@ public class EtextMigration {
                 //System.out.println("migrating "+provider+"/"+fl2.getName());
                 String itemId = null;
                 Model itemModel = ModelFactory.createDefaultModel();
-                setPrefixes(itemModel, "item");
+                setPrefixes(itemModel, "einstance");
                 boolean firstItemModel = true;
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
@@ -333,6 +333,7 @@ public class EtextMigration {
     public static void addReproToInstance(String indicatedWorkId, String eInstanceId, String etextId, boolean sameOriginAs, boolean isPaginated) {
         if (indicatedWorkId.equals(lastIndicatedWorkId))
             return;
+        // image instance
         final String iInstanceId = indicatedWorkId;
         final String workPath = MigrationApp.getDstFileName("iinstance", iInstanceId, ".trig");
         final Model workModel = MigrationHelpers.modelFromFileName(workPath);
@@ -344,6 +345,17 @@ public class EtextMigration {
         Property p = workModel.getProperty(BDO, "instanceHasReproduction");
         iInstanceR.addProperty(p, workModel.createResource(BDR+eInstanceId));
         MigrationHelpers.outputOneModel(workModel, iInstanceId, workPath, "iinstance");
+        // instance
+        final String instanceId = "M"+indicatedWorkId;
+        final String path = MigrationApp.getDstFileName("instance", instanceId, ".trig");
+        final Model m = MigrationHelpers.modelFromFileName(path);
+        if (m == null) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, etextId, etextId, "cannot read instance model for image name translation on "+path);
+            return;
+        }
+        final Resource instanceR = m.getResource(BDR+instanceId);
+        instanceR.addProperty(p, m.createResource(BDR+eInstanceId));
+        MigrationHelpers.outputOneModel(m, instanceId, path, "instance");
         lastIndicatedWorkId = indicatedWorkId;
     }
     
@@ -483,6 +495,7 @@ public class EtextMigration {
             if (!bornDigital) {
                 // false should be true in the case of KarmaDelek and GuruLama
                 item.addProperty(itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+indicatedWorkId));
+                item.addProperty(itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"M"+indicatedWorkId));
                 addReproToInstance(indicatedWorkId, eInstanceId, etextId, false, isPaginated);
             }
             
