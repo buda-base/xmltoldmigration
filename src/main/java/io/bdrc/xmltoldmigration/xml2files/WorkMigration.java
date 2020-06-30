@@ -301,10 +301,11 @@ public class WorkMigration {
 	        }
 	    }
 
-	    if (mainA == null)
-	        CommonMigration.addSubjects(m, main, root, WXSDNS);
-	    else
+	    if (mainA != null)
 	        CommonMigration.addSubjects(mA, mainA, root, WXSDNS);
+	    //else
+	    //    CommonMigration.addSubjects(m, main, root, WXSDNS);
+	        
 	    
 	    if (main != null) {
     	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS, false, mainA);

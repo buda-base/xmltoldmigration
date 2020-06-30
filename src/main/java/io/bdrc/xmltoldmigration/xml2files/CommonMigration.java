@@ -199,7 +199,7 @@ public class CommonMigration  {
         if (workA != null && !creatorForInstance.contains(roleKey)) {
             agentAsCreator = getFacetNode(FacetType.CREATOR, workA);
             workA.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
-        } else if (work != null) {
+        } else if (work != null && creatorForInstance.contains(roleKey)) {
             agentAsCreator = getFacetNode(FacetType.CREATOR, work); 
             work.addProperty(m.createProperty(BDO+"creator"), agentAsCreator);
         }
