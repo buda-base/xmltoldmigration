@@ -219,7 +219,7 @@ public class MigrationTest
         assertFalse(CommonMigration.documentValidates(d, validator));
         Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G488.ttl");
-        fromXml.write(System.out, "TTL");
+        //fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -342,7 +342,7 @@ public class MigrationTest
            //assertTrue(CommonMigration.documentValidates(d, pubinfoValidator));
            Model fromXml = mergeModelList(PubinfoMigration.MigratePubinfo(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
-//           fromXml.write(System.out, "TTL");
+           //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            flushLog();
        }
