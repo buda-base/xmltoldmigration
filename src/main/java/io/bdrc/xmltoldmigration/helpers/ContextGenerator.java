@@ -101,7 +101,7 @@ public class ContextGenerator {
      * file, a general document or a frame document
      */
     public static Map<String, Object> generateContextObject(final OntModel m, final PrefixMap prefixMap, final String defaultPrefixRenaming) {
-        final Map<String,String> prefixMapStr = prefixMap.getMappingCopyStr();
+        final Map<String,String> prefixMapStr = prefixMap.getMappingCopy();
         if (prefixMapStr.containsKey("")) {
             prefixMapStr.put(defaultPrefixRenaming, prefixMapStr.get(""));
             prefixMapStr.put("@vocab", prefixMapStr.get(""));
