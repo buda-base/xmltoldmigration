@@ -450,7 +450,7 @@ public class MigrationHelpers {
             Node graphUri = NodeFactory.createURI(uriStr);
             DatasetGraph dsg = DatasetFactory.create().asDatasetGraph();
             dsg.addGraph(graphUri, m.getGraph());
-            new STriGWriter().write(out, dsg, getPrefixMap(), graphUri.toString(m), ctx);
+            new STriGWriter().write(out, dsg, getPrefixMap(), null, ctx);
         }
     }
 
