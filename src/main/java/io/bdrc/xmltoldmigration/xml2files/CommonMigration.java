@@ -849,8 +849,11 @@ public class CommonMigration  {
             String[] pieces = value.split("\\.");
             int len = pieces.length;
             String subjCode = pieces[len-1];
-            if (pieces[len-1].matches("\\d")) {
-                subjCode = pieces[len-2]+"_"+pieces[len-1];
+            if (subjCode.indexOf(" ") >= 0) { // correct for code w/ khmer text
+                subjCode = subjCode.substring(0, subjCode.indexOf(" "));
+            }
+            if (subjCode.matches("\\d")) {
+                subjCode = pieces[len-2]+"_"+subjCode;
             }
             String subjId = "FEMC_Scheme_"+subjCode;
             rez.addProperty(m.getProperty(BDO, "workIsAbout"), m.createResource(BDR+subjId));

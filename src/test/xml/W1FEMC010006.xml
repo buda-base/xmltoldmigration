@@ -10,7 +10,8 @@
     <w:inProduct pid="PR1FEMC01">Catalog: FEMC Volume I</w:inProduct>
     <w:description type="runningNum">6</w:description>
     <w:description type="catalogPage">54</w:description>
-    <w:description type="femcManuscriptCode">001-PP.00.02.07.VII</w:description>
+    <w:description type="femcManuscriptCode">001-PP.00.02.07.VII</w:description>   
+    <w:description type="femcManuscriptCode">d.496.VI.6 (ក្រាំង)</w:description>
     <w:description type="filmCanister">IV</w:description>
     <w:description type="filmStrip">16</w:description>
     <w:description type="workNum">1</w:description>
