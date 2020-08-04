@@ -126,7 +126,7 @@ public class NSITransfer {
         // adm:AdminData
         Resource admWork = createAdminRoot(work);
         addReleased(workModel, admWork);
-        workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_BDRC_CC0")); // ?
+        workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_BDRC_CC0"));
 
         String abstractWorkRID = EAPTransfer.rKTsToBDR(line[19]);
         Model mA = null;
@@ -137,11 +137,11 @@ public class NSITransfer {
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
             workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
-            admWorkA = createAdminRoot(work);
+            admWorkA = createAdminRoot(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+            workA.addProperty(mA.createProperty(BDO, "workHasInstance"), work);
             addReleased(mA, admWorkA);
-            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_BDRC_CC0"));
         } else {
             SymetricNormalization.addSymetricProperty(workModel, "instanceOf", 'M'+WRID, abstractWorkRID, null);
         }

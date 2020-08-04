@@ -1,6 +1,7 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
@@ -30,7 +31,7 @@ bda:MW1NPL1  a             adm:AdminData ;
         adm:gitPath        "ea/MW1NPL1.trig" ;
         adm:gitRepo        bda:GR0012 ;
         adm:graphId        bdg:MW1NPL1 ;
-        adm:metadataLegal  bda:LD_BDRC_CC0 , bda:LD_CUDL_metadata ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
@@ -80,6 +81,15 @@ bdr:TTCCD2BE298D1044C7
 bda:I1NPL1  a                    adm:AdminData ;
         adm:adminAbout           bdr:I1NPL1 ;
         adm:legacyImageGroupRID  "I1NPL1" .
+
+bda:WA1NPL1  a             adm:AdminData ;
+        adm:adminAbout     bdr:WA1NPL1 ;
+        adm:gitPath        "66/WA1NPL1.trig" ;
+        adm:gitRepo        bda:GR0008 ;
+        adm:graphId        bdg:WA1NPL1 ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
 
 bdr:EVDA35DE703590E610
         a        :CopyEvent ;
