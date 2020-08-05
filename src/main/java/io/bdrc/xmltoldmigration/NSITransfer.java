@@ -219,11 +219,11 @@ public class NSITransfer {
             work.addProperty(workModel.createProperty(BDO, "dimHeight"), String.valueOf(Math.min(dim1, dim2)), XSDDatatype.XSDdecimal);
         }
         // Topics and Genres, they should go with the abstract text
-        if (linelen > 16 && !line[16].isEmpty()) {
+        if (mA != null && linelen > 16 && !line[16].isEmpty()) {
             final String[] topics = line[7].split("&");
             for (int i = 0; i < topics.length; i++)
             {
-                work.addProperty(workModel.createProperty(BDO, "workIsAbout"), workModel.createResource(BDR+topics[i].trim()));
+                workA.addProperty(mA.createProperty(BDO, "workIsAbout"), mA.createResource(BDR+topics[i].trim()));
             }
         }
         
