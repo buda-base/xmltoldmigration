@@ -90,6 +90,7 @@ public class CommonMigration  {
     public static Map<String, String> seriesClusters = new HashMap<>();
     public static final Map<String, String> seriesMembersToWorks = new HashMap<>();
     public static final Map<String, RDFNode> seriesMembersToWorkLabels = new HashMap<>();
+    public static final String BDU = "http://purl.bdrc.io/resource-nc/user/";
 
     static {
         fillLogWhoToUri();
@@ -298,11 +299,14 @@ public class CommonMigration  {
     }
 
     public static void fillLogWhoToUri() {
-        String prefix = BDR+"U"; // ?
+        String prefix = BDU+"U"; // ?
         logWhoToUri.put("Gene Smith", prefix+String.format(userNumFormat, 1));
+        logWhoToUri.put("GENE", prefix+String.format(userNumFormat, 1));
+        logWhoToUri.put("gene", prefix+String.format(userNumFormat, 1));
         logWhoToUri.put("agardner@sdrubin.org", prefix+String.format(userNumFormat, 2));
         logWhoToUri.put("Alex Gardner", prefix+String.format(userNumFormat, 2));
         logWhoToUri.put("Alexander Gardner", prefix+String.format(userNumFormat, 2));
+        logWhoToUri.put("Alexande", prefix+String.format(userNumFormat, 2)); //? in qc
         logWhoToUri.put("Bumu Dega", prefix+String.format(userNumFormat, 3));
         logWhoToUri.put("Dega Bumu", prefix+String.format(userNumFormat, 3));
         logWhoToUri.put("Catherine Tsuji", prefix+String.format(userNumFormat, 4));
@@ -313,7 +317,7 @@ public class CommonMigration  {
         logWhoToUri.put("chris", prefix+String.format(userNumFormat, 6));
         logWhoToUri.put("CodeFerret", prefix+String.format(userNumFormat, 6));
         logWhoToUri.put("Chungdak Nangpa", prefix+String.format(userNumFormat, 7));
-        logWhoToUri.put("Chungdak Ngagpa", prefix+String.format(userNumFormat, 7));// is it the same name?
+        logWhoToUri.put("Chungdak Ngagpa", prefix+String.format(userNumFormat, 7));
         logWhoToUri.put("Chungdak Ngakpa", prefix+String.format(userNumFormat, 7));
         logWhoToUri.put("cnakpa", prefix+String.format(userNumFormat, 7));
         logWhoToUri.put("Cuilan Liu", prefix+String.format(userNumFormat, 8));
@@ -322,6 +326,7 @@ public class CommonMigration  {
         logWhoToUri.put("Jann Ronis", prefix+String.format(userNumFormat, 11));
         logWhoToUri.put("jann ronis", prefix+String.format(userNumFormat, 11));
         logWhoToUri.put("Jeff Wallman", prefix+String.format(userNumFormat, 12));
+        logWhoToUri.put("Jeff Walman", prefix+String.format(userNumFormat, 12));
         logWhoToUri.put("Jigme Namgyal", prefix+String.format(userNumFormat, 13));
         logWhoToUri.put("jm", prefix+String.format(userNumFormat, 14)); // ?
         logWhoToUri.put("Joe McClellan", prefix+String.format(userNumFormat, 15));
@@ -329,7 +334,16 @@ public class CommonMigration  {
         logWhoToUri.put("Karma Gongde", prefix+String.format(userNumFormat, 16));
         logWhoToUri.put("kgongde", prefix+String.format(userNumFormat, 16));
         logWhoToUri.put("Chozin", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("ch", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("CH", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("CZ", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("cho.", prefix+String.format(userNumFormat, 17));
         logWhoToUri.put("chozin", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("chosin", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("CHOZIN", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("choziin", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("Chosin", prefix+String.format(userNumFormat, 17));
+        logWhoToUri.put("cs", prefix+String.format(userNumFormat, 17));
         logWhoToUri.put("Kelsang Lhamo", prefix+String.format(userNumFormat, 17));
         logWhoToUri.put("kelsang", prefix+String.format(userNumFormat, 17));
         logWhoToUri.put("Kelsang", prefix+String.format(userNumFormat, 17));
@@ -382,10 +396,11 @@ public class CommonMigration  {
         logWhoToUri.put("Chengdu", prefix+String.format(userNumFormat, 51));
         logWhoToUri.put("Chojor Radha", prefix+String.format(userNumFormat, 52));
         logWhoToUri.put("Elie Roux", prefix+String.format(userNumFormat, 53));
+        logWhoToUri.put("eroux", prefix+String.format(userNumFormat, 53));
         logWhoToUri.put("Gelek Gyatso", prefix+String.format(userNumFormat, 54));
         logWhoToUri.put("Gelek.Gyatso", prefix+String.format(userNumFormat, 54));
         logWhoToUri.put("Georgia Kashnig", prefix+String.format(userNumFormat, 55));
-        logWhoToUri.put("jw", prefix+String.format(userNumFormat, 56));
+        logWhoToUri.put("jw", prefix+String.format(userNumFormat, 12));
         logWhoToUri.put("monastery import", prefix+String.format(userNumFormat, 57));
         logWhoToUri.put("mongol import", prefix+String.format(userNumFormat, 58));
         logWhoToUri.put("Palri", prefix+String.format(userNumFormat, 59));
@@ -403,6 +418,53 @@ public class CommonMigration  {
         logWhoToUri.put("Tsering Dondrup", prefix+String.format(userNumFormat, 65));
         logWhoToUri.put("Tserings Wangdag and Dhondup", prefix+String.format(userNumFormat, 65)); // same ?
         logWhoToUri.put("Travis DeTour", prefix+String.format(userNumFormat, 66)); // same ?
+        logWhoToUri.put("Tony Lulek", prefix+String.format(userNumFormat, 67));
+        logWhoToUri.put("Tony LUlek", prefix+String.format(userNumFormat, 67));
+        logWhoToUri.put("Tony Lulek Lama", prefix+String.format(userNumFormat, 67));
+        logWhoToUri.put("Tony LulekTony Lulek", prefix+String.format(userNumFormat, 67));
+        logWhoToUri.put("Tony", prefix+String.format(userNumFormat, 67));
+        logWhoToUri.put("kd", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("Kd", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("ke drub", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("khe drub", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("ke dop and", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("Khedup", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("khegrup", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("Kedup", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("kegrub", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("kedrup", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("khedrup", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("KD", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("khedrub", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("khe grub", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("khegrp", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("kedrub", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("K_D", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("Khedrup", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("k.d", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("k. d", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("kedub", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("K-D", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("Khedub", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("khedup", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("mkhas grub and", prefix+String.format(userNumFormat, 68));
+        logWhoToUri.put("Stephanie Scott", prefix+String.format(userNumFormat, 69));
+        logWhoToUri.put("Stephanie ScottStephanie Scott", prefix+String.format(userNumFormat, 69));
+        logWhoToUri.put("Stephanie", prefix+String.format(userNumFormat, 69));
+        logWhoToUri.put("Dave Picariello", prefix+String.format(userNumFormat, 70));
+        logWhoToUri.put("David Picariello", prefix+String.format(userNumFormat, 70));
+        logWhoToUri.put("David Piccariello", prefix+String.format(userNumFormat, 70));
+        logWhoToUri.put("David Picarriello", prefix+String.format(userNumFormat, 70));
+        logWhoToUri.put("rabten", prefix+String.format(userNumFormat, 71));
+        logWhoToUri.put("rab ten", prefix+String.format(userNumFormat, 71));
+        logWhoToUri.put("Rabten", prefix+String.format(userNumFormat, 71));
+        logWhoToUri.put("Thubten Lama", prefix+String.format(userNumFormat, 72));
+        logWhoToUri.put("Thupten", prefix+String.format(userNumFormat, 72));
+        logWhoToUri.put("Thubten Dorje Lama", prefix+String.format(userNumFormat, 72));
+        logWhoToUri.put("Thupten LamaThupten Lama", prefix+String.format(userNumFormat, 72));
+        logWhoToUri.put("Elizabeth Callahan", prefix+String.format(userNumFormat, 73));
+        logWhoToUri.put("Dan-rosa", prefix+String.format(userNumFormat, 74));
+        logWhoToUri.put("Dan -rosa", prefix+String.format(userNumFormat, 74));
     }
 
     public static Literal getLitFromUri(Model m, String uri) {

@@ -110,25 +110,29 @@ public class ImagegroupMigration {
             m.add(volR, m.getProperty(BDO+"volumeOf"), item);
         
 		// adding the ondisk/onDisk description as vol:imageList
+        /*
 		NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "description");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String type = current.getAttribute("type").trim();
-            if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
-            ImageListTranslation.addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, volR);
+            if (type.equals("ondisk") || type.equals("onDisk")) {
+                //ImageListTranslation.addImageList(current.getTextContent().trim(), imageGroupRID, volumeNumber, m, volR);
+                continue;
+            }
         }
+        */
 		
         addStatus(m, admVol, imageGroupStatus);
         CommonMigration.addLog(m, root, admVol, IGXSDNS);
         CommonMigration.addDescriptions(m, root, volR, IGXSDNS);
         admVol.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
         
-        nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
+        NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, "images");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("intro").trim();
-            if (!value.isEmpty())
-                m.add(volR, m.getProperty(BDO, "volumePagesIntro"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
+            //if (!value.isEmpty())
+            //    m.add(volR, m.getProperty(BDO, "volumePagesIntro"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             
             value = current.getAttribute("tbrcintro").trim();
             if (!value.isEmpty())
@@ -140,11 +144,11 @@ public class ImagegroupMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup:text", "image group had a negative value for `text`: `"+value+"`");
                     value = "0";
                 }
-                m.add(volR, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
+                //m.add(volR, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             }
             value = current.getAttribute("total").trim();
-            if (!value.isEmpty())
-                m.add(volR, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
+            //if (!value.isEmpty())
+            //    m.add(volR, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
         }
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "qc");
