@@ -426,7 +426,6 @@ public class CommonMigration  {
         logWhoToUri.put("Stacey Van Vleet", prefix+String.format(userNumFormat, 64));
         logWhoToUri.put("Tsering Dhondup", prefix+String.format(userNumFormat, 65));
         logWhoToUri.put("Tsering Dondrup", prefix+String.format(userNumFormat, 65));
-        logWhoToUri.put("Tserings Wangdag and Dhondup", prefix+String.format(userNumFormat, 65)); // same ?
         logWhoToUri.put("Travis DeTour", prefix+String.format(userNumFormat, 66)); // same ?
         logWhoToUri.put("Tony Lulek", prefix+String.format(userNumFormat, 67));
         logWhoToUri.put("Tony LUlek", prefix+String.format(userNumFormat, 67));
@@ -482,7 +481,7 @@ public class CommonMigration  {
         logWhoToUri.put("LH", prefix+String.format(userNumFormat, 77));
         logWhoToUri.put("Lh", prefix+String.format(userNumFormat, 77));
         logWhoToUri.put("lh", prefix+String.format(userNumFormat, 77));
-        
+        logWhoToUri.put("Tserings Wangdag", prefix+String.format(userNumFormat, 78));
         logWhoToUriList.put("mkas grub and c", Arrays.asList(prefix+String.format(userNumFormat, 68), prefix+String.format(userNumFormat, 17)));
         logWhoToUriList.put("Kedrub-chozin", Arrays.asList(prefix+String.format(userNumFormat, 68), prefix+String.format(userNumFormat, 17)));
         logWhoToUriList.put("Kd.chozin", Arrays.asList(prefix+String.format(userNumFormat, 68), prefix+String.format(userNumFormat, 17)));
@@ -495,6 +494,7 @@ public class CommonMigration  {
         logWhoToUriList.put("Jeff Wallman/ David Picariello", Arrays.asList(prefix+String.format(userNumFormat, 70), prefix+String.format(userNumFormat, 12)));
         logWhoToUriList.put("Malcolm / David Picariello / Jeff Wallman", Arrays.asList(prefix+String.format(userNumFormat, 75), prefix+String.format(userNumFormat, 70), prefix+String.format(userNumFormat, 12)));
         logWhoToUriList.put("Malcom / David Picariello", Arrays.asList(prefix+String.format(userNumFormat, 75), prefix+String.format(userNumFormat, 70)));
+        logWhoToUriList.put("Tserings Wangdag and Dhondup", Arrays.asList(prefix+String.format(userNumFormat, 78), prefix+String.format(userNumFormat, 65)));
     }
 
     public static Literal getLitFromUri(Model m, String uri) {
