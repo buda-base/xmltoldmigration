@@ -586,7 +586,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             }
         }
         
-        CommonMigration.addSubjects(m, (nodeA != null) ? nodeA : node, e, OXSDNS);
+        CommonMigration.addSubjects((nodeA != null) ? nodeA.getModel() : m, (nodeA != null) ? nodeA : node, e, OXSDNS);
         
         List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "site");
         for (int j = 0; j < nodeList.size(); j++) {
