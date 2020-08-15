@@ -1,6 +1,5 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
@@ -60,6 +59,10 @@ public class OutlineMigration {
 	
     public static boolean addWorkHaspart = true;
     public static boolean addWorkPartOf = false;
+    
+    public static int nbCollisions = 0;
+    public static Map<String,Boolean> outlineUsedRID = new HashMap<>();
+    public static Map<String,Boolean> outlineUsedRIDA = new HashMap<>();
 
 	public static Map<String,Boolean> ridsToIgnore = new HashMap<>();
 	public static Map<String,String> ridsToConvert = new HashMap<>();
@@ -260,6 +263,7 @@ public class OutlineMigration {
 		} else {
 		    m = workModel;
 		}
+		outlineUsedRID = new HashMap<>();
 		List<WorkModelInfo> res = new ArrayList<>();
 		res.add(new WorkModelInfo(rootWork.getLocalName(), workModel));
 		
@@ -462,12 +466,26 @@ public class OutlineMigration {
     }
     
     public static String getPartRID(String outlineRID, String workId, Integer partI) {
-        return workId+"_"+getMd5(outlineRID, 6); 
+        String md5 = getMd5(outlineRID,6);
+        if (outlineUsedRID.containsKey(md5)) {
+            nbCollisions += 1;
+            System.err.println("collision on "+workId+"_"+md5);
+            md5 = getMd5(outlineRID,7);
+        }
+        outlineUsedRID.put(md5, true);
+        return workId+"_"+md5; 
         //return workId+"_"+String.format("%04d", partI);
     }
     
     public static String getPartRIDA(String outlineRID, String workId, Integer partI) {
-        return "WA0XL"+getMd5(outlineRID, 12); 
+        String md5 = getMd5(outlineRID, 12);
+        if (outlineUsedRIDA.containsKey(md5)) {
+            nbCollisions += 1;
+            System.err.println("collision on WA0XL"+md5);
+            md5 = getMd5(outlineRID,13);
+        }
+        outlineUsedRIDA.put(md5, true);
+        return "WA0XL"+md5; 
         //return workId+"_"+String.format("%04d", partI);
     }
     
