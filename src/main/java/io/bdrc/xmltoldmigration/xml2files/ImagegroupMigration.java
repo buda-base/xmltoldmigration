@@ -210,8 +210,9 @@ public class ImagegroupMigration {
                 Literal l = qcdateToXsdDate(value, m);
                 if (l == null) {
                     m.add(logEntry, m.createProperty(ADM+"logMessage"), m.createLiteral(value));
+                } else {
+                    m.add(logEntry, m.createProperty(ADM+"logDate"), l);
                 }
-                m.add(logEntry, m.createProperty(ADM+"logDate"), l);
             }
         }
 	}
