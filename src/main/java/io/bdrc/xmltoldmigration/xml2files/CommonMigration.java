@@ -790,28 +790,24 @@ public class CommonMigration  {
         Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
         Resource logEntryType = m.createResource(ADM+"UpdateGraph");
         logEntry.removeAll(RDF.type);
-        Property prop = m.getProperty(ADM, "logEntry");
-        m.add(rez, prop, logEntry);
-        String value = e.getAttribute("when");
-        if (!value.isEmpty()) {
+        String datevalue = e.getAttribute("when");
+        Property prop = null;
+        if (!datevalue.isEmpty()) {
+            if ("2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
+                logEntry = m.getResource(BDA+"LGIGS001");
+            } else if ("2016-03-31T17:27:09.458-04:00".equals(datevalue)) {
+                logEntry = m.getResource(BDA+"LGIGS002");
+            } else if ("2016-04-28T23:50:58.855Z".equals(datevalue)) {
+                logEntry = m.getResource(BDA+"LGIGS003");
+            }
             prop = m.createProperty(ADM+"logDate");
             try {
-                m.add(logEntry, prop, literalFromXsdDate(m, value));
+                m.add(logEntry, prop, literalFromXsdDate(m, datevalue));
             } catch (DatatypeFormatException ex) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+value+"`");
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+datevalue+"`");
             }
         }
-        value = normalizeString(e.getAttribute("who"));
-        if (!value.isEmpty() && !value.equals("unspecified")) {
-            prop = m.createProperty(ADM+"logWho");
-            String uri = logWhoToUri.get(value);
-            if (uri == null) {
-                m.add(logEntry, m.createProperty(ADM+"logWhoStr"), value);
-            } else {
-                m.add(logEntry, prop, m.createResource(uri));
-            }
-        }
-        value = normalizeString(e.getTextContent(), true);
+        String value = normalizeString(e.getTextContent(), true);
         if (!value.isEmpty()) {
             prop = m.createProperty(ADM+"logMessage");
             m.add(logEntry, prop, m.createLiteral(value, "en"));
@@ -822,8 +818,25 @@ public class CommonMigration  {
             if (lcval.startsWith("withdraw")) {
                 logEntryType = m.createResource(ADM+"WithdrawGraph");
             }
+            if (lcval.toLowerCase().startsWith("updated total pages")) {
+                if (!"2016-03-31T17:27:09.458-04:00".equals(datevalue) && !"2016-04-28T23:50:58.855Z".equals(datevalue) && !"2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
+                    logEntryType = m.createResource(ADM+"Synced");
+                }
+            }
         }
         logEntry.addProperty(RDF.type, logEntryType);
+        value = normalizeString(e.getAttribute("who"));
+        if (!value.isEmpty() && !value.equals("unspecified") && !logEntryType.getLocalName().equals("Synced")) {
+            prop = m.createProperty(ADM+"logWho");
+            String uri = logWhoToUri.get(value);
+            if (uri == null) {
+                m.add(logEntry, m.createProperty(ADM+"logWhoStr"), value);
+            } else {
+                m.add(logEntry, prop, m.createResource(uri));
+            }
+        }
+        prop = m.getProperty(ADM, "logEntry");
+        m.add(rez, prop, logEntry);
     }
 
     public static void addLog(Model m, Element e, Resource rez, String XsdPrefix) {

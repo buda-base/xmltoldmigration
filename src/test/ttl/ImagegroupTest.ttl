@@ -18,22 +18,26 @@ bda:LG7838958C9FDB06CE
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdu:U00001 .
 
+bda:LGIGS003  a         adm:UpdateGraph ;
+        adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
+        adm:logMessage  "Updated total pages and added page list"@en ;
+        adm:logWho      bdu:U00006 .
+
+bda:LGIGS001  a         adm:UpdateGraph ;
+        adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
+        adm:logMessage  "Updated total pages"@en ;
+        adm:logWho      bdu:U00006 .
+
 bda:I4158  a                     adm:AdminData ;
         adm:adminAbout           bdr:I4158 ;
         adm:legacyImageGroupRID  "I4158" ;
-        adm:logEntry             bda:LGC0B23029C293039C , bda:LG2B928E4933E80098 , bda:LG773F06A19C958A4E , bda:LG7838958C9FDB06CE ;
+        adm:logEntry             bda:LGIGS003 , bda:LG7838958C9FDB06CE , bda:LG0050B839C3033FDB , bda:LGIGS001 , bda:LGIGS002 ;
         adm:metadataLegal        bda:LD_BDRC_CC0 ;
         adm:status               bda:StatusReleased .
 
-bda:LG2B928E4933E80098
-        a               adm:UpdateGraph ;
-        adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
-        adm:logMessage  "Added ondisk"@en ;
-        adm:logWho      bdu:U00006 .
-
 bda:WTestInstance  a    adm:AdminData ;
         adm:adminAbout  bdr:WTestInstance ;
-        adm:facetIndex  6 ;
+        adm:facetIndex  7 ;
         adm:gitPath     "84/WTestInstance.trig" ;
         adm:gitRepo     bda:GR0014 ;
         adm:graphId     bdg:WTestInstance ;
@@ -44,22 +48,20 @@ bdr:I4158  a                   :ImageGroup ;
         :volumeOf              bdr:WTestInstance ;
         :volumePagesTbrcIntro  1 .
 
-bda:LGC0B23029C293039C
-        a               adm:UpdateGraph ;
-        adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
-        adm:logMessage  "Updated total pages and added page list"@en ;
-        adm:logWho      bdu:U00006 .
-
-bda:LG773F06A19C958A4E
-        a               adm:UpdateGraph ;
-        adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
-        adm:logMessage  "Updated total pages"@en ;
+bda:LGIGS002  a         adm:UpdateGraph ;
+        adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
+        adm:logMessage  "Added ondisk"@en ;
         adm:logWho      bdu:U00006 .
 
 bdr:WTestInstance  a  :ImageInstance ;
         :isRoot  true .
 
 bda:LG0050B839C3033FDB
+        a               adm:Synced ;
+        adm:logDate     "2020-04-28T23:50:58.855Z"^^xsd:dateTime ;
+        adm:logMessage  "Updated total pages"@en .
+
+bda:LG4EA3F7CDE749172C
         a               adm:ContentQC ;
         adm:logDate     "2003-12"^^xsd:gYearMonth ;
         adm:logMessage  "qc notes"@en ;
