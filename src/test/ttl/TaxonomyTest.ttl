@@ -1,5 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -40,7 +41,7 @@ bdr:O9TAXTBRC201605_0011
         skos:prefLabel   "甘珠尔"@zh-hans , "Kajur"@en , "bka' 'gyur/"@bo-x-ewts .
 
 bda:LG73FFF6A154290507
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2016-05-23T10:58:27.909Z"^^xsd:dateTime ;
         adm:logMessage  "added topics"@en ;
-        adm:logWho      bdr:U00016 .
+        adm:logWho      bdu:U00016 .

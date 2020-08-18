@@ -91,7 +91,7 @@ public class WorkMigration {
 	// testing only
     public static List<WorkModelInfo> MigrateWork(Document xmlDocument) {
         Model m = ModelFactory.createDefaultModel();
-        setPrefixes(m, "work");
+        MigrationHelpers.setPrefixes(m, "work");
         return MigrateWork(xmlDocument, m, new HashMap<>());
     }
     

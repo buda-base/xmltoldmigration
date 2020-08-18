@@ -1,5 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -50,10 +51,10 @@ bda:WA0XL74BFE0D47CBB
         :isRoot            true .
 
 bda:LGAA9E9400A4A93DA9
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
         adm:logMessage  "zhu dag byas"@en ;
-        adm:logWho      bdr:U00021 .
+        adm:logWho      bdu:U00021 .
 
 bdr:MW30020_9A656A  a          :Instance ;
         :contentLocation       bdr:CLC4AFCDEBF3DC7747 ;
@@ -93,9 +94,9 @@ bdr:TTB1BC2C3828D35655
         rdfs:label  "gleng gzhi/"@bo-x-ewts .
 
 bda:LGC34241585BB8CD9D
-        a            adm:LogEntry ;
+        a            adm:UpdateGraph ;
         adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
-        adm:logWho   bdr:U00003 .
+        adm:logWho   bdu:U00003 .
 
 bdr:TTFB0562979CCDB6B6
         a           :RunningTitle ;
@@ -135,10 +136,10 @@ bdr:CRF14E6CC8BF74D11E
         :role   bdr:R0ER0018 .
 
 bda:LGE873E4AD726B2E5C
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
         adm:logMessage  "vol. 1 outline images fixed"@en ;
-        adm:logWho      bdr:U00019 .
+        adm:logWho      bdu:U00019 .
 
 bdr:MW30020_FF0E27  a          :Instance ;
         :hasTitle              bdr:TT4034CACFF8DC6E77 ;

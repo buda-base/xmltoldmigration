@@ -26,7 +26,7 @@ public class TopicMigration {
 
 	public static Model MigrateTopic(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		setPrefixes(m, "topic");
+		MigrationHelpers.setPrefixes(m, "topic");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Topic");

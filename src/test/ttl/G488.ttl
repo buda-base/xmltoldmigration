@@ -9,6 +9,7 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
@@ -30,22 +31,22 @@ bdr:NT585206D37BCF0D38
         :noteText           "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo .
 
 bda:LG1CBDD898D5725A4A
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
         adm:logMessage  "added contain"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bda:LG7FCB6B3A94B46774
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
         adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
-        adm:logWho      bdr:U00020 .
+        adm:logWho      bdu:U00020 .
 
 bda:LG6D882BB8A436EC56
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
         adm:logMessage  "added place contained"@en ;
-        adm:logWho      bdr:U00020 .
+        adm:logWho      bdu:U00020 .
 
 bdr:NT8B8EBE3AF90A7E2F
         a                   :Note ;
@@ -58,10 +59,10 @@ bdr:NT66184C4FDD5538BE
         :noteText  "the region of the rulers of the bya principality in southern tibet"@en .
 
 bda:LG6A07AEAFCD139EC4
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
         adm:logMessage  "added location"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bdr:G488  a                   :Place ;
         bf:identifiedBy       bdr:ID76B6649907E8086A ;
@@ -86,22 +87,22 @@ bdr:EV8FFB31DDE90B0817
         :placeEventAffiliation  bdr:TraditionTest , bdr:TraditionKagyu .
 
 bda:LG20FF66808E17B299
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
         adm:logMessage  "added byams pa chos gling gzhis ka'i par khang"@en ;
-        adm:logWho      bdr:U00013 .
+        adm:logWho      bdu:U00013 .
 
 bda:LG36685753B2F2BA3E
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
         adm:logMessage  "added contain"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bda:LGA43719D6034498F3
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
         adm:logMessage  "added type & location & contains"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bdr:ID76B6649907E8086A
         a          bdr:CHGISId ;
@@ -137,7 +138,7 @@ vcard:VAF4E045260EA1E257
         vcard:street-address  "མི་གསལ། Dzongsar Institute" .
 
 bda:LG498FA81DA8005BF4
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
         adm:logMessage  "added name & note"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .

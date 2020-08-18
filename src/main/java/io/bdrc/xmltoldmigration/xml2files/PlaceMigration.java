@@ -194,7 +194,7 @@ public class PlaceMigration {
 	
 	public static Model MigratePlace(Document xmlDocument) {
 		Model model = ModelFactory.createDefaultModel();
-		setPrefixes(model, "place");
+		MigrationHelpers.setPrefixes(model, "place");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = createRoot(model, BDR+root.getAttribute("RID"), BDO+"Place");

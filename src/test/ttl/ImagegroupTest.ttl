@@ -1,20 +1,22 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LG7838958C9FDB06CE
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;
         adm:logMessage  "cataloging reviewed"@en ;
-        adm:logWho      bdr:U00001 .
+        adm:logWho      bdu:U00001 .
 
 bda:I4158  a                     adm:AdminData ;
         adm:adminAbout           bdr:I4158 ;
@@ -27,10 +29,10 @@ bda:I4158  a                     adm:AdminData ;
         adm:volumeQcPerson       "khedup" .
 
 bda:LG2B928E4933E80098
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
         adm:logMessage  "Added ondisk"@en ;
-        adm:logWho      bdr:U00006 .
+        adm:logWho      bdu:U00006 .
 
 bda:WTestInstance  a    adm:AdminData ;
         adm:adminAbout  bdr:WTestInstance ;
@@ -41,27 +43,21 @@ bda:WTestInstance  a    adm:AdminData ;
         :isRoot         true .
 
 bdr:I4158  a                   :ImageGroup ;
-        :imageCount            352 ;
-        :imageList             "41580001.tif:54|41580055.jpg|41580056.tif:23|41580082.tif:26|42580108.tif|41580109.tif:88|garbage|41580198.tif:54|41580253.tif:104" ;
-        :imagesMissing         "79-81,252" ;
         :volumeNumber          1 ;
         :volumeOf              bdr:WTestInstance ;
-        :volumePagesIntro      0 ;
-        :volumePagesTbrcIntro  1 ;
-        :volumePagesText       2 ;
-        :volumePagesTotal      356 .
+        :volumePagesTbrcIntro  1 .
 
 bda:LGC0B23029C293039C
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages and added page list"@en ;
-        adm:logWho      bdr:U00006 .
+        adm:logWho      bdu:U00006 .
 
 bda:LG773F06A19C958A4E
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages"@en ;
-        adm:logWho      bdr:U00006 .
+        adm:logWho      bdu:U00006 .
 
 bdr:WTestInstance  a  :ImageInstance ;
         :isRoot  true .

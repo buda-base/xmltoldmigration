@@ -8,6 +8,7 @@ import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getAdminData;
+import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.util.Map;
@@ -23,6 +24,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 
@@ -38,7 +41,7 @@ public class ImagegroupMigration {
 	// for testing purposes only
 	public static Model MigrateImagegroup(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
-        setPrefixes(m, "item");
+	    MigrationHelpers.setPrefixes(m, "item");
         Resource item = createRoot(m, BDR+"WTestInstance", BDO+"ImageInstance");
         createAdminRoot(item);
         MigrateImagegroup(xmlDocument, m, item, "testVolName", 1, "testVolumesName", "testWork");
@@ -152,8 +155,12 @@ public class ImagegroupMigration {
         }
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "qc");
+        // Todo: logentry of type ADM+ContentQC
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
+            //Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, admVol);
+            //logEntry.removeAll(RDF.type);
+            //logEntry.addProperty(RDF.type,  m.createResource(ADM+"ContentQC"));
             addSimpleElement("qcperson", "volumeQcPerson", current, m, admVol);
             addSimpleElement("qcdate", "volumeQcDate", current, m, admVol);
             addSimpleElement("qcnotes", "volumeQcNote", current, m, admVol);

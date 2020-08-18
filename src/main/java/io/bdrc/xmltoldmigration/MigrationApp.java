@@ -186,7 +186,7 @@ public class MigrationApp
             }
 
             Model workModel = ModelFactory.createDefaultModel();
-            setPrefixes(workModel, "work");
+            MigrationHelpers.setPrefixes(workModel, "work");
             Resource work = workModel.createResource(BDR+outWorkId);
             
             List<Element> ancestorCreators = OutlineMigration.getCreatorAncestorsForWork(outWorkId.substring(1));

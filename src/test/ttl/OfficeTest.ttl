@@ -1,5 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -15,10 +16,10 @@ bdr:R8LS12811  a        :Role ;
         skos:prefLabel  "Bonpo Lung Lama Tulku Line"@en , "bon po lung bla ma'i skye brgyud/"@bo-x-ewts .
 
 bda:LGB627CF38003DBE02
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-07-11T12:26:57.845Z"^^xsd:dateTime ;
         adm:logMessage  "added phonetic title"@en ;
-        adm:logWho      bdr:U00020 .
+        adm:logWho      bdu:U00020 .
 
 bda:R8LS12811  a           adm:AdminData ;
         adm:adminAbout     bdr:R8LS12811 ;
@@ -32,7 +33,7 @@ bda:R8LS12811  a           adm:AdminData ;
         :isRoot            true .
 
 bda:LG32C083A34E27E287
-        a               adm:LogEntry ;
+        a               adm:CreateGraph ;
         adm:logDate     "2012-12-20T16:34:48.895Z"^^xsd:dateTime ;
         adm:logMessage  "created new office"@en ;
-        adm:logWho      bdr:U00019 .
+        adm:logWho      bdu:U00019 .

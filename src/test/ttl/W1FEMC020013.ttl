@@ -1,5 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
@@ -30,7 +31,7 @@ bdr:TT003927A987D548C4
         rdfs:label  "ច្បាប់ល្បើកថ្មី"@km .
 
 bda:LGE0C940E0B41E5BAB
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logMessage  "entered cataloging for W1FEMC020013"@en .
 
 bdr:TT823A7C4B2DD3D68C
@@ -47,7 +48,7 @@ bdr:TT788AFA8EE8D9A109
         :femcConversionOf  bdr:TT7DE5A25AA387B539 .
 
 bda:LG5574F1EFE2125B54
-        a               adm:LogEntry ;
+        a               adm:CreateGraph ;
         adm:logDate     "2019-08-09T18:33:25.452Z"^^xsd:dateTime ;
         adm:logMessage  "imported FEMC 01 workW1FEMC020013"@en ;
         adm:logWhoStr   "works-femc01-import.xql" .

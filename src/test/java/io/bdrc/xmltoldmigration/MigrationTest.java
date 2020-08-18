@@ -261,7 +261,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
-		//fromXml.write(System.out, "TTL");
+		fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -424,7 +424,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ImagegroupTest.ttl");
-           //fromXml.write(System.out, "TTL");
+           fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            flushLog();
        }
@@ -478,7 +478,7 @@ public class MigrationTest
         System.out.println("testing etext");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Model itemModel = ModelFactory.createDefaultModel();
-        setPrefixes(itemModel, "item");
+        MigrationHelpers.setPrefixes(itemModel, "item");
         EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true, BDA+"CP001");
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.eInstanceId.equals("IE1CZ2485"));
@@ -502,7 +502,7 @@ public class MigrationTest
         // test with different options:
         out = new ByteArrayOutputStream();
         itemModel = ModelFactory.createDefaultModel();
-        setPrefixes(itemModel, "item");
+        MigrationHelpers.setPrefixes(itemModel, "item");
         ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false, itemModel, true, BDA+"CP001");
         computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         //System.out.println(computedContent);

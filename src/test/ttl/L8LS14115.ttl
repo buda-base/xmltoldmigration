@@ -1,5 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
@@ -11,9 +12,9 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LG96B065B1B67F2C86
-        a            adm:LogEntry ;
+        a            adm:UpdateGraph ;
         adm:logDate  "2014-07-28T11:30:18.879Z"^^xsd:dateTime ;
-        adm:logWho   bdr:U00019 .
+        adm:logWho   bdu:U00019 .
 
 bdr:EV1C15C9CBCFC6FF17
         a             :LineageEvent ;
@@ -31,10 +32,10 @@ bdr:CLC0BD672AF6D364D1
         :contentLocationVolume    1 .
 
 bda:LGBF7F6269805E6223
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
         adm:logMessage  "changed type"@en ;
-        adm:logWho      bdr:U00019 .
+        adm:logWho      bdu:U00019 .
 
 bdr:L8LS14115  a          :Lineage ;
         rdfs:comment      "initiation transmission of clear light blessing of rakta yamari"@en ;
@@ -47,16 +48,16 @@ bdr:L8LS14115  a          :Lineage ;
         skos:prefLabel    "gshin rje gshed dmar po lha lnga'i chos skor las/ 'od gsal 'char ba'i byin rlabs kyi brgyud pa lugs gcig"@bo-x-ewts .
 
 bda:LG6B9FE548306F2453
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-03-06T09:18:45.742Z"^^xsd:dateTime ;
         adm:logMessage  "added location"@en ;
-        adm:logWho      bdr:U00019 .
+        adm:logWho      bdu:U00019 .
 
 bda:LGAE337746AFB02C13
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
         adm:logMessage  "normalized names of who and received elements"@en ;
-        adm:logWho      bdr:U00006 .
+        adm:logWho      bdu:U00006 .
 
 bda:L8LS14115  a           adm:AdminData ;
         adm:adminAbout     bdr:L8LS14115 ;
@@ -70,9 +71,9 @@ bda:L8LS14115  a           adm:AdminData ;
         :isRoot            true .
 
 bda:LG7D6D1032AD23F04D
-        a            adm:LogEntry ;
+        a            adm:UpdateGraph ;
         adm:logDate  "2013-07-17T10:49:42.963Z"^^xsd:dateTime ;
-        adm:logWho   bdr:U00019 .
+        adm:logWho   bdu:U00019 .
 
 bdr:EV790DECFA3070BBC0
         a             :LineageEvent ;
@@ -98,7 +99,7 @@ bdr:LHD3068D3704989044
         :note             bdr:NT7E05A41908C244A3 .
 
 bda:LG80A1FAA25E833871
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
         adm:logMessage  "normalized names of who and received elements - yet again"@en ;
-        adm:logWho      bdr:U00006 .
+        adm:logWho      bdu:U00006 .

@@ -31,7 +31,7 @@ public class ProductMigration {
     // "about" admindata
 	public static Model MigrateProduct(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		setPrefixes(m, "product");
+		MigrationHelpers.setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
 		Resource main = m.createResource(BDA+root.getAttribute("RID"));
 		main.addProperty(RDF.type, m.createResource(ADM + "Product"));

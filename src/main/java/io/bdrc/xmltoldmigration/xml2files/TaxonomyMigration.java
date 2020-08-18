@@ -18,6 +18,7 @@ import org.apache.jena.vocabulary.SKOS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration.CurNodeInt;
 
 public class TaxonomyMigration {
@@ -28,7 +29,7 @@ public class TaxonomyMigration {
         Element root = d.getDocumentElement();
         
         Model m = ModelFactory.createDefaultModel();
-        setPrefixes(m, "outline");
+        MigrationHelpers.setPrefixes(m, "outline");
 
         CurNodeInt curNodeInt = new CurNodeInt();
         curNodeInt.i = 0;

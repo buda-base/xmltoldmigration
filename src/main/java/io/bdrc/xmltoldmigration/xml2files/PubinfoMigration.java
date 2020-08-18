@@ -34,6 +34,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
 import org.apache.jena.vocabulary.SKOS;
@@ -49,7 +50,7 @@ public class PubinfoMigration {
 	public static List<Model> MigratePubinfo(Document xmlDocument) {
 	    List<Model> res = new ArrayList<>();
 	    Model m = ModelFactory.createDefaultModel();
-        setPrefixes(m, "work");
+	    MigrationHelpers.setPrefixes(m, "work");
         res.add(m);
         Element root = xmlDocument.getDocumentElement();
         Resource main = null;
@@ -628,7 +629,7 @@ public class PubinfoMigration {
             Model itemModel = m;
             if (WorkMigration.splitItems) {
                 itemModel = ModelFactory.createDefaultModel();
-                setPrefixes(itemModel, "item");
+                MigrationHelpers.setPrefixes(itemModel, "item");
                 itemModels.put(itemName, itemModel);
             }
             Resource holding = itemModel.createResource(BDR+itemName);

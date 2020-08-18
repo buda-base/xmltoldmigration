@@ -245,7 +245,7 @@ public class OutlineMigration {
 	
 	public static List<WorkModelInfo> MigrateOutline(Document xmlDocument) {
 	    Model workModel = ModelFactory.createDefaultModel();
-	    setPrefixes(workModel, "work");
+	    MigrationHelpers.setPrefixes(workModel, "work");
 	    String workId = getWorkId(xmlDocument);
 	    if (workId == null || workId.isEmpty())
 	        return null;
@@ -259,7 +259,7 @@ public class OutlineMigration {
 		Model m;
 		if (splitOutlines) {
 		    m = ModelFactory.createDefaultModel();
-		    setPrefixes(m, "work");
+		    MigrationHelpers.setPrefixes(m, "work");
 		} else {
 		    m = workModel;
 		}

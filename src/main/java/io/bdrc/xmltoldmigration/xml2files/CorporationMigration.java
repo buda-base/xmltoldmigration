@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 
 
 public class CorporationMigration {
@@ -28,7 +29,7 @@ public class CorporationMigration {
 	
 	public static Model MigrateCorporation(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		setPrefixes(m, "corporation");
+		MigrationHelpers.setPrefixes(m, "corporation");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
         Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Corporation");

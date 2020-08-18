@@ -9,6 +9,7 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
@@ -25,10 +26,10 @@ bdr:EV213E4B9AED5E1B57
         :placeEventAffiliation  bdr:TraditionTest , bdr:TraditionKagyu .
 
 bda:LGFE2C8100AFEA0961
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
         adm:logMessage  "added type & location & contains"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bdr:NT6CE397FC65EA5F06
         a                   :Note ;
@@ -37,10 +38,10 @@ bdr:NT6CE397FC65EA5F06
         :noteText           "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo .
 
 bda:LG9DB536C5C700FF5A
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
         adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
-        adm:logWho      bdr:U00020 .
+        adm:logWho      bdu:U00020 .
 
 bda:G844  a                           adm:AdminData ;
         adm:adminAbout                bdr:G844 ;
@@ -76,22 +77,22 @@ bdr:NTF092CBB060906578
         :noteText  "the region of the rulers of the bya principality in southern tibet"@en .
 
 bda:LG6B068E49DCE40C90
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
         adm:logMessage  "added place contained"@en ;
-        adm:logWho      bdr:U00020 .
+        adm:logWho      bdu:U00020 .
 
 bda:LG2B4F2E9D5266BD7B
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
         adm:logMessage  "added name & note"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bda:LG0EEB0BC941618C96
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
         adm:logMessage  "added contain"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bdr:IDD9AB54C475EB0836
         a          bdr:CHGISId ;
@@ -103,16 +104,16 @@ bdr:EV7E9BCA78C7207CE7
         :notBefore  "1300"^^xsd:gYear .
 
 bda:LGFD3940A68CCD4C1A
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
         adm:logMessage  "added byams pa chos gling gzhis ka'i par khang"@en ;
-        adm:logWho      bdr:U00013 .
+        adm:logWho      bdu:U00013 .
 
 bda:LGF4CB83866B85D2F9
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
         adm:logMessage  "added contain"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bdr:NTE62484A0A1341D9B
         a                   :Note ;
@@ -121,10 +122,10 @@ bdr:NTE62484A0A1341D9B
         :noteText           "event note test"@en .
 
 bda:LG32AA3FB263A1734C
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
         adm:logMessage  "added location"@en ;
-        adm:logWho      bdr:U00007 .
+        adm:logWho      bdu:U00007 .
 
 bdr:G844  a                   :Place ;
         bf:identifiedBy       bdr:IDD9AB54C475EB0836 ;

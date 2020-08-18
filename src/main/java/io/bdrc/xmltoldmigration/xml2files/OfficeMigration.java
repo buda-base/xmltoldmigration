@@ -15,13 +15,15 @@ import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
+
 public class OfficeMigration {
 	
 	public static final String OXSDNS = "http://www.tbrc.org/models/office#";
 	
 	public static Model MigrateOffice(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		setPrefixes(m, "office");
+		MigrationHelpers.setPrefixes(m, "office");
 		Element root = xmlDocument.getDocumentElement();
         Resource main = createRoot(m, BDR+root.getAttribute("RID"), BDO+"Role");
         Resource admMain = createAdminRoot(main);

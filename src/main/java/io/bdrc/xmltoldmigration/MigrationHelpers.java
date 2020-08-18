@@ -114,6 +114,9 @@ public class MigrationHelpers {
 	public static boolean checkagainstXsd = false;
 	public static boolean deleteDbBeforeInsert = true;
 	
+	public static final String BDU = "http://purl.bdrc.io/resource-nc/user/";
+    public static final String BF = "http://id.loc.gov/ontologies/bibframe/";
+	
 	public static PrefixMap prefixMap = getPrefixMap();
 	
 	public static final String DB_PREFIX = "bdrc_";
@@ -224,6 +227,33 @@ public class MigrationHelpers {
         return res;
     }
 
+    public static void setPrefixes(Model m) {
+        setPrefixes(m, false);
+    }
+
+    public static void setPrefixes(Model m, String type) {
+        setPrefixes(m, type.equals("place"));
+    }
+    
+    public static void setPrefixes(Model m, boolean addVcard) {
+        m.setNsPrefix("", BDO);
+        m.setNsPrefix("adm", ADM);
+        m.setNsPrefix("bdr", BDR);
+        m.setNsPrefix("bda", BDA);
+        m.setNsPrefix("bdg", BDG);
+        m.setNsPrefix("bdu", BDU);
+        m.setNsPrefix("owl", OWL.getURI());
+        m.setNsPrefix("bf", BF);
+        m.setNsPrefix("rdf", RDF.getURI());
+        m.setNsPrefix("rdfs", RDFS.getURI());
+        m.setNsPrefix("skos", SKOS.getURI());
+        m.setNsPrefix("xsd", XSD.getURI());
+        m.setNsPrefix("rkts", "http://purl.rkts.eu/resource/");
+        if (addVcard)
+            m.setNsPrefix("vcard", VCARD4.getURI());
+
+    }
+    
     public static Map<String, String> setupTol() {
         final Map<String,String> res = new HashMap<>();
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();

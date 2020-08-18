@@ -13,6 +13,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 
 
@@ -23,7 +24,7 @@ public class ScanrequestMigration {
 	// used for testing only
 	public static Model MigrateScanrequest(Document xmlDocument) {
 	    Model m = ModelFactory.createDefaultModel();
-        setPrefixes(m, "item");
+	    MigrationHelpers.setPrefixes(m, "item");
         Element root = xmlDocument.getDocumentElement();
         String value = root.getAttribute("work");
         String rid=root.getAttribute("RID");

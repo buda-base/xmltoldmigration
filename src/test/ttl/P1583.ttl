@@ -1,5 +1,6 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
@@ -40,10 +41,10 @@ bdr:NMFB54273C9888828B
         rdfs:label  "klong chen rab 'byams pa dri med 'od zer/"@bo-x-ewts .
 
 bda:LG650F49A48542C160
-        a               adm:LogEntry ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2008-06-30T17:01:56.496Z"^^xsd:dateTime ;
         adm:logMessage  "added records"@en ;
-        adm:logWho      bdr:U00015 .
+        adm:logWho      bdu:U00015 .
 
 bdr:NTE1683F39A3E5756E
         a                          :Note ;

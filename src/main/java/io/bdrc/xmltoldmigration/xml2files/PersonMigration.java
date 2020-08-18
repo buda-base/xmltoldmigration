@@ -9,7 +9,6 @@ import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
-import static io.bdrc.libraries.Models.setPrefixes;
 import static io.bdrc.libraries.Models.FacetType.EVENT;
 import static io.bdrc.libraries.Models.FacetType.NAME;
 
@@ -85,7 +84,7 @@ public class PersonMigration {
 	
 	public static Model MigratePerson(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
-		setPrefixes(m, "person");
+		MigrationHelpers.setPrefixes(m, "person");
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
 		String RID = root.getAttribute("RID");

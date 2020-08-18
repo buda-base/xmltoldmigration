@@ -159,7 +159,7 @@ public class EtextMigration {
                 //System.out.println("migrating "+provider+"/"+fl2.getName());
                 String itemId = null;
                 Model itemModel = ModelFactory.createDefaultModel();
-                setPrefixes(itemModel, "einstance");
+                MigrationHelpers.setPrefixes(itemModel, "einstance");
                 boolean firstItemModel = true;
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
@@ -431,7 +431,7 @@ public class EtextMigration {
         final Element sourceDesc = (Element) fileDesc.getElementsByTagNameNS(TEI_PREFIX, "sourceDesc").item(0);
 
         final Model etextModel = ModelFactory.createDefaultModel();
-        setPrefixes(etextModel, "etext");
+        MigrationHelpers.setPrefixes(etextModel, "etext");
         
         Element e;
         try {

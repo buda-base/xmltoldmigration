@@ -1096,7 +1096,7 @@ public class CommonMigration  {
             if (propUri != null && propUri.equals("__fpl")) {
                 if (fplItem == null) {
                     resModel = ModelFactory.createDefaultModel();
-                    setPrefixes(resModel, "item");
+                    MigrationHelpers.setPrefixes(resModel, "item");
                     String workId = rez.getLocalName();
                     fplItem = resModel.createResource(BDR+"IT"+workId.substring(1));
                     admFplItem = createAdminRoot(fplItem);
