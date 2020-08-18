@@ -366,6 +366,7 @@ public class MigrationHelpers {
         pm.add("bda",   BDA);
         pm.add("bdg",   BDG);
         pm.add("bdr",   BDR);
+        pm.add("bdu",   BDU);
         pm.add("owl",   OWL.getURI());
         pm.add("rdf",   RDF.getURI());
         pm.add("rdfs",  RDFS.getURI()); ;
