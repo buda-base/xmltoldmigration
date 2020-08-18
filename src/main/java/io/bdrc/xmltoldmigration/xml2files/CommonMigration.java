@@ -776,9 +776,20 @@ public class CommonMigration  {
         m.add(idNode, RDF.value, m.createLiteral(value));
     }
     
+    // CreateGraph
+    // GraphLogEntry
+    // ImagesUpdated
+    // ScanRequested
+    // Synced
+    // UpdateGraph
+    // WithdrawGraph
+    // 
+    
     public static void addLogEntry(Model m, Element e, Resource rez) {
         if (e == null) return;
         Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
+        Resource logEntryType = m.createResource(ADM+"UpdateGraph");
+        logEntry.removeAll(RDF.type);
         Property prop = m.getProperty(ADM, "logEntry");
         m.add(rez, prop, logEntry);
         String value = e.getAttribute("when");
@@ -804,8 +815,15 @@ public class CommonMigration  {
         if (!value.isEmpty()) {
             prop = m.createProperty(ADM+"logMessage");
             m.add(logEntry, prop, m.createLiteral(value, "en"));
+            String lcval = value.toLowerCase();
+            if (lcval.startsWith("new ") || lcval.startsWith("added image group") || lcval.startsWith("create") || lcval.startsWith("imported")) {
+                logEntryType = m.createResource(ADM+"CreateGraph");
+            }
+            if (lcval.startsWith("withdraw")) {
+                logEntryType = m.createResource(ADM+"WithdrawGraph");
+            }
         }
-
+        logEntry.addProperty(RDF.type, logEntryType);
     }
 
     public static void addLog(Model m, Element e, Resource rez, String XsdPrefix) {
