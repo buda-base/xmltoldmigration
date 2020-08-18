@@ -30,7 +30,6 @@ bda:LGIGS001  a         adm:UpdateGraph ;
 
 bda:I4158  a                     adm:AdminData ;
         adm:adminAbout           bdr:I4158 ;
-        adm:legacyImageGroupRID  "I4158" ;
         adm:logEntry             bda:LGIGS003 , bda:LG4EA3F7CDE749172C , bda:LG7838958C9FDB06CE , bda:LG0050B839C3033FDB , bda:LGIGS001 , bda:LGIGS002 ;
         adm:metadataLegal        bda:LD_BDRC_CC0 ;
         adm:status               bda:StatusReleased .

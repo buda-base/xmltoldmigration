@@ -96,7 +96,7 @@ public class ImagegroupMigration {
 
         // we leave it for some time, as some requests count on it but we'll remove it
         // in the future
-		admVol.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
+		//admVol.addProperty(m.getProperty(ADM, "legacyImageGroupRID"), m.createLiteral(imageGroupRID));
         
         if (volumeNumber < 1) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, volumesName, volumeName, "imagegroup", "invalid volume number, must be a positive integer, got `"+volumeNumber+"`");
