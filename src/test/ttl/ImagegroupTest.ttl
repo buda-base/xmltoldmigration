@@ -21,12 +21,9 @@ bda:LG7838958C9FDB06CE
 bda:I4158  a                     adm:AdminData ;
         adm:adminAbout           bdr:I4158 ;
         adm:legacyImageGroupRID  "I4158" ;
-        adm:logEntry             bda:LG2B928E4933E80098 , bda:LG7838958C9FDB06CE , bda:LG773F06A19C958A4E , bda:LGC0B23029C293039C ;
+        adm:logEntry             bda:LGC0B23029C293039C , bda:LG2B928E4933E80098 , bda:LG773F06A19C958A4E , bda:LG7838958C9FDB06CE ;
         adm:metadataLegal        bda:LD_BDRC_CC0 ;
-        adm:status               bda:StatusReleased ;
-        adm:volumeQcDate         "12/03" ;
-        adm:volumeQcNote         "qc notes" ;
-        adm:volumeQcPerson       "khedup" .
+        adm:status               bda:StatusReleased .
 
 bda:LG2B928E4933E80098
         a               adm:UpdateGraph ;
@@ -36,7 +33,7 @@ bda:LG2B928E4933E80098
 
 bda:WTestInstance  a    adm:AdminData ;
         adm:adminAbout  bdr:WTestInstance ;
-        adm:facetIndex  5 ;
+        adm:facetIndex  6 ;
         adm:gitPath     "84/WTestInstance.trig" ;
         adm:gitRepo     bda:GR0014 ;
         adm:graphId     bdg:WTestInstance ;
@@ -61,3 +58,9 @@ bda:LG773F06A19C958A4E
 
 bdr:WTestInstance  a  :ImageInstance ;
         :isRoot  true .
+
+bda:LG0050B839C3033FDB
+        a               adm:ContentQC ;
+        adm:logDate     "2003-12"^^xsd:gYearMonth ;
+        adm:logMessage  "qc notes"@en ;
+        adm:logWho      bdu:U00017 , bdu:U00068 .

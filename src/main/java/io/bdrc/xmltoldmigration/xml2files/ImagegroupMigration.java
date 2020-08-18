@@ -11,6 +11,8 @@ import static io.bdrc.libraries.Models.getAdminData;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
@@ -20,6 +22,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.SKOS;
+import org.apache.jena.vocabulary.XSD;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -158,25 +161,102 @@ public class ImagegroupMigration {
         // Todo: logentry of type ADM+ContentQC
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
-            //Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, admVol);
-            //logEntry.removeAll(RDF.type);
-            //logEntry.addProperty(RDF.type,  m.createResource(ADM+"ContentQC"));
-            addSimpleElement("qcperson", "volumeQcPerson", current, m, admVol);
-            addSimpleElement("qcdate", "volumeQcDate", current, m, admVol);
-            addSimpleElement("qcnotes", "volumeQcNote", current, m, admVol);
+            Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, admVol);
+            logEntry.removeAll(RDF.type);
+            logEntry.addProperty(RDF.type,  m.createResource(ADM+"ContentQC"));
+            
+            // person
+            NodeList subNodeList = root.getElementsByTagNameNS(IGXSDNS, "qcperson");
+            for (int j = 0; j < subNodeList.getLength(); j++) {
+                Element currentSub = (Element) subNodeList.item(j);
+                String value = currentSub.getTextContent().trim();
+                if (value.isEmpty()) {
+                    return;
+                }
+                String uri = CommonMigration.logWhoToUri.get(value);
+                if (uri == null) {
+                    List<String> uris = CommonMigration.logWhoToUriList.get(value);
+                    if (uris == null) {
+                        m.add(logEntry, m.createProperty(ADM+"logWhoStr"), value);
+                    } else {
+                        for (String who : uris) {
+                            m.add(logEntry, m.createProperty(ADM+"logWho"), m.createResource(who));
+                        }
+                    }
+                } else {
+                    m.add(logEntry, m.createProperty(ADM+"logWho"), m.createResource(uri));
+                }
+            }
+
+            subNodeList = root.getElementsByTagNameNS(IGXSDNS, "qcnotes");
+            for (int j = 0; j < subNodeList.getLength(); j++) {
+                Element currentSub = (Element) subNodeList.item(j);
+                String value = currentSub.getTextContent().trim();
+                if (value.isEmpty()) {
+                    return;
+                }
+                value = CommonMigration.normalizeString(value, true);
+                m.add(logEntry, m.createProperty(ADM+"logMessage"), m.createLiteral(value, "en"));
+            }
+            
+            subNodeList = root.getElementsByTagNameNS(IGXSDNS, "qcdate");
+            for (int j = 0; j < subNodeList.getLength(); j++) {
+                Element currentSub = (Element) subNodeList.item(j);
+                String value = currentSub.getTextContent().trim();
+                if (value.isEmpty()) {
+                    return;
+                }
+                value = CommonMigration.normalizeString(value, true);
+                Literal l = qcdateToXsdDate(value, m);
+                if (l == null) {
+                    m.add(logEntry, m.createProperty(ADM+"logMessage"), m.createLiteral(value));
+                }
+                m.add(logEntry, m.createProperty(ADM+"logDate"), l);
+            }
         }
 	}
-
-	public static void addSimpleElement(String elementName, String propName, Element root, Model m, Resource main) {
-        NodeList nodeList = root.getElementsByTagNameNS(IGXSDNS, elementName);
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element current = (Element) nodeList.item(i);
-            String value = current.getTextContent().trim();
-            if (value.isEmpty()) {
-                return;
-            }
-            m.add(main, m.createProperty(ADM+propName), m.createLiteral(value));
+	
+	public static Literal qcdateToXsdDate(String qcdate, Model m) {
+	    qcdate = qcdate.replace('/', '-').replace('.', '-');
+	    qcdate = qcdate.replaceAll("^-", "");
+	    qcdate = qcdate.replace("--", "-");
+	    String year = null;
+	    String month = null;
+	    String day = null;
+	    if (qcdate.matches("^\\d+$")) {
+            year = qcdate;
         }
-    }
+	    if (qcdate.matches("^\\d{6}$")) {
+	        qcdate = qcdate.substring(0,2)+"-"+qcdate.substring(2,4)+"-"+qcdate.substring(4);
+	    }
+	    if (!qcdate.matches("^[0-9-]+$")) {
+            return null;
+        }
+	    String[] parts = qcdate.split("-");
+	    if (parts.length == 2) {
+	        month = parts[0];
+	        year = parts[1];
+	    } else if (parts.length > 2){
+	        month = parts[0];
+	        day = parts[1];
+            year = parts[2];
+	    }
+	    if (month != null && month.length() == 1) {
+	        month = "0"+month;
+	    }
+	    if (day != null && day.length() == 1) {
+            day = "0"+day;
+        }
+	    if (year.length() == 1) year = "200"+year;
+	    if (year.length() == 2) year = "20"+year;
+	    if (year.length() == 3) year = "2"+year;
+	    if (day == null) {
+	        if (month == null) {
+	            return m.createTypedLiteral(year, XSD.gYear.getURI());
+	        }
+	        return m.createTypedLiteral(year+"-"+month, XSD.gYearMonth.getURI());
+	    }
+	    return m.createTypedLiteral(year+"-"+month+"-"+day, XSD.date.getURI());
+	}
 	
 }

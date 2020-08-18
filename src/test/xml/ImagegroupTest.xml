@@ -4,7 +4,7 @@
     <ig:images intro="0" tbrcintro="1" text="2" total="356"/>
     <ig:scanning complete="true" initiated="true"/>
     <ig:qc initiated="true"  complete="true"><!-- from I3751 -->
-        <ig:qcperson>khedup</ig:qcperson>
+        <ig:qcperson>Chozin,Khedup</ig:qcperson>
         <ig:qcdate>12/03</ig:qcdate>
         <ig:qcnotes>qc notes</ig:qcnotes>
     </ig:qc>

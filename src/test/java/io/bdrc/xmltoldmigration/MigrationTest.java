@@ -51,6 +51,7 @@ import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextBodyMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextMigration;
 import io.bdrc.xmltoldmigration.xml2files.EtextMigration.EtextInfos;
+import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
 import io.bdrc.xmltoldmigration.xml2files.PubinfoMigration;
@@ -261,7 +262,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
-		fromXml.write(System.out, "TTL");
+		//fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -424,7 +425,7 @@ public class MigrationTest
            assertTrue(CommonMigration.documentValidates(d, validator));
            Model fromXml = MigrationHelpers.xmlToRdf(d, "imagegroup");
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/ImagegroupTest.ttl");
-           fromXml.write(System.out, "TTL");
+           //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            flushLog();
        }
@@ -520,5 +521,28 @@ public class MigrationTest
         int foundVol = EtextMigration.getVolumeNumber("4158", itemModel, null);
         assertTrue(foundVol == 1);
     }
+    
+    @Test
+    public void testQcDate() throws XPathExpressionException, IOException
+    {
+        Model m = ModelFactory.createDefaultModel();
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("2003", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("06-17-2004", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("06-17-04", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("05/14/02", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("06.03", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("10", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("8/17/05", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("7.2003", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("3/13/2002", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("04-03", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("-7-6-4", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("6-15-005", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("122902", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("2-6-4", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("7--6-04", m));
+    }
+    
+    
     
 }
