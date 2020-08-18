@@ -864,6 +864,15 @@ public class CommonMigration  {
                 addLogEntry(m, logEntry, rez, k);
             }
         }
+        final String RID = rez.getLocalName();
+        // for old RIDs, we credit Gene as the creator
+        if (oldstyleRIDsP.matcher(RID).matches() && !RID.startsWith("I")) {
+            Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
+            logEntry.removeAll(RDF.type);
+            logEntry.addProperty(RDF.type, m.createResource(ADM+"CreateGraph"));
+            m.add(rez, m.getProperty(ADM, "logEntry"), logEntry);
+            m.add(logEntry, m.createProperty(ADM+"logWho"), m.createResource(BDU+"U00001"));
+        }
     }
 
     // returns true if a PREFLABEL was added

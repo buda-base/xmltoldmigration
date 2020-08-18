@@ -1,15 +1,15 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
-@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:WA0XL74BFE0D47CBB
@@ -20,15 +20,8 @@ bdr:WA0XL74BFE0D47CBB
         :workHasInstance  bdr:MW30020_74BFE0 ;
         skos:prefLabel    "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
 
-bdr:CL5098FD25173ECE7C
-        a                         :ContentLocation ;
-        :contentLocationEndPage   24 ;
-        :contentLocationInstance  bdr:MW30020 ;
-        :contentLocationPage      12 ;
-        :contentLocationVolume    2 .
-
 bdr:MW30020_6E8660  a          :Instance ;
-        :contentLocation       bdr:CL87E115C92BB9CF68 ;
+        :contentLocation       bdr:CLF6B8FFCB603AA31A ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB87582" ;
         :partIndex             1 ;
@@ -57,56 +50,64 @@ bda:LGAA9E9400A4A93DA9
         adm:logWho      bdu:U00021 .
 
 bdr:MW30020_9A656A  a          :Instance ;
-        :contentLocation       bdr:CLC4AFCDEBF3DC7747 ;
-        :hasTitle              bdr:TTFB0562979CCDB6B6 ;
+        :contentLocation       bdr:CLB8EE02E1E8DC26BC ;
+        :hasTitle              bdr:TTC4AFCDEBF3DC7747 ;
         :inRootInstance        bdr:MW30020 ;
         :incipit               "gleng gzhi/"@bo-x-ewts ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87599" ;
-        :note                  bdr:NTCF836DD72496E6A6 ;
+        :note                  bdr:NTFB0562979CCDB6B6 ;
         :partIndex             1 ;
         :partOf                bdr:MW30020_3CF7E0 ;
         :partTreeIndex         "2.1" ;
         :partType              bdr:PartTypeText ;
         skos:prefLabel         "testsec/"@bo-x-ewts .
 
+bdr:TT49C39BDB3A599B32
+        a           :Title ;
+        rdfs:label  "gleng gzhi2"@bo-x-ewts .
+
+bdr:CLF6B8FFCB603AA31A
+        a                         :ContentLocation ;
+        :contentLocationInstance  bdr:MW30020 ;
+        :contentLocationVolume    1 .
+
 bda:MW30020  a                      adm:Outline , adm:AdminData ;
         adm:adminAbout              bdr:MW30020 ;
-        adm:facetIndex              17 ;
+        adm:facetIndex              18 ;
         adm:gitPath                 "80/MW30020.trig" ;
         adm:gitRepo                 bda:GR0008 ;
         adm:graphId                 bdg:MW30020 ;
-        adm:logEntry                bda:LGAA9E9400A4A93DA9 , bda:LGE873E4AD726B2E5C , bda:LGC34241585BB8CD9D ;
+        adm:logEntry                bda:LGAA9E9400A4A93DA9 , bda:LGE873E4AD726B2E5C , bda:LGC34241585BB8CD9D , bda:LGED4FB22BB4E721BF ;
         adm:outlineAuthorStatement  "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en ;
         adm:outlineType             bda:OutlineTypePartialCollectedWorks ;
         :isRoot                     true ;
         :legacyOutlineNodeRID       "O2DB87572" .
 
-bdr:NTCF836DD72496E6A6
+bdr:NTC7A4455B7D258340
         a          :Note ;
         :noteText  "p. 1 (1st group)" .
 
-bdr:ID0C1BE4CDA4B29C0C
-        a          bdr:KaTenSiglaG ;
-        rdf:value  "test broken property type" .
-
-bdr:TTB1BC2C3828D35655
-        a           :Title ;
-        rdfs:label  "gleng gzhi/"@bo-x-ewts .
+bda:LGED4FB22BB4E721BF
+        a           adm:CreateGraph ;
+        adm:logWho  bdu:U00001 .
 
 bda:LGC34241585BB8CD9D
         a            adm:UpdateGraph ;
         adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
         adm:logWho   bdu:U00003 .
 
-bdr:TTFB0562979CCDB6B6
-        a           :RunningTitle ;
-        rdfs:label  "testsec/"@bo-x-ewts .
-
-bdr:CLA2CBAA3711367EFC
+bdr:CLC8ED907418ACF627
         a                         :ContentLocation ;
-        :contentLocationEndPage   25 ;
+        :contentLocationEndPage   24 ;
         :contentLocationInstance  bdr:MW30020 ;
-        :contentLocationPage      17 ;
+        :contentLocationPage      12 ;
+        :contentLocationVolume    2 .
+
+bdr:CLB8EE02E1E8DC26BC
+        a                         :ContentLocation ;
+        :contentLocationEndPage   18 ;
+        :contentLocationInstance  bdr:MW30020 ;
+        :contentLocationPage      11 ;
         :contentLocationVolume    2 .
 
 bdr:CR0036CB2E6A2369CE
@@ -115,7 +116,7 @@ bdr:CR0036CB2E6A2369CE
         :role   bdr:R0ER0026 .
 
 bdr:MW30020_3CF7E0  a          :Instance ;
-        :contentLocation       bdr:CL5098FD25173ECE7C ;
+        :contentLocation       bdr:CLC8ED907418ACF627 ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB87583" ;
         :partIndex             2 ;
@@ -130,10 +131,21 @@ bdr:CRE46771E44D0F98F3
         :agent  bdr:P21 ;
         :role   bdr:R0ER0023 .
 
+bdr:TTA2CBAA3711367EFC
+        a           :Title ;
+        rdfs:label  "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
+
 bdr:CRF14E6CC8BF74D11E
         a       :AgentAsCreator ;
         :agent  bdr:P00KG07267 ;
         :role   bdr:R0ER0018 .
+
+bdr:CL2641619B882CB70D
+        a                         :ContentLocation ;
+        :contentLocationEndPage   25 ;
+        :contentLocationInstance  bdr:MW30020 ;
+        :contentLocationPage      17 ;
+        :contentLocationVolume    2 .
 
 bda:LGE873E4AD726B2E5C
         a               adm:UpdateGraph ;
@@ -141,8 +153,12 @@ bda:LGE873E4AD726B2E5C
         adm:logMessage  "vol. 1 outline images fixed"@en ;
         adm:logWho      bdu:U00019 .
 
+bdr:TT7DC222169DE4751A
+        a           :Title ;
+        rdfs:label  "gleng gzhi2"@bo-x-ewts .
+
 bdr:MW30020_FF0E27  a          :Instance ;
-        :hasTitle              bdr:TT4034CACFF8DC6E77 ;
+        :hasTitle              bdr:TT49C39BDB3A599B32 ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87602" ;
         :partIndex             4 ;
@@ -151,8 +167,12 @@ bdr:MW30020_FF0E27  a          :Instance ;
         :partType              bdr:PartTypeVolume ;
         skos:prefLabel         "gleng gzhi2"@bo-x-ewts .
 
+bdr:TT9A867A7B4FAD4E31
+        a           :Title ;
+        rdfs:label  "gleng gzhi/"@bo-x-ewts .
+
 bdr:MW30020_7C6E5B  a          :Instance ;
-        :hasTitle              bdr:TTDA2F858E2A12EB44 ;
+        :hasTitle              bdr:TT7DC222169DE4751A ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87601" ;
         :partIndex             3 ;
@@ -161,34 +181,21 @@ bdr:MW30020_7C6E5B  a          :Instance ;
         :partType              bdr:PartTypeVolume ;
         skos:prefLabel         "gleng gzhi2"@bo-x-ewts .
 
-bdr:TTDA2F858E2A12EB44
-        a           :Title ;
-        rdfs:label  "gleng gzhi2"@bo-x-ewts .
+bdr:IDB1BC2C3828D35655
+        a          bdr:KaTenSiglaG ;
+        rdf:value  "test broken property type" .
 
-bdr:TT4034CACFF8DC6E77
-        a           :Title ;
-        rdfs:label  "gleng gzhi2"@bo-x-ewts .
-
-bdr:CL87E115C92BB9CF68
-        a                         :ContentLocation ;
-        :contentLocationInstance  bdr:MW30020 ;
-        :contentLocationVolume    1 .
-
-bdr:TTC7A4455B7D258340
-        a           :Title ;
-        rdfs:label  "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
-
-bdr:CLC4AFCDEBF3DC7747
+bdr:CL72CCB688C76688DC
         a                         :ContentLocation ;
         :contentLocationEndPage   18 ;
         :contentLocationInstance  bdr:MW30020 ;
         :contentLocationPage      11 ;
-        :contentLocationVolume    2 .
+        :contentLocationVolume    1 .
 
 bdr:MW30020_F9754D  a          :Instance ;
-        bf:identifiedBy        bdr:ID0C1BE4CDA4B29C0C ;
-        :contentLocation       bdr:CL9A867A7B4FAD4E31 ;
-        :hasTitle              bdr:TTB1BC2C3828D35655 ;
+        bf:identifiedBy        bdr:IDB1BC2C3828D35655 ;
+        :contentLocation       bdr:CL72CCB688C76688DC ;
+        :hasTitle              bdr:TT9A867A7B4FAD4E31 ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB87573" ;
         :partIndex             1 ;
@@ -197,30 +204,27 @@ bdr:MW30020_F9754D  a          :Instance ;
         :partType              bdr:PartTypeText ;
         skos:prefLabel         "gleng gzhi/"@bo-x-ewts .
 
-bdr:NT04C2BEFBB1882DBB
+bdr:MW30020  a           :Work ;
+        :isRoot          true ;
+        :workPagination  bdr:PaginationAbsolute .
+
+bdr:NTFB0562979CCDB6B6
         a          :Note ;
         :noteText  "p. 1 (1st group)" .
 
 bdr:MW30020_74BFE0  a          :Instance ;
-        :contentLocation       bdr:CLA2CBAA3711367EFC ;
-        :hasTitle              bdr:TTC7A4455B7D258340 ;
+        :contentLocation       bdr:CL2641619B882CB70D ;
+        :hasTitle              bdr:TTA2CBAA3711367EFC ;
         :inRootInstance        bdr:MW30020 ;
         :instanceOf            bdr:WA0XL74BFE0D47CBB ;
         :legacyOutlineNodeRID  "O2DB875722DB875732DB87600" ;
-        :note                  bdr:NT04C2BEFBB1882DBB ;
+        :note                  bdr:NTC7A4455B7D258340 ;
         :partIndex             2 ;
         :partOf                bdr:MW30020_3CF7E0 ;
         :partTreeIndex         "2.2" ;
         :partType              bdr:PartTypeText ;
         skos:prefLabel         "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
 
-bdr:MW30020  a           :Work ;
-        :isRoot          true ;
-        :workPagination  bdr:PaginationAbsolute .
-
-bdr:CL9A867A7B4FAD4E31
-        a                         :ContentLocation ;
-        :contentLocationEndPage   18 ;
-        :contentLocationInstance  bdr:MW30020 ;
-        :contentLocationPage      11 ;
-        :contentLocationVolume    1 .
+bdr:TTC4AFCDEBF3DC7747
+        a           :RunningTitle ;
+        rdfs:label  "testsec/"@bo-x-ewts .

@@ -233,7 +233,7 @@ public class MigrationTest
         Validator validator = MigrationHelpers.getValidatorFor("place");
         assertFalse(CommonMigration.documentValidates(d, validator));
         Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
-        //fromXml.write(System.out, "TTL");
+        fromXml.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G844.ttl");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
@@ -262,7 +262,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
-		fromXml.write(System.out, "TTL");
+		//fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -279,7 +279,7 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
-        fromXml.write(System.out, "TTL");
+        //fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -324,7 +324,7 @@ public class MigrationTest
            Model fromXml = mergeModelInfoList(OutlineMigration.MigrateOutline(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/OutlineTest.ttl");
            //showDifference(fromXml, correctModel);
-//           fromXml.write(System.out, "TURTLE");
+           fromXml.write(System.out, "TURTLE");
 //         
 //         // ==== TEMP DEBUG ====
 //           fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testOutline-fromXml.ttl"), "TTL");

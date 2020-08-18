@@ -1,15 +1,15 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:NT757F77D8BA18E640
@@ -73,11 +73,11 @@ bdr:EV93D338F6A346B51D
 
 bda:P1583  a               adm:AdminData ;
         adm:adminAbout     bdr:P1583 ;
-        adm:facetIndex     25 ;
+        adm:facetIndex     26 ;
         adm:gitPath        "fa/P1583.trig" ;
         adm:gitRepo        bda:GR0006 ;
         adm:graphId        bdg:P1583 ;
-        adm:logEntry       bda:LG650F49A48542C160 ;
+        adm:logEntry       bda:LG650F49A48542C160 , bda:LG663351B387DD33FA ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
@@ -85,6 +85,10 @@ bda:P1583  a               adm:AdminData ;
 bdr:NMED06EB68CC7F2B88
         a           :PersonPrimaryName ;
         rdfs:label  "dri med 'od zer/"@bo-x-ewts .
+
+bda:LG663351B387DD33FA
+        a           adm:CreateGraph ;
+        adm:logWho  bdu:U00001 .
 
 bdr:EVABB307C08F280C09
         a            :PersonOccupiesSeat ;

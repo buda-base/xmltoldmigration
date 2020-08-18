@@ -1,14 +1,20 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+
+bda:LG47A034CD79DA75AE
+        a           adm:CreateGraph ;
+        adm:logWho  bdu:U00001 .
 
 bdr:EV4D6B8F9B08287205
         a        :PersonDeath ;
@@ -27,10 +33,10 @@ bdr:NME51DB3F4D95210F5
         rdfs:label  "blo gros rnam dag"@bo-x-ewts .
 
 bdr:NT7219361C1AA8E1A9
-        a                   :Note ;
+        a                          :Note ;
         :contentLocationStatement  "p. 359" ;
-        :noteSource         bdr:MW20115 ;
-        :noteText           "date of death from this source"@en .
+        :noteSource                bdr:MW20115 ;
+        :noteText                  "date of death from this source"@en .
 
 bdr:EV12DC80761AF6EB6D
         a            :PersonOccupiesSeat ;
@@ -38,10 +44,11 @@ bdr:EV12DC80761AF6EB6D
 
 bda:P1331  a               adm:AdminData ;
         adm:adminAbout     bdr:P1331 ;
-        adm:facetIndex     6 ;
+        adm:facetIndex     7 ;
         adm:gitPath        "97/P1331.trig" ;
         adm:gitRepo        bda:GR0006 ;
         adm:graphId        bdg:P1331 ;
+        adm:logEntry       bda:LG47A034CD79DA75AE ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
