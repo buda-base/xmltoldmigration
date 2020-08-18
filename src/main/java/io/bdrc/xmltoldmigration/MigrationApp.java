@@ -53,6 +53,7 @@ import io.bdrc.xmltoldmigration.xml2files.ScanrequestMigration;
 import io.bdrc.xmltoldmigration.xml2files.TaxonomyMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration.ImageGroupInfo;
+import io.bdrc.xmltoldmigration.xml2files.WorkMigration.Volinfo;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
 
 /**
@@ -265,7 +266,7 @@ public class MigrationApp
     
                 // migrate instance
                 ImageGroupInfo imageGroups = WorkMigration.getImageGroupList(d, nbVolsTotal);
-                Map<Integer,String> vols = imageGroups.imageGroupList;
+                List<Volinfo> vols = imageGroups.imageGroupList;
                 if (vols.size() > 0) {
                     // replace numberOfVolumes by the corrected value
                     if (imageGroups.totalVolumes > nbVolsTotal) {
@@ -312,8 +313,8 @@ public class MigrationApp
                     }
                     
                     // workHasItem already added in WorkMigration
-                    for (Map.Entry<Integer,String> vol : vols.entrySet()) {
-                        String imagegroup = vol.getValue();
+                    for (Volinfo vi : vols) {
+                        String imagegroup = vi.imagegroup;
                         String imagegroupFileName = XML_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
                         File imagegroupFile = new File(imagegroupFileName);
                         if (!imagegroupFile.exists()) {
@@ -333,7 +334,7 @@ public class MigrationApp
                         } else {
                             imageGroupWork.put(imagegroup, baseName);
                         }
-                        ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vol.getKey(), itemName, baseName);
+                        ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vi.volnum, itemName, baseName);
                     }
                     String itemOutfileName = getDstFileName("iinstance", itemName);
                     MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "iinstance");

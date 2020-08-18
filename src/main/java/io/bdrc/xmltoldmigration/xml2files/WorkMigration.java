@@ -548,12 +548,22 @@ public class WorkMigration {
 		return res;
 	}
 	
+    public static final class Volinfo {
+        public Integer volnum;
+        public String imagegroup;
+        
+        Volinfo(Integer volnum, String imagegroup) {
+            this.volnum = volnum;
+            this.imagegroup = imagegroup;
+        }
+    }
+	
 	public static class ImageGroupInfo {
 	    public String missingVolumes;
-	    public Map<Integer,String> imageGroupList;
+	    public List<Volinfo> imageGroupList;
 	    public int totalVolumes;
 	    
-	    public ImageGroupInfo(String missingVolumes, Map<Integer,String> imageGroupList, int totalVolumes) {
+	    public ImageGroupInfo(String missingVolumes, List<Volinfo> imageGroupList, int totalVolumes) {
 	        this.missingVolumes = missingVolumes;
 	        this.imageGroupList = imageGroupList;
 	        this.totalVolumes = totalVolumes;
@@ -561,7 +571,7 @@ public class WorkMigration {
 	}
 	
 	public static ImageGroupInfo getImageGroupList(Document d, int nbVolsTotal) {
-	    Map<Integer,String> res = new TreeMap<>(); 
+	    List<Volinfo> res = new ArrayList<>(); 
 	    Element root = d.getDocumentElement();
 	    String rid = root.getAttribute("RID");
 	    NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
@@ -587,12 +597,12 @@ public class WorkMigration {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "cannot parse volume number `"+volume.getAttribute("num").trim()+"` for image group `"+igId+"`");
                 continue;
             }
-            if (res.containsKey(num))
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "volume list has two or more image groups for volume `"+num+"`");
-            res.put(num, igId);
+            //if (res.containsKey(num))
+            //    ExceptionHelper.logException(ExceptionHelper.ET_GEN, rid, rid, "volume", "volume list has two or more image groups for volume `"+num+"`");
+            res.add(new Volinfo(num, igId));
         }
-        for (Entry<Integer,String> e : res.entrySet()) {
-            int thisVol = e.getKey();
+        for (Volinfo vi : res) {
+            int thisVol = vi.volnum;
             if (thisVol != lastVolume+1) {
                 int rangeB = lastVolume+1;
                 int rangeE = thisVol-1;

@@ -13,7 +13,7 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LGB5715A26D84756E4
-        a               adm:UpdateGraph ;
+        a               adm:CreateGraph ;
         adm:logDate     "2019-07-20"^^xsd:date ;
         adm:logMessage  "entered cataloging for W1FEMC010006"@en ;
         adm:logWhoStr   "Thaknita Mao" .
@@ -66,7 +66,7 @@ bdr:MF011BF57819D67C4D
         :microfilmStrip     "16" .
 
 bda:LG0D38536E20CD98A7
-        a               adm:CreateGraph ;
+        a               adm:UpdateGraph ;
         adm:logDate     "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
         adm:logMessage  "imported FEMC 01 workW1FEMC010006"@en ;
         adm:logWhoStr   "works-femc01-import.xql" .

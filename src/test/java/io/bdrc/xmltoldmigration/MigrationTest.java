@@ -262,7 +262,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
 		Model fromXml = MigrationHelpers.xmlToRdf(d, "corporation");
 		Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/CorporationTest.ttl");
-		//fromXml.write(System.out, "TTL");
+		fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -279,7 +279,7 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
-        //fromXml.write(System.out, "TTL");
+        fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -541,6 +541,10 @@ public class MigrationTest
         System.out.println(ImagegroupMigration.qcdateToXsdDate("122902", m));
         System.out.println(ImagegroupMigration.qcdateToXsdDate("2-6-4", m));
         System.out.println(ImagegroupMigration.qcdateToXsdDate("7--6-04", m));
+        
+        System.out.println(CommonMigration.oldstyleRIDsP.matcher("W22084").matches());
+        System.out.println(CommonMigration.oldstyleRIDsP.matcher("W3CN1317").matches());
+        System.out.println(CommonMigration.oldstyleRIDsP.matcher("R8LS12811").matches());
     }
     
     
