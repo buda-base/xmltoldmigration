@@ -161,12 +161,16 @@ public class ImagegroupMigration {
         // Todo: logentry of type ADM+ContentQC
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
+            NodeList subnodes = current.getChildNodes();
+            if (subnodes.getLength() == 0)
+                continue;
             Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, admVol);
             logEntry.removeAll(RDF.type);
             logEntry.addProperty(RDF.type,  m.createResource(ADM+"ContentQC"));
+            m.add(admVol, m.getProperty(ADM, "logEntry"), logEntry);
             
             // person
-            NodeList subNodeList = root.getElementsByTagNameNS(IGXSDNS, "qcperson");
+            NodeList subNodeList = current.getElementsByTagNameNS(IGXSDNS, "qcperson");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element currentSub = (Element) subNodeList.item(j);
                 String value = currentSub.getTextContent().trim();
@@ -188,7 +192,7 @@ public class ImagegroupMigration {
                 }
             }
 
-            subNodeList = root.getElementsByTagNameNS(IGXSDNS, "qcnotes");
+            subNodeList = current.getElementsByTagNameNS(IGXSDNS, "qcnotes");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element currentSub = (Element) subNodeList.item(j);
                 String value = currentSub.getTextContent().trim();
@@ -199,7 +203,7 @@ public class ImagegroupMigration {
                 m.add(logEntry, m.createProperty(ADM+"logMessage"), m.createLiteral(value, "en"));
             }
             
-            subNodeList = root.getElementsByTagNameNS(IGXSDNS, "qcdate");
+            subNodeList = current.getElementsByTagNameNS(IGXSDNS, "qcdate");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element currentSub = (Element) subNodeList.item(j);
                 String value = currentSub.getTextContent().trim();

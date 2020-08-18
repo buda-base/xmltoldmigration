@@ -42,6 +42,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
@@ -783,38 +784,47 @@ public class CommonMigration  {
     // Synced
     // UpdateGraph
     // WithdrawGraph
-    // 
-    
-    public static void addLogEntry(Model m, Element e, Resource rez) {
+     
+    public static Pattern oldstyleRIDsP = Pattern.compile("^[A-Z]+\\d+$");
+    public static void addLogEntry(Model m, Element e, Resource rez, int entryNum) {
         if (e == null) return;
         Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
         Resource logEntryType = m.createResource(ADM+"UpdateGraph");
         logEntry.removeAll(RDF.type);
         String datevalue = e.getAttribute("when");
-        Property prop = null;
+        Property prop = m.createProperty(ADM+"logDate");
         if (!datevalue.isEmpty()) {
-            if ("2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
-                logEntry = m.getResource(BDA+"LGIGS001");
-            } else if ("2016-03-31T17:27:09.458-04:00".equals(datevalue)) {
-                logEntry = m.getResource(BDA+"LGIGS002");
-            } else if ("2016-04-28T23:50:58.855Z".equals(datevalue)) {
-                logEntry = m.getResource(BDA+"LGIGS003");
+            if (rez.getLocalName().startsWith("I")) {
+                if ("2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
+                    logEntry = m.getResource(BDA+"LGIGS001");
+                } else if ("2016-03-31T17:27:09.458-04:00".equals(datevalue)) {
+                    logEntry = m.getResource(BDA+"LGIGS002");
+                } else if ("2016-04-28T23:50:58.855Z".equals(datevalue)) {
+                    logEntry = m.getResource(BDA+"LGIGS003");
+                } else {
+                    // when there are several logentries for the same time in the same graph
+                    // we merge them. The typical case is sync log entries.
+                    Literal l = literalFromXsdDate(m, datevalue);
+                    ResIterator ritr = m.listResourcesWithProperty(prop, l);
+                    if (ritr.hasNext()) {
+                        logEntry = ritr.next();
+                    }
+                }
             }
-            prop = m.createProperty(ADM+"logDate");
             try {
                 m.add(logEntry, prop, literalFromXsdDate(m, datevalue));
             } catch (DatatypeFormatException ex) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+datevalue+"`");
             }
         }
+        if (entryNum == 0 && !oldstyleRIDsP.matcher(rez.getLocalName()).matches()) {
+            logEntryType = m.createResource(ADM+"CreateGraph");
+        }
         String value = normalizeString(e.getTextContent(), true);
         if (!value.isEmpty()) {
             prop = m.createProperty(ADM+"logMessage");
             m.add(logEntry, prop, m.createLiteral(value, "en"));
             String lcval = value.toLowerCase();
-            if (lcval.startsWith("new ") || lcval.startsWith("added image group") || lcval.startsWith("create") || lcval.startsWith("imported")) {
-                logEntryType = m.createResource(ADM+"CreateGraph");
-            }
             if (lcval.startsWith("withdraw")) {
                 logEntryType = m.createResource(ADM+"WithdrawGraph");
             }
@@ -846,12 +856,12 @@ public class CommonMigration  {
             NodeList logEntriesList = log.getElementsByTagNameNS(XsdPrefix, "entry");
             for (int j = 0; j < logEntriesList.getLength(); j++) {
                 Element logEntry = (Element) logEntriesList.item(j);
-                addLogEntry(m, logEntry, rez);
+                addLogEntry(m, logEntry, rez, j);
             }
             logEntriesList = log.getElementsByTagName("entry");
             for (int k = 0; k < logEntriesList.getLength(); k++) {
                 Element logEntry = (Element) logEntriesList.item(k);
-                addLogEntry(m, logEntry, rez);
+                addLogEntry(m, logEntry, rez, k);
             }
         }
     }
