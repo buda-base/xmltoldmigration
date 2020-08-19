@@ -57,7 +57,7 @@ bdr:WTestInstance  a  :ImageInstance ;
         :scanInfo  "Satluj Siti Enterprises"@en .
 
 bda:LG0050B839C3033FDB
-        a               adm:Synced ;
+        a               adm:ImagesUpdated ;
         adm:logDate     "2020-04-28T23:50:58.855Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages"@en .
 

@@ -799,16 +799,17 @@ public class CommonMigration  {
     // WithdrawGraph
 
     public static Pattern oldstyleRIDsP = Pattern.compile("^[A-Z]+\\d+$");
-    public static void addLogEntry(Model m, Element e, Resource rez, int entryNum) {
-        if (e == null) return;
+    public static boolean addLogEntry(Model m, Element e, Resource rez, int entryNum, boolean syncfound) {
+        if (e == null) return syncfound;
         Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
         Resource logEntryType = m.createResource(ADM+"UpdateGraph");
         logEntry.removeAll(RDF.type);
         String datevalue = e.getAttribute("when");
         Property prop = m.createProperty(ADM+"logDate");
         String rid = rez.getLocalName();
+        boolean isoldstyle = oldstyleRIDsP.matcher(rid).matches();
         if ((rid.startsWith("W1FEMC") && entryNum == 1) || 
-                (!rid.startsWith("W1FEMC") && entryNum == 0 && !oldstyleRIDsP.matcher(rid).matches())) {
+                (!rid.startsWith("W1FEMC") && entryNum == 0 && !isoldstyle)) {
             if (rid.startsWith("W1FEMC") || rid.startsWith("W1NLM") || rid.startsWith("W1FPL") || rid.startsWith("W0TTBBC")) {
                 logEntryType = m.createResource(ADM+"ImportGraph");
                 if (!datevalue.isEmpty()) {
@@ -843,12 +844,15 @@ public class CommonMigration  {
                 if ("2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS001");
                     logEntryType = m.createResource(ADM+"BatchUpdateGraph");
+                    syncfound = true;
                 } else if ("2016-03-31T17:27:09.458-04:00".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS002");
                     logEntryType = m.createResource(ADM+"BatchUpdateGraph");
+                    syncfound = true;
                 } else if ("2016-04-28T23:50:58.855Z".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS003");
                     logEntryType = m.createResource(ADM+"BatchUpdateGraph");
+                    syncfound = true;
                 } else {
                     // when there are several logentries for the same time in the same graph
                     // we merge them. The typical case is sync log entries.
@@ -875,7 +879,9 @@ public class CommonMigration  {
             }
             if (lcval.toLowerCase().startsWith("updated total pages")) {
                 if (!"2016-03-31T17:27:09.458-04:00".equals(datevalue) && !"2016-04-28T23:50:58.855Z".equals(datevalue) && !"2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
-                    logEntryType = m.createResource(ADM+"Synced");
+                    logEntryType = m.createResource(ADM+ (syncfound ? "ImagesUpdated" : "Synced"));
+                    syncfound = true;
+                    whovalue = "";
                 }
             }
         }
@@ -891,21 +897,23 @@ public class CommonMigration  {
         }
         prop = m.getProperty(ADM, "logEntry");
         m.add(rez, prop, logEntry);
+        return syncfound;
     }
 
     public static void addLog(Model m, Element e, Resource rez, String XsdPrefix) {
         NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "log");
+        boolean syncfound = false;
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element log = (Element) nodeList.item(i);
             NodeList logEntriesList = log.getElementsByTagNameNS(XsdPrefix, "entry");
             for (int j = 0; j < logEntriesList.getLength(); j++) {
                 Element logEntry = (Element) logEntriesList.item(j);
-                addLogEntry(m, logEntry, rez, j);
+                syncfound = addLogEntry(m, logEntry, rez, j, syncfound);
             }
             logEntriesList = log.getElementsByTagName("entry");
             for (int k = 0; k < logEntriesList.getLength(); k++) {
                 Element logEntry = (Element) logEntriesList.item(k);
-                addLogEntry(m, logEntry, rez, k);
+                syncfound = addLogEntry(m, logEntry, rez, k, syncfound);
             }
         }
         final String RID = rez.getLocalName();
