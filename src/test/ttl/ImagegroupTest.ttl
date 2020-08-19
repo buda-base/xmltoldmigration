@@ -28,11 +28,11 @@ bda:LGIGS001  a         adm:UpdateGraph ;
         adm:logMessage  "Updated total pages"@en ;
         adm:logWho      bdu:U00006 .
 
-bda:I4158  a                     adm:AdminData ;
-        adm:adminAbout           bdr:I4158 ;
-        adm:logEntry             bda:LGIGS003 , bda:LG4EA3F7CDE749172C , bda:LG7838958C9FDB06CE , bda:LG0050B839C3033FDB , bda:LGIGS001 , bda:LGIGS002 ;
-        adm:metadataLegal        bda:LD_BDRC_CC0 ;
-        adm:status               bda:StatusReleased .
+bda:I4158  a               adm:AdminData ;
+        adm:adminAbout     bdr:I4158 ;
+        adm:logEntry       bda:LGIGS003 , bda:LG7838958C9FDB06CE , bda:LG4EA3F7CDE749172C , bda:LG0050B839C3033FDB , bda:LGIGS001 , bda:LGIGS002 ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased .
 
 bda:WTestInstance  a    adm:AdminData ;
         adm:adminAbout  bdr:WTestInstance ;
@@ -53,7 +53,8 @@ bda:LGIGS002  a         adm:UpdateGraph ;
         adm:logWho      bdu:U00006 .
 
 bdr:WTestInstance  a  :ImageInstance ;
-        :isRoot  true .
+        :isRoot    true ;
+        :scanInfo  "Satluj Siti Enterprises"@en .
 
 bda:LG0050B839C3033FDB
         a               adm:Synced ;

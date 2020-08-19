@@ -157,8 +157,15 @@ public class ImagegroupMigration {
             //    m.add(volR, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
         }
         
+        nodeList = root.getElementsByTagNameNS(IGXSDNS, "scanning");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            Literal l = CommonMigration.getLiteral(current, "en", m, "scanInfo", item.getLocalName(), null);
+            if (l == null) continue;
+            item.addProperty(m.getProperty(BDO, "scanInfo"), l);
+        }
+        
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "qc");
-        // Todo: logentry of type ADM+ContentQC
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             NodeList subnodes = current.getChildNodes();
