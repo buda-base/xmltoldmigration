@@ -18,12 +18,12 @@ bda:LG7838958C9FDB06CE
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdu:U00001 .
 
-bda:LGIGS003  a         adm:UpdateGraph ;
+bda:LGIGS003  a         adm:BatchUpdateGraph ;
         adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages and added page list"@en ;
         adm:logWho      bdu:U00006 .
 
-bda:LGIGS001  a         adm:UpdateGraph ;
+bda:LGIGS001  a         adm:BatchUpdateGraph ;
         adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages"@en ;
         adm:logWho      bdu:U00006 .
@@ -47,7 +47,7 @@ bdr:I4158  a                   :ImageGroup ;
         :volumeOf              bdr:WTestInstance ;
         :volumePagesTbrcIntro  1 .
 
-bda:LGIGS002  a         adm:UpdateGraph ;
+bda:LGIGS002  a         adm:BatchUpdateGraph ;
         adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
         adm:logMessage  "Added ondisk"@en ;
         adm:logWho      bdu:U00006 .

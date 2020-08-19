@@ -483,6 +483,19 @@ public class CommonMigration  {
         logWhoToUri.put("Lh", prefix+String.format(userNumFormat, 77));
         logWhoToUri.put("lh", prefix+String.format(userNumFormat, 77));
         logWhoToUri.put("Tserings Wangdag", prefix+String.format(userNumFormat, 78));
+        logWhoToUri.put("Cecile Ducher", prefix+String.format(userNumFormat, 79));
+        logWhoToUri.put("Jim Katz", prefix+String.format(userNumFormat, 80));
+        logWhoToUri.put("Anders Bjonback", prefix+String.format(userNumFormat, 81));
+        logWhoToUri.put("Thaknita Mao", prefix+String.format(userNumFormat, 82));
+        logWhoToUri.put("Dalin Tha", prefix+String.format(userNumFormat, 83));
+        logWhoToUri.put("Chantrea Vort", prefix+String.format(userNumFormat, 84));
+        logWhoToUri.put("Rachhan Voeun", prefix+String.format(userNumFormat, 85));
+        logWhoToUri.put("Neardey Pho", prefix+String.format(userNumFormat, 86));
+        logWhoToUri.put("Nimol Chhorn", prefix+String.format(userNumFormat, 87));
+        logWhoToUri.put("Theany Chim", prefix+String.format(userNumFormat, 88));
+        logWhoToUri.put("Sin Som", prefix+String.format(userNumFormat, 89));
+        logWhoToUri.put("Sopheaneath Penh", prefix+String.format(userNumFormat, 90));
+        logWhoToUri.put("Chhaiya Yon", prefix+String.format(userNumFormat, 91));
         logWhoToUriList.put("mkas grub and c", Arrays.asList(prefix+String.format(userNumFormat, 68), prefix+String.format(userNumFormat, 17)));
         logWhoToUriList.put("Kedrub-chozin", Arrays.asList(prefix+String.format(userNumFormat, 68), prefix+String.format(userNumFormat, 17)));
         logWhoToUriList.put("Kd.chozin", Arrays.asList(prefix+String.format(userNumFormat, 68), prefix+String.format(userNumFormat, 17)));
@@ -784,7 +797,7 @@ public class CommonMigration  {
     // Synced
     // UpdateGraph
     // WithdrawGraph
-     
+
     public static Pattern oldstyleRIDsP = Pattern.compile("^[A-Z]+\\d+$");
     public static void addLogEntry(Model m, Element e, Resource rez, int entryNum) {
         if (e == null) return;
@@ -793,14 +806,49 @@ public class CommonMigration  {
         logEntry.removeAll(RDF.type);
         String datevalue = e.getAttribute("when");
         Property prop = m.createProperty(ADM+"logDate");
+        String rid = rez.getLocalName();
+        if ((rid.startsWith("W1FEMC") && entryNum == 1) || 
+                (!rid.startsWith("W1FEMC") && entryNum == 0 && !oldstyleRIDsP.matcher(rid).matches())) {
+            if (rid.startsWith("W1FEMC") || rid.startsWith("W1NLM") || rid.startsWith("W1FPL") || rid.startsWith("W0TTBBC")) {
+                logEntryType = m.createResource(ADM+"ImportGraph");
+                if (!datevalue.isEmpty()) {
+                    String datehash = OutlineMigration.getMd5(datevalue, 8);
+                    logEntry = m.getResource(BDA+"LGIM"+datehash);
+                }
+            } else {
+                if (rid.startsWith("I")) {
+                    logEntryType = m.createResource(ADM+"CreateRecord");
+                } else {
+                    logEntryType = m.createResource(ADM+"CreateGraph");
+                }
+            }
+        }
+        if (rid.startsWith("W1FEMC") && entryNum == 0) {
+            logEntryType = m.createResource(ADM+"CreateRecord");
+        }
+        String whovalue = normalizeString(e.getAttribute("who"));
+        if (whovalue.endsWith(".xql") || whovalue.endsWith("Importer") || whovalue.startsWith("Imagegroups ") || whovalue.equals("pubinfo-add-biblioNote") || whovalue.equals("add-works-to-PR1CTC16")) {
+            if (logEntryType.getLocalName().equals("CreateGraph")) {
+                logEntryType = m.createResource(ADM+"ImportGraph");
+            } else {
+                logEntryType = m.createResource(ADM+"BatchUpdateGraph");
+            }
+            if (!datevalue.isEmpty()) {
+                String datehash = OutlineMigration.getMd5(datevalue, 8);
+                logEntry = m.getResource(BDA+"LGIM"+datehash);
+            }
+        }
         if (!datevalue.isEmpty()) {
             if (rez.getLocalName().startsWith("I")) {
                 if ("2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS001");
+                    logEntryType = m.createResource(ADM+"BatchUpdateGraph");
                 } else if ("2016-03-31T17:27:09.458-04:00".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS002");
+                    logEntryType = m.createResource(ADM+"BatchUpdateGraph");
                 } else if ("2016-04-28T23:50:58.855Z".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS003");
+                    logEntryType = m.createResource(ADM+"BatchUpdateGraph");
                 } else {
                     // when there are several logentries for the same time in the same graph
                     // we merge them. The typical case is sync log entries.
@@ -817,9 +865,6 @@ public class CommonMigration  {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+datevalue+"`");
             }
         }
-        if (entryNum == 0 && !oldstyleRIDsP.matcher(rez.getLocalName()).matches()) {
-            logEntryType = m.createResource(ADM+"CreateGraph");
-        }
         String value = normalizeString(e.getTextContent(), true);
         if (!value.isEmpty()) {
             prop = m.createProperty(ADM+"logMessage");
@@ -835,12 +880,11 @@ public class CommonMigration  {
             }
         }
         logEntry.addProperty(RDF.type, logEntryType);
-        value = normalizeString(e.getAttribute("who"));
-        if (!value.isEmpty() && !value.equals("unspecified") && !logEntryType.getLocalName().equals("Synced")) {
+        if (!whovalue.isEmpty() && !whovalue.equals("unspecified") && !whovalue.equals("null") && !logEntryType.getLocalName().equals("Synced")) {
             prop = m.createProperty(ADM+"logWho");
-            String uri = logWhoToUri.get(value);
+            String uri = logWhoToUri.get(whovalue);
             if (uri == null) {
-                m.add(logEntry, m.createProperty(ADM+"logWhoStr"), value);
+                m.add(logEntry, m.createProperty(ADM+"logWhoStr"), whovalue);
             } else {
                 m.add(logEntry, prop, m.createResource(uri));
             }
