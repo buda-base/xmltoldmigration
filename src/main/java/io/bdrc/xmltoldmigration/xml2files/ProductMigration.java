@@ -46,7 +46,7 @@ public class ProductMigration {
 
 		CommonMigration.addExternals(m, root, admMain, PRXSDNS);
 		
-		CommonMigration.addLog(m, root, admMain, PRXSDNS);
+		CommonMigration.addLog(m, root, admMain, PRXSDNS, false);
 		
 		CommonMigration.addDescriptions(m, root, main, PRXSDNS, true);
 		

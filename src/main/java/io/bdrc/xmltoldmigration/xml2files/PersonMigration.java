@@ -241,7 +241,7 @@ public class PersonMigration {
 		
 		CommonMigration.addExternals(m, root, main, PXSDNS);
 		
-		CommonMigration.addLog(m, root, admMain, PXSDNS);
+		CommonMigration.addLog(m, root, admMain, PXSDNS, false);
 		
 		SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
 		

@@ -43,7 +43,7 @@ public class TopicMigration {
 
 		CommonMigration.addExternals(m, root, main, TXSDNS);
 
-		CommonMigration.addLog(m, root, admMain, TXSDNS);
+		CommonMigration.addLog(m, root, admMain, TXSDNS, false);
 
 		CommonMigration.addDescriptions(m, root, main, TXSDNS);
 

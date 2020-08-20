@@ -231,7 +231,7 @@ public class PubinfoMigration {
         CommonMigration.addExternals(m, root, main, WPXSDNS);
         
         Resource admMain = getAdminRoot(main, true);
-        CommonMigration.addLog(m, root, admMain, WPXSDNS);
+        CommonMigration.addLog(m, root, admMain, WPXSDNS, false);
 
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");
         boolean langTibetanDone = false;

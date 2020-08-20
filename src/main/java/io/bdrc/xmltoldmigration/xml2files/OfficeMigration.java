@@ -34,7 +34,7 @@ public class OfficeMigration {
 		
 		CommonMigration.addExternals(m, root, main, OXSDNS);
 		
-		CommonMigration.addLog(m, root, admMain, OXSDNS);
+		CommonMigration.addLog(m, root, admMain, OXSDNS, false);
 		
 		CommonMigration.addDescriptions(m, root, main, OXSDNS, true);
 		

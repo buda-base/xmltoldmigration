@@ -791,7 +791,7 @@ public class CommonMigration  {
     }
 
     public static Pattern oldstyleRIDsP = Pattern.compile("^[A-Z]+\\d+$");
-    public static boolean addLogEntry(Model m, Element e, Resource rez, int entryNum, boolean syncfound) {
+    public static boolean addLogEntry(Model m, Element e, Resource rez, int entryNum, boolean syncfound, boolean isOutline) {
         if (e == null) return syncfound;
         Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
         Resource logEntryType = m.createResource(ADM+"UpdateData");
@@ -905,7 +905,7 @@ public class CommonMigration  {
         return syncfound;
     }
 
-    public static void addLog(Model m, Element e, Resource rez, String XsdPrefix) {
+    public static void addLog(Model m, Element e, Resource rez, String XsdPrefix, boolean isOutline) {
         NodeList nodeList = e.getElementsByTagNameNS(XsdPrefix, "log");
         boolean syncfound = false;
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -913,12 +913,12 @@ public class CommonMigration  {
             NodeList logEntriesList = log.getElementsByTagNameNS(XsdPrefix, "entry");
             for (int j = 0; j < logEntriesList.getLength(); j++) {
                 Element logEntry = (Element) logEntriesList.item(j);
-                syncfound = addLogEntry(m, logEntry, rez, j, syncfound);
+                syncfound = addLogEntry(m, logEntry, rez, j, syncfound, isOutline);
             }
             logEntriesList = log.getElementsByTagName("entry");
             for (int k = 0; k < logEntriesList.getLength(); k++) {
                 Element logEntry = (Element) logEntriesList.item(k);
-                syncfound = addLogEntry(m, logEntry, rez, k, syncfound);
+                syncfound = addLogEntry(m, logEntry, rez, k, syncfound, isOutline);
             }
         }
         final String RID = rez.getLocalName();

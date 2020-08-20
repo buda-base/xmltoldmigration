@@ -43,7 +43,7 @@ public class CorporationMigration {
 		
 		CommonMigration.addExternals(m, root, main, CXSDNS);
 		
-		CommonMigration.addLog(m, root, admMain, CXSDNS);
+		CommonMigration.addLog(m, root, admMain, CXSDNS, false);
 		
 		CommonMigration.addDescriptions(m, root, main, CXSDNS);
 		

@@ -219,7 +219,7 @@ public class PlaceMigration {
         
         addEvents(model, root, main);
 		
-		CommonMigration.addLog(model, root, admMain, PLXSDNS);
+		CommonMigration.addLog(model, root, admMain, PLXSDNS, false);
 		
 		NodeList nodeList = root.getElementsByTagNameNS(PLXSDNS, "gis");
 		for (int i = 0; i < nodeList.getLength(); i++) {

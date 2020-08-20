@@ -55,11 +55,11 @@ bdr:MWM12837FPL  a         :SerialInstance ;
         :catalogInfo       "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
         :hasTitle          bdr:TT741A919F3670B2B2 , bdr:TTECDA05CC52A94359 , bdr:TT7687083210B4255F , bdr:TT3CBDE3A243BE57CF , bdr:TT15ED3B92D25DDB21 , bdr:TTDDB0945A6B376CE3 ;
         :incipit           "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
+        :instanceOf        bdr:WAM12837FPL ;
         :isRoot            true ;
         :note              bdr:NT35B83BD895D4749F , bdr:NT531278235C7918E2 ;
         :numberOfVolumes   1 ;
         :scanInfo          "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
-        :serialInstanceOf  bdr:WAM12837FPL ;
         :workEvent         bdr:EV86C328CD33E9538B ;
         :workSeriesNumber  "2" ;
         skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
@@ -83,15 +83,15 @@ bdr:EV86C328CD33E9538B
         :onOrAbout  "descriptionwithtypedate" ;
         :onYear     "1232"^^xsd:gYear .
 
-bdr:WAM12837FPL  a          :SerialMember ;
-        :creator            bdr:CRACCC7446FEDC1B3F ;
-        :isRoot             true ;
-        :serialHasInstance  bdr:MWM12837FPL ;
-        :serialMemberOf     bdr:WAS12345 ;
-        :workGenre          bdr:T132 ;
-        :workIsAbout        bdr:G844 , bdr:WA976 , bdr:T62 ;
-        skos:altLabel       "testcap/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
-        skos:prefLabel      "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
+bdr:WAM12837FPL  a        :SerialMember ;
+        :creator          bdr:CRACCC7446FEDC1B3F ;
+        :isRoot           true ;
+        :serialMemberOf   bdr:WAS12345 ;
+        :workGenre        bdr:T132 ;
+        :workHasInstance  bdr:MWM12837FPL ;
+        :workIsAbout      bdr:G844 , bdr:WA976 , bdr:T62 ;
+        skos:altLabel     "testcap/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
+        skos:prefLabel    "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
 
 bdr:TT7687083210B4255F
         a           :OtherTitle ;

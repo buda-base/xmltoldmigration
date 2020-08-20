@@ -193,8 +193,9 @@ public class WorkMigration {
             setPrefixes(mA);
             mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
             admMainA = createAdminRoot(mainA);
-            main.addProperty(m.createProperty(BDO, "serialInstanceOf"), mainA);
-            mainA.addProperty(mA.createProperty(BDO, "serialHasInstance"), main);
+            addStatus(mA, admMainA, "released");
+            main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
+            mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
             res.add(new WorkModelInfo(seriesMemberId, mA));
             serialWorkId = CommonMigration.seriesMembersToWorks.get(otherMemberRID);
             if (serialWorkId == null) {
@@ -225,6 +226,7 @@ public class WorkMigration {
             mainA = createRoot(m, BDR+aWorkId, BDO+"Work");
             admMainA = createAdminRoot(mainA);
             mA = ModelFactory.createDefaultModel();
+            addStatus(m, admMainA, "released");
             res.add(null);
             res.add(new WorkModelInfo(aWorkId, m));
         } else {
@@ -243,21 +245,27 @@ public class WorkMigration {
             admMain = createAdminRoot(main);
             if (!status.equals("withdrawn") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
                 String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
-                if (otherAbstractRID == null && !infoParentId.isEmpty())
+                if (otherAbstractRID == null && !infoParentId.isEmpty()) {
                     otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);
+                }
+                mA = ModelFactory.createDefaultModel();
+                setPrefixes(mA);
+                if (res.size() == 1) {
+                    res.add(new WorkModelInfo(aWorkId, mA));
+                } else {
+                    res.set(1, new WorkModelInfo(aWorkId, mA));
+                }
+                mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
+                admMainA = createAdminRoot(mainA);
                 if (otherAbstractRID == null) {
-                    mA = ModelFactory.createDefaultModel();
-                    setPrefixes(mA);
-                    if (res.size() == 1) {
-                        res.add(new WorkModelInfo(aWorkId, mA));
-                    } else {
-                        res.set(1, new WorkModelInfo(aWorkId, mA));
-                    }
-                    mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
-                    admMainA = createAdminRoot(mainA);
+                    addStatus(mA, admMainA, status);
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
+                    addRedirection(aWorkId, otherAbstractRID, mA);
+                    // we don't put the has instance property... it would be better conceptually but
+                    // it would make the queries slower and harder to write
+                    //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                     SymetricNormalization.addSymetricProperty(m, "instanceOf", 'M'+workId, otherAbstractRID, null);
                 }
             }
@@ -268,7 +276,6 @@ public class WorkMigration {
             admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
         } 
         if (admMainA != null) {
-            addStatus(mA, admMainA, "released");
             admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
         }
 		
@@ -285,9 +292,9 @@ public class WorkMigration {
 		
 		// log entries go on the work if possible:
 		if (admMainA != null) {
-		    CommonMigration.addLog(mA, root, admMainA, WXSDNS);
+		    CommonMigration.addLog(mA, root, admMainA, WXSDNS, false);
 		} else if (admMain != null) {
-		    CommonMigration.addLog(m, root, admMain, WXSDNS);
+		    CommonMigration.addLog(m, root, admMain, WXSDNS, false);
 		}
 
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);

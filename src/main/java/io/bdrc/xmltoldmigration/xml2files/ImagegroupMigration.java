@@ -129,7 +129,7 @@ public class ImagegroupMigration {
         */
 		
         addStatus(m, admVol, imageGroupStatus);
-        CommonMigration.addLog(m, root, admVol, IGXSDNS);
+        CommonMigration.addLog(m, root, admVol, IGXSDNS, false);
         CommonMigration.addDescriptions(m, root, volR, IGXSDNS);
         admVol.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
         

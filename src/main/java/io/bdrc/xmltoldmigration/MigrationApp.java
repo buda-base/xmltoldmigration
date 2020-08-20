@@ -291,10 +291,14 @@ public class MigrationApp
                         workR.removeAll(workR.getModel().getProperty(BDO, "scanInfo"));
                         item.addProperty(itemModel.getProperty(BDO, "scanInfo"), scanInfo);
                     }
+                    
+                    Resource instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "instanceOf"));
+                    if (instanceOfR == null)
+                        instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "serialInstanceOf"));
 
                     if (WorkMigration.addWorkHasItem) {
                         m.add(workR, m.getProperty(BDO, "instanceHasReproduction"), m.createResource(BDR + itemName));
-                        if (abstractMI != null) {
+                        if (abstractMI != null && instanceOfR != null && abstractMI.resourceName.equals(instanceOfR.getLocalName())) {
                             Resource abstractW = abstractMI.m.createResource(BDR+abstractMI.resourceName);
                             abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
                             itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractMI.resourceName));
