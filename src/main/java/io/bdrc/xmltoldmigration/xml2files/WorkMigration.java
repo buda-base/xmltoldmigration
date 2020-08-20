@@ -278,11 +278,16 @@ public class WorkMigration {
 		if (admMain != null) {
 		    CommonMigration.addNotes(m, root, main, WXSDNS);
 		    CommonMigration.addExternals(m, root, main, WXSDNS);
-		    CommonMigration.addLog(m, root, admMain, WXSDNS);
-		} else {
+		} else if (admMainA != null) {
 		    CommonMigration.addNotes(mA, root, mainA, WXSDNS);
 		    CommonMigration.addExternals(mA, root, mainA, WXSDNS);
+		}
+		
+		// log entries go on the work if possible:
+		if (admMainA != null) {
 		    CommonMigration.addLog(mA, root, admMainA, WXSDNS);
+		} else if (admMain != null) {
+		    CommonMigration.addLog(m, root, admMain, WXSDNS);
 		}
 
 	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
