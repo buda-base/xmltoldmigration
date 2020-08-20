@@ -37,7 +37,7 @@ bdr:NT531278235C7918E2
         :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
 
 bda:LGECDA05CC52A94359
-        a               adm:CreateGraph ;
+        a               adm:InitialDataCreation ;
         adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdu:U00001 .
@@ -71,7 +71,7 @@ bdr:TT86C328CD33E9538B
         rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
 
 bda:LG741A919F3670B2B2
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
         adm:logMessage  "normalized catalog info"@en ;
         adm:logWho      bdu:U00012 .
@@ -106,7 +106,7 @@ bdr:ITWM12837FPL  a       :Item ;
         :itemShelf        "3A|110" .
 
 bda:LG7687083210B4255F
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
         adm:logMessage  "added print type and source printery"@en ;
         adm:logWho      bdu:U00013 .
@@ -124,7 +124,7 @@ bdr:TT34F0EEC409CDBEC1
         rdfs:label  "vinayavinicchaya"@pi-x-iast .
 
 bda:LGDDB0945A6B376CE3
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
         adm:logMessage  "normalized catalog info"@en ;
         adm:logWho      bdu:U00012 .

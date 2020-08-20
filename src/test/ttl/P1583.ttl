@@ -41,7 +41,7 @@ bdr:NMFB54273C9888828B
         rdfs:label  "klong chen rab 'byams pa dri med 'od zer/"@bo-x-ewts .
 
 bda:LG650F49A48542C160
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2008-06-30T17:01:56.496Z"^^xsd:dateTime ;
         adm:logMessage  "added records"@en ;
         adm:logWho      bdu:U00015 .
@@ -87,7 +87,7 @@ bdr:NMED06EB68CC7F2B88
         rdfs:label  "dri med 'od zer/"@bo-x-ewts .
 
 bda:LG663351B387DD33FA
-        a           adm:CreateGraph ;
+        a           adm:InitialDataCreation ;
         adm:logWho  bdu:U00001 .
 
 bdr:EVABB307C08F280C09

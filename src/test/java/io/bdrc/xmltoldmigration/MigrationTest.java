@@ -439,7 +439,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
         Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/L8LS14115.ttl");
-        //fromXml.write(System.out, "TTL");
+        fromXml.write(System.out, "TTL");
 //      
 //      // ==== TEMP DEBUG ====
 //        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testL8LS14115-fromXml.ttl"), "TTL");

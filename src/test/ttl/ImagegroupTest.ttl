@@ -13,19 +13,21 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LG7838958C9FDB06CE
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2007-09-08T18:25:21.468Z"^^xsd:dateTime ;
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdu:U00001 .
 
-bda:LGIGS003  a         adm:BatchUpdateGraph ;
+bda:LGIGS003  a         adm:UpdateData ;
         adm:logDate     "2016-04-28T23:50:58.855Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages and added page list"@en ;
+        adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
-bda:LGIGS001  a         adm:BatchUpdateGraph ;
+bda:LGIGS001  a         adm:UpdateData ;
         adm:logDate     "2016-03-30T16:20:30.571Z"^^xsd:dateTime ;
         adm:logMessage  "Updated total pages"@en ;
+        adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
 bda:I4158  a               adm:AdminData ;
@@ -47,9 +49,10 @@ bdr:I4158  a                   :ImageGroup ;
         :volumeOf              bdr:WTestInstance ;
         :volumePagesTbrcIntro  1 .
 
-bda:LGIGS002  a         adm:BatchUpdateGraph ;
+bda:LGIGS002  a         adm:UpdateData ;
         adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;
         adm:logMessage  "Added ondisk"@en ;
+        adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
 bdr:WTestInstance  a  :ImageInstance ;
@@ -59,7 +62,9 @@ bdr:WTestInstance  a  :ImageInstance ;
 bda:LG0050B839C3033FDB
         a               adm:ImagesUpdated ;
         adm:logDate     "2020-04-28T23:50:58.855Z"^^xsd:dateTime ;
-        adm:logMessage  "Updated total pages"@en .
+        adm:logMessage  "Updated total pages"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00006 .
 
 bda:LG4EA3F7CDE749172C
         a               adm:ContentQC ;

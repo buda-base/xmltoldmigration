@@ -789,51 +789,48 @@ public class CommonMigration  {
         m.add(idNode, RDF.type, t);
         m.add(idNode, RDF.value, m.createLiteral(value));
     }
-    
-    // CreateGraph
-    // GraphLogEntry
-    // ImagesUpdated
-    // ScanRequested
-    // Synced
-    // UpdateGraph
-    // WithdrawGraph
 
     public static Pattern oldstyleRIDsP = Pattern.compile("^[A-Z]+\\d+$");
     public static boolean addLogEntry(Model m, Element e, Resource rez, int entryNum, boolean syncfound) {
         if (e == null) return syncfound;
         Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
-        Resource logEntryType = m.createResource(ADM+"UpdateGraph");
+        Resource logEntryType = m.createResource(ADM+"UpdateData");
         logEntry.removeAll(RDF.type);
         String datevalue = e.getAttribute("when");
         Property prop = m.createProperty(ADM+"logDate");
         String rid = rez.getLocalName();
+        boolean isBatch = false;
+        String logAgent = null;
         boolean isoldstyle = oldstyleRIDsP.matcher(rid).matches();
         if ((rid.startsWith("W1FEMC") && entryNum == 1) || 
                 (!rid.startsWith("W1FEMC") && entryNum == 0 && !isoldstyle)) {
             if (rid.startsWith("W1FEMC") || rid.startsWith("W1NLM") || rid.startsWith("W1FPL") || rid.startsWith("W0TTBBC")) {
-                logEntryType = m.createResource(ADM+"ImportGraph");
+                logEntryType = m.createResource(ADM+"InitialDataImport");
                 if (!datevalue.isEmpty()) {
                     String datehash = OutlineMigration.getMd5(datevalue, 8);
                     logEntry = m.getResource(BDA+"LGIM"+datehash);
                 }
             } else {
                 if (rid.startsWith("I")) {
-                    logEntryType = m.createResource(ADM+"CreateRecord");
+                    logEntryType = m.createResource(ADM+"InitialDataCreation");
                 } else {
-                    logEntryType = m.createResource(ADM+"CreateGraph");
+                    logEntryType = m.createResource(ADM+"InitialDataCreation");
                 }
             }
         }
         if (rid.startsWith("W1FEMC") && entryNum == 0) {
-            logEntryType = m.createResource(ADM+"CreateRecord");
+            logEntryType = m.createResource(ADM+"InitialDataCreation");
         }
         String whovalue = normalizeString(e.getAttribute("who"));
         if (whovalue.endsWith(".xql") || whovalue.endsWith("Importer") || whovalue.startsWith("Imagegroups ") || whovalue.equals("pubinfo-add-biblioNote") || whovalue.equals("add-works-to-PR1CTC16")) {
-            if (logEntryType.getLocalName().equals("CreateGraph")) {
-                logEntryType = m.createResource(ADM+"ImportGraph");
+            if (logEntryType.getLocalName().equals("InitialDataCreation")) {
+                logEntryType = m.createResource(ADM+"InitialDataImport");
             } else {
-                logEntryType = m.createResource(ADM+"BatchUpdateGraph");
+                logEntryType = m.createResource(ADM+"UpdateData");
             }
+            isBatch = true;
+            logAgent = whovalue;
+            whovalue = "";
             if (!datevalue.isEmpty()) {
                 String datehash = OutlineMigration.getMd5(datevalue, 8);
                 logEntry = m.getResource(BDA+"LGIM"+datehash);
@@ -843,15 +840,18 @@ public class CommonMigration  {
             if (rez.getLocalName().startsWith("I")) {
                 if ("2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS001");
-                    logEntryType = m.createResource(ADM+"BatchUpdateGraph");
+                    logEntryType = m.createResource(ADM+"UpdateData");
+                    isBatch = true;
                     syncfound = true;
                 } else if ("2016-03-31T17:27:09.458-04:00".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS002");
-                    logEntryType = m.createResource(ADM+"BatchUpdateGraph");
+                    logEntryType = m.createResource(ADM+"UpdateData");
+                    isBatch = true;
                     syncfound = true;
                 } else if ("2016-04-28T23:50:58.855Z".equals(datevalue)) {
                     logEntry = m.getResource(BDA+"LGIGS003");
-                    logEntryType = m.createResource(ADM+"BatchUpdateGraph");
+                    logEntryType = m.createResource(ADM+"UpdateData");
+                    isBatch = true;
                     syncfound = true;
                 } else {
                     // when there are several logentries for the same time in the same graph
@@ -875,13 +875,13 @@ public class CommonMigration  {
             m.add(logEntry, prop, m.createLiteral(value, "en"));
             String lcval = value.toLowerCase();
             if (lcval.startsWith("withdraw")) {
-                logEntryType = m.createResource(ADM+"WithdrawGraph");
+                logEntryType = m.createResource(ADM+"WithdrawData");
             }
             if (lcval.toLowerCase().startsWith("updated total pages")) {
                 if (!"2016-03-31T17:27:09.458-04:00".equals(datevalue) && !"2016-04-28T23:50:58.855Z".equals(datevalue) && !"2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
                     logEntryType = m.createResource(ADM+ (syncfound ? "ImagesUpdated" : "Synced"));
                     syncfound = true;
-                    whovalue = "";
+                    isBatch = true;
                 }
             }
         }
@@ -895,8 +895,13 @@ public class CommonMigration  {
                 m.add(logEntry, prop, m.createResource(uri));
             }
         }
-        prop = m.getProperty(ADM, "logEntry");
-        m.add(rez, prop, logEntry);
+        if (logAgent != null) {
+            m.add(logEntry, m.getProperty(ADM, "logAgent"), logAgent);
+        }
+        if (isBatch) {
+            m.add(logEntry, m.getProperty(ADM, "logMethod"), m.createResource(BDA+"BatchMethod"));
+        }
+        m.add(rez, m.getProperty(ADM, "logEntry"), logEntry);
         return syncfound;
     }
 
@@ -921,7 +926,7 @@ public class CommonMigration  {
         if (oldstyleRIDsP.matcher(RID).matches() && !RID.startsWith("I")) {
             Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
             logEntry.removeAll(RDF.type);
-            logEntry.addProperty(RDF.type, m.createResource(ADM+"CreateGraph"));
+            logEntry.addProperty(RDF.type, m.createResource(ADM+"InitialDataCreation"));
             m.add(rez, m.getProperty(ADM, "logEntry"), logEntry);
             m.add(logEntry, m.createProperty(ADM+"logWho"), m.createResource(BDU+"U00001"));
         }

@@ -20,30 +20,30 @@ bdr:T3CN2023  a         :Topic ;
         skos:prefLabel  "Tengyur"@en-x-mixed , "bstan 'gyur/"@bo-x-ewts , "丹珠尔"@zh-hans .
 
 bda:LGBAD47AAC9EAE902B
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2015-08-31T16:55:02.487Z"^^xsd:dateTime ;
         adm:logMessage  "added description"@en ;
         adm:logWho      bdu:U00007 .
 
 bda:LG84BBD58F41532337
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logMessage  "added description: Tenjur Canonical Text"@en ;
         adm:logWho      bdu:U00007 .
 
 bda:LGE44A97C18EC3F4F3
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2015-09-04T13:13:26.221Z"^^xsd:dateTime ;
         adm:logMessage  "added see also"@en ;
         adm:logWho      bdu:U00007 .
 
 bda:LG5312A53141EB9949
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2015-08-31T16:58:10.553Z"^^xsd:dateTime ;
         adm:logMessage  "added description"@en ;
         adm:logWho      bdu:U00007 .
 
 bda:LG1A9CB67917535C1D
-        a               adm:CreateGraph ;
+        a               adm:InitialDataCreation ;
         adm:logDate     "2015-08-28T12:16:56.098Z"^^xsd:dateTime ;
         adm:logMessage  "created record"@en ;
         adm:logWho      bdu:U00007 .

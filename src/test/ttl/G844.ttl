@@ -26,7 +26,7 @@ bdr:EV213E4B9AED5E1B57
         :placeEventAffiliation  bdr:TraditionTest , bdr:TraditionKagyu .
 
 bda:LGFE2C8100AFEA0961
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2013-04-01T09:36:07.005Z"^^xsd:dateTime ;
         adm:logMessage  "added type & location & contains"@en ;
         adm:logWho      bdu:U00007 .
@@ -42,7 +42,7 @@ bdr:ID66166F79F3E52A44
         rdf:value  "TBRC_G844" .
 
 bda:LG9DB536C5C700FF5A
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
         adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
         adm:logWho      bdu:U00020 .
@@ -73,17 +73,17 @@ bdr:NTF092CBB060906578
         :noteText  "the region of the rulers of the bya principality in southern tibet"@en .
 
 bda:LG6B068E49DCE40C90
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2013-05-29T12:18:47.035Z"^^xsd:dateTime ;
         adm:logMessage  "added place contained"@en ;
         adm:logWho      bdu:U00020 .
 
 bda:LGD9AB54C475EB0836
-        a           adm:CreateGraph ;
+        a           adm:InitialDataCreation ;
         adm:logWho  bdu:U00001 .
 
 bda:LG2B4F2E9D5266BD7B
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2014-02-19T14:10:50.715Z"^^xsd:dateTime ;
         adm:logMessage  "added name & note"@en ;
         adm:logWho      bdu:U00007 .
@@ -97,7 +97,7 @@ vcard:VAE172281BB250CAB4
         vcard:street-address  "མི་གསལ། Dzongsar Institute" .
 
 bda:LG0EEB0BC941618C96
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
         adm:logMessage  "added contain"@en ;
         adm:logWho      bdu:U00007 .
@@ -108,13 +108,13 @@ bdr:EV7E9BCA78C7207CE7
         :notBefore  "1300"^^xsd:gYear .
 
 bda:LGFD3940A68CCD4C1A
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2013-02-05T10:28:55.426Z"^^xsd:dateTime ;
         adm:logMessage  "added byams pa chos gling gzhis ka'i par khang"@en ;
         adm:logWho      bdu:U00013 .
 
 bda:LGF4CB83866B85D2F9
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2012-10-12T12:21:11.602Z"^^xsd:dateTime ;
         adm:logMessage  "added contain"@en ;
         adm:logWho      bdu:U00007 .
@@ -126,7 +126,7 @@ bdr:NTE62484A0A1341D9B
         :noteText                  "event note test"@en .
 
 bda:LG32AA3FB263A1734C
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2014-01-06T14:22:58.026Z"^^xsd:dateTime ;
         adm:logMessage  "added location"@en ;
         adm:logWho      bdu:U00007 .

@@ -44,7 +44,7 @@ bda:WA0XL74BFE0D47CBB
         :isRoot            true .
 
 bda:LGAA9E9400A4A93DA9
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
         adm:logMessage  "zhu dag byas"@en ;
         adm:logWho      bdu:U00021 .
@@ -88,11 +88,11 @@ bdr:NTC7A4455B7D258340
         :noteText  "p. 1 (1st group)" .
 
 bda:LGED4FB22BB4E721BF
-        a           adm:CreateGraph ;
+        a           adm:InitialDataCreation ;
         adm:logWho  bdu:U00001 .
 
 bda:LGC34241585BB8CD9D
-        a            adm:UpdateGraph ;
+        a            adm:UpdateData ;
         adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
         adm:logWho   bdu:U00003 .
 
@@ -148,7 +148,7 @@ bdr:CL2641619B882CB70D
         :contentLocationVolume    2 .
 
 bda:LGE873E4AD726B2E5C
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
         adm:logMessage  "vol. 1 outline images fixed"@en ;
         adm:logWho      bdu:U00019 .

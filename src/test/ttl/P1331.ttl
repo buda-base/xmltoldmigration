@@ -13,7 +13,7 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LG47A034CD79DA75AE
-        a           adm:CreateGraph ;
+        a           adm:InitialDataCreation ;
         adm:logWho  bdu:U00001 .
 
 bdr:EV4D6B8F9B08287205

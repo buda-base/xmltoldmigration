@@ -13,7 +13,7 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LGB5715A26D84756E4
-        a               adm:CreateGraph ;
+        a               adm:InitialDataCreation ;
         adm:logDate     "2019-07-20"^^xsd:date ;
         adm:logMessage  "entered cataloging for W1FEMC010006"@en ;
         adm:logWho      bdu:U00082 .
@@ -56,10 +56,11 @@ bdr:MW1FEMC010006  a             :Instance ;
         :workIsAbout             bdr:FEMC_Scheme_VII , bdr:FEMC_Scheme_VI_6 ;
         skos:prefLabel           "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
-bda:LGIM6ABD17F4  a     adm:BatchUpdateGraph ;
+bda:LGIM6ABD17F4  a     adm:UpdateData ;
+        adm:logAgent    "works-femc01-import.xql" ;
         adm:logDate     "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
         adm:logMessage  "imported FEMC 01 workW1FEMC010006"@en ;
-        adm:logWhoStr   "works-femc01-import.xql" .
+        adm:logMethod   bda:BatchMethod .
 
 bdr:TT9F5DB6BC1BDA7180
         a           :CoverTitle ;

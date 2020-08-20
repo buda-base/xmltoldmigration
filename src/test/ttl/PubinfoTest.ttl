@@ -13,7 +13,7 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LG9C64AEBD23CBF0A3
-        a               adm:CreateGraph ;
+        a               adm:InitialDataCreation ;
         adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
         adm:logMessage  "added print type and source printery"@en ;
         adm:logWho      bdu:U00013 .
@@ -23,7 +23,7 @@ bdr:IDE0F0D4471E6CE01A
         rdf:value  "014254679" .
 
 bda:LGF57086AF3B9D6900
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
         adm:logMessage  "added hollis field to pub info"@en ;
         adm:logWho      bdu:U00006 .
@@ -57,7 +57,7 @@ bda:MW1FPL1  a          adm:AdminData ;
         :isRoot         true .
 
 bda:LG09B2A4060669C708
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
         adm:logMessage  "normalize encoding field for pub info"@en ;
         adm:logWho      bdu:U00012 .

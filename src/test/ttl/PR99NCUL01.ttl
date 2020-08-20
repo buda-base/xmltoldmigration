@@ -51,7 +51,7 @@ bda:PGE929612A7073843B
         adm:productAllowByAddr  "ip2" .
 
 bda:LGBE16F203BDFBC51F
-        a               adm:CreateGraph ;
+        a               adm:InitialDataCreation ;
         adm:logDate     "2014-09-22T19:39:47.382Z"^^xsd:dateTime ;
         adm:logMessage  "added entry for NCCU Taiwan"@en ;
         adm:logWho      bdu:U00006 .

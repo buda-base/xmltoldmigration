@@ -16,7 +16,7 @@ bdr:R8LS12811  a        :Role ;
         skos:prefLabel  "Bonpo Lung Lama Tulku Line"@en , "bon po lung bla ma'i skye brgyud/"@bo-x-ewts .
 
 bda:LGB627CF38003DBE02
-        a               adm:UpdateGraph ;
+        a               adm:UpdateData ;
         adm:logDate     "2014-07-11T12:26:57.845Z"^^xsd:dateTime ;
         adm:logMessage  "added phonetic title"@en ;
         adm:logWho      bdu:U00020 .
@@ -33,7 +33,7 @@ bda:R8LS12811  a           adm:AdminData ;
         :isRoot            true .
 
 bda:LG32C083A34E27E287
-        a               adm:CreateGraph ;
+        a               adm:InitialDataCreation ;
         adm:logDate     "2012-12-20T16:34:48.895Z"^^xsd:dateTime ;
         adm:logMessage  "created new office"@en ;
         adm:logWho      bdu:U00019 .
