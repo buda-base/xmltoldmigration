@@ -49,6 +49,7 @@
     </outline:node>
     <!-- from O2MS4765 --><outline:viewIn label="rituals"  list="subjects">Rituals | cho ga | 仪轨</outline:viewIn>
     <outline:log>
+        <entry when="2009-09-15T14:51:25.708Z" who="Bumu Dega">Convert2Outline version 1.5.5</entry>
         <entry when="2009-09-15T14:51:25.708Z" who="Bumu Dega"/>
         <entry when="2009-12-28T10:00:20.456Z" who="paldor">zhu dag byas</entry>
         <entry when="2014-10-03T14:40:05.896Z" who="Lobsang Shastri">vol. 1 outline images fixed</entry>

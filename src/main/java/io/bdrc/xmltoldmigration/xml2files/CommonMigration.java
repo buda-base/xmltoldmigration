@@ -794,7 +794,7 @@ public class CommonMigration  {
     public static boolean addLogEntry(Model m, Element e, Resource rez, int entryNum, boolean syncfound, boolean isOutline) {
         if (e == null) return syncfound;
         Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
-        Resource logEntryType = m.createResource(ADM+"UpdateData");
+        Resource logEntryType = m.createResource(isOutline ? ADM+"UpdateOutlineData" : ADM+"UpdateData");
         logEntry.removeAll(RDF.type);
         String datevalue = e.getAttribute("when");
         Property prop = m.createProperty(ADM+"logDate");
@@ -802,6 +802,8 @@ public class CommonMigration  {
         boolean isBatch = false;
         String logAgent = null;
         boolean isoldstyle = oldstyleRIDsP.matcher(rid).matches();
+        // some outlines actually have old style RIDs, but they were imported through Convert2Outline
+        if (isOutline) isoldstyle = false;
         if ((rid.startsWith("W1FEMC") && entryNum == 1) || 
                 (!rid.startsWith("W1FEMC") && entryNum == 0 && !isoldstyle)) {
             if (rid.startsWith("W1FEMC") || rid.startsWith("W1NLM") || rid.startsWith("W1FPL") || rid.startsWith("W0TTBBC")) {
@@ -811,11 +813,7 @@ public class CommonMigration  {
                     logEntry = m.getResource(BDA+"LGIM"+datehash);
                 }
             } else {
-                if (rid.startsWith("I")) {
-                    logEntryType = m.createResource(ADM+"InitialDataCreation");
-                } else {
-                    logEntryType = m.createResource(ADM+"InitialDataCreation");
-                }
+                logEntryType = m.createResource(isOutline ? ADM+"InitialOutlineData" : ADM+"InitialDataCreation");
             }
         }
         if (rid.startsWith("W1FEMC") && entryNum == 0) {
@@ -824,9 +822,9 @@ public class CommonMigration  {
         String whovalue = normalizeString(e.getAttribute("who"));
         if (whovalue.endsWith(".xql") || whovalue.endsWith("Importer") || whovalue.startsWith("Imagegroups ") || whovalue.equals("pubinfo-add-biblioNote") || whovalue.equals("add-works-to-PR1CTC16")) {
             if (logEntryType.getLocalName().equals("InitialDataCreation")) {
-                logEntryType = m.createResource(ADM+"InitialDataImport");
+                logEntryType = m.createResource(isOutline ? ADM+"InitialOutlineDataImport" :ADM+"InitialDataImport");
             } else {
-                logEntryType = m.createResource(ADM+"UpdateData");
+                logEntryType = m.createResource(isOutline ? ADM+"UpdateOutlineData" : ADM+"UpdateData");
             }
             isBatch = true;
             logAgent = whovalue;
@@ -870,6 +868,11 @@ public class CommonMigration  {
             }
         }
         String value = normalizeString(e.getTextContent(), true);
+        if (value.startsWith("Convert2Outline")) {
+            logEntryType = m.createResource(ADM+"InitialOutlineDataImport");
+            logAgent = value;
+            value = "";
+        }
         if (!value.isEmpty()) {
             prop = m.createProperty(ADM+"logMessage");
             m.add(logEntry, prop, m.createLiteral(value, "en"));
@@ -923,7 +926,7 @@ public class CommonMigration  {
         }
         final String RID = rez.getLocalName();
         // for old RIDs, we credit Gene as the creator
-        if (oldstyleRIDsP.matcher(RID).matches() && !RID.startsWith("I")) {
+        if (!isOutline && oldstyleRIDsP.matcher(RID).matches() && !RID.startsWith("I")) {
             Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
             logEntry.removeAll(RDF.type);
             logEntry.addProperty(RDF.type, m.createResource(ADM+"InitialDataCreation"));
