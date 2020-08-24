@@ -804,20 +804,37 @@ public class CommonMigration  {
         boolean isoldstyle = oldstyleRIDsP.matcher(rid).matches();
         // some outlines actually have old style RIDs, but they were imported through Convert2Outline
         if (isOutline) isoldstyle = false;
-        if ((rid.startsWith("W1FEMC") && entryNum == 1) || 
-                (!rid.startsWith("W1FEMC") && entryNum == 0 && !isoldstyle)) {
+        if ((rid.startsWith("W1FEMC") && entryNum == 1) || (rid.startsWith("P0RK") && entryNum == 1) ||
+                (!rid.startsWith("W1FEMC") && !rid.startsWith("P0RK") && entryNum == 0 && !isoldstyle)) {
             if (rid.startsWith("W1FEMC") || rid.startsWith("W1NLM") || rid.startsWith("W1FPL") || rid.startsWith("W0TTBBC")) {
+                isBatch = true;
                 logEntryType = m.createResource(ADM+"InitialDataImport");
                 if (!datevalue.isEmpty()) {
                     String datehash = OutlineMigration.getMd5(datevalue, 8);
                     logEntry = m.getResource(BDA+"LGIM"+datehash);
                 }
+            } else if (rid.startsWith("P0RK")) {
+                isBatch = true;
+                logEntryType = m.createResource(ADM+"InitialDataImport");
+                // we assign a date to the P0RK import so that they're all one log entry
+                datevalue = "2007-07-12T14:01:47.045Z";
+                String datehash = OutlineMigration.getMd5(datevalue, 8);
+                logEntry = m.getResource(BDA+"LGIM"+datehash);
             } else {
                 logEntryType = m.createResource(isOutline ? ADM+"InitialOutlineData" : ADM+"InitialDataCreation");
             }
         }
         if (rid.startsWith("W1FEMC") && entryNum == 0) {
             logEntryType = m.createResource(ADM+"InitialDataCreation");
+        }
+        String value = normalizeString(e.getTextContent(), true);
+        if (rid.startsWith("P0RK") && entryNum == 0) {
+            // these entries are weird... they're two different things: the creation of the data by RK, and its transformation in XML by JW
+            // so ideally they could be split in two... but I don't think we care that much about when Jeff converted some XML into some other XML
+            // so we just remove the date
+            logEntryType = m.createResource(ADM+"InitialDataCreation");
+            datevalue = "";
+            value = "";
         }
         String whovalue = normalizeString(e.getAttribute("who"));
         if (whovalue.endsWith(".xql") || whovalue.endsWith("Importer") || whovalue.startsWith("Imagegroups ") || whovalue.equals("pubinfo-add-biblioNote") || whovalue.equals("add-works-to-PR1CTC16")) {
@@ -867,7 +884,7 @@ public class CommonMigration  {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+datevalue+"`");
             }
         }
-        String value = normalizeString(e.getTextContent(), true);
+        
         if (value.startsWith("Convert2Outline")) {
             logEntryType = m.createResource(ADM+"InitialOutlineDataImport");
             logAgent = value;
