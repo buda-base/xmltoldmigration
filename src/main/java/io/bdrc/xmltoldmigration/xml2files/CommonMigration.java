@@ -813,13 +813,8 @@ public class CommonMigration  {
                     String datehash = OutlineMigration.getMd5(datevalue, 8);
                     logEntry = m.getResource(BDA+"LGIM"+datehash);
                 }
-            } else if (rid.startsWith("P0RK")) {
-                isBatch = true;
+            } else if (rid.startsWith("P0RK") || rid.startsWith("L1RK")) {
                 logEntryType = m.createResource(ADM+"InitialDataImport");
-                // we assign a date to the P0RK import so that they're all one log entry
-                datevalue = "2007-07-12T14:01:47.045Z";
-                String datehash = OutlineMigration.getMd5(datevalue, 8);
-                logEntry = m.getResource(BDA+"LGIM"+datehash);
             } else {
                 logEntryType = m.createResource(isOutline ? ADM+"InitialOutlineData" : ADM+"InitialDataCreation");
             }
@@ -949,6 +944,13 @@ public class CommonMigration  {
             logEntry.addProperty(RDF.type, m.createResource(ADM+"InitialDataCreation"));
             m.add(rez, m.getProperty(ADM, "logEntry"), logEntry);
             m.add(logEntry, m.createProperty(ADM+"logWho"), m.createResource(BDU+"U00001"));
+        }
+        if (RID.startsWith("L1RK")) {
+            Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
+            logEntry.removeAll(RDF.type);
+            logEntry.addProperty(RDF.type, m.createResource(ADM+"InitialDataCreation"));
+            m.add(rez, m.getProperty(ADM, "logEntry"), logEntry);
+            m.add(logEntry, m.createProperty(ADM+"logWho"), m.createResource(BDU+"U00023"));
         }
     }
 
