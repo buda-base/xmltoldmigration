@@ -529,6 +529,7 @@ public class MigrationTest
         System.out.println(ImagegroupMigration.qcdateToXsdDate("2003", m));
         System.out.println(ImagegroupMigration.qcdateToXsdDate("06-17-2004", m));
         System.out.println(ImagegroupMigration.qcdateToXsdDate("06-17-04", m));
+        System.out.println(ImagegroupMigration.qcdateToXsdDate("17-06-04", m));
         System.out.println(ImagegroupMigration.qcdateToXsdDate("05/14/02", m));
         System.out.println(ImagegroupMigration.qcdateToXsdDate("06.03", m));
         System.out.println(ImagegroupMigration.qcdateToXsdDate("10", m));

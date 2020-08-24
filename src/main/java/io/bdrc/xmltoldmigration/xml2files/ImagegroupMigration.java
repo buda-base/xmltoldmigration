@@ -262,6 +262,12 @@ public class ImagegroupMigration {
 	    if (year.length() == 1) year = "200"+year;
 	    if (year.length() == 2) year = "20"+year;
 	    if (year.length() == 3) year = "2"+year;
+	    // if the month is > 12, we switch day and month
+	    if (month != null && day != null && Integer.valueOf(month) > 12) {
+	        String tmp = day;
+	        day = month;
+	        month = tmp;
+	    }
 	    if (day == null) {
 	        if (month == null) {
 	            return m.createTypedLiteral(year, XSD.gYear.getURI());
