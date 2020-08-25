@@ -1,5 +1,6 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
+import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
@@ -37,6 +38,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.xmltoldmigration.EAPTransfer;
 import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -176,6 +178,7 @@ public class WorkMigration {
         Resource main = null;
         Resource admMain = null;
         String serialWorkId = "";
+        boolean canonicalConceptualWork = false;
        
         if (isSeriesMember && !status.equals("withdrawn")) {
             String otherMemberRID = CommonMigration.seriesClusters.get(workId);
@@ -198,6 +201,7 @@ public class WorkMigration {
             mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
             res.add(new WorkModelInfo(seriesMemberId, mA));
             serialWorkId = CommonMigration.seriesMembersToWorks.get(otherMemberRID);
+            
             if (serialWorkId == null) {
                 if (infoParentId.isEmpty()) {
                     serialWorkId = "WAS" + otherMemberRID.substring(1);
@@ -225,6 +229,7 @@ public class WorkMigration {
             admMain = null;
             mainA = createRoot(m, BDR+aWorkId, BDO+"Work");
             admMainA = createAdminRoot(mainA);
+            canonicalConceptualWork = EAPTransfer.rKTsRIDMap.containsValue(aWorkId);
             mA = ModelFactory.createDefaultModel();
             addStatus(m, admMainA, "released");
             res.add(null);
@@ -297,7 +302,10 @@ public class WorkMigration {
 		    CommonMigration.addLog(m, root, admMain, WXSDNS, false);
 		}
 
-	    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
+		if (!canonicalConceptualWork) {
+		    // don't migrate the titles of the canonical conceptual works, they will be handled by the rKTs data
+		    CommonMigration.addTitles(m, main, root, WXSDNS, true, false, mainA);
+		}
 	    // put a prefLabel on the serialW if needed
 	    if (isSeriesMember) {
 	        RDFNode serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(serialWorkId);
