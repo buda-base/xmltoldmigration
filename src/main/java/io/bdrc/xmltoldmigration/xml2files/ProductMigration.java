@@ -41,9 +41,9 @@ public class ProductMigration {
 
 		addStatus(m, admMain, root.getAttribute("status"));
 
-		CommonMigration.addNotes(m, root, admMain, PRXSDNS);
+		CommonMigration.addNotes(m, root, main, PRXSDNS);
 
-		CommonMigration.addExternals(m, root, admMain, PRXSDNS);
+		CommonMigration.addExternals(m, root, main, PRXSDNS);
 		
 		CommonMigration.addLog(m, root, admMain, PRXSDNS, false);
 		
@@ -59,10 +59,10 @@ public class ProductMigration {
 				Element subCurrent = (Element) subNodeList.item(j);
 				String value = subCurrent.getAttribute("RID");
 				Resource included = m.createResource(BDA + value);
-				m.add(admMain, m.getProperty(ADM, "productInclude"), included);
+				m.add(main, m.getProperty(ADM, "productInclude"), included);
 			}
-			addAllows(m, admMain, current);
-			addOrgs(m, admMain, current);
+			addAllows(m, main, current);
+			addOrgs(m, main, current);
 		}
 
 		List<String> workRIDs = WorkMigration.productWorks.get(main.getLocalName());

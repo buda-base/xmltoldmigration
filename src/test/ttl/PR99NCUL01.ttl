@@ -1,34 +1,37 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:PR99NCUL01  a               adm:Product , adm:AdminData ;
-        adm:adminAbout          bda:PR99NCUL01 ;
-        adm:facetIndex          7 ;
-        adm:gitPath             "e2/PR99NCUL01.trig" ;
-        adm:gitRepo             bda:GR0011 ;
-        adm:graphId             bdg:PR99NCUL01 ;
-        adm:logEntry            bda:LGBE16F203BDFBC51F ;
+bda:PR99NCUL01  a               adm:Product ;
         adm:productAllowByAddr  "ip6" ;
         adm:productHasOrg       bda:PG7C1978105B5048EB , bda:PGE676375D5967C0E7 ;
         adm:productInclude      bda:PR88CT000129 ;
-        adm:status              bda:StatusReleased ;
-        :isRoot                 true ;
         skos:prefLabel          "This or that"@en .
 
 bda:PG2060FE349265D812
         a                       adm:ProductOrg ;
         rdfs:label              "Sub1"@en ;
         adm:productAllowByAddr  "ip3" .
+
+bda:APR99NCUL01  a      adm:AdminData ;
+        adm:adminAbout  bda:PR99NCUL01 ;
+        adm:facetIndex  7 ;
+        adm:gitPath     "e2/PR99NCUL01.trig" ;
+        adm:gitRepo     bda:GR0011 ;
+        adm:graphId     bdg:PR99NCUL01 ;
+        adm:logEntry    bda:LGA21F9AC959A4FCA4 ;
+        adm:status      bda:StatusReleased ;
+        :isRoot         true .
 
 bda:PG6FB1B49A69268F73
         a                       adm:ProductOrg ;
@@ -50,7 +53,7 @@ bda:PGE929612A7073843B
         rdfs:label              "Sub2"@en ;
         adm:productAllowByAddr  "ip2" .
 
-bda:LGBE16F203BDFBC51F
+bda:LGA21F9AC959A4FCA4
         a               adm:InitialDataCreation ;
         adm:logDate     "2014-09-22T19:39:47.382Z"^^xsd:dateTime ;
         adm:logMessage  "added entry for NCCU Taiwan"@en ;
