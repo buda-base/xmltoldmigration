@@ -494,7 +494,7 @@ public class WorkMigration {
                     note.addProperty(m.getProperty(BDO+"noteSource"), cat);
                 } else {
                     List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
-                    worksForProduct.add(main.getLocalName());
+                    worksForProduct.add(workId);
                 }
             }
             

@@ -6,7 +6,6 @@ import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
-import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class ProductMigration {
 		List<String> workRIDs = WorkMigration.productWorks.get(main.getLocalName());
 		if (workRIDs != null) {
 		    for (final String workRID : workRIDs) {
-		        m.add(main, m.createProperty(ADM, "productHasWork"), m.createProperty(BDR+workRID));
+		        m.add(main, m.createProperty(ADM, "productHasDigitalInstance"), m.createProperty(BDR+workRID));
 		    }
 		}
 
