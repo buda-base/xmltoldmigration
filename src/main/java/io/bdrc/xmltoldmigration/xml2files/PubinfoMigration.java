@@ -579,7 +579,10 @@ public class PubinfoMigration {
         
         // checking if we have at least one title in the language of the work (let's not check when there are multiple languages):
         if (foundLangs.size() == 1 && root.getAttribute("status").equals("released")) {
-            String langofwork = foundLangs.iterator().next(); 
+            String langofwork = foundLangs.iterator().next();
+            // we map Dzongkha to Tibetan
+            if (langofwork == "dz")
+                langofwork = "bo";
             StmtIterator preflabeli = main.listProperties(SKOS.prefLabel);
             boolean titlefound = false;
             List<Statement> toremove = new ArrayList<>();
@@ -593,19 +596,20 @@ public class PubinfoMigration {
                     toremove.add(s);
                 }
             }
-            for (Statement s : toremove) {
-                m.remove(s);
-                m.add(s.getSubject(), SKOS.altLabel, s.getObject());
-                if (mainA != null) {
-                    mA.remove(s);
-                    mA.add(s.getSubject(), SKOS.altLabel, s.getObject());
+            if (titlefound) {
+                // don't move the prefLabels to altLabels if there's no other prefLabels
+                for (Statement s : toremove) {
+                    m.remove(s);
+                    m.add(s.getSubject(), SKOS.altLabel, s.getObject());
+                    if (mainA != null) {
+                        mA.remove(s);
+                        mA.add(s.getSubject(), SKOS.altLabel, s.getObject());
+                    }
                 }
-            }
-            if (!titlefound) {
+           } else {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "encoding", "no title found in the work language ("+langofwork+")");
-            } 
+            }
         }
-
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "sourcePrintery");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
