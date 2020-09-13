@@ -877,7 +877,7 @@ public class CommonMigration  {
                     String datehash = OutlineMigration.getMd5(datevalue, 8);
                     logEntry = m.getResource(BDA+"LGIM"+datehash);
                 }
-            } else if (rid.startsWith("P0RK") || rid.startsWith("L1RK")) {
+            } else if (rid.startsWith("P0RK") || rid.startsWith("L1RK") || rid.startsWith("G9GBX")) {
                 logEntryType = m.createResource(ADM+"InitialDataImport");
             } else {
                 logEntryType = m.createResource(isOutline ? ADM+"InitialOutlineData" : ADM+"InitialDataCreation");
