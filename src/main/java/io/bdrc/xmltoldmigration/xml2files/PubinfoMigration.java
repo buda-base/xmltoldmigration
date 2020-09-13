@@ -723,11 +723,16 @@ public class PubinfoMigration {
     private static void addSimpleDateElement(String elementName, String eventType, Element root, Resource main, String propLocalName) {
         if (main == null)
             return;
+        
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getTextContent().trim();
             if (value.isEmpty()) return;
+            // n.d
+            if (value.contains("n") && value.contains("d") && value.length() < 10) {
+                return;
+            }
             CommonMigration.addDatesToEvent(value, main, propLocalName, eventType);
         }
     }
