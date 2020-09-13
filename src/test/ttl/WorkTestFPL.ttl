@@ -34,21 +34,16 @@ bdr:TTECDA05CC52A94359
         a           :Title ;
         rdfs:label  "kun rig rnam bshad/"@bo-x-ewts .
 
-bdr:CRACCC7446FEDC1B3F
-        a       :AgentAsCreator ;
-        :agent  bdr:P1591 ;
-        :role   bdr:R0ER0019 .
+bda:LGIM3935ECCE8B  a   adm:UpdateData ;
+        adm:logDate     "2017-08-28T14:31:58.652Z"^^xsd:dateTime ;
+        adm:logMessage  "added archiveInfo for FPL"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00006 .
 
 bdr:WAS12345  a           :SerialWork ;
         :isRoot           true ;
         :serialHasMember  bdr:WAM12837FPL ;
         skos:prefLabel    "test pali title"@pi-x-iast .
-
-bda:LG0DCBF084F9AF9CC5
-        a               adm:UpdateData ;
-        adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized catalog info"@en ;
-        adm:logWho      bdu:U00012 .
 
 bdr:MWM12837FPL  a         :SerialInstance ;
         rdfs:comment       "description with no type" ;
@@ -72,19 +67,8 @@ bdr:TT15ED3B92D25DDB21
         a           :Title ;
         rdfs:label  "vinayavinicchaya pāṭh nisya"@pi-x-iast .
 
-bdr:ITWM12837FPL  a       :Item ;
-        :itemForInstance  bdr:MWM12837FPL ;
-        :itemHasVolume    bdr:VL34F0EEC409CDBEC1 ;
-        :itemLibrary      bdr:G1TLMFPL000001 ;
-        :itemShelf        "3A|110" .
-
-bdr:EV86C328CD33E9538B
-        a           :CompletedEvent ;
-        :onOrAbout  "descriptionwithtypedate" ;
-        :onYear     "1232"^^xsd:gYear .
-
 bdr:WAM12837FPL  a        :SerialMember ;
-        :creator          bdr:CRACCC7446FEDC1B3F ;
+        :creator          bdr:CRAF17AA3DDF595903 ;
         :isRoot           true ;
         :serialMemberOf   bdr:WAS12345 ;
         :workGenre        bdr:T132 ;
@@ -93,15 +77,38 @@ bdr:WAM12837FPL  a        :SerialMember ;
         skos:altLabel     "testcap/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
         skos:prefLabel    "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
 
+bdr:EV86C328CD33E9538B
+        a           :CompletedEvent ;
+        :onOrAbout  "descriptionwithtypedate" ;
+        :onYear     "1232"^^xsd:gYear .
+
+bdr:ITWM12837FPL  a       :Item ;
+        :itemForInstance  bdr:MWM12837FPL ;
+        :itemHasVolume    bdr:VL34F0EEC409CDBEC1 ;
+        :itemLibrary      bdr:G1TLMFPL000001 ;
+        :itemShelf        "3A|110" .
+
 bdr:TT7687083210B4255F
         a           :OtherTitle ;
         rdfs:label  "test pali title"@pi-x-iast .
 
 bda:LGA23D86045E3C8A59
         a               adm:UpdateData ;
-        adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized catalog info"@en ;
-        adm:logWho      bdu:U00012 .
+        adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
+        adm:logMessage  "cataloging reviewed"@en ;
+        adm:logWho      bdu:U00001 .
+
+bda:LGACCC7446FEDC1B3F
+        a               adm:UpdateData ;
+        adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
+        adm:logMessage  "added print type and source printery"@en ;
+        adm:logWho      bdu:U00013 .
+
+bda:LGIMA3A86F9513  a   adm:InitialDataImport ;
+        adm:logDate     "2016-12-06T12:04:56.81Z"^^xsd:dateTime ;
+        adm:logMessage  "FPL Import"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00006 .
 
 bdr:TT3CBDE3A243BE57CF
         a           :Title ;
@@ -112,25 +119,31 @@ bdr:VL34F0EEC409CDBEC1
         :volumeNumber               1 ;
         :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en .
 
-bda:LGD7652E69BECAF723
-        a               adm:UpdateData ;
-        adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
-        adm:logMessage  "added print type and source printery"@en ;
-        adm:logWho      bdu:U00013 .
-
-bda:LG2D01023E230E08C2
-        a               adm:InitialDataCreation ;
-        adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
-        adm:logMessage  "cataloging reviewed"@en ;
-        adm:logWho      bdu:U00001 .
+bda:LGIM5A753E00B7  a   adm:UpdateData ;
+        adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized catalog info"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00012 .
 
 bdr:TTDDB0945A6B376CE3
         a           :TitlePageTitle ;
         rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
 
+bda:LGIMAEA9B78D7A  a   adm:UpdateData ;
+        adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized catalog info"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00012 .
+
+bda:LGIMC2340FB74E  a   adm:UpdateData ;
+        adm:logDate     "2017-08-28T14:40:13.266Z"^^xsd:dateTime ;
+        adm:logMessage  "added archiveInfo for FPL"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00006 .
+
 bda:WAS12345  a            adm:AdminData ;
         adm:adminAbout     bdr:WAS12345 ;
-        adm:facetIndex     6 ;
+        adm:facetIndex     9 ;
         adm:gitPath        "4a/WAS12345.trig" ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WAS12345 ;
@@ -143,7 +156,7 @@ bda:WAM12837FPL  a         adm:AdminData ;
         adm:gitPath        "93/WAM12837FPL.trig" ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WAM12837FPL ;
-        adm:logEntry       bda:LGA23D86045E3C8A59 , bda:LG0DCBF084F9AF9CC5 , bda:LG2D01023E230E08C2 , bda:LGD7652E69BECAF723 ;
+        adm:logEntry       bda:LGIMC2340FB74E , bda:LGIMA3A86F9513 , bda:LGIM5A753E00B7 , bda:LGIMAEA9B78D7A , bda:LGA23D86045E3C8A59 , bda:LGACCC7446FEDC1B3F , bda:LGIM3935ECCE8B ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
@@ -152,3 +165,8 @@ bda:ITWM12837FPL  a     adm:AdminData ;
         adm:adminAbout  bdr:ITWM12837FPL ;
         adm:status      bda:StatusReleased ;
         :isRoot         true .
+
+bdr:CRAF17AA3DDF595903
+        a       :AgentAsCreator ;
+        :agent  bdr:P1591 ;
+        :role   bdr:R0ER0019 .

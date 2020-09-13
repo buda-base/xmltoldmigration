@@ -32,6 +32,12 @@ bdr:CLC0BD672AF6D364D1
         :contentLocationPage      236 ;
         :contentLocationVolume    1 .
 
+bda:LGIMB5106F8FDA  a   adm:UpdateData ;
+        adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized names of who and received elements - yet again"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00006 .
+
 bda:LGBF7F6269805E6223
         a               adm:UpdateData ;
         adm:logDate     "2014-05-14T14:36:08.904Z"^^xsd:dateTime ;
@@ -54,19 +60,13 @@ bda:LG6B9FE548306F2453
         adm:logMessage  "added location"@en ;
         adm:logWho      bdu:U00019 .
 
-bda:LGAE337746AFB02C13
-        a               adm:UpdateData ;
-        adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized names of who and received elements"@en ;
-        adm:logWho      bdu:U00006 .
-
 bda:L8LS14115  a           adm:AdminData ;
         adm:adminAbout     bdr:L8LS14115 ;
         adm:facetIndex     14 ;
         adm:gitPath        "86/L8LS14115.trig" ;
         adm:gitRepo        bda:GR0004 ;
         adm:graphId        bdg:L8LS14115 ;
-        adm:logEntry       bda:LG7D6D1032AD23F04D , bda:LGAE337746AFB02C13 , bda:LG6B9FE548306F2453 , bda:LG80A1FAA25E833871 , bda:LGBF7F6269805E6223 , bda:LG96B065B1B67F2C86 ;
+        adm:logEntry       bda:LGIMB5106F8FDA , bda:LG7D6D1032AD23F04D , bda:LGIME87E5875E1 , bda:LG6B9FE548306F2453 , bda:LGBF7F6269805E6223 , bda:LG96B065B1B67F2C86 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
@@ -99,8 +99,8 @@ bdr:LHD3068D3704989044
         :lineageWork      bdr:WATest ;
         :note             bdr:NT7E05A41908C244A3 .
 
-bda:LG80A1FAA25E833871
-        a               adm:UpdateData ;
-        adm:logDate     "2014-07-29T16:42:13.479Z"^^xsd:dateTime ;
-        adm:logMessage  "normalized names of who and received elements - yet again"@en ;
+bda:LGIME87E5875E1  a   adm:UpdateData ;
+        adm:logDate     "2014-07-28T21:20:44.974Z"^^xsd:dateTime ;
+        adm:logMessage  "normalized names of who and received elements"@en ;
+        adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .

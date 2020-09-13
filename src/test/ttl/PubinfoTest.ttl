@@ -22,23 +22,17 @@ bdr:IDE0F0D4471E6CE01A
         a          bdr:HollisId ;
         rdf:value  "014254679" .
 
-bda:LGF57086AF3B9D6900
-        a               adm:UpdateData ;
-        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
-        adm:logMessage  "added hollis field to pub info"@en ;
-        adm:logWho      bdu:U00006 .
-
-bdr:ID4AF69EDA5BFE4E04
-        a          bf:ShelfMarkLcc ;
-        rdf:value  "BQ7662.4 .G77 1979" .
+bdr:EVB0BA72AF962CC892
+        a        :PublishedEvent ;
+        :onYear  "2000"^^xsd:gYear .
 
 bdr:WA1FPL1  a     :Work ;
         :isRoot    true ;
         :language  bdr:LangBo .
 
-bdr:EVB0BA72AF962CC892
-        a        :PublishedEvent ;
-        :onYear  "2000"^^xsd:gYear .
+bdr:ID4AF69EDA5BFE4E04
+        a          bf:ShelfMarkLcc ;
+        rdf:value  "BQ7662.4 .G77 1979" .
 
 bdr:ITW1FPL1_001  a       :Item ;
         :itemCopies       "1" ;
@@ -53,14 +47,14 @@ bda:MW1FPL1  a          adm:AdminData ;
         adm:gitPath     "81/MW1FPL1.trig" ;
         adm:gitRepo     bda:GR0012 ;
         adm:graphId     bdg:MW1FPL1 ;
-        adm:logEntry    bda:LG09B2A4060669C708 , bda:LGF57086AF3B9D6900 , bda:LG9C64AEBD23CBF0A3 ;
+        adm:logEntry    bda:LGIMD5FAEE0C6C , bda:LGIM6B433BA01E , bda:LG9C64AEBD23CBF0A3 ;
         :isRoot         true .
 
-bda:LG09B2A4060669C708
-        a               adm:UpdateData ;
-        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
-        adm:logMessage  "normalize encoding field for pub info"@en ;
-        adm:logWho      bdu:U00012 .
+bda:LGIMD5FAEE0C6C  a   adm:UpdateData ;
+        adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
+        adm:logMessage  "added hollis field to pub info"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00006 .
 
 bdr:MW1FPL1  a                    :Instance ;
         bf:identifiedBy           bdr:ID4AF69EDA5BFE4E04 , bdr:IDE0F0D4471E6CE01A ;
@@ -75,3 +69,9 @@ bdr:MW1FPL1  a                    :Instance ;
         :script                   bdr:ScriptDbuMed ;
         :sourcePrinteryStatement  "test sourcePrintery with no place" ;
         :workExtentStatement      "177 ff." .
+
+bda:LGIM6B433BA01E  a   adm:UpdateData ;
+        adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
+        adm:logMessage  "normalize encoding field for pub info"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00012 .

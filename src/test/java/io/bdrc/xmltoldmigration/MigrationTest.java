@@ -233,7 +233,7 @@ public class MigrationTest
         Validator validator = MigrationHelpers.getValidatorFor("place");
         assertFalse(CommonMigration.documentValidates(d, validator));
         Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
-        fromXml.write(System.out, "TTL");
+        //fromXml.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G844.ttl");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
@@ -279,7 +279,7 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
-        //fromXml.write(System.out, "TTL");
+        fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -343,7 +343,7 @@ public class MigrationTest
            //assertTrue(CommonMigration.documentValidates(d, pubinfoValidator));
            Model fromXml = mergeModelList(PubinfoMigration.MigratePubinfo(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
-           //fromXml.write(System.out, "TTL");
+           fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            flushLog();
        }
@@ -439,7 +439,7 @@ public class MigrationTest
         assertTrue(CommonMigration.documentValidates(d, validator));
         Model fromXml = MigrationHelpers.xmlToRdf(d, "lineage");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/L8LS14115.ttl");
-        fromXml.write(System.out, "TTL");
+        //fromXml.write(System.out, "TTL");
 //      
 //      // ==== TEMP DEBUG ====
 //        fromXml.write(new FileWriter("/Users/chris/BUDA/NEW_MIGRATION_TESTING/testL8LS14115-fromXml.ttl"), "TTL");

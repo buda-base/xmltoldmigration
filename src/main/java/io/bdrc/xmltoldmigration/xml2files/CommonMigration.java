@@ -790,6 +790,70 @@ public class CommonMigration  {
         m.add(idNode, RDF.value, m.createLiteral(value));
     }
 
+    public static Map<String,String> datesOfAuto = new HashMap<>();
+
+    static {
+        datesOfAuto.put("2016-12-06T12:04:56.81Z", "FPL Import");
+        datesOfAuto.put("2012-12-25T01:09:21.507Z", "created by monastery import");
+        datesOfAuto.put("2012-12-11T17:11:51.984Z", "type changed from monastery to dgonPa");
+        datesOfAuto.put("2012-12-11T17:39:05.287Z", "type changed from traditionalPlaceName to srolRgyunGyiSaMing");
+        datesOfAuto.put("2015-10-27T19:58:07.021Z", "updating geometry for modern county");
+        datesOfAuto.put("2012-12-11T17:49:53.482Z", "type changed from zhangxiang to shang");
+        datesOfAuto.put("2013-12-03T23:23:40.962Z", "created by mongol import");
+        datesOfAuto.put("2012-12-13T17:05:29.03Z", "type changed from placeTypes:gzimsKhang to khamsTshan");
+        datesOfAuto.put("2012-12-11T17:21:51.251Z", "type changed from residentialHouse to gzimsKhang");
+        datesOfAuto.put("2012-12-11T17:29:31.108Z", "type changed from temple to lhaKhang");
+        datesOfAuto.put("2015-10-20T22:30:59.465Z", "populating gis from G9GBX...");
+        datesOfAuto.put("2012-12-11T17:08:33.797Z", "type changed from placeTypes:rdzong to sngarGyiRdzong");
+        datesOfAuto.put("2012-12-11T17:10:22.531Z", "type changed from hermitage to riKhrod");
+        datesOfAuto.put("2014-03-20T14:27:21.266Z", "added tbrc phonetic tulku title");
+        datesOfAuto.put("2014-04-22T00:30:13.577Z", "normalize encoding field for pub info");
+        datesOfAuto.put("2015-01-05T17:22:13.356Z", "added hollis field to pub info");
+        datesOfAuto.put("2017-08-28T14:31:58.652Z", "added archiveInfo for FPL");
+        datesOfAuto.put("2017-08-28T14:40:13.266Z", "added archiveInfo for FPL");
+        datesOfAuto.put("2014-05-02T18:19:14.334Z", "added seeHarvard to pub info");
+        datesOfAuto.put("2012-03-30T11:00:49.672Z", "generated from legacy\n                entries of Gene Smith");
+        datesOfAuto.put("2019-12-20T20:45:53.53Z", "updated missing pages info from NLM spreadsheet");
+        datesOfAuto.put("2019-12-20T20:42:53.606Z", "updated missing pages info from NLM spreadsheet");
+        datesOfAuto.put("2015-09-01T19:55:46.833Z", "subject class changed from T00AG01142 to T583");
+        datesOfAuto.put("2015-09-01T17:05:34.944Z", "subject class changed from T1PD53280 to T770");
+        datesOfAuto.put("2014-10-15T17:57:00.715Z", "updated catalog info");
+        datesOfAuto.put("2017-11-02T17:38:24.575Z", "changed access to restrictedInChina");
+        datesOfAuto.put("2015-05-14T15:56:26.693Z", "changed access to restrictedInChina");
+        datesOfAuto.put("2014-07-28T22:06:14.547Z", "normalized names of who and received elements - for real this time");
+        datesOfAuto.put("2014-07-29T16:42:13.479Z", "normalized names of who and received elements - yet again");
+        datesOfAuto.put("2014-07-28T21:20:44.974Z", "normalized names of who and received elements");
+        datesOfAuto.put("2014-07-29T20:49:23.894Z", "normalized names of who and received elements - yet again");
+        datesOfAuto.put("2014-07-29T01:25:54.03Z", "normalized names of who and received elements - for real this time");
+        datesOfAuto.put("2014-07-29T16:18:50.168Z", "normalized names of who and received elements - for real this time");
+        datesOfAuto.put("2014-05-17T11:18:37.731Z", "normalized catalog info");
+        datesOfAuto.put("2017-11-02T17:34:47.366Z", "changed access to restrictedByTbrc");
+        datesOfAuto.put("2014-04-21T23:05:36.322Z", "normalized catalog info");
+        datesOfAuto.put("2017-06-26T14:21:21.664Z", "made open access");
+        datesOfAuto.put("2017-06-26T14:20:59.643Z", "made open access");
+        datesOfAuto.put("2017-01-24T15:53:54.908Z", "marked as accessioned");
+        datesOfAuto.put("2020-06-17T14:18:30.613Z", "changed access to restrictedInChina");
+        datesOfAuto.put("2013-04-19T11:24:55.882Z", "added Work to CTC 10");
+        datesOfAuto.put("2014-10-15T18:10:30.945Z", "deleted inProduct PR1COPYRIGHT");
+        datesOfAuto.put("2014-10-15T17:56:23.536Z", "updated catalog info");
+        datesOfAuto.put("2014-04-23T19:16:52.743Z", "added ALA-LC title variant from Hollis spreadsheet");
+        datesOfAuto.put("2017-07-07T21:31:19.81Z", "added Work to CTC 14");
+        datesOfAuto.put("2014-03-07T15:45:20.935Z", "added Work to CTC 11");
+        datesOfAuto.put("2017-06-26T14:04:28.691Z", "made open access");
+        datesOfAuto.put("2018-04-05T14:36:06.065Z", "added Work to CTC 15");
+        datesOfAuto.put("2017-06-26T14:17:52.84Z", "made open access");
+        datesOfAuto.put("2016-12-05T22:50:12.299Z", "marked as accessioned");
+        datesOfAuto.put("2015-05-07T18:09:14.22Z", "added Work to CTC 12");
+        datesOfAuto.put("2013-04-19T11:05:48.485Z", "added Work to CTC 10");
+        datesOfAuto.put("2016-12-05T22:09:43.772Z", "marked as accessioned");
+        datesOfAuto.put("2016-12-05T22:11:09.047Z", "marked as accessioned");
+        datesOfAuto.put("2014-04-23T19:13:59.68Z", "added ALA-LC title variant from Hollis spreadsheet");
+        datesOfAuto.put("2014-05-02T17:27:14.339Z", "removed erroneous titles from previous update");
+        datesOfAuto.put("2016-05-10T16:55:52.884Z", "added Work to CTC 13");
+        datesOfAuto.put("2017-06-26T14:26:25.168Z", "made restrictedInChina");
+        datesOfAuto.put("2015-08-27T20:30:28.724Z", "subject class changed from T10MS11134 to T448");
+    }
+    
     public static Pattern oldstyleRIDsP = Pattern.compile("^[A-Z]+\\d+$");
     public static boolean addLogEntry(Model m, Element e, Resource rez, int entryNum, boolean syncfound, boolean isOutline) {
         if (e == null) return syncfound;
@@ -832,7 +896,7 @@ public class CommonMigration  {
             value = "";
         }
         String whovalue = normalizeString(e.getAttribute("who"));
-        if (whovalue.endsWith(".xql") || whovalue.endsWith("Importer") || whovalue.startsWith("Imagegroups ") || whovalue.equals("pubinfo-add-biblioNote") || whovalue.equals("add-works-to-PR1CTC16")) {
+        if (whovalue.endsWith(".xql") || whovalue.endsWith("mport") || whovalue.endsWith("mporter") || whovalue.startsWith("Imagegroups ") || whovalue.equals("pubinfo-add-biblioNote") || whovalue.equals("add-works-to-PR1CTC16")) {
             if (logEntryType.getLocalName().equals("InitialDataCreation")) {
                 logEntryType = m.createResource(isOutline ? ADM+"InitialOutlineDataImport" :ADM+"InitialDataImport");
             } else {
@@ -844,6 +908,26 @@ public class CommonMigration  {
             if (!datevalue.isEmpty()) {
                 String datehash = OutlineMigration.getMd5(datevalue, 8);
                 logEntry = m.getResource(BDA+"LGIM"+datehash);
+            }
+        }
+        Literal dateL = null;
+        try {
+            dateL = literalFromXsdDate(m, datevalue);
+        } catch (DatatypeFormatException ex) {
+            ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+datevalue+"`");
+        }
+        if (dateL != null) {
+            String dateUtc = dateL.getLexicalForm();
+            if (value.equals(datesOfAuto.get(dateUtc))) {
+                //System.out.println("made replacement!");
+                if (logEntryType.getLocalName().equals("InitialDataCreation")) {
+                    logEntryType = m.createResource(isOutline ? ADM+"InitialOutlineDataImport" :ADM+"InitialDataImport");
+                } else {
+                    logEntryType = m.createResource(isOutline ? ADM+"UpdateOutlineData" : ADM+"UpdateData");
+                }
+                isBatch = true;
+                String hash = OutlineMigration.getMd5(dateUtc+value, 10);
+                logEntry = m.getResource(BDA+"LGIM"+hash);
             }
         }
         if (!datevalue.isEmpty()) {
@@ -873,11 +957,9 @@ public class CommonMigration  {
                     }
                 }
             }
-            try {
-                m.add(logEntry, prop, literalFromXsdDate(m, datevalue));
-            } catch (DatatypeFormatException ex) {
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "log_entry", "cannot convert log date properly, original date: `"+datevalue+"`");
-            }
+        }
+        if (dateL != null) {
+            m.add(logEntry, prop, dateL);
         }
         
         if (value.startsWith("Convert2Outline")) {

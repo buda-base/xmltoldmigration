@@ -24,23 +24,17 @@ bdr:EV17426918F6CC57DE
         :notAfter   "1799"^^xsd:gYear ;
         :notBefore  "1300"^^xsd:gYear .
 
-bdr:NT585206D37BCF0D38
-        a                          :Note ;
-        :contentLocationStatement  "V.3, p.47" ;
-        :noteSource                bdr:MW23847 ;
-        :noteText                  "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo .
-
 bda:LG1CBDD898D5725A4A
         a               adm:UpdateData ;
         adm:logDate     "2013-02-25T16:44:50.079Z"^^xsd:dateTime ;
         adm:logMessage  "added contain"@en ;
         adm:logWho      bdu:U00007 .
 
-bda:LG7FCB6B3A94B46774
-        a               adm:UpdateData ;
-        adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
-        adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
-        adm:logWho      bdu:U00020 .
+bdr:NT585206D37BCF0D38
+        a                          :Note ;
+        :contentLocationStatement  "V.3, p.47" ;
+        :noteSource                bdr:MW23847 ;
+        :noteText                  "དགོན་ཐོ་འདི་རྒྱ་ཡིག་གི་རྒྱ་ཆ་གཞིར་བཟུང་གིས་བཟོས་པ་ཞིག་ཡིན་པ་ལས་བོད་ཡིག་གི་དགོན་མིང་འདི་གཉིས་ཕྱིས་ནས་བསྣན་པ་ཡང་གོང་གསལ་གཞིས་རྩེ་ས་ཁུལ་གྱི་གནས་ཡིག་གི་ཤོག་ངོས་༤༧ཁུངས་བཅོལ་བ་ཡིན་ཏེ། གྲོ་མོ་རྫོང་ཁོངས་སུ་ཡོད་པའི་སྐྱད་ཚལ་དགོན་པའམ་སྐྱད་རོལ་དགོན་ནི་སྔར་ས་སྐྱ་དགོན་གྱི་དགོན་ལག་ཡིན་པ་སོགས་གསལ་བ་ནི་མུ་མཐུད་རྩད་བྱའོ།"@bo .
 
 bda:LG6D882BB8A436EC56
         a               adm:UpdateData ;
@@ -118,7 +112,7 @@ bda:G488  a                           adm:AdminData ;
         adm:gitPath                   "5d/G488.trig" ;
         adm:gitRepo                   bda:GR0005 ;
         adm:graphId                   bdg:G488 ;
-        adm:logEntry                  bda:LG20FF66808E17B299 , bda:LGA43719D6034498F3 , bda:LG6A07AEAFCD139EC4 , bda:LG1CBDD898D5725A4A , bda:LG76B6649907E8086A , bda:LG6D882BB8A436EC56 , bda:LG7FCB6B3A94B46774 , bda:LG36685753B2F2BA3E , bda:LG498FA81DA8005BF4 ;
+        adm:logEntry                  bda:LG20FF66808E17B299 , bda:LGA43719D6034498F3 , bda:LGIM6B07AF7F36 , bda:LG6A07AEAFCD139EC4 , bda:LG1CBDD898D5725A4A , bda:LG76B6649907E8086A , bda:LG6D882BB8A436EC56 , bda:LG36685753B2F2BA3E , bda:LG498FA81DA8005BF4 ;
         adm:metadataLegal             bda:LD_BDRC_CC0 ;
         adm:place_TLM_accession       "004476" ;
         adm:place_TLM_admin           "tgaAdmin" ;
@@ -132,6 +126,12 @@ bda:G488  a                           adm:AdminData ;
         adm:place_id_lex              "540102200:540101145" ;
         adm:status                    bda:StatusReleased ;
         :isRoot                       true .
+
+bda:LGIM6B07AF7F36  a   adm:UpdateData ;
+        adm:logDate     "2012-12-11T17:39:05.287Z"^^xsd:dateTime ;
+        adm:logMessage  "type changed from traditionalPlaceName to srolRgyunGyiSaMing"@en ;
+        adm:logMethod   bda:BatchMethod ;
+        adm:logWho      bdu:U00020 .
 
 vcard:VAD014F74D69F13709
         a                     vcard:Address ;
