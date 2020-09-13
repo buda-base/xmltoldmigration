@@ -863,6 +863,9 @@ public class CommonMigration  {
         String datevalue = e.getAttribute("when");
         Property prop = m.createProperty(ADM+"logDate");
         String rid = rez.getLocalName();
+        if (rid.startsWith("MW")) {
+            rid = rid.substring(1);
+        }
         boolean isBatch = false;
         String logAgent = null;
         boolean isoldstyle = oldstyleRIDsP.matcher(rid).matches();

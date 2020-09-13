@@ -12,10 +12,10 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:LG9C64AEBD23CBF0A3
-        a               adm:InitialDataCreation ;
+bda:LGIM9F8D3273  a     adm:InitialDataImport ;
         adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
         adm:logMessage  "added print type and source printery"@en ;
+        adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00013 .
 
 bdr:IDE0F0D4471E6CE01A
@@ -47,7 +47,7 @@ bda:MW1FPL1  a          adm:AdminData ;
         adm:gitPath     "81/MW1FPL1.trig" ;
         adm:gitRepo     bda:GR0012 ;
         adm:graphId     bdg:MW1FPL1 ;
-        adm:logEntry    bda:LGIMD5FAEE0C6C , bda:LGIM6B433BA01E , bda:LG9C64AEBD23CBF0A3 ;
+        adm:logEntry    bda:LGIMD5FAEE0C6C , bda:LGIM6B433BA01E , bda:LGIM9F8D3273 ;
         :isRoot         true .
 
 bda:LGIMD5FAEE0C6C  a   adm:UpdateData ;
