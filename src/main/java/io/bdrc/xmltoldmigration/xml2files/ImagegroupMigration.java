@@ -153,8 +153,8 @@ public class ImagegroupMigration {
                 //m.add(volR, m.getProperty(BDO, "volumePagesText"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
             }
             value = current.getAttribute("total").trim();
-            //if (!value.isEmpty())
-            //    m.add(volR, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
+            if (!value.isEmpty())
+                m.add(volR, m.getProperty(BDO, "volumePagesTotal"), m.createTypedLiteral(value, XSDDatatype.XSDinteger));
         }
         
         nodeList = root.getElementsByTagNameNS(IGXSDNS, "scanning");
