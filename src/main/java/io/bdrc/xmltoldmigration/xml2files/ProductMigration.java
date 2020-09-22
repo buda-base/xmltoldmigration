@@ -3,6 +3,7 @@ package io.bdrc.xmltoldmigration.xml2files;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
@@ -32,13 +33,13 @@ public class ProductMigration {
 		Model m = ModelFactory.createDefaultModel();
 		MigrationHelpers.setPrefixes(m, "product");
 		Element root = xmlDocument.getDocumentElement();
-		Resource main = m.createResource(BDA+root.getAttribute("RID"));
-		main.addProperty(RDF.type, m.createResource(ADM + "Product"));
+		Resource main = m.createResource(BDR+root.getAttribute("RID"));
+		main.addProperty(RDF.type, m.createResource(BDO + "Collection"));
 		Resource admMain = createAdminRoot(main);
 		if (MigrationHelpers.ricrid.containsKey(root.getAttribute("RID"))) {
 		    admMain.addLiteral(admMain.getModel().createProperty(ADM, "isRestrictedInChina"), true);
 		}
-
+		
 		addStatus(m, admMain, root.getAttribute("status"));
 
 		CommonMigration.addNotes(m, root, main, PRXSDNS);
@@ -58,7 +59,7 @@ public class ProductMigration {
 			for (int j = 0; j < subNodeList.getLength(); j++) {
 				Element subCurrent = (Element) subNodeList.item(j);
 				String value = subCurrent.getAttribute("RID");
-				Resource included = m.createResource(BDA + value);
+				Resource included = m.createResource(BDR + value);
 				m.add(main, m.getProperty(ADM, "productInclude"), included);
 			}
 			addAllows(m, main, current);
@@ -68,7 +69,7 @@ public class ProductMigration {
 		List<String> workRIDs = WorkMigration.productWorks.get(main.getLocalName());
 		if (workRIDs != null) {
 		    for (final String workRID : workRIDs) {
-		        m.add(main, m.createProperty(ADM, "productHasDigitalInstance"), m.createProperty(BDR+workRID));
+		        m.add(main, m.createProperty(BDO, "collectionMember"), m.createProperty(BDR+workRID));
 		    }
 		}
 
@@ -84,7 +85,7 @@ public class ProductMigration {
 	}
 	
 	public static void addOrg(Model m, Resource rez, Element orgElement, int i) {
-	    Resource org = getFacetNode(FacetType.PRODUCT_ORG, BDA, rez);
+	    Resource org = getFacetNode(FacetType.PRODUCT_ORG, BDR, rez);
 		String value = CommonMigration.normalizeString(orgElement.getAttribute("name"));
 		if (!value.isEmpty()) {
 			m.add(org, RDFS.label, m.createLiteral(value, "en"));
