@@ -36,6 +36,7 @@ import org.w3c.dom.NodeList;
 
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
+import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
 import org.apache.jena.vocabulary.SKOS;
 
@@ -209,9 +210,10 @@ public class PubinfoMigration {
                 res.add(serialWork);
             }
             mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
-            mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDO+serialWorkId));
-            main.addProperty(m.createProperty(BDO+"serialInstanceOf"), mainA);
-            mainA.addProperty(mA.createProperty(BDO+"serialHasInstance"), main);
+            mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDR+serialWorkId));
+            SymetricNormalization.addSymetricProperty(mA, "serialMemberOf", mainA.getLocalName(), serialWorkId, null);
+            main.addProperty(m.createProperty(BDO+"instanceOf"), mainA);
+            mainA.addProperty(mA.createProperty(BDO+"workHasInstance"), main);
         }
         RDFNode seriesNumber = getSeriesNumber(root, m);
         if (seriesNumber != null) {
@@ -219,7 +221,7 @@ public class PubinfoMigration {
             main.addProperty(RDF.type, m.createResource(BDO+"SerialInstance"));
             if (mainA != null) { // TODO: this is a bit too simple
                 mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
-                main.addProperty(m.createProperty(BDO+"serialInstanceOf"), mainA);
+                main.addProperty(m.createProperty(BDO+"instanceOf"), mainA);
             }
         }
         

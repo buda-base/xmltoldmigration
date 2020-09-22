@@ -12,49 +12,46 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:PR99NCUL01  a               adm:Product ;
-        adm:productAllowByAddr  "ip6" ;
-        adm:productHasOrg       bda:PG7C1978105B5048EB , bda:PGE676375D5967C0E7 ;
-        adm:productInclude      bda:PR88CT000129 ;
-        skos:prefLabel          "This or that"@en .
+bdr:PG7C1978105B5048EB
+        a                  adm:ProductOrg ;
+        rdfs:label         "Top2"@en ;
+        adm:productHasOrg  bdr:PG6FB1B49A69268F73 , bdr:PGE929612A7073843B , bdr:PG2060FE349265D812 .
 
-bda:PG2060FE349265D812
-        a                       adm:ProductOrg ;
-        rdfs:label              "Sub1"@en ;
-        adm:productAllowByAddr  "ip3" .
-
-bda:APR99NCUL01  a      adm:AdminData ;
-        adm:adminAbout  bda:PR99NCUL01 ;
+bda:PR99NCUL01  a       adm:AdminData ;
+        adm:adminAbout  bdr:PR99NCUL01 ;
         adm:facetIndex  7 ;
-        adm:gitPath     "e2/PR99NCUL01.trig" ;
-        adm:gitRepo     bda:GR0011 ;
-        adm:graphId     bdg:PR99NCUL01 ;
-        adm:logEntry    bda:LGA21F9AC959A4FCA4 ;
+        adm:logEntry    bda:LGBE16F203BDFBC51F ;
         adm:status      bda:StatusReleased ;
         :isRoot         true .
 
-bda:PG6FB1B49A69268F73
-        a                       adm:ProductOrg ;
-        rdfs:label              "Sub3"@en ;
-        adm:productAllowByAddr  "ip1" .
-
-bda:PGE676375D5967C0E7
-        a                       adm:ProductOrg ;
-        rdfs:label              "Top1"@en ;
-        adm:productAllowByAddr  "ip4" , "ip5" .
-
-bda:PG7C1978105B5048EB
-        a                  adm:ProductOrg ;
-        rdfs:label         "Top2"@en ;
-        adm:productHasOrg  bda:PG6FB1B49A69268F73 , bda:PGE929612A7073843B , bda:PG2060FE349265D812 .
-
-bda:PGE929612A7073843B
+bdr:PGE929612A7073843B
         a                       adm:ProductOrg ;
         rdfs:label              "Sub2"@en ;
         adm:productAllowByAddr  "ip2" .
 
-bda:LGA21F9AC959A4FCA4
+bdr:PR99NCUL01  a               :Collection ;
+        adm:productAllowByAddr  "ip6" ;
+        adm:productHasOrg       bdr:PG7C1978105B5048EB , bdr:PGE676375D5967C0E7 ;
+        adm:productInclude      bdr:PR88CT000129 ;
+        skos:prefLabel          "This or that"@en .
+
+bdr:PG2060FE349265D812
+        a                       adm:ProductOrg ;
+        rdfs:label              "Sub1"@en ;
+        adm:productAllowByAddr  "ip3" .
+
+bda:LGBE16F203BDFBC51F
         a               adm:InitialDataCreation ;
         adm:logDate     "2014-09-22T19:39:47.382Z"^^xsd:dateTime ;
         adm:logMessage  "added entry for NCCU Taiwan"@en ;
         adm:logWho      bdu:U00006 .
+
+bdr:PG6FB1B49A69268F73
+        a                       adm:ProductOrg ;
+        rdfs:label              "Sub3"@en ;
+        adm:productAllowByAddr  "ip1" .
+
+bdr:PGE676375D5967C0E7
+        a                       adm:ProductOrg ;
+        rdfs:label              "Top1"@en ;
+        adm:productAllowByAddr  "ip4" , "ip5" .
