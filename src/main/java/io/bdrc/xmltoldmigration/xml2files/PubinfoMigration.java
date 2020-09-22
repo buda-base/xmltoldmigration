@@ -178,7 +178,7 @@ public class PubinfoMigration {
                 // which will become a member in this function, but is shared with non-members...
                 mA = ModelFactory.createDefaultModel();
                 setPrefixes(mA);
-                mainA = createRoot(mA, BDR+"WAM"+workRid.substring(1), BDO+"Work");
+                mainA = createRoot(mA, BDR+"WA"+workRid.substring(1), BDO+"Work");
                 res.add(mainA);
                 createAdminRoot(mainA);
                 main.addProperty(m.createProperty(BDO+"instanceOf"), mainA);

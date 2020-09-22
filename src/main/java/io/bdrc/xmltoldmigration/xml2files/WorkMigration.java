@@ -185,13 +185,13 @@ public class WorkMigration {
             if (otherMemberRID == null) {
                 otherMemberRID = workId;
             }
-            main = createRoot(m, BDR+"MWM"+workId.substring(1), BDO+"SerialInstance");
+            main = createRoot(m, BDR+"M"+workId, BDO+"SerialInstance");
             admMain = createAdminRoot(main);
             res.add(null);
-            res.add(new WorkModelInfo("MWM"+workId.substring(1), m));
+            res.add(new WorkModelInfo("M"+workId, m));
             main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
 
-            String seriesMemberId = "WAM" + workId.substring(1);
+            String seriesMemberId = "WA" + workId.substring(1);
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
             mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
