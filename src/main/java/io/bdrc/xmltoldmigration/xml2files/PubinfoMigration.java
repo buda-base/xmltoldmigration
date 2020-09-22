@@ -209,7 +209,7 @@ public class PubinfoMigration {
                 res.add(serialWork);
             }
             mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
-            mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDO+serialWorkId));
+            mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDR+serialWorkId));
             main.addProperty(m.createProperty(BDO+"serialInstanceOf"), mainA);
             mainA.addProperty(mA.createProperty(BDO+"serialHasInstance"), main);
         }
