@@ -248,7 +248,7 @@ public class WorkMigration {
                 res.add(new WorkModelInfo('M'+workId, m));
             }
             admMain = createAdminRoot(main);
-            if (!status.equals("withdrawn") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
+            if (!status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
                 String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
                 if (otherAbstractRID == null && !infoParentId.isEmpty()) {
                     otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);

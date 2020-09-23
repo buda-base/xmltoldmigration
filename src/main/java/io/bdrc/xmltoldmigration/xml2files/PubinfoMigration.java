@@ -301,7 +301,7 @@ public class PubinfoMigration {
         }
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "encoding");
-        if (!langTibetanDone && nodeList.getLength() == 0 && workRid.startsWith("W1FPL")) {
+        if (!langTibetanDone && nodeList.getLength() == 0 && (workRid.startsWith("W1FPL") || workRid.startsWith("W1EAP"))) {
             //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiMymr"));
             addLangScript(main, mainA, "LangPi", "ScriptMymr", "PiMymr", foundPrintType);
             foundLangs.add("pi");
