@@ -34,7 +34,7 @@ bdr:ID4AF69EDA5BFE4E04
 
 bdr:WA1FPL1  a     :Work ;
         :isRoot    true ;
-        :language  bdr:LangBo .
+        :language  bdr:LangSa .
 
 bdr:EVB0BA72AF962CC892
         a        :PublishedEvent ;
@@ -72,6 +72,5 @@ bdr:MW1FPL1  a                    :Instance ;
         :printMethod              bdr:PrintMethod_Manuscript ;
         :publisherLocation        "[lha sa]"@en ;
         :publisherName            "[zhol par khang]"@en ;
-        :script                   bdr:ScriptDbuMed ;
         :sourcePrinteryStatement  "test sourcePrintery with no place" ;
         :workExtentStatement      "177 ff." .

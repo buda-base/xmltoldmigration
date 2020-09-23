@@ -238,14 +238,16 @@ public class PubinfoMigration {
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "printType");
         boolean langTibetanDone = false;
         final Set<String> foundLangs = new HashSet<>();
+        String foundPrintType = "";
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("type").trim();
+            foundPrintType = value;
             switch(value) {
             case "dbuMed":
-                langTibetanDone = true;
-                foundLangs.add("bo");
-                addLangScript(main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
+                //langTibetanDone = true;
+                //foundLangs.add("bo");
+                //addLangScript(main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
                 if (isComputerInputDbuMed(main.getLocalName()))
                     m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
@@ -253,9 +255,9 @@ public class PubinfoMigration {
                     m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
                 break;
             case "dbuCan":
-                langTibetanDone = true;
-                foundLangs.add("bo");
-                addLangScript(main, mainA, "LangBo", "ScriptDbuCan", "BoDbuCan");
+                //langTibetanDone = true;
+                //foundLangs.add("bo");
+                //addLangScript(main, mainA, "LangBo", "ScriptDbuCan", "BoDbuCan");
                 m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuCan"));
                 break;
@@ -576,6 +578,20 @@ public class PubinfoMigration {
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "encoding", "cannot find language in encoding string: "+value);
                 // TODO: migration exception: add initial string
                 break;
+            }
+        }
+        if (foundLangs.contains("bo") || foundLangs.size() == 0) {
+            if (foundPrintType.equals("dbuCan")) {
+                addLangScript(main, mainA, "LangBo", "ScriptDbuCan", "BoDbuCan");
+            } else if (foundPrintType.equals("dbuMed")) {
+                addLangScript(main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
+            }
+        }
+        if (foundLangs.contains("dz")) {
+            if (foundPrintType.equals("dbuCan")) {
+                addLangScript(main, mainA, "LangDz", "ScriptDbuCan", "DzDbuCan");
+            } else if (foundPrintType.equals("dbuMed")) {
+                addLangScript(main, mainA, "LangDz", "ScriptDbuMed", "DzDbuMed");
             }
         }
         
