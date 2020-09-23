@@ -101,7 +101,11 @@ public class PubinfoMigration {
 	    return false;
 	}
 
-	public static void addLangScript(final Resource main, final Resource mainA, final String lang, final String script, final String langScript) {
+	public static void addLangScript(final Resource main, final Resource mainA, final String lang, String script, final String langScript, final String foundPrintType) {
+	    if ("ScriptTibt".equals(script) && main != null) {
+	        if ("dbuCan".equals(foundPrintType)) script = "ScriptDbuCan";
+	        if ("dbuMed".equals(foundPrintType)) script = "ScriptDbuMed";
+	    }
 	    if (main != null) {
 	        Model m = main.getModel();
 	        if (mainA == null)
@@ -171,6 +175,7 @@ public class PubinfoMigration {
         // handle series info        
         RDFNode seriesName = getSeriesName(root, m);
         if (seriesName != null) {
+            //ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "XXX: "+workRid+": "+seriesName);
             if (mainA == null) {
                 // this is the case where a work is in a series but is also an instance of another abstract work
                 // for instance W1KG5476 is a series member but also shares its abstract work with W1KG23131
@@ -249,7 +254,7 @@ public class PubinfoMigration {
                 //foundLangs.add("bo");
                 //addLangScript(main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
-                if (isComputerInputDbuMed(main.getLocalName()))
+                if (isComputerInputDbuMed(workRid))
                     m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
                 else
                     m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
@@ -296,25 +301,25 @@ public class PubinfoMigration {
         }
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "encoding");
-        if (!langTibetanDone && nodeList.getLength() == 0 && main.getLocalName().startsWith("W1FPL")) {
+        if (!langTibetanDone && nodeList.getLength() == 0 && workRid.startsWith("W1FPL")) {
             //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiMymr"));
-            addLangScript(main, mainA, "LangPi", "ScriptMymr", "PiMymr");
+            addLangScript(main, mainA, "LangPi", "ScriptMymr", "PiMymr", foundPrintType);
             foundLangs.add("pi");
         }
-        if (!langTibetanDone && nodeList.getLength() == 1 && main.getLocalName().startsWith("W1FEMC")) {
+        if (!langTibetanDone && nodeList.getLength() == 1 && workRid.startsWith("W1FEMC")) {
             Node nd = nodeList.item(0); 
             String str = nd.getTextContent();
             if (str.contains("Pāli")) {
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiKhmr"));
-                addLangScript(main, mainA, "LangPi", "ScriptKhmr", "PiKhmr");
+                addLangScript(main, mainA, "LangPi", "ScriptKhmr", "PiKhmr", foundPrintType);
                 foundLangs.add("pi");
             } else if (str.contains("Khmer")) {
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"KmKhmr"));
-                addLangScript(main, mainA, "LangKm", "ScriptKhmr", "KmKhmr");
+                addLangScript(main, mainA, "LangKm", "ScriptKhmr", "KmKhmr", foundPrintType);
                 foundLangs.add("km");
             } else { // for now default to Khmer
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"KmKhmr"));
-                addLangScript(main, mainA, "LangKm", "ScriptKhmr", "KmKhmr");
+                addLangScript(main, mainA, "LangKm", "ScriptKhmr", "KmKhmr", foundPrintType);
                 foundLangs.add("km");
             }
         }
@@ -393,18 +398,18 @@ public class PubinfoMigration {
                 foundLangs.add("bo");
                 if (!langTibetanDone) {
                     //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoTibt"));
-                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
                 }
                 break;
             case "extendedwylie":
             case "estended wylie":
             case "extended wylie":
                 foundLangs.add("bo");
-                addLangScript(main, mainA, "LangBo", "ScriptLatn", "BoEwts");
+                addLangScript(main, mainA, "LangBo", "ScriptLatn", "BoEwts", foundPrintType);
                 break;
             case "in dzongkha":
                 foundLangs.add("dz");
-                addLangScript(main, mainA, "LangDz", "ScriptTibt", "DzTibt");
+                addLangScript(main, mainA, "LangDz", "ScriptTibt", "DzTibt", foundPrintType);
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"DzTibt"));
                 break;
             case "བོད་དབྱིན།":
@@ -421,9 +426,9 @@ public class PubinfoMigration {
                 foundLangs.add("en");
                 foundLangs.add("bo");
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"EnLatn"));
-                addLangScript(main, mainA, "LangEn", null, "EnLatn");
+                addLangScript(main, mainA, "LangEn", null, "EnLatn", foundPrintType);
                 if (!langTibetanDone) {
-                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
                 }
                 break;
             case "in chinese":
@@ -431,7 +436,7 @@ public class PubinfoMigration {
             case "chinese":
                 foundLangs.add("zh");
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"Zh")); // TODO
-                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani");
+                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani", foundPrintType);
                 break;
             case "in chinese & tibetan":
             case "in tibetan and chinese":
@@ -450,13 +455,13 @@ public class PubinfoMigration {
                 foundLangs.add("bo");
                 foundLangs.add("zh");
                 if (!langTibetanDone) {
-                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
                 }
-                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani");
+                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani", foundPrintType);
                 break;
             case "in sanskrit":
                 foundLangs.add("sa");
-                addLangScript(main, mainA, "LangSa", null, "Sa");
+                addLangScript(main, mainA, "LangSa", null, "Sa", foundPrintType);
                 break;
             case "བོད་ཡིག་དང་རྒྱ་ཡིག།":
             case "in sanskrit & tibetan":
@@ -466,13 +471,13 @@ public class PubinfoMigration {
                 foundLangs.add("bo");
                 foundLangs.add("sa");
                 if (!langTibetanDone)
-                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
-                addLangScript(main, mainA, "LangSa", null, "Sa");
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
+                addLangScript(main, mainA, "LangSa", null, "Sa", foundPrintType);
                 break;
             case "in mongolian":
             case "mongolian":
                 foundLangs.add("cmg");
-                addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong");
+                addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong", foundPrintType);
                 break;
             case "in tibetan and mongol":
             case "in tibetan and mongolian":
@@ -480,22 +485,22 @@ public class PubinfoMigration {
                 foundLangs.add("bo");
                 foundLangs.add("cmg");
                 if (!langTibetanDone)
-                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
-                addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong");
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
+                addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong", foundPrintType);
                 break;
             case "english":
             case "in english":
             case "en":
                 foundLangs.add("en");
-                addLangScript(main, mainA, "LangEn", null, "EnLatn");
+                addLangScript(main, mainA, "LangEn", null, "EnLatn", foundPrintType);
                 break;
             case "in khmer":
                 foundLangs.add("km");
-                addLangScript(main, mainA, "LangKm", "ScriptKhmr", "KmKhmr");
+                addLangScript(main, mainA, "LangKm", "ScriptKhmr", "KmKhmr", foundPrintType);
                 break;
             case "in pāli":
                 foundLangs.add("pi");
-                addLangScript(main, mainA, "LangPi", "ScriptKhmr", "PiKhmr");
+                addLangScript(main, mainA, "LangPi", "ScriptKhmr", "PiKhmr", foundPrintType);
                 break;
             case "in tibetan, english and chinese":
             case "in chinese, tibetan and english":
@@ -510,9 +515,9 @@ public class PubinfoMigration {
                 foundLangs.add("zh");
                 foundLangs.add("en");
                 if (!langTibetanDone)
-                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
-                addLangScript(main, mainA, "LangEn", null, "EnLatn");
-                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani");
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
+                addLangScript(main, mainA, "LangEn", null, "EnLatn", foundPrintType);
+                addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani", foundPrintType);
                 break;
             case "in tibetan; an excerpt in english":
             case "in tibetan; notes in english":
@@ -530,49 +535,49 @@ public class PubinfoMigration {
                 foundLangs.add("bo");
                 foundLangs.add("en");
                 if (!langTibetanDone)
-                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
-                addLangScript(main, mainA, "LangEn", null, "EnLatn");
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
+                addLangScript(main, mainA, "LangEn", null, "EnLatn", foundPrintType);
                 break;
             default:
                 if (value.contains("chinese")) {
                     foundLangs.add("zh");
-                    addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani");
+                    addLangScript(main, mainA, "LangZh", "ScriptHani", "ZhHani", foundPrintType);
                 }
                 if (value.contains("english") || value.contains("དབྱིན") || value.contains("ཨིན")) {
                     foundLangs.add("en");
-                    addLangScript(main, mainA, "LangEn", null, "EnLatn");
+                    addLangScript(main, mainA, "LangEn", null, "EnLatn", foundPrintType);
                 }
                 if (value.contains("mongol")) {
                     foundLangs.add("cmn");
-                    addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong");
+                    addLangScript(main, mainA, "LangMn", "ScriptMong", "MnMong", foundPrintType);
                 }
                 if (value.contains("german")) {
                     foundLangs.add("de");
-                    addLangScript(main, mainA, "LangDe", "ScriptLatn", "DeLatn");
+                    addLangScript(main, mainA, "LangDe", "ScriptLatn", "DeLatn", foundPrintType);
                 }
                 if (value.contains("french")) {
                     foundLangs.add("fr");
-                    addLangScript(main, mainA, "LangFr", "ScriptLatn", "FrLatn");
+                    addLangScript(main, mainA, "LangFr", "ScriptLatn", "FrLatn", foundPrintType);
                 }
                 if (value.contains("burmese")) {
                     foundLangs.add("my");
-                    addLangScript(main, mainA, "LangMy", "ScriptMymr", "MyMymr");
+                    addLangScript(main, mainA, "LangMy", "ScriptMymr", "MyMymr", foundPrintType);
                 }
                 if (value.contains("tibet") || value.contains("བོད")) {
                     foundLangs.add("bo");
-                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt");
+                    addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
                 }
                 if (value.contains("sanskrit") || value.contains("རྒྱ")) {
                     foundLangs.add("sa");
-                    addLangScript(main, mainA, "LangSa", null, "Sa");
+                    addLangScript(main, mainA, "LangSa", null, "Sa", foundPrintType);
                 }
                 if (value.contains("dzongkha")) {
                     foundLangs.add("dz");
-                    addLangScript(main, mainA, "LangDz", "ScriptTibt", "DzTibt");
+                    addLangScript(main, mainA, "LangDz", "ScriptTibt", "DzTibt", foundPrintType);
                 }
                 if (value.contains("hindi")) {
                     foundLangs.add("hi");
-                    addLangScript(main, mainA, "LangHi", null, "Hi");
+                    addLangScript(main, mainA, "LangHi", null, "Hi", foundPrintType);
                 }
                 if (foundLangs.isEmpty())
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "encoding", "cannot find language in encoding string: "+value);
@@ -580,21 +585,9 @@ public class PubinfoMigration {
                 break;
             }
         }
-        if (foundLangs.contains("bo") || foundLangs.size() == 0) {
-            if (foundPrintType.equals("dbuCan")) {
-                addLangScript(main, mainA, "LangBo", "ScriptDbuCan", "BoDbuCan");
-            } else if (foundPrintType.equals("dbuMed")) {
-                addLangScript(main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
-            }
+        if (foundLangs.size() == 0) {
+            addLangScript(main, mainA, "LangBo", "ScriptTibt", "BoTibt", foundPrintType);
         }
-        if (foundLangs.contains("dz")) {
-            if (foundPrintType.equals("dbuCan")) {
-                addLangScript(main, mainA, "LangDz", "ScriptDbuCan", "DzDbuCan");
-            } else if (foundPrintType.equals("dbuMed")) {
-                addLangScript(main, mainA, "LangDz", "ScriptDbuMed", "DzDbuMed");
-            }
-        }
-        
         // checking if we have at least one title in the language of the work (let's not check when there are multiple languages):
         if (foundLangs.size() == 1 && root.getAttribute("status").equals("released")) {
             String langofwork = foundLangs.iterator().next();
