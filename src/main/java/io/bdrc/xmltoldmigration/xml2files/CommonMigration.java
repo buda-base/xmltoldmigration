@@ -1484,13 +1484,15 @@ public class CommonMigration  {
             Element current = (Element) nodeList.get(i);
             String localRid = main != null ? main.getLocalName() : mainA.getLocalName();
             Literal lit = getLiteral(current, EWTS_TAG, m, "title", localRid, localRid);
-            String nextTitle = null;
+            List<String> nextTitles = new ArrayList<>();
             if (lit == null) continue;
             if (main != null && main.getLocalName().contains("FPL") && lit.getLanguage().equals("pi-x-iast") && lit.getString().contains("--")) {
                 String[] split = lit.getString().split("--");
-                if (!split[1].isEmpty()) {
-                    nextTitle = split[1];
-                    lit = m.createLiteral(split[0], "pi-x-iast");
+                for (int j=1; j<split.length; j++) {
+                    if (!split[j].isEmpty()) {
+                        nextTitles.add(split[j]);
+                        lit = m.createLiteral(split[0], "pi-x-iast");
+                    }
                 }
             }
             final String litStr = lit.getString()+"@"+lit.getLanguage();
@@ -1513,7 +1515,7 @@ public class CommonMigration  {
                 titleNode.addProperty(RDFS.label, lit);
                 main.addProperty(m.getProperty(BDO, "hasTitle"), titleNode);
     
-                if (nextTitle != null) {
+                for (String nextTitle : nextTitles) {
                     titleNode = getFacetNode(FacetType.TITLE, main, nodeType);
                     titleNode.addProperty(RDFS.label, m.createLiteral(nextTitle, "pi-x-iast"));
                     main.addProperty(m.getProperty(BDO, "hasTitle"), titleNode);
