@@ -548,6 +548,15 @@ public class MigrationTest
         System.out.println(CommonMigration.oldstyleRIDsP.matcher("R8LS12811").matches());
     }
     
-    
-    
+    @Test
+    public void testIsEmptyPubValue() throws XPathExpressionException, IOException
+    {
+        assertTrue(PubinfoMigration.isEmptyPubValue("s.l.]"));
+        assertTrue(PubinfoMigration.isEmptyPubValue("s.l."));
+        assertTrue(PubinfoMigration.isEmptyPubValue( "[n.d.]"));
+        assertTrue(PubinfoMigration.isEmptyPubValue( "[ s. n. ]"));
+        assertTrue(PubinfoMigration.isEmptyPubValue( "[s. n]"));
+        assertFalse(PubinfoMigration.isEmptyPubValue("s.w.tashigangpa/"));
+    }
+
 }

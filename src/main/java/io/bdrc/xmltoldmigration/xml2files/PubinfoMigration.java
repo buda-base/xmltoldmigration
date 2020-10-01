@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.validator.routines.ISBNValidator;
 import org.apache.jena.rdf.model.Literal;
@@ -150,10 +151,6 @@ public class PubinfoMigration {
         Model mA = mainA != null ? mainA.getModel() : null;
         
 		String workRid = root.getAttribute("RID").substring(1);
-		if (!workRid.contains("FPL") && !workRid.contains("FEMC") &&  !workRid.contains("W1EAP")) {
-		    addSimpleElement("publisherName", BDO+"publisherName", "en", root, m, main);
-            addSimpleElement("publisherLocation", BDO+"publisherLocation", "en", root, m, main);
-		}
         addSimpleElement("printery", BDO+"workPrintery", "bo-x-ewts", root, m, main);
         addSimpleDateElement("publisherDate", "PublishedEvent", root, main, "instanceEvent");
         addSimpleIdElement("lcCallNumber", BF+"ShelfMarkLcc", root, m, main);
@@ -244,6 +241,10 @@ public class PubinfoMigration {
         boolean langTibetanDone = false;
         final Set<String> foundLangs = new HashSet<>();
         String foundPrintType = "";
+        if (workRid.contains("FPL") || workRid.contains("FEMC") || workRid.contains("W1EAP")) {
+            m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
+        }
+        boolean needsPublisher = false;
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("type").trim();
@@ -254,9 +255,11 @@ public class PubinfoMigration {
                 //foundLangs.add("bo");
                 //addLangScript(main, mainA, "LangBo", "ScriptDbuMed", "BoDbuMed");
                 //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"BoDbuMed"));
-                if (isComputerInputDbuMed(workRid))
+                if (isComputerInputDbuMed(workRid)) {
                     m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
-                else
+                    m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Modern"));
+                    needsPublisher = true;
+                } else
                     m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
                 break;
             case "dbuCan":
@@ -284,22 +287,33 @@ public class PubinfoMigration {
                 m.add(main, m.getProperty(BDO, "binding"), m.createResource(BDR+"Binding_Continuous_Leporello"));
                 break;
             case "computerInput":
-                m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
+                // computerInput is applied to all modern prints, not just the ones actually produces with computers
+                //m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
+                m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Modern"));
+                needsPublisher = true;
                 break;
             case "OCR":
                 m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_OCR"));
+                needsPublisher = true;
                 break;
             case "typeSet":
                 m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_TypeSet"));
+                m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Modern"));
+                needsPublisher = true;
                 break;
             case "facsimile":
                 m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_Facsimile"));
+                m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Modern"));
+                needsPublisher = true;
                 break;
             default:
                 break;
             }
         }
-        
+        if (!workRid.contains("FPL") && !workRid.contains("FEMC") &&  !workRid.contains("W1EAP")) {
+            addSimplePubElement("publisherName", BDO+"publisherName", "en", root, m, main, needsPublisher);
+            addSimplePubElement("publisherLocation", BDO+"publisherLocation", "en", root, m, main, needsPublisher);
+        }
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "encoding");
         if (!langTibetanDone && nodeList.getLength() == 0 && (workRid.startsWith("W1FPL") || workRid.startsWith("W1EAP"))) {
             //m.add(main, m.getProperty(BDO, "workLangScript"), m.createResource(BDR+"PiMymr"));
@@ -698,19 +712,35 @@ public class PubinfoMigration {
             } else {
                 value = current.getTextContent().trim();
                 if (value.isEmpty()) return;
-                if (elementName.equals("isbn")) {
-                    final String validIsbn = isbnvalidator.validate(value);
-                    if (validIsbn != null) {
-                        value = validIsbn;
-                    } else {
-                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "isbn", "invalid isbn: "+value);
-                    }
-                }
                 m.add(main, m.createProperty(propName), m.createLiteral(value));
             }
         }
     }
 
+	public static Pattern nullpubP = Pattern.compile("^\\[* ?[sS]\\. ?[nld]");
+	public static boolean isEmptyPubValue(String value) {
+	    if (value.isEmpty()) return true;
+	    boolean isnullpub = nullpubP.matcher(value).find();
+	    if (isnullpub) return true;
+	    return value.startsWith("[n.");
+	}
+	   public static void addSimplePubElement(String elementName, String propName, String defaultLang, Element root, Model m, Resource main, boolean needsPublisher) {
+	        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
+	        String rid = root.getAttribute("RID");
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	            Element current = (Element) nodeList.item(i);
+	            String value = current.getTextContent().trim();
+	            if (isEmptyPubValue(value)) {
+	                if (!needsPublisher) continue;
+	                value = elementName.equals("publisherName") ? "[s.n.]" : "[s.l.]";
+	            }
+                Property prop = m.createProperty(propName);
+                Literal l = CommonMigration.getLiteral(current, defaultLang, m, elementName, rid, null);
+                if (l != null)
+                    main.addProperty(prop, l);
+	        }
+	    }
+	
 	   public static void addSimpleIdElement(String elementName, String typeUri, Element root, Model m, Resource main) {
 	        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, elementName);
 	        for (int i = 0; i < nodeList.getLength(); i++) {
