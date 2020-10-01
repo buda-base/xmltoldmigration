@@ -45,11 +45,11 @@ public class ScanrequestMigration {
 		
 		Element root = xmlDocument.getDocumentElement();
 		
-		String value = root.getAttribute("venue").trim();
-        if (!value.isEmpty()) {
-            Resource admR = getAdminData(item);
-            m.add(admR, m.getProperty(ADM+"volumeScanVenue"), m.createLiteral(value));
-        }
+		//String value = root.getAttribute("venue").trim();
+        //if (!value.isEmpty()) {
+        //    Resource admR = getAdminData(item);
+        //    m.add(admR, m.getProperty(ADM+"volumeScanVenue"), m.createLiteral(value));
+        //}
 		
 		return m;
 	}

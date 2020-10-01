@@ -606,7 +606,8 @@ public class MigrationApp
             }
             migrateType(WORK, "W"); // also does pubinfos and imagegroups
             if (!exportTitles) {
-                migrateType(SCANREQUEST, "SR"); // requires works to be finished
+                // interestingly, scanrequests don't hold any kind of information...
+//              // migrateType(SCANREQUEST, "SR"); // requires works to be finished
                 migrateType(PRODUCT, "PR");
                 //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
                 //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
