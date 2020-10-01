@@ -74,7 +74,7 @@ public class PubinfoMigration {
             mainA = createRoot(m, BDR+"WA"+value.substring(1), BDO+"Work");
             createAdminRoot(main);
         }
-        List<Resource> resFromCall = MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), mainA);
+        List<Resource> resFromCall = MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), mainA, null);
         if (resFromCall != null) {
             for (Resource r : resFromCall) {
                 res.add(r.getModel());
@@ -145,7 +145,7 @@ public class PubinfoMigration {
     }
 	
     // use this giving a bdr:Work as main argument to fill the work data
-	public static List<Resource> MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, Resource mainA) {
+	public static List<Resource> MigratePubinfo(final Document xmlDocument, final Model m, final Resource main, final Map<String,Model> itemModels, Resource mainA, Resource item) {
 		Element root = xmlDocument.getDocumentElement();
 		List<Resource> res = new ArrayList<>();
         Model mA = mainA != null ? mainA.getModel() : null;
@@ -166,6 +166,7 @@ public class PubinfoMigration {
         addSimpleElement("dimensions", BDO+"dimensionsStatement", null, root, m, main);
         addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
         addSimpleElement("biblioNote", BDO+"biblioNote", "en", root, m, main);
+        addBiblioNote(root, m, main, item);
         addSimpleElement("sourceNote", BDO+"sourceNote", "en", root, m, main);
         addSimpleElement("editionStatement", BDO+"editionStatement", EWTS_TAG, root, m, main);
         
@@ -714,6 +715,24 @@ public class PubinfoMigration {
                 if (value.isEmpty()) return;
                 m.add(main, m.createProperty(propName), m.createLiteral(value));
             }
+        }
+    }
+
+    public static void addBiblioNote(Element root, Model m, Resource main, Resource item) {
+        NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "biblioNote");
+        String rid = root.getAttribute("RID");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            Literal l = CommonMigration.getLiteral(current, "en", m, "biblioNote", rid, null);
+            if (l == null)
+                continue;
+            String s = l.getString();
+            if (item != null && (rid.startsWith("MW1NLM") || rid.startsWith("MW1FEMC") || rid.startsWith("MW1EAP") || s.startsWith("Scan") || s.startsWith("scan") || s.startsWith("copy made") || s.startsWith("Copy made"))) {
+                item.addProperty(m.createProperty(BDO, "scanInfo"), l);
+            } else {
+                main.addProperty(m.createProperty(BDO, "biblioNote"), l);
+            }
+            
         }
     }
 

@@ -166,9 +166,10 @@ public class MigrationApp
         if (!fileName.startsWith(mustStartWith)) return;
         if (!fileName.endsWith(".xml")) return;
         String baseName = fileName.substring(0, fileName.length()-4);
-        Resource item;
+        Resource item = null;
         Resource admItem;
-        Model itemModel;
+        Model itemModel = null;
+        String itemName = null;
         switch(type) {
         case OUTLINE:
             Document outd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -214,14 +215,14 @@ public class MigrationApp
             String workId = ScanrequestMigration.getWork(srd);
             if (workId == null || workId.isEmpty())
                 return;
-            String srItemName = workId;
-            String itemFileName = getDstFileName("iinstance", srItemName, ".trig");
+            itemName = workId;
+            String itemFileName = getDstFileName("iinstance", itemName, ".trig");
             itemModel = MigrationHelpers.modelFromFileName(itemFileName);
             if (itemModel == null)
                 return;
-            item = itemModel.getResource(BDR+srItemName);
+            item = itemModel.getResource(BDR+itemName);
             itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
-            MigrationHelpers.outputOneModel(itemModel, srItemName, itemFileName, "iinstance");
+            MigrationHelpers.outputOneModel(itemModel, itemName, itemFileName, "iinstance");
             break;
         case WORK:
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
@@ -273,7 +274,7 @@ public class MigrationApp
                         workR.removeAll(m.getProperty(BDO, "numberOfVolumes"));
                         workR.addProperty(m.getProperty(BDO, "numberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                     }
-                    String itemName = baseName;
+                    itemName = baseName;
 
                     itemModel = ModelFactory.createDefaultModel();
                     setPrefixes(itemModel);
@@ -340,8 +341,7 @@ public class MigrationApp
                         }
                         ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vi.volnum, itemName, baseName);
                     }
-                    String itemOutfileName = getDstFileName("iinstance", itemName);
-                    MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "iinstance");
+                    
                 }
             
                 // migrate pubinfo
@@ -353,9 +353,9 @@ public class MigrationApp
                     if (models.size() >1 && models.get(1) != null) {
                         abstractMI = models.get(1);
                         Resource mainA = abstractMI.m.getResource(BDR+abstractMI.resourceName);
-                        resPubMigration = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, mainA);
+                        resPubMigration = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, mainA, item);
                     } else {
-                        resPubMigration = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, null);
+                        resPubMigration = PubinfoMigration.MigratePubinfo(d, m, workR, itemModels, null, item);
                     }
                     if (resPubMigration.size() > 0) {
                         serialWork = resPubMigration.get(0);
@@ -405,6 +405,10 @@ public class MigrationApp
             Model defaultM = MigrationHelpers.getModelFromFile(file.getAbsolutePath(), type, fileName);
             MigrationHelpers.outputOneModel(defaultM, baseName, outfileName, type);
             break;
+        }
+        if (itemName != null) {
+            String itemOutfileName = getDstFileName("iinstance", itemName);
+            MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "iinstance");
         }
     }
 
