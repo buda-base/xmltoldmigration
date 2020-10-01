@@ -515,6 +515,16 @@ public class WorkMigration {
                 current = (Element) nodeList.item(i);
                 Literal l = CommonMigration.getLiteral(current, "en", m, "scanInfo", main.getLocalName(), null);
                 if (l == null) continue;
+                String s = l.getString();
+                if (s.startsWith("Scanned at Tibetan Buddhist Resource Center, 1430")) {
+                    int dotidx = s.indexOf('.');
+                    if (dotidx == -1) {
+                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "scanInfo", "strange value: `"+s+"`");
+                    }
+                    if (dotidx == s.length()-1)
+                        continue;
+                    l = m.createLiteral(s.substring(dotidx+1).trim(), "en");
+                }
                 main.addProperty(m.getProperty(BDO, "scanInfo"), l);
             }
             
