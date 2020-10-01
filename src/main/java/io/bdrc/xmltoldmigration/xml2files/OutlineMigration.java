@@ -304,7 +304,7 @@ public class OutlineMigration {
 		CommonMigration.addNotes(m, root, admOutline, OXSDNS);
 		CommonMigration.addExternals(m, root, admOutline, OXSDNS);
 		CommonMigration.addLog(m, root, admOutline, OXSDNS, true);
-		CommonMigration.addDescriptions(m, root, admOutline, OXSDNS);
+		CommonMigration.addDescriptions(m, root, admOutline, OXSDNS, false);
 		// no location on outlines root nodes
 		//CommonMigration.addLocations(m, admOutline, root, OXSDNS, rootWork.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
@@ -552,7 +552,8 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         
         m.add(node, m.getProperty(BDO, "inRootInstance"), rootWork);
         
-        boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, BDO+"partLabel");
+        boolean nameAdded = CommonMigration.addNames(m, e, node, OXSDNS, true, null); // last argument used to be BDO+"partLabel"
+        //TODO: add the catalogInfo in the work in case it an otherAbstract case
         CommonMigration.addDescriptions(m, e, node, OXSDNS, false, nodeA);
         CommonMigration.addTitles(m, node, e, OXSDNS, !nameAdded, true, nodeA);
         

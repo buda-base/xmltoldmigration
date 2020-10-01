@@ -540,8 +540,8 @@ public class CommonMigration  {
         case "notes":                 return BDO+"note";
         case "chapter":               return BDO+"work_desc_chapters";
         case "chapters":              return BDO+"work_desc_chapters";
-        case "content":               return RDFS.getURI()+"comment";
-        case "contents":              return RDFS.getURI()+"comment";
+        case "content":               return BDO+"catalogInfo";
+        case "contents":              return BDO+"catalogInfo";
         case "completionDate":        return BDO+"work_desc_completionDate"; // this one and the next one are handled separately
         case "date":                  return ADM+"work_desc_date";
         case "errata":                return BDO+"instanceErrata";
@@ -551,7 +551,7 @@ public class CommonMigration  {
         case "location":              return BDO+"contentLocationStatement";
         case "remarks":               return "__fpl";
         case "room":                  return "__fpl";
-        case "summary":               return RDFS.getURI()+"comment";
+        case "summary":               return BDO+"catalogInfo";
         case "snar_bstan_number":     return "__id:"+BDR+"KaTenSiglaN";
         case "snr_thang_number":      return "__id:"+BDR+"KaTenSiglaN";
         case "snar_thang_number":     return "__id:"+BDR+"KaTenSiglaN"; 
@@ -1336,8 +1336,13 @@ public class CommonMigration  {
                 }
                 continue;
             }
-            rez.addProperty(m.getProperty(propUri), lit);
+            if (propUri.equals(BDO+"catalogInfo") && mainA != null) {
+                mainA.addProperty(mainA.getModel().getProperty(propUri), lit);
+            } else {
+                rez.addProperty(m.getProperty(propUri), lit);                
+            }
         }
+        
         if ((fplId == null && fplRoom != null) ||
                 (fplId != null && fplRoom == null)) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "description", "types `id` and `room` should both be present");
