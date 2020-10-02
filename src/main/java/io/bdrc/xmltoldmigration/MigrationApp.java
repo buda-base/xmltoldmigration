@@ -36,6 +36,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -286,12 +287,12 @@ public class MigrationApp
                     moveAdminInfo(itemModel, workR, admItem);
                     
                     // move scaninfo to the image instance:
-                    Statement scanInfoS = workR.getProperty(workR.getModel().getProperty(BDO, "scanInfo"));
-                    if (scanInfoS != null) {
-                        Literal scanInfo = scanInfoS.getLiteral();
-                        workR.removeAll(workR.getModel().getProperty(BDO, "scanInfo"));
+                    StmtIterator scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "scanInfo"));
+                    while (scanInfoSi.hasNext()) {
+                        Literal scanInfo = scanInfoSi.next().getLiteral();
                         item.addProperty(itemModel.getProperty(BDO, "scanInfo"), scanInfo);
                     }
+                    workR.removeAll(workR.getModel().getProperty(BDO, "scanInfo"));
                     
                     Resource instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "instanceOf"));
                     if (instanceOfR == null)
