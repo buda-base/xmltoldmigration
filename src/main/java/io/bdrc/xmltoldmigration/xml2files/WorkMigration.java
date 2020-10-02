@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.graph.Node;
@@ -142,12 +143,6 @@ public class WorkMigration {
     }
     
     public static String normalizeScanInfo(final Resource main, String s, final Element root) {
-        if (s.startsWith("Scanned at Tibetan Buddhist Resource Center, 1430") || s.startsWith("Scanned at Scanned in partnership with")) {
-            int cidx = s.indexOf("Comments: ");
-            if (cidx == -1)
-                return null;
-            return s.substring(cidx+10).trim();
-        }
         if (s.contains("atluj")) {
             int cidx = s.indexOf("Comments: ");
             String comments = "";
@@ -165,26 +160,34 @@ public class WorkMigration {
             }
             return address+comments;
         }
-        if (s.startsWith("Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City")) {
-            // this is the most complex case. When the scan request is anterior to 2013, we consider that the value has some chance to be correct
-            // a first approximation of the scan request date is the last 4 characters of the value, if they are digits:
+        if (s.startsWith("Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City") || s.startsWith("Scanned at Tibetan Buddhist Resource Center, 1430") || s.startsWith("Scanned at Scanned in partnership with")) {
+            // this is the most complex case. The baseline is:
+            // if the scanInfo says NY or Cambridge:
+            //     if it's before mid-2012, it's NY and we can keep the original string
+            //     if it's after April 2016, it doesn't mean anything and we should keep just the comment
+            //     if it's between the two it's Cambridge (and it should be set as such, keeping the comments)
             try {
               int i = Integer.parseInt(s.substring(s.length()-4));
-              if (i < 2013 || i > 2100) {
+              if (i < 2012) {
                   return s;
               }
-              int cidx = s.indexOf("Comments: ");
-              if (cidx == -1)
-                  return null;
-              return s.substring(cidx+10).trim();
+              if (i > 2016) {
+                  int cidx = s.indexOf("Comments: ");
+                  if (cidx == -1)
+                      return null;
+                  return s.substring(cidx+10).trim();
+              }
             }
             catch (NumberFormatException nfe) {}
-            Integer sryear = approximateSrYear(root);
-            if (sryear == null) {
+            int[] sryearmonth = approximateSrYear(root);
+            if (sryearmonth == null) {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "scanInfo", "can't find scanrequest date");
                 return s;
             }
-            if (sryear > 2012) {
+            if (sryearmonth[0] < 2012 || (sryearmonth[0] == 2012 && sryearmonth[1] < 7)) {
+                return s;
+            }
+            if (sryearmonth[0] > 2016 || (sryearmonth[0] == 2016 && sryearmonth[1] > 4)) {
                 int cidx = s.indexOf("Comments: ");
                 if (cidx == -1)
                     return null;
@@ -195,7 +198,7 @@ public class WorkMigration {
         return s;
     }
     
-    public static Integer approximateSrYear(final Element root) {
+    public static int[] approximateSrYear(final Element root) {
         NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "log");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element log = (Element) nodeList.item(i);
@@ -205,7 +208,9 @@ public class WorkMigration {
                 if (logEntry.getTextContent().toLowerCase().startsWith("added volumemap for scan request")) {
                     String date = logEntry.getAttribute("when");
                     if (date != null && !date.isEmpty()) {
-                        return Integer.parseInt(date.substring(0,4));
+                        int year = Integer.parseInt(date.substring(0,4));
+                        int month = Integer.parseInt(date.substring(5,7));
+                        return IntStream.of(year, month).toArray();
                     }
                 }
             }
@@ -215,7 +220,9 @@ public class WorkMigration {
                 if (logEntry.getTextContent().toLowerCase().startsWith("added volumemap for scan request")) {
                     String date = logEntry.getAttribute("when");
                     if (date != null && !date.isEmpty()) {
-                        return Integer.parseInt(date.substring(0,4));
+                        int year = Integer.parseInt(date.substring(0,4));
+                        int month = Integer.parseInt(date.substring(5,7));
+                        return IntStream.of(year, month).toArray();
                     }
                 }
             }
@@ -604,13 +611,7 @@ public class WorkMigration {
                 l = m.createLiteral(s, "en");
                 main.addProperty(m.getProperty(BDO, "scanInfo"), l);
             }
-            
-            // add a hardcoded scanInfo for FPL:
-            if (workId.startsWith("W1FPL")) {
-                main.addProperty(m.getProperty(BDO, "scanInfo"), m.createLiteral("This manuscript was digitized at the Fragile Palm Leaves Foundation in Thailand with the generous support of Khyentse Foundation.", "en"));
-            }
-            
-            
+
             NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
             int lastVolume = 0;
             List<String> missingVolumes = new ArrayList<>();
