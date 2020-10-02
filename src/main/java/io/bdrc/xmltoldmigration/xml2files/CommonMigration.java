@@ -977,12 +977,15 @@ public class CommonMigration  {
             if (lcval.startsWith("withdraw")) {
                 logEntryType = m.createResource(ADM+"WithdrawData");
             }
-            if (lcval.toLowerCase().startsWith("updated total pages")) {
+            if (lcval.startsWith("updated total pages")) {
                 if (!"2016-03-31T17:27:09.458-04:00".equals(datevalue) && !"2016-04-28T23:50:58.855Z".equals(datevalue) && !"2016-03-30T12:20:30.571-04:00".equals(datevalue)) {
                     logEntryType = m.createResource(ADM+ (syncfound ? "ImagesUpdated" : "Synced"));
                     syncfound = true;
                     isBatch = true;
                 }
+            }
+            if (lcval.startsWith("added volumemap for scan request")) {
+                logEntryType = m.createResource(ADM+"ScanRequestCreation");
             }
         }
         logEntry.addProperty(RDF.type, logEntryType);
