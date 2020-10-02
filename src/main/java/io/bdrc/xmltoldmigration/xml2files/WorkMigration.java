@@ -141,6 +141,88 @@ public class WorkMigration {
         admOldRes.addProperty(m.createProperty(ADM, "replaceWith"), newRes);
     }
     
+    public static String normalizeScanInfo(final Resource main, String s, final Element root) {
+        if (s.startsWith("Scanned at Tibetan Buddhist Resource Center, 1430") || s.startsWith("Scanned at Scanned in partnership with")) {
+            int cidx = s.indexOf("Comments: ");
+            if (cidx == -1)
+                return null;
+            return s.substring(cidx+10).trim();
+        }
+        if (s.contains("atluj")) {
+            int cidx = s.indexOf("Comments: ");
+            String comments = "";
+            if (cidx != -1) {
+                comments = " "+s.substring(cidx);
+            }
+            String address = "Scanned at M/S Satluj Infotech Images, E-45, Sector 27 Noida, District Gautam Buddha Nagar, U.P. 201301 via New Delhi, India for the Buddhist Digital Resource Center.";
+            if (s.contains("ingh")) {
+                if (s.contains("infotech")) {
+                    address = "Scanned at M/S Satluj Infotech Images, 63-F Sujan Singh Park, New Delhi, India for the Buddhist Digital Resource Center.";
+                } else {
+                    address = "Scanned by M/S Satluj Siti Enterprises, 63-F Sujan Singh Park, New Delhi, India for the Buddhist Digital Resource Center.";                    
+                }
+                
+            }
+            return address+comments;
+        }
+        if (s.startsWith("Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City")) {
+            // this is the most complex case. When the scan request is anterior to 2013, we consider that the value has some chance to be correct
+            // a first approximation of the scan request date is the last 4 characters of the value, if they are digits:
+            try {
+              int i = Integer.parseInt(s.substring(s.length()-4));
+              if (i < 2013 || i > 2100) {
+                  return s;
+              }
+              int cidx = s.indexOf("Comments: ");
+              if (cidx == -1)
+                  return null;
+              return s.substring(cidx+10).trim();
+            }
+            catch (NumberFormatException nfe) {}
+            Integer sryear = approximateSrYear(root);
+            if (sryear == null) {
+                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "scanInfo", "can't find scanrequest date");
+                return s;
+            }
+            if (sryear > 2012) {
+                int cidx = s.indexOf("Comments: ");
+                if (cidx == -1)
+                    return null;
+                return s.substring(cidx+10).trim();
+            }
+            return s;
+        }
+        return s;
+    }
+    
+    public static Integer approximateSrYear(final Element root) {
+        NodeList nodeList = root.getElementsByTagNameNS(WXSDNS, "log");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element log = (Element) nodeList.item(i);
+            NodeList logEntriesList = log.getElementsByTagNameNS(WXSDNS, "entry");
+            for (int j = 0; j < logEntriesList.getLength(); j++) {
+                Element logEntry = (Element) logEntriesList.item(j);
+                if (logEntry.getTextContent().toLowerCase().startsWith("added volumemap for scan request")) {
+                    String date = logEntry.getAttribute("when");
+                    if (date != null && !date.isEmpty()) {
+                        return Integer.parseInt(date.substring(0,4));
+                    }
+                }
+            }
+            logEntriesList = log.getElementsByTagName("entry");
+            for (int k = 0; k < logEntriesList.getLength(); k++) {
+                Element logEntry = (Element) logEntriesList.item(k);
+                if (logEntry.getTextContent().toLowerCase().startsWith("added volumemap for scan request")) {
+                    String date = logEntry.getAttribute("when");
+                    if (date != null && !date.isEmpty()) {
+                        return Integer.parseInt(date.substring(0,4));
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
 	public static List<WorkModelInfo> MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
@@ -517,17 +599,17 @@ public class WorkMigration {
                 Literal l = CommonMigration.getLiteral(current, "en", m, "scanInfo", main.getLocalName(), null);
                 if (l == null) continue;
                 String s = l.getString();
-                if (s.startsWith("Scanned at Tibetan Buddhist Resource Center, 1430")) {
-                    int dotidx = s.indexOf('.');
-                    if (dotidx == -1) {
-                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "scanInfo", "strange value: `"+s+"`");
-                    }
-                    if (dotidx == s.length()-1)
-                        continue;
-                    l = m.createLiteral(s.substring(dotidx+1).trim(), "en");
-                }
+                s = normalizeScanInfo(main, s, root);
+                if (s == null) continue;
+                l = m.createLiteral(s, "en");
                 main.addProperty(m.getProperty(BDO, "scanInfo"), l);
             }
+            
+            // add a hardcoded scanInfo for FPL:
+            if (workId.startsWith("W1FPL")) {
+                main.addProperty(m.getProperty(BDO, "scanInfo"), m.createLiteral("This manuscript was digitized at the Fragile Palm Leaves Foundation in Thailand with the generous support of Khyentse Foundation.", "en"));
+            }
+            
             
             NodeList volumes = root.getElementsByTagNameNS(WXSDNS, "volume");
             int lastVolume = 0;
