@@ -532,8 +532,8 @@ public class CommonMigration  {
     public static String getDescriptionUriFromType(String type) {
         String res = normalizePropName(type, "description");
         switch (res) {
-        case "noType":                return RDFS.getURI()+"comment";
-        case "status":                return RDFS.getURI()+"comment";
+        case "noType":                return BDO+"biblioNote";
+        case "status":                return BDO+"biblioNote";
         case "authorship":            return BDO+"authorshipStatement";
         case "incipit":               return BDO+"incipit";
         case "note":                  return BDO+"note";
@@ -549,7 +549,7 @@ public class CommonMigration  {
         case "id":                    return "__fpl";
         case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
         case "location":              return BDO+"contentLocationStatement";
-        case "remarks":               return "__fpl";
+        case "remarks":               return BDO+"biblioNote";
         case "room":                  return "__fpl";
         case "summary":               return BDO+"catalogInfo";
         case "snar_bstan_number":     return "__id:"+BDR+"KaTenSiglaN";
