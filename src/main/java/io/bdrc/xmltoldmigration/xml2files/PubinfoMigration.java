@@ -289,7 +289,7 @@ public class PubinfoMigration {
                 break;
             case "computerInput":
                 // computerInput is applied to all modern prints, not just the ones actually produces with computers
-                //m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
+                m.add(main, m.getProperty(BDO, "contentMethod"), m.createResource(BDR+"ContentMethod_ComputerInput"));
                 m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Modern"));
                 needsPublisher = true;
                 break;
