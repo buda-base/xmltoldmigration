@@ -444,7 +444,8 @@ public class OutlineMigration {
         
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
-            if (StringUtils.countMatches(current.getTextContent().trim(), " ") > 2)
+            // there are many legit titles, from actual works having just 2 syllables: gsung mgur
+            if (StringUtils.countMatches(current.getTextContent().trim(), " ") > 1)
                 return false;
         }
         return true;
