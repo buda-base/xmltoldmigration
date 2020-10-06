@@ -34,9 +34,11 @@ import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -222,7 +224,7 @@ public class MigrationApp
             if (itemModel == null)
                 return;
             item = itemModel.getResource(BDR+itemName);
-            itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
+            //itemModel = ScanrequestMigration.MigrateScanrequest(srd, itemModel, item);
             MigrationHelpers.outputOneModel(itemModel, itemName, itemFileName, "iinstance");
             break;
         case WORK:
@@ -293,6 +295,22 @@ public class MigrationApp
                         item.addProperty(itemModel.getProperty(BDO, "scanInfo"), scanInfo);
                     }
                     workR.removeAll(workR.getModel().getProperty(BDO, "scanInfo"));
+                    
+                    if (models.size() >1 && models.get(1) != null) {
+                        abstractMI = models.get(1);
+                        Resource mainAdm = abstractMI.m.getResource(BDA+abstractMI.resourceName);
+                        // copy scanrequest logentry to the image instance:
+                        StmtIterator srleSi = mainAdm.getModel().listStatements(null, RDF.type, m.createResource(ADM+"ScanRequestCreation"));
+                        while (srleSi.hasNext()) {
+                            Resource le = srleSi.next().getSubject();
+                            StmtIterator srleSi2 = mainAdm.getModel().listStatements(le, null, (RDFNode) null);
+                            while (srleSi2.hasNext()) {
+                                Statement les = srleSi2.next();
+                                itemModel.add(les);
+                            }
+                            admItem.addProperty(itemModel.getProperty(ADM, "logEntry"), le);
+                        }
+                    }
                     
                     Resource instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "instanceOf"));
                     if (instanceOfR == null)
