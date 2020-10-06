@@ -529,11 +529,11 @@ public class CommonMigration  {
         return getSubResourceName(main, prefix, type, "");
     }
 
-    public static String getDescriptionUriFromType(String type) {
+    public static String getDescriptionUriFromType(String type, boolean isBiblio) {
         String res = normalizePropName(type, "description");
         switch (res) {
-        case "noType":                return BDO+"biblioNote";
-        case "status":                return BDO+"biblioNote";
+        case "noType":                return isBiblio ? BDO+"biblioNote" : RDFS.comment.getURI();
+        case "status":                return isBiblio ? BDO+"biblioNote" : RDFS.comment.getURI();
         case "authorship":            return BDO+"authorshipStatement";
         case "incipit":               return BDO+"incipit";
         case "note":                  return BDO+"note";
@@ -549,9 +549,9 @@ public class CommonMigration  {
         case "id":                    return "__fpl";
         case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
         case "location":              return BDO+"contentLocationStatement";
-        case "remarks":               return BDO+"biblioNote";
+        case "remarks":               return isBiblio ? BDO+"biblioNote" : RDFS.comment.getURI();
         case "room":                  return "__fpl";
-        case "summary":               return BDO+"catalogInfo";
+        case "summary":               return isBiblio ? BDO+"catalogInfo" : RDFS.comment.getURI();
         case "snar_bstan_number":     return "__id:"+BDR+"KaTenSiglaN";
         case "snr_thang_number":      return "__id:"+BDR+"KaTenSiglaN";
         case "snar_thang_number":     return "__id:"+BDR+"KaTenSiglaN"; 
@@ -1277,7 +1277,8 @@ public class CommonMigration  {
                 addDates(value, event, rez);
                 continue;
             }
-            String propUri = getDescriptionUriFromType(type);
+            final boolean isBiblio = "WMI".contains(rez.getLocalName().subSequence(0, 1));
+            String propUri = getDescriptionUriFromType(type, isBiblio);
             if (propUri != null && propUri.equals("__ignore")) 
                 continue;
             if (propUri == null) {
