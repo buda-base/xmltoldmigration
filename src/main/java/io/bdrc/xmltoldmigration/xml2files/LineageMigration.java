@@ -8,9 +8,9 @@ import static io.bdrc.libraries.Models.addStatus;
 import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
-import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -27,6 +27,48 @@ import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 public class LineageMigration {
    
 	public static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
+	
+	private static Pattern digits = Pattern.compile("\\d+");
+	
+	public static void addLocations(Model m, Resource main, Element root) {
+
+        List<Element> nodeList = CommonMigration.getChildrenByTagName(root, LXSDNS, "location");
+        if (nodeList.size() == 0) 
+            return;
+
+        int i;
+        for (i = 0; i < nodeList.size(); i++) {
+            if (i > 1) {
+                //ExceptionHelper.logOutlineException(ExceptionHelper.ET_OUTLINE, workId, outlineId, outlineNode, "title: \""+outlineNodeTitle+"\" too many locations, it should only have 2");
+                break;
+            }
+            Element current = (Element) nodeList.get(i);
+
+            String value = current.getAttribute("work").trim();
+            Resource instance = null;
+            if (!value.isEmpty())
+                instance = m.createResource(BDR+"M"+value);
+            
+            String locstatement = "";
+            value = current.getAttribute("vol").trim().replaceAll(",$", "");
+            if (!value.isEmpty())
+                locstatement = "vol. "+value;
+            
+            value = current.getAttribute("page").trim();
+            if (!value.isEmpty()) {
+                if (!locstatement.isEmpty()) {
+                    locstatement += ", ";
+                }
+                if (digits.matcher(value).matches()) {
+                    locstatement += "p. "+value;
+                } else {
+                    locstatement += value;
+                }
+            }
+            
+            CommonMigration.addNote(main, null, null, locstatement, instance);
+        }
+	}
 	
 	public static Model MigrateLineage(Document xmlDocument) {
 		Model m = ModelFactory.createDefaultModel();
@@ -50,7 +92,7 @@ public class LineageMigration {
     	CommonMigration.addExternals(m, root, main, LXSDNS);
     	CommonMigration.addDescriptions(m, root, main, LXSDNS);
     	CommonMigration.addLog(m, root, admMain, LXSDNS, false);
-    	CommonMigration.addLocations(m, main, root, LXSDNS, "", null, null, null);
+    	addLocations(m, main, root);
 		
         NodeList nodeList = root.getElementsByTagNameNS(LXSDNS, "object");
         for (int i = 0; i < nodeList.getLength(); i++) {
