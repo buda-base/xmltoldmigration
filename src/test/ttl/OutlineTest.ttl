@@ -14,6 +14,7 @@
 
 bdr:WA0XL74BFE0D47CBB
         a                 :Work ;
+        :catalogInfo      "concise presentation of the gurupuja practice known as the bde stong dbyer med ma"@en ;
         :creator          bdr:CRF14E6CC8BF74D11E , bdr:CR0036CB2E6A2369CE , bdr:CRE46771E44D0F98F3 ;
         :isRoot           true ;
         :language         bdr:LangBo ;
@@ -25,7 +26,6 @@ bdr:MW30020_6E8660  a          :Instance ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB87582" ;
         :partIndex             1 ;
-        :partLabel             "1 (stod cha)"@bo-x-ewts ;
         :partOf                bdr:MW30020 ;
         :partTreeIndex         "1" ;
         :partType              bdr:PartTypeVolume ;
@@ -67,7 +67,7 @@ bdr:TT49C39BDB3A599B32
 
 bdr:CLF6B8FFCB603AA31A
         a                         :ContentLocation ;
-        :contentLocationInstance  bdr:MW30020 ;
+        :contentLocationInstance  bdr:W30020 ;
         :contentLocationVolume    1 .
 
 bda:MW30020  a                      adm:Outline , adm:AdminData ;
@@ -101,14 +101,14 @@ bda:LGC34241585BB8CD9D
 bdr:CLC8ED907418ACF627
         a                         :ContentLocation ;
         :contentLocationEndPage   24 ;
-        :contentLocationInstance  bdr:MW30020 ;
+        :contentLocationInstance  bdr:W30020 ;
         :contentLocationPage      12 ;
         :contentLocationVolume    2 .
 
 bdr:CLB8EE02E1E8DC26BC
         a                         :ContentLocation ;
         :contentLocationEndPage   18 ;
-        :contentLocationInstance  bdr:MW30020 ;
+        :contentLocationInstance  bdr:W30020 ;
         :contentLocationPage      11 ;
         :contentLocationVolume    2 .
 
@@ -122,7 +122,6 @@ bdr:MW30020_3CF7E0  a          :Instance ;
         :inRootInstance        bdr:MW30020 ;
         :legacyOutlineNodeRID  "O2DB875722DB87583" ;
         :partIndex             2 ;
-        :partLabel             "2 (smad cha)"@bo-x-ewts ;
         :partOf                bdr:MW30020 ;
         :partTreeIndex         "2" ;
         :partType              bdr:PartTypeClass ;
@@ -145,7 +144,7 @@ bdr:CRF14E6CC8BF74D11E
 bdr:CL2641619B882CB70D
         a                         :ContentLocation ;
         :contentLocationEndPage   25 ;
-        :contentLocationInstance  bdr:MW30020 ;
+        :contentLocationInstance  bdr:W30020 ;
         :contentLocationPage      17 ;
         :contentLocationVolume    2 .
 
@@ -190,7 +189,7 @@ bdr:IDB1BC2C3828D35655
 bdr:CL72CCB688C76688DC
         a                         :ContentLocation ;
         :contentLocationEndPage   18 ;
-        :contentLocationInstance  bdr:MW30020 ;
+        :contentLocationInstance  bdr:W30020 ;
         :contentLocationPage      11 ;
         :contentLocationVolume    1 .
 

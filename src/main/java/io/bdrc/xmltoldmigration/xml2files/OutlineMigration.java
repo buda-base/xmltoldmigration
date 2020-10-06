@@ -565,8 +565,9 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             labelL = labelSta.getLiteral();
         }
         
+        // we put the locations in the image instance
         CommonMigration.LocationVolPage locVP =
-                CommonMigration.addLocations(m, node, e, OXSDNS, workId, legacyOutlineRID, RID, label);
+                CommonMigration.addLocations(m, node, e, OXSDNS, workId.substring(1), legacyOutlineRID, RID, label);
         if (locVP != null) {
             locVP.RID = RID;
             if (labelL != null) {
