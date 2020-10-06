@@ -28,7 +28,7 @@ public class LineageMigration {
    
 	public static final String LXSDNS = "http://www.tbrc.org/models/lineage#";
 	
-	private static Pattern digits = Pattern.compile("\\d+");
+	private static Pattern digits = Pattern.compile("[0-9\\-]+");
 	
 	public static void addLocations(Model m, Resource main, Element root) {
 

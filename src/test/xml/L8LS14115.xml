@@ -21,7 +21,7 @@
             <lineage:description type="note">test description</lineage:description>
         </lineage:holder>
     </lineage:alternative>
-    <lineage:location page="236" vol="1," work="W1PD107937"/>
+    <lineage:location page="236-238" vol="1," work="W1PD107937"/>
     <lineage:log>
         <entry when="2013-07-17T10:49:42.963Z" who="Lobsang Shastri"/>
         <entry when="2014-03-06T09:18:45.742Z" who="Lobsang Shastri">added location</entry>
