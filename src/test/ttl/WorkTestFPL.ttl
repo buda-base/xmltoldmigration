@@ -52,7 +52,7 @@ bda:WA1FPL2837  a          adm:AdminData ;
 
 bda:MW1FPL2837  a          adm:AdminData ;
         adm:adminAbout     bdr:MW1FPL2837 ;
-        adm:facetIndex     10 ;
+        adm:facetIndex     11 ;
         adm:gitPath        "63/MW1FPL2837.trig" ;
         adm:gitRepo        bda:GR0012 ;
         adm:graphId        bdg:MW1FPL2837 ;
@@ -70,6 +70,11 @@ bdr:TT2CE1832997E074F6
         a           :OtherTitle ;
         rdfs:label  "test pali title"@pi-x-iast .
 
+bdr:EV836983BDFBDCF03A
+        a           :CompletedEvent ;
+        :onOrAbout  "descriptionwithtypedate" ;
+        :onYear     "1232"^^xsd:gYear .
+
 bda:ITW1FPL2837  a      adm:AdminData ;
         adm:adminAbout  bdr:ITW1FPL2837 ;
         adm:status      bda:StatusReleased ;
@@ -83,16 +88,8 @@ bdr:WA1FPL2837  a         :SerialMember ;
         :workGenre        bdr:T132 ;
         :workHasInstance  bdr:MW1FPL2837 ;
         :workIsAbout      bdr:WA976 , bdr:G844 , bdr:T62 ;
-        skos:altLabel     "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "testcap/"@bo-x-ewts ;
+        skos:altLabel     "mahāniddesa aṭṭhakathā"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts , "testcap/"@bo-x-ewts ;
         skos:prefLabel    "test pali title"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
-
-bdr:NT836983BDFBDCF03A
-        a          :Note ;
-        :noteText  "description with type note" .
-
-bdr:TTB789D01CFCC47CD3
-        a           :Title ;
-        rdfs:label  "vinayavinicchaya"@pi-x-iast .
 
 bda:LGIM5A753E00B7  a   adm:UpdateData ;
         adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
@@ -100,16 +97,20 @@ bda:LGIM5A753E00B7  a   adm:UpdateData ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00012 .
 
+bdr:TTB789D01CFCC47CD3
+        a           :Title ;
+        rdfs:label  "mahāniddesa aṭṭhakathā"@pi-x-iast .
+
 bdr:MW1FPL2837  a          :SerialInstance ;
         :biblioNote        "Red lac. covers. Gilded leaves with vermilion band." , "description with no type" ;
-        :hasTitle          bdr:TT2CE1832997E074F6 , bdr:TT0163DF0BC452A994 , bdr:TT1B4E63A8E66021AA , bdr:TT9498AC617EE4D65F , bdr:TTB789D01CFCC47CD3 , bdr:TTF19E8F13B0E095D8 ;
+        :hasTitle          bdr:TT171FD9F0BB2226E9 , bdr:TT2CE1832997E074F6 , bdr:TT0163DF0BC452A994 , bdr:TT1B4E63A8E66021AA , bdr:TT9498AC617EE4D65F , bdr:TTB789D01CFCC47CD3 , bdr:TTF19E8F13B0E095D8 ;
         :incipit           "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
         :instanceOf        bdr:WA1FPL2837 ;
         :isRoot            true ;
-        :note              bdr:NT836983BDFBDCF03A , bdr:NT4F90D9E67B6070EA ;
+        :note              bdr:NTEE4CD95894683764 , bdr:NT4F90D9E67B6070EA ;
         :numberOfVolumes   1 ;
         :scanInfo          "Scanned at M/S Satluj Infotech Images, 63-F Sujan Singh Park, New Delhi, India for the Buddhist Digital Resource Center."@en , "Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City, NY 10011, US. Comments: 12/2010"@en , "12/2017"@en , "Scanned at M/S Satluj Infotech Images, E-45, Sector 27 Noida, District Gautam Buddha Nagar, U.P. 201301 via New Delhi, India for the Buddhist Digital Resource Center. Comments: scanned from microfilm - Soma 0001 (0000 drive) on Dummy 9. ZJ59"@en , "Scanned at Tibetan Buddhist Resource Center, 1430 Massachusetts Avenue, Cambridge, MA 02138, USA. Comments: 05/2015"@en , "12/2012"@en ;
-        :workEvent         bdr:EV171FD9F0BB2226E9 ;
+        :workEvent         bdr:EV836983BDFBDCF03A ;
         :workSeriesNumber  "2" ;
         skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
 
@@ -126,15 +127,19 @@ bdr:TTF19E8F13B0E095D8
         a           :TitlePageTitle ;
         rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
 
-bdr:TT0163DF0BC452A994
-        a           :Title ;
-        rdfs:label  "vinayavinicchaya pāṭh nisya"@pi-x-iast .
-
 bda:LGIMAEA9B78D7A  a   adm:UpdateData ;
         adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
         adm:logMessage  "normalized catalog info"@en ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00012 .
+
+bdr:NTEE4CD95894683764
+        a          :Note ;
+        :noteText  "description with type note" .
+
+bdr:TT0163DF0BC452A994
+        a           :Title ;
+        rdfs:label  "cūḷaniddesa aṭṭhakathā"@pi-x-iast .
 
 bda:LGIMC2340FB74E  a   adm:UpdateData ;
         adm:logDate     "2017-08-28T14:40:13.266Z"^^xsd:dateTime ;
@@ -147,6 +152,10 @@ bdr:CRC96373CECE3F27C3
         :agent  bdr:P1591 ;
         :role   bdr:R0ER0019 .
 
+bdr:TT171FD9F0BB2226E9
+        a           :Title ;
+        rdfs:label  "therī aṭṭhakathā pāṭh"@pi-x-iast .
+
 bda:WAS12345  a            adm:AdminData ;
         adm:adminAbout     bdr:WAS12345 ;
         adm:gitPath        "4a/WAS12345.trig" ;
@@ -155,11 +164,6 @@ bda:WAS12345  a            adm:AdminData ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
-
-bdr:EV171FD9F0BB2226E9
-        a           :CompletedEvent ;
-        :onOrAbout  "descriptionwithtypedate" ;
-        :onYear     "1232"^^xsd:gYear .
 
 bdr:TT1B4E63A8E66021AA
         a           :Title ;
