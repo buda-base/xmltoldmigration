@@ -12,27 +12,9 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bda:MWM12837FPL  a         adm:AdminData ;
-        adm:adminAbout     bdr:MWM12837FPL ;
-        adm:facetIndex     11 ;
-        adm:gitPath        "0a/MWM12837FPL.trig" ;
-        adm:gitRepo        bda:GR0012 ;
-        adm:graphId        bdg:MWM12837FPL ;
-        adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
-
-bdr:NT531278235C7918E2
-        a          :Note ;
-        :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
-
-bdr:NT35B83BD895D4749F
-        a          :Note ;
-        :noteText  "description with type note" .
-
-bdr:TTECDA05CC52A94359
-        a           :Title ;
-        rdfs:label  "kun rig rnam bshad/"@bo-x-ewts .
+bdr:TT9498AC617EE4D65F
+        a           :OtherTitle ;
+        rdfs:label  "testcap/"@bo-x-ewts .
 
 bda:LGIM3935ECCE8B  a   adm:UpdateData ;
         adm:logDate     "2017-08-28T14:31:58.652Z"^^xsd:dateTime ;
@@ -40,69 +22,43 @@ bda:LGIM3935ECCE8B  a   adm:UpdateData ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
-bdr:WAS12345  a           :SerialWork ;
-        :isRoot           true ;
-        :serialHasMember  bdr:WAM12837FPL ;
-        skos:prefLabel    "test pali title"@pi-x-iast .
-
-bdr:MWM12837FPL  a         :SerialInstance ;
-        rdfs:comment       "description with no type" ;
-        :catalogInfo       "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
-        :hasTitle          bdr:TT741A919F3670B2B2 , bdr:TTECDA05CC52A94359 , bdr:TT7687083210B4255F , bdr:TT3CBDE3A243BE57CF , bdr:TT15ED3B92D25DDB21 , bdr:TTDDB0945A6B376CE3 ;
-        :incipit           "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
-        :instanceOf        bdr:WAM12837FPL ;
-        :isRoot            true ;
-        :note              bdr:NT35B83BD895D4749F , bdr:NT531278235C7918E2 ;
-        :numberOfVolumes   1 ;
-        :scanInfo          "scanned at the tibetan buddhist resource center at the rubin museum of art, 150 w. 17th st., new york city, ny 10011 2004"@en ;
-        :workEvent         bdr:EV86C328CD33E9538B ;
-        :workSeriesNumber  "2" ;
-        skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
-
-bdr:TT741A919F3670B2B2
-        a           :OtherTitle ;
-        rdfs:label  "testcap/"@bo-x-ewts .
-
-bdr:TT15ED3B92D25DDB21
-        a           :Title ;
-        rdfs:label  "vinayavinicchaya pāṭh nisya"@pi-x-iast .
-
-bdr:WAM12837FPL  a        :SerialMember ;
-        :creator          bdr:CRAF17AA3DDF595903 ;
-        :isRoot           true ;
-        :serialMemberOf   bdr:WAS12345 ;
-        :workGenre        bdr:T132 ;
-        :workHasInstance  bdr:MWM12837FPL ;
-        :workIsAbout      bdr:G844 , bdr:WA976 , bdr:T62 ;
-        skos:altLabel     "testcap/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts ;
-        skos:prefLabel    "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
-
-bdr:EV86C328CD33E9538B
-        a           :CompletedEvent ;
-        :onOrAbout  "descriptionwithtypedate" ;
-        :onYear     "1232"^^xsd:gYear .
-
-bdr:ITWM12837FPL  a       :Item ;
-        :itemForInstance  bdr:MWM12837FPL ;
-        :itemHasVolume    bdr:VL34F0EEC409CDBEC1 ;
-        :itemLibrary      bdr:G1TLMFPL000001 ;
-        :itemShelf        "3A|110" .
-
-bdr:TT7687083210B4255F
-        a           :OtherTitle ;
-        rdfs:label  "test pali title"@pi-x-iast .
-
-bda:LGA23D86045E3C8A59
+bda:LGA5551B31379AA57E
         a               adm:UpdateData ;
         adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdu:U00001 .
 
-bda:LGACCC7446FEDC1B3F
+bdr:WAS12345  a           :SerialWork ;
+        :isRoot           true ;
+        :serialHasMember  bdr:WA1FPL2837 ;
+        skos:prefLabel    "test pali title"@pi-x-iast .
+
+bda:LG7BF1159854D07D7C
         a               adm:UpdateData ;
         adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
         adm:logMessage  "added print type and source printery"@en ;
         adm:logWho      bdu:U00013 .
+
+bda:WA1FPL2837  a          adm:AdminData ;
+        adm:adminAbout     bdr:WA1FPL2837 ;
+        adm:facetIndex     10 ;
+        adm:gitPath        "6e/WA1FPL2837.trig" ;
+        adm:gitRepo        bda:GR0008 ;
+        adm:graphId        bdg:WA1FPL2837 ;
+        adm:logEntry       bda:LGIM3935ECCE8B , bda:LG7BF1159854D07D7C , bda:LGIMA3A86F9513 , bda:LGIMAEA9B78D7A , bda:LGA5551B31379AA57E , bda:LGIM5A753E00B7 , bda:LGIMC2340FB74E , bda:LG5E0C3D1C80378F3F ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
+
+bda:MW1FPL2837  a          adm:AdminData ;
+        adm:adminAbout     bdr:MW1FPL2837 ;
+        adm:facetIndex     10 ;
+        adm:gitPath        "63/MW1FPL2837.trig" ;
+        adm:gitRepo        bda:GR0012 ;
+        adm:graphId        bdg:MW1FPL2837 ;
+        adm:metadataLegal  bda:LD_BDRC_CC0 ;
+        adm:status         bda:StatusReleased ;
+        :isRoot            true .
 
 bda:LGIMA3A86F9513  a   adm:InitialDataImport ;
         adm:logDate     "2016-12-06T12:04:56.81Z"^^xsd:dateTime ;
@@ -110,14 +66,33 @@ bda:LGIMA3A86F9513  a   adm:InitialDataImport ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
-bdr:TT3CBDE3A243BE57CF
+bdr:TT2CE1832997E074F6
+        a           :OtherTitle ;
+        rdfs:label  "test pali title"@pi-x-iast .
+
+bda:ITW1FPL2837  a      adm:AdminData ;
+        adm:adminAbout  bdr:ITW1FPL2837 ;
+        adm:status      bda:StatusReleased ;
+        :isRoot         true .
+
+bdr:WA1FPL2837  a         :SerialMember ;
+        :catalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
+        :creator          bdr:CRC96373CECE3F27C3 ;
+        :isRoot           true ;
+        :serialMemberOf   bdr:WAS12345 ;
+        :workGenre        bdr:T132 ;
+        :workHasInstance  bdr:MW1FPL2837 ;
+        :workIsAbout      bdr:WA976 , bdr:G844 , bdr:T62 ;
+        skos:altLabel     "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts , "vinayavinicchaya"@pi-x-iast , "testcap/"@bo-x-ewts ;
+        skos:prefLabel    "test pali title"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
+
+bdr:NT836983BDFBDCF03A
+        a          :Note ;
+        :noteText  "description with type note" .
+
+bdr:TTB789D01CFCC47CD3
         a           :Title ;
         rdfs:label  "vinayavinicchaya"@pi-x-iast .
-
-bdr:VL34F0EEC409CDBEC1
-        a                           :VolumePhysicalAsset ;
-        :volumeNumber               1 ;
-        :volumePhysicalDescription  "Red lac. covers. Gilded leaves with vermilion band."@en .
 
 bda:LGIM5A753E00B7  a   adm:UpdateData ;
         adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
@@ -125,9 +100,35 @@ bda:LGIM5A753E00B7  a   adm:UpdateData ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00012 .
 
-bdr:TTDDB0945A6B376CE3
+bdr:MW1FPL2837  a          :SerialInstance ;
+        :biblioNote        "Red lac. covers. Gilded leaves with vermilion band." , "description with no type" ;
+        :hasTitle          bdr:TT2CE1832997E074F6 , bdr:TT0163DF0BC452A994 , bdr:TT1B4E63A8E66021AA , bdr:TT9498AC617EE4D65F , bdr:TTB789D01CFCC47CD3 , bdr:TTF19E8F13B0E095D8 ;
+        :incipit           "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
+        :instanceOf        bdr:WA1FPL2837 ;
+        :isRoot            true ;
+        :note              bdr:NT836983BDFBDCF03A , bdr:NT4F90D9E67B6070EA ;
+        :numberOfVolumes   1 ;
+        :scanInfo          "Scanned at M/S Satluj Infotech Images, 63-F Sujan Singh Park, New Delhi, India for the Buddhist Digital Resource Center."@en , "Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City, NY 10011, US. Comments: 12/2010"@en , "12/2017"@en , "Scanned at M/S Satluj Infotech Images, E-45, Sector 27 Noida, District Gautam Buddha Nagar, U.P. 201301 via New Delhi, India for the Buddhist Digital Resource Center. Comments: scanned from microfilm - Soma 0001 (0000 drive) on Dummy 9. ZJ59"@en , "Scanned at Tibetan Buddhist Resource Center, 1430 Massachusetts Avenue, Cambridge, MA 02138, USA. Comments: 05/2015"@en , "12/2012"@en ;
+        :workEvent         bdr:EV171FD9F0BB2226E9 ;
+        :workSeriesNumber  "2" ;
+        skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
+
+bdr:NT4F90D9E67B6070EA
+        a          :Note ;
+        :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
+
+bdr:ITW1FPL2837  a        :Item ;
+        :itemForInstance  bdr:MW1FPL2837 ;
+        :itemLibrary      bdr:G1TLMFPL000001 ;
+        :itemShelf        "3A|110" .
+
+bdr:TTF19E8F13B0E095D8
         a           :TitlePageTitle ;
         rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
+
+bdr:TT0163DF0BC452A994
+        a           :Title ;
+        rdfs:label  "vinayavinicchaya pāṭh nisya"@pi-x-iast .
 
 bda:LGIMAEA9B78D7A  a   adm:UpdateData ;
         adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
@@ -141,9 +142,13 @@ bda:LGIMC2340FB74E  a   adm:UpdateData ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
+bdr:CRC96373CECE3F27C3
+        a       :AgentAsCreator ;
+        :agent  bdr:P1591 ;
+        :role   bdr:R0ER0019 .
+
 bda:WAS12345  a            adm:AdminData ;
         adm:adminAbout     bdr:WAS12345 ;
-        adm:facetIndex     9 ;
         adm:gitPath        "4a/WAS12345.trig" ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WAS12345 ;
@@ -151,22 +156,17 @@ bda:WAS12345  a            adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bda:WAM12837FPL  a         adm:AdminData ;
-        adm:adminAbout     bdr:WAM12837FPL ;
-        adm:gitPath        "93/WAM12837FPL.trig" ;
-        adm:gitRepo        bda:GR0008 ;
-        adm:graphId        bdg:WAM12837FPL ;
-        adm:logEntry       bda:LGIMC2340FB74E , bda:LGIMA3A86F9513 , bda:LGIM5A753E00B7 , bda:LGIMAEA9B78D7A , bda:LGA23D86045E3C8A59 , bda:LGACCC7446FEDC1B3F , bda:LGIM3935ECCE8B ;
-        adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+bdr:EV171FD9F0BB2226E9
+        a           :CompletedEvent ;
+        :onOrAbout  "descriptionwithtypedate" ;
+        :onYear     "1232"^^xsd:gYear .
 
-bda:ITWM12837FPL  a     adm:AdminData ;
-        adm:adminAbout  bdr:ITWM12837FPL ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
+bdr:TT1B4E63A8E66021AA
+        a           :Title ;
+        rdfs:label  "kun rig rnam bshad/"@bo-x-ewts .
 
-bdr:CRAF17AA3DDF595903
-        a       :AgentAsCreator ;
-        :agent  bdr:P1591 ;
-        :role   bdr:R0ER0019 .
+bda:LG5E0C3D1C80378F3F
+        a               adm:ScanRequestCreation ;
+        adm:logDate     "2016-06-07T11:40:52.712Z"^^xsd:dateTime ;
+        adm:logMessage  "added volumeMap for scan request"@en ;
+        adm:logWho      bdu:U00019 .

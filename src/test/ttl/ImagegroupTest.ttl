@@ -47,7 +47,8 @@ bda:WTestInstance  a    adm:AdminData ;
 bdr:I4158  a                   :ImageGroup ;
         :volumeNumber          1 ;
         :volumeOf              bdr:WTestInstance ;
-        :volumePagesTbrcIntro  1 .
+        :volumePagesTbrcIntro  1 ;
+        :volumePagesTotal      356 .
 
 bda:LGIGS002  a         adm:UpdateData ;
         adm:logDate     "2016-03-31T21:27:09.458Z"^^xsd:dateTime ;

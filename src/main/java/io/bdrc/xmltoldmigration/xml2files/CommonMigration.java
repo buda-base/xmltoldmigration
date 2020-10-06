@@ -1356,10 +1356,11 @@ public class CommonMigration  {
                 fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral("|"+fplId));
         }
         if (fplDescription != null) {
-            Resource fplVolume = getFacetNode(FacetType.VOLUME, rez, resModel.getResource(BDO+"VolumePhysicalAsset"));
-            fplItem.addProperty(resModel.getProperty(BDO, "itemHasVolume"), fplVolume);
-            fplVolume.addProperty(resModel.getProperty(BDO, "volumeNumber"), resModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
-            fplVolume.addProperty(resModel.getProperty(BDO, "volumePhysicalDescription"), resModel.createLiteral(fplDescription, "en"));
+            rez.addProperty(resModel.getProperty(BDO, "biblioNote"), resModel.createLiteral(fplDescription, "en"));
+//            Resource fplVolume = getFacetNode(FacetType.VOLUME, rez, resModel.getResource(BDO+"VolumePhysicalAsset"));
+//            fplItem.addProperty(resModel.getProperty(BDO, "itemHasVolume"), fplVolume);
+//            fplVolume.addProperty(resModel.getProperty(BDO, "volumeNumber"), resModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
+//            fplVolume.addProperty(resModel.getProperty(BDO, "volumePhysicalDescription"), resModel.createLiteral(fplDescription, "en"));
         }
         if (resModel != null) {
             Map<String,Model> itemModels = new HashMap<>();
