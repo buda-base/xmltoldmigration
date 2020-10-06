@@ -166,12 +166,20 @@ public class WorkMigration {
             //     if it's before mid-2012, it's NY and we can keep the original string
             //     if it's after April 2016, it doesn't mean anything and we should keep just the comment
             //     if it's between the two it's Cambridge (and it should be set as such, keeping the comments)
+            final String baseCam = "Scanned at Tibetan Buddhist Resource Center, 1430 Massachusetts Avenue, Cambridge, MA 02138, USA.";
             try {
               int i = Integer.parseInt(s.substring(s.length()-4));
               if (i < 2012) {
                   return s;
               }
+              if (i > 2012 && i < 2016) {
+                  int cidx = s.indexOf("Comments: ");
+                  if (cidx == -1)
+                      return baseCam;
+                  return baseCam+" "+s.substring(cidx).trim();
+              }
               if (i > 2016) {
+                  
                   int cidx = s.indexOf("Comments: ");
                   if (cidx == -1)
                       return null;
@@ -184,8 +192,14 @@ public class WorkMigration {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "scanInfo", "can't find scanrequest date");
                 return s;
             }
-            if (sryearmonth[0] < 2012 || (sryearmonth[0] == 2012 && sryearmonth[1] < 7)) {
+            if (sryearmonth[0] < 2012 || (sryearmonth[0] == 2012 && sryearmonth[1] < 6)) {
                 return s;
+            }
+            if ((sryearmonth[0] == 2012 && sryearmonth[1] >= 6) || (sryearmonth[0] > 2012 && sryearmonth[0] < 2016) || (sryearmonth[0] == 2016 && sryearmonth[1] <= 4)) {
+                int cidx = s.indexOf("Comments: ");
+                if (cidx == -1)
+                    return baseCam;
+                return baseCam+" "+s.substring(cidx).trim();
             }
             if (sryearmonth[0] > 2016 || (sryearmonth[0] == 2016 && sryearmonth[1] > 4)) {
                 int cidx = s.indexOf("Comments: ");
@@ -193,7 +207,6 @@ public class WorkMigration {
                     return null;
                 return s.substring(cidx+10).trim();
             }
-            return s;
         }
         return s;
     }
