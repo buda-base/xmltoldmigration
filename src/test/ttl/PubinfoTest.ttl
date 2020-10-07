@@ -50,6 +50,10 @@ bda:MW1FPL1  a          adm:AdminData ;
         adm:logEntry    bda:LGIMD5FAEE0C6C , bda:LGIM6B433BA01E , bda:LGIM9F8D3273 ;
         :isRoot         true .
 
+bdr:W1FPL1  a      :ImageInstance ;
+        :isRoot    true ;
+        :scanInfo  "Scanning sponsored through the kind support of"@en .
+
 bda:LGIMD5FAEE0C6C  a   adm:UpdateData ;
         adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
         adm:logMessage  "added hollis field to pub info"@en ;

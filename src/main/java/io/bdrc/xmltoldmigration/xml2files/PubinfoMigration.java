@@ -57,6 +57,7 @@ public class PubinfoMigration {
         Element root = xmlDocument.getDocumentElement();
         Resource main = null;
         Resource mainA = null;
+        Resource mainII = null;
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "isPubInfoFor");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
@@ -67,6 +68,7 @@ public class PubinfoMigration {
             }
             
             main = createRoot(m, BDR+'M'+value, BDO+"Instance");
+            mainII = createRoot(m, BDR+value, BDO+"ImageInstance");
             createAdminRoot(main);
             Model mA = ModelFactory.createDefaultModel();
             res.add(mA);
@@ -74,7 +76,7 @@ public class PubinfoMigration {
             mainA = createRoot(m, BDR+"WA"+value.substring(1), BDO+"Work");
             createAdminRoot(main);
         }
-        List<Resource> resFromCall = MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), mainA, null);
+        List<Resource> resFromCall = MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), mainA, mainII);
         if (resFromCall != null) {
             for (Resource r : resFromCall) {
                 res.add(r.getModel());
@@ -165,7 +167,6 @@ public class PubinfoMigration {
         addSimpleElement("illustrations", BDO+"illustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"dimensionsStatement", null, root, m, main);
         addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
-        addSimpleElement("biblioNote", BDO+"biblioNote", "en", root, m, main);
         addBiblioNote(root, m, main, item);
         addSimpleElement("sourceNote", BDO+"sourceNote", "en", root, m, main);
         addSimpleElement("editionStatement", BDO+"editionStatement", EWTS_TAG, root, m, main);
