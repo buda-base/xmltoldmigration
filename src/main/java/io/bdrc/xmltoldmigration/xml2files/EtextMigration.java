@@ -469,6 +469,7 @@ public class EtextMigration {
             Resource workA = itemModel.getResource(BDR+abstractWorkId);
             Resource iInstance = itemModel.getResource(BDR+iInstanceId);
             Resource item = createRoot(itemModel, BDR+eInstanceId, BDO+"EtextInstance");
+            itemModel.add(item, itemModel.getProperty(BDO, "contentMethod"), itemModel.createResource(BDR+(needsPageNameTranslation ? "ContentMethod_OCR" : "ContentMethod_ComputerInput")));
             // TODO: +(isPaginated?"Paginated":"NonPaginated")
 
             // Item AdminData
