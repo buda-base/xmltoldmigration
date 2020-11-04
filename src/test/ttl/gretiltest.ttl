@@ -20,6 +20,7 @@ bdr:IE0GR0001  a        :EtextInstance ;
 
 bda:IE0GR0001  a            adm:AdminData ;
         adm:adminAbout      bdr:IE0GR0001 ;
+        adm:access          bda:AccessOpen ;
         adm:facetIndex      4 ;
         adm:gitPath         "50/IE0GR0001.trig" ;
         adm:gitRepo         bda:GR0013 ;

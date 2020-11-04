@@ -119,6 +119,7 @@ public class GRETILTransfer {
         // Work AdminData
         addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_GRETIL")); // ?
+        workModel.add(admWork, workModel.createProperty(ADM, "access"), workModel.createResource(BDA + "AccessOpen"));
         if (line[8] != null && !"".equals(line[8])) {
             final String origUrl = ORIG_URL_BASE+line[8].replace('/', '-');
             workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
