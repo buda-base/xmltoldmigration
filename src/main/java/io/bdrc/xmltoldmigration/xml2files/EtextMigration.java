@@ -91,7 +91,7 @@ public class EtextMigration {
         return xPath;
     }
 
-    public static final List<String> paginatedProviders = Arrays.asList("UCB-OCR", "eKangyur");
+    public static final List<String> paginatedProviders = Arrays.asList("UCB-OCR", "eKangyur", "eTengyur");
     
     public static final Map<String,Boolean> blackListL2 = new HashMap<>();
     public static final Map<String,Boolean> blackListL3 = new HashMap<>();
@@ -218,14 +218,12 @@ public class EtextMigration {
     
     public static class EtextInfos {
         public Model etextModel;
-        public String indicatedWorkId;
         public String eInstanceId;
         public String etextId;
         public String abstractWorkId;
         
         public EtextInfos(Model etextModel, String indicatedWorkId, String eInstanceId, String etextId, String abstractWorkId) {
             this.etextModel = etextModel;
-            this.indicatedWorkId = indicatedWorkId;
             this.eInstanceId = eInstanceId;
             this.etextId = etextId;
             this.abstractWorkId = abstractWorkId;
@@ -284,7 +282,7 @@ public class EtextMigration {
         boolean volumeIsImageGroup = false;
         try {
             vol = Integer.parseInt(m.group(1));
-            if (vol > 900) {
+            if (vol > 800) {
                 volumeIsImageGroup = true; // case of UT21871_4205_0000 : 4205 is not volume 4205, it's I4205
             }
         } catch (NumberFormatException e) {
@@ -443,7 +441,6 @@ public class EtextMigration {
         }
         final String indicatedWorkId = e.getTextContent().trim();
         String eInstanceId = instanceIdFromWorkId(indicatedWorkId);
-        String iInstanceId = indicatedWorkId;
         boolean bornDigital = false;
         if (WorkMigration.etextInstances.containsKey(indicatedWorkId)) {
             bornDigital = true;
@@ -467,7 +464,6 @@ public class EtextMigration {
         
         if (first) { // initialize the :ItemEtext
             Resource workA = itemModel.getResource(BDR+abstractWorkId);
-            Resource iInstance = itemModel.getResource(BDR+iInstanceId);
             Resource item = createRoot(itemModel, BDR+eInstanceId, BDO+"EtextInstance");
             itemModel.add(item, itemModel.getProperty(BDO, "contentMethod"), itemModel.createResource(BDR+(needsPageNameTranslation ? "ContentMethod_OCR" : "ContentMethod_ComputerInput")));
             // TODO: +(isPaginated?"Paginated":"NonPaginated")
@@ -518,13 +514,13 @@ public class EtextMigration {
         addReleased(etextModel, admEtext);
         
         Model imageItemModel = null;
-        if (isPaginated && !testMode) {
+        if (isPaginated && !testMode && !bornDigital) {
             imageItemModel = getItemModel(indicatedWorkId, etextId);
             if (imageItemModel == null) {
-                System.err.println("error: cannot retrieve image instance model for "+indicatedWorkId+"(referenced in "+path+")");
+                System.err.println("error: cannot retrieve image instance model for "+indicatedWorkId+" (referenced in "+path+")");
                 return null;
             }
-        }
+        }        
         
         final int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel, imageItemModel);
         itemModel.add(getItemEtextPart(itemModel, eInstanceId, volSeqNumInfos[0], volSeqNumInfos[1]),
@@ -541,8 +537,14 @@ public class EtextMigration {
         for (int i = 0; i < titles.getLength(); i++) {
             Element title = (Element) titles.item(i);
             String titleStr = CommonMigration.normalizeString(title.getTextContent());
+            if (titleStr.startsWith("\uFEFF"))
+                titleStr = titleStr.substring(1);
             if (titleStr.isEmpty())
                 continue;
+            //Matcher m = emptytitle.matcher(titleStr);
+            if (titleStr.matches("^\\[[0-9]*\\]$")) {
+                continue;
+            }
             if (!titlesList.contains(titleStr)) {
                 etextModel.add(etext,
                         //etextModel.getProperty(BDO, "eTextTitle"),
