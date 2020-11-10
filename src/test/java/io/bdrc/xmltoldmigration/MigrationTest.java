@@ -484,7 +484,6 @@ public class MigrationTest
         EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true, BDA+"CP001");
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.eInstanceId.equals("IE1CZ2485"));
-        assertTrue(ei.indicatedWorkId.equals("W1CZ2485"));
         assertTrue(ei.etextId.equals("UT1CZ2485_001_0000"));
         //MigrationHelpers.modelToOutputStream(ei.etextModel, System.out, "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
         //MigrationHelpers.modelToOutputStream(itemModel, System.out, "item", MigrationHelpers.OUTPUT_STTL, ei.itemId);
