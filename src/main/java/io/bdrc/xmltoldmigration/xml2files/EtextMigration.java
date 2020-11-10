@@ -157,9 +157,15 @@ public class EtextMigration {
                 if (!fl2.isDirectory() || blackListL2.containsKey(fl2.getName()))
                     continue;
                 //System.out.println("migrating "+provider+"/"+fl2.getName());
-                String itemId = null;
+                String itemId = "IE"+fl2.getName().substring(2);
+                String wId = "W"+itemId.substring(2);
                 Model itemModel = ModelFactory.createDefaultModel();
                 MigrationHelpers.setPrefixes(itemModel, "einstance");
+                // in the case of instances that have been migrated to etext instances (such as W3JT13379 -> IE3JT13379)
+                // we need to read what's been migrated by the work migration in order not to loose it:
+                if (WorkMigration.etextInstances.containsKey(wId)) {
+                    itemModel = MigrationHelpers.modelFromFileName(MigrationApp.getDstFileName("einstance", itemId, ".trig"));
+                }
                 boolean firstItemModel = true;
                 File[] filesL3 = fl2.listFiles();
                 for (File fl3 : filesL3) {
