@@ -100,12 +100,13 @@ public class EtextBodyMigration {
                 continue;
             }
             Resource pageR = null;
-            if (keepPages) {
+            //if (keepPages) {
                 pageR = getFacetNode(FacetType.ETEXT_PAGE,  etextR);
                 etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
-            }
+            //}
             final String pageNum = par.getAttribute("n");
-            if (!pageNum.isEmpty() && keepPages) {
+            // we always keep the pages
+            if (!pageNum.isEmpty()) {// && keepPages) {
                 if (imageNumPageNum != null) {
                     int dotidx = pageNum.lastIndexOf('.');
                     if (dotidx == -1) {
