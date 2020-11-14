@@ -1,12 +1,12 @@
 package io.bdrc.xmltoldmigration.xml2files;
 
-import static io.bdrc.libraries.LangStrings.normalizeTibetan;
 import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.getFacetNode;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.text.Normalizer;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,9 +36,23 @@ public class EtextBodyMigration {
     public static final String LINE_INSERT = "\n";
     public static final int LINE_INSERT_codelen = 1;
     
+    public static String normalizeTibetan(String s) {
+        String res = Normalizer.normalize(s, Normalizer.Form.NFD);
+        // Normalizer doesn't normalize deprecate characters such as 0x0F79
+        res = res.replaceAll("\u0F79", "\u0FB3\u0F71\u0F80");
+        res = res.replaceAll("\u0F77", "\u0FB2\u0F71\u0F80");
+        // it also doesn't normalize characters which use is discouraged:
+        res = res.replaceAll("\u0F81", "\u0F71\u0F80");
+        res = res.replaceAll("\u0F75", "\u0F71\u0F74");
+        res = res.replaceAll("\u0F73", "\u0F71\u0F72");
+        return res;
+    }
+    
     public static final Pattern rtfP = Pattern.compile("(\\s*\\d*(PAGE|\\$)[\u0000-\u0127]+)+");
     public static String normalizeString(final String src, final String page, final String lineNum, final boolean fromRTF, final String eTextId) {
         String res = normalizeTibetan(src);
+        // this pattern happens everywhere in the RTF conversion:
+        res = res.replaceAll(" ([\u0f71-\u0f7e]་?) ", "$1");
         // I don't think we want non-breakable spaces, just normal spaces
         res = res.replace('\u00A0', ' ');
         if (fromRTF) {
