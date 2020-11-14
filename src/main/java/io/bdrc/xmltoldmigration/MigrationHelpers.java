@@ -6,7 +6,6 @@ import static io.bdrc.libraries.Models.BDG;
 import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.getAdminRoot;
-import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -41,18 +40,13 @@ import javax.xml.validation.Validator;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
-import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.ontology.Restriction;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
@@ -67,7 +61,6 @@ import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
@@ -82,7 +75,6 @@ import io.bdrc.jena.sttl.CompareComplex;
 import io.bdrc.jena.sttl.ComparePredicates;
 import io.bdrc.jena.sttl.STTLWriter;
 import io.bdrc.jena.sttl.STriGWriter;
-import io.bdrc.xmltoldmigration.helpers.ContextGenerator;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.CorporationMigration;
@@ -699,6 +691,43 @@ public class MigrationHelpers {
 	}
 	
 	public static Map<String,Validator> validators = new HashMap<String,Validator>();
+	
+	private static final Pattern basicP = Pattern.compile("[^|]+");
+	public static Map<String,Integer> getImgmapForImggrp(String imagegrouplname) {
+	    Map<String,Integer> res = new HashMap<>();
+	    if (!imagegrouplname.startsWith("I")) {
+	        imagegrouplname = "I"+imagegrouplname;
+	    }
+	    String fname = MigrationApp.XML_DIR+"tbrc-imagegroups/"+imagegrouplname+".xml";
+	    File f = new File(fname);
+	    if (!f.exists()) {
+	        System.err.println("can't find "+fname);
+	        return res;
+	    }
+	    Document d = MigrationHelpers.documentFromFileName(fname);
+        Element root = d.getDocumentElement();
+        String imglist="";
+        NodeList nodeList = root.getElementsByTagNameNS(ImagegroupMigration.IGXSDNS, "description");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element current = (Element) nodeList.item(i);
+            String type = current.getAttribute("type").trim();
+            if (!type.equals("ondisk") && !type.equals("onDisk")) continue;
+            imglist = current.getTextContent();
+        }
+	    Matcher basicM = basicP.matcher(imglist);
+	    int i = 1;
+	    while (basicM.find()) {
+	        final String imgfname = basicM.group(0).toLowerCase();
+	        int dotidx = imgfname.lastIndexOf('.');
+	        if (dotidx == -1) {
+	            System.err.println("strange image name: "+imgfname);
+	            continue;
+	        }
+	        res.put(imgfname.substring(0,dotidx), i);
+	        i += 1;
+	    }
+	    return res;
+	}
 	
 	public static Validator getValidatorFor(String type) {
 	    Validator res = validators.get("type");

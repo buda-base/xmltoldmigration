@@ -93,10 +93,12 @@ public class EtextBodyMigration {
             final String pageNum = par.getAttribute("n");
             if (!pageNum.isEmpty() && keepPages) {
                 if (imageNumPageNum != null) {
-                    Integer pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
-                    if (pageNumI == null) { // TODO: are there some cases in which this breaks?
-                        pageNumI = imageNumPageNum.get(pageNum.toLowerCase());
+                    int dotidx = pageNum.lastIndexOf('.');
+                    if (dotidx == -1) {
+                        System.err.println("strange image name in etext xml: "+pageNum);
+                        continue;
                     }
+                    Integer pageNumI = imageNumPageNum.get(pageNum.substring(0, dotidx).toLowerCase());
                     if (pageNumI == null) {
                         ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot find image "+pageNum);
                     } else {

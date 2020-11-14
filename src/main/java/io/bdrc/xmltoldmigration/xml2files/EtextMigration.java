@@ -9,7 +9,6 @@ import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getAdminRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
-import static io.bdrc.libraries.Models.setPrefixes;
 import static io.bdrc.libraries.GitHelpers.ensureGitRepo;
 
 import java.io.File;
@@ -49,7 +48,6 @@ import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
-import io.bdrc.xmltoldmigration.helpers.ImageListTranslation;
 
 public class EtextMigration {
 
@@ -178,6 +176,7 @@ public class EtextMigration {
                        String name = fl4.getName();
                        if (name.startsWith("_") || !name.endsWith(".xml") || blackListL4.containsKey(name))
                            continue;
+                       //if (!name.contains("3JT13379")) continue;
                        String id = name.substring(0, name.length()-4).replace('-', '_');
                        String dstName = MigrationApp.getDstFileName("etextcontent", id, ".txt");
                        File dstFile = new File(dstName);
@@ -535,7 +534,13 @@ public class EtextMigration {
         
         Map<String,Integer> imageNumPageNum = null;
         if (needsPageNameTranslation) {
-            imageNumPageNum = ImageListTranslation.getImageNums(imageItemModel, volSeqNumInfos[0]);
+            Matcher m = p.matcher(etextId);
+            if (!m.find()) {
+                System.err.println("can't find image group id in "+etextId);
+            } else {
+                imageNumPageNum = MigrationHelpers.getImgmapForImggrp(m.group(1));
+              //ImageListTranslation.getImageNums(imageItemModel, volSeqNumInfos[0]);
+            }
         }
         
         final NodeList titles = titleStmt.getElementsByTagNameNS(TEI_PREFIX, "title");
