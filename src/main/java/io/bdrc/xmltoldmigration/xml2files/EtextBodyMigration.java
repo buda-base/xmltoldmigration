@@ -100,10 +100,8 @@ public class EtextBodyMigration {
                 continue;
             }
             Resource pageR = null;
-            //if (keepPages) {
-                pageR = getFacetNode(FacetType.ETEXT_PAGE,  etextR);
-                etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
-            //}
+            pageR = getFacetNode(FacetType.ETEXT_PAGE,  etextR);
+            etextR.addProperty(m.createProperty(BDO, "eTextHasPage"), pageR);
             final String pageNum = par.getAttribute("n");
             // we always keep the pages
             if (!pageNum.isEmpty()) {// && keepPages) {
@@ -175,7 +173,7 @@ public class EtextBodyMigration {
               }
            }
            final int pageEndPointIndex = currentTotalPoints;
-           if (keepPages) {
+           if (pageR != null) {
                pageR.addProperty(m.getProperty(BDO, "sliceStartChar"), m.createTypedLiteral(pageBeginPointIndex, XSDDatatype.XSDinteger));
                pageR.addProperty(m.getProperty(BDO, "sliceEndChar"), m.createTypedLiteral(pageEndPointIndex, XSDDatatype.XSDinteger));
            }
