@@ -21,7 +21,7 @@ bdr:C11MS170  a                :Corporation ;
         skos:prefLabel         "Dranka"@en-x-mixed , "bran ka"@bo-x-phon-en-m-tbrc .
 
 bdr:CMF428C2DEB2CDEFAF
-        a                   :CorporationMemberUnknown ;
+        a                   :CorporationMember ;
         :corporationMember  bdr:P1857 .
 
 bda:C11MS170  a            adm:AdminData ;
@@ -46,7 +46,7 @@ bdr:NTF247E9C5ACE9527A
         :noteText  "associated w / 11th cent. master, P4CZ15480 ?"@en .
 
 bdr:CM7872F5FD75068B81
-        a                   :CorporationMemberNotSpecified ;
+        a                   :CorporationMember ;
         :corporationMember  bdr:P1856 .
 
 bdr:NTAA3AC231C7216B0B

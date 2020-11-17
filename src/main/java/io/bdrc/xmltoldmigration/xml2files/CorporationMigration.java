@@ -57,11 +57,12 @@ public class CorporationMigration {
 			if (value.isEmpty()) continue;
 			Resource person = m.createResource(BDR + value);
 			value = current.getAttribute("type").trim();
-			if (value.isEmpty()) {
-				value = "notSpecified";
+			if (value.isEmpty() || value.equals("unknown")) {
+			    value = BDO+"CorporationMember";
+			} else {
+			    value = CommonMigration.normalizePropName(value, null);
+	            value = BDO+"CorporationMember"+value.substring(0, 1).toUpperCase() + value.substring(1);			    
 			}
-			value = CommonMigration.normalizePropName(value, null);
-			value = BDO+"CorporationMember"+value.substring(0, 1).toUpperCase() + value.substring(1);
 			Property prop = m.getProperty(BDO, "corporationHasMember");
             Resource member = getFacetNode(FacetType.CORP_MEMBER, main, m.createResource(value));
 			m.add(main, prop, member);
