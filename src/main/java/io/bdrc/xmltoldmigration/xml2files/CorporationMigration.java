@@ -57,17 +57,26 @@ public class CorporationMigration {
 			if (value.isEmpty()) continue;
 			Resource person = m.createResource(BDR + value);
 			value = current.getAttribute("type").trim();
-			if (value.isEmpty() || value.equals("unknown")) {
-			    value = BDO+"CorporationMember";
-			} else {
-			    value = CommonMigration.normalizePropName(value, null);
-	            value = BDO+"CorporationMember"+value.substring(0, 1).toUpperCase() + value.substring(1);			    
+			Resource type;
+			switch(value) {
+			case "marriage":
+			    type = m.createResource(BDO+"CorporationMemberByMarriage");
+			    break;
+			case "blood":
+			    type = m.createResource(BDO+"CorporationMemberByBlood");
+			    break;
+			case "monastic":
+			    type = m.createResource(BDO+"CorporationMemberMonastic");
+                break;
+            default:
+                type = m.createResource(BDO+"CorporationMember");
+                break;
 			}
 			Property prop = m.getProperty(BDO, "corporationHasMember");
-            Resource member = getFacetNode(FacetType.CORP_MEMBER, main, m.createResource(value));
+            Resource member = getFacetNode(FacetType.CORP_MEMBER, main, type);
 			m.add(main, prop, member);
 			m.add(member, m.getProperty(BDO, "corporationMember"), person);
-			m.add(member, RDF.type, m.createResource(value));
+			m.add(member, RDF.type, type);
 		}
 		
 		// regions (ignoring most attributes)
