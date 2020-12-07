@@ -10,6 +10,9 @@
         <!-- from O2DB94811 --><outline:subject class="T208"  type="isInstanceOfGenre">gsung 'bum </outline:subject>
         <!-- from O4CTX297 --><outline:browser class="WritingsClassBrowser"  funct="ctc"  module="global-search"  params="PR01DOR0,250"/>
         <!-- from O4328 --><outline:site place="G4449"  type="written" circa="1235">lhun grub steng srib dgon (sde dge) </outline:site>
+        <outline:description encoding="native" lang="english" type="contents">
+            collection of rituals for the performance of fire offerings (homavidhi) in the worship of various deities
+        </outline:description>
         <outline:node RID="O2DB875722DB87573" type="text">
             <outline:title encoding="extendedWylie" lang="tibetan" type="bibliographicalTitle">gleng gzhi/</outline:title>
             <outline:creator type="hasScribe">Another scribe</outline:creator>

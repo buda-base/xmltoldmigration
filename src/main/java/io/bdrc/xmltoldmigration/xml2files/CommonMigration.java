@@ -1340,10 +1340,13 @@ public class CommonMigration  {
                 }
                 continue;
             }
-            if (propUri.equals(BDO+"catalogInfo") && mainA != null) {
-                mainA.addProperty(mainA.getModel().getProperty(propUri), lit);
+            if (propUri.equals(BDO+"catalogInfo")) {
+                if (mainA != null) {
+                    mainA.addProperty(mainA.getModel().getProperty(propUri), lit);
+                }
+                // TODO: add the catalogInfo in the work in case it an otherAbstract case
             } else {
-                rez.addProperty(m.getProperty(propUri), lit);                
+                rez.addProperty(m.getProperty(propUri), lit);             
             }
         }
         
