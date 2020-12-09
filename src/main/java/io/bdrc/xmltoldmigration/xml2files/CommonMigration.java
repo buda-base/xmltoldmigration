@@ -626,6 +626,9 @@ public class CommonMigration  {
     public static Pattern whiteSpacePattern = Pattern.compile("[\u180E\\s\\p{Cntrl}]+", Pattern.UNICODE_CHARACTER_CLASS);
 
     public static String normalizeString(String toNormalize, boolean keepSpaces) {
+        if (toNormalize.startsWith("\"")) {
+            toNormalize = toNormalize.replaceAll("^\"|\"$", "");
+        }
         if (keepSpaces)
             return toNormalize.trim();
         return whiteSpacePattern.matcher(toNormalize).replaceAll(" ").trim();
