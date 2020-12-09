@@ -228,7 +228,9 @@ public class MigrationApp
             MigrationHelpers.outputOneModel(itemModel, itemName, itemFileName, "iinstance");
             break;
         case WORK:
+            //if (!file.getAbsolutePath().contains("W00EGS1016261")) return;
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
+            Document workD = d;
             Element root = d.getDocumentElement();
             MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
             String workOutFileName = getDstFileName("instance", baseName);
@@ -362,10 +364,15 @@ public class MigrationApp
                     }
                     
                 }
-            
                 // migrate pubinfo
                 String pubinfoFileName = XML_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
                 File pubinfoFile = new File(pubinfoFileName);
+                if (!pubinfoFile.exists()) {
+                    // see https://github.com/buda-base/xmltoldmigration/issues/159
+                    String pirid = WorkMigration.getPubinfoRID(workD);
+                    pubinfoFileName = XML_DIR+"tbrc-pubinfos/"+pirid+".xml";
+                    pubinfoFile = new File(pubinfoFileName);
+                }
                 if (pubinfoFile.exists()) {
                     d = MigrationHelpers.documentFromFileName(pubinfoFileName);
                     List<Resource> resPubMigration = null; 

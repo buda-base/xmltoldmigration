@@ -179,7 +179,6 @@ public class WorkMigration {
                   return baseCam+" "+s.substring(cidx).trim();
               }
               if (i > 2016) {
-                  
                   int cidx = s.indexOf("Comments: ");
                   if (cidx == -1)
                       return null;
@@ -757,6 +756,18 @@ public class WorkMigration {
         String missingVols = String.join(",", missingVolumes);
         return new ImageGroupInfo(missingVols, res, lastVolume);
 	}
+
+    public static String getPubinfoRID(Document d) {
+        Element root = d.getDocumentElement();
+        NodeList pubinfos = root.getElementsByTagNameNS(WXSDNS, "hasPubInfo");
+        for (int j = 0; j < pubinfos.getLength(); j++) {
+            // then curate the volume list to add missing volumes
+            Element pi = (Element) pubinfos.item(j);
+            String info = pi.getAttribute("info").trim();
+            return info;
+        }
+        return null;
+    }
 	
 	public static void exportTitleInfo(Model m) {
 	    if (!MigrationApp.exportTitles) {
