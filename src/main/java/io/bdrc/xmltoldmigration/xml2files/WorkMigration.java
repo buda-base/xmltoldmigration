@@ -288,7 +288,6 @@ public class WorkMigration {
             }
             main = createRoot(m, BDR+"M"+workId, BDO+"SerialInstance");
             admMain = createAdminRoot(main);
-            res.add(null);
             res.add(new WorkModelInfo("M"+workId, m));
             main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
 

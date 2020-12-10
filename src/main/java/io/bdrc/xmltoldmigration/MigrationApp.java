@@ -199,10 +199,10 @@ public class MigrationApp
             Model outlineModel = wmiList.get(0).m;
             if (OutlineMigration.splitOutlines) {
                 String outlineFileName = getDstFileName("instance", outWorkId+"_O001");
-                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "work");
+                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "instance");
             } else {
                 String workFileName = getDstFileName("instance", outWorkId);
-                MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "work");
+                MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "instance");
                 workCreatedByOutline.put(outWorkId, true);
             }
             // abstract works created in the outlines:
@@ -228,12 +228,12 @@ public class MigrationApp
             MigrationHelpers.outputOneModel(itemModel, itemName, itemFileName, "iinstance");
             break;
         case WORK:
-            //if (!file.getAbsolutePath().contains("W00EGS1016261")) return;
+            //if (!file.getAbsolutePath().contains("W00KG02331")) return;
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Document workD = d;
             Element root = d.getDocumentElement();
             MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
-            String workOutFileName = getDstFileName("instance", baseName);
+            String workOutFileName = getDstFileName("instance", 'M'+baseName);
             if (!MigrationHelpers.mustBeMigrated(root, "instance", root.getAttribute("status"))) {
                 // case of released outlines of withdrawn works (ex: O1GS129876 / W18311)
                 File outWorkFile = new File(workOutFileName);
@@ -254,7 +254,13 @@ public class MigrationApp
             setPrefixes(m);
             final Map<String, Model> itemModels = new HashMap<>();
             List<WorkModelInfo> models = WorkMigration.MigrateWork(d, m, itemModels);
-
+            /*
+             * models is a list where:
+             *   - 0: MW
+             *   - 1: WA
+             *   - 2: WAS
+             *   - 3: IE
+             */
             if (models.size() != 0 && models.get(0) != null) {
                 
                 Resource workR = m.getResource(BDR+'M'+baseName);

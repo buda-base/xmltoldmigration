@@ -72,7 +72,7 @@ public class rKTsTransfer {
         for (String rid : RIDList) {
             Model m = RidModels.get(rid);
             final String workFileName = MigrationApp.getDstFileName("instance", rid);
-            MigrationHelpers.outputOneModel(m, rid, workFileName, "work");
+            MigrationHelpers.outputOneModel(m, rid, workFileName, "instance");
         }
     }
 
