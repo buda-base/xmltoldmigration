@@ -1953,6 +1953,13 @@ public class CommonMigration  {
             if (RID.startsWith("W1FPL")) {
                 tag = "en";
             } else {
+                // if a string starts and ends with [ / ], we consider these are a way
+                // to indicate a reconstructed value, and are not part of the EWTS transliteration
+                // see https://github.com/buda-base/xmltoldmigration/issues/158
+                if (value.startsWith("[") && value.endsWith("]")) {
+                    value = value.substring(1, value.length()-1);
+                    value = "*"+value.strip();
+                }
                 List<String> conversionWarnings = new ArrayList<String>();
                 converter.toUnicode(value, conversionWarnings, true);
                 if (conversionWarnings.size() > 0) {

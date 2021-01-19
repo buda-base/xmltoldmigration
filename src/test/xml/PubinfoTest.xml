@@ -1,6 +1,6 @@
 <mw:pubinfo xmlns:mw="http://www.tbrc.org/models/pubinfo#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RID="MW12837" status="released" xsi:schemaLocation="http://www.tbrc.org/models/pubinfo# http://www.tbrc-dlms.org/tbrc-defs/1/0/pubinfo.xsd">
     <mw:isPubInfoFor work="W1FPL1"/>
-    <mw:publisherName>[zhol par khang]</mw:publisherName>
+    <mw:publisherName encoding="extendedWylie" lang="tibetan">[zhol par khang]</mw:publisherName>
     <mw:publisherLocation>[lha sa]</mw:publisherLocation>
     <mw:publisherDate>[2000?]</mw:publisherDate>
     <mw:printType type="dbuMed"/>

@@ -69,7 +69,7 @@ bdr:MW1FPL1  a                    :Instance ;
         :isRoot                   true ;
         :printMethod              bdr:PrintMethod_Manuscript ;
         :publisherLocation        "[lha sa]"@en ;
-        :publisherName            "[zhol par khang]"@en ;
+        :publisherName            "*zhol par khang /"@en ;
         :sourcePrinteryStatement  "test sourcePrintery with no place" ;
         :workExtentStatement      "177 ff." .
 
