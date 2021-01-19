@@ -241,7 +241,7 @@ public class MigrationApp
                     System.out.println("error: outline for withdrawn work "+root.getAttribute("RID"));
                     outWorkFile.delete();
                 }
-                //return;
+                return;
             }
             Model m = null;
             Resource serialWork = null; // collects the SerialWork optionally created in MigratePubinfo
