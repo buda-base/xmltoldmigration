@@ -124,6 +124,8 @@ public class GRETILTransfer {
             final String origUrl = ORIG_URL_BASE+line[8].replace('/', '-');
             workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));
         }
+        Resource product = workModel.createResource(BDR+"PR0GR01");
+        work.addProperty(workModel.createProperty(BDO, "inCollection"), product);
         
         // titles
         work.addProperty(SKOS.prefLabel, workModel.createLiteral(line[1], "en"));

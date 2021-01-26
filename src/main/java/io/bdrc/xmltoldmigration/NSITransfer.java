@@ -233,7 +233,8 @@ public class NSITransfer {
         // Item for Work
         Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
         res.add(item);
-        
+        Resource product = itemModel.createResource(BDR+"PR1NEPAL00");
+        item.addProperty(itemModel.createProperty(BDO, "inCollection"), product);
         itemModel.add(item, itemModel.createProperty(BDO, "scanInfo"), itemModel.createLiteral("Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive.", "en"));
 
         if (WorkMigration.addWorkHasItem) {

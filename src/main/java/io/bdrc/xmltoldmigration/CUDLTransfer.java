@@ -114,7 +114,7 @@ public class CUDLTransfer {
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_CUDL_metadata")); // ?
         final String origUrl = ORIG_URL_BASE+line[0];
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
-
+        
         String abstractWorkRID = EAPTransfer.rKTsToBDR(line[4]);
         Model mA = null;
         Resource workA = null;
@@ -204,6 +204,8 @@ public class CUDLTransfer {
         setPrefixes(itemModel);
         final String itemRID = "W0CDL0"+rid;
         Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
+        Resource product = itemModel.createResource(BDR+"PR0CDL01");
+        item.addProperty(itemModel.createProperty(BDO, "inCollection"), product);
         Resource itemAdm = createAdminRoot(item);
         res.add(item);
         

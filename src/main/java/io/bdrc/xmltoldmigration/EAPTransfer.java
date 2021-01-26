@@ -290,6 +290,9 @@ public class EAPTransfer {
         // Item for Work
         Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
         res.add(item);
+        
+        Resource product = itemModel.createResource(BDR+"PR0EAP676");
+        item.addProperty(itemModel.createProperty(BDO, "inCollection"), product);
 
         if (WorkMigration.addWorkHasItem) {
             workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
