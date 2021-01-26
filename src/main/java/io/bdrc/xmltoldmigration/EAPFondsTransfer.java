@@ -335,7 +335,7 @@ public class EAPFondsTransfer {
         Model mA = ModelFactory.createDefaultModel();
         setPrefixes(mA);
         String serieID = (simplified ? line[1] : line[4]).replace('/', '-');
-        String prrid="PREAP"+serieID;
+        String prrid="PR0"+serieID;
         Resource p = createRoot(mA, BDR+prrid, BDO+"Collection");
         Resource padm = createAdminRoot(p);
         mA.add(padm, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata"));
@@ -354,7 +354,7 @@ public class EAPFondsTransfer {
         for(String key:keys) {
             HashMap<String,String[]> map=seriesByCollections.get(key);
             String[] fondsline = map.get("fondsline");
-            String prrid="PREAP"+(simplified ? fondsline[1] : fondsline[4]).replace('/', '-');
+            String prrid="PR0"+(simplified ? fondsline[1] : fondsline[4]).replace('/', '-');
             Resource p = writeProduct(fondsline);
             res.add(p);
             Set<String> seriesKeys=map.keySet();
