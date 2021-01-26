@@ -45,6 +45,7 @@ bda:W1NPL1  a                  adm:AdminData ;
         :isRoot                true .
 
 bdr:W1NPL1  a                    :ImageInstance ;
+        :inCollection            bdr:PR1NEPAL00 ;
         :instanceHasVolume       bdr:I1NPL1 ;
         :instanceOf              bdr:WA1NPL1 ;
         :instanceReproductionOf  bdr:MW1NPL1 ;

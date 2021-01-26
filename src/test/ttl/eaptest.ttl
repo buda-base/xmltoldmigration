@@ -1,16 +1,19 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:WEAP676-1-10  a              :ImageInstance ;
+        :inCollection            bdr:PR0EAP676 ;
         :instanceHasVolume       bdr:I0EAP676-1-10 ;
         :instanceOf              bdr:WA22003 ;
         :instanceReproductionOf  bdr:MWEAP676-1-10 ;
@@ -37,6 +40,11 @@ bda:WEAP676-1-10  a            adm:AdminData ;
         adm:restrictedInChina  false ;
         adm:status             bda:StatusReleased ;
         :isRoot                true .
+
+bdr:I0EAP676-1-10  a      :ImageGroup ;
+        :hasIIIFManifest  <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> ;
+        :volumeNumber     1 ;
+        :volumeOf         bdr:WEAP676-1-10 .
 
 bdr:NT3196BF2D6B1DBC4C
         a          :Note ;
@@ -65,8 +73,3 @@ bdr:EV24D69E0F299DE851
 bdr:TT3F47A61E957C3105
         a           :Title ;
         rdfs:label  "Namastāre Saptaka Viṁśatī"@sa-x-iast .
-
-bdr:I0EAP676-1-10  a       :ImageGroup ;
-        :hasIIIFManifest  <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> ;
-        :volumeNumber     1 ;
-        :volumeOf         bdr:WEAP676-1-10 .

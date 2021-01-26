@@ -1958,7 +1958,7 @@ public class CommonMigration  {
                 // see https://github.com/buda-base/xmltoldmigration/issues/158
                 if (value.startsWith("[") && value.endsWith("]")) {
                     value = value.substring(1, value.length()-1);
-                    value = "*"+value.strip();
+                    value = "*"+value.trim();
                 }
                 List<String> conversionWarnings = new ArrayList<String>();
                 converter.toUnicode(value, conversionWarnings, true);
