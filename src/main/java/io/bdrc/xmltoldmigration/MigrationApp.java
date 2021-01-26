@@ -409,8 +409,13 @@ public class MigrationApp
             }
             WorkModelInfo instanceMI = models.get(0);
             if (instanceMI != null) {
-                workOutFileName = getDstFileName("instance", instanceMI.resourceName);
-                MigrationHelpers.outputOneModel(instanceMI.m, instanceMI.resourceName, workOutFileName, "instance");
+                if (instanceMI.resourceName.startsWith("MW1FPL") || instanceMI.resourceName.startsWith("MW1EAP")) {
+                    // don't write FPL instances to the git repo, we only want the image instances
+                    System.out.println("ignoring "+instanceMI.resourceName);
+                } else {
+                    workOutFileName = getDstFileName("instance", instanceMI.resourceName);
+                    MigrationHelpers.outputOneModel(instanceMI.m, instanceMI.resourceName, workOutFileName, "instance");
+                }
             }
             if (models.size() >1 && models.get(1) != null) {
                 WorkModelInfo abstractMI = models.get(1);
