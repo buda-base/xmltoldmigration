@@ -29,6 +29,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 
 import com.opencsv.CSVParser;
@@ -64,7 +65,9 @@ public class EAPFondsTransfer {
         for (String[] line:lines) {
             String type = this.simplified ? line[0] : line[1];
             if (type.toLowerCase().equals("fonds")) {
-                seriesByCollections.put(simplified ? line[1] : line[0], new HashMap<>());
+                final HashMap<String,String[]> res = new HashMap<>();
+                res.put("fondsline", line);
+                seriesByCollections.put(simplified ? line[1] : line[0], res);
             }
         }
         for(String s : seriesByCollections.keySet()) {
@@ -107,6 +110,10 @@ public class EAPFondsTransfer {
                 case "ImageInstance":
                     final String iInstanceOutfileName = MigrationApp.getDstFileName("iinstance", r.getLocalName());
                     MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), iInstanceOutfileName, "iinstance");
+                    break;
+                case "Collection":
+                    final String colOutFileName = MigrationApp.getDstFileName("product", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), colOutFileName, "product");
                     break;
             }
         }
@@ -170,7 +177,7 @@ public class EAPFondsTransfer {
         }
     }
     
-    public void addSeriesC(String[] serieLine, List<Resource> res, String serie) {
+    public void addSeriesC(String[] serieLine, List<Resource> res, String serie, String prrid) {
         String serieID = (simplified ? serieLine[1] : serieLine[4]).replace('/', '-');
         // Work model
         Model workModel = ModelFactory.createDefaultModel();
@@ -228,6 +235,8 @@ public class EAPFondsTransfer {
         
         itemModel.add(item, itemModel.createProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractWorkRID));
         
+        itemModel.add(item, itemModel.createProperty(BDO, "inCollection"), itemModel.createResource(BDR+prrid));
+        
         List<String[]> volumes = getVolumes(serie);
         int numVol=0;
         for(int x=0;x<volumes.size();x++) {
@@ -253,7 +262,7 @@ public class EAPFondsTransfer {
         workModel.add(work, workModel.createProperty(BDO, "numberOfVolumes"), workModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
     }
 
-    public void addSeries(String[] serieLine, List<Resource> res, String serie) {
+    public void addSeries(String[] serieLine, List<Resource> res, String serie, String prrid) {
         List<String[]> works = getVolumes(serie);
         for(int x=0;x<works.size();x++) {
             final String[] workLine = works.get(x);
@@ -291,6 +300,9 @@ public class EAPFondsTransfer {
             addEvent(serieLine, workModel, work);
             Resource item = createRoot(itemModel, BDR+"W"+ref, BDO+"ImageInstance");
             Resource itemAdm = createAdminRoot(item);
+            
+            itemModel.add(item, itemModel.createProperty(BDO, "inCollection"), itemModel.createResource(BDR+prrid));
+            
             itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW"+ref));
             itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
             itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
@@ -319,19 +331,40 @@ public class EAPFondsTransfer {
         }
     }
     
+    public Resource writeProduct(String[] line) {
+        Model mA = ModelFactory.createDefaultModel();
+        setPrefixes(mA);
+        String serieID = (simplified ? line[1] : line[4]).replace('/', '-');
+        String prrid="PREAP"+serieID;
+        Resource p = createRoot(mA, BDR+prrid, BDO+"Collection");
+        Resource padm = createAdminRoot(p);
+        mA.add(padm, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata"));
+        String name = simplified ? line[9] : line[39];
+        if (name.endsWith("@en")) {
+            name = name.substring(0, name.length()-3);
+        }
+        mA.add(p, SKOS.prefLabel, mA.createLiteral(name, "en"));
+        mA.add(p, mA.createProperty(ADM, "originalRecord"), mA.createTypedLiteral(ORIG_URL_BASE+serieID, XSDDatatype.XSDanyURI));
+        return p;
+    }
+    
     public List<Resource> getResources(){
         Set<String> keys=seriesByCollections.keySet();
         List<Resource> res = new ArrayList<>();
         for(String key:keys) {
             HashMap<String,String[]> map=seriesByCollections.get(key);
+            String[] fondsline = map.get("fondsline");
+            String prrid="PREAP"+(simplified ? fondsline[1] : fondsline[4]).replace('/', '-');
+            Resource p = writeProduct(fondsline);
+            res.add(p);
             Set<String> seriesKeys=map.keySet();
             for(String serie:seriesKeys) {
                 String[] serieLine = seriesByCollections.get(key).get(serie);
                 String type = this.simplified ? serieLine[0] : serieLine[1];
                 if (type.toLowerCase().startsWith("seriesc")) {
-                    addSeriesC(serieLine, res, serie);
+                    addSeriesC(serieLine, res, serie, prrid);
                 } else {
-                    addSeries(serieLine, res, serie);
+                    addSeries(serieLine, res, serie, prrid);
                 }
 
             }
