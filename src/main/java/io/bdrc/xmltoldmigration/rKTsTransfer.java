@@ -61,6 +61,7 @@ public class rKTsTransfer {
         initListsForRID("MW3CN20612");
         initListsForRID("MW23702");
         initListsForRID("MW22704");
+        initListsForRID("MW2KG5015");
         initListsForRID("MW1KG13126");
     }
     
