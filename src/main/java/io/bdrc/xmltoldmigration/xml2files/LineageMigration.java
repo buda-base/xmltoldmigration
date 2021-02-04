@@ -102,8 +102,9 @@ public class LineageMigration {
                 rid = MigrationHelpers.sanitizeRID(main.getLocalName(), "object", value);
                 if (!MigrationHelpers.isDisconnected(rid)) {
                     if (rid.startsWith("W") && !rid.startsWith("WA")) {
+                        String mw = 'M'+rid;
                         rid = WorkMigration.getAbstractForRid(rid);
-                        String otherAbstractRID = CommonMigration.abstractClusters.get(rid);
+                        String otherAbstractRID = CommonMigration.getConstraintWa(mw, rid);
                         if (otherAbstractRID != null)
                             rid = otherAbstractRID;
                     }
@@ -186,8 +187,9 @@ public class LineageMigration {
                 String rid = MigrationHelpers.sanitizeRID(rez.getLocalName(), "object", value);
                 if (!MigrationHelpers.isDisconnected(rid)) {
                     if (rid.startsWith("W") && !rid.startsWith("WA")) {
+                        String mw = 'M'+rid;
                         rid = WorkMigration.getAbstractForRid(rid);
-                        String otherAbstractRID = CommonMigration.abstractClusters.get(rid);
+                        String otherAbstractRID = CommonMigration.getConstraintWa(mw, rid);
                         if (otherAbstractRID != null)
                             rid = otherAbstractRID;
                     }

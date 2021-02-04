@@ -331,7 +331,7 @@ public class MigrationApp
                             abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
                             itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractMI.resourceName));
                         } else {
-                            String otherAbstractRID = CommonMigration.abstractClusters.get(WorkMigration.getAbstractForRid(baseName));
+                            String otherAbstractRID = CommonMigration.getConstraintWa('M'+baseName, WorkMigration.getAbstractForRid(baseName)); 
                             if (otherAbstractRID != null)
                                 SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemName, otherAbstractRID, null);
                         }

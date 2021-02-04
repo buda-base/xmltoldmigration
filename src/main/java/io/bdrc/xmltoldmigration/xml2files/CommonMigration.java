@@ -89,6 +89,7 @@ public class CommonMigration  {
     public static final Map<Integer, Boolean> isTraditional = new HashMap<>();
     public static final Map<String, String> creatorMigrations = new HashMap<>();
     public static Map<String, String> abstractClusters = new HashMap<>();
+    public static Map<String, String> manualAbstractClusters = new HashMap<>();
     public static Map<String, String> seriesClusters = new HashMap<>();
     public static final Map<String, String> seriesMembersToWorks = new HashMap<>();
     public static final Map<String, RDFNode> seriesMembersToWorkLabels = new HashMap<>();
@@ -104,9 +105,18 @@ public class CommonMigration  {
     public static void initClusters(boolean exportTitles) {
         if (exportTitles) return;
         abstractClusters = getClusters("clusters.csv");
+        manualAbstractClusters = getClusters("clusters-manual.csv");
         seriesClusters = getClusters("reconcileseries-clustered-inv.csv");
     }
 
+    public static String getConstraintWa(final String mw, final String possibleWa) {
+        if (manualAbstractClusters.containsKey(mw))
+            return manualAbstractClusters.get(mw);
+        if (abstractClusters.containsKey(possibleWa))
+            return manualAbstractClusters.get(possibleWa);
+        return null;
+    }
+    
     public static final Map<String,String> getClusters(String csvName) {
         final CSVReader reader;
         final CSVParser parser = new CSVParserBuilder().build();

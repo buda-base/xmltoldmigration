@@ -349,7 +349,7 @@ public class WorkMigration {
             }
             admMain = createAdminRoot(main);
             if (!status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
-                String otherAbstractRID = CommonMigration.abstractClusters.get(aWorkId);
+                String otherAbstractRID = CommonMigration.getConstraintWa('M'+workId, aWorkId); 
                 if (otherAbstractRID == null && !infoParentId.isEmpty()) {
                     otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);
                 }
@@ -362,7 +362,7 @@ public class WorkMigration {
                 }
                 mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
                 admMainA = createAdminRoot(mainA);
-                if (otherAbstractRID == null) {
+                if (otherAbstractRID == null || otherAbstractRID == aWorkId) {
                     addStatus(mA, admMainA, status);
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);

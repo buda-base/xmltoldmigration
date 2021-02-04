@@ -451,7 +451,7 @@ public class EtextMigration {
             bornDigital = true;
         }
         String abstractWorkId = WorkMigration.getAbstractForRid(indicatedWorkId);
-        String otherAbstractRID = CommonMigration.abstractClusters.get(abstractWorkId);
+        String otherAbstractRID = CommonMigration.getConstraintWa('M'+indicatedWorkId, abstractWorkId);
         if (otherAbstractRID != null) {
             abstractWorkId = otherAbstractRID;
         }

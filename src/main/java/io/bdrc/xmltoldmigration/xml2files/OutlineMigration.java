@@ -509,8 +509,9 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         }
         Resource nodeA = null;
         if (("text".equals(value) || "collection".equals(value)) && !hasShortTitle(e) && isText(e)) {
-             String otherAbstractRID = CommonMigration.abstractClusters.get(ANodeRID);
-             if (otherAbstractRID == null) {
+             //String otherAbstractRID = CommonMigration.abstractClusters.get(ANodeRID);
+            String otherAbstractRID = CommonMigration.getConstraintWa(nodeRID, ANodeRID);
+             if (otherAbstractRID == null || otherAbstractRID == ANodeRID) {
                  Model mA = ModelFactory.createDefaultModel();
                  setPrefixes(mA);
                  res.add(new WorkModelInfo(ANodeRID, mA));
