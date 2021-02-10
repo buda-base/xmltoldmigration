@@ -11,6 +11,9 @@ import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -372,6 +375,16 @@ public class WorkMigration {
                     // it would make the queries slower and harder to write
                     //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                     SymetricNormalization.addSymetricProperty(m, "instanceOf", 'M'+workId, otherAbstractRID, null);
+                    // removing the old file if present:
+                    String workOutFileName = MigrationApp.getDstFileName("work", aWorkId);
+                    try {
+                        if (Files.deleteIfExists(Paths.get(workOutFileName))) {
+                            System.out.println("removing "+workOutFileName);
+                        }
+                    } catch (IOException e) {
+                        System.err.println("couldn't remove file "+workOutFileName);
+                        e.printStackTrace();
+                    }
                 }
             }
         }

@@ -10,8 +10,11 @@ import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
 import static io.bdrc.libraries.Models.addStatus;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -524,6 +527,16 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
              } else {
                  SymetricNormalization.addSymetricProperty(m, "instanceOf", nodeRID, otherAbstractRID, null);
+                 // removing the old work file if present:
+                 String workOutFileName = MigrationApp.getDstFileName("work", ANodeRID);
+                 try {
+                     if (Files.deleteIfExists(Paths.get(workOutFileName))) {
+                         System.out.println("removing "+workOutFileName);
+                     }
+                 } catch (IOException e2) {
+                     System.err.println("couldn't remove file "+workOutFileName);
+                     e2.printStackTrace();
+                 }
              }
         }
         value = "PartType"+value.substring(0,1).toUpperCase()+value.substring(1);
