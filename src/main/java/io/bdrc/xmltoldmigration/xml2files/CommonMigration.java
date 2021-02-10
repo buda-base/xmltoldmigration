@@ -113,7 +113,7 @@ public class CommonMigration  {
         if (manualAbstractClusters.containsKey(mw))
             return manualAbstractClusters.get(mw);
         if (abstractClusters.containsKey(possibleWa))
-            return manualAbstractClusters.get(possibleWa);
+            return abstractClusters.get(possibleWa);
         return null;
     }
     
