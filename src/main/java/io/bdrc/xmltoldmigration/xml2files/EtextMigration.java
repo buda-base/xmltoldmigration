@@ -67,6 +67,7 @@ public class EtextMigration {
         distributorToUri.put("DharmaDownload", prefix+"001");
         distributorToUri.put("DrikungChetsang", prefix+"002");
         distributorToUri.put("eKangyur", prefix+"003");
+        distributorToUri.put("eTengyur", prefix+"003");
         distributorToUri.put("GuruLamaWorks", prefix+"004");
         distributorToUri.put("KarmaDelek", prefix+"005");
         distributorToUri.put("PalriParkhang", prefix+"006");
@@ -256,18 +257,8 @@ public class EtextMigration {
             imageGroupId = "I"+imageGroupId.substring(1);
         if (!imageGroupId.startsWith("I")) // UT30012_5742_0000
             imageGroupId = "I"+imageGroupId;
-        final Literal oldId = m.createLiteral(imageGroupId);
         final Property volumeNumberP = m.getProperty(BDO, "volumeNumber");
-        final Property legacyIdP = m.getProperty(ADM, "legacyImageGroupRID");
-        final List<Statement> sl = m.listStatements(null, legacyIdP, oldId).toList();
-        if (sl.size() == 0) {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot find volume with legacy RID "+imageGroupId);
-            return 1;
-        }
-        if (sl.size() > 1)
-            System.err.println("two volumes have the legacy ID!");
-        Resource volumeAdm = sl.get(0).getSubject().asResource();
-        Resource volume = volumeAdm.getPropertyResourceValue(m.getProperty(ADM, "adminAbout"));
+        Resource volume = m.getResource(BDR+imageGroupId);
         Statement s = volume.getProperty(volumeNumberP);
         if (s == null) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "volume with legacy RID "+imageGroupId+" has no volume number");
