@@ -529,7 +529,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
              } else {
                  SymetricNormalization.addSymetricProperty(m, "instanceOf", nodeRID, otherAbstractRID, null);
                  // removing the old work file if present:
-                 String workOutFileName = MigrationApp.getDstFileName("work", ANodeRID);
+                 String workOutFileName = MigrationApp.getDstFileName("work", ANodeRID)+".trig";
                  try {
                      if (Files.deleteIfExists(Paths.get(workOutFileName))) {
                          System.out.println("removing "+workOutFileName);

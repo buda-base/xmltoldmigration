@@ -375,16 +375,6 @@ public class WorkMigration {
                     // it would make the queries slower and harder to write
                     //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                     SymetricNormalization.addSymetricProperty(m, "instanceOf", 'M'+workId, otherAbstractRID, null);
-                    // removing the old file if present:
-                    String workOutFileName = MigrationApp.getDstFileName("work", aWorkId);
-                    try {
-                        if (Files.deleteIfExists(Paths.get(workOutFileName))) {
-                            System.out.println("removing "+workOutFileName);
-                        }
-                    } catch (IOException e) {
-                        System.err.println("couldn't remove file "+workOutFileName);
-                        e.printStackTrace();
-                    }
                 }
             }
         }
