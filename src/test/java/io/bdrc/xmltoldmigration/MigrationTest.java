@@ -4,6 +4,7 @@ import static io.bdrc.libraries.LangStrings.EWTS_TAG;
 import static io.bdrc.xmltoldmigration.MigrationHelpers.OUTPUT_STTL;
 import static io.bdrc.xmltoldmigration.MigrationHelpers.OUTPUT_TRIG;
 import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.setPrefixes;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -482,7 +483,7 @@ public class MigrationTest
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Model itemModel = ModelFactory.createDefaultModel();
         MigrationHelpers.setPrefixes(itemModel, "item");
-        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true, BDA+"CP001");
+        EtextInfos ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", true, out, false, itemModel, true, BDA+"CP001", BDR+"PR0ET001");
         String computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         assertTrue(ei.eInstanceId.equals("IE1CZ2485"));
         assertTrue(ei.etextId.equals("UT1CZ2485_001_0000"));
@@ -505,7 +506,7 @@ public class MigrationTest
         out = new ByteArrayOutputStream();
         itemModel = ModelFactory.createDefaultModel();
         MigrationHelpers.setPrefixes(itemModel, "item");
-        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false, itemModel, true, BDA+"CP001");
+        ei = EtextMigration.migrateOneEtext(TESTDIR+"xml/EtextTest.xml", false, out, false, itemModel, true, BDA+"CP001", BDR+"PR0ET001");
         computedContent = new String( out.toByteArray(), StandardCharsets.UTF_8 );
         //System.out.println(computedContent);
         // this one is a bit bogus because it adds spaces in line milestones, but in real life data there is no lines when we must
