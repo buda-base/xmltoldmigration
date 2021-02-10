@@ -55,6 +55,7 @@ public class EtextMigration {
     public static boolean testMode = false;
     private static XPath xPath = initXpath();
     public static final Map<String, String> distributorToUri = new HashMap<>();
+    public static final Map<String, String> distributorToColUri = new HashMap<>();
     
     public static boolean addEtextInItem = true;
     
@@ -67,6 +68,7 @@ public class EtextMigration {
         distributorToUri.put("DharmaDownload", prefix+"001");
         distributorToUri.put("DrikungChetsang", prefix+"002");
         distributorToUri.put("eKangyur", prefix+"003");
+        distributorToUri.put("eTengyur", prefix+"003");
         distributorToUri.put("GuruLamaWorks", prefix+"004");
         distributorToUri.put("KarmaDelek", prefix+"005");
         distributorToUri.put("PalriParkhang", prefix+"006");
@@ -75,6 +77,19 @@ public class EtextMigration {
         distributorToUri.put("UCB-OCR", prefix+"009");
         distributorToUri.put("VajraVidya", prefix+"010");
         distributorToUri.put("Various", prefix+"011");
+        prefix = BDA+"PR0ET";
+        distributorToColUri.put("DharmaDownload", prefix+"001");
+        distributorToColUri.put("DrikungChetsang", prefix+"002");
+        distributorToColUri.put("eKangyur", prefix+"003");
+        distributorToColUri.put("eTengyur", prefix+"003");
+        distributorToColUri.put("GuruLamaWorks", prefix+"004");
+        distributorToColUri.put("KarmaDelek", prefix+"005");
+        distributorToColUri.put("PalriParkhang", prefix+"006");
+        distributorToColUri.put("Shechen", prefix+"007");
+        distributorToColUri.put("TulkuSangag", prefix+"008");
+        distributorToColUri.put("UCB-OCR", prefix+"009");
+        distributorToColUri.put("VajraVidya", prefix+"010");
+        distributorToColUri.put("Various", prefix+"011");
     }
     
     public static XPath initXpath() {
@@ -147,7 +162,10 @@ public class EtextMigration {
             if (!fl1.isDirectory())
                 continue;
             String distributor = fl1.getName();
+            //if (!distributor.equals("eTengyur"))
+            //    continue;
             String distributorUri = distributorToUri.get(distributor);
+            String collectionUri = distributorToColUri.get(distributor);
             boolean isPaginated = paginatedProviders.contains(distributor);
             boolean needsPageNameTranslation = distributor.equals("UCB-OCR");
             File[] filesL2 = fl1.listFiles();
@@ -185,7 +203,7 @@ public class EtextMigration {
                            if (!dstFile.exists())
                                dstFile.createNewFile();
                            FileOutputStream dst = new FileOutputStream(dstFile);
-                           ei = migrateOneEtext(fl4.getAbsolutePath(), isPaginated, dst, needsPageNameTranslation, itemModel, firstItemModel, distributorUri);
+                           ei = migrateOneEtext(fl4.getAbsolutePath(), isPaginated, dst, needsPageNameTranslation, itemModel, firstItemModel, distributorUri, collectionUri);
                            firstItemModel = false;
                            dst.close();
                            if (ei == null) {
@@ -256,18 +274,8 @@ public class EtextMigration {
             imageGroupId = "I"+imageGroupId.substring(1);
         if (!imageGroupId.startsWith("I")) // UT30012_5742_0000
             imageGroupId = "I"+imageGroupId;
-        final Literal oldId = m.createLiteral(imageGroupId);
         final Property volumeNumberP = m.getProperty(BDO, "volumeNumber");
-        final Property legacyIdP = m.getProperty(ADM, "legacyImageGroupRID");
-        final List<Statement> sl = m.listStatements(null, legacyIdP, oldId).toList();
-        if (sl.size() == 0) {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "cannot find volume with legacy RID "+imageGroupId);
-            return 1;
-        }
-        if (sl.size() > 1)
-            System.err.println("two volumes have the legacy ID!");
-        Resource volumeAdm = sl.get(0).getSubject().asResource();
-        Resource volume = volumeAdm.getPropertyResourceValue(m.getProperty(ADM, "adminAbout"));
+        Resource volume = m.getResource(BDR+imageGroupId);
         Statement s = volume.getProperty(volumeNumberP);
         if (s == null) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, eTextId, eTextId, "volume with legacy RID "+imageGroupId+" has no volume number");
@@ -417,7 +425,7 @@ public class EtextMigration {
         return imageItemModel;
     }
     
-    public static EtextInfos migrateOneEtext(String path, boolean isPaginated, OutputStream contentOut, boolean needsPageNameTranslation, Model itemModel, boolean first, String providerUri) {
+    public static EtextInfos migrateOneEtext(String path, boolean isPaginated, OutputStream contentOut, boolean needsPageNameTranslation, Model itemModel, boolean first, String providerUri, String collectionUri) {
         final Document d = MigrationHelpers.documentFromFileName(path);
         Element fileDesc;
         try {
@@ -471,6 +479,7 @@ public class EtextMigration {
             Resource workA = itemModel.getResource(BDR+abstractWorkId);
             Resource item = createRoot(itemModel, BDR+eInstanceId, BDO+"EtextInstance");
             itemModel.add(item, itemModel.getProperty(BDO, "contentMethod"), itemModel.createResource(BDR+(needsPageNameTranslation ? "ContentMethod_OCR" : "ContentMethod_ComputerInput")));
+            itemModel.add(item, itemModel.getProperty(BDO, "inCollection"), itemModel.createResource(collectionUri));
             // TODO: +(isPaginated?"Paginated":"NonPaginated")
 
             // Item AdminData
