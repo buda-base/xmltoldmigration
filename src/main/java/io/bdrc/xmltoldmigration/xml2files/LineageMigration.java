@@ -212,9 +212,11 @@ public class LineageMigration {
                             ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "received", "received value contains unparsed strings: `"+part+"`");
                             continue;
                         }
+                        part = MigrationHelpers.sanitizeRID(rez.getLocalName(), "lineageFrom", part);
                         m.add(received, m.getProperty(BDO, "lineageFrom"), m.createResource(BDR+part));
                     }
                 } else {
+                    value = MigrationHelpers.sanitizeRID(rez.getLocalName(), "lineageFrom", value);
                     m.add(received, m.getProperty(BDO, "lineageFrom"), m.getResource(BDR+value));
                 }
             }
