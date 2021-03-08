@@ -15,11 +15,16 @@
 bdr:WA0XL74BFE0D47CBB
         a                 :Work ;
         :catalogInfo      "concise presentation of the gurupuja practice known as the bde stong dbyer med ma"@en ;
-        :creator          bdr:CRF14E6CC8BF74D11E , bdr:CR0036CB2E6A2369CE , bdr:CRE46771E44D0F98F3 ;
+        :creator          bdr:CR0036CB2E6A2369CE , bdr:CRF14E6CC8BF74D11E , bdr:CRB80B4F211C72B9C9 , bdr:CRE46771E44D0F98F3 ;
         :isRoot           true ;
         :language         bdr:LangBo ;
         :workHasInstance  bdr:MW30020_74BFE0 ;
         skos:prefLabel    "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
+
+bdr:CRB80B4F211C72B9C9
+        a       :AgentAsCreator ;
+        :agent  bdr:P21 ;
+        :role   bdr:R0ER0023 .
 
 bdr:MW30020_6E8660  a          :Instance ;
         :contentLocation       bdr:CLF6B8FFCB603AA31A ;
@@ -35,7 +40,7 @@ bdr:MW30020_6E8660  a          :Instance ;
 bda:WA0XL74BFE0D47CBB
         a                  adm:AdminData ;
         adm:adminAbout     bdr:WA0XL74BFE0D47CBB ;
-        adm:facetIndex     4 ;
+        adm:facetIndex     5 ;
         adm:gitPath        "73/WA0XL74BFE0D47CBB.trig" ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WA0XL74BFE0D47CBB ;
@@ -114,8 +119,8 @@ bdr:CLB8EE02E1E8DC26BC
 
 bdr:CR0036CB2E6A2369CE
         a       :AgentAsCreator ;
-        :agent  bdr:P20 ;
-        :role   bdr:R0ER0026 .
+        :agent  bdr:P00KG07267 ;
+        :role   bdr:R0ER0018 .
 
 bdr:MW30020_3CF7E0  a          :Instance ;
         :contentLocation       bdr:CLC8ED907418ACF627 ;
@@ -129,8 +134,8 @@ bdr:MW30020_3CF7E0  a          :Instance ;
 
 bdr:CRE46771E44D0F98F3
         a       :AgentAsCreator ;
-        :agent  bdr:P21 ;
-        :role   bdr:R0ER0023 .
+        :agent  bdr:P20 ;
+        :role   bdr:R0ER0026 .
 
 bdr:TTA2CBAA3711367EFC
         a           :Title ;
@@ -138,8 +143,8 @@ bdr:TTA2CBAA3711367EFC
 
 bdr:CRF14E6CC8BF74D11E
         a       :AgentAsCreator ;
-        :agent  bdr:P00KG07267 ;
-        :role   bdr:R0ER0018 .
+        :agent  bdr:P4CZ10507 ;
+        :role   bdr:R0ER0019 .
 
 bdr:CL2641619B882CB70D
         a                         :ContentLocation ;
