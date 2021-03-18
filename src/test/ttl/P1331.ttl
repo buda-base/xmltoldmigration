@@ -26,7 +26,7 @@ bdr:P1331  a            :Person ;
         :personEvent    bdr:EV12DC80761AF6EB6D , bdr:EV4D6B8F9B08287205 ;
         :personGender   bdr:GenderMale ;
         :personName     bdr:NM4A638B850908AF82 , bdr:NME51DB3F4D95210F5 ;
-        skos:prefLabel  "blo gros rnam dag"@bo-x-ewts .
+        skos:prefLabel  "bya yul blo bzang rnam dag"@bo-x-ewts .
 
 bdr:NME51DB3F4D95210F5
         a           :PersonPrimaryName ;

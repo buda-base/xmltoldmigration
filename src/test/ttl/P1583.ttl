@@ -132,7 +132,7 @@ bdr:P1583  a                 :Person ;
         :personName          bdr:NME2F236C649A1C622 , bdr:NM9C8DEB6FF7CEC129 , bdr:NM6E5B539FC14B81F1 , bdr:NMDD9AB2BD104D0A7D , bdr:NMED06EB68CC7F2B88 , bdr:NMFB54273C9888828B , bdr:NMF942A81B0A73E4AA , bdr:NM00B857229AAA1BF0 , bdr:NM27A9E6B52AE2AFD6 , bdr:NM81A442B676BCDB2A , bdr:NMBC6B2B658373DD69 ;
         :personOfSect        bdr:T1234 ;
         :personStudentOf     bdr:P123 ;
-        skos:prefLabel       "Drime Oser"@en , "dri med 'od zer/"@bo-x-ewts .
+        skos:prefLabel       "Drime Oser"@en , "隆钦热降巴·赤墨俄色"@zh-hans , "klong chen rab 'byams pa dri med 'od zer/"@bo-x-ewts , "shantideva"@sa-x-rma .
 
 bdr:NMDD9AB2BD104D0A7D
         a           :PersonSecretInitiatoryName ;

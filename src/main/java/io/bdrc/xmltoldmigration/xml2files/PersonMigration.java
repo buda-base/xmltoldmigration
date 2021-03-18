@@ -104,8 +104,8 @@ public class PersonMigration {
 		// names
 		
 		NodeList nodeList = root.getElementsByTagNameNS(PXSDNS, "name");
-		Map<String,Boolean> labelDoneForLang = new HashMap<>();
-		String typeUsedForLabel = null;
+		Map<String,Literal> labelForLang = new HashMap<>();
+		Map<String,String> labelTypeForLang = new HashMap<>();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			current = (Element) nodeList.item(i);
 			if (current.getTextContent().trim().isEmpty()) continue;
@@ -117,11 +117,14 @@ public class PersonMigration {
 			if (lit == null) continue;
 			nameR.addProperty(RDFS.label, lit);
 			String lang = lit.getLanguage().substring(0, 2);
-			if (!labelDoneForLang.containsKey(lang) && (typeUsedForLabel == null || typeUsedForLabel.equals(subtype))) {
-			    main.addProperty(SKOS.prefLabel, lit);
-			    labelDoneForLang.put(lang, true);
-			    typeUsedForLabel = subtype;
+			if (!labelForLang.containsKey(lang) || (subtype.equals("primaryTitle") && !labelTypeForLang.get(lang).equals("primaryTitle"))) {
+			    labelForLang.put(lang, lit);
+			    labelTypeForLang.put(lang, subtype);
 			}
+		}
+		
+		for (Literal lit : labelForLang.values()) {
+		    main.addProperty(SKOS.prefLabel, lit);
 		}
 		
 		// gender
@@ -180,8 +183,11 @@ public class PersonMigration {
 			    }
 			} else {
 			    val = MigrationHelpers.sanitizeRID(main.getLocalName(), "teacherOf", val);
-			    if (!MigrationHelpers.isDisconnected(val))
-			        SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getLocalName(), val, null); 
+			    if (!MigrationHelpers.isDisconnected(val)) {
+			        SymetricNormalization.addSymetricProperty(m, "personTeacherOf", main.getLocalName(), val, null);
+			    } else {
+			        System.out.println("ignoring seemingly disconnected "+val);
+			    }
 			}
 		}
         

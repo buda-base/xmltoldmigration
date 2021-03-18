@@ -1,0 +1,14 @@
+<work:work xmlns:work="http://www.tbrc.org/models/work#" RID="W3JT13379" status="released">
+    <work:title type="bibliographicalTitle">spyod 'jug gi tshig 'grel gces btus/</work:title>
+    <work:title type="titlePageTitle">byang chub sems dpa'i spyod pa la 'jug pa'i tshig 'grel gces btus/</work:title>
+    <work:info nodeType="unicodeText"/>
+    <work:creator person="P2486">  karma blo gros chos dpal bzang po </work:creator>
+    <work:subject class="T2397" type="isInstanceOfGenre">tshig 'grel/ </work:subject>
+    <work:subject class="W19740" type="isCommentaryOn">spyod pa la 'jug pa/
+
+ </work:subject>
+    <work:hasPubInfo info="MW3JT13379"/>
+    <work:log>
+        <entry when="2014-02-26T09:58:33.153Z" who="Jigme Namgyal"/>
+    </work:log>
+</work:work>
