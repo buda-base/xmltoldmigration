@@ -193,7 +193,7 @@ public class PubinfoMigration {
                 otherRID = workRid;
             }
             String serialWorkId = CommonMigration.seriesMembersToWorks.get(otherRID);
-            if (serialWorkId == null) { // need to create a SerialWork
+            if (serialWorkId == null && !root.getAttribute("status").equals("withdrawn")) { // need to create a SerialWork
                 serialWorkId = "WAS" + otherRID.substring(1);
                 CommonMigration.seriesMembersToWorks.put(otherRID, serialWorkId);
                 Model mS = ModelFactory.createDefaultModel();
@@ -214,8 +214,10 @@ public class PubinfoMigration {
                 res.add(serialWork);
             }
             mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
-            mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDR+serialWorkId));
-            SymetricNormalization.addSymetricProperty(mA, "serialMemberOf", mainA.getLocalName(), serialWorkId, null);
+            if (serialWorkId != null) {
+                mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDR+serialWorkId));
+                SymetricNormalization.addSymetricProperty(mA, "serialMemberOf", mainA.getLocalName(), serialWorkId, null);
+            }
             main.addProperty(m.createProperty(BDO+"instanceOf"), mainA);
             mainA.addProperty(mA.createProperty(BDO+"workHasInstance"), main);
         }
