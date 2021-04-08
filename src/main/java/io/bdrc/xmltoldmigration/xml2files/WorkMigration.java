@@ -365,7 +365,7 @@ public class WorkMigration {
                 }
                 mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
                 admMainA = createAdminRoot(mainA);
-                if (otherAbstractRID == null || otherAbstractRID == aWorkId) {
+                if (otherAbstractRID == null || otherAbstractRID.equals(aWorkId)) {
                     addStatus(mA, admMainA, status);
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
