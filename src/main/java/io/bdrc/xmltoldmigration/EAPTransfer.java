@@ -304,6 +304,7 @@ public class EAPTransfer {
         itemModel.add(admItem, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
         itemModel.addLiteral(admItem, itemModel.getProperty(ADM, "restrictedInChina"), false);
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_EAP_content")); // ?
+        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_EAP_metadata")); // ?
 
         // Volume for Item
         final String volumeRID = "I0"+itemRID.substring(1);
