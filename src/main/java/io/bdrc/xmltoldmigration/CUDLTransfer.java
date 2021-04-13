@@ -216,6 +216,7 @@ public class CUDLTransfer {
         // Item adm:AdminData
         addReleased(itemModel, itemAdm);
         itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_CUDL_content"));
+        itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_CUDL_metadata"));
         itemModel.add(itemAdm, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
         itemModel.addLiteral(itemAdm, itemModel.getProperty(ADM, "restrictedInChina"), false);
                
