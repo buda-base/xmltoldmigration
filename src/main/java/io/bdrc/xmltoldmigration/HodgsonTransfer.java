@@ -193,7 +193,7 @@ public class HodgsonTransfer {
         itemModel.add(admItem, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
         itemModel.addLiteral(admItem, itemModel.getProperty(ADM, "restrictedInChina"), false);
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), itemModel.createResource(BDA + "LD_IA_PD"));
-        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_IA_PD"));
+        itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), itemModel.createResource(BDA + "LD_IA_Metadata"));
 
         // Volume for Item
         final String volumeRID = 'I'+baseRID;

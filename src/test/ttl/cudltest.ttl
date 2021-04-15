@@ -57,6 +57,7 @@ bda:W0CDL0MS-ADD-01691-00003
         a                      adm:AdminData ;
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:W0CDL0MS-ADD-01691-00003 ;
+        adm:metadataLegal      bda:LD_CUDL_metadata ;
         adm:contentLegal       bda:LD_CUDL_content ;
         adm:gitPath            "6f/W0CDL0MS-ADD-01691-00003.trig" ;
         adm:gitRepo            bda:GR0014 ;

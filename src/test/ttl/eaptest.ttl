@@ -34,6 +34,7 @@ bda:WEAP676-1-10  a            adm:AdminData ;
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:WEAP676-1-10 ;
         adm:contentLegal       bda:LD_EAP_content ;
+        adm:metadataLegal      bda:LD_EAP_metadata ;
         adm:gitPath            "0e/WEAP676-1-10.trig" ;
         adm:gitRepo            bda:GR0014 ;
         adm:graphId            bdg:WEAP676-1-10 ;
