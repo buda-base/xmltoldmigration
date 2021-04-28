@@ -301,9 +301,12 @@ public class EAPFondsTransfer {
             Resource item = createRoot(itemModel, BDR+"W"+ref, BDO+"ImageInstance");
             Resource itemAdm = createAdminRoot(item);
             
+            workModel.add(work, itemModel.createProperty(BDO, "instanceHasReproduction"), item);
+            
             itemModel.add(item, itemModel.createProperty(BDO, "inCollection"), itemModel.createResource(BDR+prrid));
             
             itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW"+ref));
+            
             itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
             itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDA+"StatusReleased"));
             itemModel.addLiteral(itemAdm, itemModel.getProperty(ADM+"restrictedInChina"), false);
