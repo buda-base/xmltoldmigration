@@ -227,7 +227,7 @@ public class EAPFondsTransfer {
 
         // Item adm:AdminData
         itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
-        itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
+        itemModel.add(admItem, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDA+"StatusReleased"));
         itemModel.add(admItem, itemModel.createProperty(ADM, "contentLegal"), ldEAPc);
         itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm);
         itemModel.addLiteral(admItem, itemModel.getProperty(ADM+"restrictedInChina"), false);
@@ -290,7 +290,7 @@ public class EAPFondsTransfer {
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
             
             workModel.add(workAdm, RDF.type, workModel.createResource(ADM+"AdminData"));
-            workModel.add(workAdm, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+            workModel.add(workAdm, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
             workModel.add(workAdm, workModel.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
             String origUrl = ManifestPREFIX+ref; // for files, not collections
             workModel.add(workAdm, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
@@ -305,7 +305,7 @@ public class EAPFondsTransfer {
             
             itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW"+ref));
             itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
-            itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDR+"StatusReleased"));
+            itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDA+"StatusReleased"));
             itemModel.addLiteral(itemAdm, itemModel.getProperty(ADM+"restrictedInChina"), false);
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), ldEAPc);
