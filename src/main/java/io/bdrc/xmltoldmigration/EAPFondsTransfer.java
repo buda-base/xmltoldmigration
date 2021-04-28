@@ -311,7 +311,7 @@ public class EAPFondsTransfer {
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "contentLegal"), ldEAPc);
             itemModel.add(itemAdm, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm);
             Resource volume = itemModel.createResource(BDR+"I"+ref);
-            itemModel.add(item, itemModel.createProperty(BDO, "itemHasVolume"), volume);
+            itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
             itemModel.add(volume, RDF.type, itemModel.createResource(BDO+"ImageGroup"));
             String name = simplified ? workLine[9] : workLine[39];
             workModel.add(work, SKOS.prefLabel,getLiteral(name, workModel));
