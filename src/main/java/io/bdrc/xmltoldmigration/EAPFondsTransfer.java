@@ -186,11 +186,17 @@ public class EAPFondsTransfer {
         Resource admWork = createAdminRoot(work);
         res.add(work);
 
+        // Work adm:AdminData
+        Resource ldEAPc = workModel.createResource(BDA+"LD_EAP_content");
+        Resource ldEAPm = workModel.createResource(BDA+"LD_EAP_metadata");
+        
         String abstractWorkRID = "WA"+serieID;
         Model mA = ModelFactory.createDefaultModel();
         setPrefixes(mA);
         Resource workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
-        Resource admWorkA = createAdminRoot(work);
+        Resource admWorkA = createAdminRoot(workA);
+        mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
+        mA.add(admWorkA, mA.createProperty(ADM, "status"), workModel.createResource(BDA+"StatusReleased"));
         res.add(workA);
         work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
         workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
@@ -199,9 +205,7 @@ public class EAPFondsTransfer {
         addReleased(mA, admWorkA);
         mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
         
-        // Work adm:AdminData
-        Resource ldEAPc = workModel.createResource(BDA+"LD_EAP_content");
-        Resource ldEAPm = workModel.createResource(BDA+"LD_EAP_metadata");
+
         workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
         workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
@@ -280,7 +284,9 @@ public class EAPFondsTransfer {
             Model mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
             Resource workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
-            Resource admWorkA = createAdminRoot(work);
+            Resource admWorkA = createAdminRoot(workA);
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
+            mA.add(admWorkA, mA.createProperty(ADM, "status"), workModel.createResource(BDA+"StatusReleased"));
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
