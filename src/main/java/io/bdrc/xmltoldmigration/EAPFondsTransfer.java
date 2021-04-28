@@ -203,7 +203,7 @@ public class EAPFondsTransfer {
         Resource ldEAPc = workModel.createResource(BDA+"LD_EAP_content");
         Resource ldEAPm = workModel.createResource(BDA+"LD_EAP_metadata");
         workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
-        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDR+"StatusReleased"));
+        workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
         String origUrl = ORIG_URL_BASE+serieID;
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));                
