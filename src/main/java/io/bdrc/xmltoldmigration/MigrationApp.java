@@ -51,6 +51,7 @@ import io.bdrc.xmltoldmigration.xml2files.EtextMigration;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
+import io.bdrc.xmltoldmigration.xml2files.ProductMigration;
 import io.bdrc.xmltoldmigration.xml2files.PubinfoMigration;
 import io.bdrc.xmltoldmigration.xml2files.ScanrequestMigration;
 import io.bdrc.xmltoldmigration.xml2files.TaxonomyMigration;
@@ -71,7 +72,7 @@ public class MigrationApp
     public static String RKTS_DIR = null;
     public static String ETEXT_DIR = DATA_DIR+"eTextsChunked/";
     public static String XML_DIR = DATA_DIR+"tbrc/";
-    public static String OUTPUT_DIR = "tbrc-ttl/";
+    public static String OUTPUT_DIR = "../tbrc-ttl/";
     public static String commitMessage = "xmltold automatic migration";
     public static boolean firstMigration = false;
     public static boolean noXmlMigration = false;
@@ -125,7 +126,7 @@ public class MigrationApp
     }
 
     public static String getDstFileName(String type, String baseName, String extension) {
-        final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product");
+        final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product")  && !type.equals("subscriber")  && !type.equals("collection");
         String res = type.equals("office") ? OUTPUT_DIR+"roles/" : OUTPUT_DIR+type+"s/";
         if (needsHash) {
             String hashtext = getMd5(baseName);
@@ -411,7 +412,7 @@ public class MigrationApp
             if (instanceMI != null) {
                 if (instanceMI.resourceName.startsWith("MW1FPL") || instanceMI.resourceName.startsWith("MW1EAP")) {
                     // don't write FPL instances to the git repo, we only want the image instances
-                    System.out.println("ignoring "+instanceMI.resourceName);
+                    //System.out.println("ignoring "+instanceMI.resourceName);
                 } else {
                     workOutFileName = getDstFileName("instance", instanceMI.resourceName);
                     MigrationHelpers.outputOneModel(instanceMI.m, instanceMI.resourceName, workOutFileName, "instance");
@@ -436,6 +437,22 @@ public class MigrationApp
                 workOutFileName = getDstFileName("einstance", einstanceMI.resourceName);
                 MigrationHelpers.outputOneModel(einstanceMI.m, einstanceMI.resourceName, workOutFileName, "einstance");
             }
+            break;
+        case PRODUCT:
+            // do not migrate these two
+            if (file.getName().contains("PR99SUBSCRIBERS") || file.getName().contains("PR88CT000129") || file.getName().contains("PR01JW33589"))
+                return;
+            Document prd = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
+            String prType = ProductMigration.getType(prd);
+            Model prM = null;
+            if (prType.equals("collection")) {
+                prM = ProductMigration.MigrateCollection(prd);
+            } else {
+                prM = ProductMigration.MigrateSubscriber(prd);
+                baseName = "PRA"+baseName.substring(2);
+            }
+            String prOutfileName = getDstFileName(prType, baseName);
+            MigrationHelpers.outputOneModel(prM, baseName, prOutfileName, prType);
             break;
         default:
             String outfileName = getDstFileName(type, baseName);
@@ -485,6 +502,10 @@ public class MigrationApp
         switch (type) {
         case "office":
             ensureGitRepo("role", OUTPUT_DIR);
+            break;
+        case "product":
+            ensureGitRepo("collection", OUTPUT_DIR);
+            ensureGitRepo("subscriber", OUTPUT_DIR);
             break;
         case "outline":
         case "scanrequest":
@@ -537,6 +558,9 @@ public class MigrationApp
         } else {
             insertMissingSymetricTriples(type);
         }
+        if (type.equals("product")) {
+            ProductMigration.finishProductMigration();
+        }
         if (type.equals("person"))
             System.out.println("recorded "+PersonMigration.placeEvents.size()+" events to migrate to places");
     }
@@ -563,7 +587,7 @@ public class MigrationApp
 
     public static void finishTypes() {
         System.out.println("committing modifications");
-        List<String> types = Arrays.asList("work", "item", "instance", "place", "person", "product", "corporation", "role", "lineage", "topic", "etext", "etextcontent", "iinstance", "einstance");
+        List<String> types = Arrays.asList("collection", "subscriber", "work", "item", "instance", "place", "person", "corporation", "role", "lineage", "topic", "etext", "etextcontent", "iinstance", "einstance");
         for (String type : types) {
             finishType(type);
         }
