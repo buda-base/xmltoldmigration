@@ -1,6 +1,8 @@
 package io.bdrc.xmltoldmigration;
 
 import static io.bdrc.libraries.Models.ADM;
+import static io.bdrc.libraries.Models.AUT;
+import static io.bdrc.libraries.Models.ADR;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDG;
 import static io.bdrc.libraries.Models.BDO;
@@ -185,6 +187,7 @@ public class MigrationHelpers {
     
     public static boolean isDisconnected(String RID) {
         return disconnectedRIds.containsKey(RID);
+        //return false;
     }
 	
     public static Map<String, Boolean> setupDisconnectedRIDs() {
@@ -225,6 +228,10 @@ public class MigrationHelpers {
 
     public static void setPrefixes(Model m, String type) {
         setPrefixes(m, type.equals("place"));
+        if (type.equals("subscriber")) {
+            m.setNsPrefix("aut", AUT);
+            m.setNsPrefix("adr", ADR);
+        }
     }
     
     public static void setPrefixes(Model m, boolean addVcard) {
@@ -351,6 +358,8 @@ public class MigrationHelpers {
         resourceInfos = null;
     }
     
+    
+    
     public static PrefixMap getPrefixMap() {
         PrefixMap pm = PrefixMapFactory.create();
         pm.add("",      BDO);
@@ -366,6 +375,35 @@ public class MigrationHelpers {
         pm.add("vcard", VCARD4.getURI());
         pm.add("xsd",   XSD.getURI());
         return pm;
+    }
+    
+    public static PrefixMap getSubPrefixMap() {
+        PrefixMap pm = PrefixMapFactory.create();
+        pm.add("",      BDO);
+        pm.add("adm",   ADM);
+        pm.add("bda",   BDA);
+        pm.add("bdg",   BDG);
+        pm.add("bdr",   BDR);
+        pm.add("bdu",   BDU);
+        pm.add("aut",   AUT);
+        pm.add("adr",   ADR);
+        pm.add("owl",   OWL.getURI());
+        pm.add("rdf",   RDF.getURI());
+        pm.add("rdfs",  RDFS.getURI()); ;
+        pm.add("skos",  SKOS.getURI());
+        pm.add("vcard", VCARD4.getURI());
+        pm.add("xsd",   XSD.getURI());
+        return pm;
+    }
+    
+    public static PrefixMap stdPrefixMap = getPrefixMap();
+    public static PrefixMap subPrefixMap = getSubPrefixMap();
+
+    public static PrefixMap getPrefixMap(String type) {
+        if ("subscriber".equals(type)) {
+            return subPrefixMap;
+        }
+        return stdPrefixMap;
     }
     
     public static void setupSTTL() {
@@ -473,7 +511,7 @@ public class MigrationHelpers {
             Node graphUri = NodeFactory.createURI(uriStr);
             DatasetGraph dsg = DatasetFactory.create().asDatasetGraph();
             dsg.addGraph(graphUri, m.getGraph());
-            new STriGWriter().write(out, dsg, getPrefixMap(), null, ctx);
+            new STriGWriter().write(out, dsg, getPrefixMap(type), null, ctx);
         }
     }
 
@@ -546,9 +584,6 @@ public class MigrationHelpers {
 		case PLACE:
 			m = PlaceMigration.MigratePlace(d);
 			break;
-		case PRODUCT:
-			m = ProductMigration.MigrateProduct(d);
-			break;
 		case IMAGEGROUP:
             m = ImagegroupMigration.MigrateImagegroup(d);
             break;
@@ -614,7 +649,7 @@ public class MigrationHelpers {
         return m;
 	}
 	
-	private static final Pattern withdrawnPattern = Pattern.compile("(?i:withdrawn in favou?re? of) +([a-zA-Z]+[0-9]+[a-zA-Z0-9]+).*");
+	private static final Pattern withdrawnPattern = Pattern.compile("(?i:withdrawn in ?favou?re? of) +([a-zA-Z]+[0-9]+[a-zA-Z0-9]+).*");
 	
 	public static Model migrateWithdrawn(Document xmlDocument, final String type) {
 	    if (type.equals(PUBINFO) || type.equals(SCANREQUEST)) {
