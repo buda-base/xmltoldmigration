@@ -654,8 +654,11 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                 eventMain.addProperty(eventM.getProperty(BDO, propLocalName), site);
                 CommonMigration.addDates(current.getAttribute("circa"), site, r);
                 value = current.getAttribute("place").trim();
-                if (!value.isEmpty())
-                    eventM.add(site, eventM.getProperty(BDO, "eventWhere"), eventM.getResource(BDR+value));
+                if (!value.isEmpty()) {
+                    value = MigrationHelpers.sanitizeRID(r.getLocalName(), "place", value);
+                    if (!MigrationHelpers.isDisconnected(value))
+                        eventM.add(site, eventM.getProperty(BDO, "eventWhere"), eventM.getResource(BDR+value));
+                }
 
                 // TODO: what about current.getTextContent()?
                 value = current.getTextContent();
