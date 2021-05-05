@@ -104,12 +104,20 @@ public class ProductMigration {
 	public static void addSubscription(final String collectionRid, String subscriberRid) {
 	    if (subscriberRid.equals("PR88CT000129")) {
 	        for (String sub : replPR88CT000129) {
-	            List<String> subsForSubscriber = subscriptions.getOrDefault(sub, new ArrayList<String>());
+	            List<String> subsForSubscriber = subscriptions.get(sub);
+	            if (subsForSubscriber == null) {
+	                subsForSubscriber =  new ArrayList<String>();
+	                subscriptions.put(sub, subsForSubscriber);
+	            }
 	            subsForSubscriber.add(collectionRid);
 	        }
 	    } else {
 	        subscriberRid = "PRA"+subscriberRid.substring(2);
-	        List<String> subsForSubscriber = subscriptions.getOrDefault(subscriberRid, new ArrayList<String>());
+	        List<String> subsForSubscriber = subscriptions.get(subscriberRid);
+            if (subsForSubscriber == null) {
+                subsForSubscriber =  new ArrayList<String>();
+                subscriptions.put(subscriberRid, subsForSubscriber);
+            }
 	        subsForSubscriber.add(collectionRid);
 	    }
 	}
