@@ -23,7 +23,7 @@ bdr:EV213E4B9AED5E1B57
         a                       :PlaceFounded ;
         :note                   bdr:NTE62484A0A1341D9B ;
         :onYear                 "1187"^^xsd:gYear ;
-        :placeEventAffiliation  bdr:TraditionTest , bdr:TraditionKagyu .
+        :associatedTradition  bdr:TraditionTest , bdr:TraditionKagyu .
 
 bda:LGFE2C8100AFEA0961
         a               adm:UpdateData ;

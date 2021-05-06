@@ -420,7 +420,7 @@ public class PlaceMigration {
                 value = value.substring(8);
                 String url =  getUriFromTypeSubtype("tradition", value);
                 target = m.createResource(url);
-                prop = m.getProperty(BDO+"placeEventAffiliation");
+                prop = m.getProperty(BDO+"associatedTradition");
                 m.add(event, prop, target);
             }
 		}
