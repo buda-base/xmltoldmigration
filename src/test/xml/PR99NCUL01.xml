@@ -1,8 +1,6 @@
 <product:product xmlns:product="http://www.tbrc.org/models/product#" RID="PR99NCUL01" status="released">
     <product:description type="contents">This or that</product:description>
     <product:access>
-        <!-- not in the original PR99NCUL01 -->
-        <product:include RID="PR88CT000129"/>
         <product:org name="Top1">
             <product:allow>ip5</product:allow>
             <product:allow>ip4</product:allow>

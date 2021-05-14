@@ -55,6 +55,7 @@ import io.bdrc.xmltoldmigration.xml2files.EtextMigration.EtextInfos;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 import io.bdrc.xmltoldmigration.xml2files.PersonMigration;
+import io.bdrc.xmltoldmigration.xml2files.ProductMigration;
 import io.bdrc.xmltoldmigration.xml2files.PubinfoMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration.WorkModelInfo;
@@ -242,19 +243,37 @@ public class MigrationTest
     }
 	
 	@Test
-    public void testPR99NCUL01() throws IOException
+    public void testSubscriber() throws IOException
     {
-	    System.out.println("testing product");
+	    System.out.println("testing product (subscriber)");
     	Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/PR99NCUL01.xml");
     	Validator validator = MigrationHelpers.getValidatorFor("product");
         assertTrue(CommonMigration.documentValidates(d, validator));
-    	Model fromXml = MigrationHelpers.xmlToRdf(d, "product");
+        String prType = ProductMigration.getType(d);
+        assertTrue(prType.contentEquals("subscriber"));
+        Model fromXml = ProductMigration.MigrateSubscriber(d);
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PR99NCUL01.ttl");
     	//fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
-	
+
+    @Test
+    public void testCollection() throws IOException
+    {
+        System.out.println("testing product (subscriber)");
+        Document d = MigrationHelpers.documentFromFileName(TESTDIR+"xml/PR1CTC17.xml");
+        Validator validator = MigrationHelpers.getValidatorFor("product");
+        assertTrue(CommonMigration.documentValidates(d, validator));
+        String prType = ProductMigration.getType(d);
+        assertTrue(prType.contentEquals("collection"));
+        Model fromXml = ProductMigration.MigrateCollection(d);
+        Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PR1CTC17.ttl");
+        //fromXml.write(System.out, "TTL");
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        flushLog();
+    }
+
 	@Test
     public void testCorporation() throws IOException
     {

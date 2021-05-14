@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product:product xmlns:product="http://www.tbrc.org/models/product#" RID="PR1CTC14" status="released"><product:description type="contents">TBRC Core Text Collection 14</product:description><product:access>
+        <!-- British Library --><product:include RID="PR99BRL01"/>
+        <!-- Bulac --><product:include RID="PR99BUL01"/>
+        <!-- Columbia University, East Asian Library --><product:include RID="PR99COL01"/>
+        <!-- Emory University --><product:include RID="PR99EMR01"/>
+        <!-- Indiana University Libraries --><product:include RID="PR99IUL01"/> 
+        <!-- Library of Congress --><product:include RID="PR99LOC01"/>
+        <!-- LMU München - Institut für Indologie und Tibetologie --><product:include RID="PR99LMU01"/>
+        <!-- Princeton University --><product:include RID="PR99PRIU01"/>
+        <!-- Rice University --><product:include RID="PR99RICE01"/>
+        <!-- Staatsbibliothek zu Berlin --><product:include RID="PR99SBB01"/>
+        <!-- Stanford University --><product:include RID="PR99STU01"/>
+        <!-- Texas State University 
+        <product:include RID="PR99TXS01"/>-->
+        <!-- Toronto University --><product:include RID="PR99TORU01"/>
+        <!-- University of Hamburg --><product:include RID="PR99UHAM01"/>
+        <!-- University of Lausanne, Bibliothèque cantonale et universitaire --><product:include RID="PR99ULAU01"/>
+        <!-- University of Virginia--><product:include RID="PR99UVA01"/>
+        <!-- Vienna University --><product:include RID="PR99VIU01"/></product:access><product:log><entry when="2017-07-07T19:05:35.213Z" who="Code Ferret">added product for CTC 14</entry><entry when="2017-08-11T14:08:12.526Z" who="Travis DeTour">added access for institutions</entry><entry when="2017-12-15T12:32:56.392Z" who="Travis DeTour">added access for Rice, Emory, Stanford</entry></product:log></product:product>

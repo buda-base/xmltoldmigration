@@ -1,4 +1,5 @@
 @prefix :      <http://purl.bdrc.io/ontology/core/> .
+@prefix aut:   <http://purl.bdrc.io/ontology/ext/auth/> .
 @prefix bdg:   <http://purl.bdrc.io/graph/> .
 @prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
@@ -7,51 +8,54 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix adr:   <http://purl.bdrc.io/resource-nc/auth/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:PG7C1978105B5048EB
-        a                  adm:ProductOrg ;
-        rdfs:label         "Top2"@en ;
-        adm:productHasOrg  bdr:PG6FB1B49A69268F73 , bdr:PGE929612A7073843B , bdr:PG2060FE349265D812 .
+adr:PRA99NCUL01  a                     aut:Subscriber ;
+        aut:hasIPAddress               "ip6" ;
+        aut:subscriberHasOrganization  adr:SO95CA562F294CE8DD , adr:SOD5AEB2074913C0AD ;
+        skos:prefLabel                 "This or that"@en .
 
-bda:PR99NCUL01  a       adm:AdminData ;
-        adm:adminAbout  bdr:PR99NCUL01 ;
-        adm:facetIndex  7 ;
-        adm:logEntry    bda:LGBE16F203BDFBC51F ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
-
-bdr:PGE929612A7073843B
-        a                       adm:ProductOrg ;
-        rdfs:label              "Sub2"@en ;
-        adm:productAllowByAddr  "ip2" .
-
-bdr:PR99NCUL01  a               :Collection ;
-        adm:productAllowByAddr  "ip6" ;
-        adm:productHasOrg       bdr:PG7C1978105B5048EB , bdr:PGE676375D5967C0E7 ;
-        adm:productInclude      bdr:PR88CT000129 ;
-        skos:prefLabel          "This or that"@en .
-
-bdr:PG2060FE349265D812
-        a                       adm:ProductOrg ;
-        rdfs:label              "Sub1"@en ;
-        adm:productAllowByAddr  "ip3" .
-
-bda:LGBE16F203BDFBC51F
+bda:LG02DE52BE284DF037
         a               adm:InitialDataCreation ;
         adm:logDate     "2014-09-22T19:39:47.382Z"^^xsd:dateTime ;
         adm:logMessage  "added entry for NCCU Taiwan"@en ;
         adm:logWho      bdu:U00006 .
 
-bdr:PG6FB1B49A69268F73
-        a                       adm:ProductOrg ;
-        rdfs:label              "Sub3"@en ;
-        adm:productAllowByAddr  "ip1" .
+adr:SOE6C17DA2BA5EF06C
+        a                 aut:SubscriberOrg ;
+        aut:hasIPAddress  "ip2" ;
+        skos:prefLabel    "Sub2"@en .
 
-bdr:PGE676375D5967C0E7
-        a                       adm:ProductOrg ;
-        rdfs:label              "Top1"@en ;
-        adm:productAllowByAddr  "ip4" , "ip5" .
+adr:SOD5AEB2074913C0AD
+        a                 aut:SubscriberOrg ;
+        aut:hasIPAddress  "ip4" , "ip5" ;
+        skos:prefLabel    "Top1"@en .
+
+bda:PRA99NCUL01  a      adm:AdminData ;
+        adm:adminAbout  adr:PRA99NCUL01 ;
+        adm:facetIndex  7 ;
+        adm:gitPath     "47/PRA99NCUL01.trig" ;
+        adm:gitRepo     bda:GR0012 ;
+        adm:graphId     bdg:PRA99NCUL01 ;
+        adm:logEntry    bda:LG02DE52BE284DF037 ;
+        adm:status      bda:StatusReleased ;
+        :isRoot         true .
+
+adr:SO95CA562F294CE8DD
+        a                              aut:SubscriberOrg ;
+        aut:subscriberHasOrganization  adr:SOBDCA5A7F71C0543F , adr:SOE6C17DA2BA5EF06C , adr:SO03853EDA9A5CB5DE ;
+        skos:prefLabel                 "Top2"@en .
+
+adr:SO03853EDA9A5CB5DE
+        a                 aut:SubscriberOrg ;
+        aut:hasIPAddress  "ip3" ;
+        skos:prefLabel    "Sub1"@en .
+
+adr:SOBDCA5A7F71C0543F
+        a                 aut:SubscriberOrg ;
+        aut:hasIPAddress  "ip1" ;
+        skos:prefLabel    "Sub3"@en .

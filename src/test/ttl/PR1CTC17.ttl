@@ -1,0 +1,44 @@
+@prefix :      <http://purl.bdrc.io/ontology/core/> .
+@prefix bdg:   <http://purl.bdrc.io/graph/> .
+@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
+@prefix rkts:  <http://purl.rkts.eu/resource/> .
+@prefix bdr:   <http://purl.bdrc.io/resource/> .
+@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix bda:   <http://purl.bdrc.io/admindata/> .
+
+bda:LG4B50141549C461F3
+        a               adm:UpdateData ;
+        adm:logDate     "2017-08-11T14:08:12.526Z"^^xsd:dateTime ;
+        adm:logMessage  "added access for institutions"@en ;
+        adm:logWho      bdu:U00066 .
+
+bdr:PR1CTC14  a         :Collection ;
+        skos:prefLabel  "TBRC Core Text Collection 14"@en .
+
+bda:LG609CF2400F2237BA
+        a               adm:InitialDataCreation ;
+        adm:logDate     "2017-07-07T19:05:35.213Z"^^xsd:dateTime ;
+        adm:logMessage  "added product for CTC 14"@en ;
+        adm:logWho      bdu:U00006 .
+
+bda:PR1CTC14  a         adm:AdminData ;
+        adm:adminAbout  bdr:PR1CTC14 ;
+        adm:facetIndex  4 ;
+        adm:gitPath     "9b/PR1CTC14.trig" ;
+        adm:gitRepo     bda:GR0011 ;
+        adm:graphId     bdg:PR1CTC14 ;
+        adm:logEntry    bda:LG4B50141549C461F3 , bda:LG609CF2400F2237BA , bda:LG4835E8547911E747 ;
+        adm:status      bda:StatusReleased ;
+        :isRoot         true .
+
+bda:LG4835E8547911E747
+        a               adm:UpdateData ;
+        adm:logDate     "2017-12-15T12:32:56.392Z"^^xsd:dateTime ;
+        adm:logMessage  "added access for Rice, Emory, Stanford"@en ;
+        adm:logWho      bdu:U00066 .
