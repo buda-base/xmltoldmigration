@@ -26,12 +26,12 @@ bda:LG02DE52BE284DF037
         adm:logWho      bdu:U00006 .
 
 adr:SOE6C17DA2BA5EF06C
-        a                 aut:SubscriberOrg ;
+        a                 aut:SubscriberOrganization ;
         aut:hasIPAddress  "ip2" ;
         skos:prefLabel    "Sub2"@en .
 
 adr:SOD5AEB2074913C0AD
-        a                 aut:SubscriberOrg ;
+        a                 aut:SubscriberOrganization ;
         aut:hasIPAddress  "ip4" , "ip5" ;
         skos:prefLabel    "Top1"@en .
 
@@ -39,23 +39,23 @@ bda:PRA99NCUL01  a      adm:AdminData ;
         adm:adminAbout  adr:PRA99NCUL01 ;
         adm:facetIndex  7 ;
         adm:gitPath     "47/PRA99NCUL01.trig" ;
-        adm:gitRepo     bda:GR0012 ;
+        adm:gitRepo     bda:GR0015 ;
         adm:graphId     bdg:PRA99NCUL01 ;
         adm:logEntry    bda:LG02DE52BE284DF037 ;
         adm:status      bda:StatusReleased ;
         :isRoot         true .
 
 adr:SO95CA562F294CE8DD
-        a                              aut:SubscriberOrg ;
+        a                              aut:SubscriberOrganization ;
         aut:subscriberHasOrganization  adr:SOBDCA5A7F71C0543F , adr:SOE6C17DA2BA5EF06C , adr:SO03853EDA9A5CB5DE ;
         skos:prefLabel                 "Top2"@en .
 
 adr:SO03853EDA9A5CB5DE
-        a                 aut:SubscriberOrg ;
+        a                 aut:SubscriberOrganization ;
         aut:hasIPAddress  "ip3" ;
         skos:prefLabel    "Sub1"@en .
 
 adr:SOBDCA5A7F71C0543F
-        a                 aut:SubscriberOrg ;
+        a                 aut:SubscriberOrganization ;
         aut:hasIPAddress  "ip1" ;
         skos:prefLabel    "Sub3"@en .
