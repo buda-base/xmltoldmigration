@@ -262,7 +262,7 @@ public class MigrationHelpers {
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
             while(reader.ready()) {
-                 String rid = reader.readLine().strip();
+                 String rid = reader.readLine().trim();
                  res.put(rid, true);
             }
         } catch (IOException e) {
