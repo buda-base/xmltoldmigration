@@ -66,6 +66,7 @@ public class WorkMigration {
     static HashMap<String, String> workAccessMap = new HashMap<>();
     private static HashMap<String, String> workLegalMap = new HashMap<>();
     public static HashMap<String, Boolean> workRestrictedInChina = new HashMap<>();
+    public static HashMap<String, Boolean> scansLowQuality = new HashMap<>();
     
     public static Resource getAccess(Model itemModel, Resource work) {
         String legalUri = workAccessMap.get(work.getLocalName());
@@ -83,6 +84,10 @@ public class WorkMigration {
         } else {
             return false;
         }
+    }
+
+    public static boolean isLowQuality(Model itemModel, Resource work) {
+        return scansLowQuality.containsKey(work.getLocalName().substring(1));
     }
     
     public static Resource getLegal(Model itemModel, Resource work) {
@@ -475,7 +480,10 @@ public class WorkMigration {
                     break;
                 case "restrictedSealed": value = "AccessRestrictedSealed"; break;
                 case "temporarilyRestricted": value = "AccessRestrictedTemporarily"; break;
-                case "restrictedByQuality": value = "AccessRestrictedByQuality"; break;
+                case "restrictedByQuality":
+                    value = (licenseValue.contains("Copyright") ? "AccessFairUse" : "AccessOpen");
+                    scansLowQuality.put(workId, true); 
+                    break;
                 case "restrictedByTbrc": value = "AccessRestrictedByTbrc"; break;
                 case "restrictedInChina":
                     value = (licenseValue.contains("Copyright") ? "AccessFairUse" : "AccessOpen");

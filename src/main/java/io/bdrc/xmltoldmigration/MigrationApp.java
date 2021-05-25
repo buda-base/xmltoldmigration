@@ -140,10 +140,11 @@ public class MigrationApp
     // the WorkMigration gets the access and legal info from the work xml doc, adds access and legal data
     // resources to HashMaps so they can be added to the :workHasItem :Item if there is one - 
     // no access => no Item.
-    public static void moveAdminInfo(Model itemM, Resource work, Resource admItem) {
+    public static void moveAdminInfo(Model itemM, Resource work, Resource admItem, Resource item) {
         Resource access = WorkMigration.getAccess(itemM, work);
         Resource legal = WorkMigration.getLegal(itemM, work);
         boolean ric = WorkMigration.isRestrictedInChina(itemM, work);
+        boolean lowQuality = WorkMigration.isLowQuality(itemM, work);
         
         if (access != null) {
             admItem.addProperty(itemM.getProperty(ADM, "access"), access);
@@ -151,6 +152,12 @@ public class MigrationApp
         }
         if (legal != null) {
             admItem.addProperty(itemM.getProperty(ADM, "contentLegal"), legal);
+        }
+        if (lowQuality) {
+            item.addLiteral(itemM.getProperty(BDO, "qualityGrade"), itemM.createTypedLiteral(0, XSDDatatype.XSDinteger));
+        }
+        if (MigrationHelpers.nokForLending.containsKey(work.getLocalName().substring(1))) {
+            item.addLiteral(itemM.getProperty(BDO, "digitalLendingPossible"), itemM.createTypedLiteral(false, XSDDatatype.XSDboolean));
         }
     }
 
@@ -295,7 +302,7 @@ public class MigrationApp
                     admItem = createAdminRoot(item);
                     addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
                     admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
-                    moveAdminInfo(itemModel, workR, admItem);
+                    moveAdminInfo(itemModel, workR, admItem, item);
                     
                     // move scaninfo to the image instance:
                     StmtIterator scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "scanInfo"));

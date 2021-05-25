@@ -148,6 +148,7 @@ public class MigrationHelpers {
     public static final Map<String,String> typeToXsdPrefix = new HashMap<>();
     
     public static final Map<String, Boolean> disconnectedRIds;
+    public static final Map<String, Boolean> nokForLending;
     public static final Map<String, String> ridReplacements;
     public static final Map<String, String> tol;
     
@@ -163,6 +164,7 @@ public class MigrationHelpers {
         
         
         disconnectedRIds = setupDisconnectedRIDs();
+        nokForLending = setupNokForLending();
         ricrid = setupRICRID();
         ridReplacements = setupRIDReplacements();
         tol = setupTol();
@@ -251,6 +253,22 @@ public class MigrationHelpers {
         if (addVcard)
             m.setNsPrefix("vcard", VCARD4.getURI());
 
+    }
+
+    public static Map<String, Boolean> setupNokForLending() {
+        final Map<String,Boolean> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("nokforcdl.txt");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while(reader.ready()) {
+                 String rid = reader.readLine().strip();
+                 res.put(rid, true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
     
     public static Map<String, String> setupTol() {
