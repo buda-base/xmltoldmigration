@@ -236,7 +236,9 @@ public class MigrationApp
             MigrationHelpers.outputOneModel(itemModel, itemName, itemFileName, "iinstance");
             break;
         case WORK:
-            //if (!file.getAbsolutePath().contains("W00KG02331")) return;
+            // 44/W1KG26279 in nokforcdl
+            // 0a/W8238 restricted by quality
+            //if (!file.getAbsolutePath().contains("W8238")) return;
             Document d = MigrationHelpers.documentFromFileName(file.getAbsolutePath());
             Document workD = d;
             Element root = d.getDocumentElement();
@@ -667,36 +669,36 @@ public class MigrationApp
         long startTime = System.currentTimeMillis();
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondence, for externals
         if (!noXmlMigration) {
-            migrateType(OUTLINE, "O");
+            //migrateType(OUTLINE, "O");
             if (!exportTitles) {
-                migrateType(PERSON, "P");
-                migrateType(PLACE, "G");
-                migrateType(OFFICE, "R");
-                migrateType(CORPORATION, "C");
-                migrateType(LINEAGE, "L");
-                migrateType(TOPIC, "T");
+//                migrateType(PERSON, "P");
+//                migrateType(PLACE, "G");
+//                migrateType(OFFICE, "R");
+//                migrateType(CORPORATION, "C");
+//                migrateType(LINEAGE, "L");
+                //migrateType(TOPIC, "T");
             }
             migrateType(WORK, "W"); // also does pubinfos and imagegroups
             if (!exportTitles) {
                 // interestingly, scanrequests don't hold any kind of information...
 //              // migrateType(SCANREQUEST, "SR"); // requires works to be finished
-                migrateType(PRODUCT, "PR");
+                //migrateType(PRODUCT, "PR");
                 //EtextMigration.EtextInfos ei = EtextMigration.migrateOneEtext(ETEXT_DIR+"UCB-OCR/UT16936/UT16936-4905/UT16936-4905-0000.xml", true, new NullOutputStream(), true, ModelFactory.createDefaultModel(), true);
                 //MigrationHelpers.modelToOutputStream(ei.etextModel, new FileOutputStream(new File("/tmp/mod.txt")), "etext", MigrationHelpers.OUTPUT_STTL, ei.etextId);
-                EtextMigration.migrateEtexts();
+                //EtextMigration.migrateEtexts();
             }
         }
-        if (RKTS_DIR != null && !exportTitles) {
-            rKTsTransfer.doTransfer();
-        }
-        if (!exportTitles) {
-            EAPTransfer.transferEAP();
-            GRETILTransfer.transferGRETIL();
-            EAPFondsTransfer.EAPFondsDoTransfer();
-            CUDLTransfer.CUDLDoTransfer();
-            NSITransfer.transferNIS();
-            HodgsonTransfer.transfer();
-        }
+//        if (RKTS_DIR != null && !exportTitles) {
+//            rKTsTransfer.doTransfer();
+//        }
+//        if (!exportTitles) {
+//            EAPTransfer.transferEAP();
+//            GRETILTransfer.transferGRETIL();
+//            EAPFondsTransfer.EAPFondsDoTransfer();
+//            CUDLTransfer.CUDLDoTransfer();
+//            NSITransfer.transferNIS();
+//            HodgsonTransfer.transfer();
+//        }
         if (exportTitles) {
             csvWriter.close();
             titleswriter.close();
