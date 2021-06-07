@@ -166,7 +166,7 @@ public class PubinfoMigration {
         addSimpleElement("extent", BDO+"workExtentStatement", null, root, m, main);
         addSimpleElement("illustrations", BDO+"illustrations", null, root, m, main);
         addSimpleElement("dimensions", BDO+"dimensionsStatement", null, root, m, main);
-        addSimpleElement("volumes", BDO+"volumesNote", null, root, m, main);
+        addSimpleElement("volumes", ADM+"workVolumesNote", null, root, m, main);
         addBiblioNote(root, m, main, item);
         addSimpleElement("sourceNote", BDO+"sourceNote", "en", root, m, main);
         addSimpleElement("editionStatement", BDO+"editionStatement", EWTS_TAG, root, m, main);

@@ -128,9 +128,6 @@ public class LineageMigration {
         }
         
         nodeList = root.getElementsByTagNameNS(LXSDNS, "alternative");
-        if ((nodeList.getLength() > 0 && elList.size() > 0) || nodeList.getLength() > 1) {
-            System.out.println(root.getAttribute("RID"));
-        }
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             elList = CommonMigration.getChildrenByTagName(current, LXSDNS, "holder");
