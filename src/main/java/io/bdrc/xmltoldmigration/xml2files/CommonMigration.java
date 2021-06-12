@@ -674,6 +674,8 @@ public class CommonMigration  {
      * @param ref Work resource from which the note is taken
      */
     private static void addNote(Resource rez, Literal noteText, String loc, Resource ref) {
+        if (noteText == null && (loc == null || loc.isEmpty()) && ref == null) 
+            return;
         Model m = rez.getModel();
         Resource noteR = getFacetNode(FacetType.NOTE, rez);
         Property prop = m.getProperty(BDO, "note");
@@ -1940,6 +1942,11 @@ public class CommonMigration  {
     
     public static Literal getLiteral(Element elem, String dflt, Model m, String propertyHint, String RID, String subRID, boolean normalize) {
         String value = elem.getTextContent();
+        value = value.strip();
+        if (value.startsWith("tbrc")) {
+            value = value.replaceAll("tbrc holds digitally scanned images, tiffs and pdf files\\s*;?:?\\s*\\d*\\s*", "");
+            value = value.replaceAll("scanned for preservation purposes? only; not for distribution\\s*;?:?\\s*\\d*\\s*", "");
+        }
         value = normalize ? normalizeString(value) : value.trim();
         if (value.isEmpty()) return null;
         if (value.indexOf('\ufffd') != -1)

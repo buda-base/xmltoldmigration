@@ -116,7 +116,7 @@ bdr:MW1FPL2837  a          :SerialInstance ;
 
 bdr:NT4F90D9E67B6070EA
         a          :Note ;
-        :noteText  "tbrc holds digitally scanned images, tiffs and pdf files:\n4158\n\nother instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
+        :noteText  "other instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
 
 bdr:ITW1FPL2837  a        :Item ;
         :itemForInstance  bdr:MW1FPL2837 ;
