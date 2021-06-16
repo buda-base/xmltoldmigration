@@ -311,6 +311,13 @@ public class MigrationApp
                         item.addProperty(itemModel.getProperty(BDO, "scanInfo"), scanInfo);
                     }
                     workR.removeAll(workR.getModel().getProperty(BDO, "scanInfo"));
+                    // move sourceNote to image instance:
+                    scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "sourceNote"));
+                    while (scanInfoSi.hasNext()) {
+                        Literal scanInfo = scanInfoSi.next().getLiteral();
+                        item.addProperty(itemModel.getProperty(BDO, "sourceNote"), scanInfo);
+                    }
+                    workR.removeAll(workR.getModel().getProperty(BDO, "sourceNote"));
                     
                     if (models.size() >1 && models.get(1) != null) {
                         abstractMI = models.get(1);
