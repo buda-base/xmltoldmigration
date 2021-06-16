@@ -105,7 +105,7 @@ public class PubinfoMigration {
 	}
 
 	public static void addLangScript(final Resource main, final Resource mainA, final String lang, String script, final String langScript, final String foundPrintType) {
-	    if ("ScriptTibt".equals(script) && main != null) {
+	    if (main != null) {
 	        if ("dbuCan".equals(foundPrintType)) script = "ScriptDbuCan";
 	        if ("dbuMed".equals(foundPrintType)) script = "ScriptDbuMed";
 	    }
@@ -213,20 +213,20 @@ public class PubinfoMigration {
                 }
                 res.add(serialWork);
             }
-            mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
+            //mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
             if (serialWorkId != null) {
-                mainA.addProperty(m.createProperty(BDO+"serialMemberOf"), mA.createResource(BDR+serialWorkId));
-                SymetricNormalization.addSymetricProperty(mA, "serialMemberOf", mainA.getLocalName(), serialWorkId, null);
+                main.addProperty(m.createProperty(BDO+"serialInstanceOf"), m.createResource(BDR+serialWorkId));
+                SymetricNormalization.addSymetricProperty(m, "serialInstanceOf", main.getLocalName(), serialWorkId, null);
             }
             main.addProperty(m.createProperty(BDO+"instanceOf"), mainA);
             mainA.addProperty(mA.createProperty(BDO+"workHasInstance"), main);
         }
         RDFNode seriesNumber = getSeriesNumber(root, m);
         if (seriesNumber != null) {
-            main.addProperty(m.createProperty(BDO+"workSeriesNumber"), seriesNumber);
+            main.addProperty(m.createProperty(BDO+"seriesNumber"), seriesNumber);
             main.addProperty(RDF.type, m.createResource(BDO+"SerialInstance"));
             if (mainA != null) { // TODO: this is a bit too simple
-                mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
+                //mainA.addProperty(RDF.type, mA.createResource(BDO+"SerialMember"));
                 main.addProperty(m.createProperty(BDO+"instanceOf"), mainA);
             }
         }

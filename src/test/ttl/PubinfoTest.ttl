@@ -70,6 +70,7 @@ bdr:MW1FPL1  a                    :Instance ;
         :printMethod              bdr:PrintMethod_Manuscript ;
         :publisherLocation        "[lha sa]"@en ;
         :publisherName            "*zhol par khang /"@bo-x-ewts ;
+        :script                   bdr:ScriptDbuMed ;
         :sourcePrinteryStatement  "test sourcePrintery with no place" ;
         :workExtentStatement      "177 ff." .
 

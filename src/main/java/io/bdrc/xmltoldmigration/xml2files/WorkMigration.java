@@ -297,12 +297,12 @@ public class WorkMigration {
             main = createRoot(m, BDR+"M"+workId, BDO+"SerialInstance");
             admMain = createAdminRoot(main);
             res.add(new WorkModelInfo("M"+workId, m));
-            main.addProperty(m.getProperty(BDO, "workSeriesNumber"), m.createLiteral(infoNumber));
+            main.addProperty(m.getProperty(BDO, "seriesNumber"), m.createLiteral(infoNumber));
 
-            String seriesMemberId = "WA" + workId.substring(1);
+            String seriesMemberId = aWorkId;
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
-            mainA = createRoot(mA, BDR+seriesMemberId, BDO+"SerialMember");
+            mainA = createRoot(mA, BDR+seriesMemberId, BDO+"Work");
             admMainA = createAdminRoot(mainA);
             addStatus(mA, admMainA, "released");
             main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
@@ -325,11 +325,11 @@ public class WorkMigration {
                 addStatus(mS, admSerialW, "released");
                 admSerialW.addProperty(mS.getProperty(ADM, "metadataLegal"), mS.createResource(BDA+"LD_BDRC_CC0"));
                 res.add(new WorkModelInfo(serialWorkId, mS));
-                mainA.addProperty(mA.createProperty(BDO, "serialMemberOf"), mA.createResource(BDR+serialWorkId));
-                serialW.addProperty(mS.createProperty(BDO, "serialHasMember"), mainA);
+                main.addProperty(m.createProperty(BDO, "serialInstanceOf"), m.createResource(BDR+serialWorkId));
+                serialW.addProperty(mS.createProperty(BDO, "serialHasInstance"), main);
             } else { // serialWork already created just link to it
-                mainA.addProperty(mA.createProperty(BDO, "serialMemberOf"), mA.createResource(BDR+serialWorkId));
-                SymetricNormalization.addSymetricProperty(mA, "serialMemberOf", seriesMemberId, serialWorkId, null);
+                main.addProperty(m.createProperty(BDO, "serialInstanceOf"), m.createResource(BDR+serialWorkId));
+                SymetricNormalization.addSymetricProperty(m, "serialInstanceOf", main.getLocalName(), serialWorkId, null);
             }
         } else if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
             addRedirection(workId, aWorkId, m);
