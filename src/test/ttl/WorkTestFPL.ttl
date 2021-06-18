@@ -28,10 +28,10 @@ bda:LGA5551B31379AA57E
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdu:U00001 .
 
-bdr:WAS12345  a           :SerialWork ;
-        :isRoot           true ;
-        :serialHasMember  bdr:WA1FPL2837 ;
-        skos:prefLabel    "test pali title"@pi-x-iast .
+bdr:WAS12345  a             :SerialWork ;
+        :isRoot             true ;
+        :serialHasInstance  bdr:MW1FPL2837 ;
+        skos:prefLabel      "test pali title"@pi-x-iast .
 
 bda:LG7BF1159854D07D7C
         a               adm:UpdateData ;
@@ -80,11 +80,10 @@ bda:ITW1FPL2837  a      adm:AdminData ;
         adm:status      bda:StatusReleased ;
         :isRoot         true .
 
-bdr:WA1FPL2837  a         :SerialMember ;
+bdr:WA1FPL2837  a         :Work ;
         :catalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
         :creator          bdr:CRC96373CECE3F27C3 ;
         :isRoot           true ;
-        :serialMemberOf   bdr:WAS12345 ;
         :workGenre        bdr:T132 ;
         :workHasInstance  bdr:MW1FPL2837 ;
         :workIsAbout      bdr:WA976 , bdr:G844 , bdr:T62 ;
@@ -110,8 +109,9 @@ bdr:MW1FPL2837  a          :SerialInstance ;
         :note              bdr:NTEE4CD95894683764 , bdr:NT4F90D9E67B6070EA ;
         :numberOfVolumes   1 ;
         :scanInfo          "Scanned at M/S Satluj Infotech Images, 63-F Sujan Singh Park, New Delhi, India for the Buddhist Digital Resource Center."@en , "Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City, NY 10011, US. Comments: 12/2010"@en , "12/2017"@en , "Scanned at M/S Satluj Infotech Images, E-45, Sector 27 Noida, District Gautam Buddha Nagar, U.P. 201301 via New Delhi, India for the Buddhist Digital Resource Center. Comments: scanned from microfilm - Soma 0001 (0000 drive) on Dummy 9. ZJ59"@en , "Scanned at Tibetan Buddhist Resource Center, 1430 Massachusetts Avenue, Cambridge, MA 02138, USA. Comments: 05/2015"@en , "12/2012"@en ;
+        :serialInstanceOf  bdr:WAS12345 ;
+        :seriesNumber      "2" ;
         :workEvent         bdr:EV836983BDFBDCF03A ;
-        :workSeriesNumber  "2" ;
         skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
 
 bdr:NT4F90D9E67B6070EA

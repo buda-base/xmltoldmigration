@@ -1942,7 +1942,7 @@ public class CommonMigration  {
     
     public static Literal getLiteral(Element elem, String dflt, Model m, String propertyHint, String RID, String subRID, boolean normalize) {
         String value = elem.getTextContent();
-        value = value.strip();
+        value = value.trim();
         if (value.startsWith("tbrc")) {
             value = value.replaceAll("tbrc holds digitally scanned images, tiffs and pdf files\\s*;?:?\\s*\\d*\\s*", "");
             value = value.replaceAll("scanned for preservation purposes? only; not for distribution\\s*;?:?\\s*\\d*\\s*", "");
