@@ -228,6 +228,7 @@ public class EAPFondsTransfer {
         res.add(item);
 
         workModel.add(work, workModel.createProperty(BDO,"instanceHasReproduction"), item);
+        itemModel.add(item, itemModel.createProperty(BDO,"instanceReproductionOf"), work);
 
         // Item adm:AdminData
         itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
