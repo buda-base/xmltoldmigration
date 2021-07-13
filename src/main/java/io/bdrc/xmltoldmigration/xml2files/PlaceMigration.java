@@ -14,6 +14,7 @@ import static io.bdrc.libraries.Models.setPrefixes;
 import static io.bdrc.libraries.Models.FacetType.EVENT;
 import static io.bdrc.libraries.Models.FacetType.VCARD_ADDR;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,9 @@ import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -368,8 +372,15 @@ public class PlaceMigration {
 	        prop = m.getProperty(BDO+"placeRegionPoly");
 	        value = current.getTextContent().trim();
 	        if(!value.isEmpty()) {
-	            lit = m.createLiteral(value);
-	            m.add(main, prop, lit);
+	            try {
+	                new ObjectMapper().readTree(value);
+	                lit = m.createLiteral(value);
+	                m.add(main, prop, lit);
+	            } catch (JsonProcessingException e) {
+	                System.err.println("invalid json for "+main.getLocalName());
+	            } catch (IOException e) {
+                    e.printStackTrace();
+                }
 	        }
 	    }
 
