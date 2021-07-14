@@ -72,17 +72,16 @@ bdr:G488  a                   :Place ;
         :placeLat             "29.63984" ;
         :placeLocatedIn       bdr:G843 ;
         :placeLong            "91.22002" ;
-        :placeRegionPoly      "Some polygon coordinates" ;
         :placeType            bdr:PT0037 ;
         :placeWBArea          "test" ;
         skos:altLabel         "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"@bo , "guán zǐ feng2"@zh-latn-pinyin , "bya pa khri dpon gyi mnga' khongs/"@bo-x-ewts ;
         skos:prefLabel        "guan zi feng"@zh-latn-pinyin-x-ndia , "sman ri'i gling /"@bo-x-ewts .
 
 bdr:EV8FFB31DDE90B0817
-        a                       :PlaceFounded ;
-        :note                   bdr:NT8B8EBE3AF90A7E2F ;
-        :onYear                 "1187"^^xsd:gYear ;
-        :associatedTradition  bdr:TraditionTest , bdr:TraditionKagyu .
+        a                     :PlaceFounded ;
+        :associatedTradition  bdr:TraditionTest , bdr:TraditionKagyu ;
+        :note                 bdr:NT8B8EBE3AF90A7E2F ;
+        :onYear               "1187"^^xsd:gYear .
 
 bda:LG76B6649907E8086A
         a           adm:InitialDataCreation ;

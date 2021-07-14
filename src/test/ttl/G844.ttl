@@ -20,10 +20,10 @@ bdr:NTF2881378713362C4
         :noteText                  "བྱ་པ་ཁྲི་དཔོན་དང་འབྲེལ་བའི་ཆོས་རྒྱལ་བྱ་པའི་ལོ་རྒྱུས་དཔྱིད་ཀྱི་རྒྱལ་མོའི་གླུ་དབྱངས་ཀྱི་ནང་དོན་དང་འབྲེལ་ནས་བཀོད་པ་གསལ།"@bo .
 
 bdr:EV213E4B9AED5E1B57
-        a                       :PlaceFounded ;
-        :note                   bdr:NTE62484A0A1341D9B ;
-        :onYear                 "1187"^^xsd:gYear ;
-        :associatedTradition  bdr:TraditionTest , bdr:TraditionKagyu .
+        a                     :PlaceFounded ;
+        :associatedTradition  bdr:TraditionTest , bdr:TraditionKagyu ;
+        :note                 bdr:NTE62484A0A1341D9B ;
+        :onYear               "1187"^^xsd:gYear .
 
 bda:LGFE2C8100AFEA0961
         a               adm:UpdateData ;
@@ -141,7 +141,6 @@ bdr:G844  a                   :Place ;
         :placeLat             "29.63984" ;
         :placeLocatedIn       bdr:G843 ;
         :placeLong            "91.22002" ;
-        :placeRegionPoly      "Some polygon coordinates" ;
         :placeType            bdr:PT0024 ;
         :placeWBArea          "test" ;
         skos:altLabel         "bya pa khri dpon gyi mnga' khongs/"@bo-x-ewts , "guán zǐ feng2"@zh-latn-pinyin , "འདི་ཕྱག་བཏབ་པའི་དུས་ཚོད་ལ་ལས་༡༡༥༠ལོ་བྲིས་པ་མངོན་མོད། དེ་དུས་ཕྱག་འདེབས་པ།"@bo ;
