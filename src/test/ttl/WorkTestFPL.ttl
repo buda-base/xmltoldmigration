@@ -31,7 +31,7 @@ bda:LGA5551B31379AA57E
 bdr:WAS12345  a             :SerialWork ;
         :isRoot             true ;
         :serialHasInstance  bdr:MW1FPL2837 ;
-        skos:prefLabel      "test pali title"@pi-x-iast .
+        skos:prefLabel      "test pali title"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
 
 bda:LG7BF1159854D07D7C
         a               adm:UpdateData ;

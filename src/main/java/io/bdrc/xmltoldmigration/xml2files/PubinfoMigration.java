@@ -122,15 +122,20 @@ public class PubinfoMigration {
 	    }
 	}
     
-    public static RDFNode getSeriesName(Element root, Model model) {
+    public static List<RDFNode> getSeriesName(Element root, Model model) {
         Literal seriesNameLiteral = null;
         NodeList nodeList = root.getElementsByTagNameNS(WPXSDNS, "seriesName");
         String rid = root.getAttribute("RID");
+        List<RDFNode> res = new ArrayList<>();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             seriesNameLiteral = CommonMigration.getLiteral(current, EWTS_TAG, model, "seriesName", rid, null);
+            if (seriesNameLiteral != null)
+                res.add(seriesNameLiteral);
         }
-        return seriesNameLiteral;
+        if (res.isEmpty())
+            return null;
+        return res;
     }
     
     public static RDFNode getSeriesNumber(Element root, Model model) {
@@ -171,9 +176,11 @@ public class PubinfoMigration {
         addSimpleElement("sourceNote", BDO+"sourceNote", "en", root, m, main);
         addSimpleElement("editionStatement", BDO+"editionStatement", EWTS_TAG, root, m, main);
         
+        final String status = root.getAttribute("status");
+        
         // handle series info        
-        RDFNode seriesName = getSeriesName(root, m);
-        if (seriesName != null) {
+        List<RDFNode> seriesNames = getSeriesName(root, m);
+        if (seriesNames != null) {
             //ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "XXX: "+workRid+": "+seriesName);
             if (mainA == null) {
                 // this is the case where a work is in a series but is also an instance of another abstract work
@@ -193,7 +200,7 @@ public class PubinfoMigration {
                 otherRID = workRid;
             }
             String serialWorkId = CommonMigration.seriesMembersToWorks.get(otherRID);
-            if (serialWorkId == null && !root.getAttribute("status").equals("withdrawn")) { // need to create a SerialWork
+            if (serialWorkId == null && !status.equals("withdrawn")) { // need to create a SerialWork
                 serialWorkId = "WAS" + otherRID.substring(1);
                 CommonMigration.seriesMembersToWorks.put(otherRID, serialWorkId);
                 Model mS = ModelFactory.createDefaultModel();
@@ -202,14 +209,16 @@ public class PubinfoMigration {
                 //WorkMigration.addRedirection(otherRID, serialWorkId, mS);
                 Resource serialWork = createRoot(mS, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialWork);
-                addStatus(mS, admSerialW, "released");
+                addStatus(mS, admSerialW, status);
                 admSerialW.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
                 // put a prefLabel on the serialWork if needed
                 // at this point the label should == null
-                RDFNode serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(serialWorkId);
+                List<RDFNode> serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(serialWorkId);
                 if (serialWorkLabel == null ) {
-                    serialWork.addProperty(SKOS.prefLabel, seriesName);
-                    CommonMigration.seriesMembersToWorkLabels.put(serialWorkId, seriesName);
+                    for (final RDFNode seriesName : seriesNames) {
+                        serialWork.addProperty(SKOS.prefLabel, seriesName);
+                    }
+                    CommonMigration.seriesMembersToWorkLabels.put(serialWorkId, seriesNames);
                 }
                 res.add(serialWork);
             }

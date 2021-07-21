@@ -322,7 +322,7 @@ public class WorkMigration {
                 setPrefixes(mS);
                 serialW = createRoot(mA, BDR+serialWorkId, BDO+"SerialWork");
                 Resource admSerialW = createAdminRoot(serialW);
-                addStatus(mS, admSerialW, "released");
+                addStatus(mS, admSerialW, status);
                 admSerialW.addProperty(mS.getProperty(ADM, "metadataLegal"), mS.createResource(BDA+"LD_BDRC_CC0"));
                 res.add(new WorkModelInfo(serialWorkId, mS));
                 main.addProperty(m.createProperty(BDO, "serialInstanceOf"), m.createResource(BDR+serialWorkId));
@@ -416,16 +416,16 @@ public class WorkMigration {
 		}
 	    // put a prefLabel on the serialW if needed
 	    if (isSeriesMember) {
-	        RDFNode serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(serialWorkId);
+	        List<RDFNode> serialWorkLabel = CommonMigration.seriesMembersToWorkLabels.get(serialWorkId);
 	        if (serialWorkLabel == null ) {
-	            Statement s = mainA.getProperty(SKOS.prefLabel);
-	            if (s == null) {
-	                s = main.getProperty(SKOS.prefLabel);
+	            StmtIterator si = mainA.listProperties(SKOS.prefLabel);
+	            List<RDFNode> newlabels = new ArrayList<>();
+	            while (si.hasNext()) {
+	                RDFNode n = si.next().getObject();
+	                serialW.addProperty(SKOS.prefLabel, n);
+	                newlabels.add(n);
 	            }
-	            if (s != null && serialW != null) { // TODO: why would serialW be null?
-	                serialW.addProperty(SKOS.prefLabel, s.getObject());
-	                CommonMigration.seriesMembersToWorkLabels.put(serialWorkId, s.getObject());
-	            }
+	            CommonMigration.seriesMembersToWorkLabels.put(serialWorkId, newlabels);
 	        }
 	    }
 

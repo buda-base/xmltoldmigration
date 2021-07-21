@@ -92,7 +92,7 @@ public class CommonMigration  {
     public static Map<String, String> manualAbstractClusters = new HashMap<>();
     public static Map<String, String> seriesClusters = new HashMap<>();
     public static final Map<String, String> seriesMembersToWorks = new HashMap<>();
-    public static final Map<String, RDFNode> seriesMembersToWorkLabels = new HashMap<>();
+    public static final Map<String, List<RDFNode>> seriesMembersToWorkLabels = new HashMap<>();
     public static final String BDU = "http://purl.bdrc.io/resource-nc/user/";
 
     static {
