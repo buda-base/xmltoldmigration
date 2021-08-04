@@ -739,7 +739,7 @@ public class PubinfoMigration {
             if (l == null)
                 continue;
             String s = l.getString();
-            if (item != null && (rid.startsWith("MW1NLM") || rid.startsWith("MW1FEMC") || rid.startsWith("MW1EAP") || s.startsWith("Scan") || s.startsWith("scan") || s.startsWith("copy made") || s.startsWith("Copy made"))) {
+            if (item != null && (rid.startsWith("MW1NLM") || rid.startsWith("MW1FEMC") || rid.startsWith("MW1EAP") || s.startsWith("image") || s.startsWith("Scan") || s.startsWith("scan") || s.startsWith("copy made") || s.startsWith("Copy made"))) {
                 item.addProperty(m.createProperty(BDO, "scanInfo"), l);
             } else {
                 main.addProperty(m.createProperty(BDO, "biblioNote"), l);
