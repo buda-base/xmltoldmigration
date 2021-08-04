@@ -375,6 +375,7 @@ public class WorkMigration {
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
+                    CommonMigration.removeWorkModel(aWorkId);
                     addRedirection(aWorkId, otherAbstractRID, mA);
                     // we don't put the has instance property... it would be better conceptually but
                     // it would make the queries slower and harder to write

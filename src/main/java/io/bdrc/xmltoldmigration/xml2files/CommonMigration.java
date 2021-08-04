@@ -18,6 +18,7 @@ import static io.bdrc.libraries.Models.getFacetNode;
 import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -65,6 +66,7 @@ import com.opencsv.CSVReaderBuilder;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.libraries.Models.FacetType;
+import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.EwtsFixer;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -115,6 +117,15 @@ public class CommonMigration  {
         if (abstractClusters.containsKey(possibleWa))
             return abstractClusters.get(possibleWa);
         return null;
+    }
+    
+    public static void removeWorkModel(final String waLname) {
+        final String path = MigrationApp.getDstFileName("work", waLname)+".trig";
+        final File f = new File(path);
+        if (f.isFile()) {
+            System.out.println("deleting "+waLname);
+            f.delete();
+        }
     }
     
     public static final Map<String,String> getClusters(String csvName) {

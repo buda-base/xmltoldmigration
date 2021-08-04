@@ -515,7 +515,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         if (("text".equals(value) || "collection".equals(value)) && !hasShortTitle(e) && isText(e)) {
              //String otherAbstractRID = CommonMigration.abstractClusters.get(ANodeRID);
             String otherAbstractRID = CommonMigration.getConstraintWa(nodeRID, ANodeRID);
-             if (otherAbstractRID == null || otherAbstractRID == ANodeRID) {
+             if (otherAbstractRID == null || otherAbstractRID.equals(ANodeRID)) {
                  Model mA = ModelFactory.createDefaultModel();
                  setPrefixes(mA);
                  res.add(new WorkModelInfo(ANodeRID, mA));
@@ -527,6 +527,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  node.addProperty(m.createProperty(BDO, "instanceOf"), nodeA);
                  nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
              } else {
+                 CommonMigration.removeWorkModel(ANodeRID);
                  SymetricNormalization.addSymetricProperty(m, "instanceOf", nodeRID, otherAbstractRID, null);
                  // removing the old work file if present:
                  String workOutFileName = MigrationApp.getDstFileName("work", ANodeRID)+".trig";
