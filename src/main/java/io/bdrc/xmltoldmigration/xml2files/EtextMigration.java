@@ -488,7 +488,8 @@ public class EtextMigration {
             admItem.addProperty(itemModel.getProperty(ADM, "metadataLegal"), itemModel.createResource(BDA+"LD_BDRC_CC0"));
             // TODO: not sure how it should work...
             //MigrationApp.moveAdminInfo(itemModel, iInstance, admItem);
-            addReleased(itemModel, admItem);
+            if (!itemModel.contains(admItem, itemModel.getProperty(ADM, "status")))
+                addReleased(itemModel, admItem);
             
             if (WorkMigration.workRestrictedInChina.getOrDefault("M"+indicatedWorkId, false)) {
                 admItem.addLiteral(itemModel.getProperty(ADM, "restrictedInChina"), true);
