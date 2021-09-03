@@ -34,7 +34,6 @@ bdr:MW30020_6E8660  a          :Instance ;
         :partOf                bdr:MW30020 ;
         :partTreeIndex         "1" ;
         :partType              bdr:PartTypeVolume ;
-        :workGenre             bdr:T208 ;
         skos:prefLabel         "1 (stod cha)"@bo-x-ewts .
 
 bda:WA0XL74BFE0D47CBB
