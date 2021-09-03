@@ -22,8 +22,10 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -479,15 +481,22 @@ public class MigrationApp
             MigrationHelpers.outputOneModel(itemModel, itemName, itemOutfileName, "iinstance");
         }
     }
+    
+    static final List<String> taxonomies = new ArrayList<>();
+    static {
+        taxonomies.add("O9TAXTBRC201605");
+        taxonomies.add("O3JW5309");
+    }
 
     public static void migrateTaxonomies() {
-        String fileName = XML_DIR+"tbrc-outlines/O9TAXTBRC201605.xml";
-        String baseName = "O9TAXTBRC201605";
-        Document d = MigrationHelpers.documentFromFileName(fileName);
-        Model m = TaxonomyMigration.MigrateTaxonomy(d);
-        String outfileName = OUTPUT_DIR+baseName+".trig";
-        MigrationHelpers.outputOneModel(m, baseName, outfileName, "taxonomy");
-        System.out.println("created taxonomy on "+outfileName);
+        for (final String baseName : taxonomies) {
+            String fileName = XML_DIR+"tbrc-outlines/"+baseName+".xml";
+            Document d = MigrationHelpers.documentFromFileName(fileName);
+            Model m = TaxonomyMigration.MigrateTaxonomy(d);
+            String outfileName = OUTPUT_DIR+baseName+".trig";
+            MigrationHelpers.outputOneModel(m, baseName, outfileName, "taxonomy");
+            System.out.println("created taxonomy on "+outfileName);
+        }
     }
 
     public static void insertMissingSymetricTriples(String type) {
