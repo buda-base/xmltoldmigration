@@ -693,6 +693,7 @@ public class MigrationApp
                 migrateType(TOPIC, "T");
             }
             migrateType(WORK, "W"); // also does pubinfos and imagegroups
+            OutlineMigration.finishWorks();
             if (!exportTitles) {
                 // interestingly, scanrequests don't hold any kind of information...
 //              // migrateType(SCANREQUEST, "SR"); // requires works to be finished
