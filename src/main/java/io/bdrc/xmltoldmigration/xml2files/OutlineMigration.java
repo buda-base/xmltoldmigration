@@ -59,6 +59,9 @@ public class OutlineMigration {
             e.printStackTrace();
         }
     }
+    
+    // topics that should be added at the end
+    public static Map<String,List<String>> worktopics = new HashMap<>();
 	
     public static boolean addWorkHaspart = true;
     public static boolean addWorkPartOf = false;
@@ -66,7 +69,7 @@ public class OutlineMigration {
     public static int nbCollisions = 0;
     public static Map<String,Boolean> outlineUsedRID = new HashMap<>();
     public static Map<String,Boolean> outlineUsedRIDA = new HashMap<>();
-
+    
 	public static Map<String,Boolean> ridsToIgnore = new HashMap<>();
 	public static Map<String,String> ridsToConvert = new HashMap<>();
 	static {
@@ -247,6 +250,7 @@ public class OutlineMigration {
         return null;
 	}
 	
+	
 	public static List<WorkModelInfo> MigrateOutline(Document xmlDocument) {
 	    Model workModel = ModelFactory.createDefaultModel();
 	    MigrationHelpers.setPrefixes(workModel, "work");
@@ -258,7 +262,7 @@ public class OutlineMigration {
 	    List<Element> ancestorCreators = new ArrayList<>();
 	    return MigrateOutline(xmlDocument, workModel, work, ancestorCreators);
 	}
-
+	
 	public static List<WorkModelInfo> MigrateOutline(Document xmlDocument, Model workModel, Resource rootWork, List<Element> ancestorCreators) {
 		Model m;
 		if (splitOutlines) {
@@ -494,6 +498,32 @@ public class OutlineMigration {
         //return workId+"_"+String.format("%04d", partI);
     }
     
+    public static void addTopicsToWorkModels(Model mwa, Resource r) {
+        List<String> topics = worktopics.get(r.getLocalName());
+        if (topics == null)
+            return;
+        for (final String topicStatement : topics) {
+            final String[] topicStatementInfo = topicStatement.split("-");
+            mwa.add(r, mwa.createProperty(BDO, topicStatementInfo[0]), mwa.createResource(BDR+topicStatementInfo[1]));
+        }
+    }
+    
+    public static void finishWorks() {
+        System.out.println("adding missing topic triples in "+worktopics.keySet().size()+" workd");
+        for (Map.Entry<String,List<String>> e : worktopics.entrySet()) {
+            String wa = e.getKey();
+            String inFileName = MigrationApp.getDstFileName("work", wa, ".trig");
+            Model m = MigrationHelpers.modelFromFileName(inFileName);
+            if (m == null) {
+                System.out.println("cannot open "+inFileName+"to write topics");
+                continue;
+            }
+            addTopicsToWorkModels(m, m.createResource(BDR+wa));
+            MigrationHelpers.outputOneModel(m, wa, inFileName, "work");
+        }
+        worktopics = null;
+    }
+    
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
 LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork, List<WorkModelInfo> res, List<Element> ancestorCreators) {
 	    curNode.i = curNode.i+1;
@@ -512,9 +542,10 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             value = "chapter";
         }
         Resource nodeA = null;
+        String otherAbstractRID = null;
         if (("text".equals(value) || "collection".equals(value)) && !hasShortTitle(e) && isText(e)) {
              //String otherAbstractRID = CommonMigration.abstractClusters.get(ANodeRID);
-            String otherAbstractRID = CommonMigration.getConstraintWa(nodeRID, ANodeRID);
+             otherAbstractRID = CommonMigration.getConstraintWa(nodeRID, ANodeRID);
              if (otherAbstractRID == null || otherAbstractRID.equals(ANodeRID)) {
                  Model mA = ModelFactory.createDefaultModel();
                  setPrefixes(mA);
@@ -526,6 +557,8 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
                  node.addProperty(m.createProperty(BDO, "instanceOf"), nodeA);
                  nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
+                 addTopicsToWorkModels(mA, nodeA);
+                 worktopics.remove(nodeA.getLocalName());
              } else {
                  CommonMigration.removeWorkModel(ANodeRID);
                  SymetricNormalization.addSymetricProperty(m, "instanceOf", nodeRID, otherAbstractRID, null);
@@ -605,7 +638,13 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             }
         }
         
-        CommonMigration.addSubjects((nodeA != null) ? nodeA.getModel() : m, (nodeA != null) ? nodeA : node, e, OXSDNS);
+        if (nodeA != null) {
+            CommonMigration.addSubjects(nodeA.getModel(), nodeA, e, OXSDNS);
+        } else if (otherAbstractRID != null) {
+            final List<String> topics = CommonMigration.addSubjects(null, node, e, OXSDNS);
+            if (topics != null)
+                worktopics.put(otherAbstractRID, topics);
+        }
         
         List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "site");
         for (int j = 0; j < nodeList.size(); j++) {

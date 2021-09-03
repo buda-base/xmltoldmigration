@@ -281,6 +281,7 @@ public class WorkMigration {
         
         Model mA = null;
         Resource mainA = null;
+        String otherAbstractRID = null;
         Resource admMainA = null;
         Model mS = null;
         Resource serialW = null;
@@ -357,7 +358,7 @@ public class WorkMigration {
             }
             admMain = createAdminRoot(main);
             if (!status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
-                String otherAbstractRID = CommonMigration.getConstraintWa('M'+workId, aWorkId); 
+                otherAbstractRID = CommonMigration.getConstraintWa('M'+workId, aWorkId); 
                 if (otherAbstractRID == null && !infoParentId.isEmpty()) {
                     otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);
                 }
@@ -430,11 +431,16 @@ public class WorkMigration {
 	        }
 	    }
 
-	    if (mainA != null)
+	    if (mainA != null) {
 	        CommonMigration.addSubjects(mA, mainA, root, WXSDNS);
-	    //else
-	    //    CommonMigration.addSubjects(m, main, root, WXSDNS);
-	        
+	        OutlineMigration.addTopicsToWorkModels(mA, mainA);
+	        OutlineMigration.worktopics.remove(mainA.getLocalName());
+	    }
+	    if (otherAbstractRID != null && !otherAbstractRID.equals(aWorkId)) {
+	        final List<String> topics = CommonMigration.addSubjects(null, main, root, WXSDNS);
+            if (topics != null)
+                OutlineMigration.worktopics.put(otherAbstractRID, topics);
+	    }
 	    
 	    if (main != null) {
     	    Map<String,Model> itemModelsFromDesc = CommonMigration.addDescriptions(m, root, main, WXSDNS, false, mainA);

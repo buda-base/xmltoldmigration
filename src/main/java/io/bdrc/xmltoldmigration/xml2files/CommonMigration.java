@@ -123,7 +123,7 @@ public class CommonMigration  {
         final String path = MigrationApp.getDstFileName("work", waLname)+".trig";
         final File f = new File(path);
         if (f.isFile()) {
-            System.out.println("deleting "+waLname);
+            //System.out.println("deleting "+waLname);
             f.delete();
         }
     }
@@ -1726,10 +1726,12 @@ public class CommonMigration  {
         langTopics.put("T3CN2027", true); // Mongolian
     }
 
-    public static void addSubjects(Model m, Resource main, Element root, String XsdPrefix) {
+    // if m is not null, the triples are added to it, otherwise the local names are returned in a list
+    public static List<String> addSubjects(Model m, Resource main, Element root, String XsdPrefix) {
         List<Element> nodeList = getChildrenByTagName(root, XsdPrefix, "subject");
         boolean needsCommentaryTopic = false;
         boolean hasCommentaryTopic = false;
+        List<String> res = null;
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
             String rid = current.getAttribute("class").trim();
@@ -1740,7 +1742,7 @@ public class CommonMigration  {
             if (langTopics.containsKey(rid))
                 continue;
             String value = current.getAttribute("type").trim();
-            String prop = null;
+            String propLname = null;
             switch (value) {
             case "isAboutPerson":
             case "isAboutCorporation":
@@ -1749,32 +1751,32 @@ public class CommonMigration  {
             case "isAboutClan":
             case "isAboutSect":
             case "isAboutText":
-                prop = BDO+"workIsAbout";
+                propLname = "workIsAbout";
                 break;
             case "isAboutControlled":
             case "isAboutUncontrolled":
-                prop = BDO+"workIsAbout";
+                propLname = "workIsAbout";
                 break;
             case "isInstanceOfGenre":
             case "isInstanceOf":
                 if (!value.startsWith("T"))
-                    prop = BDO+"workIsAbout";
+                    propLname = "workIsAbout";
                 else
-                    prop = BDO+"workGenre";
+                    propLname = "workGenre";
                 break;
             case "isCommentaryOn":
-                prop = BDO+"workIsAbout";
+                propLname = "workIsAbout";
                 needsCommentaryTopic = true;
                 break;
             default:
-                prop = BDO+"workIsAbout";
+                propLname = "workIsAbout";
                 break;
             }
             // what previously happened doesn't matter, it's all, an illusion
             if (genreTopics.containsKey(rid)) {
-                prop = BDO+"workGenre"; 
+                propLname = "workGenre"; 
             } else {
-                prop = BDO+"workIsAbout";
+                propLname = "workIsAbout";
             }
             rid = MigrationHelpers.sanitizeRID(main.getLocalName(), value, rid);
             if (!MigrationHelpers.isDisconnected(rid)) {
@@ -1784,12 +1786,25 @@ public class CommonMigration  {
                     if (otherAbstractRID != null)
                         rid = otherAbstractRID;
                 }
-                m.add(main, m.getProperty(prop), m.createResource(BDR+rid));
+                if (m == null) {
+                    if (res == null)
+                        res = new ArrayList<>();
+                    res.add(propLname+"-"+rid);
+                } else {
+                    m.add(main, m.getProperty(BDO+propLname), m.createResource(BDR+rid));
+                }
             }
         }
         if (needsCommentaryTopic && !hasCommentaryTopic) {
-            m.add(main, m.getProperty(BDO, "workGenre"), m.createResource(BDR+"T132"));
+            if (m == null) {
+                if (res == null)
+                    res = new ArrayList<>();
+                res.add("workGenre-T132");
+            } else {
+                m.add(main, m.getProperty(BDO, "workGenre"), m.createResource(BDR+"T132"));
+            }
         }
+        return res;
     }
 
     private static int addLocationIntOrString(Model m, Resource main, Resource loc, Element current, String attributeName, String propname, Integer doNotAddIfEquals) {
