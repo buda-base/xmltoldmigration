@@ -41,11 +41,17 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDF;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.Repository;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.opencsv.CSVWriter;
 
+import io.bdrc.libraries.GitHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
@@ -600,6 +606,30 @@ public class MigrationApp
         }
     }
 
+    public static Set<String> getChanges(String type) {
+        Repository r = GitHelpers.typeRepo.get(type);
+        if (r == null) {
+            System.out.println("getChanges DID NOT FIND REPO FOR " + type);
+            return null;
+        }
+        Git git = new Git(r);
+        Status status;
+        Set<String> res = new HashSet<>();
+        try {
+            status = git.status().call();
+        } catch (NoWorkTreeException | GitAPIException e) {
+            e.printStackTrace();
+            git.close();
+            return null;
+        }
+        res.addAll(status.getModified());
+        res.addAll(status.getAdded());
+        res.addAll(status.getRemoved());
+        git.close();
+        return res;
+    }
+    
+    
     public static void finishType(String type) {
         Set<String> modifiedFiles = getChanges(type);
         if (modifiedFiles == null)
