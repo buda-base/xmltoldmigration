@@ -113,6 +113,26 @@ public class MigrationTest
 	    return convertedValue;
 	}
 	
+	public void assertAbstractTitle(final String title, final String expected, final Model m) {
+	    final Literal origL = m.createLiteral(title, "bo-x-ewts");
+	    final Literal translformedL = CommonMigration.abstractTitle(origL, m);
+	    System.out.println(translformedL.getString());
+	    assert(expected.equals(translformedL.getString()));
+	}
+	
+	@Test
+	public void testAbstractTitle() {
+	    Model m = ModelFactory.createDefaultModel();
+	    assertAbstractTitle("test bzhugs so", "test/", m);
+	    assertAbstractTitle("test bzhugs so/", "test/", m);
+	    assertAbstractTitle("test bzhugs so/", "test/", m);
+	    assertAbstractTitle("(ya) yang bzlog 'phyong /", "yang bzlog 'phyong /", m);
+	    assertAbstractTitle("(ya)_gsang ba sbas ston las/_sman gyi gzhung shes yig chung /（phyi/_kha/_85）", "gsang ba sbas ston las/_sman gyi gzhung shes yig chung /", m);
+	    assertAbstractTitle("(ya)bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/", "bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/", m);
+	    assertAbstractTitle("4)_nyams ldan sogs kha shas kyi rtsom dpe/", "nyams ldan sogs kha shas kyi rtsom dpe/", m);
+	    assertAbstractTitle("ka1)_bshad bya gzhung gi rang bzhin ngos bzung ba/", "bshad bya gzhung gi rang bzhin ngos bzung ba/", m);
+	}
+	
 	@Test
 	public void testGetLiteral() {
         try {

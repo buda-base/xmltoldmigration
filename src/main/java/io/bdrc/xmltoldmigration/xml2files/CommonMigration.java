@@ -1586,9 +1586,11 @@ public class CommonMigration  {
             // "(ya)bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/"
             String s = l.getString().trim();
             s = s.replaceAll("_? ?[\\(（][^\\)）༽]+[\\)）༽]", "");
-            s = s.replaceAll("^[^ ]+\\)_?", "");
+            s = s.replaceAll(" bzhugs so ?/?$", "");
+            s = s.replaceAll("^[^ ]+\\)[_ ]?", "");
             s = s.replaceAll(" *\" *", "");
             s = s.replaceAll("^_+", "");
+            s = addEwtsShad(s.trim());
             return m.createLiteral(s, l.getLanguage());
         }
         return l;
