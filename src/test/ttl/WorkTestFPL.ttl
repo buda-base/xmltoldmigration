@@ -72,6 +72,8 @@ bdr:TT2CE1832997E074F6
 
 bdr:EV836983BDFBDCF03A
         a           :CompletedEvent ;
+        :notAfter   "1799"^^xsd:gYear , "1999"^^xsd:gYear ;
+        :notBefore  "1700"^^xsd:gYear , "1990"^^xsd:gYear ;
         :onOrAbout  "descriptionwithtypedate" ;
         :onYear     "1232"^^xsd:gYear .
 

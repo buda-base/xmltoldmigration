@@ -264,7 +264,12 @@ public class CommonMigration  {
             return;
         final Model m = event.getModel();
         if (dateStr.endsWith("?")) {
-            dateStr = dateStr.substring(0, dateStr.length()-1);
+            if (dateStr.length() < 5 && dateStr.startsWith("1")) {
+                dateStr = dateStr.replace("?", "u");
+                dateStr = dateStr.replace("-", "u");
+            } else {
+                dateStr = dateStr.substring(0, dateStr.length()-1);
+            }
         }
         if (dateStr.charAt(1) == '.') { // for b., d. and c. 
             dateStr = dateStr.substring(2);
