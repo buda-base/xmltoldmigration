@@ -16,7 +16,7 @@ bdr:W0CDL0MS-ADD-01691-00003
         a                        :ImageInstance ;
         :inCollection            bdr:PR0CDL01 ;
         :instanceHasVolume       bdr:I0CDL0MS-ADD-01691-00003 ;
-        :instanceOf              bdr:WA0RT1946 ;
+        :instanceOf              bdr:WA0RTI1946 ;
         :instanceReproductionOf  bdr:MW0CDL0MS-ADD-01691-00003 ;
         :isRoot                  true .
 
@@ -44,7 +44,7 @@ bdr:MW0CDL0MS-ADD-01691-00003
         :dimWidth                 27.5 ;
         :hasTitle                 bdr:TT1ACFA685925520E4 ;
         :instanceHasReproduction  bdr:W0CDL0MS-ADD-01691-00003 ;
-        :instanceOf               bdr:WA0RT1946 ;
+        :instanceOf               bdr:WA0RTI1946 ;
         :isRoot                   true ;
         :material                 bdr:MaterialPalmyraPalmLeaf ;
         :printMethod              bdr:PrintMethod_Manuscript ;
@@ -57,11 +57,11 @@ bda:W0CDL0MS-ADD-01691-00003
         a                      adm:AdminData ;
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:W0CDL0MS-ADD-01691-00003 ;
-        adm:metadataLegal      bda:LD_CUDL_metadata ;
         adm:contentLegal       bda:LD_CUDL_content ;
         adm:gitPath            "6f/W0CDL0MS-ADD-01691-00003.trig" ;
         adm:gitRepo            bda:GR0014 ;
         adm:graphId            bdg:W0CDL0MS-ADD-01691-00003 ;
+        adm:metadataLegal      bda:LD_CUDL_metadata ;
         adm:restrictedInChina  false ;
         adm:status             bda:StatusReleased ;
         :isRoot                true .

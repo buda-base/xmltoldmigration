@@ -15,7 +15,7 @@
 bdr:IE0GR0001  a        :EtextInstance ;
         :hasTitle       bdr:TTFDD5AB6556F5F9F8 ;
         :inCollection   bdr:PR0GR01 ;
-        :instanceOf     bdr:WA0RT1961 ;
+        :instanceOf     bdr:WA0RTI1961 ;
         :isRoot         true ;
         :note           bdr:NT4FED036864251590 , bdr:NT4FA903F4925E71A1 ;
         skos:altLabel   "Niṣpannayogāvali"@sa-x-iast ;

@@ -128,7 +128,7 @@ public class NSITransfer {
         addReleased(workModel, admWork);
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), workModel.createResource(BDA + "LD_BDRC_CC0"));
 
-        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[19]);
+        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[19], true);
         Model mA = null;
         Resource workA = null;
         Resource admWorkA = null;

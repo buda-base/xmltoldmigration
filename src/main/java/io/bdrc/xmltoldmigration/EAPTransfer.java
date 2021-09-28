@@ -121,11 +121,11 @@ public class EAPTransfer {
         MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), rOutfileName, "iinstance");
     }
 
-    public static final String rKTsToBDR(String rKTs) {
+    public static final String rKTsToBDR(String rKTs, boolean indicversion) {
         if (rKTs == null || rKTs.isEmpty() || rKTs.contains("?") || rKTs.contains("&") || rKTs.contains("/"))
             return null;
         rKTs = rKTs.trim();
-        if (rKTsRIDMap.containsKey(rKTs)) {
+        if (indicversion && rKTsRIDMap.containsKey(rKTs)) {
             return rKTsRIDMap.get(rKTs);
         }
         String rktsid = null;
@@ -135,9 +135,9 @@ public class EAPTransfer {
             return null;
         }
         if (rKTs.startsWith("K")) {
-            return "WA0RK"+rktsid;
+            return "WA0RK"+(indicversion?"I":"")+rktsid;
         }
-        return "WA0RT"+rktsid;
+        return "WA0RT"+(indicversion?"I":"")+rktsid;
     }
 
 
@@ -150,7 +150,7 @@ public class EAPTransfer {
         Resource work = createRoot(workModel, BDR+'M'+RID, BDO+"Instance");
         res.add(work);
 
-        String abstractWorkRID = rKTsToBDR(line[15]);
+        String abstractWorkRID = rKTsToBDR(line[15], true);
         Model mA = null;
         Resource workA = null;
         Resource admWorkA = null;

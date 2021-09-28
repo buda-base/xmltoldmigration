@@ -15,6 +15,7 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 adr:PRA99NCUL01  a                     aut:Subscriber ;
+        rdfs:comment                   "summary"@en ;
         aut:hasIPAddress               "ip6" ;
         aut:subscriberHasOrganization  adr:SO95CA562F294CE8DD , adr:SOD5AEB2074913C0AD ;
         skos:prefLabel                 "This or that"@en .

@@ -115,7 +115,7 @@ public class CUDLTransfer {
         final String origUrl = ORIG_URL_BASE+line[0];
         workModel.add(admWork, workModel.createProperty(ADM, "originalRecord"), workModel.createTypedLiteral(origUrl, XSDDatatype.XSDanyURI));        
         
-        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[4]);
+        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[4], true);
         Model mA = null;
         Resource workA = null;
         Resource admWorkA = null;

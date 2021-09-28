@@ -100,7 +100,7 @@ public class HodgsonTransfer {
         res.add(work);
         
         
-        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[5]);
+        String abstractWorkRID = EAPTransfer.rKTsToBDR(line[5], true);
 
         Model mA = null;
         Resource workA = null;
