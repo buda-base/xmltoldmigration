@@ -159,7 +159,7 @@ public class EAPTransfer {
             mA = ModelFactory.createDefaultModel();
             setPrefixes(mA);
             workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
-            admWorkA = createAdminRoot(work);
+            admWorkA = createAdminRoot(workA);
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
