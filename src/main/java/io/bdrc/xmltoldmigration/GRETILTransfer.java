@@ -100,7 +100,7 @@ public class GRETILTransfer {
             if(rkts.contains(",")) {
                 rkts=rkts.substring(0,rkts.indexOf(","));
             }
-            abstractWorkRID = EAPTransfer.rKTsToBDR(line[2]);
+            abstractWorkRID = EAPTransfer.rKTsToBDR(line[2], true);
         }
         if (abstractWorkRID != null) {
             SymetricNormalization.addSymetricProperty(workModel, "instanceOf", line[0], abstractWorkRID, null);
@@ -109,6 +109,8 @@ public class GRETILTransfer {
             setPrefixes(mA);
             workA = createRoot(mA, BDR+"WA"+line[0].substring(2), BDO+"Work");
             res.add(workA);
+            work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
+            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             addStatus(mA, workA, "released");
             admWorkA = createAdminRoot(workA);
             addReleased(mA, admWorkA);
