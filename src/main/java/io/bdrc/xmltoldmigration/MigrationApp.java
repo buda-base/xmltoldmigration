@@ -360,9 +360,9 @@ public class MigrationApp
                         }
                     }
                     
-                    itemModel.add(item, itemModel.getProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
+                    itemModel.add(item, itemModel.getProperty(BDO, "numberOfVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
                     if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
-                        item.addProperty(itemModel.getProperty(BDO, "itemMissingVolumes"), imageGroups.missingVolumes);
+                        item.addProperty(itemModel.getProperty(BDO, "missingVolumes"), imageGroups.missingVolumes);
                     if (WorkMigration.addItemForWork) {
                         itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + 'M'+baseName));
                     }

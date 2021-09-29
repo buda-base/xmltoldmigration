@@ -232,6 +232,7 @@ public class NSITransfer {
         
         // Item for Work
         Resource item = createRoot(itemModel, BDR+itemRID, BDO+"ImageInstance");
+        itemModel.add(item, itemModel.createProperty(BDO, "numberOfVolumes"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         res.add(item);
         Resource product = itemModel.createResource(BDR+"PR1NEPAL00");
         item.addProperty(itemModel.createProperty(BDO, "inCollection"), product);

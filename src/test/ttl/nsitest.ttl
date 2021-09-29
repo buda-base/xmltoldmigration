@@ -49,6 +49,7 @@ bdr:W1NPL1  a                    :ImageInstance ;
         :instanceHasVolume       bdr:I1NPL1 ;
         :instanceOf              bdr:WA1NPL1 ;
         :instanceReproductionOf  bdr:MW1NPL1 ;
+        :numberOfVolumes         1 ;
         :isRoot                  true ;
         :scanInfo                "Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive."@en .
 

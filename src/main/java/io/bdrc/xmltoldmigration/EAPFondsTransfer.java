@@ -263,7 +263,7 @@ public class EAPFondsTransfer {
             itemModel.add(admVol, RDF.type, itemModel.createResource(ADM+"AdminData"));
             numVol++;
         }
-        itemModel.add(item, itemModel.createProperty(BDO, "itemVolumes"), itemModel.createTypedLiteral(numVol));
+        itemModel.add(item, itemModel.createProperty(BDO, "numberOfVolumes"), itemModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
         workModel.add(work, workModel.createProperty(BDO, "numberOfVolumes"), workModel.createTypedLiteral(numVol, XSDDatatype.XSDinteger));
     }
 
