@@ -646,7 +646,7 @@ public class WorkMigration {
             List<String> missingVolumes = new ArrayList<>();
             for (int j = 0; j < volumes.getLength(); j++) {
                 // just adding an item if we have a volume list
-                if (j == 0) {
+                if (j == 0 && !MigrationHelpers.removeW.containsKey(root.getAttribute("RID"))) {
                     String itemRid = BDR+"W"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                     Resource item = m.createResource(itemRid);
                     if (WorkMigration.addWorkHasItem)

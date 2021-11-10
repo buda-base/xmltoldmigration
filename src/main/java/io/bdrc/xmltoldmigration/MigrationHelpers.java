@@ -151,6 +151,8 @@ public class MigrationHelpers {
     public static final Map<String, Boolean> nokForLending;
     public static final Map<String, String> ridReplacements;
     public static final Map<String, String> tol;
+    public static final Map<String, String> instanceClusters;
+    public static final Map<String, Boolean> removeW;
     
     public static final Map<String, Boolean> ricrid;
 
@@ -162,7 +164,8 @@ public class MigrationHelpers {
             e.printStackTrace();
         }
         
-        
+        instanceClusters = setupInstanceClusters();
+        removeW = setupRemoveW();
         disconnectedRIds = setupDisconnectedRIDs();
         nokForLending = setupNokForLending();
         ricrid = setupRICRID();
@@ -303,6 +306,38 @@ public class MigrationHelpers {
         return res;
     }
 
+    public static Map<String, Boolean> setupRemoveW() {
+        final Map<String,Boolean> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("femc-removeW.csv");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while(reader.ready()) {
+                 String line = reader.readLine();
+                 res.put(line, true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
+    public static Map<String, String> setupInstanceClusters() {
+        final Map<String,String> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("instance-clusters.csv");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while(reader.ready()) {
+                String[] line = reader.readLine().split(",");
+                res.put(line[0], line[1]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
     public static void writeRIDReplacements(String filename) {
         PrintWriter writer;
         try {
