@@ -1197,7 +1197,7 @@ public class CommonMigration  {
                 subjCode = pieces[len-2]+"_"+subjCode;
             }
             String subjId = "FEMC_Scheme_"+subjCode;
-            rez.addProperty(m.getProperty(BDO, "workIsAbout"), m.createResource(BDR+subjId));
+            //rez.addProperty(m.getProperty(BDO, "workIsAbout"), m.createResource(BDR+subjId));
             return true;
         } else if (type.equals("filmCanister")) {
             Property mfp = m.getProperty(BDO+"microfilmItem");
