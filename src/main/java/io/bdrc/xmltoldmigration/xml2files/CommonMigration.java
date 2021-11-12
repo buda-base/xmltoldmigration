@@ -1185,7 +1185,8 @@ public class CommonMigration  {
             rez.addProperty(m.getProperty(BDO, "workKDPPOldId"), value);
             return true;
         } else if (type.equals("femcManuscriptCode")) {
-            rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
+            addIdentifier(rez, "http://purl.bdrc.io/resource/FEMCManuscriptCode", normalizeString(value)); 
+            //rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
             String[] pieces = value.split("\\.");
             int len = pieces.length;
             String subjCode = pieces[len-1];
