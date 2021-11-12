@@ -250,6 +250,7 @@ public class MigrationApp
             Document workD = d;
             Element root = d.getDocumentElement();
             MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
+            String redirectionInstanceId = MigrationHelpers.instanceClusters.get(root.getAttribute("RID"));
             String workOutFileName = getDstFileName("instance", 'M'+baseName);
             if (!MigrationHelpers.mustBeMigrated(root, "instance", root.getAttribute("status"))) {
                 // case of released outlines of withdrawn works (ex: O1GS129876 / W18311)
@@ -362,15 +363,17 @@ public class MigrationApp
                         instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "serialInstanceOf"));
                     if (item != null) {
                         if (WorkMigration.addWorkHasItem) {
-                            m.add(workR, m.getProperty(BDO, "instanceHasReproduction"), m.createResource(BDR + itemName));
-                            if (abstractMI != null && instanceOfR != null && abstractMI.resourceName.equals(instanceOfR.getLocalName())) {
-                                Resource abstractW = abstractMI.m.createResource(BDR+abstractMI.resourceName);
-                                abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
-                                itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractMI.resourceName));
-                            } else {
-                                String otherAbstractRID = CommonMigration.getConstraintWa('M'+baseName, WorkMigration.getAbstractForRid(baseName)); 
-                                if (otherAbstractRID != null)
-                                    SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemName, otherAbstractRID, null);
+                            if (redirectionInstanceId == null) {
+                                m.add(workR, m.getProperty(BDO, "instanceHasReproduction"), m.createResource(BDR + itemName));
+                                if (abstractMI != null && instanceOfR != null && abstractMI.resourceName.equals(instanceOfR.getLocalName())) {
+                                    Resource abstractW = abstractMI.m.createResource(BDR+abstractMI.resourceName);
+                                    abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
+                                    itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractMI.resourceName));
+                                } else {
+                                    String otherAbstractRID = CommonMigration.getConstraintWa('M'+baseName, WorkMigration.getAbstractForRid(baseName)); 
+                                    if (otherAbstractRID != null)
+                                        SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemName, otherAbstractRID, null);
+                                }
                             }
                         }
                         
@@ -378,7 +381,10 @@ public class MigrationApp
                         if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                             item.addProperty(itemModel.getProperty(BDO, "missingVolumes"), imageGroups.missingVolumes);
                         if (WorkMigration.addItemForWork) {
-                            itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + 'M'+baseName));
+                            if (redirectionInstanceId == null)
+                                itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + 'M'+baseName));
+                            else
+                                itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + redirectionInstanceId));
                         }
                         
                         // workHasItem already added in WorkMigration
@@ -520,13 +526,16 @@ public class MigrationApp
         }
     }
 
-    public static void insertMissingSymetricTriples(String type) {
+    public static void insertMissingSymetricTriples(final String type) {
         if (!SymetricNormalization.triplesToAdd.isEmpty()) {
             System.out.println("adding missing symetric triples in "+SymetricNormalization.triplesToAdd.size()+" files");
             for (String s : SymetricNormalization.triplesToAdd.keySet()) {
                 // System.out.println("adding triples in "+s);
                 // System.out.println(SymetricNormalization.triplesToAdd.get(s));
-                String inFileName = getDstFileName(type, s, ".trig");
+                String thistype = type;
+                if (s.startsWith("MW"))
+                    thistype = "instance";
+                String inFileName = getDstFileName(thistype, s, ".trig");
                 Model m = MigrationHelpers.modelFromFileName(inFileName);
                 if (m == null) {
                     Map<String,List<String>> o = SymetricNormalization.triplesToAdd.get(s);
@@ -535,7 +544,7 @@ public class MigrationApp
                     continue;
                 }
                 SymetricNormalization.insertMissingTriplesInModel(m, s, false);
-                MigrationHelpers.outputOneModel(m, s, inFileName, type);
+                MigrationHelpers.outputOneModel(m, s, inFileName, thistype);
             }
         }
     }

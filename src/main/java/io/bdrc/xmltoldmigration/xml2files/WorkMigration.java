@@ -289,6 +289,12 @@ public class WorkMigration {
         Resource admMain = null;
         String serialWorkId = "";
         boolean canonicalConceptualWork = false;
+        String redirectionInstanceId = MigrationHelpers.instanceClusters.get(workId);
+        
+        if (redirectionInstanceId != null) {
+            status = "withdrawn";
+            addRedirection("M"+workId, redirectionInstanceId, m);
+        }
        
         if (isSeriesMember && !status.equals("withdrawn")) {
             String otherMemberRID = CommonMigration.seriesClusters.get(workId);
@@ -357,7 +363,7 @@ public class WorkMigration {
                 res.add(new WorkModelInfo('M'+workId, m));
             }
             admMain = createAdminRoot(main);
-            if (!status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
+            if (redirectionInstanceId == null && !status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
                 otherAbstractRID = CommonMigration.getConstraintWa('M'+workId, aWorkId); 
                 if (otherAbstractRID == null && !infoParentId.isEmpty()) {
                     otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);
@@ -649,8 +655,12 @@ public class WorkMigration {
                 if (j == 0 && !MigrationHelpers.removeW.containsKey(root.getAttribute("RID"))) {
                     String itemRid = BDR+"W"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                     Resource item = m.createResource(itemRid);
-                    if (WorkMigration.addWorkHasItem)
-                        m.add(main, m.getProperty(BDO, "instanceHasReproduction"), item);
+                    if (WorkMigration.addWorkHasItem) {
+                        if (redirectionInstanceId == null)
+                            m.add(main, m.getProperty(BDO, "instanceHasReproduction"), item);
+                        else
+                            SymetricNormalization.addSymetricTriple("instanceHasReproduction", redirectionInstanceId, item.getLocalName());
+                    }
                 }
                 // then curate the volume list to add missing volumes
                 Element volume = (Element) volumes.item(j);
@@ -688,6 +698,7 @@ public class WorkMigration {
             //exportTitleInfo(m);
         }
         SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
+        SymetricNormalization.insertMissingTriplesInModel(m, "M"+root.getAttribute("RID"));
 		return res;
 	}
 	
