@@ -735,6 +735,8 @@ public class MigrationApp
         }
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
+        // needs to be done first
+        FEMCTransfer.transferFEMCWorks();
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondence, for externals
         if (!noXmlMigration) {
             migrateType(OUTLINE, "O");
