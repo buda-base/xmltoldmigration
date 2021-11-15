@@ -59,7 +59,6 @@ bdr:ID011BF57819D67C4D
 bdr:MW1FEMC010006  a      :Instance ;
         bf:identifiedBy   bdr:IDAAA4A0E91BB9C634 , bdr:ID011BF57819D67C4D ;
         :hasFascicles     "2, 7, 8, 10, 11" ;
-        :hasInstanceNum   "1" ;
         :hasTitle         bdr:TT008B758142301FF1 , bdr:TT11AA6B09252B9225 , bdr:TTDDC4AE34F5AA838F , bdr:TT9F5DB6BC1BDA7180 ;
         :isComplete       false ;
         :isRoot           true ;

@@ -363,7 +363,7 @@ public class WorkMigration {
                 res.add(new WorkModelInfo('M'+workId, m));
             }
             admMain = createAdminRoot(main);
-            if (redirectionInstanceId == null && !status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
+            if (redirectionInstanceId == null && !status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && (!workId.startsWith("W1FEMC") || CommonMigration.getConstraintWa('M'+workId, aWorkId) != null)) {
                 otherAbstractRID = CommonMigration.getConstraintWa('M'+workId, aWorkId); 
                 if (otherAbstractRID == null && !infoParentId.isEmpty()) {
                     otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);
@@ -383,7 +383,8 @@ public class WorkMigration {
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
                     CommonMigration.removeWorkModel(aWorkId);
-                    addRedirection(aWorkId, otherAbstractRID, mA);
+                    if (!workId.startsWith("W1FEMC"))
+                        addRedirection(aWorkId, otherAbstractRID, mA);
                     // we don't put the has instance property... it would be better conceptually but
                     // it would make the queries slower and harder to write
                     //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);

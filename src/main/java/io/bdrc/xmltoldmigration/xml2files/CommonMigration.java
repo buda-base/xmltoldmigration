@@ -1249,7 +1249,7 @@ public class CommonMigration  {
         } else if (type.equals("fascicles")) {
             rez.addProperty(m.getProperty(BDO+"hasFascicles"), value);
         } else if (type.equals("workNum")) {
-            rez.addProperty(m.getProperty(BDO+"hasInstanceNum"), value);
+            //rez.addProperty(m.getProperty(BDO+"hasInstanceNum"), value);
         }
 
         return false;
