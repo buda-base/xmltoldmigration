@@ -1452,15 +1452,15 @@ public class CommonMigration  {
         
         if (lang.equals("khmer")) {
             if (roman) {
-                tag = prem ? "km-x-kmpre20c-kmfemc" : "km-x-kmfemc" ;
+                tag = "km-x-twktt" ; //prem ? "km-x-kmpre20c-twktt"  ;
             } else {
-                tag = prem ? "km-x-kmpre20c" : "km" ;
+                tag = "km" ; //prem ? "km-x-kmpre20c" : "km" ;
             }
         } else if (lang.equals("pāli")) {
             if (roman) {
-                tag = prem ? "pi-x-kmpre20c-kmfemc" : "pi-x-kmfemc" ;
+                tag = "pi-x-twktt" ; //prem ? "pi-x-kmpre20c-twktt" : "pi-x-twktt" ;
             } else {
-                tag = prem ? "pi-khmr-x-kmpre20c" : "pi-khmr" ;
+                tag = "pi-khmr" ; // prem ? "pi-khmr-x-kmpre20c" : "pi-khmr" ;
             }
         }
         
