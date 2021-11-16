@@ -618,8 +618,10 @@ public class WorkMigration {
                            (value.equals("PR1FEMC02") ? m.createResource(BDR+"W1FEMC02") : m.createResource(BDA+value));
                     note.addProperty(m.getProperty(BDO+"noteSource"), cat);
                 } else {
-                    List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
-                    worksForProduct.add(workId);
+                    if (!MigrationHelpers.removeW.containsKey(workId)) {
+                        List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
+                        worksForProduct.add(workId);
+                    }
                 }
             }
             
