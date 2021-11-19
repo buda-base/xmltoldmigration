@@ -27,10 +27,10 @@ bdr:EVB25CDA7F05164BEA
         :notBefore   "1734"^^xsd:gYear .
 
 bdr:EVE1C8F77F6AFC308F
-        a                 :PersonBirth ;
-        :eventWhere       bdr:G967 ;
-        :onYear           "1308"^^xsd:gYear ;
-        :personEventRole  bdr:R123 .
+        a            :PersonBirth ;
+        :eventWhere  bdr:G967 ;
+        :onYear      "1308"^^xsd:gYear ;
+        :role        bdr:R123 .
 
 bdr:NM00B857229AAA1BF0
         a           :PersonOtherName ;

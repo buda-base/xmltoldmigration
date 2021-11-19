@@ -138,6 +138,8 @@ public class OutlineMigration {
         ridsToIgnore.put("O5TAX001", true);
         ridsToIgnore.put("O5TAX008", true);
         ridsToIgnore.put("O4JW5431", true);
+        ridsToIgnore.put("O4CTX301", true);
+        ridsToIgnore.put("O3JW5283", true);
         
         // Kangyurs & Tengyurs
         ridsToIgnore.put("O1GS12980", true);
@@ -243,7 +245,7 @@ public class OutlineMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String workId = current.getAttribute("work").trim();
-            if (!workId.isEmpty())
+            if (workId.startsWith("W"))
                 return 'M'+workId;
         }
         ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "type", "missing work ID, cannot migrate outline");

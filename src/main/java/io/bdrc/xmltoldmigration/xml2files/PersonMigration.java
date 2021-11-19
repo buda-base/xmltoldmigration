@@ -339,7 +339,7 @@ public class PersonMigration {
         nodeList = e.getElementsByTagNameNS(PXSDNS, "office");
         for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
             Element current = (Element) nodeList.item(i1);
-            Property prop = m.getProperty(BDO, "personEventRole");
+            Property prop = m.getProperty(BDO, "role");
             String pid = current.getAttribute("pid").trim();
             pid = MigrationHelpers.sanitizeRID(person.getLocalName(), "event/office", pid);
             Resource r = m.createResource(BDR+pid);

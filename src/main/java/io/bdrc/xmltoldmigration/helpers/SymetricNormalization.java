@@ -84,6 +84,8 @@ public class SymetricNormalization {
         propInfos.put("personHasConsort", new SymetryInfo("personHasConsort", 2));
         propInfos.put("personTeacherOf", new SymetryInfo("personStudentOf", manyInt));
         propInfos.put("personStudentOf", new SymetryInfo("personTeacherOf", oneInt));
+        //propInfos.put("instanceHasReproduction", new SymetryInfo("instanceReproductionOf", manyInt));
+        //propInfos.put("instanceReproductionOf", new SymetryInfo("instanceHasReproduction", oneInt));        
     }
     
     public static SymetryInfo getKinSymInfo(String prop, int gender) {
@@ -239,6 +241,12 @@ public class SymetricNormalization {
                 objectsToAdd.add(sourceName);
             }
         }
+    }
+    
+    public static void addSymetricTriple(final String propertyName, final String sourceName, final String destName) {
+            Map<String,List<String>> triplesToAddForSrc = triplesToAdd.computeIfAbsent(sourceName, (x -> new HashMap<String,List<String>>()));
+            List<String> objectsToAdd = triplesToAddForSrc.computeIfAbsent(propertyName, (x -> new ArrayList<String>()));
+            objectsToAdd.add(destName);
     }
     
     public static void insertMissingTriplesInModel(final Model m, final String resourceName) {

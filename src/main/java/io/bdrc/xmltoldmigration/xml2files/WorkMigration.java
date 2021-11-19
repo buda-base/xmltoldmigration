@@ -289,6 +289,12 @@ public class WorkMigration {
         Resource admMain = null;
         String serialWorkId = "";
         boolean canonicalConceptualWork = false;
+        String redirectionInstanceId = MigrationHelpers.instanceClusters.get(workId);
+        
+        if (redirectionInstanceId != null) {
+            status = "withdrawn";
+            addRedirection("M"+workId, redirectionInstanceId, m);
+        }
        
         if (isSeriesMember && !status.equals("withdrawn")) {
             String otherMemberRID = CommonMigration.seriesClusters.get(workId);
@@ -357,7 +363,7 @@ public class WorkMigration {
                 res.add(new WorkModelInfo('M'+workId, m));
             }
             admMain = createAdminRoot(main);
-            if (!status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && !workId.startsWith("W1FEMC")) {
+            if (redirectionInstanceId == null && !status.equals("withdrawn") && !workId.startsWith("W1EAP") && !workId.startsWith("W1FPL") && (!workId.startsWith("W1FEMC") || CommonMigration.getConstraintWa('M'+workId, aWorkId) != null)) {
                 otherAbstractRID = CommonMigration.getConstraintWa('M'+workId, aWorkId); 
                 if (otherAbstractRID == null && !infoParentId.isEmpty()) {
                     otherAbstractRID = WorkMigration.getAbstractForRid(infoParentId);
@@ -377,7 +383,8 @@ public class WorkMigration {
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
                     CommonMigration.removeWorkModel(aWorkId);
-                    addRedirection(aWorkId, otherAbstractRID, mA);
+                    if (!workId.startsWith("W1FEMC"))
+                        addRedirection(aWorkId, otherAbstractRID, mA);
                     // we don't put the has instance property... it would be better conceptually but
                     // it would make the queries slower and harder to write
                     //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
@@ -611,8 +618,10 @@ public class WorkMigration {
                            (value.equals("PR1FEMC02") ? m.createResource(BDR+"W1FEMC02") : m.createResource(BDA+value));
                     note.addProperty(m.getProperty(BDO+"noteSource"), cat);
                 } else {
-                    List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
-                    worksForProduct.add(workId);
+                    if (!MigrationHelpers.removeW.containsKey(workId)) {
+                        List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
+                        worksForProduct.add(workId);
+                    }
                 }
             }
             
@@ -646,11 +655,15 @@ public class WorkMigration {
             List<String> missingVolumes = new ArrayList<>();
             for (int j = 0; j < volumes.getLength(); j++) {
                 // just adding an item if we have a volume list
-                if (j == 0) {
+                if (j == 0 && !MigrationHelpers.removeW.containsKey(root.getAttribute("RID"))) {
                     String itemRid = BDR+"W"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                     Resource item = m.createResource(itemRid);
-                    if (WorkMigration.addWorkHasItem)
-                        m.add(main, m.getProperty(BDO, "instanceHasReproduction"), item);
+                    if (WorkMigration.addWorkHasItem) {
+                        if (redirectionInstanceId == null)
+                            m.add(main, m.getProperty(BDO, "instanceHasReproduction"), item);
+                        else
+                            SymetricNormalization.addSymetricTriple("instanceHasReproduction", redirectionInstanceId, item.getLocalName());
+                    }
                 }
                 // then curate the volume list to add missing volumes
                 Element volume = (Element) volumes.item(j);
@@ -688,6 +701,7 @@ public class WorkMigration {
             //exportTitleInfo(m);
         }
         SymetricNormalization.insertMissingTriplesInModel(m, root.getAttribute("RID"));
+        SymetricNormalization.insertMissingTriplesInModel(m, "M"+root.getAttribute("RID"));
 		return res;
 	}
 	

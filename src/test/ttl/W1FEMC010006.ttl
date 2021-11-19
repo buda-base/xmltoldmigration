@@ -18,9 +18,13 @@ bda:LGB5715A26D84756E4
         adm:logMessage  "entered cataloging for W1FEMC010006"@en ;
         adm:logWho      bdu:U00082 .
 
+bdr:IDAAA4A0E91BB9C634
+        a          bdr:FEMCManuscriptCode ;
+        rdf:value  "d.496.VI.6 (ក្រាំង)" .
+
 bda:MW1FEMC010006  a       adm:AdminData ;
         adm:adminAbout     bdr:MW1FEMC010006 ;
-        adm:facetIndex     9 ;
+        adm:facetIndex     11 ;
         adm:gitPath        "fc/MW1FEMC010006.trig" ;
         adm:gitRepo        bda:GR0012 ;
         adm:graphId        bdg:MW1FEMC010006 ;
@@ -29,9 +33,14 @@ bda:MW1FEMC010006  a       adm:AdminData ;
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
+bdr:MF75A2B8B5BD14A7A0
+        a                   :ItemMicrofilmAsset ;
+        :microfilmCanister  "IV" ;
+        :microfilmStrip     "16" .
+
 bdr:TTDDC4AE34F5AA838F
         a           :CoverTitle ;
-        rdfs:label  "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmpre20c-kmfemc .
+        rdfs:label  "maṅgaladīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-twktt .
 
 bdr:TT008B758142301FF1
         a                  :Title ;
@@ -43,18 +52,20 @@ bdr:NT6A5E503DD47337CF
         :contentLocationStatement  "pg. 54" ;
         :noteSource                bdr:W1FEMC01 .
 
-bdr:MW1FEMC010006  a             :Instance ;
-        :hasFascicles            "2, 7, 8, 10, 11" ;
-        :hasInstanceNum          "1" ;
-        :hasTitle                bdr:TT008B758142301FF1 , bdr:TT11AA6B09252B9225 , bdr:TTDDC4AE34F5AA838F , bdr:TT9F5DB6BC1BDA7180 ;
-        :isComplete              false ;
-        :isRoot                  true ;
-        :microfilmItem           bdr:MF011BF57819D67C4D ;
-        :note                    bdr:NT6A5E503DD47337CF ;
-        :numberOfVolumes         1 ;
-        :workFEMCManuscriptCode  "d.496.VI.6 (ក្រាំង)" , "001-PP.00.02.07.VII" ;
-        :workIsAbout             bdr:FEMC_Scheme_VII , bdr:FEMC_Scheme_VI_6 ;
-        skos:prefLabel           "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
+bdr:ID011BF57819D67C4D
+        a          bdr:FEMCManuscriptCode ;
+        rdf:value  "001-PP.00.02.07.VII" .
+
+bdr:MW1FEMC010006  a      :Instance ;
+        bf:identifiedBy   bdr:IDAAA4A0E91BB9C634 , bdr:ID011BF57819D67C4D ;
+        :hasFascicles     "2, 7, 8, 10, 11" ;
+        :hasTitle         bdr:TT008B758142301FF1 , bdr:TT11AA6B09252B9225 , bdr:TTDDC4AE34F5AA838F , bdr:TT9F5DB6BC1BDA7180 ;
+        :isComplete       false ;
+        :isRoot           true ;
+        :microfilmItem    bdr:MF75A2B8B5BD14A7A0 ;
+        :note             bdr:NT6A5E503DD47337CF ;
+        :numberOfVolumes  1 ;
+        skos:prefLabel    "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-twktt , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
 bda:LGIM6ABD17F4  a     adm:UpdateData ;
         adm:logAgent    "works-femc01-import.xql" ;
@@ -64,14 +75,9 @@ bda:LGIM6ABD17F4  a     adm:UpdateData ;
 
 bdr:TT9F5DB6BC1BDA7180
         a           :CoverTitle ;
-        rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr-x-kmpre20c .
-
-bdr:MF011BF57819D67C4D
-        a                   :ItemMicrofilmAsset ;
-        :microfilmCanister  "IV" ;
-        :microfilmStrip     "16" .
+        rdfs:label  "មង្គលទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
 bdr:TT11AA6B09252B9225
         a                  :Title ;
-        rdfs:label         "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-kmfemc ;
+        rdfs:label         "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-twktt ;
         :femcConversionOf  bdr:TTDDC4AE34F5AA838F .

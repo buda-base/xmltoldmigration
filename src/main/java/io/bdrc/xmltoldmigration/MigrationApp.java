@@ -186,7 +186,7 @@ public class MigrationApp
         if (!fileName.endsWith(".xml")) return;
         String baseName = fileName.substring(0, fileName.length()-4);
         Resource item = null;
-        Resource admItem;
+        Resource admItem = null;
         Model itemModel = null;
         String itemName = null;
         switch(type) {
@@ -203,6 +203,7 @@ public class MigrationApp
             String outWorkId = OutlineMigration.getWorkId(outd);
             if (outWorkId == null || outWorkId.isEmpty()) {
                 //ExceptionHelper.logException(ExceptionHelper.ET_GEN, baseName, baseName, "outlineFor", "outline does not reference its main work");
+                System.out.println("outline with no work id: "+outroot.getAttribute("RID"));
                 return;
             }
 
@@ -249,6 +250,7 @@ public class MigrationApp
             Document workD = d;
             Element root = d.getDocumentElement();
             MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
+            String redirectionInstanceId = MigrationHelpers.instanceClusters.get(root.getAttribute("RID"));
             String workOutFileName = getDstFileName("instance", 'M'+baseName);
             if (!MigrationHelpers.mustBeMigrated(root, "instance", root.getAttribute("status"))) {
                 // case of released outlines of withdrawn works (ex: O1GS129876 / W18311)
@@ -301,33 +303,46 @@ public class MigrationApp
                         workR.removeAll(m.getProperty(BDO, "numberOfVolumes"));
                         workR.addProperty(m.getProperty(BDO, "numberOfVolumes"), m.createTypedLiteral(imageGroups.totalVolumes, XSDDatatype.XSDinteger));
                     }
-                    itemName = baseName;
-
-                    itemModel = ModelFactory.createDefaultModel();
-                    setPrefixes(itemModel);
-                    item = createRoot(itemModel, BDR+itemName, BDO+"ImageInstance");
-                    
-                    admItem = createAdminRoot(item);
-                    addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
-                    admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
-                    moveAdminInfo(itemModel, workR, admItem, item);
-                    
-                    // move scaninfo to the image instance:
-                    StmtIterator scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "scanInfo"));
-                    while (scanInfoSi.hasNext()) {
-                        Literal scanInfo = scanInfoSi.next().getLiteral();
-                        item.addProperty(itemModel.getProperty(BDO, "scanInfo"), scanInfo);
+                    if (!MigrationHelpers.removeW.containsKey(baseName)) {
+                        itemName = baseName;
+    
+                        itemModel = ModelFactory.createDefaultModel();
+                        setPrefixes(itemModel);
+                        item = createRoot(itemModel, BDR+itemName, BDO+"ImageInstance");
+                        
+                        admItem = createAdminRoot(item);
+                        addStatus(itemModel, admItem, root.getAttribute("status")); // same status as work
+                        admItem.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
+                        moveAdminInfo(itemModel, workR, admItem, item);
+                        
+                        // move sourceNote to image instance:
+                        StmtIterator scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "sourceNote"));
+                        while (scanInfoSi.hasNext()) {
+                            Literal scanInfo = scanInfoSi.next().getLiteral();
+                            item.addProperty(itemModel.getProperty(BDO, "sourceNote"), scanInfo);
+                        }
+                        workR.removeAll(workR.getModel().getProperty(BDO, "sourceNote"));
+                        
+                        // move scaninfo to the image instance:
+                        scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "scanInfo"));
+                        while (scanInfoSi.hasNext()) {
+                            Literal scanInfo = scanInfoSi.next().getLiteral();
+                            item.addProperty(itemModel.getProperty(BDO, "scanInfo"), scanInfo);
+                        }
+                    } else {
+                        String itemOutfileName = getDstFileName("iinstance", baseName)+".trig";
+                        try {
+                            if (Files.deleteIfExists(Paths.get(itemOutfileName))) {
+                                System.out.println("removing "+itemOutfileName);
+                            }
+                        } catch (IOException e2) {
+                            System.err.println("couldn't remove file "+itemOutfileName);
+                            e2.printStackTrace();
+                        }
                     }
                     workR.removeAll(workR.getModel().getProperty(BDO, "scanInfo"));
-                    // move sourceNote to image instance:
-                    scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "sourceNote"));
-                    while (scanInfoSi.hasNext()) {
-                        Literal scanInfo = scanInfoSi.next().getLiteral();
-                        item.addProperty(itemModel.getProperty(BDO, "sourceNote"), scanInfo);
-                    }
-                    workR.removeAll(workR.getModel().getProperty(BDO, "sourceNote"));
                     
-                    if (models.size() >1 && models.get(1) != null) {
+                    if (models.size() >1 && models.get(1) != null && admItem != null) {
                         abstractMI = models.get(1);
                         Resource mainAdm = abstractMI.m.getResource(BDA+abstractMI.resourceName);
                         // copy scanrequest logentry to the image instance:
@@ -346,53 +361,59 @@ public class MigrationApp
                     Resource instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "instanceOf"));
                     if (instanceOfR == null)
                         instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "serialInstanceOf"));
-
-                    if (WorkMigration.addWorkHasItem) {
-                        m.add(workR, m.getProperty(BDO, "instanceHasReproduction"), m.createResource(BDR + itemName));
-                        if (abstractMI != null && instanceOfR != null && abstractMI.resourceName.equals(instanceOfR.getLocalName())) {
-                            Resource abstractW = abstractMI.m.createResource(BDR+abstractMI.resourceName);
-                            abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
-                            itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractMI.resourceName));
-                        } else {
-                            String otherAbstractRID = CommonMigration.getConstraintWa('M'+baseName, WorkMigration.getAbstractForRid(baseName)); 
-                            if (otherAbstractRID != null)
-                                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemName, otherAbstractRID, null);
+                    if (item != null) {
+                        if (WorkMigration.addWorkHasItem) {
+                            if (redirectionInstanceId == null) {
+                                m.add(workR, m.getProperty(BDO, "instanceHasReproduction"), m.createResource(BDR + itemName));
+                                if (abstractMI != null && instanceOfR != null && abstractMI.resourceName.equals(instanceOfR.getLocalName())) {
+                                    Resource abstractW = abstractMI.m.createResource(BDR+abstractMI.resourceName);
+                                    abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
+                                    itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractMI.resourceName));
+                                } else {
+                                    String otherAbstractRID = CommonMigration.getConstraintWa('M'+baseName, WorkMigration.getAbstractForRid(baseName)); 
+                                    if (otherAbstractRID != null)
+                                        SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemName, otherAbstractRID, null);
+                                }
+                            }
+                        }
+                        
+                        itemModel.add(item, itemModel.getProperty(BDO, "numberOfVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
+                        if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
+                            item.addProperty(itemModel.getProperty(BDO, "missingVolumes"), imageGroups.missingVolumes);
+                        if (WorkMigration.addItemForWork) {
+                            if (redirectionInstanceId == null)
+                                itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + 'M'+baseName));
+                            else
+                                itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + redirectionInstanceId));
+                        }
+                        
+                        // workHasItem already added in WorkMigration
+                        for (Volinfo vi : vols) {
+                            String imagegroup = vi.imagegroup;
+                            String imagegroupFileName = XML_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
+                            File imagegroupFile = new File(imagegroupFileName);
+                            if (!imagegroupFile.exists()) {
+                                ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "imagegroup", "image group `"+imagegroupFileName+"` referenced but absent from database");
+                                continue;
+                            }
+                            d = MigrationHelpers.documentFromFileName(imagegroupFileName);
+                            root = d.getDocumentElement(); // necessary?
+                            MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
+                            if (imageGroupWork.containsKey(imagegroup)) {
+                                final String oldvalue = imageGroupWork.get(imagegroup);
+                                final String indicatedWork = ImagegroupMigration.getVolumeOf(d);
+                                //final boolean hasOnDisk = ImagegroupMigration.getOnDisk(d);
+                                final String exceptionMessage = "is referrenced in both ["+oldvalue+"](https://www.tbrc.org/#!rid="+oldvalue+") and ["+baseName+"](https://www.tbrc.org/#!rid="+baseName+") (indicates "+indicatedWork+")";
+                                //System.out.println(imagegroup+","+oldvalue+","+baseName+","+indicatedWork+","+(hasOnDisk?"true":"false"));
+                                ExceptionHelper.logException(ExceptionHelper.ET_IMAGEGROUP, imagegroup, imagegroup, exceptionMessage);
+                            } else {
+                                imageGroupWork.put(imagegroup, baseName);
+                            }
+                            ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vi.volnum, itemName, baseName);
                         }
                     }
-                    
-                    itemModel.add(item, itemModel.getProperty(BDO, "numberOfVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
-                    if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
-                        item.addProperty(itemModel.getProperty(BDO, "missingVolumes"), imageGroups.missingVolumes);
-                    if (WorkMigration.addItemForWork) {
-                        itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + 'M'+baseName));
-                    }
-                    
-                    // workHasItem already added in WorkMigration
-                    for (Volinfo vi : vols) {
-                        String imagegroup = vi.imagegroup;
-                        String imagegroupFileName = XML_DIR+"tbrc-imagegroups/"+imagegroup+".xml";
-                        File imagegroupFile = new File(imagegroupFileName);
-                        if (!imagegroupFile.exists()) {
-                            ExceptionHelper.logException(ExceptionHelper.ET_GEN, root.getAttribute("RID"), root.getAttribute("RID"), "imagegroup", "image group `"+imagegroupFileName+"` referenced but absent from database");
-                            continue;
-                        }
-                        d = MigrationHelpers.documentFromFileName(imagegroupFileName);
-                        root = d.getDocumentElement(); // necessary?
-                        MigrationHelpers.resourceHasStatus(root.getAttribute("RID"), root.getAttribute("status"));
-                        if (imageGroupWork.containsKey(imagegroup)) {
-                            final String oldvalue = imageGroupWork.get(imagegroup);
-                            final String indicatedWork = ImagegroupMigration.getVolumeOf(d);
-                            //final boolean hasOnDisk = ImagegroupMigration.getOnDisk(d);
-                            final String exceptionMessage = "is referrenced in both ["+oldvalue+"](https://www.tbrc.org/#!rid="+oldvalue+") and ["+baseName+"](https://www.tbrc.org/#!rid="+baseName+") (indicates "+indicatedWork+")";
-                            //System.out.println(imagegroup+","+oldvalue+","+baseName+","+indicatedWork+","+(hasOnDisk?"true":"false"));
-                            ExceptionHelper.logException(ExceptionHelper.ET_IMAGEGROUP, imagegroup, imagegroup, exceptionMessage);
-                        } else {
-                            imageGroupWork.put(imagegroup, baseName);
-                        }
-                        ImagegroupMigration.MigrateImagegroup(d, itemModel, item, imagegroup, vi.volnum, itemName, baseName);
-                    }
-                    
                 }
+                
                 // migrate pubinfo
                 String pubinfoFileName = XML_DIR+"tbrc-pubinfos/MW"+fileName.substring(1);
                 File pubinfoFile = new File(pubinfoFileName);
@@ -505,13 +526,16 @@ public class MigrationApp
         }
     }
 
-    public static void insertMissingSymetricTriples(String type) {
+    public static void insertMissingSymetricTriples(final String type) {
         if (!SymetricNormalization.triplesToAdd.isEmpty()) {
             System.out.println("adding missing symetric triples in "+SymetricNormalization.triplesToAdd.size()+" files");
             for (String s : SymetricNormalization.triplesToAdd.keySet()) {
                 // System.out.println("adding triples in "+s);
                 // System.out.println(SymetricNormalization.triplesToAdd.get(s));
-                String inFileName = getDstFileName(type, s, ".trig");
+                String thistype = type;
+                if (s.startsWith("MW"))
+                    thistype = "instance";
+                String inFileName = getDstFileName(thistype, s, ".trig");
                 Model m = MigrationHelpers.modelFromFileName(inFileName);
                 if (m == null) {
                     Map<String,List<String>> o = SymetricNormalization.triplesToAdd.get(s);
@@ -520,7 +544,7 @@ public class MigrationApp
                     continue;
                 }
                 SymetricNormalization.insertMissingTriplesInModel(m, s, false);
-                MigrationHelpers.outputOneModel(m, s, inFileName, type);
+                MigrationHelpers.outputOneModel(m, s, inFileName, thistype);
             }
         }
     }
@@ -711,6 +735,8 @@ public class MigrationApp
         }
         createDirIfNotExists(OUTPUT_DIR);
         long startTime = System.currentTimeMillis();
+        // needs to be done first
+        FEMCTransfer.transferFEMCWorks();
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondence, for externals
         if (!noXmlMigration) {
             migrateType(OUTLINE, "O");

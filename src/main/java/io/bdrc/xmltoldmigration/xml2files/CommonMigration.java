@@ -1185,7 +1185,8 @@ public class CommonMigration  {
             rez.addProperty(m.getProperty(BDO, "workKDPPOldId"), value);
             return true;
         } else if (type.equals("femcManuscriptCode")) {
-            rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
+            addIdentifier(rez, "http://purl.bdrc.io/resource/FEMCManuscriptCode", normalizeString(value)); 
+            //rez.addProperty(m.getProperty(BDO, "workFEMCManuscriptCode"), value);
             String[] pieces = value.split("\\.");
             int len = pieces.length;
             String subjCode = pieces[len-1];
@@ -1196,7 +1197,7 @@ public class CommonMigration  {
                 subjCode = pieces[len-2]+"_"+subjCode;
             }
             String subjId = "FEMC_Scheme_"+subjCode;
-            rez.addProperty(m.getProperty(BDO, "workIsAbout"), m.createResource(BDR+subjId));
+            //rez.addProperty(m.getProperty(BDO, "workIsAbout"), m.createResource(BDR+subjId));
             return true;
         } else if (type.equals("filmCanister")) {
             Property mfp = m.getProperty(BDO+"microfilmItem");
@@ -1248,7 +1249,7 @@ public class CommonMigration  {
         } else if (type.equals("fascicles")) {
             rez.addProperty(m.getProperty(BDO+"hasFascicles"), value);
         } else if (type.equals("workNum")) {
-            rez.addProperty(m.getProperty(BDO+"hasInstanceNum"), value);
+            //rez.addProperty(m.getProperty(BDO+"hasInstanceNum"), value);
         }
 
         return false;
@@ -1451,15 +1452,15 @@ public class CommonMigration  {
         
         if (lang.equals("khmer")) {
             if (roman) {
-                tag = prem ? "km-x-kmpre20c-kmfemc" : "km-x-kmfemc" ;
+                tag = "km-x-twktt" ; //prem ? "km-x-kmpre20c-twktt"  ;
             } else {
-                tag = prem ? "km-x-kmpre20c" : "km" ;
+                tag = "km" ; //prem ? "km-x-kmpre20c" : "km" ;
             }
         } else if (lang.equals("pāli")) {
             if (roman) {
-                tag = prem ? "pi-x-kmpre20c-kmfemc" : "pi-x-kmfemc" ;
+                tag = "pi-x-twktt" ; //prem ? "pi-x-kmpre20c-twktt" : "pi-x-twktt" ;
             } else {
-                tag = prem ? "pi-khmr-x-kmpre20c" : "pi-khmr" ;
+                tag = "pi-khmr" ; // prem ? "pi-khmr-x-kmpre20c" : "pi-khmr" ;
             }
         }
         
