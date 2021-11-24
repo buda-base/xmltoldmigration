@@ -571,7 +571,7 @@ public class CommonMigration  {
         case "completionDate":        return BDO+"work_desc_completionDate"; // this one and the next one are handled separately
         case "date":                  return ADM+"work_desc_date";
         case "errata":                return BDO+"instanceErrata";
-        case "extent":                return BDO+"instanceExtentStatement";
+        case "extent":                return BDO+"extentStatement";
         case "id":                    return "__fpl";
         case "libraryOfCongress":     return BDO+"work_desc_libraryOfCongress";
         case "location":              return BDO+"contentLocationStatement";

@@ -64,6 +64,7 @@ bdr:MW1FPL1  a                    :Instance ;
         bf:identifiedBy           bdr:ID4AF69EDA5BFE4E04 , bdr:IDE0F0D4471E6CE01A ;
         :authorshipStatement      "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
         :biblioNote               "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
+        :extentStatement          "177 ff." ;
         :hasSourcePrintery        bdr:G1PD129184 ;
         :instanceEvent            bdr:EVB0BA72AF962CC892 ;
         :isRoot                   true ;
@@ -71,8 +72,7 @@ bdr:MW1FPL1  a                    :Instance ;
         :publisherLocation        "[lha sa]"@en ;
         :publisherName            "*zhol par khang /"@bo-x-ewts ;
         :script                   bdr:ScriptDbuMed ;
-        :sourcePrinteryStatement  "test sourcePrintery with no place" ;
-        :workExtentStatement      "177 ff." .
+        :sourcePrinteryStatement  "test sourcePrintery with no place" .
 
 bda:LGIM6B433BA01E  a   adm:UpdateData ;
         adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
