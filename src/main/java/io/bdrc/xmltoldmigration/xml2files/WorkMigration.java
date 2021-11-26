@@ -370,10 +370,12 @@ public class WorkMigration {
                 }
                 mA = ModelFactory.createDefaultModel();
                 setPrefixes(mA);
-                if (res.size() == 1) {
-                    res.add(new WorkModelInfo(aWorkId, mA));
-                } else {
-                    res.set(1, new WorkModelInfo(aWorkId, mA));
+                if (!workId.startsWith("W1FEMC")) {
+                    if (res.size() == 1) {
+                        res.add(new WorkModelInfo(aWorkId, mA));
+                    } else {
+                        res.set(1, new WorkModelInfo(aWorkId, mA));
+                    }
                 }
                 mainA = createRoot(mA, BDR+aWorkId, BDO+"Work");
                 admMainA = createAdminRoot(mainA);
