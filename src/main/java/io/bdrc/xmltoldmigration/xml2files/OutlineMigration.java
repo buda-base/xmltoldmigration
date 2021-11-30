@@ -277,6 +277,10 @@ public class OutlineMigration {
 		List<WorkModelInfo> res = new ArrayList<>();
 		res.add(new WorkModelInfo(rootWork.getLocalName(), workModel));
 		
+		final boolean ric = MigrationHelpers.ricWithOutline.containsKey(rootWork.getLocalName());
+		if (ric)
+		    System.out.println("yearh!!");
+		
         Resource admOutline = createAdminRoot(rootWork);
 
 		Element root = xmlDocument.getDocumentElement();
@@ -329,7 +333,7 @@ public class OutlineMigration {
             node2 = nodeList2.get(0);
         }
 		
-		addNodes(m, rootWork, node2, rootWork.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "", rootWork, res, ancestorCreators);
+		addNodes(m, rootWork, node2, rootWork.getLocalName(), curNodeInt, null, null, legacyOutlineRID, "", rootWork, res, ancestorCreators, ric);
 		//WorkMigration.exportTitleInfo(workModel);
 		return res;
 	}
@@ -527,7 +531,7 @@ public class OutlineMigration {
     }
     
 	public static CommonMigration.LocationVolPage addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, final CommonMigration.
-LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork, List<WorkModelInfo> res, List<Element> ancestorCreators) {
+LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String thisPartTreeIndex, Resource rootWork, List<WorkModelInfo> res, List<Element> ancestorCreators, final boolean ric) {
 	    curNode.i = curNode.i+1;
 	    String RID = e.getAttribute("RID").trim();
 	    String nodeRID = getPartRID(RID, workId, curNode.i);
@@ -557,6 +561,8 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
                  nodeA.addProperty(mA.createProperty(BDO, "language"), mA.createResource(BDR+"LangBo"));
                  addStatus(mA, admMainA, "released");
                  admMainA.addProperty(mA.getProperty(ADM, "metadataLegal"), mA.createResource(BDA+"LD_BDRC_CC0"));
+                 if (ric)
+                     admMainA.addProperty(mA.getProperty(ADM, "restrictedInChina"), mA.createTypedLiteral(true, XSDDatatype.XSDboolean));
                  node.addProperty(m.createProperty(BDO, "instanceOf"), nodeA);
                  nodeA.addProperty(mA.createProperty(BDO, "workHasInstance"), node);
                  addTopicsToWorkModels(mA, nodeA);
@@ -713,7 +719,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
         ancestorCreators = addCreators(m, node, e, false, rootWork, nodeA, ancestorCreators);
         
         // sub nodes
-        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex, rootWork, res, ancestorCreators);
+        boolean hasChildren = addNodes(m, node, e, workId, curNode, locVP, RID, legacyOutlineRID, thisPartTreeIndex, rootWork, res, ancestorCreators, ric);
         
         if (!hasChildren && (locVP == null)) {
 //            labelSta = node.getProperty(m.getProperty(CommonMigration.PREFLABEL_URI));
@@ -736,7 +742,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
 	    return String.format("%03d", index);
 	}
 	
-	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex, Resource rootWork, List<WorkModelInfo> wmires, List<Element> ancestorCreators) {
+	public static boolean addNodes(Model m, Resource r, Element e, String workId, CurNodeInt curNode, CommonMigration.LocationVolPage parentLocVP, String parentRID, String legacyOutlineRID, String curPartTreeIndex, Resource rootWork, List<WorkModelInfo> wmires, List<Element> ancestorCreators, final boolean ric) {
 	    CommonMigration.LocationVolPage endLocVP = null;
 	    boolean res = false;
 	    final List<Element> nodeList = CommonMigration.getChildrenByTagName(e, OXSDNS, "node");
@@ -750,7 +756,7 @@ LocationVolPage previousLocVP, String legacyOutlineRID, int partIndex, String th
             } else {
                 thisPartTreeIndex = curPartTreeIndex+"."+getPartTreeIndexStr(i+1, nbChildren);
             }
-            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex, rootWork, wmires, ancestorCreators);
+            endLocVP = addNode(m, r, current, i, workId, curNode, endLocVP, legacyOutlineRID, i+1, thisPartTreeIndex, rootWork, wmires, ancestorCreators, ric);
             if (i == 0 && parentRID != null && endLocVP != null && parentLocVP != null) {
                 // check if beginning of child node is before beginning of parent
                 if (parentLocVP.beginVolNum > endLocVP.beginVolNum
