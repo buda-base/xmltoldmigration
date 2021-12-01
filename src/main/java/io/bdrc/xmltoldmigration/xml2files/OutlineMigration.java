@@ -278,8 +278,6 @@ public class OutlineMigration {
 		res.add(new WorkModelInfo(rootWork.getLocalName(), workModel));
 		
 		final boolean ric = MigrationHelpers.ricWithOutline.containsKey(rootWork.getLocalName());
-		if (ric)
-		    System.out.println("yearh!!");
 		
         Resource admOutline = createAdminRoot(rootWork);
 
