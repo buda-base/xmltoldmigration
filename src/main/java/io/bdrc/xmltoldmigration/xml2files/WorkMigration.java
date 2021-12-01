@@ -536,6 +536,13 @@ public class WorkMigration {
                 legalUri = BDA+"LD_BDRC_PD";
             }
             
+            final String mainLname = main.getLocalName();
+            if (MigrationHelpers.ricrid.containsKey(mainLname)) {
+                isRestrictedInChina = true;
+                // not redundant, for etext instances
+                workRestrictedInChina.put('M'+workId, isRestrictedInChina);
+            }
+            
             // these maps are queried in ImagegroupMigration and EtextMigration 
             // to fill in the corresponding Item via MigrationApp.moveAdminInfo()
             workAccessMap.put('M'+workId, accessUri);
