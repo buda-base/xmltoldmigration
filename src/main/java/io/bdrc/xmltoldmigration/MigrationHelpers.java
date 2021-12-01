@@ -153,6 +153,7 @@ public class MigrationHelpers {
     public static final Map<String, String> tol;
     public static final Map<String, String> instanceClusters;
     public static final Map<String, Boolean> removeW;
+    public static final Map<String, Boolean> ricWithOutline;
     
     public static final Map<String, Boolean> ricrid;
 
@@ -165,6 +166,7 @@ public class MigrationHelpers {
         }
         
         instanceClusters = setupInstanceClusters();
+        ricWithOutline = setupRICWithoutlines();
         removeW = setupRemoveW();
         disconnectedRIds = setupDisconnectedRIDs();
         nokForLending = setupNokForLending();
@@ -211,6 +213,22 @@ public class MigrationHelpers {
         return res;
     }
 
+    public static Map<String, Boolean> setupRICWithoutlines() {
+        final Map<String,Boolean> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("ricwithoutline.csv");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while(reader.ready()) {
+                 String line = reader.readLine();
+                 res.put(line, true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
     public static Map<String, Boolean> setupRICRID() {
         final Map<String,Boolean> res = new HashMap<>();
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
