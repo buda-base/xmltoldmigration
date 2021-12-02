@@ -290,10 +290,12 @@ public class PubinfoMigration {
                 // having the dimensions will make the distinction in a more satisfying way
                 m.add(main, m.getProperty(BDO, "material"), m.createResource(BDR+"MaterialCoryphaPalmLeaf"));
                 m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
+                m.add(main, m.getProperty(BDO, "format"), m.createResource(BDR+"FormatLongPalmLeaf"));
                 break;
             case "shortPalmLeaf":
                 m.add(main, m.getProperty(BDO, "material"), m.createResource(BDR+"MaterialCoryphaPalmLeaf"));
                 m.add(main, m.getProperty(BDO, "printMethod"), m.createResource(BDR+"PrintMethod_Manuscript"));
+                m.add(main, m.getProperty(BDO, "format"), m.createResource(BDR+"FormatShortPalmLeaf"));
                 break;
             case "leporello":
                 // FEMC leporellos are not always made of the same material
