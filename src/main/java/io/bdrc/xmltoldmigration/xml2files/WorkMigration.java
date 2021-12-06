@@ -384,9 +384,10 @@ public class WorkMigration {
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
-                    CommonMigration.removeWorkModel(aWorkId);
-                    if (!workId.startsWith("W1FEMC"))
+                    if (!workId.startsWith("W1FEMC")) {
                         addRedirection(aWorkId, otherAbstractRID, mA);
+                        CommonMigration.removeWorkModel(aWorkId);
+                    }
                     // we don't put the has instance property... it would be better conceptually but
                     // it would make the queries slower and harder to write
                     //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
@@ -507,6 +508,7 @@ public class WorkMigration {
                     break;
                 default: value = ""; break;
                 }
+                
                 if (!value.isEmpty()) {
                     accessUri = BDA+value;
                     hasAccess = true;
