@@ -77,7 +77,7 @@ public class EtextMigration {
         distributorToUri.put("UCB-OCR", prefix+"009");
         distributorToUri.put("VajraVidya", prefix+"010");
         distributorToUri.put("Various", prefix+"011");
-        prefix = BDA+"PR0ET";
+        prefix = BDR+"PR0ET";
         distributorToColUri.put("DharmaDownload", prefix+"001");
         distributorToColUri.put("DrikungChetsang", prefix+"002");
         distributorToColUri.put("eKangyur", prefix+"003");
