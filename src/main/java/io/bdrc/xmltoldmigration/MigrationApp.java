@@ -453,6 +453,9 @@ public class MigrationApp
             }
             WorkModelInfo instanceMI = models.get(0);
             if (instanceMI != null) {
+                if (instanceMI.resourceName.equals("MW3CN27014")) {
+                    instanceMI.m.read(MigrationApp.class.getClassLoader().getResourceAsStream("MW3CN27014.ttl"), null, "TTL");
+                }
                 if (instanceMI.resourceName.startsWith("MW1FPL") || instanceMI.resourceName.startsWith("MW1EAP")) {
                     // don't write FPL instances to the git repo, we only want the image instances
                     //System.out.println("ignoring "+instanceMI.resourceName);
