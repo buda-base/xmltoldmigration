@@ -37,6 +37,9 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
+
 public class EAPFondsTransfer {
 
     public HashMap<String,HashMap<String,String[]>> seriesByCollections;
@@ -191,21 +194,27 @@ public class EAPFondsTransfer {
         Resource ldEAPm = workModel.createResource(BDA+"LD_EAP_metadata");
         
         String abstractWorkRID = "WA"+serieID;
-        Model mA = ModelFactory.createDefaultModel();
-        setPrefixes(mA);
-        Resource workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
-        Resource admWorkA = createAdminRoot(workA);
-        mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
-        mA.add(admWorkA, mA.createProperty(ADM, "status"), workModel.createResource(BDA+"StatusReleased"));
-        res.add(workA);
-        work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-        workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
-        // bdo:Work
-        mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangBo"));
-        addReleased(mA, admWorkA);
-        mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
+        String otherAbstractRID = CommonMigration.getConstraintWa("MW"+serieID, abstractWorkRID);
+        if (otherAbstractRID == null || abstractWorkRID.equals(otherAbstractRID)) {
+            Model mA = ModelFactory.createDefaultModel();
+            setPrefixes(mA);
+            Resource workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
+            Resource admWorkA = createAdminRoot(workA);
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
+            mA.add(admWorkA, mA.createProperty(ADM, "status"), workModel.createResource(BDA+"StatusReleased"));
+            res.add(workA);
+            work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
+            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+            // bdo:Work
+            mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangBo"));
+            addReleased(mA, admWorkA);
+            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
+        } else {
+            CommonMigration.removeWorkModel(abstractWorkRID);
+            work.addProperty(workModel.createProperty(BDO, "instanceOf"), workModel.createResource(BDR+otherAbstractRID));
+            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "MW"+serieID, otherAbstractRID, null);
+        }
         
-
         workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
         workModel.add(admWork, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
         workModel.add(admWork, workModel.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
@@ -214,9 +223,6 @@ public class EAPFondsTransfer {
         
         addNote(serieLine, workModel, work);
         String name = simplified ? serieLine[9] : serieLine[39];
-        if (name.startsWith("bka' 'gyur")) {
-            workModel.add(work, workModel.createProperty(BDO, "workGenre"), workModel.createResource(BDR+"T2423"));
-        }
         workModel.add(work, SKOS.prefLabel, getLiteral(name, workModel));
         addEvent(serieLine, workModel, work);
         
@@ -282,19 +288,26 @@ public class EAPFondsTransfer {
             Resource workAdm = createAdminRoot(work);
             
             String abstractWorkRID = "WA"+ref;
-            Model mA = ModelFactory.createDefaultModel();
-            setPrefixes(mA);
-            Resource workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
-            Resource admWorkA = createAdminRoot(workA);
-            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
-            mA.add(admWorkA, mA.createProperty(ADM, "status"), workModel.createResource(BDA+"StatusReleased"));
-            res.add(workA);
-            work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
-            // bdo:Work
-            mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangBo"));
-            addReleased(mA, admWorkA);
-            mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
+            String otherAbstractRID = CommonMigration.getConstraintWa("MW"+ref, abstractWorkRID);
+            if (otherAbstractRID == null || abstractWorkRID.equals(otherAbstractRID)) {
+                Model mA = ModelFactory.createDefaultModel();
+                setPrefixes(mA);
+                Resource workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
+                Resource admWorkA = createAdminRoot(workA);
+                mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), ldEAPm); // ?
+                mA.add(admWorkA, mA.createProperty(ADM, "status"), workModel.createResource(BDA+"StatusReleased"));
+                res.add(workA);
+                work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
+                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+                mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangBo"));
+                addReleased(mA, admWorkA);
+                mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
+            } else {
+                CommonMigration.removeWorkModel(abstractWorkRID);
+                work.addProperty(workModel.createProperty(BDO, "instanceOf"), workModel.createResource(BDR+otherAbstractRID));
+                SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "MW"+ref, otherAbstractRID, null);
+                res.add(null);
+            }
             
             workModel.add(workAdm, RDF.type, workModel.createResource(ADM+"AdminData"));
             workModel.add(workAdm, workModel.getProperty(ADM+"status"), workModel.createResource(BDA+"StatusReleased"));
