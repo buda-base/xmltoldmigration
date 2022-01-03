@@ -278,7 +278,7 @@ public class WorkMigration {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, workId, workId, "info", "parent set to the resource RID");
             infoParentId = "";
         }
-        
+
         Model mA = null;
         Resource mainA = null;
         String otherAbstractRID = null;
@@ -395,7 +395,7 @@ public class WorkMigration {
                 }
             }
         }
-		
+
         if (admMain != null) {
             addStatus(m, admMain, status);
             admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
@@ -593,6 +593,18 @@ public class WorkMigration {
                 }
             }
         }
+        
+        // catalogInfo
+        if (mainA != null) {
+            nodeList = root.getElementsByTagNameNS(WXSDNS, "catalogInfo");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                current = (Element) nodeList.item(i);
+                Literal l = CommonMigration.getLiteral(current, "en", m, "catalogInfo", mainA.getLocalName(), null);
+                if (l == null) continue;
+                mainA.addProperty(mA.getProperty(BDO, "catalogInfo"), l);
+            }
+        }
+        
         if (main != null) {        
             // inProduct
             
@@ -635,18 +647,7 @@ public class WorkMigration {
                     }
                 }
             }
-            
-            // catalogInfo
-        
-            nodeList = root.getElementsByTagNameNS(WXSDNS, "catalogInfo");
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                current = (Element) nodeList.item(i);
-                Literal l = CommonMigration.getLiteral(current, "en", m, "catalogInfo", main.getLocalName(), null);
-                if (l == null) continue;
-                if (mainA != null)
-                    mainA.addProperty(mA.getProperty(BDO, "catalogInfo"), l);
-            }
-            
+
             // scanInfo
             
             nodeList = root.getElementsByTagNameNS(WXSDNS, "scanInfo");
