@@ -48,7 +48,6 @@ bdr:TT823A7C4B2DD3D68C
 bda:LGIM17844CAB  a     adm:UpdateData ;
         adm:logAgent    "works-femc01-import.xql" ;
         adm:logDate     "2019-08-09T18:33:25.452Z"^^xsd:dateTime ;
-        adm:logMessage  "imported FEMC 01 workW1FEMC020013"@en ;
         adm:logMethod   bda:BatchMethod .
 
 bdr:TT7DE5A25AA387B539

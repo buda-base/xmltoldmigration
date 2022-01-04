@@ -70,7 +70,6 @@ bdr:MW1FEMC010006  a      :Instance ;
 bda:LGIM6ABD17F4  a     adm:UpdateData ;
         adm:logAgent    "works-femc01-import.xql" ;
         adm:logDate     "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
-        adm:logMessage  "imported FEMC 01 workW1FEMC010006"@en ;
         adm:logMethod   bda:BatchMethod .
 
 bdr:TT9F5DB6BC1BDA7180

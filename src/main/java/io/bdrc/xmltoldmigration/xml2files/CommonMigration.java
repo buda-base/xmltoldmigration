@@ -941,7 +941,15 @@ public class CommonMigration  {
             whovalue = "";
             if (!datevalue.isEmpty()) {
                 String datehash = OutlineMigration.getMd5(datevalue, 8);
+                if ("works-femc03-import.xql".equals(logAgent)) {
+                    // for some reason this one and works-femc01-import.xql have the same timestamp
+                    datehash += "3";
+                }
                 logEntry = m.getResource(BDA+"LGIM"+datehash);
+            }
+            if (value.contains(rid)) {
+                // fix for https://github.com/buda-base/public-digital-library/issues/537#issuecomment-1004706200
+                value = "";
             }
         }
         Literal dateL = null;
