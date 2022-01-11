@@ -947,7 +947,7 @@ public class CommonMigration  {
                 }
                 logEntry = m.getResource(BDA+"LGIM"+datehash);
             }
-            if (value.contains(rid)) {
+            if (value.contains(rid) || value.startsWith("imported imagegroup for W")) {
                 // fix for https://github.com/buda-base/public-digital-library/issues/537#issuecomment-1004706200
                 value = "";
             }
