@@ -1306,6 +1306,10 @@ public class CommonMigration  {
                 else
                     lit = m.createLiteral(normalizeString(value));
             }
+            if (lit == null) {
+                System.err.println("no lit for "+value);
+                continue;
+            }
             if (type.equals("nameLex")) {
                 String placeId = rez.getLocalName();
                 current.setTextContent(current.getTextContent().replace(placeId, ""));
