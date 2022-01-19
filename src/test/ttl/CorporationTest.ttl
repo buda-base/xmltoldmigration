@@ -19,7 +19,7 @@ bdr:C11MS170  a                :Corporation ;
         :isRoot                true ;
         :note                  bdr:NTF247E9C5ACE9527A , bdr:NTAA3AC231C7216B0B ;
         skos:altLabel          "Dranka"@bo-x-phon-en-m-tbrc ;
-        skos:prefLabel         "bran ka"@bo-x-ewts .
+        skos:prefLabel         "bran ka"@bo-x-phon-en-m-tbrc .
 
 bdr:CMF428C2DEB2CDEFAF
         a                   :CorporationMember ;
