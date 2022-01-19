@@ -13,12 +13,13 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:C11MS170  a                :Corporation ;
-        rdfs:comment           "some description" ;
+        rdfs:comment           "some description"@en ;
         :corporationHasMember  bdr:CMF428C2DEB2CDEFAF , bdr:CM7872F5FD75068B81 ;
         :corporationRegion     bdr:G934 ;
         :isRoot                true ;
         :note                  bdr:NTF247E9C5ACE9527A , bdr:NTAA3AC231C7216B0B ;
-        skos:prefLabel         "Dranka"@en-x-mixed , "bran ka"@bo-x-phon-en-m-tbrc .
+        skos:altLabel          "Dranka"@bo-x-phon-en-m-tbrc ;
+        skos:prefLabel         "bran ka"@bo-x-ewts .
 
 bdr:CMF428C2DEB2CDEFAF
         a                   :CorporationMember ;

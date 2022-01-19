@@ -103,7 +103,7 @@ bdr:TTB789D01CFCC47CD3
         rdfs:label  "mahāniddesa aṭṭhakathā"@pi-x-iast .
 
 bdr:MW1FPL2837  a          :SerialInstance ;
-        :biblioNote        "Red lac. covers. Gilded leaves with vermilion band." , "description with no type" ;
+        :biblioNote        "Red lac. covers. Gilded leaves with vermilion band."@en , "description with no type"@en ;
         :hasTitle          bdr:TT171FD9F0BB2226E9 , bdr:TT2CE1832997E074F6 , bdr:TT0163DF0BC452A994 , bdr:TT1B4E63A8E66021AA , bdr:TT9498AC617EE4D65F , bdr:TTB789D01CFCC47CD3 , bdr:TTF19E8F13B0E095D8 ;
         :incipit           "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
         :instanceOf        bdr:WA1FPL2837 ;

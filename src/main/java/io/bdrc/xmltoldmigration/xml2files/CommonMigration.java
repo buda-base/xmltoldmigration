@@ -1127,6 +1127,7 @@ public class CommonMigration  {
         case "authorship":
         case "summary":
         case "content":
+        case "remarks":
         case "contents": // for office, corporation, etc., maybe not for works
             return "en";
         default:
@@ -1300,7 +1301,10 @@ public class CommonMigration  {
                 lit = getLiteral(current, lang, m, "description", rez.getLocalName(), rez.getLocalName());
                 if (lit == null) continue;
             } else {
-                lit = m.createLiteral(normalizeString(value));
+                if (type.equals("noType"))
+                    lit = getLiteral(current, "en", m, "description", rez.getLocalName(), rez.getLocalName());
+                else
+                    lit = m.createLiteral(normalizeString(value));
             }
             if (type.equals("nameLex")) {
                 String placeId = rez.getLocalName();
