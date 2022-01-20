@@ -67,11 +67,15 @@ public class TaxonomyMigration {
     public static void addNode(Model m, Resource r, Element e, int i, String workId, CurNodeInt curNode, String legacyOutlineRID, int partIndex, String thisPartTreeIndex) {
         curNode.i = curNode.i+1;
         String clazz = e.getAttribute("class");
+        String rid = e.getAttribute("RID");
         Resource node;
         if (clazz.isEmpty()) {
             // internal node of a taxonomy
-            String value = String.format("%04d", curNode.i);
-            node = m.createResource(BDR+workId+"_"+value);
+            String value = workId+"_"+String.format("%04d", curNode.i);
+            if (!rid.isEmpty()) {
+                value = rid;
+            }
+            node = m.createResource(BDR+value);
             node.addProperty(RDF.type, m.createResource(BDO+"Taxonomy"));
         } else {
             // external node, often a Topic, create node of the form bdr:Txxx
