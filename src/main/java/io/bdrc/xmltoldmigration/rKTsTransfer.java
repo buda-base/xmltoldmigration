@@ -64,6 +64,8 @@ public class rKTsTransfer {
         initListsForRID("MW2KG5015");
         initListsForRID("MW2PD17098");
         initListsForRID("MW2KG5014");
+        initListsForRID("MW30532");
+        initListsForRID("MW1PD96682");
     }
     
     public static void initListsForRID(String rid) {
