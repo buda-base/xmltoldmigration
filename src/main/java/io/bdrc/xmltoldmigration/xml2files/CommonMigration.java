@@ -12,10 +12,8 @@ import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.BF;
 import static io.bdrc.libraries.Models.addReleased;
 import static io.bdrc.libraries.Models.createAdminRoot;
-import static io.bdrc.libraries.Models.getAdminData;
 import static io.bdrc.libraries.Models.getEvent;
 import static io.bdrc.libraries.Models.getFacetNode;
-import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,7 +32,9 @@ import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Validator;
 
+import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.ontology.OntModel;
@@ -97,6 +97,32 @@ public class CommonMigration  {
     public static final Map<String, List<RDFNode>> seriesMembersToWorkLabels = new HashMap<>();
     public static final String BDU = "http://purl.bdrc.io/resource-nc/user/";
 
+    public static final class EDTFStr {
+        public String str = null;
+        
+        public EDTFStr(String edtfstr) {
+            this.str = edtfstr;
+        }
+    }
+    
+    static final RDFDatatype EDTFDT = new BaseDatatype("http://id.loc.gov/datatypes/edtf") {
+        @Override
+        public Class getJavaClass() {
+            return EDTFStr.class;
+        }
+
+        @Override
+        public String unparse(Object value) {
+            return ((EDTFStr)value).str;
+        }
+
+        @Override
+        public EDTFStr parse(String lexicalForm) throws DatatypeFormatException {
+            return new EDTFStr(lexicalForm);
+        }
+    };
+    
+    
     static {
         fillLogWhoToUri();
         fillGenreTopics();
@@ -260,19 +286,22 @@ public class CommonMigration  {
         dateStr = dateStr.replaceAll(" ", "");
         dateStr = dateStr.replaceAll("\\[", "");
         dateStr = dateStr.replaceAll("\\]", "");
+        dateStr = dateStr.replaceAll("u", "X");
         if (dateStr.length() < 3)
             return;
+        if (dateStr.startsWith("c."))
+            dateStr = "~"+dateStr.substring(2).stripLeading();
         final Model m = event.getModel();
         if (dateStr.endsWith("?")) {
             if (dateStr.length() < 5 && dateStr.startsWith("1")) {
-                dateStr = dateStr.replace("?", "u");
-                dateStr = dateStr.replace("-", "u");
+                dateStr = dateStr.replace("?", "X");
+                dateStr = dateStr.replace("-", "X");
             } else {
                 dateStr = dateStr.substring(0, dateStr.length()-1);
             }
         }
-        if (dateStr.charAt(1) == '.') { // for b., d. and c. 
-            dateStr = dateStr.substring(2);
+        if (dateStr.charAt(1) == '.') { // for b. and d. 
+            dateStr = dateStr.substring(2).stripLeading();
         }
         if (dateStr.endsWith(".000000")) {
             dateStr = dateStr.substring(0, dateStr.length()-7);
@@ -281,6 +310,7 @@ public class CommonMigration  {
             m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr));    
             return;
         } catch (NumberFormatException e) {}
+        m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
         int slashidx = dateStr.indexOf('/');
         if (slashidx == -1) {
             slashidx = dateStr.indexOf('-');
@@ -291,8 +321,8 @@ public class CommonMigration  {
         if (slashidx != -1) {
             String firstDate = dateStr.substring(0, slashidx);
             String secondDate = dateStr.substring(slashidx+1, dateStr.length());
-            firstDate = firstDate.replace('u', '0');
-            secondDate = secondDate.replace('u', '9');
+            firstDate = firstDate.replace('X', '0');
+            secondDate = secondDate.replace('X', '9');
             try {
                 m.add(event, m.getProperty(BDO, "notBefore"), yearLit(m, firstDate));    
             } catch (NumberFormatException e) { 
@@ -305,9 +335,9 @@ public class CommonMigration  {
             }
             return;
         }
-        if (dateStr.indexOf('u') != -1) {
-            String firstDate = dateStr.replace('u', '0');
-            String secondDate = dateStr.replace('u', '9');
+        if (dateStr.indexOf('X') != -1) {
+            String firstDate = dateStr.replace('X', '0');
+            String secondDate = dateStr.replace('X', '9');
             try {
                 m.add(event, m.getProperty(BDO, "notBefore"), yearLit(m, firstDate));    
             } catch (NumberFormatException e) { 
@@ -320,7 +350,6 @@ public class CommonMigration  {
             }
             return;
         }
-        m.add(event, m.getProperty(BDO, "onOrAbout"), m.createLiteral(dateStr));
         if (mainResource != null) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
         }
@@ -1607,11 +1636,19 @@ public class CommonMigration  {
             // "(ya)_gsang ba sbas ston las/_sman gyi gzhung shes yig chung /（phyi/_kha/_85）"
             // "(ya)bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/"
             String s = l.getString().trim();
-            s = s.replaceAll("_? ?[\\(（][^\\)）༽]+[\\)）༽]", "");
+            // replace parenthesis at the beginning
+            s = s.replaceAll("^[\\(（][^\\)）༽]+[\\)）༽]", "");
             s = s.replaceAll(" bzhugs so ?/?$", "");
             s = s.replaceAll("^[^ ]+\\)[_ ]?", "");
             s = s.replaceAll(" *\" *", "");
             s = s.replaceAll("^_+", "");
+            // if the parenthesis in the end contain "(s)par ma", "dpe bsdur", "glog klad", "bris ma"
+            int idx = Math.max(s.lastIndexOf('('), s.lastIndexOf('（'));
+            if (idx != -1) {
+                String toremove = s.substring(idx);
+                if (toremove.contains("par ma") || toremove.contains("dpe bsdur") || toremove.contains("glog klad") || toremove.contains("bris ma"))
+                    s = s.substring(0, idx);
+            }
             s = addEwtsShad(s.trim());
             return m.createLiteral(s, l.getLanguage());
         }
