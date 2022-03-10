@@ -323,6 +323,11 @@ public class MigrationApp
                         }
                         workR.removeAll(workR.getModel().getProperty(BDO, "sourceNote"));
                         
+                        final String oclc = MigrationHelpers.oclcW.get(item.getLocalName()); 
+                        if (oclc != null) {
+                            CommonMigration.addIdentifier(item, BDR+"OclcControlNumber", oclc);
+                        }
+                        
                         // move scaninfo to the image instance:
                         scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "scanInfo"));
                         while (scanInfoSi.hasNext()) {
