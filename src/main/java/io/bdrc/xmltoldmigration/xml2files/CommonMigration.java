@@ -35,8 +35,11 @@ import javax.xml.validation.Validator;
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.TypeMapper;
+import org.apache.jena.datatypes.BaseDatatype.TypedValue;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
+import org.apache.jena.graph.impl.LiteralLabel;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -103,6 +106,16 @@ public class CommonMigration  {
         public EDTFStr(String edtfstr) {
             this.str = edtfstr;
         }
+        
+        @Override
+        public boolean equals(Object other) {
+            System.out.println("equals");
+            if (other instanceof EDTFStr) {
+                return this.str.equals(((EDTFStr)other).str);
+            } else {
+                return false;
+            }
+        }
     }
     
     static final RDFDatatype EDTFDT = new BaseDatatype("http://id.loc.gov/datatypes/edtf") {
@@ -120,10 +133,16 @@ public class CommonMigration  {
         public EDTFStr parse(String lexicalForm) throws DatatypeFormatException {
             return new EDTFStr(lexicalForm);
         }
+        
+        @Override
+        public boolean isEqual(LiteralLabel value1, LiteralLabel value2) {
+            return value1.getDatatypeURI().equals(value2.getDatatypeURI()) && value1.getLexicalForm().equals(value2.getLexicalForm());
+        }
     };
     
     
     static {
+        TypeMapper.getInstance().registerDatatype(EDTFDT);
         fillLogWhoToUri();
         fillGenreTopics();
         getTcList();
@@ -279,6 +298,11 @@ public class CommonMigration  {
         return m.createTypedLiteral(padded, XSDDatatype.XSDgYear);
     }
     
+    public static String padEdtfZeros(String edtf) {
+        edtf = edtf.replaceAll("(^|[^\\dX])([\\dX]{3})([^\\dX]|$)", "$10$2$3");
+        return edtf;
+    }
+    
     public static void addDates(String dateStr, final Resource event, final Resource mainResource) {
         if (dateStr == null || dateStr.isEmpty())
             return;
@@ -290,7 +314,7 @@ public class CommonMigration  {
         if (dateStr.length() < 3)
             return;
         if (dateStr.startsWith("c."))
-            dateStr = "~"+dateStr.substring(2).stripLeading();
+            dateStr = dateStr.substring(2).stripLeading()+"~";
         final Model m = event.getModel();
         if (dateStr.endsWith("?")) {
             if (dateStr.length() < 5 && dateStr.startsWith("1")) {
@@ -310,7 +334,7 @@ public class CommonMigration  {
             m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr));    
             return;
         } catch (NumberFormatException e) {}
-        m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
+        
         int slashidx = dateStr.indexOf('/');
         if (slashidx == -1) {
             slashidx = dateStr.indexOf('-');
@@ -321,6 +345,8 @@ public class CommonMigration  {
         if (slashidx != -1) {
             String firstDate = dateStr.substring(0, slashidx);
             String secondDate = dateStr.substring(slashidx+1, dateStr.length());
+            dateStr = padEdtfZeros(firstDate)+"/"+padEdtfZeros(secondDate);
+            m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
             firstDate = firstDate.replace('X', '0');
             secondDate = secondDate.replace('X', '9');
             try {
@@ -348,8 +374,12 @@ public class CommonMigration  {
             } catch (NumberFormatException e) { 
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
+            dateStr = padEdtfZeros(dateStr);
+            m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
             return;
         }
+        // if we reach here, we're in a bogus state
+        m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
         if (mainResource != null) {
             ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
         }

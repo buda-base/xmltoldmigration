@@ -104,6 +104,7 @@ bda:LGIM6B07AF7F36  a   adm:UpdateData ;
 
 bdr:EV7E9BCA78C7207CE7
         a           :PlaceFounded ;
+        :eventWhen  "13XX/17XX"^^<http://id.loc.gov/datatypes/edtf> ;
         :notAfter   "1799"^^xsd:gYear ;
         :notBefore  "1300"^^xsd:gYear .
 

@@ -245,7 +245,7 @@ public class MigrationTest
         assertFalse(CommonMigration.documentValidates(d, validator));
         Model fromXml = MigrationHelpers.xmlToRdf(d, "place");
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/G488.ttl");
-        //fromXml.write(System.out, "TTL");
+        fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -322,7 +322,7 @@ public class MigrationTest
         Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/WorkTestFPL.ttl");
         //MigrationHelpers.modelToOutputStream(fromXml, System.out, "work", MigrationHelpers.OUTPUT_STTL, "");
         //showDifference(fromXml, correctModel);
-        fromXml.write(System.out, "TTL");
+        //fromXml.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
@@ -386,7 +386,7 @@ public class MigrationTest
            //assertTrue(CommonMigration.documentValidates(d, pubinfoValidator));
            Model fromXml = mergeModelList(PubinfoMigration.MigratePubinfo(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
-           fromXml.write(System.out, "TTL");
+           //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            flushLog();
        }
@@ -600,6 +600,12 @@ public class MigrationTest
         assertTrue(PubinfoMigration.isEmptyPubValue( "[ s. n. ]"));
         assertTrue(PubinfoMigration.isEmptyPubValue( "[s. n]"));
         assertFalse(PubinfoMigration.isEmptyPubValue("s.w.tashigangpa/"));
+    }
+    
+    @Test
+    public void testEdtf() 
+    {
+        assertEquals(CommonMigration.padEdtfZeros("9XX"), "09XX");
     }
 
 }
