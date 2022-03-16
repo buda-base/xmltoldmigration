@@ -165,10 +165,21 @@ public class OutlineMigration {
         ridsToIgnore.put("O1GS129876", true);
         
         // Nyingma Gyubum
-        // O1CT1002
-        // O1CT1003
-        // O21939
-        // 
+        // MW1KG11703 -> O1KG11703
+        // MW2PD19896 -> no outline
+        // MW2PD19897 -> no outline
+        // MW21519 -> O1CT1001
+        // MW21520 -> no outline
+        // MW21939 -> O21939
+        // MW3CN3207 -> no outline
+        // MW25815 -> O25815
+        // MW1KG16449 -> no outline
+        // MW21521 -> O1CT1003
+        // MW1KG14783 -> O1KG14783
+        // MW20150 -> no outline
+        // MW21518 -> O1CT1002
+        // MW1NLM219 -> O2KG208199
+        // MW2PD17382 -> no outline
         
         // Rinchen Terdzo:
         // O20578

@@ -34,6 +34,7 @@ import static io.bdrc.libraries.Models.setPrefixes;
 public class FEMCTransfer {
 
     public static void transferFEMCWorks() {
+        System.out.println("transfer FEMC works");
         CSVReader reader;
         CSVParser parser = new CSVParserBuilder().build();
         InputStream inputStream = EAPFondsTransfer.class.getClassLoader().getResourceAsStream("femc-works.csv");

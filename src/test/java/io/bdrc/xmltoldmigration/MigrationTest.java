@@ -127,10 +127,12 @@ public class MigrationTest
 	    assertAbstractTitle("test bzhugs so/", "test/", m);
 	    assertAbstractTitle("test bzhugs so/", "test/", m);
 	    assertAbstractTitle("(ya) yang bzlog 'phyong /", "yang bzlog 'phyong /", m);
-	    assertAbstractTitle("(ya)_gsang ba sbas ston las/_sman gyi gzhung shes yig chung /（phyi/_kha/_85）", "gsang ba sbas ston las/_sman gyi gzhung shes yig chung /", m);
+	    //assertAbstractTitle("(ya)_gsang ba sbas ston las/_sman gyi gzhung shes yig chung /（phyi/_kha/_85）", "gsang ba sbas ston las/_sman gyi gzhung shes yig chung /", m);
 	    assertAbstractTitle("(ya)bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/", "bla ma'i rnal 'byor zab mo nyams len gnad kyi snying po/", m);
 	    assertAbstractTitle("4)_nyams ldan sogs kha shas kyi rtsom dpe/", "nyams ldan sogs kha shas kyi rtsom dpe/", m);
 	    assertAbstractTitle("ka1)_bshad bya gzhung gi rang bzhin ngos bzung ba/", "bshad bya gzhung gi rang bzhin ngos bzung ba/", m);
+	    assertAbstractTitle("bka' 'gyur (stog pho brang bris ma/）", "bka' 'gyur/", m);
+	    assertAbstractTitle("bka' 'gyur (stog pho brang bla bla/)", "bka' 'gyur (stog pho brang bla bla/)", m);
 	}
 	
 	@Test
