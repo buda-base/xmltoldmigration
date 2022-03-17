@@ -19,8 +19,8 @@ bda:LG96B065B1B67F2C86
 
 bdr:EV1C15C9CBCFC6FF17
         a             :LineageEvent ;
-        :lineageFrom  bdr:P1132 ;
-        :onOrAbout    "testcirca" .
+        :eventWhen    "testcirca"^^<http://id.loc.gov/datatypes/edtf> ;
+        :lineageFrom  bdr:P1132 .
 
 bdr:NT7E05A41908C244A3
         a          :Note ;
