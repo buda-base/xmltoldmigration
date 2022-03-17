@@ -21,7 +21,6 @@ bdr:NTEC7A7B10B09836B6
 
 bdr:EV17426918F6CC57DE
         a           :PlaceFounded ;
-        :eventWhen  "13XX/17XX"^^<http://id.loc.gov/datatypes/edtf> ;
         :notAfter   "1799"^^xsd:gYear ;
         :notBefore  "1300"^^xsd:gYear .
 

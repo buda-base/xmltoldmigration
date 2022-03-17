@@ -333,7 +333,15 @@ public class CommonMigration  {
             m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr));    
             return;
         } catch (NumberFormatException e) {}
-        
+        boolean keepdate = dateStr.contains("?") || dateStr.contains("~");
+        if (keepdate) {
+            try {
+                // we try to add the string without the final ? or ~
+                m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr.substring(0, dateStr.length()-1)));
+                m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
+                return;
+            } catch (NumberFormatException e) {}
+        }
         int slashidx = dateStr.indexOf('/');
         if (slashidx == -1) {
             slashidx = dateStr.indexOf('-');
@@ -345,7 +353,8 @@ public class CommonMigration  {
             String firstDate = dateStr.substring(0, slashidx);
             String secondDate = dateStr.substring(slashidx+1, dateStr.length());
             dateStr = padEdtfZeros(firstDate)+"/"+padEdtfZeros(secondDate);
-            m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
+            if (keepdate)
+                m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
             firstDate = firstDate.replace('X', '0');
             secondDate = secondDate.replace('X', '9');
             try {
@@ -374,7 +383,8 @@ public class CommonMigration  {
                 ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
             }
             dateStr = padEdtfZeros(dateStr);
-            m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
+            if (keepdate)
+                m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
             return;
         }
         // if we reach here, we're in a bogus state

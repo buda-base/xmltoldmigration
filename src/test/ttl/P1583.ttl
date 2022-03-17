@@ -22,7 +22,6 @@ bdr:NME2F236C649A1C622
 
 bdr:EVB25CDA7F05164BEA
         a            :PersonAssumesOffice ;
-        :eventWhen   "1734/1735"^^<http://id.loc.gov/datatypes/edtf> ;
         :eventWhere  bdr:G20 ;
         :notAfter    "1735"^^xsd:gYear ;
         :notBefore   "1734"^^xsd:gYear .
@@ -69,7 +68,6 @@ bdr:NM9C8DEB6FF7CEC129
 
 bdr:EV93D338F6A346B51D
         a           :PersonBirth ;
-        :eventWhen  "09XX"^^<http://id.loc.gov/datatypes/edtf> ;
         :notAfter   "0999"^^xsd:gYear ;
         :notBefore  "0900"^^xsd:gYear .
 
@@ -142,7 +140,6 @@ bdr:NMDD9AB2BD104D0A7D
 
 bdr:EVF24F5C4DD8140821
         a            :PersonInResidence ;
-        :eventWhen   "1734/1735"^^<http://id.loc.gov/datatypes/edtf> ;
         :eventWhere  bdr:G20 ;
         :notAfter    "1735"^^xsd:gYear ;
         :notBefore   "1734"^^xsd:gYear .

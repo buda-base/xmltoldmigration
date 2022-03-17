@@ -72,7 +72,7 @@ bdr:TT2CE1832997E074F6
 
 bdr:EV836983BDFBDCF03A
         a           :CompletedEvent ;
-        :eventWhen  "descriptionwithtypedate"^^<http://id.loc.gov/datatypes/edtf> , "17XX"^^<http://id.loc.gov/datatypes/edtf> , "199X"^^<http://id.loc.gov/datatypes/edtf> ;
+        :eventWhen  "descriptionwithtypedate"^^<http://id.loc.gov/datatypes/edtf> ;
         :notAfter   "1799"^^xsd:gYear , "1999"^^xsd:gYear ;
         :notBefore  "1700"^^xsd:gYear , "1990"^^xsd:gYear ;
         :onYear     "1232"^^xsd:gYear .
