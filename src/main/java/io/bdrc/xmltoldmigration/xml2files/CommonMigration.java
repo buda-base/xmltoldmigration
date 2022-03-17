@@ -109,7 +109,6 @@ public class CommonMigration  {
         
         @Override
         public boolean equals(Object other) {
-            System.out.println("equals");
             if (other instanceof EDTFStr) {
                 return this.str.equals(((EDTFStr)other).str);
             } else {

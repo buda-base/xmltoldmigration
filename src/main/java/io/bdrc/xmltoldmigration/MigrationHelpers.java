@@ -45,7 +45,6 @@ import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Dataset;
-import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -58,7 +57,9 @@ import org.apache.jena.riot.RiotException;
 import org.apache.jena.riot.system.PrefixMap;
 import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.StreamRDFLib;
+import org.apache.jena.shared.BrokenException;
 import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
@@ -580,9 +581,15 @@ public class MigrationHelpers {
             foo = foo.replace(".trig",  "").replace(".ttl",  "");
             String uriStr = BDG+foo;
             Node graphUri = NodeFactory.createURI(uriStr);
-            DatasetGraph dsg = DatasetFactory.create().asDatasetGraph();
-            dsg.addGraph(graphUri, m.getGraph());
-            new STriGWriter().write(out, dsg, getPrefixMap(type), null, ctx);
+            DatasetGraph dsg = DatasetGraphFactory.createGeneral();
+            try {
+                dsg.addGraph(graphUri, m.getGraph());
+                new STriGWriter().write(out, dsg, getPrefixMap(type), null, ctx);
+            } catch (BrokenException e) {
+                System.err.println("can't write "+foo+": "+e.getMessage());
+                m.write(System.err, "TTL");
+            }
+            
         }
     }
 
