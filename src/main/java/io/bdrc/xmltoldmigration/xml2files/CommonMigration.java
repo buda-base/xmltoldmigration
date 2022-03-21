@@ -313,7 +313,7 @@ public class CommonMigration  {
         if (dateStr.length() < 3)
             return;
         if (dateStr.startsWith("c."))
-            dateStr = dateStr.substring(2).stripLeading()+"~";
+            dateStr = dateStr.substring(2).trim()+"~";
         final Model m = event.getModel();
         if (dateStr.endsWith("?")) {
             if (dateStr.length() < 5 && dateStr.startsWith("1")) {
@@ -324,7 +324,7 @@ public class CommonMigration  {
             }
         }
         if (dateStr.charAt(1) == '.') { // for b. and d. 
-            dateStr = dateStr.substring(2).stripLeading();
+            dateStr = dateStr.substring(2).trim();
         }
         if (dateStr.endsWith(".000000")) {
             dateStr = dateStr.substring(0, dateStr.length()-7);
