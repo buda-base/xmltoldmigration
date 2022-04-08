@@ -157,6 +157,10 @@ public class MigrationHelpers {
     public static final Map<String, Boolean> removeW;
     public static final Map<String, Boolean> ricWithOutline;
     
+    public static final Map<String, Boolean> mwInCopyright;
+    public static final Map<String, Boolean> mwCopyrightClaimed;
+    public static final Map<String, Boolean> mwCopyrightUndetermined;
+    
     public static final Map<String, Boolean> ricrid;
 
     static {
@@ -171,7 +175,10 @@ public class MigrationHelpers {
         ricWithOutline = setupRICWithoutlines();
         removeW = setupRemoveW();
         disconnectedRIds = setupDisconnectedRIDs();
-        nokForLending = setupNokForLending();
+        nokForLending = setupSimpleList("nokforcdl.txt");
+        mwInCopyright = setupSimpleList("mw-copyrighted.csv");
+        mwCopyrightClaimed = setupSimpleList("mw-copyright-claimed.csv");
+        mwCopyrightUndetermined = setupSimpleList("mw-copyright-undetermined.csv");
         ricrid = setupRICRID();
         ridReplacements = setupRIDReplacements();
         tol = setupTol();
@@ -278,11 +285,11 @@ public class MigrationHelpers {
             m.setNsPrefix("vcard", VCARD4.getURI());
 
     }
-
-    public static Map<String, Boolean> setupNokForLending() {
+    
+    public static Map<String, Boolean> setupSimpleList(final String filename) {
         final Map<String,Boolean> res = new HashMap<>();
         final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
-        final InputStream inputStream = classLoader.getResourceAsStream("nokforcdl.txt");
+        final InputStream inputStream = classLoader.getResourceAsStream(filename);
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
             while(reader.ready()) {

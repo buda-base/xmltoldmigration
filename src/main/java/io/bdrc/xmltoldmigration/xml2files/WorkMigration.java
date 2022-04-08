@@ -253,7 +253,7 @@ public class WorkMigration {
 	public static List<WorkModelInfo> MigrateWork(Document xmlDocument, Model m, Map<String,Model> itemModels) {
 		Element root = xmlDocument.getDocumentElement();
 		Element current;
-		String workId = root.getAttribute("RID");
+		final String workId = root.getAttribute("RID");
 		String aWorkId = getAbstractForRid(workId);
 		String status = root.getAttribute("status");
 		List<WorkModelInfo> res = new ArrayList<>();
@@ -464,6 +464,15 @@ public class WorkMigration {
     	        }
     	    }
 		
+    	    // copyright status
+    	    if (MigrationHelpers.mwCopyrightClaimed.containsKey(workId)) {
+    	        m.add(main, m.createProperty(BDO, "copyrightStatus"), m.createResource(BDR+"CopyrightClaimed"));
+    	    } else if (MigrationHelpers.mwInCopyright.containsKey(workId)) { 
+                m.add(main, m.createProperty(BDO, "copyrightStatus"), m.createResource(BDR+"CopyrightInCopyright"));
+    	    } else if (MigrationHelpers.mwCopyrightClaimed.containsKey(workId)) { 
+                m.add(main, m.createProperty(BDO, "copyrightStatus"), m.createResource(BDR+"CopyrightUndetermined"));
+    	    }
+    	    
     		// archiveInfo
     		
     		nodeList = root.getElementsByTagNameNS(WXSDNS, "archiveInfo");
