@@ -16,6 +16,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
@@ -27,7 +28,7 @@ public class HodgsonTest {
     }
 
     @Test
-    public void testHodgson() throws IOException {
+    public void testHodgson() throws IOException, CsvValidationException {
         // get the line
         final CSVReader reader;
         final CSVParser parser = new CSVParserBuilder().build();

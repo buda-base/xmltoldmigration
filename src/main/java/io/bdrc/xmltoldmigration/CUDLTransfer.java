@@ -33,6 +33,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -46,7 +47,7 @@ public class CUDLTransfer {
     public static final HashMap<String,String> scripts = getScripts();
     public static final String ORIG_URL_BASE = "https://cudl.lib.cam.ac.uk/view/";
 
-    public static void CUDLDoTransfer() throws IOException {
+    public static void CUDLDoTransfer() throws IOException, CsvException {
         CSVReader reader;
         CSVParser parser = new CSVParserBuilder().build();
         InputStream inputStream = CUDLTransfer.class.getClassLoader().getResourceAsStream("cudl.csv");

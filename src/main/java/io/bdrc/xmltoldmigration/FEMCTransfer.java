@@ -17,6 +17,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
@@ -62,7 +63,7 @@ public class FEMCTransfer {
                 String workOutfileName = MigrationApp.getDstFileName("work", mainA.getLocalName());
                 MigrationHelpers.outputOneModel(mA, mainA.getLocalName(), workOutfileName, "work");
             }
-        } catch (IOException e) {
+        } catch (IOException | CsvException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

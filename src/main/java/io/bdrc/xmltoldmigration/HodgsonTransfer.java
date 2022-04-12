@@ -34,6 +34,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -70,7 +71,7 @@ public class HodgsonTransfer {
                 line = reader.readNext();
             }
             MigrationApp.insertMissingSymetricTriples("work");
-        } catch (IOException e) {
+        } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
         }
     }

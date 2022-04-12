@@ -18,6 +18,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 
@@ -29,7 +30,7 @@ public class GretilTest {
     }
 
     @Test
-    public void testGretil() throws IOException {
+    public void testGretil() throws IOException, CsvValidationException {
         // get the line
         final CSVReader reader;
         final CSVParser parser = new CSVParserBuilder().build();

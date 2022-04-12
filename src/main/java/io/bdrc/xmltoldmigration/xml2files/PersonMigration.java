@@ -13,6 +13,7 @@ import static io.bdrc.libraries.Models.FacetType.EVENT;
 import static io.bdrc.libraries.Models.FacetType.NAME;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
@@ -95,6 +96,13 @@ public class PersonMigration {
         }
         if (MigrationHelpers.tol.containsKey(RID)) {
             admMain.addProperty(m.createProperty(ADM, "seeOtherToL"), m.createTypedLiteral(MigrationHelpers.tol.get(RID), XSDDatatype.XSDanyURI));
+        }
+        
+        final List<String> traditions = MigrationHelpers.personTraditions.get(RID);
+        if (traditions != null) {
+            for (final String tlname : traditions) {
+                main.addProperty(m.createProperty(BDO+"associatedTradition"), m.createResource(BDR+"Tradition"+tlname));
+            }
         }
         
 		addStatus(m, admMain, root.getAttribute("status"));

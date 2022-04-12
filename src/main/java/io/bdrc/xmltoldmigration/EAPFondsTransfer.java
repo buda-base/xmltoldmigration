@@ -36,6 +36,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
@@ -50,7 +51,7 @@ public class EAPFondsTransfer {
     private static final String ManifestPREFIX = "https://eap.bl.uk/archive-file/";
     public static final String ORIG_URL_BASE = "https://eap.bl.uk/collection/";
 
-    public EAPFondsTransfer(String filename, boolean simplified) throws IOException {
+    public EAPFondsTransfer(String filename, boolean simplified) throws IOException, CsvException {
         this.simplified = simplified;
         CSVReader reader;
         CSVParser parser = new CSVParserBuilder().build();
@@ -395,7 +396,7 @@ public class EAPFondsTransfer {
         return res;
     }
 
-    public static void EAPFondsDoTransfer() throws IOException {
+    public static void EAPFondsDoTransfer() throws IOException, CsvException {
         EAPFondsTransfer tr = new EAPFondsTransfer("EAP310.csv", false);
         tr.writeEAPFiles(tr.getResources());
         tr = new EAPFondsTransfer("EAP039.csv", false);

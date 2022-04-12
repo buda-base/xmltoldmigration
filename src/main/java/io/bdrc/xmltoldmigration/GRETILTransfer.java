@@ -29,6 +29,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
@@ -63,7 +64,7 @@ public class GRETILTransfer {
                 }
                 line = reader.readNext();
             }
-        } catch (IOException e) {
+        } catch (IOException | CsvValidationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

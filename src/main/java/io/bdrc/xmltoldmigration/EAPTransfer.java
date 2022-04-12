@@ -37,6 +37,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
 import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
@@ -61,7 +62,7 @@ public class EAPTransfer {
         String[] line = null;
         try {
             line = reader.readNext();
-        } catch (IOException e) {
+        } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
             return null;
         }
@@ -70,7 +71,7 @@ public class EAPTransfer {
                 res.put(line[1], line[0]);
             try {
                 line = reader.readNext();
-            } catch (IOException e) {
+            } catch (IOException | CsvValidationException e) {
                 e.printStackTrace();
                 return null;
             }
@@ -100,7 +101,7 @@ public class EAPTransfer {
                 line = reader.readNext();
             }
             MigrationApp.insertMissingSymetricTriples("work");
-        } catch (IOException e) {
+        } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
         }
     }

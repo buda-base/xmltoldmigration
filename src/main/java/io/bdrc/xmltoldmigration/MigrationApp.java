@@ -50,6 +50,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
 import io.bdrc.libraries.GitHelpers;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
@@ -684,7 +685,7 @@ public class MigrationApp
         }
       }
 
-    public static void main( String[] args ) throws NoSuchAlgorithmException, IllegalArgumentException, IOException
+    public static void main( String[] args ) throws NoSuchAlgorithmException, IllegalArgumentException, IOException, CsvException
     {
         boolean oneDirection = false;
         boolean manyOverOne = false;

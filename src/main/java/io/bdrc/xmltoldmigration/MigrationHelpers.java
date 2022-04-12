@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -73,6 +74,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 import io.bdrc.jena.sttl.CompareComplex;
 import io.bdrc.jena.sttl.ComparePredicates;
@@ -160,6 +164,7 @@ public class MigrationHelpers {
     public static final Map<String, Boolean> mwInCopyright;
     public static final Map<String, Boolean> mwCopyrightClaimed;
     public static final Map<String, Boolean> mwCopyrightUndetermined;
+    public static final Map<String, List<String>> personTraditions;
     
     public static final Map<String, Boolean> ricrid;
 
@@ -181,6 +186,7 @@ public class MigrationHelpers {
         mwCopyrightUndetermined = setupSimpleList("mw-copyright-undetermined.csv");
         ricrid = setupRICRID();
         ridReplacements = setupRIDReplacements();
+        personTraditions = setupPersonTraditions();
         tol = setupTol();
         oclcW = setupOclcW();
         setupSTTL();
@@ -234,6 +240,22 @@ public class MigrationHelpers {
                  res.put(line, true);
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
+    public static Map<String, List<String>> setupPersonTraditions() {
+        final Map<String, List<String>> res = new HashMap<>();
+        final ClassLoader classLoader = MigrationHelpers.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("person-traditions.csv");
+
+        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {
+            String[] lineInArray;
+            while ((lineInArray = reader.readNext()) != null) {
+                res.put(lineInArray[0], Arrays.asList(lineInArray[1].split(",")));
+            }
+        } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
         }
         return res;

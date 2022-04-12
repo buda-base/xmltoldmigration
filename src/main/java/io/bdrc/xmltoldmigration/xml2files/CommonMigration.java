@@ -66,6 +66,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 
 import io.bdrc.ewtsconverter.EwtsConverter;
 import io.bdrc.libraries.Models.FacetType;
@@ -188,7 +189,7 @@ public class CommonMigration  {
                 res.put(line[0], line[1]);
                 line = reader.readNext();
             }
-        } catch (IOException e) {
+        } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
             return null;
         }

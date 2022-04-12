@@ -125,9 +125,9 @@ P6409,Bon
 P9293,Bon
 P9331,Bon
 P9306,Bon
-P3CN363,"Bon, Nyingma"
-P6164,"Bon, Nyingma"
-P8LS13436,"Bon, Sakya"
+P3CN363,"Bon,Nyingma"
+P6164,"Bon,Nyingma"
+P8LS13436,"Bon,Sakya"
 P3312,Chod
 P1243,Chod
 P1360,DakpoKagyu
@@ -165,10 +165,10 @@ P827,DakpoKagyu
 P853,DakpoKagyu
 P8LS12933,DakpoKagyu
 P941,DakpoKagyu
-P1514,"DakpoKagyu, Nyingma"
-P3CN19926,"DakpoKagyu, Nyingma"
-P127,"DakpoKagyu, PhagGruKagyu"
-P2636,"DakpoKagyu, Rime"
+P1514,"DakpoKagyu,Nyingma"
+P3CN19926,"DakpoKagyu,Nyingma"
+P127,"DakpoKagyu,PhagGruKagyu"
+P2636,"DakpoKagyu,Rime"
 P16,DrigungKagyu
 P00KG09672,DrigungKagyu
 P10236,DrigungKagyu
@@ -260,10 +260,10 @@ P7836,DrigungKagyu
 P11MS248,DrigungKagyu
 P1AG24,DrigungKagyu
 P1AG25,DrigungKagyu
-P2230,"DrigungKagyu, Nyingma"
-P4580,"DrigungKagyu, Rime"
-P1PD108247,"DrigungKagyu, Sakya"
-P2CN11094,"DrigungKagyu, Sakya"
+P2230,"DrigungKagyu,Nyingma"
+P4580,"DrigungKagyu,Rime"
+P1PD108247,"DrigungKagyu,Sakya"
+P2CN11094,"DrigungKagyu,Sakya"
 P910,DrukpaKagyu
 P00KG03959,DrukpaKagyu
 P10137,DrukpaKagyu
@@ -463,9 +463,9 @@ P862,DrukpaKagyu
 P891,DrukpaKagyu
 P933,DrukpaKagyu
 P912,DrukpaKagyu
-P7743,"DrukpaKagyu, Geluk"
-P7857,"DrukpaKagyu, Geluk"
-P2090,"DrukpaKagyu, TodrukKagyu"
+P7743,"DrukpaKagyu,Geluk"
+P7857,"DrukpaKagyu,Geluk"
+P2090,"DrukpaKagyu,TodrukKagyu"
 P1591,Geluk
 P108,Geluk
 P2425,Geluk
@@ -2023,21 +2023,21 @@ P1TLMTGA000051,Geluk
 P1TLMTGA000054,Geluk
 P1TLMTGA000052,Geluk
 P7718,Geluk
-P8138,"Geluk, Bon"
-P9115,"Geluk, Kadam"
-P7755,"Geluk, Kadam"
-P1GS107885,"Geluk, Kagyu"
-P2KG209132,"Geluk, Kagyu"
-P2KG209133,"Geluk, Kagyu"
-P3359,"Geluk, Kagyu"
-P829,"Geluk, KarmaKagyu"
-P831,"Geluk, KarmaKagyu"
-P7756,"Geluk, Nyingma"
-P4655,"Geluk, Nyingma"
-P3787,"Geluk, Sakya"
-P3809,"Geluk, Sakya"
-P8LS76300,"Geluk, Sakya"
-P9235,"Geluk, Sakya"
+P8138,"Geluk,Bon"
+P9115,"Geluk,Kadam"
+P7755,"Geluk,Kadam"
+P1GS107885,"Geluk,Kagyu"
+P2KG209132,"Geluk,Kagyu"
+P2KG209133,"Geluk,Kagyu"
+P3359,"Geluk,Kagyu"
+P829,"Geluk,KarmaKagyu"
+P831,"Geluk,KarmaKagyu"
+P7756,"Geluk,Nyingma"
+P4655,"Geluk,Nyingma"
+P3787,"Geluk,Sakya"
+P3809,"Geluk,Sakya"
+P8LS76300,"Geluk,Sakya"
+P9235,"Geluk,Sakya"
 P6479,Jonang
 P00KG03804,Jonang
 P00KG03805,Jonang
@@ -2121,9 +2121,9 @@ P3893,Jonang
 P3094,Jonang
 P8878,Jonang
 P8964,Jonang
-P6481,"Jonang, Nyingma"
-P6482,"Jonang, Nyingma"
-P6485,"Jonang, Nyingma"
+P6481,"Jonang,Nyingma"
+P6482,"Jonang,Nyingma"
+P6485,"Jonang,Nyingma"
 P1575,Kadam
 P10246,Kadam
 P10339,Kadam
@@ -2324,76 +2324,76 @@ P56,Kadam
 P6472,Kadam
 P7124,Kadam
 P9535,Kadam
-P3599,"Kadam, Geluk"
-P10317,"Kadam, Geluk"
-P2CN10530,"Kadam, Geluk"
-P336,"Kadam, Geluk"
-P3485,"Kadam, Geluk"
-P3600,"Kadam, Geluk"
-P4303,"Kadam, Geluk"
-P4817,"Kadam, Geluk"
-P4819,"Kadam, Geluk"
-P5257,"Kadam, Geluk"
-P8LS12029,"Kadam, Geluk"
-P8LS12205,"Kadam, Geluk"
-P8LS12206,"Kadam, Geluk"
-P8LS12210,"Kadam, Geluk"
-P8LS12212,"Kadam, Geluk"
-P8LS12213,"Kadam, Geluk"
-P8LS12214,"Kadam, Geluk"
-P8LS12215,"Kadam, Geluk"
-P8LS12216,"Kadam, Geluk"
-P8LS12217,"Kadam, Geluk"
-P8LS12220,"Kadam, Geluk"
-P8LS12221,"Kadam, Geluk"
-P8LS12222,"Kadam, Geluk"
-P8LS12223,"Kadam, Geluk"
-P8LS12225,"Kadam, Geluk"
-P8LS12226,"Kadam, Geluk"
-P8LS12227,"Kadam, Geluk"
-P8LS12231,"Kadam, Geluk"
-P8LS12232,"Kadam, Geluk"
-P8LS12234,"Kadam, Geluk"
-P8LS12235,"Kadam, Geluk"
-P8LS12236,"Kadam, Geluk"
-P8LS12238,"Kadam, Geluk"
-P8LS12240,"Kadam, Geluk"
-P8LS12241,"Kadam, Geluk"
-P8LS12242,"Kadam, Geluk"
-P8LS12243,"Kadam, Geluk"
-P8LS12244,"Kadam, Geluk"
-P8LS12245,"Kadam, Geluk"
-P8LS12246,"Kadam, Geluk"
-P8LS12247,"Kadam, Geluk"
-P8LS12248,"Kadam, Geluk"
-P8LS12249,"Kadam, Geluk"
-P8LS12250,"Kadam, Geluk"
-P8LS12251,"Kadam, Geluk"
-P8LS12252,"Kadam, Geluk"
-P8LS12253,"Kadam, Geluk"
-P8LS12254,"Kadam, Geluk"
-P8LS12255,"Kadam, Geluk"
-P8LS12256,"Kadam, Geluk"
-P8LS12257,"Kadam, Geluk"
-P8LS12259,"Kadam, Geluk"
-P8LS12260,"Kadam, Geluk"
-P8LS12261,"Kadam, Geluk"
-P8LS12262,"Kadam, Geluk"
-P8LS12263,"Kadam, Geluk"
-P8LS12264,"Kadam, Geluk"
-P8LS12265,"Kadam, Geluk"
-P8LS12266,"Kadam, Geluk"
-P8LS12269,"Kadam, Geluk"
-P8LS12270,"Kadam, Geluk"
-P8LS12272,"Kadam, Geluk"
-P8LS12273,"Kadam, Geluk"
-P8LS12274,"Kadam, Geluk"
-P404,"Kadam, Geluk"
-P1317,"Kadam, Geluk"
-P10140,"Kadam, Rime, Geluk"
-P8LS12209,"Kadam, Rime, Geluk"
-P1KG22260,"Kadam, Sakya, Geluk"
-P52,"Kadam, ShangpaKagyu"
+P3599,"Kadam,Geluk"
+P10317,"Kadam,Geluk"
+P2CN10530,"Kadam,Geluk"
+P336,"Kadam,Geluk"
+P3485,"Kadam,Geluk"
+P3600,"Kadam,Geluk"
+P4303,"Kadam,Geluk"
+P4817,"Kadam,Geluk"
+P4819,"Kadam,Geluk"
+P5257,"Kadam,Geluk"
+P8LS12029,"Kadam,Geluk"
+P8LS12205,"Kadam,Geluk"
+P8LS12206,"Kadam,Geluk"
+P8LS12210,"Kadam,Geluk"
+P8LS12212,"Kadam,Geluk"
+P8LS12213,"Kadam,Geluk"
+P8LS12214,"Kadam,Geluk"
+P8LS12215,"Kadam,Geluk"
+P8LS12216,"Kadam,Geluk"
+P8LS12217,"Kadam,Geluk"
+P8LS12220,"Kadam,Geluk"
+P8LS12221,"Kadam,Geluk"
+P8LS12222,"Kadam,Geluk"
+P8LS12223,"Kadam,Geluk"
+P8LS12225,"Kadam,Geluk"
+P8LS12226,"Kadam,Geluk"
+P8LS12227,"Kadam,Geluk"
+P8LS12231,"Kadam,Geluk"
+P8LS12232,"Kadam,Geluk"
+P8LS12234,"Kadam,Geluk"
+P8LS12235,"Kadam,Geluk"
+P8LS12236,"Kadam,Geluk"
+P8LS12238,"Kadam,Geluk"
+P8LS12240,"Kadam,Geluk"
+P8LS12241,"Kadam,Geluk"
+P8LS12242,"Kadam,Geluk"
+P8LS12243,"Kadam,Geluk"
+P8LS12244,"Kadam,Geluk"
+P8LS12245,"Kadam,Geluk"
+P8LS12246,"Kadam,Geluk"
+P8LS12247,"Kadam,Geluk"
+P8LS12248,"Kadam,Geluk"
+P8LS12249,"Kadam,Geluk"
+P8LS12250,"Kadam,Geluk"
+P8LS12251,"Kadam,Geluk"
+P8LS12252,"Kadam,Geluk"
+P8LS12253,"Kadam,Geluk"
+P8LS12254,"Kadam,Geluk"
+P8LS12255,"Kadam,Geluk"
+P8LS12256,"Kadam,Geluk"
+P8LS12257,"Kadam,Geluk"
+P8LS12259,"Kadam,Geluk"
+P8LS12260,"Kadam,Geluk"
+P8LS12261,"Kadam,Geluk"
+P8LS12262,"Kadam,Geluk"
+P8LS12263,"Kadam,Geluk"
+P8LS12264,"Kadam,Geluk"
+P8LS12265,"Kadam,Geluk"
+P8LS12266,"Kadam,Geluk"
+P8LS12269,"Kadam,Geluk"
+P8LS12270,"Kadam,Geluk"
+P8LS12272,"Kadam,Geluk"
+P8LS12273,"Kadam,Geluk"
+P8LS12274,"Kadam,Geluk"
+P404,"Kadam,Geluk"
+P1317,"Kadam,Geluk"
+P10140,"Kadam,Rime,Geluk"
+P8LS12209,"Kadam,Rime,Geluk"
+P1KG22260,"Kadam,Sakya,Geluk"
+P52,"Kadam,ShangpaKagyu"
 P0RK1289,Kagyu
 P0RK1295,Kagyu
 P0RK1366,Kagyu
@@ -2505,15 +2505,15 @@ P1KG9845,Kagyu
 P227,Kagyu
 P8712,Kagyu
 P8729,Kagyu
-P1146,"Kagyu, Geluk"
-P1274,"Kagyu, Geluk"
-P1286,"Kagyu, Geluk"
-P1288,"Kagyu, Geluk"
-P1757,"Kagyu, Geluk"
-P390,"Kagyu, Geluk"
-P8796,"Kagyu, Geluk"
-P8LS13223,"Kagyu, Geluk"
-P8LS13224,"Kagyu, Geluk"
+P1146,"Kagyu,Geluk"
+P1274,"Kagyu,Geluk"
+P1286,"Kagyu,Geluk"
+P1288,"Kagyu,Geluk"
+P1757,"Kagyu,Geluk"
+P390,"Kagyu,Geluk"
+P8796,"Kagyu,Geluk"
+P8LS13223,"Kagyu,Geluk"
+P8LS13224,"Kagyu,Geluk"
 P559,KarmaKagyu
 P66,KarmaKagyu
 P956,KarmaKagyu
@@ -2636,11 +2636,11 @@ P861,KarmaKagyu
 P6265,KarmaKagyu
 P6603,KarmaKagyu
 P815,KarmaKagyu
-P1010,"KarmaKagyu, Geluk"
-P10620,"KarmaKagyu, Geluk"
-P2362,"KarmaKagyu, Rime, Sakya"
-P8LS75171,"KarmaKagyu, Sakya, Geluk"
-P1KG4203,"MartsangKagyu, KarmaKagyu"
+P1010,"KarmaKagyu,Geluk"
+P10620,"KarmaKagyu,Geluk"
+P2362,"KarmaKagyu,Rime,Sakya"
+P8LS75171,"KarmaKagyu,Sakya,Geluk"
+P1KG4203,"MartsangKagyu,KarmaKagyu"
 P10MS19659,Nyingma
 P2943,Nyingma
 P003JR4640,Nyingma
@@ -3322,32 +3322,32 @@ P8028,Nyingma
 P8LS13667,Nyingma
 P9362,Nyingma
 P6492,Nyingma
-P8753,"Nyingma, DakpoKagyu"
-P8754,"Nyingma, DakpoKagyu"
-P8760,"Nyingma, DakpoKagyu"
-P4925,"Nyingma, Geluk"
-P6449,"Nyingma, Geluk"
-P37,"Nyingma, Geluk"
-P675,"Nyingma, Geluk"
-P1281,"Nyingma, Geluk"
-P5930,"Nyingma, Geluk"
-P2450,"Nyingma, Jonang"
-P7753,"Nyingma, Kadam"
-P1KG3933,"Nyingma, Kagyu"
-P7023,"Nyingma, Kagyu"
-P8LS76439,"Nyingma, Kagyu"
-P6897,"Nyingma, Kagyu"
-P6044,"Nyingma, KarmaKagyu"
-P8803,"Nyingma, KarmaKagyu"
-P2710,"Nyingma, KarmaKagyu"
-P649,"Nyingma, KarmaKagyu"
-P9526,"Nyingma, KarmaKagyu"
-P833,"Nyingma, MadunKagyu"
-P699,"Nyingma, Rime"
-P9570,"Nyingma, Sakya"
-P3458,"Nyingma, Sakya"
-P10182,"Nyingma, ShangpaKagyu"
-P7640,"Nyingma, TaklungKagyu"
+P8753,"Nyingma,DakpoKagyu"
+P8754,"Nyingma,DakpoKagyu"
+P8760,"Nyingma,DakpoKagyu"
+P4925,"Nyingma,Geluk"
+P6449,"Nyingma,Geluk"
+P37,"Nyingma,Geluk"
+P675,"Nyingma,Geluk"
+P1281,"Nyingma,Geluk"
+P5930,"Nyingma,Geluk"
+P2450,"Nyingma,Jonang"
+P7753,"Nyingma,Kadam"
+P1KG3933,"Nyingma,Kagyu"
+P7023,"Nyingma,Kagyu"
+P8LS76439,"Nyingma,Kagyu"
+P6897,"Nyingma,Kagyu"
+P6044,"Nyingma,KarmaKagyu"
+P8803,"Nyingma,KarmaKagyu"
+P2710,"Nyingma,KarmaKagyu"
+P649,"Nyingma,KarmaKagyu"
+P9526,"Nyingma,KarmaKagyu"
+P833,"Nyingma,MadunKagyu"
+P699,"Nyingma,Rime"
+P9570,"Nyingma,Sakya"
+P3458,"Nyingma,Sakya"
+P10182,"Nyingma,ShangpaKagyu"
+P7640,"Nyingma,TaklungKagyu"
 P10483,Rime
 P1586,Rime
 P1692,Rime
@@ -3386,12 +3386,12 @@ P5110,Rime
 P8116,Rime
 P8313,Rime
 P3JT12485,Rime
-P7100,"Rime, Geluk"
-P1649,"Rime, Geluk"
-P6453,"Rime, Kadam"
-P489,"Rime, Sakya"
-P258,"Rime, Sakya"
-P733,"Rime, Sakya"
+P7100,"Rime,Geluk"
+P1649,"Rime,Geluk"
+P6453,"Rime,Kadam"
+P489,"Rime,Sakya"
+P258,"Rime,Sakya"
+P733,"Rime,Sakya"
 P00KG07596,Sakya
 P00KG08369,Sakya
 P10091,Sakya
@@ -3707,38 +3707,38 @@ P788,Sakya
 P807,Sakya
 P9187,Sakya
 P780,Sakya
-P10675,"Sakya, DrigungKagyu"
-P1992,"Sakya, Geluk"
-P3946,"Sakya, Geluk"
-P3947,"Sakya, Geluk"
-P3948,"Sakya, Geluk"
-P3949,"Sakya, Geluk"
-P3CN359,"Sakya, Geluk"
-P4940,"Sakya, Geluk"
-P8LS12278,"Sakya, Geluk"
-P8LS12279,"Sakya, Geluk"
-P8LS12280,"Sakya, Geluk"
-P8LS12281,"Sakya, Geluk"
-P8LS12282,"Sakya, Geluk"
-P8LS12283,"Sakya, Geluk"
-P8LS12284,"Sakya, Geluk"
-P8LS12285,"Sakya, Geluk"
-P8LS12286,"Sakya, Geluk"
-P8LS12287,"Sakya, Geluk"
-P8LS12289,"Sakya, Geluk"
-P8LS12290,"Sakya, Geluk"
-P8LS12291,"Sakya, Geluk"
-P8LS12295,"Sakya, Geluk"
-P8LS12298,"Sakya, Geluk"
-P8LS12299,"Sakya, Geluk"
-P8LS13265,"Sakya, Geluk"
-P9411,"Sakya, Geluk"
-P9422,"Sakya, Geluk"
-P9423,"Sakya, Geluk"
-P9425,"Sakya, Geluk"
-P1025,"Sakya, Kadam"
-P7270,"Sakya, Rime"
-P1089,"Sakya, Zhalu"
+P10675,"Sakya,DrigungKagyu"
+P1992,"Sakya,Geluk"
+P3946,"Sakya,Geluk"
+P3947,"Sakya,Geluk"
+P3948,"Sakya,Geluk"
+P3949,"Sakya,Geluk"
+P3CN359,"Sakya,Geluk"
+P4940,"Sakya,Geluk"
+P8LS12278,"Sakya,Geluk"
+P8LS12279,"Sakya,Geluk"
+P8LS12280,"Sakya,Geluk"
+P8LS12281,"Sakya,Geluk"
+P8LS12282,"Sakya,Geluk"
+P8LS12283,"Sakya,Geluk"
+P8LS12284,"Sakya,Geluk"
+P8LS12285,"Sakya,Geluk"
+P8LS12286,"Sakya,Geluk"
+P8LS12287,"Sakya,Geluk"
+P8LS12289,"Sakya,Geluk"
+P8LS12290,"Sakya,Geluk"
+P8LS12291,"Sakya,Geluk"
+P8LS12295,"Sakya,Geluk"
+P8LS12298,"Sakya,Geluk"
+P8LS12299,"Sakya,Geluk"
+P8LS13265,"Sakya,Geluk"
+P9411,"Sakya,Geluk"
+P9422,"Sakya,Geluk"
+P9423,"Sakya,Geluk"
+P9425,"Sakya,Geluk"
+P1025,"Sakya,Kadam"
+P7270,"Sakya,Rime"
+P1089,"Sakya,Zhalu"
 P11MS148,ShangpaKagyu
 P1783,ShangpaKagyu
 P1984,ShangpaKagyu
@@ -3763,7 +3763,7 @@ P644,ShangpaKagyu
 P39,ShangpaKagyu
 P7844,ShangpaKagyu
 P7845,ShangpaKagyu
-P938,"ShangpaKagyu, KarmaKagyu"
+P938,"ShangpaKagyu,KarmaKagyu"
 P1019,TaklungKagyu
 P1009,TaklungKagyu
 P1011,TaklungKagyu
@@ -3799,7 +3799,7 @@ P8LS75414,TaklungKagyu
 P947,TaklungKagyu
 P954,TaklungKagyu
 P1857,TsalpaKagyu
-P4297,"TsalpaKagyu, Geluk"
+P4297,"TsalpaKagyu,Geluk"
 P2GS1015,YazangKagyu
 P3CN19937,YazangKagyu
 P4136,YazangKagyu
