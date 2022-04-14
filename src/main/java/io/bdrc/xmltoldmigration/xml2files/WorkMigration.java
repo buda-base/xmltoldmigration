@@ -469,7 +469,7 @@ public class WorkMigration {
     	        m.add(main, m.createProperty(BDO, "copyrightStatus"), m.createResource(BDR+"CopyrightClaimed"));
     	    } else if (MigrationHelpers.mwInCopyright.containsKey(workId)) { 
                 m.add(main, m.createProperty(BDO, "copyrightStatus"), m.createResource(BDR+"CopyrightInCopyright"));
-    	    } else if (MigrationHelpers.mwCopyrightClaimed.containsKey(workId)) { 
+    	    } else if (MigrationHelpers.mwCopyrightUndetermined.containsKey(workId)) { 
                 m.add(main, m.createProperty(BDO, "copyrightStatus"), m.createResource(BDR+"CopyrightUndetermined"));
     	    }
     	    
