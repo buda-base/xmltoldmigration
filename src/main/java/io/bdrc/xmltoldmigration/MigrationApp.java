@@ -185,7 +185,7 @@ public class MigrationApp
         String fileName = file.getName();
         if (!fileName.startsWith(mustStartWith)) return;
         if (!fileName.endsWith(".xml")) return;
-        if (!fileName.startsWith("W1KG6249")) return;
+        //if (!fileName.startsWith("W1KG6249")) return;
         String baseName = fileName.substring(0, fileName.length()-4);
         Resource item = null;
         Resource admItem = null;
@@ -749,14 +749,14 @@ public class MigrationApp
         FEMCTransfer.transferFEMCWorks();
         // migrate outlines first to have the oldOutlineId -> newOutlineId correspondence, for externals
         if (!noXmlMigration) {
-            //migrateType(OUTLINE, "O");
+            migrateType(OUTLINE, "O");
             if (!exportTitles) {
-//                migrateType(PERSON, "P");
-//                migrateType(PLACE, "G");
-//                migrateType(OFFICE, "R");
-//                migrateType(CORPORATION, "C");
-//                migrateType(LINEAGE, "L");
-//                migrateType(TOPIC, "T");
+                migrateType(PERSON, "P");
+                migrateType(PLACE, "G");
+                migrateType(OFFICE, "R");
+                migrateType(CORPORATION, "C");
+                migrateType(LINEAGE, "L");
+                migrateType(TOPIC, "T");
             }
             migrateType(WORK, "W"); // also does pubinfos and imagegroups
             OutlineMigration.finishWorks();
