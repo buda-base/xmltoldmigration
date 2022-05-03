@@ -347,8 +347,10 @@ public class WorkMigration {
             canonicalConceptualWork = EAPTransfer.rKTsRIDMap.containsValue(aWorkId);
             mA = ModelFactory.createDefaultModel();
             addStatus(m, admMainA, "released");
-            if (!canonicalConceptualWork)
+            if (!canonicalConceptualWork && !aWorkId.equals("WA0BC003"))
                 mainA.addProperty(mA.createProperty(BDO, "language"), mA.createResource(BDR+"LangBo"));
+            if (aWorkId.equals("WA0BC003"))
+                mainA.addProperty(mA.createProperty(BDO, "language"), mA.createResource(BDR+"LangZh"));
             res.add(null);
             res.add(new WorkModelInfo(aWorkId, m));
         } else {
