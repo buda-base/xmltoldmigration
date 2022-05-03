@@ -43,11 +43,6 @@ import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class HodgsonTransfer {
-    public static final Map<String,List<String>> langScriptMap = new HashMap<>();
-    static {
-        langScriptMap.put("Bhujimol",  Arrays.asList("SaNepaleseHooked"));
-        langScriptMap.put("Pracalit", Arrays.asList("SaNewa"));
-    }
     
     public static final void transfer() {
         System.out.println("Transfering Hodgson collection from Internet Archive works");
@@ -115,6 +110,7 @@ public class HodgsonTransfer {
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
             workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
+            workA.addProperty(workModel.createProperty(BDO, "language"), workModel.createResource(BDR+"LangSa"));
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_IA_Metadata")); // ?
         } else {
@@ -147,6 +143,8 @@ public class HodgsonTransfer {
                 workA.addLiteral(SKOS.altLabel, mA.createLiteral(title, "sa-x-iast"));
             }
         }
+        
+        // TODO: add script
         
         CommonMigration.addNote(work, "From the Hodgson Collection", "en", null, null);
         

@@ -74,16 +74,17 @@ bda:W0IA_HOD46  a              adm:AdminData ;
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:W0IA_HOD46 ;
         adm:contentLegal       bda:LD_IA_PD ;
-        adm:metadataLegal      bda:LD_IA_Metadata ;
         adm:gitPath            "6c/W0IA_HOD46.trig" ;
         adm:gitRepo            bda:GR0014 ;
         adm:graphId            bdg:W0IA_HOD46 ;
+        adm:metadataLegal      bda:LD_IA_Metadata ;
         adm:restrictedInChina  false ;
         adm:status             bda:StatusReleased ;
         :isRoot                true .
 
 bdr:WA0IA_HOD46  a        :Work ;
         :isRoot           true ;
+        :language         bdr:LangSa ;
         :workHasInstance  bdr:MW0IA_HOD46 , bdr:W0IA_HOD46 ;
         :workIsAbout      bdr:T1 ;
         skos:altLabel     "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
