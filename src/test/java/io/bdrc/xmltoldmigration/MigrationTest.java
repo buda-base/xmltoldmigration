@@ -232,7 +232,7 @@ public class MigrationTest
     	Model fromXml = MigrationHelpers.xmlToRdf(d, "person");
     	Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/P1583.ttl");
     	//fromXml.write(System.out, "TTL");
-        //assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
+        assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
         flushLog();
     }
     

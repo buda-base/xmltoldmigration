@@ -354,10 +354,10 @@ public class PersonMigration {
             if (!MigrationHelpers.isDisconnected(pid))
                 m.add(subResource, prop, r);
         }
-        nodeList = e.getElementsByTagNameNS(PXSDNS, "corporation");
+        nodeList = e.getElementsByTagNameNS(PXSDNS, "corp");
         for (int i1 = 0; i1 < nodeList.getLength(); i1++) {
             Element current = (Element) nodeList.item(i1);
-            Property prop = m.getProperty(BDO, "personEventCorporation");
+            Property prop = m.getProperty(BDO, "corporation");
             String pid = current.getAttribute("pid").trim();
             pid = MigrationHelpers.sanitizeRID(person.getLocalName(), "event/corporation", pid);
             Resource r = m.createResource(BDR+pid);

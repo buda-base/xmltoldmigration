@@ -27,10 +27,11 @@ bdr:EVB25CDA7F05164BEA
         :notBefore   "1734"^^xsd:gYear .
 
 bdr:EVE1C8F77F6AFC308F
-        a            :PersonBirth ;
-        :eventWhere  bdr:G967 ;
-        :onYear      "1308"^^xsd:gYear ;
-        :role        bdr:R123 .
+        a             :PersonBirth ;
+        :corporation  bdr:C123 ;
+        :eventWhere   bdr:G967 ;
+        :onYear       "1308"^^xsd:gYear ;
+        :role         bdr:R123 .
 
 bdr:NM00B857229AAA1BF0
         a           :PersonOtherName ;
@@ -120,19 +121,20 @@ bdr:NT6B646336F5EE567D
         :contentLocationStatement  "p. 77" ;
         :noteSource                bdr:MW19801 .
 
-bdr:P1583  a                 :Person ;
-        rdfs:seeAlso         bdr:O1GS392481GS39291 ;
-        :hasUnknownKinship   bdr:P1584 ;
-        :incarnationGeneral  bdr:P561654 ;
-        :incarnationMind     bdr:P561654 ;
-        :isRoot              true ;
-        :note                bdr:NT5A51821BAE247EF6 , bdr:NT0648F5705843763B , bdr:NTE1683F39A3E5756E , bdr:NT6B646336F5EE567D , bdr:NTAF7D0940EAE3607E , bdr:NT757F77D8BA18E640 ;
-        :personEvent         bdr:EVB25CDA7F05164BEA , bdr:EVDAA95D67ECFAB1A7 , bdr:EVE1C8F77F6AFC308F , bdr:EV93D338F6A346B51D , bdr:EVABB307C08F280C09 , bdr:EVF24F5C4DD8140821 ;
-        :personGender        bdr:GenderMale ;
-        :personName          bdr:NME2F236C649A1C622 , bdr:NM9C8DEB6FF7CEC129 , bdr:NM6E5B539FC14B81F1 , bdr:NMDD9AB2BD104D0A7D , bdr:NMED06EB68CC7F2B88 , bdr:NMFB54273C9888828B , bdr:NMF942A81B0A73E4AA , bdr:NM00B857229AAA1BF0 , bdr:NM27A9E6B52AE2AFD6 , bdr:NM81A442B676BCDB2A , bdr:NMBC6B2B658373DD69 ;
-        :personOfSect        bdr:T1234 ;
-        :personStudentOf     bdr:P123 ;
-        skos:prefLabel       "Drime Oser"@en , "隆钦热降巴·赤墨俄色"@zh-hans , "klong chen rab 'byams pa dri med 'od zer/"@bo-x-ewts , "shantideva"@sa-x-rma .
+bdr:P1583  a                  :Person ;
+        rdfs:seeAlso          bdr:O1GS392481GS39291 ;
+        :associatedTradition  bdr:TraditionNyingma ;
+        :hasUnknownKinship    bdr:P1584 ;
+        :incarnationGeneral   bdr:P561654 ;
+        :incarnationMind      bdr:P561654 ;
+        :isRoot               true ;
+        :note                 bdr:NT5A51821BAE247EF6 , bdr:NT0648F5705843763B , bdr:NTE1683F39A3E5756E , bdr:NT6B646336F5EE567D , bdr:NTAF7D0940EAE3607E , bdr:NT757F77D8BA18E640 ;
+        :personEvent          bdr:EVB25CDA7F05164BEA , bdr:EVDAA95D67ECFAB1A7 , bdr:EVE1C8F77F6AFC308F , bdr:EV93D338F6A346B51D , bdr:EVABB307C08F280C09 , bdr:EVF24F5C4DD8140821 ;
+        :personGender         bdr:GenderMale ;
+        :personName           bdr:NME2F236C649A1C622 , bdr:NM9C8DEB6FF7CEC129 , bdr:NM6E5B539FC14B81F1 , bdr:NMDD9AB2BD104D0A7D , bdr:NMED06EB68CC7F2B88 , bdr:NMFB54273C9888828B , bdr:NMF942A81B0A73E4AA , bdr:NM00B857229AAA1BF0 , bdr:NM27A9E6B52AE2AFD6 , bdr:NM81A442B676BCDB2A , bdr:NMBC6B2B658373DD69 ;
+        :personOfSect         bdr:T1234 ;
+        :personStudentOf      bdr:P123 ;
+        skos:prefLabel        "Drime Oser"@en , "隆钦热降巴·赤墨俄色"@zh-hans , "klong chen rab 'byams pa dri med 'od zer/"@bo-x-ewts , "shantideva"@sa-x-rma .
 
 bdr:NMDD9AB2BD104D0A7D
         a           :PersonSecretInitiatoryName ;
