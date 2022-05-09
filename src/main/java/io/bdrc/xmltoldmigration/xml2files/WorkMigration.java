@@ -68,6 +68,8 @@ public class WorkMigration {
     public static HashMap<String, Boolean> workRestrictedInChina = new HashMap<>();
     public static HashMap<String, Boolean> scansLowQuality = new HashMap<>();
     
+    
+    
     public static Resource getAccess(Model itemModel, Resource work) {
         String legalUri = workAccessMap.get(work.getLocalName());
         if (legalUri != null) {
@@ -654,9 +656,10 @@ public class WorkMigration {
                            (value.equals("PR1FEMC02") ? m.createResource(BDR+"W1FEMC02") : m.createResource(BDA+value));
                     note.addProperty(m.getProperty(BDO+"noteSource"), cat);
                 } else {
-                    if (!MigrationHelpers.removeW.containsKey(workId)) {
-                        List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
-                        worksForProduct.add(workId);
+                    if (!MigrationHelpers.removeW.containsKey(workId) && !"PR1COPYRIGHT".equals(value) && !"PR01UNRESTR".equals(value)) {
+                        //List<String> worksForProduct = productWorks.computeIfAbsent(value, x -> new ArrayList<String>());
+                        //worksForProduct.add(workId);
+                        main.addProperty(m.getProperty(BDO, "inCollection"), m.createResource(BDR+value));
                     }
                 }
             }

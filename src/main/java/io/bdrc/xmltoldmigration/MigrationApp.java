@@ -336,6 +336,13 @@ public class MigrationApp
                             Literal scanInfo = scanInfoSi.next().getLiteral();
                             item.addProperty(itemModel.getProperty(BDO, "scanInfo"), scanInfo);
                         }
+                        
+                        // move inCollection to the image instance
+                        scanInfoSi = workR.listProperties(workR.getModel().getProperty(BDO, "inCollection"));
+                        while (scanInfoSi.hasNext()) {
+                            final Resource collection = scanInfoSi.next().getResource();
+                            item.addProperty(itemModel.getProperty(BDO, "inCollection"), collection);
+                        }
                     } else {
                         String itemOutfileName = getDstFileName("iinstance", baseName)+".trig";
                         try {
