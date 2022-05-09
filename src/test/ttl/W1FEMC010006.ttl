@@ -60,6 +60,7 @@ bdr:MW1FEMC010006  a      :Instance ;
         bf:identifiedBy   bdr:IDAAA4A0E91BB9C634 , bdr:ID011BF57819D67C4D ;
         :hasFascicles     "2, 7, 8, 10, 11" ;
         :hasTitle         bdr:TT008B758142301FF1 , bdr:TT11AA6B09252B9225 , bdr:TTDDC4AE34F5AA838F , bdr:TT9F5DB6BC1BDA7180 ;
+        :inCollection     bdr:PR1KDPP00 ;
         :isComplete       false ;
         :isRoot           true ;
         :microfilmItem    bdr:MF75A2B8B5BD14A7A0 ;
@@ -67,10 +68,10 @@ bdr:MW1FEMC010006  a      :Instance ;
         :numberOfVolumes  1 ;
         skos:prefLabel    "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-twktt , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
-bda:LGIM6ABD17F4  a     adm:UpdateData ;
-        adm:logAgent    "works-femc01-import.xql" ;
-        adm:logDate     "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
-        adm:logMethod   bda:BatchMethod .
+bda:LGIM6ABD17F4  a    adm:UpdateData ;
+        adm:logAgent   "works-femc01-import.xql" ;
+        adm:logDate    "2019-08-09T17:52:16.424Z"^^xsd:dateTime ;
+        adm:logMethod  bda:BatchMethod .
 
 bdr:TT9F5DB6BC1BDA7180
         a           :CoverTitle ;
