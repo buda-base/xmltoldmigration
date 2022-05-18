@@ -41,6 +41,7 @@ bda:PRA99NCUL01  a      adm:AdminData ;
         adm:facetIndex  7 ;
         adm:gitPath     "47/PRA99NCUL01.trig" ;
         adm:gitRepo     bda:GR0015 ;
+        adm:metadataLegal    bda:LD_BDRC_CC0 ;
         adm:graphId     bdg:PRA99NCUL01 ;
         adm:logEntry    bda:LG02DE52BE284DF037 ;
         adm:status      bda:StatusReleased ;

@@ -2,6 +2,7 @@ package io.bdrc.xmltoldmigration.xml2files;
 
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.AUT;
+import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.ADR;
 import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.BDO;
@@ -152,6 +153,7 @@ public class ProductMigration {
         }
         
         addStatus(m, admMain, root.getAttribute("status"));
+        admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 
         CommonMigration.addNotes(m, root, main, PRXSDNS);
 
@@ -193,6 +195,7 @@ public class ProductMigration {
 		Resource admMain = createAdminRoot(main);
 		
 		addStatus(m, admMain, root.getAttribute("status"));
+		admMain.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_BDRC_CC0"));
 
 		CommonMigration.addNotes(m, root, main, PRXSDNS);
 
