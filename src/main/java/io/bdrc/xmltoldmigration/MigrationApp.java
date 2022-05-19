@@ -355,6 +355,7 @@ public class MigrationApp
                         }
                     }
                     workR.removeAll(workR.getModel().getProperty(BDO, "scanInfo"));
+                    workR.removeAll(workR.getModel().getProperty(BDO, "inCollection"));
                     
                     if (models.size() >1 && models.get(1) != null && admItem != null) {
                         abstractMI = models.get(1);
