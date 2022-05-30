@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -354,21 +355,29 @@ public class PlaceMigration {
 	        value = current.getAttribute("lat").trim();
 	        if (!value.isEmpty()) {
 	            prop = m.getProperty(BDO+"placeLat");
-	            lit = m.createLiteral(value);
-	            m.add(main, prop, lit);
+	            try {
+	                lit = m.createTypedLiteral(value, XSDDatatype.XSDdecimal);
+	                m.add(main, prop, lit);
+	            } catch (NumberFormatException e) {
+	                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "placeLat", "cannot convert to float");
+	            }
 	        }
 	        value = current.getAttribute("long").trim();
 	        if (!value.isEmpty()) {
 	            prop = m.getProperty(BDO+"placeLong");
-	            lit = m.createLiteral(value);
-	            m.add(main, prop, lit);
+               try {
+                    lit = m.createTypedLiteral(value, XSDDatatype.XSDdecimal);
+                    m.add(main, prop, lit);
+                } catch (NumberFormatException e) {
+                    ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "placeLong", "cannot convert to float");
+                }
 	        }
-	        prop = m.getProperty(BDO+"placeAccuracy");
-	        value = current.getAttribute("accuracy").trim();
-	        if(!value.isEmpty()) {
-	            lit = m.createLiteral(value);
-	            m.add(main, prop, lit);
-	        }
+//	        prop = m.getProperty(BDO+"placeAccuracy");
+//	        value = current.getAttribute("accuracy").trim();
+//	        if(!value.isEmpty()) {
+//	            lit = m.createLiteral(value);
+//	            m.add(main, prop, lit);
+//	        }
 	        prop = m.getProperty(BDO+"placeRegionPoly");
 	        value = current.getTextContent().trim();
 	        if(!value.isEmpty()) {
@@ -377,7 +386,7 @@ public class PlaceMigration {
 	                lit = m.createLiteral(value);
 	                m.add(main, prop, lit);
 	            } catch (JsonProcessingException e) {
-	                System.err.println("invalid json for "+main.getLocalName());
+	                ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "json", "invalid geo json");
 	            } catch (IOException e) {
                     e.printStackTrace();
                 }
