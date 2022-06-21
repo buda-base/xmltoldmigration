@@ -275,7 +275,7 @@ public class PersonMigration {
 		value = e.getAttribute("relation");
 		// Not handling symetry in incarnationOf as I'm not sure how it would work
 		if (value != null && !value.isEmpty()) {
-		    if (value.equals("yangsi")) value = "yangtse";
+		    if (value.equals("yangsi") || value.equals("yangtse")) value = "general";
 			String uri = getUriFromTypeSubtype("incarnationOf", value);
 			r.addProperty(m.getProperty(uri), being);
 		} else {
@@ -287,7 +287,7 @@ public class PersonMigration {
 		beingAttr = MigrationHelpers.sanitizeRID(r.getLocalName(), "incarnationOf", beingAttr);
 		value = e.getAttribute("secondary");
 		if (value != null && !value.isEmpty()) {
-		    if (value.equals("yangsi")) value = "yangtse";
+		    if (value.equals("yangsi") || value.equals("yangtse")) value = "general";
             String uri = getUriFromTypeSubtype("incarnationOf", value);
             if (!MigrationHelpers.isDisconnected(beingAttr))
                 r.addProperty(m.getProperty(uri), being);

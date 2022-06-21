@@ -126,7 +126,6 @@ bdr:P1583  a                  :Person ;
         :associatedTradition  bdr:TraditionNyingma ;
         :hasUnknownKinship    bdr:P1584 ;
         :incarnationGeneral   bdr:P561654 ;
-        :incarnationMind      bdr:P561654 ;
         :isRoot               true ;
         :note                 bdr:NT5A51821BAE247EF6 , bdr:NT0648F5705843763B , bdr:NTE1683F39A3E5756E , bdr:NT6B646336F5EE567D , bdr:NTAF7D0940EAE3607E , bdr:NT757F77D8BA18E640 ;
         :personEvent          bdr:EVB25CDA7F05164BEA , bdr:EVDAA95D67ECFAB1A7 , bdr:EVE1C8F77F6AFC308F , bdr:EV93D338F6A346B51D , bdr:EVABB307C08F280C09 , bdr:EVF24F5C4DD8140821 ;
