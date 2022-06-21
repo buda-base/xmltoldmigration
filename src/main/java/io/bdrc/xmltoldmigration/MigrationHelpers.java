@@ -115,6 +115,7 @@ public class MigrationHelpers {
 	
 	public static final String BDU = "http://purl.bdrc.io/resource-nc/user/";
     public static final String BF = "http://id.loc.gov/ontologies/bibframe/";
+    public static final String LOCDT = "http://id.loc.gov/datatypes/";
 	
 	public static PrefixMap prefixMap = getPrefixMap();
 	
@@ -298,6 +299,7 @@ public class MigrationHelpers {
         m.setNsPrefix("bdu", BDU);
         m.setNsPrefix("owl", OWL.getURI());
         m.setNsPrefix("bf", BF);
+        m.setNsPrefix("locdt", LOCDT);
         m.setNsPrefix("rdf", RDF.getURI());
         m.setNsPrefix("rdfs", RDFS.getURI());
         m.setNsPrefix("skos", SKOS.getURI());
@@ -534,9 +536,7 @@ public class MigrationHelpers {
         List<String> predicatesPrio = CompareComplex.getDefaultPropUris();
         predicatesPrio.add(ADM+"logDate");
         predicatesPrio.add(BDO+"seqNum");
-        predicatesPrio.add(BDO+"onYear");
-        predicatesPrio.add(BDO+"notBefore");
-        predicatesPrio.add(BDO+"notAfter");
+        predicatesPrio.add(BDO+"eventWhen");
         predicatesPrio.add(BDO+"noteText");
         predicatesPrio.add(BDO+"noteSource");
         predicatesPrio.add(BDO+"contentLocationStatement");

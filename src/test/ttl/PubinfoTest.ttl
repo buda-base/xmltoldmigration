@@ -10,6 +10,7 @@
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix locdt: <http://id.loc.gov/datatypes/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bda:LGIM9F8D3273  a     adm:InitialDataImport ;
@@ -23,8 +24,8 @@ bdr:IDE0F0D4471E6CE01A
         rdf:value  "014254679" .
 
 bdr:EVB0BA72AF962CC892
-        a        :PublishedEvent ;
-        :onYear  "2000"^^xsd:gYear .
+        a           :PublishedEvent ;
+        :eventWhen  "2000?"^^locdt:edtf .
 
 bdr:WA1FPL1  a     :Work ;
         :isRoot    true ;

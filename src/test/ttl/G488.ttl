@@ -10,6 +10,7 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix locdt: <http://id.loc.gov/datatypes/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
@@ -21,8 +22,7 @@ bdr:NTEC7A7B10B09836B6
 
 bdr:EV17426918F6CC57DE
         a           :PlaceFounded ;
-        :notAfter   "1799"^^xsd:gYear ;
-        :notBefore  "1300"^^xsd:gYear .
+        :eventWhen  "1374?"^^locdt:edtf .
 
 bda:LG1CBDD898D5725A4A
         a               adm:UpdateData ;
@@ -80,8 +80,8 @@ bdr:G488  a                   :Place ;
 bdr:EV8FFB31DDE90B0817
         a                     :PlaceFounded ;
         :associatedTradition  bdr:TraditionTest , bdr:TraditionKagyu ;
-        :note                 bdr:NT8B8EBE3AF90A7E2F ;
-        :onYear               "1187"^^xsd:gYear .
+        :eventWhen            "1187"^^locdt:edtf ;
+        :note                 bdr:NT8B8EBE3AF90A7E2F .
 
 bda:LG76B6649907E8086A
         a           adm:InitialDataCreation ;

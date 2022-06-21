@@ -316,13 +316,9 @@ public class CommonMigration  {
         if (dateStr.startsWith("c."))
             dateStr = dateStr.substring(2).trim()+"~";
         final Model m = event.getModel();
-        if (dateStr.endsWith("?")) {
-            if (dateStr.length() < 5 && dateStr.startsWith("1")) {
-                dateStr = dateStr.replace("?", "X");
-                dateStr = dateStr.replace("-", "X");
-            } else {
-                dateStr = dateStr.substring(0, dateStr.length()-1);
-            }
+        if (dateStr.endsWith("?") && dateStr.length() < 5 && dateStr.startsWith("1")) {
+            dateStr = dateStr.replace("?", "X");
+            dateStr = dateStr.replace("-", "X");
         }
         if (dateStr.charAt(1) == '.') { // for b. and d. 
             dateStr = dateStr.substring(2).trim();
@@ -331,14 +327,17 @@ public class CommonMigration  {
             dateStr = dateStr.substring(0, dateStr.length()-7);
         }
         try {
-            m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr));    
+            final Literal dtmp = yearLit(m, dateStr.substring(0, dateStr.length()-1));
+            //m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr));
+            m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
             return;
         } catch (NumberFormatException e) {}
         boolean keepdate = dateStr.contains("?") || dateStr.contains("~");
         if (keepdate) {
             try {
                 // we try to add the string without the final ? or ~
-                m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr.substring(0, dateStr.length()-1)));
+                final Literal dtmp = yearLit(m, dateStr.substring(0, dateStr.length()-1));
+                //m.add(event, m.getProperty(BDO, "onYear"), dtmp);
                 m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
                 return;
             } catch (NumberFormatException e) {}
@@ -354,37 +353,15 @@ public class CommonMigration  {
             String firstDate = dateStr.substring(0, slashidx);
             String secondDate = dateStr.substring(slashidx+1, dateStr.length());
             dateStr = padEdtfZeros(firstDate)+"/"+padEdtfZeros(secondDate);
-            if (keepdate)
+            //if (keepdate)
                 m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
-            firstDate = firstDate.replace('X', '0');
-            secondDate = secondDate.replace('X', '9');
-            try {
-                m.add(event, m.getProperty(BDO, "notBefore"), yearLit(m, firstDate));    
-            } catch (NumberFormatException e) { 
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
-            }
-            try {
-                m.add(event, m.getProperty(BDO, "notAfter"), yearLit(m, secondDate));    
-            } catch (NumberFormatException e) { 
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
-            }
             return;
         }
         if (dateStr.indexOf('X') != -1) {
             String firstDate = dateStr.replace('X', '0');
             String secondDate = dateStr.replace('X', '9');
-            try {
-                m.add(event, m.getProperty(BDO, "notBefore"), yearLit(m, firstDate));    
-            } catch (NumberFormatException e) { 
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
-            }
-            try {
-                m.add(event, m.getProperty(BDO, "notAfter"), yearLit(m, secondDate));    
-            } catch (NumberFormatException e) { 
-                ExceptionHelper.logException(ExceptionHelper.ET_GEN, mainResource.getLocalName(), mainResource.getLocalName(), "couldn't parse date "+dateStr);
-            }
             dateStr = padEdtfZeros(dateStr);
-            if (keepdate)
+            //if (keepdate)
                 m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
             return;
         }

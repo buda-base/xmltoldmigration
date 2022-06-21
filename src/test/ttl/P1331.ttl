@@ -9,6 +9,7 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
+@prefix locdt: <http://id.loc.gov/datatypes/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
@@ -17,8 +18,8 @@ bda:LG47A034CD79DA75AE
         adm:logWho  bdu:U00001 .
 
 bdr:EV4D6B8F9B08287205
-        a        :PersonDeath ;
-        :onYear  "1322"^^xsd:gYear .
+        a           :PersonDeath ;
+        :eventWhen  "1322"^^locdt:edtf .
 
 bdr:P1331  a            :Person ;
         :isRoot         true ;

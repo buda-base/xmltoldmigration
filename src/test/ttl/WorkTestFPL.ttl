@@ -10,6 +10,7 @@
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix locdt: <http://id.loc.gov/datatypes/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:TT9498AC617EE4D65F
@@ -72,10 +73,7 @@ bdr:TT2CE1832997E074F6
 
 bdr:EV836983BDFBDCF03A
         a           :CompletedEvent ;
-        :eventWhen  "descriptionwithtypedate"^^<http://id.loc.gov/datatypes/edtf> ;
-        :notAfter   "1799"^^xsd:gYear , "1999"^^xsd:gYear ;
-        :notBefore  "1700"^^xsd:gYear , "1990"^^xsd:gYear ;
-        :onYear     "1232"^^xsd:gYear .
+        :eventWhen  "descriptionwithtypedate"^^locdt:edtf , "1232"^^locdt:edtf , "17XX"^^locdt:edtf , "199X"^^locdt:edtf .
 
 bda:ITW1FPL2837  a      adm:AdminData ;
         adm:adminAbout  bdr:ITW1FPL2837 ;
