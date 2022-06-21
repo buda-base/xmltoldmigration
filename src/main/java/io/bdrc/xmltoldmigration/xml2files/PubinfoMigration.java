@@ -787,6 +787,7 @@ public class PubinfoMigration {
 	                    if (validIsbn != null) {
 	                        value = validIsbn;
 	                    } else {
+	                        value = value.replaceAll("[- _]", "");
 	                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "isbn", "invalid isbn: "+value);
 	                    }
 	                }

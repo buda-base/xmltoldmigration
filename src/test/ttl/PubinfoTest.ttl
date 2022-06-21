@@ -34,6 +34,10 @@ bdr:ID4AF69EDA5BFE4E04
         a          bf:ShelfMarkLcc ;
         rdf:value  "BQ7662.4 .G77 1979" .
 
+bdr:ID09B2A4060669C708
+        a          bf:Isbn ;
+        rdf:value  "0205080057" .
+
 bdr:ITW1FPL1_001  a       :Item ;
         :itemCopies       "1" ;
         :itemException    "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo ;
@@ -43,7 +47,7 @@ bdr:ITW1FPL1_001  a       :Item ;
 
 bda:MW1FPL1  a          adm:AdminData ;
         adm:adminAbout  bdr:MW1FPL1 ;
-        adm:facetIndex  7 ;
+        adm:facetIndex  9 ;
         adm:gitPath     "81/MW1FPL1.trig" ;
         adm:gitRepo     bda:GR0012 ;
         adm:graphId     bdg:MW1FPL1 ;
@@ -61,7 +65,7 @@ bda:LGIMD5FAEE0C6C  a   adm:UpdateData ;
         adm:logWho      bdu:U00006 .
 
 bdr:MW1FPL1  a                    :Instance ;
-        bf:identifiedBy           bdr:ID4AF69EDA5BFE4E04 , bdr:IDE0F0D4471E6CE01A ;
+        bf:identifiedBy           bdr:ID4AF69EDA5BFE4E04 , bdr:IDE0F0D4471E6CE01A , bdr:ID09B2A4060669C708 , bdr:ID9C64AEBD23CBF0A3 ;
         :authorshipStatement      "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
         :biblioNote               "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
         :extentStatement          "177 ff." ;
@@ -73,6 +77,10 @@ bdr:MW1FPL1  a                    :Instance ;
         :publisherName            "*zhol par khang /"@bo-x-ewts ;
         :script                   bdr:ScriptDbuMed ;
         :sourcePrinteryStatement  "test sourcePrintery with no place" .
+
+bdr:ID9C64AEBD23CBF0A3
+        a          bf:Isbn ;
+        rdf:value  "132456" .
 
 bda:LGIM6B433BA01E  a   adm:UpdateData ;
         adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
