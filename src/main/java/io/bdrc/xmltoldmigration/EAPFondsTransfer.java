@@ -159,10 +159,9 @@ public class EAPFondsTransfer {
             }
             // TODO: add locations in other eap sheets
             if (notBefore.equals(notAfter)) {
-                workModel.add(event, workModel.createProperty(BDO, "onYear"), yearLit(workModel, notBefore));    
+                workModel.add(event, workModel.createProperty(BDO, "eventWhen"), workModel.createTypedLiteral(notBefore, CommonMigration.EDTFDT));    
             } else {
-                workModel.add(event, workModel.createProperty(BDO, "notBefore"), yearLit(workModel, notBefore));    
-                workModel.add(event, workModel.createProperty(BDO, "notAfter"), yearLit(workModel, notAfter));    
+                workModel.add(event, workModel.createProperty(BDO, "eventWhen"), workModel.createTypedLiteral(notBefore+"/"+notAfter, CommonMigration.EDTFDT));    
             }
         }
     }
@@ -185,7 +184,7 @@ public class EAPFondsTransfer {
         String serieID = (simplified ? serieLine[1] : serieLine[4]).replace('/', '-');
         // Work model
         Model workModel = ModelFactory.createDefaultModel();
-        setPrefixes(workModel);
+        MigrationHelpers.setPrefixes(workModel);
         Resource work = createRoot(workModel, BDR+"MW"+serieID, BDO+"Instance");
         Resource admWork = createAdminRoot(work);
         res.add(work);
@@ -205,7 +204,6 @@ public class EAPFondsTransfer {
             mA.add(admWorkA, mA.createProperty(ADM, "status"), workModel.createResource(BDA+"StatusReleased"));
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             // bdo:Work
             mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangBo"));
             addReleased(mA, admWorkA);
@@ -213,7 +211,6 @@ public class EAPFondsTransfer {
         } else {
             CommonMigration.removeWorkModel(abstractWorkRID);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workModel.createResource(BDR+otherAbstractRID));
-            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "MW"+serieID, otherAbstractRID, null);
         }
         
         workModel.add(admWork, RDF.type, workModel.createResource(ADM+"AdminData"));
@@ -235,7 +232,6 @@ public class EAPFondsTransfer {
         res.add(item);
 
         workModel.add(work, workModel.createProperty(BDO,"instanceHasReproduction"), item);
-        itemModel.add(item, itemModel.createProperty(BDO,"instanceReproductionOf"), work);
 
         // Item adm:AdminData
         itemModel.add(admItem, RDF.type, itemModel.createResource(ADM+"AdminData"));
@@ -244,8 +240,6 @@ public class EAPFondsTransfer {
         itemModel.add(admItem, itemModel.createProperty(ADM, "metadataLegal"), ldEAPm);
         itemModel.addLiteral(admItem, itemModel.getProperty(ADM+"restrictedInChina"), false);
         itemModel.add(admItem, itemModel.createProperty(ADM, "access"), itemModel.createResource(BDA + "AccessOpen"));
-        
-        itemModel.add(item, itemModel.createProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractWorkRID));
         
         itemModel.add(item, itemModel.createProperty(BDO, "inCollection"), itemModel.createResource(BDR+prrid));
         
@@ -262,7 +256,6 @@ public class EAPFondsTransfer {
             //itemModel.add(vol, itemModel.createProperty(BDO,"volumeName"),getLiteral(name, workModel));
             itemModel.add(vol, SKOS.prefLabel,getLiteral(volName, workModel));
             itemModel.add(vol, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(getVolNum(volume), XSDDatatype.XSDinteger));
-            itemModel.add(vol, itemModel.createProperty(BDO,"volumeOf"),item);
             res.add(vol);
             
             // Volume adm:AdminData
@@ -299,14 +292,12 @@ public class EAPFondsTransfer {
                 mA.add(admWorkA, mA.createProperty(ADM, "status"), workModel.createResource(BDA+"StatusReleased"));
                 res.add(workA);
                 work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
                 mA.add(workA, mA.createProperty(BDO, "language"), workModel.createResource(BDR+"LangBo"));
                 addReleased(mA, admWorkA);
                 mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
             } else {
                 CommonMigration.removeWorkModel(abstractWorkRID);
                 work.addProperty(workModel.createProperty(BDO, "instanceOf"), workModel.createResource(BDR+otherAbstractRID));
-                SymetricNormalization.addSymetricProperty(workModel, "instanceOf", "MW"+ref, otherAbstractRID, null);
                 res.add(null);
             }
             
@@ -322,11 +313,7 @@ public class EAPFondsTransfer {
             Resource item = createRoot(itemModel, BDR+"W"+ref, BDO+"ImageInstance");
             Resource itemAdm = createAdminRoot(item);
             
-            workModel.add(work, itemModel.createProperty(BDO, "instanceHasReproduction"), item);
-            
             itemModel.add(item, itemModel.createProperty(BDO, "inCollection"), itemModel.createResource(BDR+prrid));
-            
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW"+ref));
             
             itemModel.add(itemAdm, RDF.type, itemModel.createResource(ADM+"AdminData"));
             itemModel.add(itemAdm, itemModel.getProperty(ADM+"status"), itemModel.createResource(BDA+"StatusReleased"));
@@ -341,7 +328,6 @@ public class EAPFondsTransfer {
             workModel.add(work, SKOS.prefLabel,getLiteral(name, workModel));
             itemModel.add(volume, itemModel.createProperty(BDO,"hasIIIFManifest"),itemModel.createResource(ManifestPREFIX+ref+"/manifest"));
             itemModel.add(volume, itemModel.createProperty(BDO,"volumeNumber"),itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
-            itemModel.add(volume, itemModel.createProperty(BDO,"volumeOf"),item);
             res.add(item);
             res.add(work);
             

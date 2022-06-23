@@ -10,8 +10,8 @@
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix locdt: <http://id.loc.gov/datatypes/> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bdr:TT9498AC617EE4D65F
         a           :OtherTitle ;
@@ -29,10 +29,9 @@ bda:LGA5551B31379AA57E
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdu:U00001 .
 
-bdr:WAS12345  a             :SerialWork ;
-        :isRoot             true ;
-        :serialHasInstance  bdr:MW1FPL2837 ;
-        skos:prefLabel      "test pali title"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
+bdr:WAS12345  a         :SerialWork ;
+        :isRoot         true ;
+        skos:prefLabel  "test pali title"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
 
 bda:LG7BF1159854D07D7C
         a               adm:UpdateData ;
@@ -73,7 +72,7 @@ bdr:TT2CE1832997E074F6
 
 bdr:EV836983BDFBDCF03A
         a           :CompletedEvent ;
-        :eventWhen  "descriptionwithtypedate"^^locdt:edtf , "1232"^^locdt:edtf , "17XX"^^locdt:edtf , "199X"^^locdt:edtf .
+        :eventWhen  "descriptionwithtypedate"^^edtf:EDTF , "1232"^^edtf:EDTF , "17XX"^^edtf:EDTF , "199X"^^edtf:EDTF .
 
 bda:ITW1FPL2837  a      adm:AdminData ;
         adm:adminAbout  bdr:ITW1FPL2837 ;
@@ -100,20 +99,21 @@ bdr:TTB789D01CFCC47CD3
         a           :Title ;
         rdfs:label  "mahāniddesa aṭṭhakathā"@pi-x-iast .
 
-bdr:MW1FPL2837  a          :SerialInstance ;
-        :biblioNote        "Red lac. covers. Gilded leaves with vermilion band."@en , "description with no type"@en ;
-        :hasTitle          bdr:TT171FD9F0BB2226E9 , bdr:TT2CE1832997E074F6 , bdr:TT0163DF0BC452A994 , bdr:TT1B4E63A8E66021AA , bdr:TT9498AC617EE4D65F , bdr:TTB789D01CFCC47CD3 , bdr:TTF19E8F13B0E095D8 ;
-        :inCollection      bdr:PRHD03 ;
-        :incipit           "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
-        :instanceOf        bdr:WA1FPL2837 ;
-        :isRoot            true ;
-        :note              bdr:NTEE4CD95894683764 , bdr:NT4F90D9E67B6070EA ;
-        :numberOfVolumes   1 ;
-        :scanInfo          "Scanned at M/S Satluj Infotech Images, 63-F Sujan Singh Park, New Delhi, India for the Buddhist Digital Resource Center."@en , "Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City, NY 10011, US. Comments: 12/2010"@en , "12/2017"@en , "Scanned at M/S Satluj Infotech Images, E-45, Sector 27 Noida, District Gautam Buddha Nagar, U.P. 201301 via New Delhi, India for the Buddhist Digital Resource Center. Comments: scanned from microfilm - Soma 0001 (0000 drive) on Dummy 9. ZJ59"@en , "Scanned at Tibetan Buddhist Resource Center, 1430 Massachusetts Avenue, Cambridge, MA 02138, USA. Comments: 05/2015"@en , "12/2012"@en ;
-        :serialInstanceOf  bdr:WAS12345 ;
-        :seriesNumber      "2" ;
-        :workEvent         bdr:EV836983BDFBDCF03A ;
-        skos:prefLabel     "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
+bdr:MW1FPL2837  a                 :SerialInstance ;
+        :biblioNote               "Red lac. covers. Gilded leaves with vermilion band."@en , "description with no type"@en ;
+        :hasTitle                 bdr:TT171FD9F0BB2226E9 , bdr:TT2CE1832997E074F6 , bdr:TT0163DF0BC452A994 , bdr:TT1B4E63A8E66021AA , bdr:TT9498AC617EE4D65F , bdr:TTB789D01CFCC47CD3 , bdr:TTF19E8F13B0E095D8 ;
+        :inCollection             bdr:PRHD03 ;
+        :incipit                  "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
+        :instanceHasReproduction  bdr:W1FPL2837 ;
+        :instanceOf               bdr:WA1FPL2837 ;
+        :isRoot                   true ;
+        :note                     bdr:NTEE4CD95894683764 , bdr:NT4F90D9E67B6070EA ;
+        :numberOfVolumes          1 ;
+        :scanInfo                 "Scanned at M/S Satluj Infotech Images, 63-F Sujan Singh Park, New Delhi, India for the Buddhist Digital Resource Center."@en , "Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City, NY 10011, US. Comments: 12/2010"@en , "12/2017"@en , "Scanned at M/S Satluj Infotech Images, E-45, Sector 27 Noida, District Gautam Buddha Nagar, U.P. 201301 via New Delhi, India for the Buddhist Digital Resource Center. Comments: scanned from microfilm - Soma 0001 (0000 drive) on Dummy 9. ZJ59"@en , "Scanned at Tibetan Buddhist Resource Center, 1430 Massachusetts Avenue, Cambridge, MA 02138, USA. Comments: 05/2015"@en , "12/2012"@en ;
+        :serialInstanceOf         bdr:WAS12345 ;
+        :seriesNumber             "2" ;
+        :workEvent                bdr:EV836983BDFBDCF03A ;
+        skos:prefLabel            "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
 
 bdr:NT4F90D9E67B6070EA
         a          :Note ;

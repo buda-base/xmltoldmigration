@@ -119,7 +119,7 @@ public class NSITransfer {
     public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
-        setPrefixes(workModel);
+        MigrationHelpers.setPrefixes(workModel);
         final String WRID = line[1].trim();
         Resource work = createRoot(workModel, BDR+'M'+WRID, BDO+"Instance");
         res.add(work);
@@ -140,13 +140,9 @@ public class NSITransfer {
             workA = createRoot(mA, BDR+abstractWorkRID, BDO+"Work");
             admWorkA = createAdminRoot(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-            workA.addProperty(mA.createProperty(BDO, "workHasInstance"), work);
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_BDRC_CC0"));
         } else {
-            SymetricNormalization.addSymetricProperty(workModel, "instanceOf", 'M'+WRID, abstractWorkRID, null);
-        }
-        if (abstractWorkRID != null) {
             SymetricNormalization.addSymetricProperty(workModel, "instanceOf", 'M'+WRID, abstractWorkRID, null);
         }
         
@@ -170,7 +166,7 @@ public class NSITransfer {
         if (line[14].endsWith(" CE")) {
             String dateStr = line[14].substring(0, line[14].length()-3);
             Resource copyEventR = getEvent(work, "CopyEvent", "instanceEvent");
-            copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), yearLit(workModel, dateStr));
+            copyEventR.addLiteral(workModel.createProperty(BDO, "eventWhen"), workModel.createTypedLiteral(dateStr, CommonMigration.EDTFDT));
         }
         
         // notes
@@ -239,9 +235,7 @@ public class NSITransfer {
         item.addProperty(itemModel.createProperty(BDO, "inCollection"), product);
         itemModel.add(item, itemModel.createProperty(BDO, "scanInfo"), itemModel.createLiteral("Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive.", "en"));
 
-        if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
-        }
+        workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
 
         // Item adm:AdminData
         Resource admItem = createAdminRoot(item);
@@ -264,15 +258,9 @@ public class NSITransfer {
             itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumePagesTbrcIntro"), itemModel.createTypedLiteral(0, XSDDatatype.XSDinteger));
-        if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"M"+WRID));
-            if (workA != null) {
-                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
-                item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);
-            } else {
-                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
-            }
-        }
+
+        SymetricNormalization.addSymetricProperty(itemModel, "instanceReproductionOf", itemRID, "M"+WRID, null);
+        
         // the rest is just so that it looks normal so that it's fetched by requests in a normal way
         itemModel.add(volume, itemModel.createProperty(BDO, "imageList"), itemModel.createLiteral(""));
         itemModel.add(volume, itemModel.createProperty(BDO, "imageCount"), itemModel.createTypedLiteral(0, XSDDatatype.XSDinteger));

@@ -39,7 +39,7 @@ public class EAPTest {
                     .build();
         String[] line = reader.readNext();
         Model workModel = MigrationTest.mergeResources(EAPTransfer.getResourcesFromLine(line));
-        //workModel.write(System.out, "TTL");
+        workModel.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/eaptest.ttl");    
         assertTrue( MigrationHelpers.isSimilarTo(workModel, correctModel) );
     }

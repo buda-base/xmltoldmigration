@@ -37,6 +37,7 @@ import com.opencsv.exceptions.CsvException;
 
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.helpers.SymetricNormalization;
+import io.bdrc.xmltoldmigration.xml2files.CommonMigration;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
@@ -102,7 +103,7 @@ public class CUDLTransfer {
     public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
-        setPrefixes(workModel);
+        MigrationHelpers.setPrefixes(workModel);
         String rid=line[0];
         
         // Work model
@@ -128,7 +129,6 @@ public class CUDLTransfer {
             admWorkA = createAdminRoot(work);
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_CUDL_metadata")); // ?
         } else {
@@ -195,8 +195,7 @@ public class CUDLTransfer {
         }
         if(!line[10].equals("") && !line[11].equals("")) {
             Resource event = getEvent(work, "CopyEvent", "workEvent");
-            workModel.add(event, workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(line[11], XSDDatatype.XSDinteger));
-            workModel.add(event, workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(line[10], XSDDatatype.XSDinteger));
+            workModel.add(event, workModel.createProperty(BDO, "eventWhen"), workModel.createTypedLiteral(line[10]+"/"+line[11], CommonMigration.EDTFDT));
         }
         
         
@@ -210,9 +209,7 @@ public class CUDLTransfer {
         Resource itemAdm = createAdminRoot(item);
         res.add(item);
         
-        if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), workModel.createResource(BDR+itemRID));
-        }
+        workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), workModel.createResource(BDR+itemRID));
         
         // Item adm:AdminData
         addReleased(itemModel, itemAdm);
@@ -241,17 +238,6 @@ public class CUDLTransfer {
             itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(line[8]));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
-        
-        //if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW0CDL0"+rid));
-            if (workA != null) {
-                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
-                item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);
-            } else {
-                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
-            }
-        //}
-
         return res;
     }
 

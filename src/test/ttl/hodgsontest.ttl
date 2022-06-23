@@ -15,7 +15,6 @@
 bdr:W0IA_HOD46  a                :ImageInstance ;
         :inCollection            bdr:PR0IA_HOD01 ;
         :instanceHasVolume       bdr:I0IA_HOD46 ;
-        :instanceOf              bdr:WA0IA_HOD46 ;
         :instanceReproductionOf  bdr:MW0IA_HOD46 ;
         :isRoot                  true .
 
@@ -36,8 +35,7 @@ bdr:MW0IA_HOD46  a                :Instance ;
 
 bdr:I0IA_HOD46  a         :ImageGroup ;
         :hasIIIFManifest  <https://iiif.archivelab.org/iiif/rashodgson46/manifest.json> ;
-        :volumeNumber     1 ;
-        :volumeOf         bdr:W0IA_HOD46 .
+        :volumeNumber     1 .
 
 bda:MW0IA_HOD46  a         adm:AdminData ;
         adm:adminAbout     bdr:MW0IA_HOD46 ;
@@ -82,13 +80,12 @@ bda:W0IA_HOD46  a              adm:AdminData ;
         adm:status             bda:StatusReleased ;
         :isRoot                true .
 
-bdr:WA0IA_HOD46  a        :Work ;
-        :isRoot           true ;
-        :language         bdr:LangSa ;
-        :workHasInstance  bdr:MW0IA_HOD46 , bdr:W0IA_HOD46 ;
-        :workIsAbout      bdr:T1 ;
-        skos:altLabel     "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
-        skos:prefLabel    "Ekallavīratantram"@sa-x-iast .
+bdr:WA0IA_HOD46  a      :Work ;
+        :isRoot         true ;
+        :language       bdr:LangSa ;
+        :workIsAbout    bdr:T1 ;
+        skos:altLabel   "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;
+        skos:prefLabel  "Ekallavīratantram"@sa-x-iast .
 
 bdr:TT0CF378B84813E3DF
         a           :Title ;

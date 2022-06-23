@@ -11,11 +11,11 @@
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bdr:WEAP676-1-10  a              :ImageInstance ;
         :inCollection            bdr:PR0EAP676 ;
         :instanceHasVolume       bdr:I0EAP676-1-10 ;
-        :instanceOf              bdr:WA22003 ;
         :instanceReproductionOf  bdr:MWEAP676-1-10 ;
         :isRoot                  true .
 
@@ -34,18 +34,17 @@ bda:WEAP676-1-10  a            adm:AdminData ;
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:WEAP676-1-10 ;
         adm:contentLegal       bda:LD_EAP_content ;
-        adm:metadataLegal      bda:LD_EAP_metadata ;
         adm:gitPath            "0e/WEAP676-1-10.trig" ;
         adm:gitRepo            bda:GR0014 ;
         adm:graphId            bdg:WEAP676-1-10 ;
+        adm:metadataLegal      bda:LD_EAP_metadata ;
         adm:restrictedInChina  false ;
         adm:status             bda:StatusReleased ;
         :isRoot                true .
 
 bdr:I0EAP676-1-10  a      :ImageGroup ;
         :hasIIIFManifest  <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> ;
-        :volumeNumber     1 ;
-        :volumeOf         bdr:WEAP676-1-10 .
+        :volumeNumber     1 .
 
 bdr:NT3196BF2D6B1DBC4C
         a          :Note ;
@@ -68,8 +67,7 @@ bdr:MWEAP676-1-10  a              :Instance ;
 
 bdr:EV24D69E0F299DE851
         a           :CopyEvent ;
-        :notAfter   1999 ;
-        :notBefore  1600 .
+        :eventWhen  "1600/1999"^^edtf:EDTF .
 
 bdr:TT3F47A61E957C3105
         a           :Title ;

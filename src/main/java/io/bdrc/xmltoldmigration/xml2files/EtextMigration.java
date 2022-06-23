@@ -498,21 +498,10 @@ public class EtextMigration {
             if (accessUri == null) accessUri = "http://purl.bdrc.io/admindata/AccessOpen";
             admItem.addProperty(itemModel.getProperty(ADM, "access"), itemModel.getResource(accessUri));
 
-            // Item metadata
-
-            if (WorkMigration.addWorkHasItem) {
-                addInstanceToWork(abstractWorkId, eInstanceId, etextId, isPaginated);
-            }
-
             if (!bornDigital) {
                 // false should be true in the case of KarmaDelek and GuruLama
                 item.addProperty(itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+indicatedWorkId));
-                item.addProperty(itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"M"+indicatedWorkId));
                 addReproToInstance(indicatedWorkId, eInstanceId, etextId, false, isPaginated);
-            }
-            
-            if (WorkMigration.addItemForWork) {
-                item.addProperty(itemModel.getProperty(BDO, "instanceOf"), workA);
             }
         }
 

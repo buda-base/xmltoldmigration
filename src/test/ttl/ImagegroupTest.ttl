@@ -11,6 +11,7 @@
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bda:LG7838958C9FDB06CE
         a               adm:UpdateData ;
@@ -46,7 +47,6 @@ bda:WTestInstance  a    adm:AdminData ;
 
 bdr:I4158  a                   :ImageGroup ;
         :volumeNumber          1 ;
-        :volumeOf              bdr:WTestInstance ;
         :volumePagesTbrcIntro  1 ;
         :volumePagesTotal      356 .
 
@@ -56,9 +56,10 @@ bda:LGIGS002  a         adm:UpdateData ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
-bdr:WTestInstance  a  :ImageInstance ;
-        :isRoot    true ;
-        :scanInfo  "Satluj Siti Enterprises"@en .
+bdr:WTestInstance  a        :ImageInstance ;
+        :instanceHasVolume  bdr:I4158 ;
+        :isRoot             true ;
+        :scanInfo           "Satluj Siti Enterprises"@en .
 
 bda:LG0050B839C3033FDB
         a               adm:ImagesUpdated ;

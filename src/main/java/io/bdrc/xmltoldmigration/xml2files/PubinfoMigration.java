@@ -678,11 +678,7 @@ public class PubinfoMigration {
             }
             Resource holding = itemModel.createResource(BDR+itemName);
             itemModel.add(holding, RDF.type, itemModel.getResource(BDO+"Item"));
-            if (WorkMigration.addItemForWork)
-                itemModel.add(holding, itemModel.createProperty(BDO, "itemForInstance"), itemModel.createResource(main.getURI()));
-            if (WorkMigration.addWorkHasItem) {
-                m.add(main, m.getProperty(BDO, "instanceHasItem"), m.createResource(BDR+itemName));
-            }
+            itemModel.add(holding, itemModel.createProperty(BDO, "itemForInstance"), itemModel.createResource(main.getURI()));
 
             addSimpleElement("exception", BDO+"itemException", EWTS_TAG, current, itemModel, holding);
             String value;

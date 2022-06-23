@@ -111,7 +111,6 @@ public class GRETILTransfer {
             workA = createRoot(mA, BDR+"WA"+line[0].substring(2), BDO+"Work");
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             addStatus(mA, workA, "released");
             admWorkA = createAdminRoot(workA);
             addReleased(mA, admWorkA);

@@ -11,19 +11,21 @@
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
-bdr:MW1FEMC020013  a      :Instance ;
-        bf:identifiedBy   bdr:ID40E76702244D0F72 ;
-        :hasFascicles     "1" ;
-        :hasTitle         bdr:TTE13B3C661F81E2B5 , bdr:TT987B7799B2FAE16A , bdr:TT788AFA8EE8D9A109 , bdr:TT7DE5A25AA387B539 , bdr:TT003927A987D548C4 , bdr:TT823A7C4B2DD3D68C ;
-        :inCollection     bdr:PR1KDPP00 ;
-        :isComplete       true ;
-        :isRoot           true ;
-        :microfilmItem    bdr:MF02A43377C1CE1A7A ;
-        :note             bdr:NT43895F96F66FA39A ;
-        :numberOfVolumes  1 ;
-        :workKDPPOldId    "1389" ;
-        skos:prefLabel    "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-twktt .
+bdr:MW1FEMC020013  a              :Instance ;
+        bf:identifiedBy           bdr:ID40E76702244D0F72 ;
+        :hasFascicles             "1" ;
+        :hasTitle                 bdr:TTE13B3C661F81E2B5 , bdr:TT987B7799B2FAE16A , bdr:TT788AFA8EE8D9A109 , bdr:TT7DE5A25AA387B539 , bdr:TT003927A987D548C4 , bdr:TT823A7C4B2DD3D68C ;
+        :inCollection             bdr:PR1KDPP00 ;
+        :instanceHasReproduction  bdr:W1FEMC020013 ;
+        :isComplete               true ;
+        :isRoot                   true ;
+        :microfilmItem            bdr:MF02A43377C1CE1A7A ;
+        :note                     bdr:NT43895F96F66FA39A ;
+        :numberOfVolumes          1 ;
+        :workKDPPOldId            "1389" ;
+        skos:prefLabel            "ច្បាប់ល្បើកថ្មី"@km , "cpāp' lpök​​ ​​thmī"@km-x-twktt .
 
 bdr:TT003927A987D548C4
         a           :Title ;

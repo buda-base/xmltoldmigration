@@ -11,6 +11,7 @@
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bda:LG96B065B1B67F2C86
         a            adm:UpdateData ;
@@ -19,7 +20,7 @@ bda:LG96B065B1B67F2C86
 
 bdr:EV1C15C9CBCFC6FF17
         a             :LineageEvent ;
-        :eventWhen    "testcirca"^^<http://id.loc.gov/datatypes/edtf> ;
+        :eventWhen    "testcirca"^^edtf:EDTF ;
         :lineageFrom  bdr:P1132 .
 
 bdr:NT7E05A41908C244A3

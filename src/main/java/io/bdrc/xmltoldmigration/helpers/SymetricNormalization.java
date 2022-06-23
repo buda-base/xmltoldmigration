@@ -44,6 +44,11 @@ public class SymetricNormalization {
     public static void normalizeOneDirection(boolean oneDirectionArg, boolean preferManyOverOne) {
         fillMap(preferManyOverOne);
         oneDirection = oneDirectionArg;
+        ImagegroupMigration.addVolumeOf = false;
+        ImagegroupMigration.addItemHasVolume = true;
+        OutlineMigration.addWorkHaspart = false;
+        OutlineMigration.addWorkPartOf = true;
+        /*
         if (oneDirectionArg == true) {
             WorkMigration.addItemForWork = !preferManyOverOne;
             WorkMigration.addWorkHasItem = preferManyOverOne;
@@ -59,6 +64,7 @@ public class SymetricNormalization {
             OutlineMigration.addWorkHaspart = true;
             OutlineMigration.addWorkPartOf = true;
         }
+        */
     }
     
     public static Map<String,SymetryInfo> propInfos = new HashMap<>();
@@ -66,24 +72,24 @@ public class SymetricNormalization {
     public static void fillMap(boolean preferManyOverOne) {
         int manyInt = preferManyOverOne ? 1 : 0;
         int oneInt = preferManyOverOne ? 0 : 1;
-        propInfos.put("placeContains", new SymetryInfo("placeLocatedIn", manyInt));
-        propInfos.put("placeLocatedIn", new SymetryInfo("placeContains", oneInt));
+        propInfos.put("placeContains", new SymetryInfo("placeLocatedIn", 0));
+        propInfos.put("placeLocatedIn", new SymetryInfo("placeContains", 1));
         // let's not care about placeIsNear
         //propInfos.put("placeIsNear", new SymetryInfo("placeIsNear", 2));
-        propInfos.put("instanceOf", new SymetryInfo("workHasInstance", oneInt));
-        propInfos.put("workHasInstance", new SymetryInfo("instanceOf", manyInt));
-        propInfos.put("serialMemberOf", new SymetryInfo("serialHasMember", oneInt));
-        propInfos.put("serialHasMember", new SymetryInfo("serialMemberOf", manyInt));
-        propInfos.put("serialInstanceOf", new SymetryInfo("serialHasInstance", oneInt));
-        propInfos.put("serialHasInstance", new SymetryInfo("serialInstanceOf", manyInt));
+        propInfos.put("instanceOf", new SymetryInfo("workHasInstance", 1));
+        propInfos.put("workHasInstance", new SymetryInfo("instanceOf", 0));
+        propInfos.put("serialMemberOf", new SymetryInfo("serialHasMember", 1));
+        propInfos.put("serialHasMember", new SymetryInfo("serialMemberOf", 0));
+        propInfos.put("serialInstanceOf", new SymetryInfo("serialHasInstance", 1));
+        propInfos.put("serialHasInstance", new SymetryInfo("serialInstanceOf", 0));
         // TODO: these are handled in the code directly:
         // - workPartOf       vs. workHaspart
         // - workHasItem      vs. itemForWork
         //propInfos.put("personHasIncarnation", new SymetryInfo("personIncarnationOf", 1));
         //propInfos.put("incarnationOf", new SymetryInfo("hasIncarnation", 0));
         propInfos.put("personHasConsort", new SymetryInfo("personHasConsort", 2));
-        propInfos.put("personTeacherOf", new SymetryInfo("personStudentOf", manyInt));
-        propInfos.put("personStudentOf", new SymetryInfo("personTeacherOf", oneInt));
+        propInfos.put("personTeacherOf", new SymetryInfo("personStudentOf", 0));
+        propInfos.put("personStudentOf", new SymetryInfo("personTeacherOf", 1));
         //propInfos.put("instanceHasReproduction", new SymetryInfo("instanceReproductionOf", manyInt));
         //propInfos.put("instanceReproductionOf", new SymetryInfo("instanceHasReproduction", oneInt));        
     }
@@ -94,26 +100,26 @@ public class SymetricNormalization {
         case "hasDaughter":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasFather", 1);
+                return new SymetryInfo("hasFather", 0);
             case GENDER_F:
-                return new SymetryInfo("hasMother", 1);
+                return new SymetryInfo("hasMother", 0);
             default:
-                return new SymetryInfo("hasParent", 1);
+                return new SymetryInfo("hasParent", 0);
             }
         case "hasMother":
         case "hasFather":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasSon", 0);
+                return new SymetryInfo("hasSon", 1);
             case GENDER_F:
-                return new SymetryInfo("hasDaughter", 0);
+                return new SymetryInfo("hasDaughter", 1);
             default:
-                return new SymetryInfo("hasChild", 0);
+                return new SymetryInfo("hasChild", 1);
             }
         case "hasWife":
-            return new SymetryInfo("hasHusband", 1);
+            return new SymetryInfo("hasHusband", 2);
         case "hasHusband":
-            return new SymetryInfo("hasWife", 0);
+            return new SymetryInfo("hasWife", 2);
         // no inLaw in the database, we just skip
         case "hasSister":
         case "hasBrother":
@@ -129,9 +135,9 @@ public class SymetricNormalization {
         case "hasYoungerBrother":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasOlderBrother", 1);
+                return new SymetryInfo("hasOlderBrother", 2);
             case GENDER_F:
-                return new SymetryInfo("hasOlderSister", 1);
+                return new SymetryInfo("hasOlderSister", 2);
             default:
                 return null;
             }
@@ -139,9 +145,9 @@ public class SymetricNormalization {
         case "hasOlderBrother":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasYoungerBrother", 0);
+                return new SymetryInfo("hasYoungerBrother", 2);
             case GENDER_F:
-                return new SymetryInfo("hasYoungerSister", 0);
+                return new SymetryInfo("hasYoungerSister", 2);
             default:
                 return null;
             }
@@ -149,21 +155,21 @@ public class SymetricNormalization {
         case "hasGrandFather":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasGrandSon", 0);
+                return new SymetryInfo("hasGrandSon", 1);
             case GENDER_F:
-                return new SymetryInfo("hasGrandDaughter", 0);
+                return new SymetryInfo("hasGrandDaughter", 1);
             default:
-                return new SymetryInfo("hasGrandChild", 0);
+                return new SymetryInfo("hasGrandChild", 1);
             }
         case "hasGrandDaughter":
         case "hasGrandSon":
             switch (gender) {
             case GENDER_M:
-                return new SymetryInfo("hasGrandFather", 1);
+                return new SymetryInfo("hasGrandFather", 0);
             case GENDER_F:
-                return new SymetryInfo("hasGrandMother", 1);
+                return new SymetryInfo("hasGrandMother", 0);
             default:
-                return new SymetryInfo("hasGrandParent", 1);
+                return new SymetryInfo("hasGrandParent", 0);
             }
         case "hasAunt":
         case "hasUncle":

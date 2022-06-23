@@ -55,9 +55,6 @@ public class WorkMigration {
 	
 	public static boolean splitItems = true;
 	
-	public static boolean addItemForWork = false;
-	public static boolean addWorkHasItem = true;
-	
 	public static Map<String,List<String>> productWorks = new HashMap<>();
 	
 	public static List<WorkModelInfo> serialWorks = new ArrayList<>();
@@ -335,10 +332,10 @@ public class WorkMigration {
                 admSerialW.addProperty(mS.getProperty(ADM, "metadataLegal"), mS.createResource(BDA+"LD_BDRC_CC0"));
                 res.add(new WorkModelInfo(serialWorkId, mS));
                 main.addProperty(m.createProperty(BDO, "serialInstanceOf"), m.createResource(BDR+serialWorkId));
-                serialW.addProperty(mS.createProperty(BDO, "serialHasInstance"), main);
+                //serialW.addProperty(mS.createProperty(BDO, "serialHasInstance"), main);
             } else { // serialWork already created just link to it
                 main.addProperty(m.createProperty(BDO, "serialInstanceOf"), m.createResource(BDR+serialWorkId));
-                SymetricNormalization.addSymetricProperty(m, "serialInstanceOf", main.getLocalName(), serialWorkId, null);
+                //SymetricNormalization.addSymetricProperty(m, "serialInstanceOf", main.getLocalName(), serialWorkId, null);
             }
         } else if (infoNodeType.equals("conceptualWork") && !status.equals("withdrawn")) {
             addRedirection(workId, aWorkId, m);
@@ -388,12 +385,13 @@ public class WorkMigration {
                 if (otherAbstractRID == null || otherAbstractRID.equals(aWorkId)) {
                     addStatus(mA, admMainA, status);
                     main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
-                    mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
+                    //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
                 } else {
                     if (!workId.startsWith("W1FEMC")) {
                         addRedirection(aWorkId, otherAbstractRID, mA);
                         CommonMigration.removeWorkModel(aWorkId);
                     }
+                    main.addProperty(m.createProperty(BDO, "instanceOf"), mainA);
                     // we don't put the has instance property... it would be better conceptually but
                     // it would make the queries slower and harder to write
                     //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
@@ -686,12 +684,10 @@ public class WorkMigration {
                 if (j == 0 && !MigrationHelpers.removeW.containsKey(root.getAttribute("RID"))) {
                     String itemRid = BDR+"W"+root.getAttribute("RID").substring(1)+CommonMigration.IMAGE_ITEM_SUFFIX;
                     Resource item = m.createResource(itemRid);
-                    if (WorkMigration.addWorkHasItem) {
-                        if (redirectionInstanceId == null)
-                            m.add(main, m.getProperty(BDO, "instanceHasReproduction"), item);
-                        else
-                            SymetricNormalization.addSymetricTriple("instanceHasReproduction", redirectionInstanceId, item.getLocalName());
-                    }
+                    if (redirectionInstanceId == null)
+                        m.add(main, m.getProperty(BDO, "instanceHasReproduction"), item);
+                    else
+                        SymetricNormalization.addSymetricTriple("instanceHasReproduction", redirectionInstanceId, item.getLocalName());
                 }
                 // then curate the volume list to add missing volumes
                 Element volume = (Element) volumes.item(j);

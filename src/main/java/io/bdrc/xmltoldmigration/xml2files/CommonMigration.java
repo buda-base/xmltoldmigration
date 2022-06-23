@@ -118,7 +118,7 @@ public class CommonMigration  {
         }
     }
     
-    static final RDFDatatype EDTFDT = new BaseDatatype("http://id.loc.gov/datatypes/edtf") {
+    public static final RDFDatatype EDTFDT = new BaseDatatype("http://id.loc.gov/datatypes/edtf/EDTF") {
         @Override
         public Class getJavaClass() {
             return EDTFStr.class;
@@ -1394,15 +1394,10 @@ public class CommonMigration  {
                     String workId = rez.getLocalName();
                     fplItem = resModel.createResource(BDR+"IT"+workId.substring(1));
                     admFplItem = createAdminRoot(fplItem);
-                    if (WorkMigration.addItemForWork) {
-                        fplItem.addProperty(resModel.getProperty(BDO, "itemForInstance"), rez);
-                    }
+                    fplItem.addProperty(resModel.getProperty(BDO, "itemForInstance"), rez);
                     addReleased(resModel, admFplItem);
                     fplItem.addProperty(RDF.type, resModel.getResource(BDO+"Item"));
                     fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
-                    if (WorkMigration.addWorkHasItem) {
-                        rez.addProperty(resModel.getProperty(BDO+"instanceHasItem"), fplItem);
-                    }
                 }
                 switch(type) {
                 case "id":

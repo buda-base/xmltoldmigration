@@ -9,9 +9,9 @@
 @prefix rkts:  <http://purl.rkts.eu/resource/> .
 @prefix bdr:   <http://purl.bdrc.io/resource/> .
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
-@prefix locdt: <http://id.loc.gov/datatypes/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bdr:NT757F77D8BA18E640
         a          :Note ;
@@ -23,13 +23,13 @@ bdr:NME2F236C649A1C622
 
 bdr:EVB25CDA7F05164BEA
         a            :PersonAssumesOffice ;
-        :eventWhen   "1734/1735"^^locdt:edtf ;
+        :eventWhen   "1734/1735"^^edtf:EDTF ;
         :eventWhere  bdr:G20 .
 
 bdr:EVE1C8F77F6AFC308F
         a             :PersonBirth ;
         :corporation  bdr:C123 ;
-        :eventWhen    "1308"^^locdt:edtf ;
+        :eventWhen    "1308"^^edtf:EDTF ;
         :eventWhere   bdr:G967 ;
         :role         bdr:R123 .
 
@@ -69,7 +69,7 @@ bdr:NM9C8DEB6FF7CEC129
 
 bdr:EV93D338F6A346B51D
         a           :PersonBirth ;
-        :eventWhen  "09XX"^^locdt:edtf .
+        :eventWhen  "09XX"^^edtf:EDTF .
 
 bda:P1583  a               adm:AdminData ;
         adm:adminAbout     bdr:P1583 ;
@@ -123,6 +123,7 @@ bdr:NT6B646336F5EE567D
 bdr:P1583  a                  :Person ;
         rdfs:seeAlso          bdr:O1GS392481GS39291 ;
         :associatedTradition  bdr:TraditionNyingma ;
+        :hasMother            bdr:P1585 ;
         :hasUnknownKinship    bdr:P1584 ;
         :incarnationGeneral   bdr:P561654 ;
         :isRoot               true ;
@@ -130,7 +131,6 @@ bdr:P1583  a                  :Person ;
         :personEvent          bdr:EVB25CDA7F05164BEA , bdr:EVDAA95D67ECFAB1A7 , bdr:EVE1C8F77F6AFC308F , bdr:EV93D338F6A346B51D , bdr:EVABB307C08F280C09 , bdr:EVF24F5C4DD8140821 ;
         :personGender         bdr:GenderMale ;
         :personName           bdr:NME2F236C649A1C622 , bdr:NM9C8DEB6FF7CEC129 , bdr:NM6E5B539FC14B81F1 , bdr:NMDD9AB2BD104D0A7D , bdr:NMED06EB68CC7F2B88 , bdr:NMFB54273C9888828B , bdr:NMF942A81B0A73E4AA , bdr:NM00B857229AAA1BF0 , bdr:NM27A9E6B52AE2AFD6 , bdr:NM81A442B676BCDB2A , bdr:NMBC6B2B658373DD69 ;
-        :personOfSect         bdr:T1234 ;
         :personStudentOf      bdr:P123 ;
         skos:prefLabel        "Drime Oser"@en , "隆钦热降巴·赤墨俄色"@zh-hans , "klong chen rab 'byams pa dri med 'od zer/"@bo-x-ewts , "shantideva"@sa-x-rma .
 
@@ -140,12 +140,12 @@ bdr:NMDD9AB2BD104D0A7D
 
 bdr:EVF24F5C4DD8140821
         a            :PersonInResidence ;
-        :eventWhen   "1734/1735"^^locdt:edtf ;
+        :eventWhen   "1734/1735"^^edtf:EDTF ;
         :eventWhere  bdr:G20 .
 
 bdr:EVDAA95D67ECFAB1A7
         a           :PersonEventNotSpecified ;
-        :eventWhen  "1364"^^locdt:edtf .
+        :eventWhen  "1364"^^edtf:EDTF .
 
 bdr:NMBC6B2B658373DD69
         a           :PersonCommonName ;

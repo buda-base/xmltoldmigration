@@ -109,7 +109,6 @@ public class HodgsonTransfer {
             admWorkA = createAdminRoot(workA);
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             workA.addProperty(workModel.createProperty(BDO, "language"), workModel.createResource(BDR+"LangSa"));
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_IA_Metadata")); // ?
@@ -182,9 +181,7 @@ public class HodgsonTransfer {
         res.add(item);
         Resource product = itemModel.createResource(BDR+"PR0IA_HOD01");
         item.addProperty(itemModel.createProperty(BDO, "inCollection"), product);
-        if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
-        }
+        workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
 
         // Item adm:AdminData
         Resource admItem = createAdminRoot(item);
@@ -204,15 +201,7 @@ public class HodgsonTransfer {
             itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource("https://iiif.archivelab.org/iiif/"+line[1].trim()+"/manifest.json"));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
-        if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"MW"+baseRID));
-            if (workA != null) {
-                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
-                item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);
-            } else {
-                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
-            }
-        }
+        SymetricNormalization.addSymetricProperty(itemModel, "instanceReproductionOf", itemRID, "MW"+baseRID, null);
 
 
         return res;

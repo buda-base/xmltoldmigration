@@ -11,6 +11,7 @@
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bda:LGB5715A26D84756E4
         a               adm:InitialDataCreation ;
@@ -56,17 +57,18 @@ bdr:ID011BF57819D67C4D
         a          bdr:FEMCManuscriptCode ;
         rdf:value  "001-PP.00.02.07.VII" .
 
-bdr:MW1FEMC010006  a      :Instance ;
-        bf:identifiedBy   bdr:IDAAA4A0E91BB9C634 , bdr:ID011BF57819D67C4D ;
-        :hasFascicles     "2, 7, 8, 10, 11" ;
-        :hasTitle         bdr:TT008B758142301FF1 , bdr:TT11AA6B09252B9225 , bdr:TTDDC4AE34F5AA838F , bdr:TT9F5DB6BC1BDA7180 ;
-        :inCollection     bdr:PR1KDPP00 ;
-        :isComplete       false ;
-        :isRoot           true ;
-        :microfilmItem    bdr:MF75A2B8B5BD14A7A0 ;
-        :note             bdr:NT6A5E503DD47337CF ;
-        :numberOfVolumes  1 ;
-        skos:prefLabel    "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-twktt , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
+bdr:MW1FEMC010006  a              :Instance ;
+        bf:identifiedBy           bdr:IDAAA4A0E91BB9C634 , bdr:ID011BF57819D67C4D ;
+        :hasFascicles             "2, 7, 8, 10, 11" ;
+        :hasTitle                 bdr:TT008B758142301FF1 , bdr:TT11AA6B09252B9225 , bdr:TTDDC4AE34F5AA838F , bdr:TT9F5DB6BC1BDA7180 ;
+        :inCollection             bdr:PR1KDPP00 ;
+        :instanceHasReproduction  bdr:W1FEMC010006 ;
+        :isComplete               false ;
+        :isRoot                   true ;
+        :microfilmItem            bdr:MF75A2B8B5BD14A7A0 ;
+        :note                     bdr:NT6A5E503DD47337CF ;
+        :numberOfVolumes          1 ;
+        skos:prefLabel            "maṅgalatthadīpanī aṭṭhakathāmaṅgalasūtra"@pi-x-twktt , "មង្គលត្ថទីបនីអដ្ឋកថាមង្គលសូត្រ"@pi-khmr .
 
 bda:LGIM6ABD17F4  a    adm:UpdateData ;
         adm:logAgent   "works-femc01-import.xql" ;

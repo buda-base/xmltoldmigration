@@ -11,13 +11,13 @@
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
-bdr:WA1NPL1  a            :Work ;
-        :isRoot           true ;
-        :language         bdr:LangSa ;
-        :workHasInstance  bdr:MW1NPL1 , bdr:W1NPL1 ;
-        :workIsAbout      bdr:T933 ;
-        skos:prefLabel    "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
+bdr:WA1NPL1  a          :Work ;
+        :isRoot         true ;
+        :language       bdr:LangSa ;
+        :workIsAbout    bdr:T933 ;
+        skos:prefLabel  "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
 
 bdr:NTFE307A6AEDE42D33
         a          :Note ;
@@ -47,17 +47,15 @@ bda:W1NPL1  a                  adm:AdminData ;
 bdr:W1NPL1  a                    :ImageInstance ;
         :inCollection            bdr:PR1NEPAL00 ;
         :instanceHasVolume       bdr:I1NPL1 ;
-        :instanceOf              bdr:WA1NPL1 ;
         :instanceReproductionOf  bdr:MW1NPL1 ;
-        :numberOfVolumes         1 ;
         :isRoot                  true ;
+        :numberOfVolumes         1 ;
         :scanInfo                "Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive."@en .
 
 bdr:I1NPL1  a                  :ImageGroup ;
         :imageCount            0 ;
         :imageList             "" ;
         :volumeNumber          1 ;
-        :volumeOf              bdr:W1NPL1 ;
         :volumePagesTbrcIntro  0 ;
         :volumePagesTotal      0 .
 
@@ -92,5 +90,5 @@ bda:WA1NPL1  a             adm:AdminData ;
         :isRoot            true .
 
 bdr:EVDA35DE703590E610
-        a        :CopyEvent ;
-        :onYear  "1843"^^xsd:gYear .
+        a           :CopyEvent ;
+        :eventWhen  "1843"^^edtf:EDTF .

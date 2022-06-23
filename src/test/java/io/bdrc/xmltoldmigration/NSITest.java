@@ -37,7 +37,7 @@ public class NSITest {
         String[] line = reader.readNext();
         line = reader.readNext();
         Model workModel = MigrationTest.mergeResources(NSITransfer.getResourcesFromLine(line));
-        //workModel.write(System.out, "TTL");
+        workModel.write(System.out, "TTL");
         Model correctModel = MigrationHelpers.modelFromFileName("src/test/ttl/nsitest.ttl");
         
         assertTrue(MigrationHelpers.isSimilarTo(workModel, correctModel) );

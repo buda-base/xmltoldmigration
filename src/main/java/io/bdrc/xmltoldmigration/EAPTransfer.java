@@ -145,7 +145,7 @@ public class EAPTransfer {
     public static final List<Resource> getResourcesFromLine(String[] line) {
         final Model workModel = ModelFactory.createDefaultModel();
         final List<Resource> res = new ArrayList<>();
-        setPrefixes(workModel);
+        MigrationHelpers.setPrefixes(workModel);
         final String baseRid = line[2].replace('/', '-');
         final String RID = 'W'+baseRid;
         Resource work = createRoot(workModel, BDR+'M'+RID, BDO+"Instance");
@@ -163,7 +163,6 @@ public class EAPTransfer {
             admWorkA = createAdminRoot(workA);
             res.add(workA);
             work.addProperty(workModel.createProperty(BDO, "instanceOf"), workA);
-            workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), work);
             addReleased(mA, admWorkA);
             mA.add(admWorkA, mA.createProperty(ADM, "metadataLegal"), mA.createResource(BDA + "LD_EAP_metadata")); // ?
         } else {
@@ -202,10 +201,9 @@ public class EAPTransfer {
             int endDate = Integer.parseInt(line[4]);
             Resource copyEventR = getEvent(work, "CopyEvent", "instanceEvent");
             if (startDate == endDate) {
-                copyEventR.addLiteral(workModel.createProperty(BDO, "onYear"), workModel.createTypedLiteral(startDate, XSDDatatype.XSDinteger));
+                copyEventR.addLiteral(workModel.createProperty(BDO, "eventWhen"), workModel.createTypedLiteral(startDate, CommonMigration.EDTFDT));
             } else {
-                copyEventR.addLiteral(workModel.createProperty(BDO, "notBefore"), workModel.createTypedLiteral(startDate, XSDDatatype.XSDinteger));
-                copyEventR.addLiteral(workModel.createProperty(BDO, "notAfter"), workModel.createTypedLiteral(endDate, XSDDatatype.XSDinteger));
+                copyEventR.addLiteral(workModel.createProperty(BDO, "eventWhen"), workModel.createTypedLiteral(startDate+"/"+endDate, CommonMigration.EDTFDT));
             }
         }
         
@@ -295,9 +293,7 @@ public class EAPTransfer {
         Resource product = itemModel.createResource(BDR+"PR0EAP676");
         item.addProperty(itemModel.createProperty(BDO, "inCollection"), product);
 
-        if (WorkMigration.addWorkHasItem) {
-            workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
-        }
+        workModel.add(work, workModel.createProperty(BDO, "instanceHasReproduction"), item);
 
         // Item adm:AdminData
         Resource admItem = createAdminRoot(item);
@@ -317,15 +313,7 @@ public class EAPTransfer {
             itemModel.add(item, itemModel.createProperty(BDO, "instanceHasVolume"), volume);
         itemModel.add(volume, itemModel.createProperty(BDO, "hasIIIFManifest"), itemModel.createResource(iiifManifestUrl));
         itemModel.add(volume, itemModel.createProperty(BDO, "volumeNumber"), itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
-        if (WorkMigration.addItemForWork) {
-            itemModel.add(item, itemModel.createProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+"M"+RID));
-            if (workA != null) {
-                workA.addProperty(workModel.createProperty(BDO, "workHasInstance"), item);
-                item.addProperty(itemModel.createProperty(BDO, "instanceOf"), workA);
-            } else {
-                SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemRID, abstractWorkRID, null);
-            }
-        }
+        SymetricNormalization.addSymetricProperty(itemModel, "instanceReproductionOf", itemRID, "M"+RID, null);
         
         // there doesn't appear to be an original url for the volume to record in the Volume AdminData
 //        // Volume adm:AdminData

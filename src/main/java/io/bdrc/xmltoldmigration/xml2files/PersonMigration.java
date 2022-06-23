@@ -234,15 +234,6 @@ public class PersonMigration {
 			addKinship(m, main, current, gender);
 		}
 		
-		// ofSect
-		
-		nodeList = root.getElementsByTagNameNS(PXSDNS, "ofSect");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			current = (Element) nodeList.item(i);
-			Property prop = m.getProperty(BDO, "personOfSect");
-			m.add(main, prop, m.createResource(BDR+current.getAttribute("sect")));
-		}
-		
 		// incarnationOf
 		
 		nodeList = root.getElementsByTagNameNS(PXSDNS, "incarnationOf");

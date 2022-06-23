@@ -372,35 +372,11 @@ public class MigrationApp
                             admItem.addProperty(itemModel.getProperty(ADM, "logEntry"), le);
                         }
                     }
-                    
-                    Resource instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "instanceOf"));
-                    if (instanceOfR == null)
-                        instanceOfR = workR.getPropertyResourceValue(workR.getModel().getProperty(BDO, "serialInstanceOf"));
                     if (item != null) {
-                        if (WorkMigration.addWorkHasItem) {
-                            if (redirectionInstanceId == null) {
-                                m.add(workR, m.getProperty(BDO, "instanceHasReproduction"), m.createResource(BDR + itemName));
-                                if (abstractMI != null && instanceOfR != null && abstractMI.resourceName.equals(instanceOfR.getLocalName())) {
-                                    Resource abstractW = abstractMI.m.createResource(BDR+abstractMI.resourceName);
-                                    abstractMI.m.add(abstractW, abstractMI.m.getProperty(BDO, "workHasInstance"), abstractMI.m.createResource(BDR+itemName));
-                                    itemModel.add(item, itemModel.getProperty(BDO, "instanceOf"), itemModel.createResource(BDR+abstractMI.resourceName));
-                                } else {
-                                    String otherAbstractRID = CommonMigration.getConstraintWa('M'+baseName, WorkMigration.getAbstractForRid(baseName)); 
-                                    if (otherAbstractRID != null)
-                                        SymetricNormalization.addSymetricProperty(itemModel, "instanceOf", itemName, otherAbstractRID, null);
-                                }
-                            }
-                        }
                         
                         itemModel.add(item, itemModel.getProperty(BDO, "numberOfVolumes"), itemModel.createTypedLiteral(vols.size(), XSDDatatype.XSDinteger));
                         if (imageGroups.missingVolumes != null && !imageGroups.missingVolumes.isEmpty())
                             item.addProperty(itemModel.getProperty(BDO, "missingVolumes"), imageGroups.missingVolumes);
-                        if (WorkMigration.addItemForWork) {
-                            if (redirectionInstanceId == null)
-                                itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + 'M'+baseName));
-                            else
-                                itemModel.add(item, itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR + redirectionInstanceId));
-                        }
                         
                         // workHasItem already added in WorkMigration
                         for (Volinfo vi : vols) {
@@ -696,7 +672,7 @@ public class MigrationApp
 
     public static void main( String[] args ) throws NoSuchAlgorithmException, IllegalArgumentException, IOException, CsvException
     {
-        boolean oneDirection = false;
+        boolean oneDirection = true;
         boolean manyOverOne = false;
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];

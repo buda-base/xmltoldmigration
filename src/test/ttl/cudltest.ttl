@@ -11,14 +11,13 @@
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bdr:W0CDL0MS-ADD-01691-00003
-        a                        :ImageInstance ;
-        :inCollection            bdr:PR0CDL01 ;
-        :instanceHasVolume       bdr:I0CDL0MS-ADD-01691-00003 ;
-        :instanceOf              bdr:WA0RTI1946 ;
-        :instanceReproductionOf  bdr:MW0CDL0MS-ADD-01691-00003 ;
-        :isRoot                  true .
+        a                   :ImageInstance ;
+        :inCollection       bdr:PR0CDL01 ;
+        :instanceHasVolume  bdr:I0CDL0MS-ADD-01691-00003 ;
+        :isRoot             true .
 
 bda:MW0CDL0MS-ADD-01691-00003
         a                   adm:AdminData ;
@@ -34,8 +33,7 @@ bda:MW0CDL0MS-ADD-01691-00003
 
 bdr:EVB11167779AA5CB54
         a           :CopyEvent ;
-        :notAfter   1500 ;
-        :notBefore  1301 .
+        :eventWhen  "1301/1500"^^edtf:EDTF .
 
 bdr:MW0CDL0MS-ADD-01691-00003
         a                         :Instance ;
@@ -69,8 +67,7 @@ bda:W0CDL0MS-ADD-01691-00003
 bdr:I0CDL0MS-ADD-01691-00003
         a                 :ImageGroup ;
         :hasIIIFManifest  <https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01691-00003> ;
-        :volumeNumber     1 ;
-        :volumeOf         bdr:W0CDL0MS-ADD-01691-00003 .
+        :volumeNumber     1 .
 
 bdr:TT1ACFA685925520E4
         a           :Title ;
