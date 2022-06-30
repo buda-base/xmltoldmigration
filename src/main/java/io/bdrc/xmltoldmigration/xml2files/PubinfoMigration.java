@@ -654,9 +654,10 @@ public class PubinfoMigration {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
             String value = current.getAttribute("place").trim();
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
+                value = MigrationHelpers.sanitizeRID(main.getLocalName(), "hasSourcePrintery", value);
                 m.add(main, m.getProperty(BDO, "hasSourcePrintery"), m.createResource(BDR+value));
-            else {
+            } else {
                 value = current.getTextContent().trim();
                 if (!value.isEmpty()) {
                     m.add(main, m.getProperty(BDO, "sourcePrinteryStatement"), m.createLiteral(value));
