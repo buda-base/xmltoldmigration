@@ -746,6 +746,9 @@ public class MigrationHelpers {
 	    if (type.equals("outline")) {
 	        res = res && !OutlineMigration.ridsToIgnore.containsKey(root.getAttribute("RID"));   
 	    }
+	    if (type.equals("place") && root.getAttribute("RID").startsWith("G9GBX") && !status.equals("released")) {
+	        return false;
+	    }
 	    return res;
 	}
 	

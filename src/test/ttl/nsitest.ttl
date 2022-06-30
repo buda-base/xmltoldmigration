@@ -36,7 +36,6 @@ bda:MW1NPL1  a             adm:AdminData ;
 bda:W1NPL1  a                  adm:AdminData ;
         adm:access             bda:AccessOpen ;
         adm:adminAbout         bdr:W1NPL1 ;
-        adm:contentLegal       bda:LD_BDRC_PD ;
         adm:gitPath            "a4/W1NPL1.trig" ;
         adm:gitRepo            bda:GR0014 ;
         adm:graphId            bdg:W1NPL1 ;

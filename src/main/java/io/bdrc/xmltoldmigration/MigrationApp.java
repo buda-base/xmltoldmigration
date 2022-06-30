@@ -151,16 +151,12 @@ public class MigrationApp
     // no access => no Item.
     public static void moveAdminInfo(Model itemM, Resource work, Resource admItem, Resource item) {
         Resource access = WorkMigration.getAccess(itemM, work);
-        Resource legal = WorkMigration.getLegal(itemM, work);
         boolean ric = WorkMigration.isRestrictedInChina(itemM, work);
         boolean lowQuality = WorkMigration.isLowQuality(itemM, work);
         
         if (access != null) {
             admItem.addProperty(itemM.getProperty(ADM, "access"), access);
             itemM.addLiteral(admItem, itemM.getProperty(ADM, "restrictedInChina"), ric);
-        }
-        if (legal != null) {
-            admItem.addProperty(itemM.getProperty(ADM, "contentLegal"), legal);
         }
         if (lowQuality) {
             item.addLiteral(itemM.getProperty(BDO, "qualityGrade"), itemM.createTypedLiteral(0, XSDDatatype.XSDinteger));
