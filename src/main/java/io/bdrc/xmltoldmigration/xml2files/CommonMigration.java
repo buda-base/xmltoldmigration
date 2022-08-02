@@ -1074,7 +1074,7 @@ public class CommonMigration  {
         }
         
         if (value.startsWith("Convert2Outline")) {
-            logEntryType = m.createResource(ADM+"InitialOutlineDataImport");
+            logEntryType = m.createResource(ADM+(isOutline ? "InitialOutlineDataImport" : "InitialDataImport"));
             logAgent = value;
             value = "";
         }
