@@ -197,9 +197,9 @@ public class EAPTransfer {
         
         // event
         if (!line[3].isEmpty()) {
-            int startDate = Integer.parseInt(line[3]);
-            int endDate = Integer.parseInt(line[4]);
-            Resource copyEventR = getEvent(work, "CopyEvent", "instanceEvent");
+            final String startDate = line[3];
+            final String endDate = line[4];
+            final Resource copyEventR = getEvent(work, "CopyEvent", "instanceEvent");
             if (startDate == endDate) {
                 copyEventR.addLiteral(workModel.createProperty(BDO, "eventWhen"), workModel.createTypedLiteral(startDate, CommonMigration.EDTFDT));
             } else {
