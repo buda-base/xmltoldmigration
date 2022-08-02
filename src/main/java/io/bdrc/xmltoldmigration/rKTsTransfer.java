@@ -3,7 +3,10 @@ package io.bdrc.xmltoldmigration;
 import static io.bdrc.libraries.GitHelpers.ensureGitRepo;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
+import static io.bdrc.libraries.Models.BDO;
 import static io.bdrc.libraries.Models.BDR;
+import static io.bdrc.libraries.Models.addStatus;
+import static io.bdrc.libraries.Models.createAdminRoot;
 import static io.bdrc.libraries.Models.setPrefixes;
 
 import java.io.File;
@@ -20,6 +23,8 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.vocabulary.RDF;
+
+import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 
 //import io.bdrc.xmltoldmigration.helpers.GitHelpers;
 
@@ -69,23 +74,42 @@ public class rKTsTransfer {
         initListsForRID("MW1PD95844");
     }
     
-    public static void initListsForRID(String rid) {
+    public static void initListsForRID(final String rid) {
         RIDList.add(rid);
-        final String workFileName = MigrationApp.getDstFileName("instance", rid, ".trig");
-        Model m = MigrationHelpers.modelFromFileName(workFileName);
+        final Model m;
+        if (OutlineMigration.splitOutlines) {
+            m = ModelFactory.createDefaultModel();
+            MigrationHelpers.setPrefixes(m);
+            final Resource mainOutline = m.getResource(BDR+"O"+rid.substring(2));
+            mainOutline.addProperty(RDF.type, m.createResource(BDO+"Outline"));
+            mainOutline.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), "O"+rid.substring(2));
+            mainOutline.addProperty(m.getProperty(BDO, "outlineOf"), m.getResource(BDR+rid));
+            final Resource admOutline = createAdminRoot(mainOutline);
+            addStatus(m, admOutline, "released");
+        } else {
+            final String workFileName = MigrationApp.getDstFileName("instance", rid, ".trig");
+            m = MigrationHelpers.modelFromFileName(workFileName);
+        }
         RidModels.put(rid, m);
     }
     
     public static void finishEditions() {
         for (String rid : RIDList) {
             Model m = RidModels.get(rid);
-            final String workFileName = MigrationApp.getDstFileName("instance", rid);
-            MigrationHelpers.outputOneModel(m, rid, workFileName, "instance");
+            if (OutlineMigration.splitOutlines) {
+                final String orid = "O"+rid.substring(2);
+                final String fileName = MigrationApp.getDstFileName("outline", orid);
+                MigrationHelpers.outputOneModel(m, orid, fileName, "outline");
+            } else {
+                final String workFileName = MigrationApp.getDstFileName("instance", rid);
+                MigrationHelpers.outputOneModel(m, rid, workFileName, "instance");
+            }
         }
     }
 
     public static void doTransfer() {
         ensureGitRepo("work", MigrationApp.OUTPUT_DIR);
+        ensureGitRepo("outline", MigrationApp.OUTPUT_DIR);
         initLists();
         final File dir = new File(MigrationApp.RKTS_DIR);
         final File[] directoryListing = dir.listFiles();
