@@ -285,8 +285,6 @@ public class OutlineMigration {
 		}
 		outlineUsedRID = new HashMap<>();
 		List<WorkModelInfo> res = new ArrayList<>();
-		if (splitOutlines)
-		    res.add(new WorkModelInfo(rootWork.getLocalName(), workModel));
 		
 		final boolean ric = MigrationHelpers.ricWithOutline.containsKey(rootWork.getLocalName());
 		
@@ -299,17 +297,19 @@ public class OutlineMigration {
             mainOutline = m.getResource(BDR+legacyOutlineRID);
             mainOutline.addProperty(RDF.type, m.createResource(BDO+"Outline"));
             admOutline = createAdminRoot(mainOutline);
+            res.add(new WorkModelInfo(legacyOutlineRID, m));
         } else {
             admOutline = createAdminRoot(rootWork);
             mainOutline = admOutline;
             admOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
+            res.add(new WorkModelInfo(rootWork.getLocalName(), workModel));
         }
 
 		CurNodeInt curNodeInt = new CurNodeInt();
 		curNodeInt.i = 0;
 		String value;
 
-		admOutline.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), legacyOutlineRID);
+		mainOutline.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), legacyOutlineRID);
 		mainOutline.addProperty(m.getProperty(BDO, "outlineOf"), rootWork);
 	    
         NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
@@ -319,8 +319,8 @@ public class OutlineMigration {
             if (value.isEmpty()) {
                 value = "NoType";
             }
-            value = BDA+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
-            m.add(admOutline, m.getProperty(ADM, "outlineType"), m.createResource(value));
+            value = (splitOutlines ? BDR : BDA)+"OutlineType"+value.substring(0, 1).toUpperCase() + value.substring(1);
+            m.add(mainOutline, m.getProperty(splitOutlines ? BDO : ADM, "outlineType"), m.createResource(value));
         }
 
 //        m.add(work, m.getProperty(ADM, "outline"), admOutline);
@@ -330,14 +330,14 @@ public class OutlineMigration {
         } else {
             value = BDR+"PaginationAbsolute";            
         }
-        m.add(admOutline, m.getProperty(BDO, "workPagination"), m.createResource(value));
+        m.add(mainOutline, m.getProperty(BDO, "paginationType"), m.createResource(value));
         
         // if the outline names must really be migrated, do it here, they would be under
         // the tbr:outlineName property
         
 		CommonMigration.addNotes(m, root, mainOutline, OXSDNS);
 		CommonMigration.addExternals(m, root, mainOutline, OXSDNS);
-		CommonMigration.addLog(m, root, admOutline, OXSDNS, true);
+		CommonMigration.addLog(m, root, admOutline, OXSDNS, !splitOutlines);
 		CommonMigration.addDescriptions(m, root, mainOutline, OXSDNS, false);
 		// no location on outlines root nodes
 		//CommonMigration.addLocations(m, admOutline, root, OXSDNS, rootWork.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
@@ -393,7 +393,7 @@ public class OutlineMigration {
                 value = "hasMainAuthor";
             }
             if (isRoot && value.equals("hasScribe")) {
-                Property prop = m.createProperty(ADM+"outlineAuthorStatement");
+                Property prop = splitOutlines ? m.createProperty(BDO+"authorshipStatement") : m.createProperty(ADM+"outlineAuthorStatement");
                 Literal l = CommonMigration.getLiteral(current, "en", m, "hasScribe", rez.getLocalName(), null);
                 if (l == null) continue;
                 rez.addProperty(prop,  l);
