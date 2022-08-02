@@ -783,7 +783,7 @@ public class MigrationHelpers {
         
 	    Element root = xmlDocument.getDocumentElement();        
         Model m = xmlToRdf(xmlDocument, type);
-        Resource admMain = getAdminRoot(m);
+        Resource admMain = getAdminRoot(m, m.createResource(BDR+root.getAttribute("RID")));
         Resource main = admMain.getPropertyResourceValue(m.createProperty(ADM+"adminAbout"));
         String thisRID = root.getAttribute("RID");
                 

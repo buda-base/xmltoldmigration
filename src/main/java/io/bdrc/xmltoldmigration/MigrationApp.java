@@ -185,7 +185,7 @@ public class MigrationApp
         String fileName = file.getName();
         if (!fileName.startsWith(mustStartWith)) return;
         if (!fileName.endsWith(".xml")) return;
-        //if (!fileName.startsWith("W1KG6249")) return;
+        //if (!fileName.startsWith("O1KG11703")) return;
         String baseName = fileName.substring(0, fileName.length()-4);
         Resource item = null;
         Resource admItem = null;
@@ -217,8 +217,8 @@ public class MigrationApp
             List<WorkModelInfo> wmiList = OutlineMigration.MigrateOutline(outd, workModel, work, ancestorCreators); 
             Model outlineModel = wmiList.get(0).m;
             if (OutlineMigration.splitOutlines) {
-                String outlineFileName = getDstFileName("instance", outWorkId+"_O001");
-                MigrationHelpers.outputOneModel(outlineModel, outWorkId+"_O01", outlineFileName, "instance");
+                String outlineFileName = getDstFileName("outline", outroot.getAttribute("RID"));
+                MigrationHelpers.outputOneModel(outlineModel, outWorkId, outlineFileName, "outline");
             } else {
                 String workFileName = getDstFileName("instance", outWorkId);
                 MigrationHelpers.outputOneModel(workModel, outWorkId, workFileName, "instance");
@@ -579,6 +579,7 @@ public class MigrationApp
             ensureGitRepo("subscriber", OUTPUT_DIR);
             break;
         case "outline":
+            ensureGitRepo("outline", OUTPUT_DIR);
         case "scanrequest":
             ensureGitRepo("work", OUTPUT_DIR);
             ensureGitRepo("instance", OUTPUT_DIR);
@@ -682,7 +683,7 @@ public class MigrationApp
 
     public static void finishTypes() {
         System.out.println("committing modifications");
-        List<String> types = Arrays.asList("collection", "subscriber", "work", "item", "instance", "place", "person", "corporation", "role", "lineage", "topic", "etext", "etextcontent", "iinstance", "einstance");
+        List<String> types = Arrays.asList("outline", "collection", "subscriber", "work", "item", "instance", "place", "person", "corporation", "role", "lineage", "topic", "etext", "etextcontent", "iinstance", "einstance");
         for (String type : types) {
             finishType(type);
         }

@@ -48,7 +48,7 @@ public class OutlineMigration {
 
 	public static final String OXSDNS = "http://www.tbrc.org/models/outline#";
 	
-	public static boolean splitOutlines = false;
+	public static boolean splitOutlines = true;
 	
 	public static MessageDigest md5;
 	
@@ -165,20 +165,19 @@ public class OutlineMigration {
         ridsToIgnore.put("O1GS129876", true);
         
         // Nyingma Gyubum
-        // MW1KG11703 -> O1KG11703
+//        ridsToIgnore.put("O1KG11703", true);
+//        ridsToIgnore.put("O1CT1001", true);
+//        ridsToIgnore.put("O21939", true);
+//        ridsToIgnore.put("O25815", true);
+//        ridsToIgnore.put("O1CT1003", true);
+//        ridsToIgnore.put("O1CT1002", true);
+//        ridsToIgnore.put("O2KG208199", true);
         // MW2PD19896 -> no outline
         // MW2PD19897 -> no outline
-        // MW21519 -> O1CT1001
         // MW21520 -> no outline
-        // MW21939 -> O21939
         // MW3CN3207 -> no outline
-        // MW25815 -> O25815
         // MW1KG16449 -> no outline
-        // MW21521 -> O1CT1003
-        // MW1KG14783 -> O1KG14783
         // MW20150 -> no outline
-        // MW21518 -> O1CT1002
-        // MW1NLM219 -> O2KG208199
         // MW2PD17382 -> no outline
         
         // Rinchen Terdzo:
@@ -286,21 +285,33 @@ public class OutlineMigration {
 		}
 		outlineUsedRID = new HashMap<>();
 		List<WorkModelInfo> res = new ArrayList<>();
-		res.add(new WorkModelInfo(rootWork.getLocalName(), workModel));
+		if (splitOutlines)
+		    res.add(new WorkModelInfo(rootWork.getLocalName(), workModel));
 		
 		final boolean ric = MigrationHelpers.ricWithOutline.containsKey(rootWork.getLocalName());
 		
-        Resource admOutline = createAdminRoot(rootWork);
-
-		Element root = xmlDocument.getDocumentElement();
+		final Element root = xmlDocument.getDocumentElement();
+		final String legacyOutlineRID = root.getAttribute("RID");
+		
+        Resource admOutline;
+        Resource mainOutline;
+        if (splitOutlines) {
+            mainOutline = m.getResource(BDR+legacyOutlineRID);
+            mainOutline.addProperty(RDF.type, m.createResource(BDO+"Outline"));
+            admOutline = createAdminRoot(mainOutline);
+        } else {
+            admOutline = createAdminRoot(rootWork);
+            mainOutline = admOutline;
+            admOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
+        }
 
 		CurNodeInt curNodeInt = new CurNodeInt();
 		curNodeInt.i = 0;
 		String value;
-		String legacyOutlineRID = root.getAttribute("RID");
 
-        admOutline.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), legacyOutlineRID);
-        admOutline.addProperty(RDF.type, m.createResource(ADM+"Outline"));
+		admOutline.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), legacyOutlineRID);
+		mainOutline.addProperty(m.getProperty(BDO, "outlineOf"), rootWork);
+	    
         NodeList nodeList = root.getElementsByTagNameNS(OXSDNS, "isOutlineOf");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element current = (Element) nodeList.item(i);
@@ -319,20 +330,20 @@ public class OutlineMigration {
         } else {
             value = BDR+"PaginationAbsolute";            
         }
-        m.add(rootWork, m.getProperty(BDO, "workPagination"), m.createResource(value));
+        m.add(admOutline, m.getProperty(BDO, "workPagination"), m.createResource(value));
         
         // if the outline names must really be migrated, do it here, they would be under
         // the tbr:outlineName property
         
-		CommonMigration.addNotes(m, root, admOutline, OXSDNS);
-		CommonMigration.addExternals(m, root, admOutline, OXSDNS);
+		CommonMigration.addNotes(m, root, mainOutline, OXSDNS);
+		CommonMigration.addExternals(m, root, mainOutline, OXSDNS);
 		CommonMigration.addLog(m, root, admOutline, OXSDNS, true);
-		CommonMigration.addDescriptions(m, root, admOutline, OXSDNS, false);
+		CommonMigration.addDescriptions(m, root, mainOutline, OXSDNS, false);
 		// no location on outlines root nodes
 		//CommonMigration.addLocations(m, admOutline, root, OXSDNS, rootWork.getLocalName(), legacyOutlineRID, legacyOutlineRID, null);
 		
 		// null?
-		addCreators(m, admOutline, root, true, rootWork, null, ancestorCreators);
+		addCreators(m, mainOutline, root, true, rootWork, null, ancestorCreators);
 		
 		// case where there's an unnecessary unique top node (ex: W1GS61415 / O1LS4227)
 		final List<Element> nodeList2 = CommonMigration.getChildrenByTagName(root, OXSDNS, "node");
