@@ -741,12 +741,13 @@ public class MigrationHelpers {
 	}
 	
 	public static boolean mustBeMigrated(Element root, String type, String status) {
-	    boolean res = (!status.isEmpty() && !status.equals("withdrawn") && !status.equals("onHold"));
-	    if (res == false) return false;
-	    if (type.equals("outline")) {
-	        res = res && !OutlineMigration.ridsToIgnore.containsKey(root.getAttribute("RID"));   
+	    if (type.equals("outline") && OutlineMigration.ridsToIgnore.containsKey(root.getAttribute("RID"))) {
+	        return false;
 	    }
-	    return res;
+	    if (type.equals("place") && root.getAttribute("RID").startsWith("G9GBX") && !status.equals("released")) {
+	        return false;
+	    }
+	    return true;
 	}
 	
 	// model from XML

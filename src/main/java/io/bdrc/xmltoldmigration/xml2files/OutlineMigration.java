@@ -298,6 +298,7 @@ public class OutlineMigration {
             mainOutline.addProperty(RDF.type, m.createResource(BDO+"Outline"));
             admOutline = createAdminRoot(mainOutline);
             res.add(new WorkModelInfo(legacyOutlineRID, m));
+            addStatus(m, admOutline, root.getAttribute("status"));
         } else {
             admOutline = createAdminRoot(rootWork);
             mainOutline = admOutline;
