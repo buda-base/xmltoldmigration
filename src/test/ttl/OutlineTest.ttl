@@ -12,6 +12,16 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
+bda:O2DB87572  a        adm:AdminData ;
+        adm:adminAbout  bdr:O2DB87572 ;
+        adm:facetIndex  18 ;
+        adm:gitPath     "00/O2DB87572.trig" ;
+        adm:gitRepo     bda:GR0016 ;
+        adm:graphId     bdg:O2DB87572 ;
+        adm:logEntry    bda:LGFCBADE4A28C53918 , bda:LG195856E5A6775B08 , bda:LGA5A1E4FC0BFF3655 , bda:LG3253B7648AE040F5 ;
+        adm:status      bda:StatusReleased ;
+        :isRoot         true .
+
 bdr:WA0XL74BFE0D47CBB
         a                 :Work ;
         :catalogInfo      "concise presentation of the gurupuja practice known as the bde stong dbyer med ma"@en ;
@@ -47,11 +57,6 @@ bda:WA0XL74BFE0D47CBB
         adm:status         bda:StatusReleased ;
         :isRoot            true .
 
-bda:LGAA9E9400A4A93DA9
-        a            adm:UpdateOutlineData ;
-        adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
-        adm:logWho   bdu:U00003 .
-
 bdr:MW30020_9A656A  a          :Instance ;
         :contentLocation       bdr:CLB8EE02E1E8DC26BC ;
         :hasTitle              bdr:TTC4AFCDEBF3DC7747 ;
@@ -74,30 +79,18 @@ bdr:CLF6B8FFCB603AA31A
         :contentLocationInstance  bdr:W30020 ;
         :contentLocationVolume    1 .
 
-bda:MW30020  a                      adm:Outline , adm:AdminData ;
-        adm:adminAbout              bdr:MW30020 ;
-        adm:facetIndex              18 ;
-        adm:gitPath                 "80/MW30020.trig" ;
-        adm:gitRepo                 bda:GR0008 ;
-        adm:graphId                 bdg:MW30020 ;
-        adm:logEntry                bda:LGAA9E9400A4A93DA9 , bda:LGE873E4AD726B2E5C , bda:LGC34241585BB8CD9D , bda:LGED4FB22BB4E721BF ;
-        adm:outlineAuthorStatement  "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en ;
-        adm:outlineType             bda:OutlineTypePartialCollectedWorks ;
-        :isRoot                     true ;
-        :legacyOutlineNodeRID       "O2DB87572" .
-
 bdr:NTC7A4455B7D258340
         a          :Note ;
         :noteText  "p. 1 (1st group)" .
 
-bda:LGED4FB22BB4E721BF
-        a               adm:UpdateOutlineData ;
-        adm:logDate     "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
-        adm:logMessage  "vol. 1 outline images fixed"@en ;
-        adm:logWho      bdu:U00019 .
+bda:LG195856E5A6775B08
+        a               adm:UpdateData ;
+        adm:logDate     "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
+        adm:logMessage  "zhu dag byas"@en ;
+        adm:logWho      bdu:U00021 .
 
-bda:LGC34241585BB8CD9D
-        a             adm:InitialOutlineDataImport ;
+bda:LGA5A1E4FC0BFF3655
+        a             adm:InitialDataImport ;
         adm:logAgent  "Convert2Outline version 1.5.5" ;
         adm:logDate   "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
         adm:logWho    bdu:U00003 .
@@ -152,12 +145,6 @@ bdr:CL2641619B882CB70D
         :contentLocationPage      17 ;
         :contentLocationVolume    2 .
 
-bda:LGE873E4AD726B2E5C
-        a               adm:UpdateOutlineData ;
-        adm:logDate     "2009-12-28T10:00:20.456Z"^^xsd:dateTime ;
-        adm:logMessage  "zhu dag byas"@en ;
-        adm:logWho      bdu:U00021 .
-
 bdr:TT7DC222169DE4751A
         a           :Title ;
         rdfs:label  "gleng gzhi2"@bo-x-ewts .
@@ -172,6 +159,11 @@ bdr:MW30020_FF0E27  a          :Instance ;
         :partType              bdr:PartTypeVolume ;
         skos:prefLabel         "gleng gzhi2"@bo-x-ewts .
 
+bda:LG3253B7648AE040F5
+        a            adm:UpdateData ;
+        adm:logDate  "2009-09-15T14:51:25.708Z"^^xsd:dateTime ;
+        adm:logWho   bdu:U00003 .
+
 bdr:TT9A867A7B4FAD4E31
         a           :Title ;
         rdfs:label  "gleng gzhi/"@bo-x-ewts .
@@ -185,6 +177,12 @@ bdr:MW30020_7C6E5B  a          :Instance ;
         :partTreeIndex         "2.3" ;
         :partType              bdr:PartTypeVolume ;
         skos:prefLabel         "gleng gzhi2"@bo-x-ewts .
+
+bda:LGFCBADE4A28C53918
+        a               adm:UpdateData ;
+        adm:logDate     "2014-10-03T14:40:05.896Z"^^xsd:dateTime ;
+        adm:logMessage  "vol. 1 outline images fixed"@en ;
+        adm:logWho      bdu:U00019 .
 
 bdr:IDB1BC2C3828D35655
         a          bdr:KaTenSiglaG ;
@@ -209,10 +207,6 @@ bdr:MW30020_F9754D  a          :Instance ;
         :partType              bdr:PartTypeText ;
         skos:prefLabel         "gleng gzhi/"@bo-x-ewts .
 
-bdr:MW30020  a           :Work ;
-        :isRoot          true ;
-        :workPagination  bdr:PaginationAbsolute .
-
 bdr:NTFB0562979CCDB6B6
         a          :Note ;
         :noteText  "p. 1 (1st group)" .
@@ -229,6 +223,13 @@ bdr:MW30020_74BFE0  a          :Instance ;
         :partTreeIndex         "2.2" ;
         :partType              bdr:PartTypeText ;
         skos:prefLabel         "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
+
+bdr:O2DB87572  a               :Outline ;
+        :authorshipStatement   "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en ;
+        :legacyOutlineNodeRID  "O2DB87572" ;
+        :outlineOf             bdr:MW30020 ;
+        :outlineType           bdr:OutlineTypePartialCollectedWorks ;
+        :paginationType        bdr:PaginationAbsolute .
 
 bdr:TTC4AFCDEBF3DC7747
         a           :RunningTitle ;

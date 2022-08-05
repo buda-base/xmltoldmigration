@@ -957,7 +957,7 @@ public class CommonMigration  {
     public static Pattern oldstyleRIDsP = Pattern.compile("^[A-Z]+\\d+$");
     public static boolean addLogEntry(final Model m, final Element e, final Resource rez, final int entryNum, boolean syncfound, boolean isOutline) {
         if (e == null) return syncfound;
-        Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez, FacetType.LOG_ENTRY.getNodeType(), rez);
+        Resource logEntry = getFacetNode(FacetType.LOG_ENTRY, BDA, rez);
         Resource logEntryType = m.createResource(isOutline ? ADM+"UpdateOutlineData" : ADM+"UpdateData");
         logEntry.removeAll(RDF.type);
         String datevalue = e.getAttribute("when");
