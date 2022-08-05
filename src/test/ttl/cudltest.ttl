@@ -41,7 +41,6 @@ bdr:MW0CDL0MS-ADD-01691-00003
         :hasTitle                 bdr:TT1ACFA685925520E4 ;
         :instanceHasReproduction  bdr:W0CDL0MS-ADD-01691-00003 ;
         :instanceOf               bdr:WA0RTI1946 ;
-        :isRoot                   true ;
         :material                 bdr:MaterialPalmyraPalmLeaf ;
         :printMethod              bdr:PrintMethod_Manuscript ;
         :script                   bdr:ScriptRanj ;

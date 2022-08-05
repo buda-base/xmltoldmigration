@@ -36,6 +36,7 @@ public class TaxonomyMigration {
         
         String legacyOutlineRID = root.getAttribute("RID");
         Resource mainTaxonomy = createRoot(m, BDR+legacyOutlineRID, null);
+        mainTaxonomy.addProperty(RDF.type, m.createResource(BDO+"Taxonomy"));
         Resource admTaxonomy = createAdminRoot(mainTaxonomy);
 
         CommonMigration.addLog(m, root, admTaxonomy, OXSDNS, false);
