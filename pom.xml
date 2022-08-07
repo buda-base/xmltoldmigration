@@ -4,7 +4,7 @@
   <groupId>io.bdrc.xmltoldmigration</groupId>
   <artifactId>xmltoldmigration</artifactId>
   <packaging>jar</packaging>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <name>xmltoldmigration</name>
   <url>https://github.com/BuddhistDigitalResourceCenter/xmltoldmigration</url>
   <properties>
