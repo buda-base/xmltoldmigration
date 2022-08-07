@@ -16,8 +16,7 @@
 bdr:WEAP676-1-10  a              :ImageInstance ;
         :inCollection            bdr:PR0EAP676 ;
         :instanceHasVolume       bdr:I0EAP676-1-10 ;
-        :instanceReproductionOf  bdr:MWEAP676-1-10 ;
-        :isRoot                  true .
+        :instanceReproductionOf  bdr:MWEAP676-1-10 .
 
 bda:MWEAP676-1-10  a        adm:AdminData ;
         adm:adminAbout      bdr:MWEAP676-1-10 ;
@@ -27,8 +26,7 @@ bda:MWEAP676-1-10  a        adm:AdminData ;
         adm:graphId         bdg:MWEAP676-1-10 ;
         adm:metadataLegal   bda:LD_EAP_metadata ;
         adm:originalRecord  "https://eap.bl.uk/archive-file/EAP676-1-10"^^xsd:anyURI ;
-        adm:status          bda:StatusReleased ;
-        :isRoot             true .
+        adm:status          bda:StatusReleased .
 
 bda:WEAP676-1-10  a            adm:AdminData ;
         adm:access             bda:AccessOpen ;
@@ -39,8 +37,7 @@ bda:WEAP676-1-10  a            adm:AdminData ;
         adm:graphId            bdg:WEAP676-1-10 ;
         adm:metadataLegal      bda:LD_EAP_metadata ;
         adm:restrictedInChina  false ;
-        adm:status             bda:StatusReleased ;
-        :isRoot                true .
+        adm:status             bda:StatusReleased  .
 
 bdr:I0EAP676-1-10  a      :ImageGroup ;
         :hasIIIFManifest  <https://eap.bl.uk/archive-file/EAP676-1-10/manifest> ;
@@ -57,7 +54,6 @@ bdr:MWEAP676-1-10  a              :Instance ;
         :instanceEvent            bdr:EV24D69E0F299DE851 ;
         :instanceHasReproduction  bdr:WEAP676-1-10 ;
         :instanceOf               bdr:WA22003 ;
-        :isRoot                   true ;
         :language                 bdr:LangSa ;
         :material                 bdr:MaterialPaper ;
         :note                     bdr:NT3196BF2D6B1DBC4C ;

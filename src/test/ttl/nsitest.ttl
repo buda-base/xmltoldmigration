@@ -14,7 +14,6 @@
 @prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bdr:WA1NPL1  a          :Work ;
-        :isRoot         true ;
         :language       bdr:LangSa ;
         :workIsAbout    bdr:T933 ;
         skos:prefLabel  "Pratyaṅgirā mahāvidyā rājñī"@sa-x-iast .
@@ -30,8 +29,7 @@ bda:MW1NPL1  a             adm:AdminData ;
         adm:gitRepo        bda:GR0012 ;
         adm:graphId        bdg:MW1NPL1 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bda:W1NPL1  a                  adm:AdminData ;
         adm:access             bda:AccessOpen ;
@@ -40,14 +38,12 @@ bda:W1NPL1  a                  adm:AdminData ;
         adm:gitRepo            bda:GR0014 ;
         adm:graphId            bdg:W1NPL1 ;
         adm:restrictedInChina  false ;
-        adm:status             bda:StatusReleased ;
-        :isRoot                true .
+        adm:status             bda:StatusReleased .
 
 bdr:W1NPL1  a                    :ImageInstance ;
         :inCollection            bdr:PR1NEPAL00 ;
         :instanceHasVolume       bdr:I1NPL1 ;
         :instanceReproductionOf  bdr:MW1NPL1 ;
-        :isRoot                  true ;
         :numberOfVolumes         1 ;
         :scanInfo                "Digitized as part of the Nepalese Buddhist Sanskrit Manuscript Scanning Initiative, a collaboration with the Nagarjuna Institute of Buddhist Studies in Kathmandu, Nepal, and with funding from University of the West and Internet Archive."@en .
 
@@ -65,7 +61,6 @@ bdr:MW1NPL1  a                    :Instance ;
         :instanceEvent            bdr:EVDA35DE703590E610 ;
         :instanceHasReproduction  bdr:W1NPL1 ;
         :instanceOf               bdr:WA1NPL1 ;
-        :isRoot                   true ;
         :note                     bdr:NTFE307A6AEDE42D33 ;
         :printMethod              bdr:PrintMethod_Manuscript ;
         :script                   bdr:ScriptNewa ;
@@ -85,8 +80,7 @@ bda:WA1NPL1  a             adm:AdminData ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WA1NPL1 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bdr:EVDA35DE703590E610
         a           :CopyEvent ;

@@ -11,12 +11,12 @@
 @prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
 
 bdr:C11MS170  a                :Corporation ;
         rdfs:comment           "some description"@en ;
         :corporationHasMember  bdr:CMF428C2DEB2CDEFAF , bdr:CM7872F5FD75068B81 ;
         :corporationRegion     bdr:G934 ;
-        :isRoot                true ;
         :note                  bdr:NTF247E9C5ACE9527A , bdr:NTAA3AC231C7216B0B ;
         skos:altLabel          "Dranka"@bo-x-phon-en-m-tbrc ;
         skos:prefLabel         "bran ka"@bo-x-phon-en-m-tbrc .
@@ -33,8 +33,7 @@ bda:C11MS170  a            adm:AdminData ;
         adm:graphId        bdg:C11MS170 ;
         adm:logEntry       bda:LG74E16D28D4502097 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bda:LG74E16D28D4502097
         a               adm:InitialDataCreation ;

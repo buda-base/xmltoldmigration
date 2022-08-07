@@ -28,7 +28,6 @@ bdr:EVB0BA72AF962CC892
         :eventWhen  "2000?"^^edtf:EDTF .
 
 bdr:WA1FPL1  a     :Work ;
-        :isRoot    true ;
         :language  bdr:LangSa .
 
 bdr:ID4AF69EDA5BFE4E04
@@ -52,11 +51,9 @@ bda:MW1FPL1  a          adm:AdminData ;
         adm:gitPath     "81/MW1FPL1.trig" ;
         adm:gitRepo     bda:GR0012 ;
         adm:graphId     bdg:MW1FPL1 ;
-        adm:logEntry    bda:LGIMD5FAEE0C6C , bda:LGIM6B433BA01E , bda:LGIM9F8D3273 ;
-        :isRoot         true .
+        adm:logEntry    bda:LGIMD5FAEE0C6C , bda:LGIM6B433BA01E , bda:LGIM9F8D3273 .
 
 bdr:W1FPL1  a      :ImageInstance ;
-        :isRoot    true ;
         :scanInfo  "Scanning sponsored through the kind support of"@en .
 
 bda:LGIMD5FAEE0C6C  a   adm:UpdateData ;
@@ -72,7 +69,6 @@ bdr:MW1FPL1  a                    :Instance ;
         :extentStatement          "177 ff." ;
         :hasSourcePrintery        bdr:G1PD129184 ;
         :instanceEvent            bdr:EVB0BA72AF962CC892 ;
-        :isRoot                   true ;
         :printMethod              bdr:PrintMethod_Manuscript ;
         :publisherLocation        "[lha sa]"@en ;
         :publisherName            "*zhol par khang /"@bo-x-ewts ;

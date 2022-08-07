@@ -12,8 +12,7 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
-bdr:O9TAXTBRC201605  :isRoot  true ;
-        :taxHasSubClass  bdr:O9TAXTBRC201605N0048 , bdr:O9TAXTBRC201605N0001 .
+bdr:O9TAXTBRC201605  :taxHasSubClass  bdr:O9TAXTBRC201605N0048 , bdr:O9TAXTBRC201605N0001 .
 
 bdr:O9TAXTBRC201605N0049
         a                :Taxonomy ;
@@ -33,8 +32,7 @@ bdr:O9TAXTBRC201605N0048
 bda:O9TAXTBRC201605  a  adm:AdminData ;
         adm:adminAbout  bdr:O9TAXTBRC201605 ;
         adm:facetIndex  2 ;
-        adm:logEntry    bda:LG73FFF6A154290507 ;
-        :isRoot         true .
+        adm:logEntry    bda:LG73FFF6A154290507 .
 
 bdr:O9TAXTBRC201605N0002
         a                :Taxonomy ;

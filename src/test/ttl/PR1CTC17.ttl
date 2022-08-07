@@ -35,8 +35,7 @@ bda:PR1CTC14  a         adm:AdminData ;
         adm:gitRepo     bda:GR0011 ;
         adm:graphId     bdg:PR1CTC14 ;
         adm:logEntry    bda:LG4B50141549C461F3 , bda:LG609CF2400F2237BA , bda:LG4835E8547911E747 ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
+        adm:status      bda:StatusReleased .
 
 bda:LG4835E8547911E747
         a               adm:UpdateData ;

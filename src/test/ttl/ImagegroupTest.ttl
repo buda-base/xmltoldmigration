@@ -42,8 +42,7 @@ bda:WTestInstance  a    adm:AdminData ;
         adm:facetIndex  7 ;
         adm:gitPath     "84/WTestInstance.trig" ;
         adm:gitRepo     bda:GR0014 ;
-        adm:graphId     bdg:WTestInstance ;
-        :isRoot         true .
+        adm:graphId     bdg:WTestInstance .
 
 bdr:I4158  a                   :ImageGroup ;
         :volumeNumber          1 ;
@@ -58,7 +57,6 @@ bda:LGIGS002  a         adm:UpdateData ;
 
 bdr:WTestInstance  a        :ImageInstance ;
         :instanceHasVolume  bdr:I4158 ;
-        :isRoot             true ;
         :scanInfo           "Satluj Siti Enterprises"@en .
 
 bda:LG0050B839C3033FDB

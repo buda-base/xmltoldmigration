@@ -16,8 +16,7 @@
 bdr:W0CDL0MS-ADD-01691-00003
         a                   :ImageInstance ;
         :inCollection       bdr:PR0CDL01 ;
-        :instanceHasVolume  bdr:I0CDL0MS-ADD-01691-00003 ;
-        :isRoot             true .
+        :instanceHasVolume  bdr:I0CDL0MS-ADD-01691-00003 .
 
 bda:MW0CDL0MS-ADD-01691-00003
         a                   adm:AdminData ;
@@ -28,8 +27,7 @@ bda:MW0CDL0MS-ADD-01691-00003
         adm:graphId         bdg:MW0CDL0MS-ADD-01691-00003 ;
         adm:metadataLegal   bda:LD_CUDL_metadata ;
         adm:originalRecord  "https://cudl.lib.cam.ac.uk/view/MS-ADD-01691-00003"^^xsd:anyURI ;
-        adm:status          bda:StatusReleased ;
-        :isRoot             true .
+        adm:status          bda:StatusReleased .
 
 bdr:EVB11167779AA5CB54
         a           :CopyEvent ;
@@ -61,8 +59,7 @@ bda:W0CDL0MS-ADD-01691-00003
         adm:graphId            bdg:W0CDL0MS-ADD-01691-00003 ;
         adm:metadataLegal      bda:LD_CUDL_metadata ;
         adm:restrictedInChina  false ;
-        adm:status             bda:StatusReleased ;
-        :isRoot                true .
+        adm:status             bda:StatusReleased .
 
 bdr:I0CDL0MS-ADD-01691-00003
         a                 :ImageGroup ;

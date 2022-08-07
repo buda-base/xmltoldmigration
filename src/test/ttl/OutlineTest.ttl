@@ -16,7 +16,6 @@ bdr:WA0XL74BFE0D47CBB
         a                 :Work ;
         :catalogInfo      "concise presentation of the gurupuja practice known as the bde stong dbyer med ma"@en ;
         :creator          bdr:CR0036CB2E6A2369CE , bdr:CRF14E6CC8BF74D11E , bdr:CRB80B4F211C72B9C9 , bdr:CRE46771E44D0F98F3 ;
-        :isRoot           true ;
         :language         bdr:LangBo ;
         :workHasInstance  bdr:MW30020_74BFE0 ;
         skos:prefLabel    "bza' btung tshogs mchod 'dod yon lam khyer/"@bo-x-ewts .
@@ -44,8 +43,7 @@ bda:WA0XL74BFE0D47CBB
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WA0XL74BFE0D47CBB ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bda:LGAA9E9400A4A93DA9
         a            adm:UpdateOutlineData ;
@@ -83,7 +81,6 @@ bda:MW30020  a                      adm:Outline , adm:AdminData ;
         adm:logEntry                bda:LGAA9E9400A4A93DA9 , bda:LGE873E4AD726B2E5C , bda:LGC34241585BB8CD9D , bda:LGED4FB22BB4E721BF ;
         adm:outlineAuthorStatement  "Bumu Dega; outlined with the gracious support of the khyentse foundation"@en ;
         adm:outlineType             bda:OutlineTypePartialCollectedWorks ;
-        :isRoot                     true ;
         :legacyOutlineNodeRID       "O2DB87572" .
 
 bdr:NTC7A4455B7D258340
@@ -210,7 +207,6 @@ bdr:MW30020_F9754D  a          :Instance ;
         skos:prefLabel         "gleng gzhi/"@bo-x-ewts .
 
 bdr:MW30020  a           :Work ;
-        :isRoot          true ;
         :workPagination  bdr:PaginationAbsolute .
 
 bdr:NTFB0562979CCDB6B6

@@ -31,8 +31,7 @@ bda:MW1FEMC010006  a       adm:AdminData ;
         adm:graphId        bdg:MW1FEMC010006 ;
         adm:logEntry       bda:LGB5715A26D84756E4 , bda:LGIM6ABD17F4 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bdr:MF75A2B8B5BD14A7A0
         a                   :ItemMicrofilmAsset ;
@@ -64,7 +63,6 @@ bdr:MW1FEMC010006  a              :Instance ;
         :inCollection             bdr:PR1KDPP00 ;
         :instanceHasReproduction  bdr:W1FEMC010006 ;
         :isComplete               false ;
-        :isRoot                   true ;
         :microfilmItem            bdr:MF75A2B8B5BD14A7A0 ;
         :note                     bdr:NT6A5E503DD47337CF ;
         :numberOfVolumes          1 ;

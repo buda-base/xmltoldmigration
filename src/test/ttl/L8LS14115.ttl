@@ -41,7 +41,6 @@ bda:LGBF7F6269805E6223
 
 bdr:L8LS14115  a        :Lineage ;
         rdfs:comment    "initiation transmission of clear light blessing of rakta yamari"@en ;
-        :isRoot         true ;
         :lineageHolder  bdr:LH624305BFA55288BB , bdr:LHC366A00C3BAE4664 , bdr:LHD3068D3704989044 ;
         :lineageObject  bdr:T1613 ;
         :lineageRef     bdr:L1RKL2042 ;
@@ -63,8 +62,7 @@ bda:L8LS14115  a           adm:AdminData ;
         adm:graphId        bdg:L8LS14115 ;
         adm:logEntry       bda:LGIMB5106F8FDA , bda:LG7D6D1032AD23F04D , bda:LGIME87E5875E1 , bda:LG6B9FE548306F2453 , bda:LGBF7F6269805E6223 , bda:LG96B065B1B67F2C86 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bda:LG7D6D1032AD23F04D
         a            adm:InitialDataCreation ;

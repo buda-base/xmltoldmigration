@@ -22,7 +22,6 @@ bdr:EV4D6B8F9B08287205
         :eventWhen  "1322"^^edtf:EDTF .
 
 bdr:P1331  a            :Person ;
-        :isRoot         true ;
         :note           bdr:NT7219361C1AA8E1A9 ;
         :personEvent    bdr:EV12DC80761AF6EB6D , bdr:EV4D6B8F9B08287205 ;
         :personGender   bdr:GenderMale ;
@@ -51,8 +50,7 @@ bda:P1331  a               adm:AdminData ;
         adm:graphId        bdg:P1331 ;
         adm:logEntry       bda:LG47A034CD79DA75AE ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bdr:NM4A638B850908AF82
         a           :PersonPrimaryTitle ;

@@ -30,7 +30,6 @@ bda:LGA5551B31379AA57E
         adm:logWho      bdu:U00001 .
 
 bdr:WAS12345  a         :SerialWork ;
-        :isRoot         true ;
         skos:prefLabel  "test pali title"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
 
 bda:LG7BF1159854D07D7C
@@ -47,8 +46,7 @@ bda:WA1FPL2837  a          adm:AdminData ;
         adm:graphId        bdg:WA1FPL2837 ;
         adm:logEntry       bda:LGIM3935ECCE8B , bda:LG7BF1159854D07D7C , bda:LGIMA3A86F9513 , bda:LGIMAEA9B78D7A , bda:LGA5551B31379AA57E , bda:LGIM5A753E00B7 , bda:LGIMC2340FB74E , bda:LG5E0C3D1C80378F3F ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bda:MW1FPL2837  a          adm:AdminData ;
         adm:adminAbout     bdr:MW1FPL2837 ;
@@ -57,8 +55,7 @@ bda:MW1FPL2837  a          adm:AdminData ;
         adm:gitRepo        bda:GR0012 ;
         adm:graphId        bdg:MW1FPL2837 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bda:LGIMA3A86F9513  a   adm:InitialDataImport ;
         adm:logDate     "2016-12-06T12:04:56.81Z"^^xsd:dateTime ;
@@ -76,13 +73,11 @@ bdr:EV836983BDFBDCF03A
 
 bda:ITW1FPL2837  a      adm:AdminData ;
         adm:adminAbout  bdr:ITW1FPL2837 ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
+        adm:status      bda:StatusReleased .
 
 bdr:WA1FPL2837  a         :Work ;
         :catalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
         :creator          bdr:CRC96373CECE3F27C3 ;
-        :isRoot           true ;
         :workGenre        bdr:T132 ;
         :workHasInstance  bdr:MW1FPL2837 ;
         :workIsAbout      bdr:WA976 , bdr:G844 , bdr:T62 ;
@@ -106,7 +101,6 @@ bdr:MW1FPL2837  a                 :SerialInstance ;
         :incipit                  "lamentatio Jeremiæ Prophetæ"@bo-x-ewts ;
         :instanceHasReproduction  bdr:W1FPL2837 ;
         :instanceOf               bdr:WA1FPL2837 ;
-        :isRoot                   true ;
         :note                     bdr:NTEE4CD95894683764 , bdr:NT4F90D9E67B6070EA ;
         :numberOfVolumes          1 ;
         :scanInfo                 "Scanned at M/S Satluj Infotech Images, 63-F Sujan Singh Park, New Delhi, India for the Buddhist Digital Resource Center."@en , "Scanned at Tibetan Buddhist Resource Center, 150 West 17th St, New York City, NY 10011, US. Comments: 12/2010"@en , "12/2017"@en , "Scanned at M/S Satluj Infotech Images, E-45, Sector 27 Noida, District Gautam Buddha Nagar, U.P. 201301 via New Delhi, India for the Buddhist Digital Resource Center. Comments: scanned from microfilm - Soma 0001 (0000 drive) on Dummy 9. ZJ59"@en , "Scanned at Tibetan Buddhist Resource Center, 1430 Massachusetts Avenue, Cambridge, MA 02138, USA. Comments: 05/2015"@en , "12/2012"@en ;
@@ -163,8 +157,7 @@ bda:WAS12345  a            adm:AdminData ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WAS12345 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bdr:TT1B4E63A8E66021AA
         a           :Title ;

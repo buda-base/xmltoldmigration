@@ -60,8 +60,7 @@ bda:G844  a                           adm:AdminData ;
         adm:place_TLM_taxonomy        bdr:O1TLMXXX000011 ;
         adm:place_id_TBRC             "540102200:540101145" ;
         adm:place_id_lex              "540102200:540101145" ;
-        adm:status                    bda:StatusReleased ;
-        :isRoot                       true .
+        adm:status                    bda:StatusReleased .
 
 bdr:NTF092CBB060906578
         a          :Note ;
@@ -133,7 +132,6 @@ bda:LG32AA3FB263A1734C
 
 bdr:G844  a                   :Place ;
         bf:identifiedBy       bdr:ID66166F79F3E52A44 ;
-        :isRoot               true ;
         :note                 bdr:NTF2881378713362C4 , bdr:NTF092CBB060906578 , bdr:NT6CE397FC65EA5F06 ;
         :placeAddress         vcard:VAE172281BB250CAB4 ;
         :placeEvent           bdr:EV7E9BCA78C7207CE7 , bdr:EV213E4B9AED5E1B57 ;

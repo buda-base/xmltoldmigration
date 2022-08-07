@@ -15,8 +15,7 @@
 bdr:W0IA_HOD46  a                :ImageInstance ;
         :inCollection            bdr:PR0IA_HOD01 ;
         :instanceHasVolume       bdr:I0IA_HOD46 ;
-        :instanceReproductionOf  bdr:MW0IA_HOD46 ;
-        :isRoot                  true .
+        :instanceReproductionOf  bdr:MW0IA_HOD46 .
 
 bdr:MW0IA_HOD46  a                :Instance ;
         adm:originalRecord        "https://archive.org/details/rashodgson46"^^xsd:anyURI ;
@@ -25,7 +24,6 @@ bdr:MW0IA_HOD46  a                :Instance ;
         :incipit                  "Evaṃ mayā śrutamekasminsamaye bhagavān vajrasatvaḥ - ityekallavīrākhye śrīcaṇḍamahāroṣaṇatantre tantrāvatāraṇapaṭalaḥ prathamaḥ"@sa-x-iast ;
         :instanceHasReproduction  bdr:W0IA_HOD46 ;
         :instanceOf               bdr:WA0IA_HOD46 ;
-        :isRoot                   true ;
         :material                 bdr:MaterialPalmLeaf ;
         :note                     bdr:NT6758702028C37DDF , bdr:NTF7D64BC292DA2E2B ;
         :printMethod              bdr:PrintMethod_Manuscript ;
@@ -44,8 +42,7 @@ bda:MW0IA_HOD46  a         adm:AdminData ;
         adm:gitRepo        bda:GR0012 ;
         adm:graphId        bdg:MW0IA_HOD46 ;
         adm:metadataLegal  bda:LD_IA_Metadata ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bdr:NTF7D64BC292DA2E2B
         a          :Note ;
@@ -57,8 +54,7 @@ bda:WA0IA_HOD46  a         adm:AdminData ;
         adm:gitRepo        bda:GR0008 ;
         adm:graphId        bdg:WA0IA_HOD46 ;
         adm:metadataLegal  bda:LD_IA_Metadata ;
-        adm:status         bda:StatusReleased ;
-        :isRoot            true .
+        adm:status         bda:StatusReleased .
 
 bdr:TTA1D05226DDA49ED8
         a           :Title ;
@@ -77,11 +73,9 @@ bda:W0IA_HOD46  a              adm:AdminData ;
         adm:graphId            bdg:W0IA_HOD46 ;
         adm:metadataLegal      bda:LD_IA_Metadata ;
         adm:restrictedInChina  false ;
-        adm:status             bda:StatusReleased ;
-        :isRoot                true .
+        adm:status             bda:StatusReleased .
 
 bdr:WA0IA_HOD46  a      :Work ;
-        :isRoot         true ;
         :language       bdr:LangSa ;
         :workIsAbout    bdr:T1 ;
         skos:altLabel   "Caṇḍamahāroṣaṇatantram"@sa-x-iast ;

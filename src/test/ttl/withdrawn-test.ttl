@@ -13,7 +13,6 @@
 @prefix bda:   <http://purl.bdrc.io/admindata/> .
 
 bdr:R8LS12811  a        :Role ;
-        :isRoot         true ;
         skos:prefLabel  "Bonpo Lung Lama Tulku Line"@en , "bon po lung bla ma'i skye brgyud/"@bo-x-ewts .
 
 bda:LGB627CF38003DBE02
@@ -31,8 +30,7 @@ bda:R8LS12811  a           adm:AdminData ;
         adm:logEntry       bda:LG32C083A34E27E287 , bda:LGB627CF38003DBE02 ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:replaceWith    bdr:R1GS23 ;
-        adm:status         bda:StatusWithdrawn ;
-        :isRoot            true .
+        adm:status         bda:StatusWithdrawn .
 
 bda:LG32C083A34E27E287
         a               adm:InitialDataCreation ;

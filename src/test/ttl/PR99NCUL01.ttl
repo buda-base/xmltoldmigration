@@ -44,8 +44,7 @@ bda:PRA99NCUL01  a      adm:AdminData ;
         adm:metadataLegal    bda:LD_BDRC_CC0 ;
         adm:graphId     bdg:PRA99NCUL01 ;
         adm:logEntry    bda:LG02DE52BE284DF037 ;
-        adm:status      bda:StatusReleased ;
-        :isRoot         true .
+        adm:status      bda:StatusReleased .
 
 adr:SO95CA562F294CE8DD
         a                              aut:SubscriberOrganization ;

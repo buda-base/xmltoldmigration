@@ -22,8 +22,7 @@ bda:IE1CZ2485  a             adm:AdminData ;
         adm:gitRepo          bda:GR0013 ;
         adm:graphId          bdg:IE1CZ2485 ;
         adm:metadataLegal    bda:LD_BDRC_CC0 ;
-        adm:status           bda:StatusReleased ;
-        :isRoot              true .
+        adm:status           bda:StatusReleased .
 
 bdr:ER430069C0A8DBEADA
         a               :EtextRef ;
@@ -40,5 +39,4 @@ bdr:IE1CZ2485  a                 :EtextInstance ;
         :contentMethod           bdr:ContentMethod_ComputerInput ;
         :inCollection            bdr:PR0ET001 ;
         :instanceHasVolume       bdr:VL790698AD9F9DEAE4 ;
-        :instanceReproductionOf  bdr:W1CZ2485 ;
-        :isRoot                  true .
+        :instanceReproductionOf  bdr:W1CZ2485 .
