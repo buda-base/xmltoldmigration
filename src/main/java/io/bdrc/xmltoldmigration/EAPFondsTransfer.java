@@ -116,8 +116,8 @@ public class EAPFondsTransfer {
                     MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), iInstanceOutfileName, "iinstance");
                     break;
                 case "Collection":
-                    final String colOutFileName = MigrationApp.getDstFileName("product", r.getLocalName());
-                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), colOutFileName, "product");
+                    final String colOutFileName = MigrationApp.getDstFileName("collection", r.getLocalName());
+                    MigrationHelpers.outputOneModel(r.getModel(), r.getLocalName(), colOutFileName, "collection");
                     break;
             }
         }
