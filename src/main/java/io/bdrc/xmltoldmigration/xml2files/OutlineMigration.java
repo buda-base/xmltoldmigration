@@ -165,13 +165,13 @@ public class OutlineMigration {
         ridsToIgnore.put("O1GS129876", true);
         
         // Nyingma Gyubum
-//        ridsToIgnore.put("O1KG11703", true);
-//        ridsToIgnore.put("O1CT1001", true);
-//        ridsToIgnore.put("O21939", true);
-//        ridsToIgnore.put("O25815", true);
-//        ridsToIgnore.put("O1CT1003", true);
-//        ridsToIgnore.put("O1CT1002", true);
-//        ridsToIgnore.put("O2KG208199", true);
+        ridsToIgnore.put("O1KG11703", true);
+        ridsToIgnore.put("O1CT1001", true);
+        ridsToIgnore.put("O21939", true);
+        ridsToIgnore.put("O25815", true);
+        ridsToIgnore.put("O1CT1003", true);
+        ridsToIgnore.put("O1CT1002", true);
+        ridsToIgnore.put("O2KG208199", true);
         // MW2PD19896 -> no outline
         // MW2PD19897 -> no outline
         // MW21520 -> no outline
