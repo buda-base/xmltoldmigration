@@ -160,6 +160,7 @@ public class OutlineMigration {
         ridsToIgnore.put("O4CZ65658", true);
         ridsToIgnore.put("O2MS16391", true);
         ridsToIgnore.put("O00CR0008", true);
+        ridsToIgnore.put("O3CN27605", true);
         
         // released outlines for withdrawn works:
         ridsToIgnore.put("O1GS129876", true);
