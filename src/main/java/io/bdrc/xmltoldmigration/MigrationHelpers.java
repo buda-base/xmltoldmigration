@@ -97,7 +97,6 @@ import io.bdrc.xmltoldmigration.xml2files.ScanrequestMigration;
 import io.bdrc.xmltoldmigration.xml2files.TaxonomyMigration;
 import io.bdrc.xmltoldmigration.xml2files.TopicMigration;
 import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
-import openllet.jena.PelletReasonerFactory;
 
 
 public class MigrationHelpers {
@@ -843,13 +842,6 @@ public class MigrationHelpers {
 	    }
 	}
 
-	
-	@SuppressWarnings("unused")
-    private static OntModel getInferredModel(OntModel m) {
-	    OntModel ontoModelInferred = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, m);
-	    ontoModelInferred.setStrictMode(false);
-	    return ontoModelInferred;
-	}
 	
 	public static Map<String,Validator> validators = new HashMap<String,Validator>();
 	

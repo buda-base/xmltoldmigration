@@ -74,7 +74,6 @@ import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.helpers.EwtsFixer;
 import io.bdrc.xmltoldmigration.helpers.ExceptionHelper;
-import openllet.core.exceptions.InternalReasonerException;
 
 public class CommonMigration  {
 
@@ -2128,31 +2127,6 @@ public class CommonMigration  {
         return true;
     }
 
-    public static boolean rdfOkInOntology(Model m, OntModel o) {
-        return rdfOkInOntology(m, o, "");
-    }
-
-    public static boolean rdfOkInOntology(Model m, OntModel o, String fileName) {
-        o.addSubModel(m);
-        ValidityReport vr;
-        try {
-            vr = o.validate();
-        }
-        catch(InternalReasonerException e) {
-            MigrationHelpers.writeLog(e.getMessage());
-            return false;
-        }
-        if (vr == null) return true;
-        if (!vr.isValid()) {
-            MigrationHelpers.writeLog("Model "+fileName+" not OK in ontology because:");
-            Iterator<ValidityReport.Report> itr = vr.getReports();
-            while(itr.hasNext()) {
-                ValidityReport.Report report = itr.next();
-                MigrationHelpers.writeLog(report.toString());
-            }
-        }
-        return vr.isValid();
-    }
 
     // like getElementsByTagNameNS but not recursive (strange DOM doesn't have that)
     public static List<Element> getChildrenByTagName(Element parent, String xsdPrefix, String name) {
