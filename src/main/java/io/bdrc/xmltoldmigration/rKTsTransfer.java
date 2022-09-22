@@ -108,8 +108,8 @@ public class rKTsTransfer {
     }
 
     public static void doTransfer() {
-        ensureGitRepo("work", MigrationApp.OUTPUT_DIR);
-        ensureGitRepo("outline", MigrationApp.OUTPUT_DIR);
+    	MigrationApp.ensureGitRepo("work", MigrationApp.OUTPUT_DIR);
+    	MigrationApp.ensureGitRepo("outline", MigrationApp.OUTPUT_DIR);
         initLists();
         final File dir = new File(MigrationApp.RKTS_DIR);
         final File[] directoryListing = dir.listFiles();

@@ -1,8 +1,6 @@
 package io.bdrc.xmltoldmigration;
 
 import static io.bdrc.libraries.GitHelpers.commitChanges;
-import static io.bdrc.libraries.GitHelpers.ensureGitRepo;
-import static io.bdrc.libraries.GitHelpers.getChanges;
 import static io.bdrc.libraries.Models.ADM;
 import static io.bdrc.libraries.Models.BDA;
 import static io.bdrc.libraries.Models.BDO;
@@ -46,6 +44,7 @@ import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -134,9 +133,37 @@ public class MigrationApp
         return getDstFileName(type, baseName, "");
     }
 
+    public static Map<String, Repository> typeRepo = new HashMap<>();
+
+    public static void ensureGitRepo(String type, String REPOS_BASE_DIR) {
+        if (typeRepo.containsKey(type))
+            return;
+        String dirpath = REPOS_BASE_DIR + type + "s-20220922";
+        createDirIfNotExists(dirpath);
+        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+        File gitDir = new File(dirpath + "/.git");
+        File wtDir = new File(dirpath);
+        try {
+            Repository repository = builder.setGitDir(gitDir).setWorkTree(wtDir)
+                    // .setMustExist( true )
+                    .readEnvironment() // scan environment GIT_* variables
+                    .build();
+            if (!repository.getObjectDatabase().exists()) {
+                System.out.println("create git repository in " + dirpath);
+                repository.create();
+                //PrintWriter out = new PrintWriter(dirpath + "/.gitignore");
+                //out.println(gitignore);
+                //out.close();
+            }
+            typeRepo.put(type, repository);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public static String getDstFileName(String type, String baseName, String extension) {
         final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product")  && !type.equals("subscriber")  && !type.equals("collection");
-        String res = type.equals("office") ? OUTPUT_DIR+"roles/" : OUTPUT_DIR+type+"s/";
+        String res = type.equals("office") ? OUTPUT_DIR+"roles-20220922/" : OUTPUT_DIR+type+"s-20220922/";
         if (needsHash) {
             String hashtext = getMd5(baseName);
             res = res+hashtext.toString()+"/";

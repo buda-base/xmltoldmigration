@@ -34,7 +34,7 @@ public class GitHelpers {
     public static void ensureGitRepo(String type) {
         if (typeRepo.containsKey(type))
             return;
-        String dirpath = MigrationApp.OUTPUT_DIR+type+'s';
+        String dirpath = MigrationApp.OUTPUT_DIR+type+"s-20220922";
         MigrationApp.createDirIfNotExists(dirpath);
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
         File gitDir = new File(dirpath+"/.git");
