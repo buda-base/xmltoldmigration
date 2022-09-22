@@ -152,10 +152,10 @@ public class EtextMigration {
     
     public static void migrateEtexts() {
         System.out.println("migrate etexts");
-        MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts");
-        ensureGitRepo("etext", MigrationApp.OUTPUT_DIR);
-        ensureGitRepo("einstance", MigrationApp.OUTPUT_DIR);
-        ensureGitRepo("etextcontent", MigrationApp.OUTPUT_DIR);
+        MigrationApp.createDirIfNotExists(MigrationApp.OUTPUT_DIR+"etexts-20220922");
+        MigrationApp.ensureGitRepo("etext", MigrationApp.OUTPUT_DIR);
+        MigrationApp.ensureGitRepo("einstance", MigrationApp.OUTPUT_DIR);
+        MigrationApp.ensureGitRepo("etextcontent", MigrationApp.OUTPUT_DIR);
         String dirName = MigrationApp.ETEXT_DIR;
         File[] filesL1 = new File(dirName).listFiles();
         for (File fl1 : filesL1) {
