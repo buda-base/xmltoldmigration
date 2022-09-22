@@ -210,7 +210,7 @@ public class EtextMigration {
                                continue;
                            }
                        } catch (IOException e1) {
-                           e1.printStackTrace();
+                           System.err.println("can't write "+dstFile.toString());
                            return;
                        }
                        
