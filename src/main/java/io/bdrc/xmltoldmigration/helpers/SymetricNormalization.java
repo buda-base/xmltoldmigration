@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.shared.BrokenException;
 
 import io.bdrc.xmltoldmigration.MigrationHelpers;
 import io.bdrc.xmltoldmigration.xml2files.ImagegroupMigration;
 import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
-import io.bdrc.xmltoldmigration.xml2files.WorkMigration;
 
 public class SymetricNormalization {
 
@@ -225,7 +225,12 @@ public class SymetricNormalization {
             symInfos = propInfos.get(propertyName);
         }
         if (symInfos == null) {
-            m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
+        	try {
+        		m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
+        	} catch (BrokenException e) {
+        		System.err.println("can't add symmetric properties for sourcename="+sourceName+", propertyName="+propertyName+", destName="+destName);
+        		e.printStackTrace();
+        	}
             return;
         }
         Map<String,List<String>> docTriples = knownTriples.computeIfAbsent(sourceName, (x -> new HashMap<String,List<String>>()));
