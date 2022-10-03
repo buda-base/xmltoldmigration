@@ -38,6 +38,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.shared.BrokenException;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
@@ -622,7 +623,14 @@ public class MigrationApp
         //Stream.of(files).parallel().forEach(file -> migrateOneFile(file, type, mustStartWith));
         //migrateOneFile(new File(XML_DIR+"tbrc-outlines/O21018.xml"), type, mustStartWith);
         //migrateOneFile(new File(XML_DIR+"tbrc-works/W12827.xml"), type, mustStartWith);
-        Stream.of(files).forEach(file -> migrateOneFile(file, type, mustStartWith));
+        for (int i = 0; i < files.length; i++) {
+        	try {
+        		migrateOneFile(files[i], type, mustStartWith);
+	        } catch (BrokenException e) {
+	    		System.err.println("couldn't migrate "+files[i].getName());
+	    		e.printStackTrace();
+	    	}
+    	}
         pw.close();
         if (type.equals("outline")) {
             outlineTriplesToAdd = SymetricNormalization.triplesToAdd;
