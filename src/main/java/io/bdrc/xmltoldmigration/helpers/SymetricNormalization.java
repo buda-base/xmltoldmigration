@@ -216,7 +216,12 @@ public class SymetricNormalization {
         SymetryInfo symInfos;
         if (MigrationHelpers.ridReplacements.containsKey(sourceName)) {
             // we're in a withdrawn resource, we don't want the symmetric property!
-            m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
+        	try {
+            	m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
+	        } catch (BrokenException e) {
+	    		System.err.println("can't add symmetric properties for sourcename="+sourceName+", propertyName="+propertyName+", destName="+destName);
+	    		e.printStackTrace();
+	    	}
             return;
         }
         if (gender != null && !propertyName.equals("personHasConsort")) {
@@ -235,7 +240,12 @@ public class SymetricNormalization {
         }
         Map<String,List<String>> docTriples = knownTriples.computeIfAbsent(sourceName, (x -> new HashMap<String,List<String>>()));
         if (!oneDirection || symInfos.isMain != 0) {
-            m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
+        	try {
+        		m.add(m.getResource(BDR+sourceName), m.getProperty(BDO, propertyName), m.getResource(BDR+destName));
+        	} catch (BrokenException e) {
+        		System.err.println("can't add symmetric properties for sourcename="+sourceName+", propertyName="+propertyName+", destName="+destName);
+        		e.printStackTrace();
+        	}
             List<String> knownObjects = docTriples.computeIfAbsent(propertyName, (x -> new ArrayList<String>()));
             if (!knownObjects.contains(destName))
                 knownObjects.add(destName);
