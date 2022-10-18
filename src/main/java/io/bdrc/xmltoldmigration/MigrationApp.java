@@ -804,7 +804,7 @@ public class MigrationApp
         CommonMigration.speller.close();
         MigrationHelpers.reportMissing();
         ExceptionHelper.closeAll();
-        finishTypes();
+        //finishTypes();
         long fileMigrationEndTime = System.currentTimeMillis();
     	long estimatedTime = fileMigrationEndTime - startTime;
     	System.out.println("symetry triple changes: +"+SymetricNormalization.addedTriples+"/-"+SymetricNormalization.removedTriples);
