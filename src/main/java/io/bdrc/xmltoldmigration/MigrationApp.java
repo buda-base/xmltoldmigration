@@ -163,7 +163,7 @@ public class MigrationApp
     }
     
     public static String getDstFileName(String type, String baseName, String extension) {
-        final boolean needsHash = useHash && !type.equals("office") && !type.equals("corporation") && !type.equals("product")  && !type.equals("subscriber")  && !type.equals("collection");
+        final boolean needsHash = useHash;
         String res = type.equals("office") ? OUTPUT_DIR+"roles-20220922/" : OUTPUT_DIR+type+"s-20220922/";
         if (needsHash) {
             String hashtext = getMd5(baseName);
