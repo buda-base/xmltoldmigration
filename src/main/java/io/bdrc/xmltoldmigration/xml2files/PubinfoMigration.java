@@ -30,6 +30,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -669,38 +670,42 @@ public class PubinfoMigration {
         
         nodeList = root.getElementsByTagNameNS(WPXSDNS, "holding");
         for (int i = 0; i < nodeList.getLength(); i++) {
-            Element current = (Element) nodeList.item(i);
-            String itemName = "IT"+main.getLocalName().substring(1)+"_"+String.format("%03d", i+1);
+            final Element current = (Element) nodeList.item(i);
+            final String itemName = "IT"+main.getLocalName().substring(2)+"N"+String.format("%03d", i+1);
             Model itemModel = m;
-            if (WorkMigration.splitItems) {
-                itemModel = ModelFactory.createDefaultModel();
-                MigrationHelpers.setPrefixes(itemModel, "item");
-                itemModels.put(itemName, itemModel);
-            }
-            Resource holding = itemModel.createResource(BDR+itemName);
-            itemModel.add(holding, RDF.type, itemModel.getResource(BDO+"Item"));
-            itemModel.add(holding, itemModel.createProperty(BDO, "itemForInstance"), itemModel.createResource(main.getURI()));
-
-            addSimpleElement("exception", BDO+"itemException", EWTS_TAG, current, itemModel, holding);
+            itemModel = ModelFactory.createDefaultModel();
+            MigrationHelpers.setPrefixes(itemModel, "item");
+            itemModels.put(itemName, itemModel);
+            final Resource holding = createRoot(itemModel, BDR+itemName, BF+"Item");
+            final Resource admHolding = createAdminRoot(holding);
+            addStatus(itemModel, admHolding, "released"); 
+            itemModel.add(holding, itemModel.createProperty(BF, "itemOf"), itemModel.createResource(main.getURI()));
+            addSimpleElement("exception", RDFS.comment.getURI(), EWTS_TAG, current, itemModel, holding);
             String value;
-            NodeList subNodeList = root.getElementsByTagNameNS(WPXSDNS, "shelf");
+            NodeList subNodeList = current.getElementsByTagNameNS(WPXSDNS, "shelf");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getTextContent().trim();
-                if (!value.isEmpty())
-                    itemModel.add(holding, itemModel.createProperty(BDO, "itemShelf"), itemModel.createLiteral(value));
-                
-                value = subCurrent.getAttribute("copies").trim();
-                if (!value.isEmpty())
-                    itemModel.add(holding, itemModel.createProperty(BDO, "itemCopies"), itemModel.createLiteral(value));
+                if (!value.isEmpty()) {
+                    if (!value.contains("|")) {
+                        ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "holding", "Pubinfo holding does not have |");
+                    } else {
+                        int lastbaridx = value.lastIndexOf('|');
+                        CommonMigration.addIdentifier(holding, BF+"ShelfMark", value.substring(0, lastbaridx-1));
+                        CommonMigration.addIdentifier(holding, BF+"AccessionNumber", value.substring(lastbaridx+1));
+                    }
+                }
+                // always 1, no need to migrate
+//                value = subCurrent.getAttribute("copies").trim();
+//                if (!value.isEmpty() && !value.equals("1"))
+//                    itemModel.add(holding, itemModel.createProperty(BDO, "numberOfCopies"), itemModel.createLiteral(value));
             }
-            
-            subNodeList = root.getElementsByTagNameNS(WPXSDNS, "library");
+            subNodeList = current.getElementsByTagNameNS(WPXSDNS, "library");
             for (int j = 0; j < subNodeList.getLength(); j++) {
                 Element subCurrent = (Element) subNodeList.item(j);
                 value = subCurrent.getAttribute("rid").trim();
                 if (!value.isEmpty())
-                    itemModel.add(holding, itemModel.createProperty(BDO, "itemLibrary"), itemModel.createResource(BDR+value));
+                    itemModel.add(holding, itemModel.createProperty(BF, "heldBy"), itemModel.createResource(BDR+value));
                 else
                     ExceptionHelper.logException(ExceptionHelper.ET_GEN, main.getLocalName(), main.getLocalName(), "holding", "Pubinfo holding has no library RID!");
                 

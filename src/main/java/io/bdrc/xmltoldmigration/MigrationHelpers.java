@@ -516,13 +516,32 @@ public class MigrationHelpers {
         return pm;
     }
     
+    public static PrefixMap getItemPrefixMap() {
+        PrefixMap pm = PrefixMapFactory.create();
+        pm.add("",      BDO);
+        pm.add("adm",   ADM);
+        pm.add("bda",   BDA);
+        pm.add("bdg",   BDG);
+        pm.add("bdr",   BDR);
+        pm.add("bf",    BF);
+        pm.add("bdu",   BDU);
+        pm.add("adr",   ADR);
+        pm.add("rdf",   RDF.getURI());
+        pm.add("rdfs",  RDFS.getURI()); ;
+        pm.add("skos",  SKOS.getURI());
+        pm.add("xsd",   XSD.getURI());
+        return pm;
+    }
+    
     public static PrefixMap stdPrefixMap = getPrefixMap();
     public static PrefixMap subPrefixMap = getSubPrefixMap();
+    public static PrefixMap itemPrefixMap = getItemPrefixMap();
 
     public static PrefixMap getPrefixMap(String type) {
-        if ("subscriber".equals(type)) {
+        if ("subscriber".equals(type))
             return subPrefixMap;
-        }
+        if ("item".equals(type))
+            return itemPrefixMap;
         return stdPrefixMap;
     }
     
