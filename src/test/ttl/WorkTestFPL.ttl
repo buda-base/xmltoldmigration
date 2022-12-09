@@ -1,44 +1,49 @@
-@prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix rkts:  <http://purl.rkts.eu/resource/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix bda:   <http://purl.bdrc.io/admindata/> .
-@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
+@prefix :     <http://purl.bdrc.io/ontology/core/> .
+@prefix adm:  <http://purl.bdrc.io/ontology/admin/> .
+@prefix bda:  <http://purl.bdrc.io/admindata/> .
+@prefix bdg:  <http://purl.bdrc.io/graph/> .
+@prefix bdr:  <http://purl.bdrc.io/resource/> .
+@prefix bdu:  <http://purl.bdrc.io/resource-nc/user/> .
+@prefix bf:   <http://id.loc.gov/ontologies/bibframe/> .
+@prefix edtf: <http://id.loc.gov/datatypes/edtf/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rkts: <http://purl.rkts.eu/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+bdr:IT1FPL2837  rdf:type  bf:Item ;
+        bf:heldBy        bdr:G1TLMFPL000001 ;
+        bf:identifiedBy  bdr:ID31F4A11098F61A13 , bdr:ID9BD46C95D814F7CD ;
+        bf:itemOf        bdr:MW1FPL2837 .
 
 bdr:TT9498AC617EE4D65F
-        a           :OtherTitle ;
+        rdf:type    :OtherTitle ;
         rdfs:label  "testcap/"@bo-x-ewts .
 
-bda:LGIM3935ECCE8B  a   adm:UpdateData ;
+bda:LGIM3935ECCE8B  rdf:type  adm:UpdateData ;
         adm:logDate     "2017-08-28T14:31:58.652Z"^^xsd:dateTime ;
         adm:logMessage  "added archiveInfo for FPL"@en ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
 bda:LGA5551B31379AA57E
-        a               adm:UpdateData ;
+        rdf:type        adm:UpdateData ;
         adm:logDate     "2007-09-08T18:25:18.406Z"^^xsd:dateTime ;
         adm:logMessage  "cataloging reviewed"@en ;
         adm:logWho      bdu:U00001 .
 
-bdr:WAS12345  a         :SerialWork ;
+bdr:WAS12345  rdf:type  :SerialWork ;
         skos:prefLabel  "test pali title"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
 
 bda:LG7BF1159854D07D7C
-        a               adm:UpdateData ;
+        rdf:type        adm:UpdateData ;
         adm:logDate     "2013-02-05T12:06:50.245Z"^^xsd:dateTime ;
         adm:logMessage  "added print type and source printery"@en ;
         adm:logWho      bdu:U00013 .
 
-bda:WA1FPL2837  a          adm:AdminData ;
+bda:WA1FPL2837  rdf:type   adm:AdminData ;
         adm:adminAbout     bdr:WA1FPL2837 ;
         adm:facetIndex     10 ;
         adm:gitPath        "6e/WA1FPL2837.trig" ;
@@ -48,7 +53,15 @@ bda:WA1FPL2837  a          adm:AdminData ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased .
 
-bda:MW1FPL2837  a          adm:AdminData ;
+bdr:ID31F4A11098F61A13
+        rdf:type   bf:AccessionNumber ;
+        rdf:value  "110" .
+
+bdr:ID9BD46C95D814F7CD
+        rdf:type   bf:ShelfMark ;
+        rdf:value  "3A" .
+
+bda:MW1FPL2837  rdf:type   adm:AdminData ;
         adm:adminAbout     bdr:MW1FPL2837 ;
         adm:facetIndex     11 ;
         adm:gitPath        "63/MW1FPL2837.trig" ;
@@ -57,25 +70,21 @@ bda:MW1FPL2837  a          adm:AdminData ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased .
 
-bda:LGIMA3A86F9513  a   adm:InitialDataImport ;
+bda:LGIMA3A86F9513  rdf:type  adm:InitialDataImport ;
         adm:logDate     "2016-12-06T12:04:56.81Z"^^xsd:dateTime ;
         adm:logMessage  "FPL Import"@en ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
 bdr:TT2CE1832997E074F6
-        a           :OtherTitle ;
+        rdf:type    :OtherTitle ;
         rdfs:label  "test pali title"@pi-x-iast .
 
 bdr:EV836983BDFBDCF03A
-        a           :CompletedEvent ;
+        rdf:type    :CompletedEvent ;
         :eventWhen  "descriptionwithtypedate"^^edtf:EDTF , "1232"^^edtf:EDTF , "17XX"^^edtf:EDTF , "199X"^^edtf:EDTF .
 
-bda:ITW1FPL2837  a      adm:AdminData ;
-        adm:adminAbout  bdr:ITW1FPL2837 ;
-        adm:status      bda:StatusReleased .
-
-bdr:WA1FPL2837  a         :Work ;
+bdr:WA1FPL2837  rdf:type  :Work ;
         :catalogInfo      "Survey of the practices associated with the Sarvadurgatiparisodhana Tantra. Work by one of the most important students of Tsongkhapa."@en ;
         :creator          bdr:CRC96373CECE3F27C3 ;
         :workGenre        bdr:T132 ;
@@ -84,17 +93,17 @@ bdr:WA1FPL2837  a         :Work ;
         skos:altLabel     "mahāniddesa aṭṭhakathā"@pi-x-iast , "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts , "testcap/"@bo-x-ewts ;
         skos:prefLabel    "test pali title"@pi-x-iast , "kun rig rnam bshad/"@bo-x-ewts .
 
-bda:LGIM5A753E00B7  a   adm:UpdateData ;
+bdr:TTB789D01CFCC47CD3
+        rdf:type    :Title ;
+        rdfs:label  "mahāniddesa aṭṭhakathā"@pi-x-iast .
+
+bda:LGIM5A753E00B7  rdf:type  adm:UpdateData ;
         adm:logDate     "2014-04-21T23:05:36.322Z"^^xsd:dateTime ;
         adm:logMessage  "normalized catalog info"@en ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00012 .
 
-bdr:TTB789D01CFCC47CD3
-        a           :Title ;
-        rdfs:label  "mahāniddesa aṭṭhakathā"@pi-x-iast .
-
-bdr:MW1FPL2837  a                 :SerialInstance ;
+bdr:MW1FPL2837  rdf:type          :SerialInstance ;
         :biblioNote               "Red lac. covers. Gilded leaves with vermilion band."@en , "description with no type"@en ;
         :hasTitle                 bdr:TT171FD9F0BB2226E9 , bdr:TT2CE1832997E074F6 , bdr:TT0163DF0BC452A994 , bdr:TT1B4E63A8E66021AA , bdr:TT9498AC617EE4D65F , bdr:TTB789D01CFCC47CD3 , bdr:TTF19E8F13B0E095D8 ;
         :inCollection             bdr:PRHD03 ;
@@ -109,49 +118,52 @@ bdr:MW1FPL2837  a                 :SerialInstance ;
         :workEvent                bdr:EV836983BDFBDCF03A ;
         skos:prefLabel            "kun rig rnam bshad/"@bo-x-ewts , "test pali title"@pi-x-iast .
 
+bda:IT1FPL2837  rdf:type  adm:AdminData ;
+        adm:adminAbout  bdr:IT1FPL2837 ;
+        adm:facetIndex  3 ;
+        adm:gitPath     "e7/IT1FPL2837.trig" ;
+        adm:gitRepo     bda:GR0003 ;
+        adm:graphId     bdg:IT1FPL2837 ;
+        adm:status      bda:StatusReleased .
+
 bdr:NT4F90D9E67B6070EA
-        a          :Note ;
+        rdf:type   :Note ;
         :noteText  "other instances noted:\n175 ff. in vol. 2 of the 2 vol. printed gsung 'bum in the potala collection;\n235 ff. print from kha-sgang o-bso bkra-shis-chos-rdzong in hwa-lung in qinghai. recent blocks carved ca. 1985.."@en .
 
-bdr:ITW1FPL2837  a        :Item ;
-        :itemForInstance  bdr:MW1FPL2837 ;
-        :itemLibrary      bdr:G1TLMFPL000001 ;
-        :itemShelf        "3A|110" .
-
 bdr:TTF19E8F13B0E095D8
-        a           :TitlePageTitle ;
+        rdf:type    :TitlePageTitle ;
         rdfs:label  "bcom ldan 'das thams cad rig pa'i rnam bshad/"@bo-x-ewts .
 
-bda:LGIMAEA9B78D7A  a   adm:UpdateData ;
+bda:LGIMAEA9B78D7A  rdf:type  adm:UpdateData ;
         adm:logDate     "2014-05-17T11:18:37.731Z"^^xsd:dateTime ;
         adm:logMessage  "normalized catalog info"@en ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00012 .
 
 bdr:NTEE4CD95894683764
-        a          :Note ;
+        rdf:type   :Note ;
         :noteText  "description with type note" .
 
 bdr:TT0163DF0BC452A994
-        a           :Title ;
+        rdf:type    :Title ;
         rdfs:label  "cūḷaniddesa aṭṭhakathā"@pi-x-iast .
 
-bda:LGIMC2340FB74E  a   adm:UpdateData ;
+bda:LGIMC2340FB74E  rdf:type  adm:UpdateData ;
         adm:logDate     "2017-08-28T14:40:13.266Z"^^xsd:dateTime ;
         adm:logMessage  "added archiveInfo for FPL"@en ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
 bdr:CRC96373CECE3F27C3
-        a       :AgentAsCreator ;
-        :agent  bdr:P1591 ;
-        :role   bdr:R0ER0019 .
+        rdf:type  :AgentAsCreator ;
+        :agent    bdr:P1591 ;
+        :role     bdr:R0ER0019 .
 
 bdr:TT171FD9F0BB2226E9
-        a           :Title ;
+        rdf:type    :Title ;
         rdfs:label  "therī aṭṭhakathā pāṭh"@pi-x-iast .
 
-bda:WAS12345  a            adm:AdminData ;
+bda:WAS12345  rdf:type     adm:AdminData ;
         adm:adminAbout     bdr:WAS12345 ;
         adm:gitPath        "4a/WAS12345.trig" ;
         adm:gitRepo        bda:GR0008 ;
@@ -159,12 +171,12 @@ bda:WAS12345  a            adm:AdminData ;
         adm:metadataLegal  bda:LD_BDRC_CC0 ;
         adm:status         bda:StatusReleased .
 
-bdr:TT1B4E63A8E66021AA
-        a           :Title ;
-        rdfs:label  "kun rig rnam bshad/"@bo-x-ewts .
-
 bda:LG5E0C3D1C80378F3F
-        a               adm:ScanRequestCreation ;
+        rdf:type        adm:ScanRequestCreation ;
         adm:logDate     "2016-06-07T11:40:52.712Z"^^xsd:dateTime ;
         adm:logMessage  "added volumeMap for scan request"@en ;
         adm:logWho      bdu:U00019 .
+
+bdr:TT1B4E63A8E66021AA
+        rdf:type    :Title ;
+        rdfs:label  "kun rig rnam bshad/"@bo-x-ewts .

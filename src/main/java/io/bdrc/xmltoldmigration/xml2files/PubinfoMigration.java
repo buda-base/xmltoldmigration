@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -77,11 +78,15 @@ public class PubinfoMigration {
             mainA = createRoot(m, BDR+"WA"+value.substring(1), BDO+"Work");
             createAdminRoot(main);
         }
-        List<Resource> resFromCall = MigratePubinfo(xmlDocument, m, main, new HashMap<String,Model>(), mainA, mainII);
+        final Map<String,Model> itemModels = new HashMap<>();
+        List<Resource> resFromCall = MigratePubinfo(xmlDocument, m, main, itemModels, mainA, mainII);
         if (resFromCall != null) {
             for (Resource r : resFromCall) {
                 res.add(r.getModel());
             }
+        }
+        for (final Entry<String,Model> e : itemModels.entrySet()) {
+            res.add(e.getValue());
         }
         return res;
 	}
@@ -675,11 +680,12 @@ public class PubinfoMigration {
             Model itemModel = m;
             itemModel = ModelFactory.createDefaultModel();
             MigrationHelpers.setPrefixes(itemModel, "item");
-            itemModels.put(itemName, itemModel);
             final Resource holding = createRoot(itemModel, BDR+itemName, BF+"Item");
+            itemModels.put(itemName, itemModel);
             final Resource admHolding = createAdminRoot(holding);
             addStatus(itemModel, admHolding, "released"); 
             itemModel.add(holding, itemModel.createProperty(BF, "itemOf"), itemModel.createResource(main.getURI()));
+            System.out.println("add a triple");
             addSimpleElement("exception", RDFS.comment.getURI(), EWTS_TAG, current, itemModel, holding);
             String value;
             NodeList subNodeList = current.getElementsByTagNameNS(WPXSDNS, "shelf");

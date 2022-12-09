@@ -12,6 +12,7 @@ import static io.bdrc.libraries.Models.BDR;
 import static io.bdrc.libraries.Models.BF;
 import static io.bdrc.libraries.Models.addReleased;
 import static io.bdrc.libraries.Models.createAdminRoot;
+import static io.bdrc.libraries.Models.createRoot;
 import static io.bdrc.libraries.Models.getEvent;
 import static io.bdrc.libraries.Models.getFacetNode;
 
@@ -1323,8 +1324,6 @@ public class CommonMigration  {
         Resource fplItem = null;
         Resource admFplItem = null;
         Model resModel = null;
-        String fplId = null;
-        String fplRoom = null;
         String fplDescription = null;
         for (int i = 0; i < nodeList.size(); i++) {
             Element current = (Element) nodeList.get(i);
@@ -1391,25 +1390,19 @@ public class CommonMigration  {
                     resModel = ModelFactory.createDefaultModel();
                     MigrationHelpers.setPrefixes(resModel, "item");
                     String workId = rez.getLocalName();
-                    fplItem = resModel.createResource(BDR+"IT"+workId.substring(1));
+                    fplItem = createRoot(resModel, BDR+"IT"+workId.substring(2), BF+"Item");
                     admFplItem = createAdminRoot(fplItem);
-                    fplItem.addProperty(resModel.getProperty(BDO, "itemForInstance"), rez);
+                    fplItem.addProperty(resModel.getProperty(BF, "itemOf"), rez);
                     addReleased(resModel, admFplItem);
-                    fplItem.addProperty(RDF.type, resModel.getResource(BDO+"Item"));
-                    fplItem.addProperty(resModel.getProperty(BDO, "itemLibrary"), resModel.getResource(BDR+FPL_LIBRARY_ID));
+                    fplItem.addProperty(RDF.type, resModel.getResource(BF+"Item"));
+                    fplItem.addProperty(resModel.getProperty(BF, "heldBy"), resModel.getResource(BDR+FPL_LIBRARY_ID));
                 }
                 switch(type) {
                 case "id":
-                    fplId = value;
-                    if (fplRoom != null) {
-                        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+"|"+fplId));
-                    }
+                    CommonMigration.addIdentifier(fplItem, BF+"AccessionNumber", value);
                     break;
                 case "room":
-                    fplRoom = value;
-                    if (fplId != null) {
-                        fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+"|"+fplId));
-                    }
+                    CommonMigration.addIdentifier(fplItem, BF+"ShelfMark", value);
                     break;
                 case "remarks":
                     fplDescription = (fplDescription == null) ? value : fplDescription+"\n"+value;
@@ -1436,15 +1429,6 @@ public class CommonMigration  {
             } else {
                 rez.addProperty(m.getProperty(propUri), lit);             
             }
-        }
-        
-        if ((fplId == null && fplRoom != null) ||
-                (fplId != null && fplRoom == null)) {
-            ExceptionHelper.logException(ExceptionHelper.ET_GEN, rez.getLocalName(), rez.getLocalName(), "description", "types `id` and `room` should both be present");
-            if (fplId == null)
-                fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral(fplRoom+"|"));
-            else
-                fplItem.addProperty(resModel.getProperty(BDO, "itemShelf"), resModel.createLiteral("|"+fplId));
         }
         if (fplDescription != null) {
             rez.addProperty(resModel.getProperty(BDO, "biblioNote"), resModel.createLiteral(fplDescription, "en"));

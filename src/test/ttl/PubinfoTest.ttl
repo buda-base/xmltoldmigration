@@ -1,68 +1,83 @@
-@prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix bf:    <http://id.loc.gov/ontologies/bibframe/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix rkts:  <http://purl.rkts.eu/resource/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix bdu:   <http://purl.bdrc.io/resource-nc/user/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix bda:   <http://purl.bdrc.io/admindata/> .
-@prefix edtf:  <http://id.loc.gov/datatypes/edtf/> .
+@prefix :     <http://purl.bdrc.io/ontology/core/> .
+@prefix adm:  <http://purl.bdrc.io/ontology/admin/> .
+@prefix bda:  <http://purl.bdrc.io/admindata/> .
+@prefix bdg:  <http://purl.bdrc.io/graph/> .
+@prefix bdr:  <http://purl.bdrc.io/resource/> .
+@prefix bdu:  <http://purl.bdrc.io/resource-nc/user/> .
+@prefix bf:   <http://id.loc.gov/ontologies/bibframe/> .
+@prefix edtf: <http://id.loc.gov/datatypes/edtf/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rkts: <http://purl.rkts.eu/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-bda:LGIM9F8D3273  a     adm:InitialDataImport ;
+bda:LGIM9F8D3273  rdf:type  adm:InitialDataImport ;
         adm:logDate     "2013-02-05T12:06:57.572Z"^^xsd:dateTime ;
         adm:logMessage  "added print type and source printery"@en ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00013 .
 
 bdr:IDE0F0D4471E6CE01A
-        a          bdr:HollisId ;
+        rdf:type   bdr:HollisId ;
         rdf:value  "014254679" .
 
+bdr:IT1FPL1N001  rdf:type  bf:Item ;
+        rdfs:comment     "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo ;
+        bf:heldBy        bdr:G1TLMTGA000001 ;
+        bf:identifiedBy  bdr:ID19A8F4C388253A36 , bdr:IDD6E19F2EE82B7F95 ;
+        bf:itemOf        bdr:MW1FPL1 .
+
+bda:IT1FPL1N001  rdf:type  adm:AdminData ;
+        adm:adminAbout  bdr:IT1FPL1N001 ;
+        adm:facetIndex  3 ;
+        adm:gitPath     "ae/IT1FPL1N001.trig" ;
+        adm:gitRepo     bda:GR0003 ;
+        adm:graphId     bdg:IT1FPL1N001 ;
+        adm:status      bda:StatusReleased .
+
 bdr:EVB0BA72AF962CC892
-        a           :PublishedEvent ;
+        rdf:type    :PublishedEvent ;
         :eventWhen  "2000?"^^edtf:EDTF .
 
-bdr:WA1FPL1  a     :Work ;
+bdr:WA1FPL1  rdf:type  :Work ;
         :language  bdr:LangSa .
 
 bdr:ID4AF69EDA5BFE4E04
-        a          bf:ShelfMarkLcc ;
+        rdf:type   bf:ShelfMarkLcc ;
         rdf:value  "BQ7662.4 .G77 1979" .
 
 bdr:ID09B2A4060669C708
-        a          bf:Isbn ;
+        rdf:type   bf:Isbn ;
         rdf:value  "0205080057" .
 
-bdr:ITW1FPL1_001  a       :Item ;
-        :itemCopies       "1" ;
-        :itemException    "ཨ་མེས་ངག་དབང་ཀུན་དགའ་བསོད་ནམས་ཀྱི་གསུང་འབུམ་འདི་ལ་པོད་གྲངས་\"༤༢\"ཐམ་པ་ཡོད།"@bo ;
-        :itemForInstance  bdr:MW1FPL1 ;
-        :itemLibrary      bdr:G1TLMTGA000001 ;
-        :itemShelf        "ཇ|ཇ|༣||001278" .
+bdr:ID19A8F4C388253A36
+        rdf:type   bf:ShelfMark ;
+        rdf:value  "ཇ|ཇ|༣" .
 
-bda:MW1FPL1  a          adm:AdminData ;
+bdr:IDD6E19F2EE82B7F95
+        rdf:type   bf:AccessionNumber ;
+        rdf:value  "001278" .
+
+bda:MW1FPL1  rdf:type   adm:AdminData ;
         adm:adminAbout  bdr:MW1FPL1 ;
         adm:facetIndex  9 ;
         adm:gitPath     "81/MW1FPL1.trig" ;
         adm:gitRepo     bda:GR0012 ;
         adm:graphId     bdg:MW1FPL1 ;
-        adm:logEntry    bda:LGIMD5FAEE0C6C , bda:LGIM6B433BA01E , bda:LGIM9F8D3273 .
+        adm:logEntry    bda:LGIM9F8D3273 , bda:LGIM6B433BA01E , bda:LGIMD5FAEE0C6C .
 
-bdr:W1FPL1  a      :ImageInstance ;
+bdr:W1FPL1  rdf:type  :ImageInstance ;
         :scanInfo  "Scanning sponsored through the kind support of"@en .
 
-bda:LGIMD5FAEE0C6C  a   adm:UpdateData ;
+bda:LGIMD5FAEE0C6C  rdf:type  adm:UpdateData ;
         adm:logDate     "2015-01-05T17:22:13.356Z"^^xsd:dateTime ;
         adm:logMessage  "added hollis field to pub info"@en ;
         adm:logMethod   bda:BatchMethod ;
         adm:logWho      bdu:U00006 .
 
-bdr:MW1FPL1  a                    :Instance ;
+bdr:MW1FPL1  rdf:type             :Instance ;
         bf:identifiedBy           bdr:ID4AF69EDA5BFE4E04 , bdr:IDE0F0D4471E6CE01A , bdr:ID09B2A4060669C708 , bdr:ID9C64AEBD23CBF0A3 ;
         :authorshipStatement      "'dul 'dzin pa'i 'dzin pa'i ming can grags pa rgyal mtshan/"@bo-x-ewts ;
         :biblioNote               "print from the new zhol par khang blocks carved in 1944 at the order of stag brag paNDi ta"@en ;
@@ -76,10 +91,10 @@ bdr:MW1FPL1  a                    :Instance ;
         :sourcePrinteryStatement  "test sourcePrintery with no place" .
 
 bdr:ID9C64AEBD23CBF0A3
-        a          bf:Isbn ;
+        rdf:type   bf:Isbn ;
         rdf:value  "132456" .
 
-bda:LGIM6B433BA01E  a   adm:UpdateData ;
+bda:LGIM6B433BA01E  rdf:type  adm:UpdateData ;
         adm:logDate     "2014-04-22T00:30:13.577Z"^^xsd:dateTime ;
         adm:logMessage  "normalize encoding field for pub info"@en ;
         adm:logMethod   bda:BatchMethod ;
