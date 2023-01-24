@@ -329,7 +329,7 @@ public class CommonMigration  {
         try {
             final Literal dtmp = yearLit(m, dateStr.substring(0, dateStr.length()-1));
             //m.add(event, m.getProperty(BDO, "onYear"), yearLit(m, dateStr));
-            m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
+            m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(padEdtfZeros(dateStr), EDTFDT));
             return;
         } catch (NumberFormatException e) {}
         boolean keepdate = dateStr.contains("?") || dateStr.contains("~");
@@ -338,7 +338,7 @@ public class CommonMigration  {
                 // we try to add the string without the final ? or ~
                 final Literal dtmp = yearLit(m, dateStr.substring(0, dateStr.length()-1));
                 //m.add(event, m.getProperty(BDO, "onYear"), dtmp);
-                m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(dateStr, EDTFDT));
+                m.add(event, m.getProperty(BDO, "eventWhen"), m.createTypedLiteral(padEdtfZeros(dateStr), EDTFDT));
                 return;
             } catch (NumberFormatException e) {}
         }

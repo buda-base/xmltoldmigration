@@ -143,7 +143,7 @@ bdr:EVF24F5C4DD8140821
 
 bdr:EVDAA95D67ECFAB1A7
         a           :PersonEventNotSpecified ;
-        :eventWhen  "1364"^^edtf:EDTF .
+        :eventWhen  "0364"^^edtf:EDTF .
 
 bdr:NMBC6B2B658373DD69
         a           :PersonCommonName ;
