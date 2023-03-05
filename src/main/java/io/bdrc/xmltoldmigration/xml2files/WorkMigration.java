@@ -395,7 +395,7 @@ public class WorkMigration {
                     // we don't put the has instance property... it would be better conceptually but
                     // it would make the queries slower and harder to write
                     //mainA.addProperty(mA.createProperty(BDO, "workHasInstance"), main);
-                    SymetricNormalization.addSymetricProperty(m, "instanceOf", 'M'+workId, otherAbstractRID, null);
+                    SymetricNormalization.addSymetricProperty(m, "instanceOf", main.getLocalName(), otherAbstractRID, null);
                 }
             }
         }
