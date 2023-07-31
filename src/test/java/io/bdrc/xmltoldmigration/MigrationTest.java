@@ -386,7 +386,7 @@ public class MigrationTest
            //assertTrue(CommonMigration.documentValidates(d, pubinfoValidator));
            Model fromXml = mergeModelList(PubinfoMigration.MigratePubinfo(d));
            Model correctModel = MigrationHelpers.modelFromFileName(TESTDIR+"ttl/PubinfoTest.ttl");
-           fromXml.write(System.out, "TTL");
+           //fromXml.write(System.out, "TTL");
            assertTrue( MigrationHelpers.isSimilarTo(fromXml, correctModel) );
            flushLog();
        }
@@ -536,7 +536,7 @@ public class MigrationTest
         String correctContent = new String(Files.readAllBytes(Paths.get(TESTDIR+"ttl/EtextTest-content.txt")));
         //ei.etextModel.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(ei.etextModel, correctEtextModel) );
-        itemModel.write(System.out, "TTL");
+        //itemModel.write(System.out, "TTL");
         assertTrue( MigrationHelpers.isSimilarTo(itemModel, correctItemModel) );
         assertTrue(computedContent.equals(correctContent.trim()));
         assertFalse(EtextBodyMigration.rtfP.matcher(" 9 ").find());

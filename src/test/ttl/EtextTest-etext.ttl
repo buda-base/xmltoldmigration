@@ -1,56 +1,58 @@
-@prefix :      <http://purl.bdrc.io/ontology/core/> .
-@prefix bdr:   <http://purl.bdrc.io/resource/> .
-@prefix bdg:   <http://purl.bdrc.io/graph/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix adm:   <http://purl.bdrc.io/ontology/admin/> .
-@prefix rkts:  <http://purl.rkts.eu/resource/> .
-@prefix bda:   <http://purl.bdrc.io/admindata/> .
+@prefix :     <http://purl.bdrc.io/ontology/core/> .
+@prefix adm:  <http://purl.bdrc.io/ontology/admin/> .
+@prefix bda:  <http://purl.bdrc.io/admindata/> .
+@prefix bdg:  <http://purl.bdrc.io/graph/> .
+@prefix bdr:  <http://purl.bdrc.io/resource/> .
+@prefix bdu:  <http://purl.bdrc.io/resource-nc/user/> .
+@prefix bf:   <http://id.loc.gov/ontologies/bibframe/> .
+@prefix edtf: <http://id.loc.gov/datatypes/edtf/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rkts: <http://purl.rkts.eu/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
 bdr:ELBCF8035E59DE177A
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          3 ;
         :sliceEndChar    2344 ;
         :sliceStartChar  2128 .
 
 bdr:EL8684581913C7BA3E
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          5 ;
         :sliceEndChar    1496 ;
         :sliceStartChar  1312 .
 
 bdr:EPE9AB004DAF3A2152
-        a                :EtextPage ;
+        rdf:type         :EtextPage ;
         :seqNum          4 ;
         :sliceEndChar    519 ;
         :sliceStartChar  0 .
 
 bdr:EP42D37D9F9EDDD3F1
-        a                :EtextPage ;
+        rdf:type         :EtextPage ;
         :pageHasLine     bdr:EL37FC87C41038929F , bdr:ELF5A0FB5F33856F47 , bdr:EL973CCD031009A086 , bdr:ELBCF8035E59DE177A , bdr:EL0AAD9D3A4F723CBB , bdr:EL4426ECDADCFC6447 , bdr:EL0BE4361A4CEA85D1 ;
         :seqNum          6 ;
         :sliceEndChar    3239 ;
         :sliceStartChar  1696 .
 
 bdr:UT1CZ2485_001_0000
-        a                 :EtextPaginated ;
+        rdf:type          :EtextPaginated ;
         :eTextHasPage     bdr:EP42D37D9F9EDDD3F1 , bdr:EPC69E5706B90FA606 , bdr:EPE9AB004DAF3A2152 ;
         :eTextInInstance  bdr:IE1CZ2485 ;
         :eTextIsVolume    1 ;
-        :eTextSourcePath  "DharmaDownload/Mahamudra/rtfs/06_Chakchen-Drupthob-Judpai-Zhalung/06_Chakchen-Drupthob-Judpai-Zhalung.rtf" ;
         skos:prefLabel    "༄༅། །ཕྱག་རྒྱ་ཆེན་པོ་ལྷན་ཅིག་སྐྱེས་སྦྱོར་ཟབ་དོན་དོན་གྱི་ཆུ་བོ་སྐལ་ལྡན་གྱི་གདུལ་བྱའི་"@bo .
 
 bdr:EL973CCD031009A086
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          6 ;
         :sliceEndChar    3014 ;
         :sliceStartChar  2770 .
 
 bda:UT1CZ2485_001_0000
-        a               adm:AdminData ;
+        rdf:type        adm:AdminData ;
         adm:adminAbout  bdr:UT1CZ2485_001_0000 ;
         adm:facetIndex  17 ;
         adm:gitPath     "24/UT1CZ2485_001_0000.trig" ;
@@ -59,67 +61,67 @@ bda:UT1CZ2485_001_0000
         adm:status      bda:StatusReleased .
 
 bdr:EL0AAD9D3A4F723CBB
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          4 ;
         :sliceEndChar    2560 ;
         :sliceStartChar  2345 .
 
 bdr:EL4067B10397995E15
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          3 ;
         :sliceEndChar    1103 ;
         :sliceStartChar  893 .
 
 bdr:EL048CE94A0FE6640F
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          2 ;
         :sliceEndChar    892 ;
         :sliceStartChar  700 .
 
 bdr:ELDB7D40AC2FB92FE5
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          6 ;
         :sliceEndChar    1694 ;
         :sliceStartChar  1497 .
 
 bdr:EL37FC87C41038929F
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          2 ;
         :sliceEndChar    2127 ;
         :sliceStartChar  1910 .
 
 bdr:EL0BE4361A4CEA85D1
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          1 ;
         :sliceEndChar    1909 ;
         :sliceStartChar  1696 .
 
 bdr:EL4426ECDADCFC6447
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          5 ;
         :sliceEndChar    2769 ;
         :sliceStartChar  2561 .
 
 bdr:EL061CE60DAEDB08CE
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          1 ;
         :sliceEndChar    699 ;
         :sliceStartChar  521 .
 
 bdr:ELF5A0FB5F33856F47
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          7 ;
         :sliceEndChar    3239 ;
         :sliceStartChar  3015 .
 
 bdr:EL02FECF4BA21BC789
-        a                :EtextLine ;
+        rdf:type         :EtextLine ;
         :seqNum          4 ;
         :sliceEndChar    1311 ;
         :sliceStartChar  1104 .
 
 bdr:EPC69E5706B90FA606
-        a                :EtextPage ;
+        rdf:type         :EtextPage ;
         :pageHasLine     bdr:EL8684581913C7BA3E , bdr:EL048CE94A0FE6640F , bdr:EL061CE60DAEDB08CE , bdr:EL4067B10397995E15 , bdr:ELDB7D40AC2FB92FE5 , bdr:EL02FECF4BA21BC789 ;
         :seqNum          5 ;
         :sliceEndChar    1694 ;

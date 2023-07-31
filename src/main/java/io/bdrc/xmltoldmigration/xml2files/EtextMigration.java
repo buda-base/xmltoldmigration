@@ -370,7 +370,7 @@ public class EtextMigration {
         lastIndicatedWorkId = indicatedWorkId;
     }
     
-    public static Resource getItemEtextPart(Model itemModel, String itemId, int volume, int seqNum) {
+    public static void getItemEtextPart(Model itemModel, String itemId, int volume, int seqNum) {
         final Resource item = itemModel.getResource(BDR+itemId);
         final Property itemHasVolume = itemModel.getProperty(BDO, "instanceHasVolume");
         final Property volumeHasEtext = itemModel.getProperty(BDO, "volumeHasEtext");
@@ -388,23 +388,13 @@ public class EtextMigration {
         }
         
         if (volumeRes == null) {
-            volumeRes = getFacetNode(FacetType.VOLUME,  item, itemModel.getResource(BDO+"VolumeEtextAsset"));
+            volumeRes = itemModel.createResource(BDR + "VE" + itemId.substring(2) + "_" + String.format("%03d", volume));
+            volumeRes.addProperty(RDF.type, itemModel.getResource(BDO+"EtextVolume"));
             item.addProperty(itemHasVolume, volumeRes);
             volumeRes.addProperty(itemModel.getProperty(BDO, "volumeNumber"), 
                     itemModel.createTypedLiteral(volume, XSDDatatype.XSDinteger));
-            volumeRes.addProperty(itemModel.getProperty(BDO, "volumeOf"), item);
+            //volumeRes.addProperty(itemModel.getProperty(BDO, "volumeOf"), item);
         }
-        
-        Resource seqRes = getFacetNode(FacetType.ETEXT_REF,  item);
-        volumeRes.addProperty(volumeHasEtext, seqRes);
-        if (seqNum != 0)
-            seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
-                itemModel.createTypedLiteral(seqNum, XSDDatatype.XSDinteger));
-        else 
-            seqRes.addProperty(itemModel.getProperty(BDO, "seqNum"), 
-                    itemModel.createTypedLiteral(1, XSDDatatype.XSDinteger));
-        // TODO: check for duplicates
-        return seqRes;
     }
     
     private static Model lastModel = null;
@@ -484,7 +474,7 @@ public class EtextMigration {
 
             // Item AdminData
             Resource admItem = createAdminRoot(item);                           
-            admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
+            //admItem.addProperty(itemModel.getProperty(ADM, "contentProvider"), itemModel.createResource(providerUri));
             admItem.addProperty(itemModel.getProperty(ADM, "metadataLegal"), itemModel.createResource(BDA+"LD_BDRC_CC0"));
             // TODO: not sure how it should work...
             //MigrationApp.moveAdminInfo(itemModel, iInstance, admItem);
@@ -498,11 +488,11 @@ public class EtextMigration {
             if (accessUri == null) accessUri = "http://purl.bdrc.io/admindata/AccessOpen";
             admItem.addProperty(itemModel.getProperty(ADM, "access"), itemModel.getResource(accessUri));
 
-            if (!bornDigital) {
+            //if (!bornDigital) {
                 // false should be true in the case of KarmaDelek and GuruLama
-                item.addProperty(itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+indicatedWorkId));
-                addReproToInstance(indicatedWorkId, eInstanceId, etextId, false, isPaginated);
-            }
+            //    item.addProperty(itemModel.getProperty(BDO, "instanceReproductionOf"), itemModel.createResource(BDR+indicatedWorkId));
+            //    addReproToInstance(indicatedWorkId, eInstanceId, etextId, false, isPaginated);
+            //}
         }
 
         if (addEtextInItem)
@@ -527,9 +517,10 @@ public class EtextMigration {
         }        
         
         final int[] volSeqNumInfos = fillInfosFromId(etextId, etextModel, imageItemModel);
-        itemModel.add(getItemEtextPart(itemModel, eInstanceId, volSeqNumInfos[0], volSeqNumInfos[1]),
-                itemModel.getProperty(BDO, "eTextResource"),
-                itemModel.createResource(BDR+etextId));
+        // the following line also adds a few things in the model
+        getItemEtextPart(itemModel, eInstanceId, volSeqNumInfos[0], volSeqNumInfos[1]);
+        // we don't use etext refs anymore
+        //itemModel.add(er, itemModel.getProperty(BDO, "eTextResource"), itemModel.createResource(BDR+etextId));
         
         Map<String,Integer> imageNumPageNum = null;
         if (needsPageNameTranslation) {
@@ -570,9 +561,9 @@ public class EtextMigration {
             e1.printStackTrace();
             return null;
         }
-        etextModel.add(etext,
-                etextModel.getProperty(BDO, "eTextSourcePath"),
-                etextModel.createLiteral(e.getTextContent().trim()));
+        //etextModel.add(etext,
+        //        etextModel.getProperty(BDO, "eTextSourcePath"),
+        //        etextModel.createLiteral(e.getTextContent().trim()));
         
         EtextBodyMigration.MigrateBody(d, contentOut, etextModel, etextId, imageNumPageNum, needsPageNameTranslation, isPaginated);
         
