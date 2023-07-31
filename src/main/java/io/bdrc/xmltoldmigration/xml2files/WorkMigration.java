@@ -354,12 +354,17 @@ public class WorkMigration {
             res.add(new WorkModelInfo(aWorkId, m));
         } else {
             if (infoNodeType.equals("unicodeText")) {
-                addRedirection(workId, "IE"+workId.substring(1), m);
-                main = createRoot(m, BDR+"IE"+workId.substring(1), BDO+"EtextInstance");
+                main = createRoot(m, BDR+'M'+workId, BDO+"Instance"); // physical?
+                Model etextM = ModelFactory.createDefaultModel();
+                addRedirection(workId, "IE"+workId.substring(1), etextM);
+                Resource etextMain = createRoot(etextM, BDR+"IE"+workId.substring(1), BDO+"EtextInstance");
+                Resource etextAdmMain = createAdminRoot(etextMain);
+                addStatus(etextM, etextAdmMain, status);
+                etextMain.addProperty(etextM.createProperty(BDO, "instanceReproductionOf"), main);
+                res.add(new WorkModelInfo('M'+workId, m));
                 res.add(null);
                 res.add(null);
-                res.add(null);
-                res.add(new WorkModelInfo("IE"+workId.substring(1), m));
+                res.add(new WorkModelInfo("IE"+workId.substring(1), etextM));
                 etextInstances.put(workId, true);
             } else {
                 main = createRoot(m, BDR+'M'+workId, BDO+"Instance"); // physical?
