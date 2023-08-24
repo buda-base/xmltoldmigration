@@ -356,7 +356,7 @@ public class WorkMigration {
             if (infoNodeType.equals("unicodeText")) {
                 main = createRoot(m, BDR+'M'+workId, BDO+"Instance"); // physical?
                 Model etextM = ModelFactory.createDefaultModel();
-                addRedirection(workId, "IE"+workId.substring(1), etextM);
+                //addRedirection(workId, "IE"+workId.substring(1), etextM);
                 Resource etextMain = createRoot(etextM, BDR+"IE"+workId.substring(1), BDO+"EtextInstance");
                 Resource etextAdmMain = createAdminRoot(etextMain);
                 addStatus(etextM, etextAdmMain, status);
