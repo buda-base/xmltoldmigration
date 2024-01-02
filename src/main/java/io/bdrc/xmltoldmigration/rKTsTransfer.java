@@ -72,20 +72,42 @@ public class rKTsTransfer {
         initListsForRID("MW30532");
         initListsForRID("MW1PD96682");
         initListsForRID("MW1PD95844");
+        initListsForRID("MW1KG14783", "O0RK14783"); // ng
+        initListsForRID("MW2PD17382", "O0RK17382"); // ng
+        initListsForRID("MW21520", "O0RK21520");  // ng
+        initListsForRID("MW21519", "O0RK21519"); // ng
+        initListsForRID("MW2PD19897", "O0RK19897"); // ng
+        initListsForRID("MW1KG11703", "O0RK11703"); // ng
+        initListsForRID("MW2KG229028", "O0RK229028");
+        initListsForRID("MW8LS15931", "O0RK15931");
+        initListsForRID("MW2PD17098", "O0RK17098");
+        initListsForRID("MW2KG209840", true);
+        initListsForRID("MW2KG5016", true);
+        initListsForRID("MW4CZ45315", true);
+        initListsForRID("MW4CZ45314", true);
+        initListsForRID("MW4CZ45313", true);
+        initListsForRID("MW1BL4", true);
     }
     
     public static void initListsForRID(final String rid) {
+        initListsForRID(rid, null);
+    }
+    
+    public static void initListsForRID(final String rid, String oRID) {
         RIDList.add(rid);
         final Model m;
         if (OutlineMigration.splitOutlines) {
             m = ModelFactory.createDefaultModel();
             MigrationHelpers.setPrefixes(m);
-            final Resource mainOutline = m.getResource(BDR+"O"+rid.substring(2));
+            if (oRID == null)
+                oRID = "O"+rid.substring(2);
+            final Resource mainOutline = m.getResource(BDR+oRID);
             mainOutline.addProperty(RDF.type, m.createResource(BDO+"Outline"));
-            mainOutline.addProperty(m.getProperty(BDO, "legacyOutlineNodeRID"), "O"+rid.substring(2));
             mainOutline.addProperty(m.getProperty(BDO, "outlineOf"), m.getResource(BDR+rid));
+            mainOutline.addProperty(m.getProperty(BDO, "authorshipStatement"), m.createLiteral("Outline created by Resources for Kanjur and Tanjur Studies (rKTs) at the University of Vienna (www.rkts.org), please report any issue to bruno@rkts.eu", "en"));
             final Resource admOutline = createAdminRoot(mainOutline);
             addStatus(m, admOutline, "released");
+            admOutline.addProperty(m.getProperty(ADM, "primarilyImported"), );
         } else {
             final String workFileName = MigrationApp.getDstFileName("instance", rid, ".trig");
             m = MigrationHelpers.modelFromFileName(workFileName);
