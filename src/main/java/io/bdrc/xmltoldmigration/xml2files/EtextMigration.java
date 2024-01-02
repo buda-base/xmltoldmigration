@@ -44,6 +44,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import io.bdrc.libraries.Models;
 import io.bdrc.libraries.Models.FacetType;
 import io.bdrc.xmltoldmigration.MigrationApp;
 import io.bdrc.xmltoldmigration.MigrationHelpers;
@@ -478,8 +479,13 @@ public class EtextMigration {
             admItem.addProperty(itemModel.getProperty(ADM, "metadataLegal"), itemModel.createResource(BDA+"LD_BDRC_CC0"));
             // TODO: not sure how it should work...
             //MigrationApp.moveAdminInfo(itemModel, iInstance, admItem);
-            if (!itemModel.contains(admItem, itemModel.getProperty(ADM, "status")))
-                addReleased(itemModel, admItem);
+            if (!itemModel.contains(admItem, itemModel.getProperty(ADM, "status"))) {
+                if (!collectionUri.equals("http://purl.bdrc.io/resource/PR0ET009")) {
+                    addReleased(itemModel, admItem);
+                } else {
+                    Models.addStatus(itemModel, admItem, "withdrawn");
+                }
+            }
             
             if (WorkMigration.workRestrictedInChina.getOrDefault("M"+indicatedWorkId, false)) {
                 admItem.addLiteral(itemModel.getProperty(ADM, "restrictedInChina"), true);
