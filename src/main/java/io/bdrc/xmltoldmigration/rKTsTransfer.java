@@ -44,7 +44,7 @@ public class rKTsTransfer {
         initListsForRID("MW4CZ5369");
         initListsForRID("MW1PD96682");
         initListsForRID("MW4CZ7445");
-        initListsForRID("MW22703");
+        //initListsForRID("MW22703");
         initListsForRID("MW26071");
         initListsForRID("MW29468");
         initListsForRID("MW1PD96685");
@@ -74,19 +74,20 @@ public class rKTsTransfer {
         initListsForRID("MW1PD95844");
         initListsForRID("MW1KG14783", "O0RK14783"); // ng
         initListsForRID("MW2PD17382", "O0RK17382"); // ng
-        initListsForRID("MW21520", "O0RK21520");  // ng
-        initListsForRID("MW21519", "O0RK21519"); // ng
+        //initListsForRID("MW21520", "O0RK21520");  // ng
+        //initListsForRID("MW21519", "O0RK21519"); // ng
         initListsForRID("MW2PD19897", "O0RK19897"); // ng
         initListsForRID("MW1KG11703", "O0RK11703"); // ng
+        initListsForRID("MW1BL6", "O0RK6"); // ng
         initListsForRID("MW2KG229028", "O0RK229028");
         initListsForRID("MW8LS15931", "O0RK15931");
         initListsForRID("MW2PD17098", "O0RK17098");
-        initListsForRID("MW2KG209840", true);
-        initListsForRID("MW2KG5016", true);
-        initListsForRID("MW4CZ45315", true);
-        initListsForRID("MW4CZ45314", true);
-        initListsForRID("MW4CZ45313", true);
-        initListsForRID("MW1BL4", true);
+        initListsForRID("MW2KG209840", "O0RK20984");
+        initListsForRID("MW2KG5016", "O0RK2KG5016");
+        //initListsForRID("MW4CZ45315", "O0RK4CZ45315");
+        initListsForRID("MW4CZ45314", "O0RK4CZ45314");
+        //initListsForRID("MW4CZ45313", "O0RK4CZ45313");
+        initListsForRID("MW1BL4", "O0RK4");
     }
     
     public static void initListsForRID(final String rid) {
@@ -107,7 +108,7 @@ public class rKTsTransfer {
             mainOutline.addProperty(m.getProperty(BDO, "authorshipStatement"), m.createLiteral("Outline created by Resources for Kanjur and Tanjur Studies (rKTs) at the University of Vienna (www.rkts.org), please report any issue to bruno@rkts.eu", "en"));
             final Resource admOutline = createAdminRoot(mainOutline);
             addStatus(m, admOutline, "released");
-            admOutline.addProperty(m.getProperty(ADM, "primarilyImported"), );
+            admOutline.addProperty(m.getProperty(ADM, "primarilyImported"), m.createTypedLiteral(true));
         } else {
             final String workFileName = MigrationApp.getDstFileName("instance", rid, ".trig");
             m = MigrationHelpers.modelFromFileName(workFileName);
