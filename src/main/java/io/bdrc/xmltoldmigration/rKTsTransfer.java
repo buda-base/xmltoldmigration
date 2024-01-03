@@ -36,6 +36,7 @@ import io.bdrc.xmltoldmigration.xml2files.OutlineMigration;
 public class rKTsTransfer {
 
     public static List<String> RIDList = new ArrayList<>();
+    public static Map<String,String> mwtoo = new HashMap<>();
     public static Map<String, Model> RidModels = new HashMap<>();
     
     public static void initLists() {
@@ -103,6 +104,7 @@ public class rKTsTransfer {
             MigrationHelpers.setPrefixes(m);
             if (oRID == null)
                 oRID = "O"+rid.substring(2);
+            mwtoo.put(rid, oRID);
             final Resource mainOutline = m.getResource(BDR+oRID);
             mainOutline.addProperty(RDF.type, m.createResource(BDO+"Outline"));
             mainOutline.addProperty(m.getProperty(BDO, "outlineOf"), m.getResource(BDR+rid));
@@ -121,7 +123,7 @@ public class rKTsTransfer {
         for (String rid : RIDList) {
             Model m = RidModels.get(rid);
             if (OutlineMigration.splitOutlines) {
-                final String orid = "O"+rid.substring(2);
+                final String orid = mwtoo.get(rid);
                 final String fileName = MigrationApp.getDstFileName("outline", orid);
                 MigrationHelpers.outputOneModel(m, orid, fileName, "outline");
             } else {
