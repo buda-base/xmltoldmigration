@@ -187,6 +187,7 @@ public class rKTsTransfer {
                     if (existingM != null) {
                         // maybe the sa-x-ndia strings should be removed?
                         m.add(existingM);
+                        m.removeAll(null, m.getProperty(BDO, "workHasInstance"), null);
                         //Resource admin = m.createResource(BDA+workName);
                         //admin.removeAll(m.getProperty(ADM, "metadataLegal"));
                         //admin.addProperty(m.getProperty(ADM, "metadataLegal"), m.createResource(BDA+"LD_rKTs_CC0"));
