@@ -90,6 +90,10 @@ public class rKTsTransfer {
         initListsForRID("MW4CZ45314", "O0RK4CZ45314");
         //initListsForRID("MW4CZ45313", "O0RK4CZ45313");
         initListsForRID("MW1BL4", "O0RK4");
+        initListsForRID("MW4CZ58520");
+        initListsForRID("MW30498");
+        initListsForRID("MW3CN981");
+        initListsForRID("MW1ER119");
     }
     
     public static void initListsForRID(final String rid) {
@@ -108,7 +112,13 @@ public class rKTsTransfer {
             final Resource mainOutline = m.getResource(BDR+oRID);
             mainOutline.addProperty(RDF.type, m.createResource(BDO+"Outline"));
             mainOutline.addProperty(m.getProperty(BDO, "outlineOf"), m.getResource(BDR+rid));
-            mainOutline.addProperty(m.getProperty(BDO, "authorshipStatement"), m.createLiteral("Outline created by Resources for Kanjur and Tanjur Studies (rKTs) at the University of Vienna (www.rkts.org), please report any issue to bruno@rkts.eu", "en"));
+            if ("MW4CZ58520".equals(rid)) {
+                mainOutline.addProperty(m.getProperty(BDO, "authorshipStatement"), m.createLiteral("Outline by Bruno Lainé, based on Kvaerne, Martin & al. \"A catalogue of the Bon Kanjur\", 2003, Senri Ethnological Reports (SER) 40, National Museum of Ethnology, Osaka, 2003, BDRC MW1ER172", "en"));
+            } else if ("MW30498".equals(rid)) {
+                mainOutline.addProperty(m.getProperty(BDO, "authorshipStatement"), m.createLiteral("Outline by Bruno Lainé, based on an OCR by Kurt Keutzer of Karmay & Nagano \"A Catalog of the New Collection of Bonpo Katen Texts\", 2001", "en"));
+            } else {
+                mainOutline.addProperty(m.getProperty(BDO, "authorshipStatement"), m.createLiteral("Outline created by Resources for Kanjur and Tanjur Studies (rKTs) at the University of Vienna (www.rkts.org), please report any issue to bruno@rkts.eu", "en"));
+            }
             final Resource admOutline = createAdminRoot(mainOutline);
             addStatus(m, admOutline, "released");
             admOutline.addProperty(m.getProperty(ADM, "primarilyImported"), m.createTypedLiteral(true));
